@@ -157,11 +157,11 @@ html[data-reduce-motion] *::after {
 
 /* Native dialog */
 dialog::backdrop {
-  background: rgba(16, 20, 24, 0.28);
+  background: rgba(16, 20, 24, 0.22);
 }
-@media (hover: hover) and (pointer: fine) {
+@media (max-width: 1023px) {
   dialog::backdrop {
-    backdrop-filter: blur(6px);
+    background: rgba(16, 20, 24, 0.4);
   }
 }
 dialog[open] {

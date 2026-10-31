@@ -48,6 +48,11 @@ try {
         await page.evaluate(() => window.__st?.shelf?.settleNow?.())
         await page.waitForTimeout(500)
       }
+      if (st === 'book-open') {
+        await scrollTo('.shelf-view', 0, 300, -110)
+        await page.evaluate(() => { window.__st?.shelf?.settleNow?.(); window.__st?.shelf?.open?.('a-garden-for-grandpa') })
+        await page.waitForTimeout(1600)
+      }
       if (st === 'peek') await scrollTo('#peek')
       if (st === 'bottom') await scrollTo('#order')
       await shot(st)

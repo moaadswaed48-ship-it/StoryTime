@@ -1,35 +1,40 @@
 import { useEffect, useMemo, useRef } from 'react'
 import { View, PerspectiveCamera } from '@react-three/drei'
 import { ShelfStage } from './ShelfStage'
-import { Shelf, type ShelfSignals } from './Shelf'
+import { Shelf } from './Shelf'
+import { createBus, type ShelfBus } from './bus'
+import { useShelfGesture } from './useShelfGesture'
 
 /**
  * The shelf's drei View: an EMPTY div that is simultaneously the render rect, the pointer target and
- * (M3) the gesture surface. Lights/env/shadows live inside so the portal scene is lit.
+ * the gesture surface. Lights/env/shadows live inside so the portal scene is lit.
  */
-export default function ShelfView() {
+export default function ShelfView({ bus: external }: { bus?: ShelfBus }) {
   const ref = useRef<HTMLDivElement>(null)
-  const signals = useMemo<ShelfSignals>(() => ({ enters: 0, visible: false }), [])
+  const bus = useMemo<ShelfBus>(() => external ?? createBus(), [external])
   const portrait = typeof window !== 'undefined' && window.innerWidth < window.innerHeight
+  useShelfGesture(ref, bus)
 
   useEffect(() => {
     const el = ref.current
     if (!el) return
     const enter = new IntersectionObserver(
       ([e]) => {
-        if (e.isIntersecting) signals.enters++
+        if (e.isIntersecting) bus.enters++
       },
       { threshold: 0.35, rootMargin: '0px 0px -15% 0px' },
     )
-    const vis = new IntersectionObserver(([e]) => (signals.visible = e.isIntersecting), { rootMargin: '10% 0px' })
+    const vis = new IntersectionObserver(([e]) => (bus.visible = e.isIntersecting), { rootMargin: '10% 0px' })
     enter.observe(el)
     vis.observe(el)
     return () => {
       enter.disconnect()
       vis.disconnect()
     }
-  }, [signals])
+  }, [bus])
 
+  const camZ = portrait ? 4.9 : 5.2
+  const camY = portrait ? 0.78 : 0.72
   return (
     <View
       ref={ref}
@@ -37,9 +42,9 @@ export default function ShelfView() {
       style={{ touchAction: 'pan-y pinch-zoom', cursor: 'grab' }}
       data-lenis-prevent-horizontal
     >
-      <PerspectiveCamera makeDefault fov={portrait ? 40 : 32} position={[0, 0.72, portrait ? 6.4 : 5.2]} rotation={[-Math.atan2(0.72 - 0.42, portrait ? 6.4 : 5.2), 0, 0]} near={0.1} far={40} />
+      <PerspectiveCamera makeDefault fov={portrait ? 42 : 32} position={[0, camY, camZ]} rotation={[-Math.atan2(camY - 0.42, camZ), 0, 0]} near={0.1} far={40} />
       <ShelfStage />
-      <Shelf signals={signals} />
+      <Shelf bus={bus} />
     </View>
   )
 }
