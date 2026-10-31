@@ -33,13 +33,15 @@ function Plank() {
   )
 }
 
+const HDR_AVAILABLE = !import.meta.env.VITE_NO_HDR // previews on hosts that cannot serve .hdr use the light-former rig
+
 function Lights() {
   const tier = useSiteStore((s) => s.tier)
   return (
     <>
       <hemisphereLight args={['#dfe9f3', '#6b7a4a', 0.5]} />
       <directionalLight position={[-3, 4, 3.5]} intensity={2.1} color="#ffe8c8" />
-      {tier === 'full' ? (
+      {tier === 'full' && HDR_AVAILABLE ? (
         <Suspense fallback={null}>
           <Environment files={asset('env/kloofendal_misty_morning_1k.hdr')} environmentIntensity={0.85} />
         </Suspense>

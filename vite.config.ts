@@ -12,6 +12,8 @@ export default defineConfig({
   build: {
     target: 'es2022',
     chunkSizeWarningLimit: 700,
+    // three.js / R3F are only ever imported dynamically (after the hero paints) — never preload them from the HTML.
+    modulePreload: { resolveDependencies: (_file, deps) => deps.filter((d) => !/\/(three|r3f|Scene|HeroView|ShelfView|coverAtlas)-/.test(d)) },
     rolldownOptions: {
       output: {
         codeSplitting: {
