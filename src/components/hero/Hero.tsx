@@ -5,6 +5,7 @@ import { SplitText } from 'gsap/SplitText'
 import { useGSAP } from '@gsap/react'
 import { site, featuredBook } from '@/content/loadBooks'
 import { useSiteStore } from '@/store/useSiteStore'
+import { prefersReducedNow } from '@/app/useMotionTier'
 import { heroProgress } from '@/three/shared/progress'
 import { Pill } from '@/components/ui/Pill'
 import { Button } from '@/components/ui/Button'
@@ -24,16 +25,11 @@ export function Hero() {
   const openBook = useSiteStore((s) => s.openBook)
   const requestSpin = useSiteStore((s) => s.requestSpin)
 
+  // Intro: runs exactly once (never re-runs when the performance tier changes).
   useGSAP(
     () => {
+      if (prefersReducedNow()) return
       const q = gsap.utils.selector(scope)
-      const heroImg = document.getElementById('hero-img')
-      if (tier === 'reduced') {
-        gsap.set([q('.hero-copy > *'), q('.hero-float')], { clearProps: 'all' })
-        if (heroImg) gsap.set(heroImg, { clearProps: 'transform' })
-        return
-      }
-      // Intro: masked line reveal of the headline, then the rest of the column.
       SplitText.create(q('.hero-title'), {
         type: 'lines,words',
         mask: 'lines',
@@ -41,11 +37,25 @@ export function Hero() {
         onSplit: (self) =>
           gsap.from(self.lines, { yPercent: 110, duration: 1.1, ease: 'power3.out', stagger: 0.09, delay: 0.1 }),
       })
-      gsap.from(q('.hero-copy > :not(.hero-title)'), { y: 18, opacity: 0, duration: 0.8, ease: 'power3.out', stagger: 0.07, delay: 0.45 })
-      gsap.from(q('.hero-float > *'), { y: 14, opacity: 0, scale: 0.97, duration: 0.9, ease: 'power3.out', stagger: 0.1, delay: 0.7 })
-      gsap.fromTo(q('.leader-line > *'), { opacity: 0 }, { opacity: 1, duration: 0.6, delay: 1.1 })
+      gsap.from(q('.hero-copy > :not(.hero-title)'), { y: 18, opacity: 0, duration: 0.8, ease: 'power3.out', stagger: 0.07, delay: 0.45, clearProps: 'opacity,transform' })
+      gsap.from(q('.hero-float > *'), { y: 14, opacity: 0, scale: 0.97, duration: 0.9, ease: 'power3.out', stagger: 0.1, delay: 0.7, clearProps: 'opacity,transform' })
+      gsap.fromTo(q('.leader-line > *'), { opacity: 0 }, { opacity: 1, duration: 0.6, delay: 1.1, clearProps: 'opacity' })
+    },
+    { scope },
+  )
 
-      // Scroll: the column and callouts leave, the photo dollies in, the 3D layer reads heroProgress.
+  // Scroll choreography: depends only on reduced-motion (a "low" performance tier must not replay anything).
+  const reduced = tier === 'reduced'
+  useGSAP(
+    () => {
+      const q = gsap.utils.selector(scope)
+      const heroImg = document.getElementById('hero-img')
+      if (reduced) {
+        gsap.set([q('.hero-copy'), q('.hero-float'), q('.leader-line')], { clearProps: 'all' })
+        if (heroImg) gsap.set(heroImg, { clearProps: 'transform' })
+        heroProgress.value = 0
+        return
+      }
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: scope.current,
@@ -61,7 +71,7 @@ export function Hero() {
       tl.to(q('.hero-float, .leader-line'), { y: -24, opacity: 0, ease: 'none', duration: 0.25 }, 0)
       if (heroImg) tl.to(heroImg, { scale: 1.06, ease: 'none', duration: 1 }, 0)
     },
-    { scope, dependencies: [tier] },
+    { scope, dependencies: [reduced] },
   )
 
   const browse = () => lenis?.scrollTo('#shelf', { offset: -80 })

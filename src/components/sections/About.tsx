@@ -9,14 +9,14 @@ import { Section, Eyebrow, Heading } from './Section'
 
 export function About() {
   const ref = useRef<HTMLElement>(null)
-  const tier = useSiteStore((s) => s.tier)
+  const reduced = useSiteStore((s) => s.tier === 'reduced')
   useReveal(ref)
   useGSAP(
     () => {
-      if (tier === 'reduced') return
+      if (reduced) return
       gsap.fromTo('.about-art', { yPercent: -10 }, { yPercent: 10, ease: 'none', scrollTrigger: { trigger: ref.current, start: 'top bottom', end: 'bottom top', scrub: 0.8 } })
     },
-    { scope: ref, dependencies: [tier] },
+    { scope: ref, dependencies: [reduced] },
   )
   return (
     <Section id="about" ref={ref} className="bg-haze py-24 lg:py-32">

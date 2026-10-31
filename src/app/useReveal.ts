@@ -6,12 +6,12 @@ import { useSiteStore } from '@/store/useSiteStore'
 
 /** Batched scroll reveal for every `[data-reveal]` inside `scope`. Reduced tier = plain opacity, no transform. */
 export function useReveal(scope: RefObject<HTMLElement | null>) {
-  const tier = useSiteStore((s) => s.tier)
+  const reduced = useSiteStore((s) => s.tier === 'reduced')
   useGSAP(
     () => {
       const items = gsap.utils.toArray<HTMLElement>('[data-reveal]', scope.current ?? undefined)
       if (!items.length) return
-      if (tier === 'reduced') {
+      if (reduced) {
         gsap.set(items, { clearProps: 'all' })
         return
       }
@@ -22,6 +22,6 @@ export function useReveal(scope: RefObject<HTMLElement | null>) {
         onEnter: (batch) => gsap.to(batch, { y: 0, opacity: 1, duration: 0.8, ease: 'power3.out', stagger: 0.08, overwrite: true }),
       })
     },
-    { scope, dependencies: [tier] },
+    { scope, dependencies: [reduced] },
   )
 }

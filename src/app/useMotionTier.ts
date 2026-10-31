@@ -20,6 +20,11 @@ export function writeReduceToggle(on: boolean) {
   }
 }
 
+/** Synchronous first guess, for intro animations that must not wait for (or re-run on) the resolved tier. */
+export function prefersReducedNow(): boolean {
+  return window.matchMedia('(prefers-reduced-motion: reduce)').matches || readReduceToggle()
+}
+
 /** Resolves the motion tier (full | low | reduced) and keeps `html[data-reduce-motion]` in sync. */
 export function useMotionTier() {
   const reduceToggle = useSiteStore((s) => s.reduceToggle)
