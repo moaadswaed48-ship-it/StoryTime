@@ -22,7 +22,7 @@
   --color-paper: #f6f1e8;
   --color-paper-deep: #ece4d6;
   --color-haze: #dfe8ee;
-  --color-moss: #5e7a3b;
+  --color-moss: #4c6630; /* 5.7:1 on paper, 6.2:1 on haze */
   --color-valley: #9db86f;
   --color-monarch: #f28c28;
   --color-poppy: #e0442c;

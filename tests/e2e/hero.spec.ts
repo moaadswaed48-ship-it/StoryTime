@@ -4,8 +4,10 @@ test('hero paints from static HTML and the LCP candidate is the photograph', asy
   await page.goto('/', { waitUntil: 'load' })
   await expect(page.locator('#hero-title')).toContainText('Little Books')
   await expect(page.locator('#hero-img')).toBeVisible()
-  const natural = await page.locator('#hero-img').evaluate((img: HTMLImageElement) => img.naturalWidth)
-  expect(natural).toBeGreaterThan(600)
+  const info = await page.locator('#hero-img').evaluate((img: HTMLImageElement) => ({ complete: img.complete, src: img.currentSrc, w: img.naturalWidth }))
+  expect(info.complete).toBe(true)
+  expect(info.src).toMatch(/hero-(640|1280|1920|2576)\.(avif|webp|jpg)$/)
+  expect(info.w).toBeGreaterThan(0)
   await expect(page.locator('em.accent', { hasText: 'for' }).first()).toBeVisible()
 })
 
@@ -19,12 +21,13 @@ test('the shared canvas mounts lazily and every 3D layer renders', async ({ page
   expect(await page.locator('html').getAttribute('class')).not.toContain('no-webgl')
 })
 
-test('scrolling fades the hero copy and keeps the nav usable', async ({ page }) => {
+test('scrolling fades the hero copy and keeps the nav usable', async ({ page, isMobile }) => {
   await page.goto('/?qa=1', { waitUntil: 'networkidle' })
   await page.waitForFunction(() => !!window.__st?.lenis, null, { timeout: 30_000 })
   await page.evaluate(() => window.__st!.lenis!.scrollTo(600, { immediate: true, force: true }))
   await page.waitForTimeout(800)
   const opacity = await page.locator('.hero-copy').evaluate((el) => parseFloat(getComputedStyle(el).opacity))
   expect(opacity).toBeLessThan(0.6)
+  if (isMobile) await page.getByRole('button', { name: 'Open menu' }).click()
   await expect(page.getByRole('link', { name: 'Books', exact: true })).toBeVisible()
 })

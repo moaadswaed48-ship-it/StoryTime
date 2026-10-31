@@ -35,10 +35,18 @@ export function BookPreviewDialog() {
     } else if (!activeId && d.open) d.close()
   }, [activeId, lenis])
 
-  // deep link
+  // deep links: on load and whenever the hash changes while the page is open
   useEffect(() => {
-    const m = location.hash.match(/#book=([a-z0-9-]+)/)
-    if (m && bookById.has(m[1])) setTimeout(() => openBook(m[1]), 600)
+    const fromHash = () => {
+      const m = location.hash.match(/#book=([a-z0-9-]+)/)
+      if (m && bookById.has(m[1]) && useSiteStore.getState().shelf.activeId !== m[1]) openBook(m[1])
+    }
+    const t = setTimeout(fromHash, 600)
+    window.addEventListener('hashchange', fromHash)
+    return () => {
+      clearTimeout(t)
+      window.removeEventListener('hashchange', fromHash)
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 

@@ -4,14 +4,17 @@ import { gotoShelf, shelf } from './helpers'
 test.describe('shelf', () => {
   test('lands, settles and is deterministic for a seed', async ({ page }) => {
     await gotoShelf(page)
+    const s = shelf(page)
     await page.evaluate(() => window.__st!.shelf!.relaunch(1337))
-    await page.waitForFunction(() => window.__st!.shelf!.time() > 2.6, null, { timeout: 60_000 })
+    await page.waitForFunction(() => window.__st!.shelf!.phase() === 'landing', null, { timeout: 10_000 })
+    await s.waitRest()
     const a = await page.evaluate(() => window.__st!.shelf!.positions())
     await page.evaluate(() => window.__st!.shelf!.relaunch(1337))
-    await page.waitForFunction(() => window.__st!.shelf!.time() > 2.6, null, { timeout: 60_000 })
+    await page.waitForFunction(() => window.__st!.shelf!.phase() === 'landing', null, { timeout: 10_000 })
+    await s.waitRest()
     const b = await page.evaluate(() => window.__st!.shelf!.positions())
     expect(a.map((p) => p[0].toFixed(3))).toEqual(b.map((p) => p[0].toFixed(3)))
-    await shelf(page).waitRest()
+    for (const [, y] of a) expect(Math.abs(y)).toBeLessThan(1e-3)
   })
 
   test('drag moves the row and snaps to a slot; keyboard steps; tap opens the dialog; Escape closes it', async ({ page }) => {
@@ -68,9 +71,16 @@ test.describe('shelf', () => {
     expect(hidden.filter(Boolean).length).toBeGreaterThan(0)
     await expect(page.locator('[aria-live]').first()).toContainText('books')
     await page.getByRole('button', { name: 'Ages 3–5', exact: true }).click()
-    await page.goto('/?qa=1#book=pip-and-the-paper-boat', { waitUntil: 'networkidle' })
+    // hash change while the page is open
+    await page.evaluate(() => (location.hash = '#book=pip-and-the-paper-boat'))
     await expect(page.locator('dialog')).toHaveJSProperty('open', true, { timeout: 20_000 })
     await expect(page.locator('#pv-title')).toHaveText('Pip and the Paper Boat')
+    await page.keyboard.press('Escape')
+    // fresh load with the hash
+    await page.goto('about:blank')
+    await page.goto('/?qa=1#book=the-fox-who-counted-clouds', { waitUntil: 'networkidle' })
+    await expect(page.locator('dialog')).toHaveJSProperty('open', true, { timeout: 20_000 })
+    await expect(page.locator('#pv-title')).toHaveText('The Fox Who Counted Clouds')
   })
 
   test('mobile: a vertical touch pan that starts on the shelf scrolls the page', async ({ page, isMobile }) => {
