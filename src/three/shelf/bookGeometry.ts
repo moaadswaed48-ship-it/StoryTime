@@ -7,6 +7,9 @@ export const ATLAS = {
   front: { x: 0, y: 0, w: 0.4375, h: 0.625 },
   back: { x: 0.4375, y: 0, w: 0.4375, h: 0.625 },
   spine: { x: 0.875, y: 0, w: 0.09375, h: 0.625 },
+  cloth: { x: 0.875, y: 0.64, w: 0.1, h: 0.1 }, // plain cover cloth (board edges)
+  paper: { x: 0.875, y: 0.78, w: 0.1, h: 0.2 }, // page edges (fore-edge, top, bottom)
+  page: { x: 0.02, y: 0.64, w: 0.26, h: 0.35 }, // first page, drawn lazily when the cover opens
 }
 
 type Region = { x: number; y: number; w: number; h: number }
@@ -30,21 +33,26 @@ function setGroups(g: THREE.BoxGeometry, materialIndexByFace: number[]) {
 }
 
 /**
- * Page block (everything except the front board). Materials:
- *  0 → atlas (spine −x, back −z)  1 → paper edges (+x, ±y)  2 → first page (+z, revealed when the cover opens)
+ * Page block (everything except the front board) — ONE material (the atlas):
+ *  spine −x, back −z, paper edges +x/±y, first page +z (revealed when the cover opens). 1 draw call.
  */
 export function makeBlockGeometry(): THREE.BoxGeometry {
   const g = new THREE.BoxGeometry(BOOK.W, BOOK.H, BOOK.T - BOOK.BOARD)
-  setGroups(g, [1, 0, 1, 1, 2, 0])
+  setGroups(g, [0, 0, 0, 0, 0, 0])
+  remapFace(g, 0, ATLAS.paper)
+  remapFace(g, 2, ATLAS.paper)
+  remapFace(g, 3, ATLAS.paper)
+  remapFace(g, 4, ATLAS.page)
   remapFace(g, 5, ATLAS.back)
   remapFace(g, 1, ATLAS.spine, true) // the −x face reads mirrored from outside; flip u so the spine text reads correctly
   return g
 }
 
-/** Front board: +z face shows the atlas front region (material 0); every other face is cloth (material 1). */
+/** Front board — ONE material: +z face = atlas front region, every other face = plain cloth region. 1 draw call. */
 export function makeBoardGeometry(): THREE.BoxGeometry {
   const g = new THREE.BoxGeometry(BOOK.W, BOOK.H, BOOK.BOARD)
-  setGroups(g, [1, 1, 1, 1, 0, 1])
+  setGroups(g, [0, 0, 0, 0, 0, 0])
+  for (const f of [0, 1, 2, 3, 5]) remapFace(g, f, ATLAS.cloth)
   remapFace(g, 4, ATLAS.front)
   return g
 }

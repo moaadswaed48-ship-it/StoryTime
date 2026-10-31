@@ -114,7 +114,7 @@ export function Hero() {
       </div>
       <LeaderLine heroRef={scope} fromRef={calloutRef} />
       <div className="hero-float absolute right-[27%] top-[46%] z-10 hidden lg:block xl:right-[25%]">
-        <button type="button" onClick={spin} className="group flex h-[120px] w-[120px] flex-col items-center justify-center rounded-full border border-white/80 bg-white/15 text-ink transition-colors hover:bg-white/45" aria-label={`${site.hero.spin.label} — ${site.hero.spin.sub}`}>
+        <button type="button" onClick={spin} className="group flex h-[120px] w-[120px] flex-col items-center justify-center rounded-full border border-white/80 bg-white/15 text-ink transition-colors hover:bg-white/45" aria-label={`${site.hero.spin.label} ${site.hero.spin.sub}`}>
           <span className="text-2xl font-semibold leading-none">{site.hero.spin.label}</span>
           <span className="mt-1 flex items-center gap-1 text-xs text-ink-soft">
             <RotateCw size={12} aria-hidden /> {site.hero.spin.sub}

@@ -54,6 +54,10 @@ try {
         await page.waitForTimeout(1600)
       }
       if (st === 'peek') await scrollTo('#peek')
+      if (st === 'catalogue') await scrollTo('#catalogue')
+      if (st === 'ages') await scrollTo('#ages')
+      if (st === 'about') await scrollTo('#about')
+      if (st === 'how') await scrollTo('#how')
       if (st === 'bottom') await scrollTo('#order')
       await shot(st)
       console.log('shot', name, st)

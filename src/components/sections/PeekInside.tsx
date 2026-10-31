@@ -4,7 +4,7 @@ import { featuredBook, site } from '@/content/loadBooks'
 import { useSiteStore } from '@/store/useSiteStore'
 import { formatPrice } from '@/lib/formatPrice'
 import { useReveal } from '@/app/useReveal'
-import { CoverSwatch } from '@/components/ui/CoverSwatch'
+import { CoverImage } from '@/components/ui/CoverImage'
 import { Button } from '@/components/ui/Button'
 import { Section, Eyebrow, Heading } from './Section'
 
@@ -27,7 +27,7 @@ export function PeekInside() {
           <p className="mt-6 text-lg text-body">{site.peek.sub}</p>
         </div>
         <div className="flex items-center gap-6 lg:col-span-5 lg:justify-end" data-reveal>
-          <CoverSwatch book={b} className="w-[150px] text-[22px] [container-type:inline-size] lg:w-[200px]" />
+          <CoverImage book={b} className="w-[150px] lg:w-[200px]" />
           <div>
             <p className="text-xl font-semibold text-ink">{b.title}</p>
             <p className="text-body">

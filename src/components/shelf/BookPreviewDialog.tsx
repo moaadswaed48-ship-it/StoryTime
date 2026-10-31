@@ -3,7 +3,7 @@ import { ChevronLeft, ChevronRight, Copy, MessageCircle, X } from 'lucide-react'
 import { bookById, books, matchesFilter, site } from '@/content/loadBooks'
 import { useSiteStore } from '@/store/useSiteStore'
 import { formatPrice } from '@/lib/formatPrice'
-import { CoverSwatch } from '@/components/ui/CoverSwatch'
+import { CoverImage } from '@/components/ui/CoverImage'
 import { LinkButton } from '@/components/ui/Button'
 import { whatsappHref } from '@/components/sections/Order'
 import { cn } from '@/lib/cn'
@@ -77,7 +77,7 @@ export function BookPreviewDialog() {
       {book && (
         <div className="flex max-h-[86svh] flex-col rounded-t-[28px] bg-paper shadow-[0_-10px_60px_rgba(16,20,24,.25)] lg:h-full lg:max-h-none lg:rounded-none lg:rounded-l-[28px]">
           <div className="flex items-start gap-4 px-6 pt-6 lg:px-8 lg:pt-8">
-            <CoverSwatch book={book} className="w-[72px] shrink-0 text-[11px] [container-type:inline-size]" />
+            <CoverImage book={book} className="w-[72px] shrink-0" eager />
             <div className="min-w-0 flex-1">
               <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-moss">
                 Ages {book.ageRange[0]}–{book.ageRange[1]} · {book.pages} pages · {book.readingTime}

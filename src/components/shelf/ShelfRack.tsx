@@ -1,6 +1,6 @@
 import { books, matchesFilter } from '@/content/loadBooks'
 import { useSiteStore } from '@/store/useSiteStore'
-import { CoverSwatch } from '@/components/ui/CoverSwatch'
+import { CoverImage } from '@/components/ui/CoverImage'
 import { formatPrice } from '@/lib/formatPrice'
 
 /** No-WebGL fallback: a horizontal scroll-snap rack of covers with the same tap → preview behaviour. */
@@ -13,7 +13,7 @@ export function ShelfRack() {
       {list.map((b) => (
         <li key={b.id} className="w-[160px] shrink-0 snap-center">
           <button type="button" onClick={(e) => openBook(b.id, e.currentTarget)} className="block w-full text-left">
-            <CoverSwatch book={b} className="w-full text-[16px] [container-type:inline-size]" />
+            <CoverImage book={b} className="w-full" />
             <span className="mt-3 block text-sm font-semibold text-ink">{b.title}</span>
             <span className="block text-xs text-body">{formatPrice(b.price.amount)}</span>
           </button>

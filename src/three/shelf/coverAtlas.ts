@@ -177,13 +177,31 @@ export async function createCoverAtlas(book: Book, size = 1024): Promise<THREE.C
   const ctx = c.getContext('2d')!
   const { bg, ink, accent } = book.cover.palette
   const seed = hashString(book.id)
-  const F = { x: ATLAS.front.x * size, y: ATLAS.front.y * size, w: ATLAS.front.w * size, h: ATLAS.front.h * size }
-  const B = { x: ATLAS.back.x * size, y: ATLAS.back.y * size, w: ATLAS.back.w * size, h: ATLAS.back.h * size }
-  const S = { x: ATLAS.spine.x * size, y: ATLAS.spine.y * size, w: ATLAS.spine.w * size, h: ATLAS.spine.h * size }
+  const rp = (r: { x: number; y: number; w: number; h: number }) => ({ x: r.x * size, y: r.y * size, w: r.w * size, h: r.h * size })
+  const F = rp(ATLAS.front)
+  const B = rp(ATLAS.back)
+  const S = rp(ATLAS.spine)
+  const CL = rp(ATLAS.cloth)
+  const PA = rp(ATLAS.paper)
+  const PG = rp(ATLAS.page)
 
   ctx.fillStyle = '#efe7d8'
   ctx.fillRect(0, 0, size, size)
-  for (const r of [F, B, S]) {
+  // page edges: paper with faint leaf lines
+  ctx.fillStyle = '#f1ebdd'
+  ctx.fillRect(PA.x, PA.y, PA.w, PA.h)
+  ctx.strokeStyle = 'rgba(120,100,70,0.18)'
+  ctx.lineWidth = 1
+  for (let yy = PA.y + 2; yy < PA.y + PA.h; yy += 3) {
+    ctx.beginPath()
+    ctx.moveTo(PA.x, yy)
+    ctx.lineTo(PA.x + PA.w, yy)
+    ctx.stroke()
+  }
+  // first page placeholder (plain paper until the cover opens)
+  ctx.fillStyle = '#f6f1e6'
+  ctx.fillRect(PG.x, PG.y, PG.w, PG.h)
+  for (const r of [F, B, S, CL]) {
     ctx.fillStyle = bg
     ctx.fillRect(r.x, r.y, r.w, r.h)
     // cloth grain
@@ -205,7 +223,6 @@ export async function createCoverAtlas(book: Book, size = 1024): Promise<THREE.C
   ctx.lineWidth = 3
   ctx.strokeRect(F.x + 26, F.y + 26, F.w - 52, F.h - 52)
   ctx.globalAlpha = 1
-  drawMotif(ctx, book.cover.motif, F.x + F.w / 2, F.y + F.h * 0.66, F.w * 0.42, accent, ink)
 
   ctx.fillStyle = ink
   ctx.textAlign = 'center'
@@ -221,6 +238,12 @@ export async function createCoverAtlas(book: Book, size = 1024): Promise<THREE.C
   const lh = px * 1.08
   const top = F.y + 92
   lines.forEach((l, i) => ctx.fillText(l, F.x + F.w / 2, top + i * lh + px))
+  // motif sits in the space left between the title block and the author line
+  const titleBottom = top + lines.length * lh + 8
+  const authorTop = F.y + F.h - 80
+  const room = authorTop - titleBottom
+  const ms = Math.min(F.w * 0.42, room * 0.82)
+  drawMotif(ctx, book.cover.motif, F.x + F.w / 2, titleBottom + room / 2 + 4, ms, accent, ink)
   ctx.font = `500 22px ${SANS}`
   ctx.globalAlpha = 0.85
   ctx.fillText(book.author.toUpperCase(), F.x + F.w / 2, F.y + F.h - 46)
@@ -261,6 +284,55 @@ export async function createCoverAtlas(book: Book, size = 1024): Promise<THREE.C
   tex.minFilter = THREE.LinearMipmapLinearFilter
   tex.needsUpdate = true
   return tex
+}
+
+function wrapParas(ctx: CanvasRenderingContext2D, text: string, maxW: number): string[] {
+  const out: string[] = []
+  for (const para of text.split(/\n\n+/)) {
+    out.push(...wrap(ctx, para, maxW), '')
+  }
+  return out
+}
+
+/** Typesets the first page into the atlas's page region (called lazily when a cover opens) and flags the texture. */
+export async function drawPageInto(tex: THREE.CanvasTexture, book: Book): Promise<void> {
+  if ('fonts' in document) await Promise.all([document.fonts.load(`italic 400 30px ${ACCENT}`), document.fonts.load(`500 17px ${SANS}`)])
+  const c = tex.image as HTMLCanvasElement
+  const size = c.width
+  const ctx = c.getContext('2d')!
+  const PG = { x: ATLAS.page.x * size, y: ATLAS.page.y * size, w: ATLAS.page.w * size, h: ATLAS.page.h * size }
+  const k = size / 1024
+  const grd = ctx.createLinearGradient(PG.x, 0, PG.x + PG.w, 0)
+  grd.addColorStop(0, '#ebe2cf')
+  grd.addColorStop(0.1, '#f8f3e8')
+  grd.addColorStop(1, '#f6f1e6')
+  ctx.fillStyle = grd
+  ctx.fillRect(PG.x, PG.y, PG.w, PG.h)
+  ctx.fillStyle = '#2a2520'
+  ctx.textAlign = 'center'
+  ctx.font = `italic 400 ${Math.round(17 * k)}px ${ACCENT}`
+  ctx.fillText(book.firstPage.heading, PG.x + PG.w / 2 + 6 * k, PG.y + 40 * k)
+  ctx.strokeStyle = book.cover.palette.accent
+  ctx.lineWidth = 1.5 * k
+  ctx.beginPath()
+  ctx.moveTo(PG.x + PG.w / 2 - 20 * k, PG.y + 50 * k)
+  ctx.lineTo(PG.x + PG.w / 2 + 32 * k, PG.y + 50 * k)
+  ctx.stroke()
+  ctx.textAlign = 'left'
+  ctx.font = `500 ${Math.round(9.5 * k)}px ${SANS}`
+  ctx.fillStyle = '#3a3530'
+  const lines = wrapParas(ctx, book.firstPage.text, PG.w - 56 * k)
+  let y = PG.y + 74 * k
+  for (const l of lines) {
+    if (y > PG.y + PG.h - 24 * k) break
+    if (l) ctx.fillText(l, PG.x + 30 * k, y)
+    y += l ? 14.5 * k : 7 * k
+  }
+  ctx.fillStyle = '#8a8378'
+  ctx.font = `500 ${Math.round(8 * k)}px ${SANS}`
+  ctx.textAlign = 'center'
+  ctx.fillText('1', PG.x + PG.w / 2 + 6 * k, PG.y + PG.h - 10 * k)
+  tex.needsUpdate = true
 }
 
 /** Same renderer as the 3D cover, but for DOM cards (front region only) → data URL. */

@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef } from 'react'
+import { asset } from '@/lib/asset'
 import * as THREE from 'three'
 import { useFrame, useThree } from '@react-three/fiber'
 import { useTexture } from '@react-three/drei'
@@ -34,7 +35,7 @@ export function Shelf({ bus }: { bus: ShelfBus }) {
 
   const block = useMemo(() => makeBlockGeometry(), [])
   const board = useMemo(() => makeBoardGeometry(), [])
-  const normalMap = useTexture('/textures/book_hardcover_01_nor_gl_1k.jpg')
+  const normalMap = useTexture(asset('textures/book_hardcover_01_nor_gl_1k.jpg'))
   const groupRef = useRef<THREE.Group>(null)
   const handles = useRef<(BookHandle | null)[]>([])
 

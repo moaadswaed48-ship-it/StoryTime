@@ -4,6 +4,8 @@ import { ShelfStage } from './ShelfStage'
 import { Shelf } from './Shelf'
 import { createBus, type ShelfBus } from './bus'
 import { useShelfGesture } from './useShelfGesture'
+import { LayerBoundary } from '@/three/shared/LayerBoundary'
+import { Suspense } from 'react'
 
 /**
  * The shelf's drei View: an EMPTY div that is simultaneously the render rect, the pointer target and
@@ -43,8 +45,14 @@ export default function ShelfView({ bus: external }: { bus?: ShelfBus }) {
       data-lenis-prevent-horizontal
     >
       <PerspectiveCamera makeDefault fov={portrait ? 42 : 32} position={[0, camY, camZ]} rotation={[-Math.atan2(camY - 0.42, camZ), 0, 0]} near={0.1} far={40} />
-      <ShelfStage />
-      <Shelf bus={bus} />
+      <LayerBoundary name="shelf-stage">
+        <ShelfStage />
+      </LayerBoundary>
+      <LayerBoundary name="shelf">
+        <Suspense fallback={null}>
+          <Shelf bus={bus} />
+        </Suspense>
+      </LayerBoundary>
     </View>
   )
 }

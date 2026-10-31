@@ -1,6 +1,6 @@
 import { ArrowRight } from 'lucide-react'
 import { GlassCard } from '@/components/ui/GlassCard'
-import { CoverSwatch } from '@/components/ui/CoverSwatch'
+import { CoverImage } from '@/components/ui/CoverImage'
 import { newBooks, site } from '@/content/loadBooks'
 import { useSiteStore } from '@/store/useSiteStore'
 import { cn } from '@/lib/cn'
@@ -19,9 +19,9 @@ export function ThumbCard({ className }: { className?: string }) {
           openBook(book.id, e.currentTarget)
         }}
         className="flex items-center gap-4 text-left"
-        aria-label={`${site.hero.thumb.kicker}: ${book.title} — open preview`}
+        aria-label={`${site.hero.thumb.kicker} ${book.title} ${site.hero.thumb.sub}: open the preview`}
       >
-        <CoverSwatch book={book} className="w-[64px] [container-type:inline-size]" />
+        <CoverImage book={book} className="w-[64px]" eager />
         <span className="min-w-0">
           <span className="block text-[11px] font-semibold uppercase tracking-[0.14em] text-body">{site.hero.thumb.kicker}</span>
           <span className="block text-[15px] font-semibold text-ink">{book.title}</span>

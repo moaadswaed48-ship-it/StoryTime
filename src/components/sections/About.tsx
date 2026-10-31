@@ -1,4 +1,5 @@
 import { useRef } from 'react'
+import { asset } from '@/lib/asset'
 import gsap from 'gsap'
 import { useGSAP } from '@gsap/react'
 import { site } from '@/content/loadBooks'
@@ -22,7 +23,7 @@ export function About() {
       <div className="grid items-center gap-12 lg:grid-cols-12">
         <div className="order-2 lg:order-1 lg:col-span-5" data-reveal>
           <div className="relative aspect-[4/5] overflow-hidden rounded-card bg-paper-deep">
-            <img src="/hero/hero-1280.jpg" alt="" className="about-art absolute inset-0 h-[120%] w-full object-cover object-[80%_40%]" loading="lazy" decoding="async" width="1280" height="827" />
+            <img src={asset('hero/hero-1280.jpg')} alt="" className="about-art absolute inset-0 h-[120%] w-full object-cover object-[80%_40%]" loading="lazy" decoding="async" width="1280" height="827" />
           </div>
         </div>
         <div className="order-1 lg:order-2 lg:col-span-7" data-reveal>

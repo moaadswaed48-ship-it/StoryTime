@@ -16,7 +16,7 @@ export function GlassCallout({ className }: { className?: string }) {
           openBook(featuredBook.id, e.currentTarget)
         }}
         className="flex w-full items-center gap-4 rounded-[14px] p-2 text-left transition-colors hover:bg-white/60"
-        aria-label={`${site.hero.callout.kicker}: ${featuredBook.title} — open preview`}
+        aria-label={`${site.hero.callout.kicker} ${featuredBook.title} ${site.hero.callout.sub}: open the preview`}
       >
         <span className="inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-ink/10 bg-white text-ink">
           <BookOpen size={20} strokeWidth={1.6} aria-hidden />

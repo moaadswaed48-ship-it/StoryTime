@@ -1,4 +1,5 @@
 import { Suspense } from 'react'
+import { asset } from '@/lib/asset'
 import * as THREE from 'three'
 import { useTexture, Environment, Lightformer, ContactShadows } from '@react-three/drei'
 import { useSiteStore } from '@/store/useSiteStore'
@@ -7,9 +8,9 @@ const PLANK = { W: 14, T: 0.06, D: 1.15 }
 
 function Plank() {
   const [diff, nor, arm] = useTexture([
-    '/textures/wood_table_001_diff_1k.jpg',
-    '/textures/wood_table_001_nor_gl_1k.jpg',
-    '/textures/wood_table_001_arm_1k.jpg',
+    asset('textures/wood_table_001_diff_1k.jpg'),
+    asset('textures/wood_table_001_nor_gl_1k.jpg'),
+    asset('textures/wood_table_001_arm_1k.jpg'),
   ])
   for (const t of [diff, nor, arm]) {
     t.wrapS = t.wrapT = THREE.RepeatWrapping
@@ -40,7 +41,7 @@ function Lights() {
       <directionalLight position={[-3, 4, 3.5]} intensity={2.1} color="#ffe8c8" />
       {tier === 'full' ? (
         <Suspense fallback={null}>
-          <Environment files="/env/kloofendal_misty_morning_1k.hdr" environmentIntensity={0.85} />
+          <Environment files={asset('env/kloofendal_misty_morning_1k.hdr')} environmentIntensity={0.85} />
         </Suspense>
       ) : (
         <Environment frames={1} resolution={128}>

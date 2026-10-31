@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef } from 'react'
+import { asset } from '@/lib/asset'
 import * as THREE from 'three'
 import { useFrame, useThree } from '@react-three/fiber'
 import { useTexture } from '@react-three/drei'
@@ -27,7 +28,7 @@ interface Props {
 
 /** One InstancedMesh of flapping monarchs on seeded CatmullRom loops; rises and shrinks as the hero scrolls away. */
 export function Butterflies({ near = 8, far = 10, visible, frozen = false }: Props) {
-  const atlas = useTexture('/textures/wings-atlas-1024x512.png')
+  const atlas = useTexture(asset('textures/wings-atlas-1024x512.png'))
   const meshRef = useRef<THREE.InstancedMesh>(null)
   const camera = useThree((s) => s.camera) as THREE.PerspectiveCamera
   const size = useThree((s) => s.size)
