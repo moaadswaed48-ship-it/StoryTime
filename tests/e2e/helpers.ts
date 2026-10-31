@@ -1,14 +1,19 @@
 import type { Page } from '@playwright/test'
 
-export async function gotoShelf(page: Page, query = '?qa=1') {
-  await page.goto('/' + query, { waitUntil: 'networkidle' })
+/** Scrolls the shelf into view (it mounts lazily when near) and waits for the sim hooks. */
+export async function scrollToShelf(page: Page) {
   await page.waitForFunction(() => !!window.__st?.lenis, null, { timeout: 30_000 })
-  await page.waitForFunction(() => !!window.__st?.shelf, null, { timeout: 30_000 })
   await page.evaluate(() => {
     const el = document.querySelector('.shelf-view')!
     window.__st!.lenis!.scrollTo(el.getBoundingClientRect().top + window.scrollY - 110, { immediate: true, force: true })
   })
-  await page.waitForTimeout(700)
+  await page.waitForFunction(() => !!window.__st?.shelf, null, { timeout: 60_000 })
+  await page.waitForTimeout(500)
+}
+
+export async function gotoShelf(page: Page, query = '?qa=1') {
+  await page.goto('/' + query, { waitUntil: 'networkidle' })
+  await scrollToShelf(page)
   await page.evaluate(() => window.__st!.shelf!.settleNow())
   await page.waitForTimeout(300)
 }

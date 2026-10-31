@@ -92,7 +92,7 @@ export function Hero() {
               {site.hero.cta} <ArrowRight size={18} strokeWidth={2} aria-hidden />
             </Button>
             <button type="button" onClick={(e) => sample(e.currentTarget)} className="group inline-flex items-center gap-4 text-left">
-              <CircleButton size={56} tabIndex={-1} aria-hidden>
+              <CircleButton as="span" size={56} className="group-hover:bg-white/60">
                 <Play size={18} strokeWidth={2} className="ml-0.5 fill-ink" aria-hidden />
               </CircleButton>
               <span>

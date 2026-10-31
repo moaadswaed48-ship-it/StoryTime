@@ -11,6 +11,6 @@ export default defineConfig({
   webServer: { command: 'npx vite preview --host 0.0.0.0 --port 4173 --strictPort', url: 'http://localhost:4173/', reuseExistingServer: true, timeout: 60_000 },
   projects: [
     { name: 'desktop', use: { viewport: { width: 1440, height: 900 } } },
-    { name: 'mobile', use: { ...devices['iPhone 13'], hasTouch: true } },
+    { name: 'mobile', use: { ...devices['iPhone 13'], defaultBrowserType: 'chromium', browserName: 'chromium', hasTouch: true } },
   ],
 })

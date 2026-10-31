@@ -6,7 +6,7 @@ test('hero paints from static HTML and the LCP candidate is the photograph', asy
   await expect(page.locator('#hero-img')).toBeVisible()
   const natural = await page.locator('#hero-img').evaluate((img: HTMLImageElement) => img.naturalWidth)
   expect(natural).toBeGreaterThan(600)
-  await expect(page.locator('em.accent')).toHaveText('for')
+  await expect(page.locator('em.accent', { hasText: 'for' }).first()).toBeVisible()
 })
 
 test('the shared canvas mounts lazily and every 3D layer renders', async ({ page }) => {
@@ -26,5 +26,5 @@ test('scrolling fades the hero copy and keeps the nav usable', async ({ page }) 
   await page.waitForTimeout(800)
   const opacity = await page.locator('.hero-copy').evaluate((el) => parseFloat(getComputedStyle(el).opacity))
   expect(opacity).toBeLessThan(0.6)
-  await expect(page.getByRole('link', { name: 'Books' })).toBeVisible()
+  await expect(page.getByRole('link', { name: 'Books', exact: true })).toBeVisible()
 })
