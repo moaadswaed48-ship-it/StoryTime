@@ -11,6 +11,7 @@ import { Ages } from '@/components/sections/Ages'
 import { About } from '@/components/sections/About'
 import { Order } from '@/components/sections/Order'
 import { Footer } from '@/components/sections/Footer'
+import { SceneMount } from '@/three/SceneMount'
 
 export default function App() {
   const pageRef = useRef<HTMLDivElement>(null)
@@ -31,6 +32,7 @@ export default function App() {
           <Order />
         </main>
         <Footer />
+        <SceneMount />
       </div>
     </Providers>
   )

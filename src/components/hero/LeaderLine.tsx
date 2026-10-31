@@ -55,7 +55,7 @@ export function LeaderLine({ heroRef, fromRef }: { heroRef: RefObject<HTMLElemen
   }, [heroRef, fromRef])
 
   return (
-    <svg ref={svgRef} className="leader-line pointer-events-none absolute inset-0 hidden h-full w-full lg:block" aria-hidden>
+    <svg ref={svgRef} className="leader-line pointer-events-none absolute inset-0 z-10 hidden h-full w-full lg:block" aria-hidden>
       <path ref={pathRef} fill="none" stroke="rgba(255,255,255,.9)" strokeWidth="1.5" strokeLinecap="round" />
       <circle ref={dotRef} r="4.5" fill="#fff" stroke="rgba(16,20,24,.25)" strokeWidth="1" />
     </svg>

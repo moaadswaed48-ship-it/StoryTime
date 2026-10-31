@@ -26,19 +26,28 @@ try {
     await page.evaluate(() => document.fonts.ready)
     await page.waitForTimeout(1800)
     const shot = (state) => page.screenshot({ path: `qa/out/${name}-${state}.png`, fullPage: false })
-    const scrollTo = async (sel, frac = 0) => {
-      await page.evaluate(({ sel, frac }) => {
+    const scrollTo = async (sel, frac = 0, wait = 1400, offset = 0) => {
+      await page.evaluate(({ sel, frac, offset }) => {
         const el = document.querySelector(sel)
-        const y = el ? el.getBoundingClientRect().top + window.scrollY + frac * el.getBoundingClientRect().height : 0
+        const y = el ? el.getBoundingClientRect().top + window.scrollY + frac * el.getBoundingClientRect().height + offset : 0
         const l = window.__st?.lenis
         if (l) l.scrollTo(y, { immediate: true, force: true }); else window.scrollTo(0, y)
-      }, { sel, frac })
-      await page.waitForTimeout(1400)
+      }, { sel, frac, offset })
+      await page.waitForTimeout(wait)
     }
     for (const st of STATES) {
       if (st === 'hero') await scrollTo('#top')
       if (st === 'hero50') await scrollTo('#top', 0.5)
-      if (st === 'shelf') await scrollTo('#shelf')
+      if (st === 'shelf-mid') {
+        await scrollTo('.shelf-view', 0, 0, -110)
+        await page.waitForTimeout(650)
+      }
+      if (st === 'shelf') {
+        await scrollTo('.shelf-view', 0, 1200, -110)
+        // headless SwiftShader runs the sim far below real time; force the deterministic settled state for the shot
+        await page.evaluate(() => window.__st?.shelf?.settleNow?.())
+        await page.waitForTimeout(500)
+      }
       if (st === 'peek') await scrollTo('#peek')
       if (st === 'bottom') await scrollTo('#order')
       await shot(st)

@@ -26,6 +26,7 @@ interface SiteState {
   lenis: Lenis | null
   pageEl: HTMLElement | null
   webgl: 'pending' | 'ok' | 'failed'
+  sceneReady: boolean
   shelf: {
     phase: ShelfPhase
     activeId: string | null
@@ -40,6 +41,7 @@ interface SiteState {
   setLenis: (lenis: Lenis | null) => void
   setPageEl: (el: HTMLElement | null) => void
   setWebgl: (s: 'pending' | 'ok' | 'failed') => void
+  setSceneReady: (ready: boolean) => void
   setPhase: (phase: ShelfPhase) => void
   setIndex: (index: number) => void
   openBook: (id: string, returnEl?: HTMLElement | null) => void
@@ -56,6 +58,7 @@ export const useSiteStore = create<SiteState>()((set, get) => ({
   lenis: null,
   pageEl: null,
   webgl: 'pending',
+  sceneReady: false,
   shelf: { phase: 'dormant', activeId: null, index: 0, spinId: null, filter: { query: '', ages: null, tags: [] } },
   returnFocusEl: null,
   setTier: (tier) => set({ tier }),
@@ -64,6 +67,7 @@ export const useSiteStore = create<SiteState>()((set, get) => ({
   setLenis: (lenis) => set({ lenis }),
   setPageEl: (pageEl) => set({ pageEl }),
   setWebgl: (webgl) => set({ webgl }),
+  setSceneReady: (sceneReady) => set({ sceneReady }),
   setPhase: (phase) => set((s) => ({ shelf: { ...s.shelf, phase } })),
   setIndex: (index) => set((s) => (s.shelf.index === index ? s : { shelf: { ...s.shelf, index } })),
   openBook: (id, returnEl = null) => set((s) => ({ shelf: { ...s.shelf, activeId: id }, returnFocusEl: returnEl })),

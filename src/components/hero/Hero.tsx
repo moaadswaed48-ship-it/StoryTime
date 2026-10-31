@@ -14,6 +14,7 @@ import { StatRow } from './StatRow'
 import { GlassCallout } from './GlassCallout'
 import { ThumbCard } from './ThumbCard'
 import { LeaderLine } from './LeaderLine'
+import { HeroSlot } from '@/three/HeroSlot'
 
 export function Hero() {
   const scope = useRef<HTMLElement>(null)
@@ -41,8 +42,8 @@ export function Hero() {
           gsap.from(self.lines, { yPercent: 110, duration: 1.1, ease: 'power3.out', stagger: 0.09, delay: 0.1 }),
       })
       gsap.from(q('.hero-copy > :not(.hero-title)'), { y: 18, opacity: 0, duration: 0.8, ease: 'power3.out', stagger: 0.07, delay: 0.45 })
-      gsap.from(q('.hero-float'), { y: 14, opacity: 0, scale: 0.97, duration: 0.9, ease: 'power3.out', stagger: 0.1, delay: 0.7 })
-      gsap.fromTo(q('.leader-line'), { opacity: 0 }, { opacity: 1, duration: 0.6, delay: 1.1 })
+      gsap.from(q('.hero-float > *'), { y: 14, opacity: 0, scale: 0.97, duration: 0.9, ease: 'power3.out', stagger: 0.1, delay: 0.7 })
+      gsap.fromTo(q('.leader-line > *'), { opacity: 0 }, { opacity: 1, duration: 0.6, delay: 1.1 })
 
       // Scroll: the column and callouts leave, the photo dollies in, the 3D layer reads heroProgress.
       const tl = gsap.timeline({
@@ -74,8 +75,9 @@ export function Hero() {
   }
 
   return (
-    <section id="top" ref={scope} className="hero relative z-10 min-h-[100svh] min-h-[640px]" aria-labelledby="hero-title">
-      <div className="mx-auto grid min-h-[100svh] max-w-[1440px] grid-cols-1 items-end px-5 pb-12 pt-24 lg:grid-cols-12 lg:items-center lg:px-12 lg:pb-16 lg:pt-32">
+    <section id="top" ref={scope} className="hero relative min-h-[100svh] min-h-[640px]" aria-labelledby="hero-title">
+      <HeroSlot />
+      <div className="relative z-10 mx-auto grid min-h-[100svh] max-w-[1440px] grid-cols-1 items-end px-5 pb-12 pt-24 lg:grid-cols-12 lg:items-center lg:px-12 lg:pb-16 lg:pt-32">
         <div className="hero-copy lg:col-span-8 xl:col-span-7">
           <Pill>{site.hero.badge}</Pill>
           <h1
@@ -107,11 +109,11 @@ export function Hero() {
       </div>
 
       {/* Floating chrome around the photographed stack (desktop); collapses under the copy on small screens */}
-      <div ref={calloutRef} className="hero-float lg:absolute lg:right-[23%] lg:top-[17%] lg:w-[320px] px-5 lg:px-0 -mt-4 lg:mt-0 mb-6 lg:mb-0">
+      <div ref={calloutRef} className="hero-float relative z-10 lg:absolute lg:right-[23%] lg:top-[17%] lg:w-[320px] px-5 lg:px-0 -mt-4 lg:mt-0 mb-6 lg:mb-0">
         <GlassCallout />
       </div>
       <LeaderLine heroRef={scope} fromRef={calloutRef} />
-      <div className="hero-float absolute right-[27%] top-[46%] hidden lg:block xl:right-[25%]">
+      <div className="hero-float absolute right-[27%] top-[46%] z-10 hidden lg:block xl:right-[25%]">
         <button type="button" onClick={spin} className="group flex h-[120px] w-[120px] flex-col items-center justify-center rounded-full border border-white/80 bg-white/15 text-ink transition-colors hover:bg-white/45" aria-label={`${site.hero.spin.label} — ${site.hero.spin.sub}`}>
           <span className="text-2xl font-semibold leading-none">{site.hero.spin.label}</span>
           <span className="mt-1 flex items-center gap-1 text-xs text-ink-soft">
@@ -119,7 +121,7 @@ export function Hero() {
           </span>
         </button>
       </div>
-      <div className="hero-float hidden lg:absolute lg:bottom-[7%] lg:right-[4%] lg:block lg:w-[360px]">
+      <div className="hero-float z-10 hidden lg:absolute lg:bottom-[7%] lg:right-[4%] lg:block lg:w-[360px]">
         <ThumbCard />
       </div>
     </section>

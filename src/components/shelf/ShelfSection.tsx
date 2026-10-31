@@ -3,6 +3,7 @@ import { site } from '@/content/loadBooks'
 import { useReveal } from '@/app/useReveal'
 import { Section, Eyebrow, Heading } from '@/components/sections/Section'
 import { ShelfControls } from './ShelfControls'
+import { ShelfSlot } from '@/three/ShelfSlot'
 
 /** M0 skeleton: heading + controls + the (empty) View target. The 3D shelf mounts into `.shelf-view` in M2. */
 export function ShelfSection() {
@@ -16,7 +17,7 @@ export function ShelfSection() {
         <p className="mt-5 text-lg leading-relaxed text-body">{site.shelf.sub}</p>
       </div>
       <ShelfControls />
-      <div className="shelf-view view-target mt-6 h-[70vh] min-h-[420px] rounded-card bg-white/30" aria-hidden />
+      <ShelfSlot fallback={<div className="mt-6 rounded-card bg-white/40 p-8 text-center text-body">The 3D shelf needs WebGL — the catalogue below lists every book.</div>} />
       <p className="mt-4 text-center text-sm text-body">{site.shelf.hint}</p>
     </Section>
   )

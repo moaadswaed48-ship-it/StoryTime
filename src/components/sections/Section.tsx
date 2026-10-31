@@ -3,7 +3,7 @@ import { cn } from '@/lib/cn'
 
 export function Section({ className, children, ...rest }: ComponentPropsWithRef<'section'> & { children: ReactNode }) {
   return (
-    <section className={cn('relative z-10 scroll-mt-20', className)} {...rest}>
+    <section className={cn('relative scroll-mt-20', className)} {...rest}>
       <div className="mx-auto w-full max-w-[1440px] px-5 lg:px-12">{children}</div>
     </section>
   )
