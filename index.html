@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#dfe8ee" />
+    <title>StoryTime — Little books for big imaginations</title>
+    <meta name="description" content="StoryTime is a family-run collection of illustrated children's story books for ages 3–8. Browse the shelf, read the first page, order in a message." />
+    <meta property="og:title" content="StoryTime — Little books for big imaginations" />
+    <meta property="og:description" content="Illustrated children's story books for ages 3–8. Browse the 3D shelf and read the first page of every story." />
+    <meta property="og:image" content="/hero/hero-1280.jpg" />
+    <meta property="og:type" content="website" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="preload" as="font" type="font/woff2" href="/fonts/manrope-latin-wght-normal.woff2" crossorigin />
+    <link rel="preload" as="font" type="font/woff2" href="/fonts/instrument-serif-latin-400-italic.woff2" crossorigin />
+    <link
+      rel="preload"
+      as="image"
+      type="image/avif"
+      imagesrcset="/hero/hero-640.avif 640w, /hero/hero-1280.avif 1280w, /hero/hero-1920.avif 1920w, /hero/hero-2576.avif 2576w"
+      imagesizes="100vw"
+      fetchpriority="high"
+    />
+  </head>
+  <body>
+    <!-- The hero photograph is the LCP element. It lives OUTSIDE #root so React never remounts it. -->
+    <div id="hero-plate" aria-hidden="true">
+      <picture>
+        <source type="image/avif" srcset="/hero/hero-640.avif 640w, /hero/hero-1280.avif 1280w, /hero/hero-1920.avif 1920w, /hero/hero-2576.avif 2576w" sizes="100vw" />
+        <source type="image/webp" srcset="/hero/hero-640.webp 640w, /hero/hero-1280.webp 1280w, /hero/hero-1920.webp 1920w, /hero/hero-2576.webp 2576w" sizes="100vw" />
+        <img
+          id="hero-img"
+          src="/hero/hero-1280.jpg"
+          srcset="/hero/hero-640.jpg 640w, /hero/hero-1280.jpg 1280w, /hero/hero-1920.jpg 1920w, /hero/hero-2576.jpg 2576w"
+          sizes="100vw"
+          width="2576"
+          height="1664"
+          alt=""
+          fetchpriority="high"
+          decoding="async"
+        />
+      </picture>
+    </div>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

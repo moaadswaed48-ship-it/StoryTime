@@ -1,0 +1,305 @@
+{
+  "version": 1,
+  "books": [
+    {
+      "id": "the-moon-who-lost-her-hat",
+      "title": "The Moon Who Lost Her Hat",
+      "author": "Noor Haddad",
+      "illustrator": "Mira Cole",
+      "lang": "en",
+      "dir": "ltr",
+      "ageRange": [3, 5],
+      "pages": 24,
+      "readingTime": "5 min",
+      "price": { "amount": 1490, "currency": "USD" },
+      "tags": ["bedtime", "space"],
+      "cover": {
+        "palette": { "bg": "#22395f", "ink": "#f6efe2", "accent": "#f7c948" },
+        "pattern": "stars",
+        "motif": "moon",
+        "titleFace": "accent",
+        "image": null
+      },
+      "blurb": "One windy night the Moon's little silver hat blows clean off her head, and every creature still awake sets out to find it before morning comes.",
+      "firstPage": {
+        "heading": "The night the hat went missing",
+        "text": "High above the rooftops, the Moon wore a hat. It was small and silver and sat a little crooked, and she had worn it every single night for as long as anyone could remember.\n\nBut tonight the wind was in a tumbling mood. It rattled the chimney pots. It flapped the washing on the line. And then, with one great whoosh, it lifted the Moon's little hat right off her head and carried it away over the hills.\n\n\"Oh,\" said the Moon, very quietly. She felt the top of her head. It was cold and bare and round.\n\nDown in the valley, an owl looked up from her branch. A fox looked up from his hedge. A small girl called Lina, who was supposed to be asleep, looked up from her window and pressed her nose to the glass. Something was wrong with the sky, and all three of them could feel it.",
+        "image": null
+      },
+      "featured": true,
+      "isNew": false,
+      "order": 1,
+      "placeholder": true
+    },
+    {
+      "id": "pip-and-the-paper-boat",
+      "title": "Pip and the Paper Boat",
+      "author": "Teodor Lindqvist",
+      "illustrator": "June Abara",
+      "lang": "en",
+      "dir": "ltr",
+      "ageRange": [4, 6],
+      "pages": 28,
+      "readingTime": "6 min",
+      "price": { "amount": 1390, "currency": "USD" },
+      "tags": ["adventure", "sea", "friendship"],
+      "cover": {
+        "palette": { "bg": "#2f6b72", "ink": "#fbf7ef", "accent": "#ffb27a" },
+        "pattern": "waves",
+        "motif": "boat",
+        "titleFace": "accent",
+        "image": null
+      },
+      "blurb": "Pip folds a boat from a page of yesterday's newspaper and sets it on the stream, never guessing it will carry a very small passenger all the way to the sea.",
+      "firstPage": {
+        "heading": "A boat the size of a hand",
+        "text": "Pip made the boat on a Tuesday, out of a page from the newspaper, folded four times and pinched hard at the corners the way her grandmother had shown her. It was the size of her hand. It was a little crooked. It was perfect.\n\nShe carried it down to the stream behind the house, where the water ran clear and quick over the brown stones, and she set it on the surface as gently as putting a cat to bed.\n\nThe boat wobbled. The boat turned once in a circle. Then it found the current and went.\n\nPip ran along the bank to keep up. She did not see the beetle who had climbed aboard back at the launching place, and who was now sitting very still in the bow with his feelers in the wind, wondering where on earth he was going.",
+        "image": null
+      },
+      "featured": false,
+      "isNew": false,
+      "order": 2,
+      "placeholder": true
+    },
+    {
+      "id": "a-garden-for-grandpa",
+      "title": "A Garden for Grandpa",
+      "author": "Priya Natarajan",
+      "illustrator": "Hollis Grey",
+      "lang": "en",
+      "dir": "ltr",
+      "ageRange": [5, 7],
+      "pages": 32,
+      "readingTime": "7 min",
+      "price": { "amount": 1690, "currency": "USD" },
+      "tags": ["family", "garden", "nature"],
+      "cover": {
+        "palette": { "bg": "#3e5a2e", "ink": "#f6efe2", "accent": "#f2b544" },
+        "pattern": "dots",
+        "motif": "garden",
+        "titleFace": "accent",
+        "image": null
+      },
+      "blurb": "When Grandpa's knees get too creaky for digging, Teo decides to grow the whole garden himself, one stubborn seed at a time, and keep it secret until it blooms.",
+      "firstPage": {
+        "heading": "The packet of seeds",
+        "text": "Grandpa kept his seeds in an old biscuit tin with a picture of a lighthouse on the lid. Inside were little paper packets, soft at the folds, with his handwriting on every one. Beans. Sweet peas. Those orange ones. Try again next year.\n\nThis spring Grandpa's knees were too creaky for digging. He sat on the bench by the back door with a blanket on his lap and looked at the bare brown beds, and he did not say anything, which was how Teo knew he minded.\n\nSo Teo took the biscuit tin when nobody was watching.\n\nHe did not know how deep a bean went, or which way up a seed should go, or what those orange ones might turn out to be. But he had a trowel, and a watering can, and a whole garden that was waiting, and he thought that was probably enough to begin.",
+        "image": null
+      },
+      "featured": false,
+      "isNew": false,
+      "order": 3,
+      "placeholder": true
+    },
+    {
+      "id": "the-night-the-stars-went-swimming",
+      "title": "The Night the Stars Went Swimming",
+      "author": "Rosalind Achebe",
+      "illustrator": "Taavi Kuusk",
+      "lang": "en",
+      "dir": "ltr",
+      "ageRange": [4, 6],
+      "pages": 24,
+      "readingTime": "5 min",
+      "price": { "amount": 1590, "currency": "USD" },
+      "tags": ["bedtime", "sea", "space"],
+      "cover": {
+        "palette": { "bg": "#4a2c5a", "ink": "#fbf7ef", "accent": "#7fe3d8" },
+        "pattern": "waves",
+        "motif": "star",
+        "titleFace": "accent",
+        "image": null
+      },
+      "blurb": "On the hottest night of summer the stars climb down from the sky for a dip in the cool dark sea, and a boy named Amos is the only one awake to see it.",
+      "firstPage": {
+        "heading": "Too hot for the sky",
+        "text": "It was the hottest night anybody could remember. The sea lay flat and black and did not bother to make waves. The sky was so warm that the stars had gone sticky at the edges.\n\nAmos could not sleep. He lay on top of his covers with the window wide open, listening to his father's snores roll down the hall like slow thunder.\n\nThen he heard something else. A plink. A plop. A small, bright splash.\n\nHe crept to the window. Down on the beach, one star after another was climbing out of the sky, quite carefully, the way you climb down from a bunk bed in the dark, and tiptoeing across the sand. The first one reached the water, dipped a point in, shivered with delight, and slid all the way under. The sea lit up blue and silver, and Amos forgot entirely how to breathe.",
+        "image": null
+      },
+      "featured": false,
+      "isNew": true,
+      "order": 4,
+      "placeholder": true
+    },
+    {
+      "id": "rumble-the-shy-thunder",
+      "title": "Rumble the Shy Thunder",
+      "author": "Hamid Rezai",
+      "illustrator": "Wren Okafor",
+      "lang": "en",
+      "dir": "ltr",
+      "ageRange": [4, 6],
+      "pages": 26,
+      "readingTime": "6 min",
+      "price": { "amount": 1290, "currency": "USD" },
+      "tags": ["weather", "feelings", "courage"],
+      "cover": {
+        "palette": { "bg": "#4b5d78", "ink": "#f6efe2", "accent": "#ffe066" },
+        "pattern": "none",
+        "motif": "thunder",
+        "titleFace": "sans",
+        "image": null
+      },
+      "blurb": "Rumble is the smallest thunder in the whole sky, and far too shy to boom. But the rain is coming fast and somebody has to warn the valley.",
+      "firstPage": {
+        "heading": "The littlest boom",
+        "text": "Every storm needs a thunder, and every thunder needs a boom. Rumble's grandmother had a boom that shook the windows. His big cousins had booms that made the cows sit down. Rumble had a sort of a mumble.\n\n\"BOOM,\" he practised, up in the quietest corner of the cloud. It came out as a cough.\n\nHe did not mind, mostly. He liked the quiet corner. He liked watching the lightning go zig and then zag, and he liked the smell of the rain getting ready. Somebody had to be the small one, and he was good at it.\n\nBut today the big clouds had all gone off to the mountains, and the rain was coming fast, and down in the valley the washing was still on the lines and the lambs were still out in the field. There was nobody left to warn them. Nobody but Rumble.",
+        "image": null
+      },
+      "featured": false,
+      "isNew": true,
+      "order": 5,
+      "placeholder": true
+    },
+    {
+      "id": "olives-enormous-umbrella",
+      "title": "Olive's Enormous Umbrella",
+      "author": "Beatrix Lowell",
+      "illustrator": "Sami Farouk",
+      "lang": "en",
+      "dir": "ltr",
+      "ageRange": [3, 5],
+      "pages": 30,
+      "readingTime": "6 min",
+      "price": { "amount": 1490, "currency": "USD" },
+      "tags": ["weather", "funny", "friendship"],
+      "cover": {
+        "palette": { "bg": "#f3d35b", "ink": "#1b1f24", "accent": "#e8503a" },
+        "pattern": "dots",
+        "motif": "umbrella",
+        "titleFace": "sans",
+        "image": null
+      },
+      "blurb": "Olive's umbrella is far too big for one small girl, which turns out to be exactly the right size for a duck, a dog, two snails and a very damp postman.",
+      "firstPage": {
+        "heading": "Room for one more",
+        "text": "Olive's umbrella was red, and it was enormous. It had belonged to her great-aunt, who was enormous too. When Olive opened it, it went up and up and up until it filled the whole garden path like a very large, very friendly mushroom.\n\n\"That is too much umbrella,\" said her mother. \"It is just enough umbrella,\" said Olive, and off she went to the shops in the rain.\n\nShe had not gone far when she heard a small, wet quacking. A duck was standing at the edge of a puddle, looking up at the sky in a disappointed sort of way. \"You can come under if you like,\" said Olive. \"There's room.\" So the duck came under, and that was one.\n\nBy the corner they had been joined by a dog with soggy ears. By the bakery there were two snails riding on the dog. And by the post office the umbrella was starting to feel a good deal less enormous than it had at the start.",
+        "image": null
+      },
+      "featured": false,
+      "isNew": false,
+      "order": 6,
+      "placeholder": true
+    },
+    {
+      "id": "the-fox-who-counted-clouds",
+      "title": "The Fox Who Counted Clouds",
+      "author": "Ines Carvalho",
+      "illustrator": "Pell Hartigan",
+      "lang": "en",
+      "dir": "ltr",
+      "ageRange": [5, 7],
+      "pages": 28,
+      "readingTime": "7 min",
+      "price": { "amount": 1790, "currency": "USD" },
+      "tags": ["animals", "nature", "funny"],
+      "cover": {
+        "palette": { "bg": "#9e4a2a", "ink": "#fbf7ef", "accent": "#8fd3f4" },
+        "pattern": "none",
+        "motif": "fox",
+        "titleFace": "accent",
+        "image": null
+      },
+      "blurb": "Ferris the fox is certain there is a right number of clouds, if only they would hold still long enough to be counted. A story about looking up, and letting go.",
+      "firstPage": {
+        "heading": "One, two, and a wisp",
+        "text": "Ferris was a tidy fox. He counted his whiskers every morning, twenty-two on the left and twenty-two on the right. He counted the stones on the path to the stream. He counted the hens on the farm across the field, though only from a distance, and only to be polite.\n\nOne afternoon he lay on his back in the long grass and looked up, and he saw that nobody, in the whole history of foxes, had ever counted the clouds. \"One,\" said Ferris. \"Two. Three.\"\n\nThe third cloud stretched, and yawned, and quietly became two clouds. \"Four,\" said Ferris, frowning. \"No. Wait.\" The first cloud had drifted behind an oak tree. Something that might have been the second cloud, or might have been a brand new one, was now shaped like a rabbit.\n\nFerris sat up, and licked his paw, and started again from the beginning. He had no way of knowing it yet, but this was where the trouble began.",
+        "image": null
+      },
+      "featured": false,
+      "isNew": false,
+      "order": 7,
+      "placeholder": true
+    },
+    {
+      "id": "little-lighthouse-big-sea",
+      "title": "Little Lighthouse, Big Sea",
+      "author": "Callum Reid",
+      "illustrator": "Ayla Demir",
+      "lang": "en",
+      "dir": "ltr",
+      "ageRange": [6, 8],
+      "pages": 36,
+      "readingTime": "8 min",
+      "price": { "amount": 1890, "currency": "USD" },
+      "tags": ["courage", "sea", "weather"],
+      "cover": {
+        "palette": { "bg": "#1f4d3a", "ink": "#f6efe2", "accent": "#ffd23f" },
+        "pattern": "stripes",
+        "motif": "lighthouse",
+        "titleFace": "accent",
+        "image": null
+      },
+      "blurb": "The smallest lighthouse on the coast has never once been needed. Then the fog rolls in thick as wool, a fishing boat loses its way, and her little lamp is all there is.",
+      "firstPage": {
+        "heading": "The one nobody needed",
+        "text": "At the far end of the harbour wall, past the big lighthouse with its booming horn and its beam that could reach the islands, stood a second lighthouse. She was about as tall as a tall person. Her paint was peeling in long white curls. Her lamp was the size of a teacup.\n\nThe fishermen called her the Little One, when they called her anything at all.\n\nShe did not mind. She liked the gulls who sat on her roof, and the crabs who visited at low tide, and the way the big beam swept over her every twelve seconds like a hand smoothing a blanket. She lit her small lamp each evening because that is what lighthouses do, and nobody had ever needed it, and that was fine.\n\nThen one evening in October the fog came in, so thick and so fast that the big beam simply vanished into it, as if somebody had put out the sun.",
+        "image": null
+      },
+      "featured": false,
+      "isNew": false,
+      "order": 8,
+      "placeholder": true
+    },
+    {
+      "id": "where-do-yawns-go",
+      "title": "Where Do Yawns Go?",
+      "author": "Yuki Tanabe",
+      "illustrator": "Marguerite Ngo",
+      "lang": "en",
+      "dir": "ltr",
+      "ageRange": [3, 5],
+      "pages": 22,
+      "readingTime": "4 min",
+      "price": { "amount": 1190, "currency": "USD" },
+      "tags": ["bedtime", "funny", "feelings"],
+      "cover": {
+        "palette": { "bg": "#e8d9b8", "ink": "#1b1f24", "accent": "#d9557f" },
+        "pattern": "none",
+        "motif": "yawn",
+        "titleFace": "accent",
+        "image": null
+      },
+      "blurb": "Every yawn has to go somewhere. Bea follows hers out of the window and over the sleeping town to find out where, exactly, that is.",
+      "firstPage": {
+        "heading": "The first yawn",
+        "text": "Bea yawned. It was a big one. It started somewhere down by her toes and came all the way up, and when it got to her mouth it stretched it as wide as a letterbox, and then it was gone.\n\n\"Where did that go?\" said Bea. \"Where did what go?\" said her father, who was folding the towels. \"My yawn. It went out. Where do they go?\"\n\nHer father thought about it. He thought about it so hard that he yawned too, a great whiskery one, and Bea watched very carefully, and she was almost certain she saw it slip out of the open window and off into the dark.\n\nThat was all the proof she needed. She put on her slippers, the ones with the rabbit ears, and she climbed up onto the sill, and she went after it.",
+        "image": null
+      },
+      "featured": false,
+      "isNew": true,
+      "order": 9,
+      "placeholder": true
+    },
+    {
+      "id": "the-kite-who-forgot-the-wind",
+      "title": "The Kite Who Forgot the Wind",
+      "author": "Ezra Blum",
+      "illustrator": "Lotte Vermeer",
+      "lang": "en",
+      "dir": "ltr",
+      "ageRange": [6, 8],
+      "pages": 32,
+      "readingTime": "7 min",
+      "price": { "amount": 1590, "currency": "USD" },
+      "tags": ["adventure", "friendship", "weather"],
+      "cover": {
+        "palette": { "bg": "#ee7f6b", "ink": "#1b1f24", "accent": "#ffe66d" },
+        "pattern": "stripes",
+        "motif": "kite",
+        "titleFace": "sans",
+        "image": null
+      },
+      "blurb": "After a whole winter in the attic, Comet the kite cannot remember how flying works. Luckily Jun has a bicycle, a long string and the stubbornest kind of hope.",
+      "firstPage": {
+        "heading": "Chapter one",
+        "text": "Comet had spent the winter in the attic, between a box of Christmas lights and a chair with three legs, and somewhere in all those dark months he had forgotten the wind.\n\nHe remembered that there had been wind. He remembered that it was important. But when Jun carried him out into the bright March morning and held him up over her head, he could not for the life of him remember what he was supposed to do with it.\n\n\"Ready?\" said Jun. Comet was not ready. The wind came rushing up the hill and bumped into him, and he flapped, and he tangled, and he lay down flat in the grass like a dropped tablecloth.\n\nJun did not sigh. Jun did not say, well, that's that. She wound in the string, and she looked at the sky for a long moment, and then she went to fetch her bicycle.",
+        "image": null
+      },
+      "featured": false,
+      "isNew": false,
+      "order": 10,
+      "placeholder": true
+    }
+  ]
+}
