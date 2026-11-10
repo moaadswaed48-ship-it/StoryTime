@@ -1,6 +1,6 @@
 // Screenshot helper. Looks at a URL the way a visitor would and reports console errors.
 //   node scripts/qa/shot.mjs "<url>" <outPrefix> [--wait=1500] [--y=0,900,1800] [--full] [--only=desktop|mobile]
-//        [--click="css selector"] [--eval="js run in the page before shooting"] [--after=800]
+//        [--click="css selector"] [--eval="js run in the page before shooting"] [--after=800] [--reduce] (emulate prefers-reduced-motion)
 // Saves <outPrefix>-desktop[-N].jpg (1440×900) and <outPrefix>-mobile[-N].jpg (390×844). View them with the Read tool.
 import { chromium } from 'playwright'
 import { mkdirSync } from 'node:fs'
@@ -13,7 +13,7 @@ const browser = await chromium.launch({ args: ['--use-gl=angle', '--use-angle=sw
 const errors = []
 const sizes = [['desktop', { width: 1440, height: 900 }], ['mobile', { width: 390, height: 844 }]].filter(([n]) => !opt.only || opt.only === n)
 for (const [name, viewport] of sizes) {
-  const ctx = await browser.newContext({ viewport, deviceScaleFactor: 1, hasTouch: name === 'mobile', isMobile: name === 'mobile' })
+  const ctx = await browser.newContext({ viewport, deviceScaleFactor: 1, hasTouch: name === 'mobile', isMobile: name === 'mobile', reducedMotion: opt.reduce ? 'reduce' : 'no-preference' })
   const page = await ctx.newPage()
   page.on('console', (m) => m.type() === 'error' && errors.push(`${name}: ${m.text().slice(0, 300)}`))
   page.on('pageerror', (e) => errors.push(`${name}: ${e.message.slice(0, 300)}`))

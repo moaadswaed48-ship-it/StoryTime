@@ -147,10 +147,14 @@ A dev server is already running at `http://localhost:5173` (if it is down, resta
 Screenshot tool (saves JPEGs; then **open them with the Read tool and really look**):
 
 ```
-node scripts/qa/shot.mjs "http://localhost:5173/demo.html?f=<name>&qa=1" qa/out/<name> [--wait=2500] [--y=0,900,1800] [--full] [--only=desktop|mobile] [--click="css"] [--eval="js"] [--after=900]
+node scripts/qa/shot.mjs "http://localhost:5173/demo.html?f=<name>&qa=1" qa/out/<name> [--wait=2500] [--y=0,900,1800] [--full] [--only=desktop|mobile] [--click="css"] [--eval="js"] [--after=900] [--reduce]
 ```
 
-It prints console errors, failed requests and horizontal overflow. Loop: shoot desktop + phone, in Arabic and English → score against `.claude/skills/motionsites-web-builder/references/review.md` (bar: average ≥ 8, nothing below 7) → fix the three weakest things with concrete value changes → re-shoot. At most three rounds, then stop. Also check the interaction states (hover/open/detail/end/paywall) through `--eval` and your QA hooks, and write `tests/e2e/<name>.spec.ts` (Playwright, `import { pageUrl } from './_url'`, run with `ST_DEV=1 npx playwright test tests/e2e/<name>.spec.ts --project=desktop`).
+It prints console errors, failed requests and horizontal overflow. Loop: shoot desktop + phone, in Arabic and English → score against `.claude/skills/motionsites-web-builder/references/review.md` (bar: average ≥ 8, nothing below 7) → fix the three weakest things with concrete value changes → re-shoot. At most three rounds, then stop. Also check the interaction states (hover/open/detail/end/paywall) through `--eval` and your QA hooks, the reduced-motion rest state (`--reduce`) and, for 3D features, the no-WebGL fallback (`&nowebgl`).
+
+**Tests:** write `tests/e2e/<name>.spec.ts` (Playwright; 2–5 short tests of the behaviour that matters). They must pass on your demo page now **and** later on the full page, so: `await page.goto(pageUrl('<name>'))` (`import { pageUrl } from './_url'` — demo page with `ST_DEV=1`, otherwise `/?qa=1`), then scroll to your own section first (`scrollToY(page, '#id')`, `waitForHook(page, '<name>')`, `watchConsole(page)` from `./helpers`), drive things through your QA hooks, and open overlays / log in through the store: `page.evaluate(() => window.__st.store.getState().openBook(2))`. Never rely on `&open=`/`&login` query flags in tests. Run with `ST_DEV=1 npx playwright test tests/e2e/<name>.spec.ts --project=desktop` (and `--project=mobile` once).
+
+**The machine is shared** by several agents and has 4 cores: run one browser job at a time, never the whole test suite, never `vite build`, and be patient with slow screenshots (WebGL is software-rendered here at a few frames per second — judge the look, not the frame rate, and make QA hooks deterministic rather than timing-dependent). Never run git commands that change state (commit, stash, checkout, reset, clean) and never stop the dev server.
 
 ## 7. Final report format (your last message)
 

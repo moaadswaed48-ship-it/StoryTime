@@ -1,5 +1,6 @@
 import { create } from 'zustand'
 import type Lenis from 'lenis'
+import { exposeQA } from '@/lib/qa'
 
 export type MotionTier = 'full' | 'low' | 'reduced'
 /** Only one fullscreen experience is open at a time. */
@@ -51,3 +52,6 @@ export const useSiteStore = create<SiteState>()((set) => ({
 }))
 
 export const selectReduced = (s: SiteState) => s.tier === 'reduced'
+
+// Tests drive overlays and login through the store: window.__st.store.getState().openBook(2)
+exposeQA({ store: useSiteStore })
