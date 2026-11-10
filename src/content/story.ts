@@ -4,8 +4,17 @@ import type { Locale } from '@/i18n/locale'
  * The author's own story, verbatim in Arabic (never edit the Arabic text without her approval).
  * The English column is OUR draft translation, labelled as such in the UI.
  */
-export interface Spread {
+export interface Scene {
+  /** Full-bleed picture of the scene (16:9) and its small thumbnail. */
   img: string
+  thumb: string
+  /** Short silent film clip of the same scene, when one exists (the picture "comes alive"). */
+  clip?: string
+  /** Our own chapter label (not part of the author's text). */
+  title: { ar: string; en: string }
+  /** One line of the author's text (verbatim excerpt) used as the film caption. */
+  cue: { ar: string; en: string }
+  /** The author's text for this scene, verbatim, paragraph by paragraph. */
   ar: string[]
   en: string[]
 }
@@ -15,9 +24,19 @@ export const story = {
   title: { ar: 'أوراق الخريف والطيور المهاجرة', en: 'Autumn Leaves and the Migrating Birds' },
   kicker: { ar: 'قصة الخريف', en: 'An autumn story' },
   cover: 'story/cover.webp',
-  spreads: [
+  coverThumb: 'story/cover-sm.webp',
+  /** One-line summary written by us for the shelf (not the author's text). */
+  blurb: {
+    ar: 'ساري وأمير يلعبان لعبة الأسماء الورقية في ساحة الروضة، فتأتي الريح وتغيّر اللعبة كلّها.',
+    en: 'Sari and Amir are playing the paper-names game in the kindergarten yard when the wind arrives and changes the whole game.',
+  },
+  scenes: [
     {
-      img: 'story/01.webp',
+      img: 'story/k01.webp',
+      thumb: 'story/k01-sm.webp',
+      clip: 'film/c01.mp4',
+      title: { ar: 'في الصف', en: "In class" },
+      cue: { ar: "كان ساري طفلاً مليئًا بالحيوية والنشاط.", en: "Sari was a boy full of life and energy." },
       ar: [
         'كان ساري طفلاً مليئًا بالحيوية والنشاط. في كل صباح، بالكاد يستطيع الجلوس في مكانه داخل الصف، تتحرك قدماه باستمرار، ويتنقل بنظره بين النوافذ والكتب. لاحظت المعلمة ليلى ذلك، وفهمت أن ساري بحاجة إلى تفريغ طاقاته قبل أن يتمكن من التركيز.',
         '"ساري، أمير، لماذا لا تخرجان إلى الساحة لبضع دقائق؟" قالت المعلمة بابتسامة. "يمكنكما الركض قليلاً، ثم العودة حين تشعران بأنكما مستعدان."',
@@ -28,7 +47,10 @@ export const story = {
       ],
     },
     {
-      img: 'story/02.webp',
+      img: 'story/k02.webp',
+      thumb: 'story/k02-sm.webp',
+      title: { ar: 'إلى الساحة', en: "Out to the yard" },
+      cue: { ar: "وأرادا أن يلعبا لعبة الأسماء الورقية في ساحة صفّ البستان", en: "They wanted to play the paper-names game in the kindergarten yard." },
       ar: [
         'ابتسم الصديقان بعد أن أذنت المعلّمة لهما بالخروج وأرادا أن يلعبا لعبة الأسماء الورقية في ساحة صفّ البستان، فخرجا ورتّبا على الأرض الأوراق الّتي كتبت عليها أسماء تلاميذ الصفّ. وكل منهما ينتظر دوره بفارغ الصبر.',
         'بدأ ساري دوره في قلب الأوراق والتعرّف على الأسماء المكتوبة',
@@ -39,7 +61,10 @@ export const story = {
       ],
     },
     {
-      img: 'story/03.webp',
+      img: 'story/k03.webp',
+      thumb: 'story/k03-sm.webp',
+      title: { ar: 'انتظر دورك', en: "Wait your turn" },
+      cue: { ar: "أمير، يا صديقي! لا تستعجل! يجب أن تنتظر دورك.", en: "Amir, my friend! Don't rush! You have to wait your turn." },
       ar: [
         'أمير، وهو متحمّس جدًا، حاول قلب إحدى الأوراق قبل أن يحين دوره. رفع ساري حاجبيه وقال بمرح:',
         '- "أمير، يا صديقي! لا تستعجل! يجب أن تنتظر دورك. ألا ترى أنني أواجه تحديًا في قلب ورقتي؟"',
@@ -50,7 +75,11 @@ export const story = {
       ],
     },
     {
-      img: 'story/04.webp',
+      img: 'story/k04.webp',
+      thumb: 'story/k04-sm.webp',
+      clip: 'film/c04.mp4',
+      title: { ar: 'النفخ!', en: "Blowing!" },
+      cue: { ar: "نفخ ونفخ حتى احمرّ خداه، وبقي ينفخ حتى انقلبت الورقة أخيرًا", en: "He blew and blew until his cheeks turned red, and the paper finally flipped." },
       ar: [
         'انتظر أمير حتى يحين دوره، وهو الذي لا يحب الإنتظار، اثناء ذلك ابتكر طريقة جديدة، وقال بابتسامة ماكرة:',
         '- "حسناً، سأستخدم طريقة جديدة.. النفخ!"',
@@ -65,7 +94,10 @@ export const story = {
       ],
     },
     {
-      img: 'story/05.webp',
+      img: 'story/k05.webp',
+      thumb: 'story/k05-sm.webp',
+      title: { ar: 'عصا ساري', en: "Sari's stick" },
+      cue: { ar: "ضرب ساري الأرض بلطف بعصاه و\"هوب!\" انقلبت الورقة", en: "Sari tapped the ground gently with his stick and — hop! — the paper flipped." },
       ar: [
         'ضحك ساري وقال:',
         '- "يا لك من ذكي يا أمير! حان دوري الآن، وسأريك حيلة جديدة."',
@@ -82,7 +114,11 @@ export const story = {
       ],
     },
     {
-      img: 'story/06.webp',
+      img: 'story/k06.webp',
+      thumb: 'story/k06-sm.webp',
+      clip: 'film/c06.mp4',
+      title: { ar: 'الريح تلعب', en: "The wind plays" },
+      cue: { ar: "هبّت ريح مفاجئة، وأطاحت بكل الأوراق في الهواء.", en: "A sudden wind rose and tossed all the papers into the air." },
       ar: [
         'بينما كان أمير يستعد للنفخ مجددًا، في هذه اللحظة، هبّت ريح مفاجئة، وأطاحت بكل الأوراق في الهواء. طارت الأوراق فوق رؤوسهما، وحاول أمير التقاطها وأخذ يقفز بشكل مضحك. صاح أمير وهو يضحك ويركض خلف الأوراق المتطايرة:',
         '- "واو! الرياح تلعب معنا',
@@ -93,7 +129,10 @@ export const story = {
       ],
     },
     {
-      img: 'story/07.webp',
+      img: 'story/k07.webp',
+      thumb: 'story/k07-sm.webp',
+      title: { ar: 'ورقة شجر', en: "A tree leaf" },
+      cue: { ar: "أمسكت بورقة! لكنها ليست ورقة اللعبة.. إنها ورقة شجر!", en: "I caught one! But it isn't a game paper… it's a tree leaf!" },
       ar: [
         'هرع ساري لمساعدة صديقه وهما يقفزان ويقهقهان بينما الرياح تلعب معهما. أمسك أمير بورقة هبطت على رأسه:',
         '- هيييي.. أمسكت بورقة! لكنها ليست ورقة اللعبة.. إنها ورقة شجر!',
@@ -104,7 +143,11 @@ export const story = {
       ],
     },
     {
-      img: 'story/08.webp',
+      img: 'story/k08.webp',
+      thumb: 'story/k08-sm.webp',
+      clip: 'film/c08.mp4',
+      title: { ar: 'مثل المطر', en: "Like rain" },
+      cue: { ar: "إنها جميلة، إنها تسقط مثل المطر.", en: "They're beautiful. They fall like rain." },
       ar: [
         'أخذ ساري الورقة وتفحصها:',
         '- إنها تذكرني بالأنشودة التي أنشدناها صباح اليوم مع معلمتنا، ثم بدأ يدندن: "اصفرّت أوراق الشجر في فصل الخريف، والشجر صابه ضجر ما عاد في حفيف.."',
@@ -121,7 +164,10 @@ export const story = {
       ],
     },
     {
-      img: 'story/09.webp',
+      img: 'story/k09.webp',
+      thumb: 'story/k09-sm.webp',
+      title: { ar: 'تعالوا وانظروا', en: "Come and see" },
+      cue: { ar: "وكأن الطبيعة كانت ترسم لوحةً خاصة لهم.", en: "It was as if nature were painting a picture just for them." },
       ar: [
         'قررا الصديقان استدعاء المعلمة والطلاب ليشاهدوا المنظر معًا. وما إن خرجت المعلمة والتلاميذ حتى أُعجبوا جميعًا بالمنظر الخلاب.',
         'وكأن الطبيعة كانت ترسم لوحةً خاصة لهم. اندفع الطلاب يجمعون أوراق الشجر ذات الألوان، الأحجام والأشكال المتعددة، وبدأت الأفكار تتدفق في أذهانهم.',
@@ -132,7 +178,10 @@ export const story = {
       ],
     },
     {
-      img: 'story/10.webp',
+      img: 'story/k10.webp',
+      thumb: 'story/k10-sm.webp',
+      title: { ar: 'تيجان وأبراج', en: "Crowns and towers" },
+      cue: { ar: "يصنعون تيجانًا تشبه تيجان الملوك.", en: "Making crowns like the crowns of kings." },
       ar: [
         'بدأ بعض الطلاب بوضع الأوراق على رؤوسهم، يصنعون تيجانًا تشبه تيجان الملوك. آخرون بنوا أبراجًا من الأوراق، وكأنهم يشيدون قصورًا خيالية من عالم بعيد.',
       ],
@@ -141,7 +190,11 @@ export const story = {
       ],
     },
     {
-      img: 'story/11.webp',
+      img: 'story/k11.webp',
+      thumb: 'story/k11-sm.webp',
+      clip: 'film/c11.mp4',
+      title: { ar: 'قارب من ورق', en: "A boat of leaves" },
+      cue: { ar: "يبحران في نهر سحري وسط غابة خريفية، حيث الأشجار تتحدث والطيور تغني.", en: "Sailing down a magic river through an autumn forest where the trees talk and the birds sing." },
       ar: [
         'أما ساري وأمير، فقد ابتكرا قاربًا ومجاذيف من الأوراق، وراحا يتخيلان أنهما يبحران في نهر سحري وسط غابة خريفية، حيث الأشجار تتحدث والطيور تغني.',
         '- انظر يا أمير! ماذا لو تحولت الأوراق إلى طيور صغيرة ملونة؟ قال ساري بابتسامة وهو يمد يده ليحاكي الطيران.',
@@ -154,7 +207,11 @@ export const story = {
       ],
     },
     {
-      img: 'story/12.webp',
+      img: 'story/k12.webp',
+      thumb: 'story/k12-sm.webp',
+      clip: 'film/c12.mp4',
+      title: { ar: 'الطيور المهاجرة', en: "The migrating birds" },
+      cue: { ar: "انظروا يا أحبتي! أسراب الطيور المهاجرة.", en: "Look, my dears! Flocks of migrating birds." },
       ar: [
         'في هذه اللحظة، قالت المعلمة وهي تشير إلى السماء:',
         '- انظروا يا أحبتي! أسراب الطيور المهاجرة. تعالوا، ودّعوها وهي تغادر البلاد.',
@@ -174,7 +231,8 @@ export const story = {
         'The teacher smiled, patted his shoulder and said: "Thank you both for sharing these wonderful moments with us."',
       ],
     },
-  ] as Spread[],
+  ] as Scene[],
 }
 
-export const spreadText = (s: Spread, l: Locale) => (l === 'ar' ? s.ar : s.en)
+export const sceneText = (s: Scene, l: Locale) => (l === 'ar' ? s.ar : s.en)
+export const SCENES = story.scenes.length

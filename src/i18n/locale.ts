@@ -22,6 +22,9 @@ export const rtl = locale === 'ar'
 /** +1 when the reading direction is left→right, −1 when right→left. */
 export const dirSign = rtl ? -1 : 1
 
+/** Numbers in the reader's own digits (Arabic-Indic for Arabic). */
+export const num = (n: number) => new Intl.NumberFormat(locale === 'ar' ? 'ar-EG' : 'en-US', { useGrouping: false }).format(n)
+
 if (typeof document !== 'undefined') {
   document.documentElement.lang = locale
   document.documentElement.dir = rtl ? 'rtl' : 'ltr'

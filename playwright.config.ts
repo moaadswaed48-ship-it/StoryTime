@@ -1,5 +1,7 @@
 import { defineConfig, devices } from '@playwright/test'
 
+// ST_DEV=1 → run against the shared dev server (feature demo pages); otherwise against the production preview build.
+const dev = !!process.env.ST_DEV
 export default defineConfig({
   testDir: 'tests/e2e',
   timeout: 90_000,
@@ -7,8 +9,12 @@ export default defineConfig({
   retries: 0,
   workers: 1,
   reporter: [['list']],
-  use: { baseURL: 'http://localhost:4173/', trace: 'retain-on-failure' },
-  webServer: { command: 'npx vite preview --host 0.0.0.0 --port 4173 --strictPort', url: 'http://localhost:4173/', reuseExistingServer: true, timeout: 60_000 },
+  use: {
+    baseURL: dev ? 'http://localhost:5173/' : 'http://localhost:4173/',
+    trace: 'off',
+    launchOptions: { args: ['--use-gl=angle', '--use-angle=swiftshader', '--enable-unsafe-swiftshader', '--ignore-gpu-blocklist', '--autoplay-policy=no-user-gesture-required'] },
+  },
+  webServer: dev ? undefined : { command: 'npx vite preview --host 0.0.0.0 --port 4173 --strictPort', url: 'http://localhost:4173/', reuseExistingServer: true, timeout: 60_000 },
   projects: [
     { name: 'desktop', use: { viewport: { width: 1440, height: 900 } } },
     { name: 'mobile', use: { ...devices['iPhone 13'], defaultBrowserType: 'chromium', browserName: 'chromium', hasTouch: true } },

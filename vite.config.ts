@@ -7,13 +7,20 @@ export default defineConfig({
   plugins: [react(), tailwindcss()],
   base: process.env.VITE_BASE ?? '/',
   resolve: { alias: { '@': fileURLToPath(new URL('./src', import.meta.url)) } },
-  assetsInclude: ['**/*.hdr'],
   server: { host: true },
+  // Pre-bundle everything a feature may import so the shared dev server never reloads mid-session.
+  optimizeDeps: {
+    include: [
+      'react', 'react-dom', 'react-dom/client', 'zustand', 'clsx', 'lucide-react', 'lenis', 'lenis/react',
+      'gsap', 'gsap/ScrollTrigger', 'gsap/SplitText', 'gsap/Flip', 'gsap/Draggable', 'gsap/Observer', 'gsap/InertiaPlugin', '@gsap/react',
+      'three', 'three/examples/jsm/utils/SkeletonUtils.js', '@react-three/fiber', '@react-three/drei', 'maath', 'maath/easing', '@use-gesture/react',
+    ],
+  },
   build: {
     target: 'es2022',
-    chunkSizeWarningLimit: 700,
-    // three.js / R3F are only ever imported dynamically (after the hero paints) — never preload them from the HTML.
-    modulePreload: { resolveDependencies: (_file, deps) => deps.filter((d) => !/\/(three|r3f|Scene|HeroView|ShelfView|coverAtlas)-/.test(d)) },
+    chunkSizeWarningLimit: 900,
+    // three.js / R3F are only imported by lazily mounted 3D features — never preload them from the HTML.
+    modulePreload: { resolveDependencies: (_file, deps) => deps.filter((d) => !/\/(three|r3f)-/.test(d)) },
     rolldownOptions: {
       output: {
         codeSplitting: {

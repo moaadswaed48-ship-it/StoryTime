@@ -1,37 +1,28 @@
 @import 'tailwindcss';
 
-@font-face {
-  font-family: 'Manrope Variable';
-  font-style: normal;
-  font-display: swap;
-  font-weight: 200 800;
-  src: url('/fonts/manrope-latin-wght-normal.woff2') format('woff2-variations');
-}
-@font-face {
-  font-family: 'Instrument Serif';
-  font-style: italic;
-  font-display: swap;
-  font-weight: 400;
-  src: url('/fonts/instrument-serif-latin-400-italic.woff2') format('woff2');
-}
-
+/* ─────────────────────────────────────────────────────────────────────────────
+   StoryTime design tokens. The film carries the colour; the UI stays quiet.
+   One accent (maple). Two families: Rubik (display + UI, covers Arabic/Latin/
+   Hebrew/Cyrillic) and Noto Naskh Arabic (story text).
+   ───────────────────────────────────────────────────────────────────────────── */
 @theme {
-  --color-ink: #0f1216;
-  --color-ink-soft: #2a3038;
-  --color-body: #5f6670;
-  --color-paper: #f6f1e8;
-  --color-paper-deep: #ece4d6;
-  --color-haze: #dfe8ee;
-  --color-moss: #4c6630; /* 5.7:1 on paper, 6.2:1 on haze */
-  --color-valley: #9db86f;
-  --color-monarch: #f28c28;
-  --color-poppy: #e0442c;
-  --color-leaf: #2bb673;
-  --font-sans: 'Manrope Variable', ui-sans-serif, system-ui, sans-serif;
-  --font-accent: 'Instrument Serif', Georgia, 'Times New Roman', serif;
-  --radius-card: 20px;
-  --ease-out-strong: cubic-bezier(0.22, 1, 0.36, 1);
-  --ease-in-out-strong: cubic-bezier(0.65, 0, 0.35, 1);
+  --color-night: #120c08; /* page ground: the film's shadow colour */
+  --color-night-2: #1e150e;
+  --color-night-3: #2b1f15;
+  --color-paper: #f6f0e4; /* light sections: warm paper */
+  --color-paper-2: #ece2d0;
+  --color-ink: #1a120b;
+  --color-ink-2: #43362a;
+  --color-muted: #7d6e5e;
+  --color-maple: #d9541e; /* the single accent */
+  --color-maple-soft: #f4a35e; /* the same accent, tinted for dark surfaces */
+  --font-sans: 'Rubik Variable', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-story: 'Noto Naskh Arabic', 'Rubik Variable', Georgia, serif;
+  --radius-card: 28px;
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-out-2: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-state: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 @layer base {
@@ -39,186 +30,238 @@
     font-synthesis: none;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
     scroll-behavior: auto;
-    background: var(--color-haze);
+    background: var(--color-night);
   }
   body {
     font-family: var(--font-sans);
-    color: var(--color-ink);
-    background: var(--color-haze);
+    color: var(--color-paper);
+    background: var(--color-night);
     overflow-x: clip;
   }
+  /* Arabic letters must stay joined: never track them. */
+  html[lang='ar'] * {
+    letter-spacing: 0 !important;
+  }
   :focus-visible {
-    outline: 3px solid var(--color-moss);
+    outline: 3px solid var(--color-maple-soft);
     outline-offset: 3px;
-    border-radius: 6px;
+    border-radius: 8px;
   }
   ::selection {
-    background: color-mix(in oklab, var(--color-monarch) 35%, white);
+    background: color-mix(in oklab, var(--color-maple) 45%, transparent);
+    color: #fff;
   }
-  em.accent {
-    font-family: var(--font-accent);
-    font-style: italic;
-    font-weight: 400;
-    letter-spacing: -0.01em;
+  button {
+    cursor: pointer;
+  }
+  img,
+  video {
+    display: block;
   }
 }
 
-/* Hero photograph (LCP) — positioned under the hero section, outside the React root */
-#hero-plate {
-  position: absolute;
-  inset: 0 auto auto 0;
-  width: 100%;
-  height: 100svh;
-  min-height: 640px;
-  overflow: hidden;
-  z-index: 0;
-  background: url('/hero/hero-blur.webp') center / cover no-repeat var(--color-haze);
-  --hero-focus: 100% 55%;
+/* ── Type roles ─────────────────────────────────────────────────────────────── */
+.t-mega {
+  font-weight: 900;
+  font-size: clamp(3.2rem, 15vw, 15rem);
+  line-height: 0.86;
+  letter-spacing: -0.04em;
 }
-#hero-plate picture,
-#hero-plate img {
-  display: block;
-  width: 100%;
-  height: 100%;
+.t-display {
+  font-weight: 800;
+  font-size: clamp(2.5rem, 7.4vw, 6.75rem);
+  line-height: 0.98;
+  letter-spacing: -0.03em;
+  text-wrap: balance;
 }
-#hero-plate img {
-  object-fit: cover;
-  object-position: var(--hero-focus);
-  transform-origin: 50% 40%;
-  will-change: transform;
+.t-h2 {
+  font-weight: 700;
+  font-size: clamp(2rem, 4.6vw, 4rem);
+  line-height: 1.04;
+  letter-spacing: -0.025em;
+  text-wrap: balance;
 }
-@media (max-width: 1023px) {
-  #hero-plate {
-    --hero-focus: 85% 45%;
+.t-h3 {
+  font-weight: 700;
+  font-size: clamp(1.25rem, 2vw, 1.75rem);
+  line-height: 1.2;
+}
+.t-lede {
+  font-size: clamp(1rem, 1.35vw, 1.2rem);
+  line-height: 1.6;
+}
+.t-label {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+/* Arabic needs taller lines (marks above and below) and has no capitals. */
+html[lang='ar'] .t-mega {
+  line-height: 1.02;
+}
+html[lang='ar'] .t-display {
+  line-height: 1.16;
+}
+html[lang='ar'] .t-h2 {
+  line-height: 1.22;
+}
+html[lang='ar'] .t-label {
+  font-size: 13.5px;
+}
+.font-story {
+  font-family: var(--font-story);
+}
+html[lang='en'] .font-story {
+  font-family: Georgia, 'Times New Roman', serif;
+}
+
+/* ── The one material: liquid glass (nav, chips, secondary buttons, cards over film) ── */
+.glass {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.08));
+  -webkit-backdrop-filter: blur(18px) saturate(150%);
+  backdrop-filter: blur(18px) saturate(150%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.45),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.16),
+    0 10px 34px rgba(0, 0, 0, 0.2);
+}
+.glass-ink {
+  background: linear-gradient(180deg, rgba(26, 18, 11, 0.62), rgba(26, 18, 11, 0.46));
+  -webkit-backdrop-filter: blur(18px) saturate(140%);
+  backdrop-filter: blur(18px) saturate(140%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.14),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.08),
+    0 10px 34px rgba(0, 0, 0, 0.3);
+}
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .glass {
+    background: rgba(60, 40, 22, 0.72);
   }
 }
-/* Haze scrim so the copy column stays legible over the valley (mirrors the reference's bright left side) */
-#hero-plate::after {
+.shadow-soft {
+  box-shadow: 0 4px 16px rgba(26, 18, 11, 0.08);
+}
+.shadow-lift {
+  box-shadow:
+    0 1px 2px rgba(26, 18, 11, 0.1),
+    0 6px 12px rgba(26, 18, 11, 0.08),
+    0 22px 44px rgba(26, 18, 11, 0.14);
+}
+.text-on-film {
+  text-shadow: 0 2px 18px rgba(0, 0, 0, 0.42);
+}
+.display-on-film {
+  text-shadow: 0 16px 38px rgba(0, 0, 0, 0.32);
+}
+
+/* Film grain: unifies footage and UI, kills banding. */
+.grain::after {
   content: '';
   position: absolute;
   inset: 0;
   pointer-events: none;
-  background:
-    radial-gradient(120% 90% at 18% 48%, rgba(223, 232, 238, 0.82) 0%, rgba(223, 232, 238, 0.55) 32%, rgba(223, 232, 238, 0) 62%),
-    linear-gradient(to top, rgba(223, 232, 238, 0.55) 0%, rgba(223, 232, 238, 0) 28%);
-}
-@media (max-width: 1023px) {
-  #hero-plate::after {
-    background:
-      linear-gradient(to top, rgba(223, 232, 238, 0.98) 0%, rgba(223, 232, 238, 0.86) 34%, rgba(223, 232, 238, 0.35) 58%, rgba(223, 232, 238, 0) 78%);
-  }
-}
-@media (max-width: 767px) {
-  #hero-plate {
-    min-height: 560px;
-    --hero-focus: 80% 40%;
-  }
+  opacity: 0.09;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
 }
 
-/* Glass surfaces (max two with blur on desktop; solid on touch for fill-rate) */
-.glass {
-  background: rgba(255, 255, 255, 0.72);
-  border: 1px solid rgba(255, 255, 255, 0.5);
-  border-radius: var(--radius-card);
-  box-shadow: 0 10px 40px rgba(16, 20, 24, 0.08);
-}
-@media (hover: hover) and (pointer: fine) {
-  .glass-blur {
-    backdrop-filter: blur(18px);
-    -webkit-backdrop-filter: blur(18px);
-  }
-}
-@media not ((hover: hover) and (pointer: fine)) {
-  .glass {
-    background: rgba(255, 255, 255, 0.92);
-  }
-}
-
-/* drei View targets: empty, above the fixed canvas, pointer targets */
-.view-target {
+/* Sheet transition: the next section slides over the previous one with rounded shoulders. */
+.sheet {
   position: relative;
   z-index: 10;
+  border-radius: 44px 44px 0 0;
+  margin-top: -44px;
 }
-
-/* Scroll reveals are only hidden when JS has set them up */
-[data-reveal] {
-  will-change: transform, opacity;
-}
-
-html[data-reduce-motion] *,
-html[data-reduce-motion] *::before,
-html[data-reduce-motion] *::after {
-  animation-duration: 0.01ms !important;
-  animation-iteration-count: 1 !important;
-  transition-duration: 0.15s !important;
-  scroll-behavior: auto !important;
-}
-
-/* Native dialog */
-dialog::backdrop {
-  background: rgba(16, 20, 24, 0.22);
-}
-@media (max-width: 1023px) {
-  dialog::backdrop {
-    background: rgba(16, 20, 24, 0.4);
+@media (max-width: 640px) {
+  .sheet {
+    border-radius: 28px 28px 0 0;
+    margin-top: -28px;
   }
 }
-dialog[open] {
-  animation: dialog-in 0.26s var(--ease-out-strong);
+
+/* ── Motion primitives ──────────────────────────────────────────────────────── */
+/* Per-word blur-in headline. Rest state is visible; JS adds .is-armed then .is-in. */
+.blur-words .w {
+  display: inline-block;
+  will-change: transform, filter, opacity;
 }
-@keyframes dialog-in {
+.blur-words.is-armed .w {
+  opacity: 0;
+  filter: blur(12px);
+  transform: translateY(0.35em);
+}
+.blur-words.is-in .w {
+  opacity: 1;
+  filter: blur(0);
+  transform: none;
+  transition:
+    opacity 0.9s var(--ease-out),
+    filter 0.9s var(--ease-out),
+    transform 0.9s var(--ease-out);
+  transition-delay: calc(var(--i) * 90ms + var(--d, 0ms));
+}
+/* In-view fade-up. */
+.reveal.is-armed {
+  opacity: 0;
+  transform: translateY(28px);
+}
+.reveal.is-in {
+  opacity: 1;
+  transform: none;
+  transition:
+    opacity 0.8s var(--ease-out),
+    transform 0.8s var(--ease-out);
+  transition-delay: var(--d, 0ms);
+}
+@keyframes overlay-in {
   from {
     opacity: 0;
-    transform: translateY(16px) scale(0.985);
+    transform: scale(0.985);
   }
   to {
     opacity: 1;
     transform: none;
   }
 }
-
-/* ───────────── Arabic / RTL ───────────── */
-html[lang='ar'] body {
-  font-family: 'Tajawal', 'Manrope Variable', system-ui, sans-serif;
-  letter-spacing: 0 !important;
+.overlay-in {
+  animation: overlay-in 0.42s var(--ease-out);
 }
-html[lang='ar'] * {
-  letter-spacing: 0 !important;
-}
-html[lang='ar'] em.accent,
-html[lang='ar'] .font-display {
-  font-family: 'Marhey Variable', 'Tajawal', sans-serif;
-  font-style: normal;
-  font-weight: 600;
-}
-html[lang='ar'] .hero-title {
-  line-height: 1.25;
-}
-.font-display {
-  font-family: var(--font-accent);
-  font-style: italic;
-}
-.font-story {
-  font-family: 'Noto Naskh Arabic', 'Tajawal', serif;
-}
-html[lang='en'] .font-story {
-  font-family: Georgia, 'Times New Roman', serif;
-}
-html[dir='rtl'] #hero-plate picture {
-  transform: scaleX(-1);
-}
-html[dir='rtl'] #hero-plate::after {
-  transform: scaleX(-1);
-}
-html[dir='rtl'] .flip-rtl {
-  transform: scaleX(-1);
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
-/* Language switch: the whole page turns like a leaf */
+/* Reduced motion: final states, no smoothing. */
+html[data-reduce-motion] *,
+html[data-reduce-motion] *::before,
+html[data-reduce-motion] *::after {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
+  transition-delay: 0ms !important;
+  scroll-behavior: auto !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  .blur-words.is-armed .w,
+  .reveal.is-armed {
+    opacity: 1;
+    filter: none;
+    transform: none;
+  }
+}
+
+/* Language switch: the whole page turns like a leaf. */
 html.lang-turn body {
   transform-origin: 0 50%;
-  animation: lang-turn 0.55s var(--ease-in-out-strong) forwards;
+  animation: lang-turn 0.55s var(--ease-state) forwards;
 }
 html[dir='rtl'].lang-turn body {
   transform-origin: 100% 50%;
@@ -229,146 +272,6 @@ html[dir='rtl'].lang-turn body {
     opacity: 0;
   }
 }
-
-/* ───────────── The book (CSS 3D) ───────────── */
-.book {
-  position: relative;
-  perspective: 2400px;
-  transform-style: preserve-3d;
-}
-.leaf {
-  position: absolute;
-  top: 0;
-  width: 50%;
-  height: 100%;
-  transform-style: preserve-3d;
-  transition: transform 0.95s cubic-bezier(0.3, 0.1, 0.2, 1);
-  inset-inline-end: 0;
-  transform-origin: left center;
-}
-html[dir='rtl'] .leaf {
-  transform-origin: right center;
-}
-.leaf.is-flipped {
-  transform: rotateY(-180deg);
-}
-html[dir='rtl'] .leaf.is-flipped {
-  transform: rotateY(180deg);
-}
-.face {
-  position: absolute;
-  inset: 0;
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
-  overflow: hidden;
-  background: #fbf6ea;
-  border-radius: 4px 14px 14px 4px;
-  box-shadow: inset 18px 0 28px -18px rgba(60, 40, 10, 0.35);
-}
-html[dir='rtl'] .face {
-  border-radius: 14px 4px 4px 14px;
-  box-shadow: inset -18px 0 28px -18px rgba(60, 40, 10, 0.35);
-}
-.face.back {
-  transform: rotateY(180deg);
-  border-radius: 14px 4px 4px 14px;
-  box-shadow: inset -18px 0 28px -18px rgba(60, 40, 10, 0.35);
-}
-html[dir='rtl'] .face.back {
-  border-radius: 4px 14px 14px 4px;
-  box-shadow: inset 18px 0 28px -18px rgba(60, 40, 10, 0.35);
-}
-.paper {
-  background:
-    radial-gradient(120% 80% at 50% 0%, rgba(255, 255, 255, 0.7), transparent 60%),
-    #fbf6ea;
-}
-.story-text p {
-  margin-block: 0 0.7em;
-}
-.story-text .w {
-  border-radius: 6px;
-  padding-inline: 1px;
-  transition: background-color 0.2s, color 0.2s;
-  cursor: pointer;
-}
-.story-text .w.on {
-  background: #ffd98a;
-  color: #7a2e00;
-}
-
-/* single-page mode (phones) */
-.sheet {
-  position: absolute;
-  inset: 0;
-  transform-origin: left center;
-  transition: transform 0.75s cubic-bezier(0.3, 0.1, 0.2, 1), opacity 0.5s 0.25s;
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
-}
-html[dir='rtl'] .sheet {
-  transform-origin: right center;
-}
-.sheet.is-gone {
-  transform: perspective(1800px) rotateY(-115deg);
-  opacity: 0;
-  pointer-events: none;
-}
-html[dir='rtl'] .sheet.is-gone {
-  transform: perspective(1800px) rotateY(115deg);
-}
-
-/* pop-ups that rise from the page */
-.popup {
-  position: absolute;
-  bottom: 0;
-  transform-origin: 50% 100%;
-  transform: perspective(700px) rotateX(88deg);
-  opacity: 0;
-  transition: transform 0.9s cubic-bezier(0.2, 1.4, 0.4, 1), opacity 0.3s;
-  pointer-events: none;
-  filter: drop-shadow(0 6px 6px rgba(60, 30, 0, 0.3));
-}
-.is-active .popup {
-  transform: perspective(700px) rotateX(0deg);
-  opacity: 1;
-}
-.popup svg {
-  animation: sway 3.6s ease-in-out infinite alternate;
-  transform-origin: 50% 100%;
-}
-@keyframes sway {
-  from {
-    transform: rotate(-5deg);
-  }
-  to {
-    transform: rotate(6deg);
-  }
-}
-@keyframes kenburns-a {
-  from {
-    transform: scale(1.02) translate(0, 0);
-  }
-  to {
-    transform: scale(1.16) translate(-2%, -2%);
-  }
-}
-@keyframes kenburns-b {
-  from {
-    transform: scale(1.16) translate(2%, 1%);
-  }
-  to {
-    transform: scale(1.03) translate(0, 0);
-  }
-}
-@keyframes float-y {
-  from {
-    transform: translateY(0);
-  }
-  to {
-    transform: translateY(-10px);
-  }
-}
-.overlay-in {
-  animation: dialog-in 0.35s var(--ease-out-strong);
+html[dir='rtl'] .flip-rtl {
+  transform: scaleX(-1);
 }

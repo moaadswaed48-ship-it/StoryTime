@@ -6,6 +6,7 @@ import { SplitText } from 'gsap/SplitText'
 import { useGSAP } from '@gsap/react'
 import { useSiteStore } from '@/store/useSiteStore'
 import { useMotionTier } from './useMotionTier'
+import { exposeQA } from '@/lib/qa'
 
 gsap.registerPlugin(ScrollTrigger, SplitText, useGSAP)
 
@@ -19,6 +20,7 @@ function LenisTicker() {
   useEffect(() => {
     if (!lenis) return
     setLenis(lenis)
+    exposeQA({ lenis })
     const onScroll = () => ScrollTrigger.update()
     lenis.on('scroll', onScroll)
     const tick = (t: number) => lenis.raf(t * 1000)

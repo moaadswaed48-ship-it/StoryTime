@@ -9,3 +9,9 @@ playwright-report
 .env
 .env.*
 assets-src/story/*.png
+
+# third-party skill with its own media/examples licence — kept local, not redistributed
+.claude/skills/motionsites-web-builder/
+# generated originals (large)
+assets-src/film/
+qa/out/

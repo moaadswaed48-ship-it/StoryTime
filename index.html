@@ -3,44 +3,19 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-    <meta name="theme-color" content="#dfe8ee" />
+    <meta name="theme-color" content="#120c08" />
     <title>وقت الحكاية · StoryTime</title>
     <script>try{var l=new URLSearchParams(location.search).get("lang")||localStorage.getItem("st:lang");if(l==="en"){document.documentElement.lang="en";document.documentElement.dir="ltr"}}catch(e){}</script>
-    <meta name="description" content="وقت الحكاية — قصص تفاعلية لأطفال الروضة: اقرأ، شاهد، العب. StoryTime: interactive stories for ages 3–6." />
-    <meta property="og:title" content="وقت الحكاية · StoryTime" />
-    <meta property="og:description" content="أوراق الخريف والطيور المهاجرة — كتاب حيّ، فيلم قصير ولعبة." />
+    <meta name="description" content="وقت الحكاية — حكايات تُقرأ ككتاب حيّ، وتُشاهَد كفيلم، وتُلعَب كلعبة، لأطفال الروضة. StoryTime: stories to read, watch and play for ages 3–6." />
+    <meta property="og:title" content="أوراق الخريف والطيور المهاجرة · وقت الحكاية" />
+    <meta property="og:description" content="كتاب حيّ، فيلم قصير ولعبة — حكاية واحدة بثلاث طرق." />
     <meta property="og:image" content="og.jpg" />
     <meta property="og:type" content="website" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-    <link rel="preload" as="font" type="font/woff2" href="/fonts/manrope-latin-wght-normal.woff2" crossorigin />
-    <link
-      rel="preload"
-      as="image"
-      type="image/avif"
-      imagesrcset="/hero/hero-640.avif 640w, /hero/hero-1280.avif 1280w, /hero/hero-1920.avif 1920w, /hero/hero-2576.avif 2576w"
-      imagesizes="100vw"
-      fetchpriority="high"
-    />
+    <link rel="preload" as="image" href="/film/hero-poster.jpg" fetchpriority="high" />
+    <style>html,body{background:#120c08;margin:0}</style>
   </head>
   <body>
-    <!-- The hero photograph is the LCP element. It lives OUTSIDE #root so React never remounts it. -->
-    <div id="hero-plate" aria-hidden="true">
-      <picture>
-        <source type="image/avif" srcset="/hero/hero-640.avif 640w, /hero/hero-1280.avif 1280w, /hero/hero-1920.avif 1920w, /hero/hero-2576.avif 2576w" sizes="100vw" />
-        <source type="image/webp" srcset="/hero/hero-640.webp 640w, /hero/hero-1280.webp 1280w, /hero/hero-1920.webp 1920w, /hero/hero-2576.webp 2576w" sizes="100vw" />
-        <img
-          id="hero-img"
-          src="/hero/hero-1280.jpg"
-          srcset="/hero/hero-640.jpg 640w, /hero/hero-1280.jpg 1280w, /hero/hero-1920.jpg 1920w, /hero/hero-2576.jpg 2576w"
-          sizes="100vw"
-          width="2576"
-          height="1664"
-          alt=""
-          fetchpriority="high"
-          decoding="async"
-        />
-      </picture>
-    </div>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
