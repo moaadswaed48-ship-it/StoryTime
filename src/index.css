@@ -177,3 +177,198 @@ dialog[open] {
     transform: none;
   }
 }
+
+/* ───────────── Arabic / RTL ───────────── */
+html[lang='ar'] body {
+  font-family: 'Tajawal', 'Manrope Variable', system-ui, sans-serif;
+  letter-spacing: 0 !important;
+}
+html[lang='ar'] * {
+  letter-spacing: 0 !important;
+}
+html[lang='ar'] em.accent,
+html[lang='ar'] .font-display {
+  font-family: 'Marhey Variable', 'Tajawal', sans-serif;
+  font-style: normal;
+  font-weight: 600;
+}
+html[lang='ar'] .hero-title {
+  line-height: 1.25;
+}
+.font-display {
+  font-family: var(--font-accent);
+  font-style: italic;
+}
+.font-story {
+  font-family: 'Noto Naskh Arabic', 'Tajawal', serif;
+}
+html[lang='en'] .font-story {
+  font-family: Georgia, 'Times New Roman', serif;
+}
+html[dir='rtl'] #hero-plate picture {
+  transform: scaleX(-1);
+}
+html[dir='rtl'] #hero-plate::after {
+  transform: scaleX(-1);
+}
+html[dir='rtl'] .flip-rtl {
+  transform: scaleX(-1);
+}
+
+/* Language switch: the whole page turns like a leaf */
+html.lang-turn body {
+  transform-origin: 0 50%;
+  animation: lang-turn 0.55s var(--ease-in-out-strong) forwards;
+}
+html[dir='rtl'].lang-turn body {
+  transform-origin: 100% 50%;
+}
+@keyframes lang-turn {
+  to {
+    transform: perspective(1600px) rotateY(-75deg);
+    opacity: 0;
+  }
+}
+
+/* ───────────── The book (CSS 3D) ───────────── */
+.book {
+  position: relative;
+  perspective: 2400px;
+  transform-style: preserve-3d;
+}
+.leaf {
+  position: absolute;
+  top: 0;
+  width: 50%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.95s cubic-bezier(0.3, 0.1, 0.2, 1);
+  inset-inline-end: 0;
+  transform-origin: left center;
+}
+html[dir='rtl'] .leaf {
+  transform-origin: right center;
+}
+.leaf.is-flipped {
+  transform: rotateY(-180deg);
+}
+html[dir='rtl'] .leaf.is-flipped {
+  transform: rotateY(180deg);
+}
+.face {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  overflow: hidden;
+  background: #fbf6ea;
+  border-radius: 4px 14px 14px 4px;
+  box-shadow: inset 18px 0 28px -18px rgba(60, 40, 10, 0.35);
+}
+html[dir='rtl'] .face {
+  border-radius: 14px 4px 4px 14px;
+  box-shadow: inset -18px 0 28px -18px rgba(60, 40, 10, 0.35);
+}
+.face.back {
+  transform: rotateY(180deg);
+  border-radius: 14px 4px 4px 14px;
+  box-shadow: inset -18px 0 28px -18px rgba(60, 40, 10, 0.35);
+}
+html[dir='rtl'] .face.back {
+  border-radius: 4px 14px 14px 4px;
+  box-shadow: inset 18px 0 28px -18px rgba(60, 40, 10, 0.35);
+}
+.paper {
+  background:
+    radial-gradient(120% 80% at 50% 0%, rgba(255, 255, 255, 0.7), transparent 60%),
+    #fbf6ea;
+}
+.story-text p {
+  margin-block: 0 0.7em;
+}
+.story-text .w {
+  border-radius: 6px;
+  padding-inline: 1px;
+  transition: background-color 0.2s, color 0.2s;
+  cursor: pointer;
+}
+.story-text .w.on {
+  background: #ffd98a;
+  color: #7a2e00;
+}
+
+/* single-page mode (phones) */
+.sheet {
+  position: absolute;
+  inset: 0;
+  transform-origin: left center;
+  transition: transform 0.75s cubic-bezier(0.3, 0.1, 0.2, 1), opacity 0.5s 0.25s;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+html[dir='rtl'] .sheet {
+  transform-origin: right center;
+}
+.sheet.is-gone {
+  transform: perspective(1800px) rotateY(-115deg);
+  opacity: 0;
+  pointer-events: none;
+}
+html[dir='rtl'] .sheet.is-gone {
+  transform: perspective(1800px) rotateY(115deg);
+}
+
+/* pop-ups that rise from the page */
+.popup {
+  position: absolute;
+  bottom: 0;
+  transform-origin: 50% 100%;
+  transform: perspective(700px) rotateX(88deg);
+  opacity: 0;
+  transition: transform 0.9s cubic-bezier(0.2, 1.4, 0.4, 1), opacity 0.3s;
+  pointer-events: none;
+  filter: drop-shadow(0 6px 6px rgba(60, 30, 0, 0.3));
+}
+.is-active .popup {
+  transform: perspective(700px) rotateX(0deg);
+  opacity: 1;
+}
+.popup svg {
+  animation: sway 3.6s ease-in-out infinite alternate;
+  transform-origin: 50% 100%;
+}
+@keyframes sway {
+  from {
+    transform: rotate(-5deg);
+  }
+  to {
+    transform: rotate(6deg);
+  }
+}
+@keyframes kenburns-a {
+  from {
+    transform: scale(1.02) translate(0, 0);
+  }
+  to {
+    transform: scale(1.16) translate(-2%, -2%);
+  }
+}
+@keyframes kenburns-b {
+  from {
+    transform: scale(1.16) translate(2%, 1%);
+  }
+  to {
+    transform: scale(1.03) translate(0, 0);
+  }
+}
+@keyframes float-y {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-10px);
+  }
+}
+.overlay-in {
+  animation: dialog-in 0.35s var(--ease-out-strong);
+}

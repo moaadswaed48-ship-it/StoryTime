@@ -1,6 +1,6 @@
 import { useSiteStore } from '@/store/useSiteStore'
 import { writeReduceToggle } from '@/app/useMotionTier'
-import { site } from '@/content/loadBooks'
+import { t } from '@/i18n/copy'
 import { cn } from '@/lib/cn'
 
 export function MotionToggle({ className }: { className?: string }) {
@@ -21,7 +21,7 @@ export function MotionToggle({ className }: { className?: string }) {
       )}
     >
       <span className={cn('h-2.5 w-2.5 rounded-full transition-colors', on ? 'bg-leaf' : 'bg-ink/25')} aria-hidden />
-      {site.footer.reduceMotion}
+      {t.motion}
     </button>
   )
 }

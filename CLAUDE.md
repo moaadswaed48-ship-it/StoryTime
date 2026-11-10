@@ -1,23 +1,18 @@
 # StoryTime — project rules for Claude
 
-Vite 8 + React 19 + TypeScript 5.9 + Tailwind 4 · @react-three/fiber 9.8 + @react-three/drei 10.7 + three 0.186 · maath · @use-gesture/react · Lenis + GSAP (ScrollTrigger, SplitText) · zustand · zod.
-Not used on purpose: physics engines (rapier/cannon), drei ScrollControls, motion/framer-motion, WebGPU, CDN assets at runtime.
+Preview site for a children's storybook service (ages 3–6). Arabic (RTL) is the default; English is a one-tap switch.
+Vite 8 + React 19 + TS + Tailwind 4 · R3F 9 + drei 10 + three · GSAP (ScrollTrigger, SplitText) + Lenis · zustand.
 
 ## Hard rules
-1. **One canvas, one clock.** A single fixed, transparent `<Canvas>` (`eventSource` = `#page`, `eventPrefix="client"`, `frameloop="always"`) is lazy-mounted after the hero image decodes. Lenis runs on the prioritized GSAP ticker (`src/app/Providers.tsx`); never start a second rAF loop, never `ScrollTrigger.normalizeScroll`/`scrollerProxy`, never GSAP `pin:`. If `frameloop="never"` + `advance()` is ever used, pass SECONDS.
-2. **drei View invariants.** Every 3D moment is an inline `<View>` whose DOM element is EMPTY, has `position:relative; z-index:10`, and is the gesture target. Lights, `<Environment>`, shadows live INSIDE each View. Never `preserveDrawingBuffer`, never `scene.background`.
-3. **Fast values never touch React.** Scroll progress, pointer, the shelf sim, camera targets are mutable refs read in `useFrame`. Zustand holds phase/selection/filters only. Clamp `delta` to 1/30 in every `useFrame`.
-4. **DOM is the source of truth.** The hero `<picture>` in `index.html` is the LCP (it lives OUTSIDE `#root`); the shelf has a sr-only mirror list that becomes the visible no-WebGL fallback; page one is readable in a native `<dialog>`.
-5. **Seeded randomness only** (`src/lib/seeded.ts`); `maath/random` has no mulberry32.
-6. **Motion tiers** (`useMotionTier`): `full` | `low` | `reduced`. Reduced = no shuffle, no scrub, instant snaps, 200 ms opacity reveals. Create ScrollTriggers inside `useGSAP({ scope, dependencies: [tier] })`.
-7. Animate only transform/opacity/uniforms; max two `backdrop-filter` surfaces on desktop, none animated.
-8. Content lives in `content/books.json` + `content/site.json` (zod-validated in predev/prebuild). Never hard-code book data in components.
-
-## Which skill for what (vendored in .claude/skills)
-- Visual direction / tokens → `frontend-design` (the italic accent word and uppercase badge are mandated by the client reference — keep them)
-- Scroll choreography → `gsap-scrolltrigger`, `gsap-react`, `cinematic-gsap-lenis-motion-system`
-- R3F / three → `threejs-react-three-fiber`, `threejs-performance`, `r3f-interaction`, `webgl-landing-steering`
-- Micro-interaction timing → `emil-design-eng`; review passes → `review-animations`, `web-design-guidelines`, `build-awwwards-quality-sites`
+1. **The author's Arabic story text in `src/content/story.ts` is hers.** Never edit, "fix" or re-vowel it without the owner's say-so. The English column is our draft translation and is labelled as such.
+2. **One canvas, one clock.** A single fixed transparent `<Canvas>` (`src/three/Scene.tsx`); every 3D moment is a drei `<View>` (hero butterflies, `MascotView`, `GameView`) mounted through `src/three/Lazy3D.tsx`. Lenis runs on the GSAP ticker; no second rAF loop for 3D, no GSAP `pin:` (use CSS sticky — see `BookStage`).
+3. **View elements** carry `.view-target` (position:relative; z-index:10) — size them with `h-full w-full` inside a positioned parent, never `absolute inset-0` (it collapses to height 0).
+4. **The book is DOM/CSS 3D, not WebGL** (`src/components/reader/*`, `.book/.leaf/.sheet/.popup` in `src/index.css`) so Arabic text stays crisp and it works without WebGL. Wide screens: two-page leaves; phones: one turning sheet.
+5. **Locale** is resolved once per load in `src/i18n/locale.ts` (`?lang=`, localStorage); switching reloads. All copy lives in `src/i18n/copy.ts` (both languages must keep the same shape). Use logical CSS (`start/end`, `ms/me`), `dirSign` for mirrored motion.
+6. **Arabic typography:** never split text by characters, no letter-spacing, generous line-height; canvas text uses `direction='rtl'` after the font has loaded.
+7. Fast values stay in refs read in `useFrame`; clamp `delta` to 1/30. Motion tiers (`useMotionTier`) and the reduce-motion toggle must keep working.
+8. No invented prices, reviews or credentials. The login is a demo: prefilled, read-only, nothing is sent.
+9. Illustrations in `public/story/` were generated with Higgsfield from one character sheet (`assets-src/story/sheet.png`, not committed); regenerate with that sheet as the reference to keep faces consistent.
 
 ## Commands
-`npm run dev` · `npm run build && npm run preview` (QA always on the preview build) · `npm run validate` · `npm test` · `npm run qa:screens` · `npm run qa:e2e`
+`npm run dev` · `npm run build && npm run preview` · `npm run typecheck` · `npm test` · `npm run qa:e2e` · `node scripts/qa/shots.mjs ar|en` (screenshots into `qa/out`)

@@ -8,17 +8,9 @@
     "build": "tsc -p tsconfig.app.json --noEmit && vite build",
     "preview": "vite preview --host 0.0.0.0 --port 4173 --strictPort",
     "typecheck": "tsc -p tsconfig.app.json --noEmit",
-    "validate": "node scripts/validate-content.mjs",
-    "predev": "node scripts/validate-content.mjs",
-    "prebuild": "node scripts/validate-content.mjs",
     "test": "vitest run",
-    "qa:screens": "node scripts/qa/screens.mjs",
-    "qa:budget": "node scripts/qa/budget.mjs",
-    "qa:e2e": "playwright test",
-    "assets:hero": "node scripts/optimize-hero.mjs",
-    "assets:fetch": "node scripts/fetch-assets.mjs",
-    "assets:wings": "node scripts/bake-wings.mjs",
-    "assets:depth": "node scripts/bake-depth.mjs"
+    "qa:screens": "node scripts/qa/shots.mjs",
+    "qa:e2e": "playwright test"
   },
   "dependencies": {
     "@gsap/react": "2.1.2",
@@ -39,7 +31,10 @@
   "devDependencies": {
     "@axe-core/playwright": "4.14.0",
     "@fontsource-variable/manrope": "5.3.0",
+    "@fontsource-variable/marhey": "^5.3.0",
     "@fontsource/instrument-serif": "5.3.0",
+    "@fontsource/noto-naskh-arabic": "^5.3.0",
+    "@fontsource/tajawal": "^5.3.0",
     "@huggingface/transformers": "^4.3.2",
     "@playwright/test": "1.63.0",
     "@tailwindcss/vite": "4.3.3",

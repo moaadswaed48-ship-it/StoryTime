@@ -4,16 +4,12 @@ import { useSiteStore } from '@/store/useSiteStore'
 import { SkipLink } from '@/components/chrome/SkipLink'
 import { Nav } from '@/components/chrome/Nav'
 import { Hero } from '@/components/hero/Hero'
-import { HowItWorks } from '@/components/sections/HowItWorks'
-import { ShelfSection } from '@/components/shelf/ShelfSection'
-import { PeekInside } from '@/components/sections/PeekInside'
-import { Catalogue } from '@/components/sections/Catalogue'
-import { Ages } from '@/components/sections/Ages'
-import { About } from '@/components/sections/About'
-import { Order } from '@/components/sections/Order'
-import { Footer } from '@/components/sections/Footer'
+import { BookStage } from '@/components/sections/BookStage'
+import { MeetHudhud } from '@/components/sections/MeetHudhud'
+import { Play } from '@/components/sections/Play'
+import { Learn, Plans, Author, Goodnight, DemoLogin } from '@/components/sections/More'
+import { Reader } from '@/components/reader/Reader'
 import { SceneMount } from '@/three/SceneMount'
-import { BookPreviewDialog } from '@/components/shelf/BookPreviewDialog'
 
 export default function App() {
   const pageRef = useRef<HTMLDivElement>(null)
@@ -26,16 +22,16 @@ export default function App() {
         <Nav />
         <main id="main">
           <Hero />
-          <HowItWorks />
-          <ShelfSection />
-          <PeekInside />
-          <Catalogue />
-          <Ages />
-          <About />
-          <Order />
+          <BookStage />
+          <MeetHudhud />
+          <Play />
+          <Learn />
+          <Plans />
+          <Author />
         </main>
-        <Footer />
-        <BookPreviewDialog />
+        <Goodnight />
+        <Reader />
+        <DemoLogin />
         <SceneMount />
       </div>
     </Providers>

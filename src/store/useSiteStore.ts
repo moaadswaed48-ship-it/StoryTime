@@ -35,6 +35,16 @@ interface SiteState {
     filter: ShelfFilter
   }
   returnFocusEl: HTMLElement | null
+  reader: 'closed' | 'read' | 'watch'
+  readerPage: number
+  loggedIn: boolean
+  loginOpen: boolean
+  sound: boolean
+  openReader: (mode?: 'read' | 'watch', page?: number) => void
+  closeReader: () => void
+  setLoggedIn: (v: boolean) => void
+  setLoginOpen: (v: boolean) => void
+  setSoundOn: (v: boolean) => void
   setTier: (tier: MotionTier) => void
   setReduceToggle: (on: boolean) => void
   setPerfLow: (low: boolean) => void
@@ -61,6 +71,16 @@ export const useSiteStore = create<SiteState>()((set, get) => ({
   sceneReady: false,
   shelf: { phase: 'dormant', activeId: null, index: 0, spinId: null, filter: { query: '', ages: null, tags: [] } },
   returnFocusEl: null,
+  reader: 'closed',
+  readerPage: 0,
+  loggedIn: false,
+  loginOpen: false,
+  sound: false,
+  openReader: (mode = 'read', page = 0) => set({ reader: mode, readerPage: page }),
+  closeReader: () => set({ reader: 'closed' }),
+  setLoggedIn: (loggedIn) => set({ loggedIn }),
+  setLoginOpen: (loginOpen) => set({ loginOpen }),
+  setSoundOn: (sound) => set({ sound }),
   setTier: (tier) => set({ tier }),
   setReduceToggle: (on) => set({ reduceToggle: on }),
   setPerfLow: (low) => set({ perfLow: low }),
