@@ -12,6 +12,7 @@ assets-src/story/*.png
 
 # third-party skill with its own media/examples licence — kept local, not redistributed
 .claude/skills/motionsites-web-builder/
-# generated originals (large)
-assets-src/film/
+# generated originals (large) — only the full-quality master clips are kept in the repository
+assets-src/film/*
+!assets-src/film/master/
 qa/out/
