@@ -359,6 +359,21 @@ html[lang='ar'] .game-letter {
     transform: translateX(3px);
   }
 }
+/* the "try again" line: a small friendly nod, never hidden */
+.game-nudge {
+  animation: game-nudge 0.5s var(--ease-out);
+}
+@keyframes game-nudge {
+  0% {
+    transform: translateY(7px) scale(0.94);
+  }
+  55% {
+    transform: translateY(-2px) scale(1.03);
+  }
+  100% {
+    transform: none;
+  }
+}
 @keyframes game-pop {
   0% {
     transform: rotate(var(--r, 0deg)) scale(0.78);

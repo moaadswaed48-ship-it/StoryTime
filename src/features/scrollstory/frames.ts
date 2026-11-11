@@ -30,7 +30,8 @@ export function loadPasses(count: number): number[][] {
   return [take([0]), take([...every(8), count - 1]), take(every(4)), take(every(1))]
 }
 
-const PARALLEL = 6
+/** Four at a time: over HTTP/1.1 this leaves connections free for the hero film and the pictures around it. */
+const PARALLEL = 4
 
 export class FrameStore {
   readonly count: number
@@ -96,7 +97,7 @@ export class FrameStore {
     if (img && this.ready[index] && typeof img.decode === 'function') img.decode().catch(() => {})
   }
 
-  private next(): number | undefined {
+  private next(): { index: number; first: boolean } | undefined {
     for (let p = 0; p < this.passes.length; p++) {
       const pass = this.passes[p]
       if (!pass.length) continue
@@ -112,18 +113,20 @@ export class FrameStore {
           }
         }
       }
-      return pass.splice(best, 1)[0]
+      return { index: pass.splice(best, 1)[0], first: p === 0 }
     }
     return undefined
   }
 
   private pump() {
     while (this.flying < PARALLEL) {
-      const index = this.next()
-      if (index === undefined) return
+      const job = this.next()
+      if (!job) return
+      const { index } = job
       this.flying++
       const img = new Image()
       img.decoding = 'async'
+      img.fetchPriority = job.first ? 'high' : 'low'
       const done = (ok: boolean) => {
         img.onload = img.onerror = null
         this.flying--

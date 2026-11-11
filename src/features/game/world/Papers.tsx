@@ -67,7 +67,9 @@ function PaperItem({ index, name }: { index: number; name: string }) {
     m.position.set(_v.x * 0.5 * k, hover + (_v.y - 0.5 - hover) * k, _v.z * 0.5 * k)
     m.rotation.set(-0.3 + Math.sin(st.t * 1.6) * 0.12 * (1 + gust), Math.sin(st.t * 0.8) * 0.55 * (1 - k) + k * Math.PI * 2, Math.sin(st.t * 2.2) * 0.15 * (1 + gust * 2) * (1 - k))
     m.scale.setScalar(1 + k * 1.3)
-    mats.sheet.opacity = 1 - smooth(0.62, 1, st.fly)
+    // a paper right under the lens would fill the screen: let it fade as the camera passes over it
+    const close = picked ? 1 : smooth(1.2, 2.6, _v.length())
+    mats.sheet.opacity = (1 - smooth(0.62, 1, st.fly)) * close
     // a travelling wave makes it flutter
     const arr = geo.attributes.position.array as Float32Array
     for (let i = 0; i < arr.length; i += 3) {
@@ -78,9 +80,9 @@ function PaperItem({ index, name }: { index: number; name: string }) {
 
     const pulse = 0.5 + 0.5 * Math.sin(st.t * 2.4)
     ring.current.scale.setScalar(1.45 + pulse * 0.2)
-    mats.ring.opacity = (0.6 + pulse * 0.3) * (1 - k)
+    mats.ring.opacity = (0.6 + pulse * 0.3) * (1 - k) * close
     marker.current.position.y = 1.7 + Math.sin(st.t * 3) * 0.09
-    mats.marker.opacity = 1 - k
+    mats.marker.opacity = (1 - k) * close
   })
 
   return (

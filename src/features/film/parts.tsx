@@ -1,72 +1,28 @@
-import { useEffect, useRef, useState, type CSSProperties, type RefObject } from 'react'
+import { useEffect, useRef, useState, type CSSProperties } from 'react'
 import { BookOpen, RotateCcw } from 'lucide-react'
 import { BlurWords, Eyebrow, Pill } from '@/design/ui'
 import { story } from '@/content/story'
 import { t } from '@/i18n/copy'
 import { locale } from '@/i18n/locale'
-import { asset } from '@/lib/asset'
 import { cn } from '@/lib/cn'
 
 /**
- * The film's light on the walls: a few times a second the current frame is drawn into a small canvas that
- * CSS blows up and blurs behind the screen. Before the film has a picture it holds the cover's colours.
- * The canvas is just large enough to stay GPU-backed (so a draw is a cheap copy, not a read-back), and the
- * loop backs off by itself on machines where a draw is slow.
+ * The film's light on the walls: the picture of the scene on screen, blown up and blurred behind the
+ * frame, dissolving to the next one when the scene changes. Still images only — nothing is read back
+ * from the video, so it costs nothing while the film plays.
  */
-export function Ambient({ video, active, slow }: { video: RefObject<HTMLVideoElement | null>; active: boolean; slow: boolean }) {
-  const ref = useRef<HTMLCanvasElement>(null)
-  const painted = useRef(false)
-
+export function Ambient({ src }: { src: string }) {
+  const [stack, setStack] = useState([src])
   useEffect(() => {
-    const canvas = ref.current
-    const ctx = canvas?.getContext('2d')
-    if (!canvas || !ctx || painted.current) return
-    const img = new Image()
-    img.onload = () => {
-      if (painted.current) return
-      ctx.drawImage(img, 0, img.height * 0.25, img.width, img.height * 0.5, 0, 0, canvas.width, canvas.height)
-    }
-    img.src = asset(story.coverThumb)
-    return () => {
-      img.onload = null
-    }
-  }, [])
-
-  useEffect(() => {
-    const canvas = ref.current
-    const ctx = canvas?.getContext('2d')
-    const v = video.current
-    if (!canvas || !ctx || !v) return
-    let timer = 0
-    let every = slow ? 1000 : 280
-    const draw = (alpha: number) => {
-      if (v.readyState < 2) return 0
-      const t0 = performance.now()
-      ctx.globalAlpha = alpha
-      try {
-        ctx.drawImage(v, 0, 0, canvas.width, canvas.height)
-        painted.current = true
-      } catch {
-        /* a frame that cannot be read is simply skipped */
-      }
-      return performance.now() - t0
-    }
-    const loop = () => {
-      if (draw(0.5) > 24) every = Math.min(4000, every * 2) // slow device: fewer, then almost none
-      timer = window.setTimeout(loop, every)
-    }
-    const still = () => draw(1)
-    v.addEventListener('seeked', still)
-    v.addEventListener('pause', still)
-    if (active) timer = window.setTimeout(loop, every)
-    return () => {
-      window.clearTimeout(timer)
-      v.removeEventListener('seeked', still)
-      v.removeEventListener('pause', still)
-    }
-  }, [video, active, slow])
-
-  return <canvas ref={ref} className="film-ambient" width={384} height={216} aria-hidden />
+    setStack((s) => (s[s.length - 1] === src ? s : [s[s.length - 1], src]))
+  }, [src])
+  return (
+    <div className="film-ambient" aria-hidden>
+      {stack.map((url) => (
+        <img key={url} src={url} alt="" decoding="async" />
+      ))}
+    </div>
+  )
 }
 
 /** The current scene's line in the author's own words. Whole words rise in one after another; lines cross-fade. */

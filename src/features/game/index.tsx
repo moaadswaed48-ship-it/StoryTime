@@ -55,6 +55,7 @@ export function Game() {
       if (!p || g.collected[i]) return false
       const stand = standPoint(p, rt.sari, gap)
       rt.target = null
+      rt.snap = true
       rt.sari.x = stand.x
       rt.sari.z = stand.z
       rt.sari.heading = Math.atan2(p.x - stand.x, p.z - stand.z)
@@ -97,6 +98,8 @@ export function Game() {
         },
         answer: (letter: string) => useGame.getState().answer(letter),
         again: () => useGame.getState().again(),
+        /** Screenshots: keep the "well done" card on screen until the next walkTo(). */
+        hold: (on = true) => void (rt.hold = on),
         exit: () => useGame.getState().exit(),
       },
     })

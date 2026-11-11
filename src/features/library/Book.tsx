@@ -128,8 +128,11 @@ function ReadyTitle({ book }: { book: ShelfBook }) {
 }
 
 function ReadyCover({ book }: { book: ShelfBook }) {
+  // On the painted sky the title is stamped in copper (the spine's cloth colour), not in the pale gold of the spine.
+  const c = book.palette.cloth
+  const copper = { '--foil': mix(c, '#000000', 0.22), '--foil-hi': mix(c, '#ffc48a', 0.3), '--foil-lo': mix(c, '#000000', 0.5) } as CSSProperties
   return (
-    <div className="lib-cover is-photo">
+    <div className="lib-cover is-photo" style={copper}>
       <img src={asset(book.cover!)} alt="" draggable={false} decoding="async" />
       <span className="lib-hinge" />
       <ReadyTitle book={book} />

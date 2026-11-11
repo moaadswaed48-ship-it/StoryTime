@@ -71,6 +71,14 @@
   visibility: hidden;
   transition-delay: 0s, 0.45s;
 }
+/* `.glass-ink` alone is too pale over paper for 14px white text: reinforce it with a night tint. */
+.st-pill__skin--ink::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: rgb(18 12 8 / 0.5);
+}
 .st-nav[data-tone='ink'] .st-pill__skin--glass {
   opacity: 0;
   visibility: hidden;

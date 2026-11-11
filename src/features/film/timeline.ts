@@ -53,9 +53,12 @@ export function nearestFilmScene(tl: Timeline, storyScene: number): number {
   return best
 }
 
+// num() builds a formatter on every call: fetch the ten digit glyphs once and reuse them.
+const DIGITS = Array.from({ length: 10 }, (_, d) => num(d))
+const digits = (n: number) => String(n).replace(/\d/g, (d) => DIGITS[Number(d)])
+
 /** 75 → "1:15" in the reader's own digits. */
 export function clock(seconds: number): string {
   const s = Math.max(0, Math.floor(seconds))
-  const ss = s % 60
-  return `${num(Math.floor(s / 60))}:${ss < 10 ? num(0) : ''}${num(ss)}`
+  return `${digits(Math.floor(s / 60))}:${digits(s % 60).padStart(2, DIGITS[0])}`
 }

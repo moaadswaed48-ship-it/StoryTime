@@ -256,12 +256,10 @@ export function Reader({ startScene }: { startScene: number }) {
   }, [phase])
 
   // The book was asked to open at another scene while it is already open (e.g. from another overlay).
-  const firstStart = useRef(true)
+  const startSeen = useRef(startScene)
   useEffect(() => {
-    if (firstStart.current) {
-      firstStart.current = false
-      return
-    }
+    if (startSeen.current === startScene) return
+    startSeen.current = startScene
     act.current.goScene(startScene)
   }, [startScene])
 

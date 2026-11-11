@@ -621,8 +621,9 @@ export class Shelf {
       let s = 1
       let o = p.o
       const rz = p.rz + this.kTilt[i]
-      // Where the bar of light sits on the cover, in cover widths ×1.5 (0 = centre). It crosses as the book turns.
-      let light = (dirSign * p.ry + dirSign * yaw * 3 - 22) / 68
+      // Where the bar of light sits on the cover, in cover widths ×1.5 (0 = centre). It crosses as the book turns,
+      // comes to rest just past the edge, and slides back over the foil on hover.
+      let light = (dirSign * p.ry + dirSign * yaw * 3 - 50) / 68 + live[i].hover * p.f * 0.55
       if (e > 0 && this.detail >= 0) {
         if (i === this.detail) {
           x = lerp(x, this.slot.x, e)

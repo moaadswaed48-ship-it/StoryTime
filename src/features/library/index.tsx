@@ -72,6 +72,7 @@ export function Library() {
     })
   }
   const shelf = shelfRef.current
+  const armed = useRef(false)
 
   const setBookRef = useCallback((i: number, el: HTMLDivElement | null) => {
     bookEls.current[i] = el
@@ -95,7 +96,6 @@ export function Library() {
     }
     return () => shelf.detach()
   }, [shelf])
-  const armed = useRef(false)
 
   // Measure the stage; every size in the scene derives from it.
   useLayoutEffect(() => {

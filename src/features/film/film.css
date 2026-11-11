@@ -64,19 +64,27 @@
 .film-video.is-ready {
   opacity: 1;
 }
-/* The film's light on the walls: a tiny copy of the picture, blown up and blurred. Drawn at half size
-   and doubled so the blur stays cheap. */
+/* The film's light on the walls: the scene's picture, blown up and blurred. Laid out at half size and
+   doubled so the blur stays cheap; pictures dissolve when the scene changes. */
 .film-ambient {
   position: absolute;
   z-index: -1;
-  left: 22%;
-  top: 22%;
-  width: 56%;
-  height: 56%;
-  transform: scale(2.1);
-  filter: blur(34px) saturate(1.4);
-  opacity: 0.5;
+  left: 25%;
+  top: 25%;
+  width: 50%;
+  height: 50%;
+  transform: scale(2.07);
+  filter: blur(17px) saturate(1.4);
+  opacity: 0.55;
   pointer-events: none;
+}
+.film-ambient img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  animation: fade-in 1.6s ease-out both;
 }
 
 /* Soft directional shades: only where words or controls sit, only while they are there. */
@@ -149,6 +157,10 @@ html[lang='ar'] .film-title__name {
   bottom: 9.5%;
   max-width: 64%;
 }
+/* While the controls are up, the title steps above them (same move as the captions). */
+.film-stage.has-ui .film-frame .film-title:not(.is-off) {
+  transform: translateY(calc(-1 * var(--dock) + 2cqw));
+}
 .film-frame .film-title__name {
   font-size: clamp(2rem, 5.9cqw, 5.6rem);
 }
@@ -156,7 +168,7 @@ html[lang='ar'] .film-title__name {
 /* ── captions: her words, in the story face ─────────────────────────────────── */
 .film-cue {
   margin: 0;
-  font-weight: 500;
+  font-weight: 700;
   line-height: 1.6;
   text-wrap: balance;
   transition: opacity 0.3s ease-out;
@@ -192,7 +204,7 @@ html[lang='ar'] .film-cue {
   transform: translateY(calc(-1 * var(--dock)));
 }
 .film-frame .film-cue {
-  font-size: clamp(1.25rem, 2.55cqw, 2.5rem);
+  font-size: clamp(1.3rem, 2.95cqw, 2.9rem);
   text-shadow:
     0 1px 3px rgba(0, 0, 0, 0.6),
     0 4px 28px rgba(0, 0, 0, 0.6);
@@ -696,8 +708,13 @@ html[lang='ar'] .film-end__word {
     box-shadow: none;
   }
   .film-ambient {
-    opacity: 0.62;
-    filter: blur(30px) saturate(1.45);
+    transform: scale(2.3);
+    filter: blur(28px) saturate(1.45);
+    opacity: 0.6;
+  }
+  .film-bigplay {
+    width: 64px;
+    height: 64px;
   }
   .film-top {
     width: 100%;
@@ -730,7 +747,7 @@ html[lang='ar'] .film-end__word {
     justify-content: center;
   }
   .film-words .film-cue {
-    font-size: clamp(1.45rem, 6.3vw, 2.1rem);
+    font-size: clamp(1.55rem, 7vw, 2.3rem);
   }
   .film-words .film-end {
     display: flex;

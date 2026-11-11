@@ -42,6 +42,7 @@ html[dir='rtl'] .ss {
   background: var(--color-night-2);
   transform: scale(calc(1 - var(--ss-out, 0) * 0.06));
   transform-origin: 50% 38%;
+  border-radius: calc(var(--ss-out, 0) * 40px);
 }
 .ss-film {
   position: absolute;

@@ -20,6 +20,10 @@ export const rt = {
   burst: 0,
   /** Edge arrows (DOM) that point at papers outside the screen; the world moves them. */
   arrows: [] as (HTMLElement | null)[],
+  /** Set when Sari is moved in one jump (QA hooks, a new round): the camera jumps too instead of gliding. */
+  snap: false,
+  /** QA: keep the "well done" moment on screen instead of moving on after a second. */
+  hold: false,
   /** Renderer statistics for QA. */
   calls: 0,
   frames: 0,
@@ -34,4 +38,5 @@ export function resetRuntime(papers: readonly Point[]) {
   rt.sari.moving = false
   rt.papers = papers.map((p) => ({ x: p.x, z: p.z }))
   rt.wind.power = 0
+  rt.snap = true
 }

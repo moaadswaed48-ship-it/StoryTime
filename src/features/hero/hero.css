@@ -417,13 +417,15 @@ html[lang='ar'] .hero-strip__label {
   left: 50%;
   bottom: max(5px, env(safe-area-inset-bottom));
   translate: -50% 0;
-  display: flex;
-  align-items: center;
-  gap: 10px;
   font-size: 12px;
   font-weight: 500;
   color: rgb(255 255 255 / 0.74);
   pointer-events: none;
+}
+.hero-cue__in {
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 .hero-cue__label {
   position: absolute;
@@ -492,9 +494,8 @@ html[lang='ar'] .hero-strip__label {
     right: var(--pad);
     bottom: clamp(22px, 4.4svh, 44px);
     translate: none;
-    flex-direction: row;
   }
-  html[dir='rtl'] .hero-cue {
+  html[dir='rtl'] .hero-cue__in {
     flex-direction: row-reverse;
   }
   .hero-cue__label {

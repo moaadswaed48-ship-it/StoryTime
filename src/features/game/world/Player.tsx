@@ -132,7 +132,8 @@ export function Player() {
     _pos.set(me.x + r.ox, r.oy, me.z + r.oz)
     _look.set(me.x, r.ly, me.z + r.lz)
     const far = cam.position.distanceTo(_pos) > 9
-    if (st.first || reduced || far) {
+    if (st.first || reduced || far || rt.snap) {
+      rt.snap = false
       cam.position.copy(_pos)
       st.look.copy(_look)
       st.fov = r.fov

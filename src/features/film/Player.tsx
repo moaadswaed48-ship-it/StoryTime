@@ -60,10 +60,9 @@ export function Player() {
   const pointer = useRef('mouse')
   const pendingSeek = useRef<number | null>(null)
   const lastWake = useRef(0)
+  const titleFirst = useRef(!prefersReduced() && useSiteStore.getState().startScene === 0)
 
-  const tier = useSiteStore((s) => s.tier)
   const startScene = useSiteStore((s) => s.startScene)
-  const reduced = tier === 'reduced'
 
   const [tl, setTl] = useState<Timeline | null>(null)
   const [ready, setReady] = useState(false)
@@ -75,7 +74,8 @@ export function Player() {
   const [muted, setMuted] = useState(false)
   const [needUnmute, setNeedUnmute] = useState(false)
   const [captions, setCaptions] = useState(readCaptions)
-  const [ui, setUi] = useState(true)
+  // Opening on the title sequence: the controls stay away until the title has left, then show themselves once.
+  const [ui, setUi] = useState(() => prefersReduced() || useSiteStore.getState().startScene > 0)
   const [closing, setClosing] = useState(false)
   const [sec, setSec] = useState(0)
   const [idx, setIdx] = useState(-1)
@@ -110,7 +110,11 @@ export function Player() {
     const i = sceneIndexAt(line, time)
     setIdx(i === 0 && time < line.opening - 0.05 ? -1 : i) // the first caption waits for the title to leave
     setOutro(time > line.duration - line.fadeOut + 0.4)
-  }, [])
+    if (titleFirst.current && time >= line.opening) {
+      titleFirst.current = false
+      if (!v.paused) wake()
+    }
+  }, [wake])
 
   const seek = useCallback(
     (time: number) => {
@@ -233,12 +237,13 @@ export function Player() {
   }, [ui, captions, ended])
 
   useEffect(() => {
-    if (playing) wake()
-    else {
+    if (playing) {
+      if (!(titleFirst.current && (video.current?.currentTime ?? 0) < TITLE_UNTIL)) wake()
+    } else if (settled) {
       window.clearTimeout(hideTimer.current)
       setUi(true)
     }
-  }, [playing, wake])
+  }, [playing, settled, wake])
 
   // Focus: into the dialog on open, kept inside while open, back where it was on close.
   useEffect(() => {
@@ -434,7 +439,7 @@ export function Player() {
     >
       {portrait && top}
       <div className="film-frame">
-        <Ambient video={video} active={false && playing && !reduced} slow={tier === 'low'} />
+        <Ambient src={asset(over ? story.scenes[story.scenes.length - 1].thumb : idx >= 0 && film[idx] ? story.scenes[film[idx].scene].thumb : story.coverThumb)} />
         <div className="film-screen">
           <video
             ref={video}

@@ -217,8 +217,10 @@ export function ScrubStory() {
       const tick = (_time: number, delta: number) => {
         if (!s.first && s.settled && !s.dirty && proxy.v === s.v) return // at rest: do nothing at all
         s.v = proxy.v
-        const k = s.first ? 1 : 1 - Math.pow(1 - LERP, Math.min(delta, 50) / 16.667)
-        const kReel = s.first ? 0 : 1 - Math.pow(1 - 0.14, Math.min(delta, 50) / 16.667)
+        // Time-based smoothing: on a slow device the film still follows the thumb in real time.
+        const steps = Math.min(delta, 240) / 16.667
+        const k = s.first ? 1 : 1 - Math.pow(1 - LERP, steps)
+        const kReel = s.first ? 0 : 1 - Math.pow(1 - 0.14, steps)
         s.first = false
         s.dirty = false
 

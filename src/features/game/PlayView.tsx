@@ -412,6 +412,7 @@ function QuestionCard({ slots, burst }: { slots: RefObject<(HTMLLIElement | null
       burst(r.left + r.width * 0.5, r.top + r.height * 0.3, 24)
       window.setTimeout(() => burst(r.left + r.width * (0.5 + dirSign * 0.3), r.top + r.height * 0.45, 16), 170)
     }
+    if (rt.hold) return
     const calm = reducedNow()
     let anim: Animation | undefined
     const fly = window.setTimeout(
@@ -448,12 +449,9 @@ function QuestionCard({ slots, burst }: { slots: RefObject<(HTMLLIElement | null
         tabIndex={-1}
         role="group"
         aria-labelledby="game-question"
-        className="game-card relative w-[min(92vw,35rem)] rounded-[32px] px-6 pb-6 pt-7 text-center text-ink outline-none sm:px-10 sm:pb-9 sm:pt-9"
+        className="game-card relative w-[min(92vw,35rem)] rounded-[32px] px-6 pb-5 pt-6 text-center text-ink outline-none sm:px-10 sm:pb-7 sm:pt-8"
       >
-        <p className="t-label text-muted" dir="ltr">
-          {num(nth)} / {num(total)}
-        </p>
-        <p className="game-name mt-1" lang={locale} data-game-name>
+        <p className="game-name" lang={locale} data-game-name>
           {paper.name}
         </p>
         <h3 id="game-question" className="mt-5 text-[clamp(1.15rem,2.2vw,1.5rem)] font-semibold leading-snug text-ink-2">
@@ -478,6 +476,7 @@ function QuestionCard({ slots, burst }: { slots: RefObject<(HTMLLIElement | null
             )
           })}
         </div>
+        {/* one quiet line under the buttons: which paper this is, then the word of encouragement */}
         <p className={cn('mt-5 flex h-8 items-center justify-center gap-2 text-[1.15rem] font-bold', right ? 'text-ink' : 'text-maple')} role="status" aria-live="polite" data-game-feedback>
           {right ? (
             <>
@@ -487,10 +486,14 @@ function QuestionCard({ slots, burst }: { slots: RefObject<(HTMLLIElement | null
               {t.game.right}
             </>
           ) : wrong.length ? (
-            <span key={shakes} className="game-rise">
+            <span key={shakes} className="game-nudge inline-block">
               {t.game.wrong}
             </span>
-          ) : null}
+          ) : (
+            <span className="text-[13px] font-semibold tabular-nums text-muted" dir="ltr">
+              {num(nth)} / {num(total)}
+            </span>
+          )}
         </p>
       </div>
     </div>

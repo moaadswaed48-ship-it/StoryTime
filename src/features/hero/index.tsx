@@ -31,6 +31,7 @@ export function Hero() {
   const stack = useRef<HTMLDivElement>(null)
   const stackPar = useRef<HTMLDivElement>(null)
   const veil = useRef<HTMLDivElement>(null)
+  const cue = useRef<HTMLDivElement>(null)
   const film = useRef<FilmHandle>(null)
   const strip = useRef<StripHandle>(null)
   const frameRef = useRef<Frame | null>(null)
@@ -122,6 +123,7 @@ export function Hero() {
         .to(veil.current, { opacity: 0.62, duration: 1 }, 0)
         .to(stack.current, { yPercent: -14, opacity: 0, duration: 0.5 }, 0)
         .to(strip.current?.el ?? null, { y: -28, opacity: 0, duration: 0.42 }, 0)
+        .to(cue.current, { opacity: 0, duration: 0.18 }, 0)
     },
     { scope: section, dependencies: [reduced] },
   )
@@ -234,9 +236,11 @@ export function Hero() {
 
       <SceneStrip ref={strip} reduced={reduced} clash={clash} />
 
-      <div className="hero-cue hero-rise" style={d(1150, 0)} data-hero-ui="cue">
-        <span className="hero-cue__label">{t.hero.scroll}</span>
-        <span className="hero-cue__line" aria-hidden />
+      <div ref={cue} className="hero-cue" data-hero-ui="cue">
+        <div className="hero-cue__in hero-rise" style={d(1150, 0)}>
+          <span className="hero-cue__label">{t.hero.scroll}</span>
+          <span className="hero-cue__line" aria-hidden />
+        </div>
       </div>
 
       <div ref={veil} className="hero-veil" aria-hidden />
