@@ -188,7 +188,7 @@ export const Spread = forwardRef<SpreadHandle, Props>(function Spread({ phase, s
     }
     const im = preloadScene(sc)
     const d = driftOf(sc, st)
-    const ok = paintPicture(c, ready(im) ? im : null, { a: d.s, d: d.s, e: (d.tx / 100) * W, f: (d.ty / 100) * H }, pageScale(W))
+    const ok = paintPicture(c, ready(im), { a: d.s, d: d.s, e: (d.tx / 100) * W, f: (d.ty / 100) * H }, pageScale(W))
     return { c, ok, im }
   }
 
@@ -250,7 +250,7 @@ export const Spread = forwardRef<SpreadHandle, Props>(function Spread({ phase, s
       }
       const v = p.video
       const cached = cachedScene(now.current.scene)
-      const src = p.live && v && v.readyState >= 2 ? v : ready(p.img) ? p.img : ready(cached) ? cached : null
+      const src = p.live && v && v.readyState >= 2 ? v : (ready(p.img) ?? ready(cached))
       paintPicture(c, src, m, k, now.current.blurred ? `blur(${BLUR * k}px) brightness(0.62) saturate(0.9)` : undefined)
       return c
     },

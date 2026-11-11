@@ -17,6 +17,7 @@ export function preloadScene(i: number): HTMLImageElement | null {
   return im
 }
 export const cachedScene = (i: number) => cache.get(i) ?? null
-export const ready = (im: HTMLImageElement | null | undefined): im is HTMLImageElement => !!im && im.complete && im.naturalWidth > 0
+/** The picture if it is loaded and decodable right now, otherwise null. */
+export const ready = (im: HTMLImageElement | null | undefined): HTMLImageElement | null => (im && im.complete && im.naturalWidth > 0 ? im : null)
 /** Canvas pixels per CSS pixel for painted pages (kept modest on wide spreads). */
 export const pageScale = (W: number) => Math.min(window.devicePixelRatio || 1, W > 900 ? 1.5 : 2)

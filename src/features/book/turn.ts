@@ -61,6 +61,8 @@ interface Leaf {
   z1: number
 }
 
+function box(css: Partial<CSSStyleDeclaration>): HTMLDivElement
+function box(css: Partial<CSSStyleDeclaration>, tag: 'canvas'): HTMLCanvasElement
 function box(css: Partial<CSSStyleDeclaration>, tag: 'div' | 'canvas' = 'div') {
   const e = document.createElement(tag)
   Object.assign(e.style, { position: 'absolute', top: '0', pointerEvents: 'none' } satisfies Partial<CSSStyleDeclaration>, css)
@@ -99,7 +101,7 @@ export function runTurn(o: TurnOpts): TurnHandle {
   const OV = 0.5 // faces overlap by half a pixel so no seam shows between strips
 
   // The half that stays put keeps showing the page we are leaving until the leaf lands on it.
-  const stay = box({ left: right ? '0' : `${c}px`, width: `${c}px`, height: `${H}px`, transform: 'translateZ(0.2px)' }, 'canvas') as HTMLCanvasElement
+  const stay = box({ left: right ? '0' : `${c}px`, width: `${c}px`, height: `${H}px`, transform: 'translateZ(0.2px)' }, 'canvas')
   stay.width = Math.round(c * kx)
   stay.height = Math.round(H * ky)
   Object.assign(stay.style, right ? { borderTopLeftRadius: r, borderBottomLeftRadius: r } : { borderTopRightRadius: r, borderBottomRightRadius: r })
@@ -132,10 +134,10 @@ export function runTurn(o: TurnOpts): TurnHandle {
       const faceCss: Partial<CSSStyleDeclaration> = { left: `${-ovL}px`, width: `${x1 - x0}px`, height: `${H}px`, backfaceVisibility: 'hidden' }
       ;(faceCss as unknown as Record<string, string>).webkitBackfaceVisibility = 'hidden'
       const mk = (flip: boolean) => {
-        const cv = box({ ...faceCss, transform: flip ? 'rotateY(180deg)' : 'none' }, 'canvas') as HTMLCanvasElement
+        const cv = box({ ...faceCss, transform: flip ? 'rotateY(180deg)' : 'none' }, 'canvas')
         cv.width = Math.max(1, Math.round((x1 - x0) * kx))
         cv.height = Math.round(H * ky)
-        const sh = box({ ...faceCss, transform: flip ? 'rotateY(180deg) translateZ(0.05px)' : 'translateZ(0.05px)' }) as HTMLDivElement
+        const sh = box({ ...faceCss, transform: flip ? 'rotateY(180deg) translateZ(0.05px)' : 'translateZ(0.05px)' })
         if (tip) {
           // The outer corners follow the rounded page. On the back face the box is mirrored.
           const outerRight = right !== flip
