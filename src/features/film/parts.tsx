@@ -8,8 +8,10 @@ import { asset } from '@/lib/asset'
 import { cn } from '@/lib/cn'
 
 /**
- * The film's light on the walls: every so often the current frame is drawn into a 32×18 canvas that CSS
- * blows up and blurs behind the screen. Before the film has a picture it holds the cover's colours.
+ * The film's light on the walls: a few times a second the current frame is drawn into a small canvas that
+ * CSS blows up and blurs behind the screen. Before the film has a picture it holds the cover's colours.
+ * The canvas is just large enough to stay GPU-backed (so a draw is a cheap copy, not a read-back), and the
+ * loop backs off by itself on machines where a draw is slow.
  */
 export function Ambient({ video, active, slow }: { video: RefObject<HTMLVideoElement | null>; active: boolean; slow: boolean }) {
   const ref = useRef<HTMLCanvasElement>(null)
@@ -35,8 +37,11 @@ export function Ambient({ video, active, slow }: { video: RefObject<HTMLVideoEle
     const ctx = canvas?.getContext('2d')
     const v = video.current
     if (!canvas || !ctx || !v) return
+    let timer = 0
+    let every = slow ? 1000 : 280
     const draw = (alpha: number) => {
-      if (v.readyState < 2) return
+      if (v.readyState < 2) return 0
+      const t0 = performance.now()
       ctx.globalAlpha = alpha
       try {
         ctx.drawImage(v, 0, 0, canvas.width, canvas.height)
@@ -44,19 +49,24 @@ export function Ambient({ video, active, slow }: { video: RefObject<HTMLVideoEle
       } catch {
         /* a frame that cannot be read is simply skipped */
       }
+      return performance.now() - t0
+    }
+    const loop = () => {
+      if (draw(0.5) > 24) every = Math.min(4000, every * 2) // slow device: fewer, then almost none
+      timer = window.setTimeout(loop, every)
     }
     const still = () => draw(1)
     v.addEventListener('seeked', still)
     v.addEventListener('pause', still)
-    const id = active ? window.setInterval(() => draw(0.4), slow ? 900 : 220) : 0
+    if (active) timer = window.setTimeout(loop, every)
     return () => {
-      window.clearInterval(id)
+      window.clearTimeout(timer)
       v.removeEventListener('seeked', still)
       v.removeEventListener('pause', still)
     }
   }, [video, active, slow])
 
-  return <canvas ref={ref} className="film-ambient" width={32} height={18} aria-hidden />
+  return <canvas ref={ref} className="film-ambient" width={384} height={216} aria-hidden />
 }
 
 /** The current scene's line in the author's own words. Whole words rise in one after another; lines cross-fade. */

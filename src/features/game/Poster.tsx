@@ -26,7 +26,7 @@ export function Poster({ onStart, pictureRef, touch }: { onStart: () => void; pi
   const Hint = touch ? Gamepad2 : Keyboard
 
   return (
-    <section id="game" className="relative overflow-clip bg-night py-20 sm:py-24 lg:py-28" aria-labelledby="game-title">
+    <section id="game" className="relative overflow-clip bg-night py-20 sm:py-24 lg:py-28" aria-label={t.game.title}>
       <div aria-hidden className="pointer-events-none absolute inset-x-0 top-0 h-[70%] bg-[radial-gradient(ellipse_at_top,rgba(244,163,94,0.08),transparent_70%)]" />
       <Container className="relative">
         <Reveal>
@@ -52,9 +52,6 @@ export function Poster({ onStart, pictureRef, touch }: { onStart: () => void; pi
                   <Eyebrow>{t.game.eyebrow}</Eyebrow>
                 </Reveal>
                 <BlurWords as="h2" text={t.game.title} className="game-title display-on-film mt-3 block text-paper" />
-                <span id="game-title" className="sr-only">
-                  {t.game.title}
-                </span>
                 <Reveal delay={160}>
                   <p className="t-lede text-on-film mt-4 max-w-[32rem] text-paper/85">{t.game.text}</p>
                 </Reveal>

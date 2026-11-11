@@ -1,0 +1,885 @@
+/* ─────────────────────────────────────────────────────────────────────────────
+   Library — the shelf of moving books. CSS-3D only (no WebGL).
+   Everything that moves is a transform, an opacity or a custom property that
+   feeds one of those; the per-frame values are written by the loop in index.tsx.
+   ───────────────────────────────────────────────────────────────────────────── */
+.lib {
+  --lib-ease: var(--ease-out, cubic-bezier(0.22, 1, 0.36, 1));
+  --lib-paper: var(--color-paper, #f6f0e4);
+  --lib-ink: var(--color-ink, #1a120b);
+  --lib-maple: var(--color-maple, #d9541e);
+  /* Grey fractal noise: laid over cloth, paper and wood with a blend mode so every surface has tooth. */
+  --lib-noise: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='1.3 0 0 0 -.15 1.3 0 0 0 -.15 1.3 0 0 0 -.15 0 0 0 0 1'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  overflow-x: clip;
+}
+
+/* ── Chrome that steps aside when a book is opened ───────────────────────────── */
+.lib-chrome {
+  position: relative;
+  z-index: 2;
+  transition:
+    opacity 0.5s var(--lib-ease),
+    transform 0.5s var(--lib-ease),
+    visibility 0s;
+}
+.lib.is-detail .lib-chrome {
+  opacity: 0;
+  transform: translateY(-10px);
+  visibility: hidden;
+  pointer-events: none;
+  transition:
+    opacity 0.35s ease,
+    transform 0.35s ease,
+    visibility 0s 0.35s;
+}
+
+/* Filter chips */
+.lib-filters {
+  display: flex;
+  gap: 8px;
+  scrollbar-width: none;
+}
+.lib-filters::-webkit-scrollbar {
+  display: none;
+}
+.lib-chip {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  gap: 8px;
+  height: 44px;
+  padding-inline: 18px;
+  border-radius: 999px;
+  font-size: 14.5px;
+  font-weight: 600;
+  color: var(--color-ink-2, #43362a);
+  box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--lib-ink) 16%, transparent);
+  transition:
+    background-color 0.25s ease,
+    color 0.25s ease,
+    box-shadow 0.25s ease,
+    transform 0.2s ease;
+}
+.lib-chip:hover {
+  background: color-mix(in oklab, var(--lib-ink) 6%, transparent);
+}
+.lib-chip:active {
+  transform: scale(0.97);
+}
+.lib-chip.is-on {
+  background: var(--lib-ink);
+  color: var(--lib-paper);
+  box-shadow: inset 0 0 0 1px var(--lib-ink);
+}
+.lib-chip-n {
+  font-size: 12px;
+  font-weight: 500;
+  opacity: 0.55;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ── Stage ───────────────────────────────────────────────────────────────────── */
+.lib-stage {
+  position: relative;
+  z-index: 1;
+  height: clamp(460px, 64svh, 640px);
+  touch-action: pan-y;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  cursor: grab;
+  outline: none;
+}
+@media (max-width: 639px) {
+  .lib-stage {
+    height: clamp(410px, 52svh, 460px);
+  }
+}
+.lib-stage.is-drag {
+  cursor: grabbing;
+}
+.lib.is-detail .lib-stage {
+  cursor: default;
+}
+/* Wall light behind the row: depth from light, not decoration. */
+.lib-wall {
+  position: absolute;
+  inset: -12% 0 0;
+  pointer-events: none;
+  background: radial-gradient(58% 62% at 50% 56%, rgba(255, 253, 247, 0.95), rgba(255, 253, 247, 0) 72%);
+}
+.lib-scene {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+  pointer-events: none;
+}
+
+/* ── The ledge ───────────────────────────────────────────────────────────────── */
+.lib-plank {
+  position: absolute;
+  left: 50%;
+  overflow: hidden;
+  transform-origin: 50% 0;
+  backface-visibility: hidden;
+  background:
+    linear-gradient(180deg, rgba(64, 38, 14, 0.3) 0, rgba(64, 38, 14, 0.1) 9%, rgba(64, 38, 14, 0) 26%),
+    repeating-linear-gradient(180deg, rgba(122, 86, 46, 0.075) 0 1px, transparent 1px 6px),
+    var(--lib-noise),
+    linear-gradient(180deg, #d9c7a6, #e8dabd 55%, #f1e6cf);
+  background-size:
+    auto,
+    auto,
+    160px 160px,
+    auto;
+  background-blend-mode: normal, normal, soft-light, normal;
+}
+.lib-lip {
+  position: absolute;
+  left: 50%;
+  backface-visibility: hidden;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.7) 0 1.5px, rgba(255, 255, 255, 0) 1.5px),
+    repeating-linear-gradient(180deg, rgba(110, 76, 38, 0.09) 0 1px, transparent 1px 5px),
+    var(--lib-noise),
+    linear-gradient(180deg, #d6c39f, #c3ac84);
+  background-size:
+    auto,
+    auto,
+    160px 160px,
+    auto;
+  background-blend-mode: normal, normal, soft-light, normal;
+}
+.lib-lip::after {
+  content: '';
+  position: absolute;
+  inset-inline: 0;
+  top: 100%;
+  height: 84px;
+  background: linear-gradient(180deg, rgba(26, 18, 11, 0.22), rgba(26, 18, 11, 0.07) 34%, rgba(26, 18, 11, 0));
+}
+/* Contact shadow: one per book, living in the plane of the ledge, turning with the book. */
+.lib-shadow {
+  position: absolute;
+  left: 0;
+  top: 0;
+  border-radius: 8px;
+  background: rgba(40, 22, 8, 0.5);
+  box-shadow:
+    0 0 14px 8px rgba(40, 22, 8, 0.42),
+    0 0 44px 22px rgba(40, 22, 8, 0.17);
+  will-change: transform, opacity;
+}
+
+/* ── A book ──────────────────────────────────────────────────────────────────── */
+.lib-book {
+  position: absolute;
+  left: 50%;
+  transform-style: preserve-3d;
+  transform-origin: 50% 100%;
+  will-change: transform;
+  pointer-events: auto;
+  cursor: pointer;
+}
+.lib.is-detail .lib-book:not(.is-open) {
+  pointer-events: none;
+}
+.lib-face {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  overflow: hidden;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  opacity: var(--o, 1);
+}
+/* Shade: each face darkens as it turns away from the light. */
+.lib-face::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 9;
+  pointer-events: none;
+  background: #140b05;
+  opacity: 0;
+}
+.lib-front,
+.lib-back {
+  width: 100%;
+  border-radius: 3px;
+}
+.lib-spine,
+.lib-fore {
+  left: 50%;
+}
+.lib-front::after {
+  opacity: var(--sh-f, 0);
+}
+.lib-spine::after {
+  opacity: var(--sh-s, 0);
+}
+.lib-fore::after {
+  opacity: var(--sh-e, 0.3);
+}
+.lib-back::after {
+  opacity: 0.36;
+}
+
+/* Cloth: colour + grain + the faintest weave. */
+.lib-cloth {
+  background-color: var(--cloth);
+  background-image: var(--lib-noise);
+  background-size: 160px 160px;
+  background-blend-mode: overlay;
+}
+.lib-cloth::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.045) 0 1px, transparent 1px 3px),
+    repeating-linear-gradient(90deg, rgba(0, 0, 0, 0.055) 0 1px, transparent 1px 3px);
+}
+
+/* Page block */
+.lib-top {
+  width: 100%;
+  background:
+    linear-gradient(180deg, var(--cloth) 0 3px, rgba(0, 0, 0, 0.2) 3px 4px, transparent 4px calc(100% - 4px), rgba(0, 0, 0, 0.2) calc(100% - 4px) calc(100% - 3px), var(--cloth) calc(100% - 3px)),
+    repeating-linear-gradient(180deg, #f6eede 0 1.3px, #e3d8c2 1.3px 2.6px);
+}
+.lib-fore {
+  background:
+    linear-gradient(90deg, var(--cloth) 0 3px, rgba(0, 0, 0, 0.22) 3px 4px, transparent 4px calc(100% - 4px), rgba(0, 0, 0, 0.22) calc(100% - 4px) calc(100% - 3px), var(--cloth) calc(100% - 3px)),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0) 30%, rgba(0, 0, 0, 0.1)),
+    repeating-linear-gradient(90deg, #f5eddd 0 1.3px, #e1d6c0 1.3px 2.6px);
+}
+
+/* Foil: a metallic gradient clipped to type. */
+.lib-foil {
+  background-image: linear-gradient(112deg, var(--foil-lo) 0%, var(--foil) 30%, var(--foil-hi) 50%, var(--foil) 70%, var(--foil-lo) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+.lib-mono .lib-foil {
+  background-image: none;
+  color: #fff;
+  -webkit-text-fill-color: #fff;
+}
+
+/* ── Spine ───────────────────────────────────────────────────────────────────── */
+/* A spine is not flat: darker toward the joints, a soft highlight off-centre. */
+.lib-round {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  pointer-events: none;
+  background: linear-gradient(90deg, rgba(0, 0, 0, 0.36) 0, rgba(0, 0, 0, 0.1) 11%, rgba(255, 255, 255, 0.1) 36%, rgba(255, 255, 255, 0.03) 58%, rgba(0, 0, 0, 0.1) 86%, rgba(0, 0, 0, 0.4) 100%);
+}
+.lib-spine-in {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: calc(var(--T) * 0.2);
+  filter: drop-shadow(0 0.6px 0 rgba(0, 0, 0, 0.3));
+}
+.lib-rule2 {
+  flex: none;
+  width: 100%;
+  height: 5px;
+  border-top: 2px solid var(--foil);
+  border-bottom: 1px solid var(--foil);
+}
+.lib-rule1 {
+  flex: none;
+  width: 100%;
+  border-top: 1px solid var(--foil);
+  opacity: 0.85;
+}
+.lib-semblem {
+  flex: none;
+  width: 54%;
+  aspect-ratio: 1;
+  margin-block: calc(var(--T) * 0.16);
+}
+.lib-stitle {
+  flex: 1 1 0;
+  min-height: 0;
+  display: grid;
+  place-items: center;
+}
+.lib-stitle-t {
+  writing-mode: vertical-rl;
+  font-weight: 700;
+  line-height: 1.22;
+  white-space: nowrap;
+  text-align: center;
+}
+.lib-stitle-t > span {
+  display: block;
+}
+/* Arabic spines read top-to-bottom with the tops of the letters toward the front cover (which faces left here). */
+html[lang='ar'] .lib-stitle-t {
+  transform: rotate(180deg);
+}
+html[lang='en'] .lib-stitle-t {
+  letter-spacing: 0.01em;
+}
+.lib-smark {
+  position: absolute;
+  left: 50%;
+  z-index: 3;
+  width: max(5px, calc(var(--T) * 0.15));
+  aspect-ratio: 1;
+  background: linear-gradient(135deg, var(--foil-hi), var(--foil) 55%, var(--foil-lo));
+  transform: translate(-50%, 50%) rotate(45deg);
+}
+
+/* ── Belly band: the paper strip that says "coming soon". Same height on every book, so it runs along the shelf. ── */
+.lib-band {
+  position: absolute;
+  inset-inline: 0;
+  bottom: var(--band-b);
+  z-index: 6;
+  height: var(--band-h);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5em;
+  background-color: #f8f2e5;
+  background-image: var(--lib-noise);
+  background-size: 160px 160px;
+  background-blend-mode: soft-light;
+  color: var(--lib-ink);
+  font-size: calc(var(--band-h) * 0.36);
+  font-weight: 700;
+  line-height: 1.05;
+  white-space: nowrap;
+  box-shadow:
+    0 1px 0 rgba(26, 18, 11, 0.28),
+    0 -1px 0 rgba(26, 18, 11, 0.14),
+    0 3px 7px rgba(26, 18, 11, 0.24),
+    0 -2px 4px rgba(26, 18, 11, 0.1);
+}
+.lib-band::before {
+  content: '';
+  position: absolute;
+  inset: 3px 0;
+  border-block: 1px solid color-mix(in oklab, var(--lib-ink) 16%, transparent);
+  pointer-events: none;
+}
+.lib-band i {
+  flex: none;
+  width: 0.44em;
+  height: 0.44em;
+  border-radius: 50%;
+  background: var(--lib-maple);
+}
+.lib-band.is-spine {
+  font-size: min(calc(var(--band-h) * 0.33), calc(var(--T) * 0.245));
+  text-align: center;
+}
+.lib-band.is-spine span span {
+  display: block;
+}
+.lib-band.is-dot i {
+  width: max(5px, calc(var(--T) * 0.16));
+  height: max(5px, calc(var(--T) * 0.16));
+}
+
+/* ── Covers ──────────────────────────────────────────────────────────────────── */
+.lib-cover {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  box-shadow:
+    inset 0 0 0 1px rgba(0, 0, 0, 0.16),
+    inset 0 0 calc(var(--u) * 12) rgba(0, 0, 0, 0.14);
+}
+/* The joint of a hard cover: a pressed groove beside the spine. */
+.lib-hinge {
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: calc(var(--u) * 1.6);
+  z-index: 5;
+  width: calc(var(--u) * 4.4);
+  pointer-events: none;
+  background: linear-gradient(90deg, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.26) 42%, rgba(255, 255, 255, 0.16) 58%, rgba(255, 255, 255, 0));
+}
+.lib-art {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: calc(var(--u) * 8.6) calc(var(--u) * 8.6) calc(var(--band-b) + var(--band-h) + var(--u) * 2.4);
+  color: var(--foil);
+  text-align: center;
+  filter: drop-shadow(0 0.7px 0 rgba(0, 0, 0, 0.3));
+}
+.lib-frame {
+  position: absolute;
+  inset: calc(var(--u) * 4.2);
+  border: max(1.5px, calc(var(--u) * 0.6)) solid var(--foil);
+  pointer-events: none;
+}
+.lib-frame::after {
+  content: '';
+  position: absolute;
+  inset: calc(var(--u) * 1.3);
+  border: 1px solid var(--foil);
+  opacity: 0.85;
+}
+.lib-cbrand {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 0.7em;
+  margin-bottom: calc(var(--u) * 2.6);
+  font-size: max(8.5px, calc(var(--u) * 3.7));
+  font-weight: 600;
+  line-height: 1.3;
+  white-space: nowrap;
+}
+html[lang='en'] .lib-cbrand,
+html[lang='en'] .lib-cseason,
+html[lang='en'] .lib-rmark {
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+.lib-cbrand i {
+  width: calc(var(--u) * 5);
+  border-top: 1px solid var(--foil);
+}
+.lib-panel {
+  position: relative;
+  flex: 1 1 0;
+  min-height: 0;
+  align-self: stretch;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--foil);
+}
+.lib-pattern {
+  position: absolute;
+  inset: 0;
+  background-size: calc(var(--u) * 15) calc(var(--u) * 15);
+  background-position: 50% 50%;
+}
+.lib-medal {
+  position: relative;
+  height: 84%;
+  max-width: 88%;
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  border-radius: 50%;
+  outline: max(1.5px, calc(var(--u) * 0.55)) solid var(--foil);
+  box-shadow:
+    0 0 0 calc(var(--u) * 2.1) var(--cloth),
+    0 0 0 calc(var(--u) * 2.1 + 1px) var(--foil);
+}
+.lib-medal svg {
+  position: relative;
+  width: 60%;
+  height: 60%;
+}
+.lib-ctitle {
+  flex: none;
+  display: grid;
+  place-items: center;
+  min-height: 2.5em;
+  margin-top: calc(var(--u) * 3.6);
+  padding-inline: calc(var(--u) * 1.5);
+  font-size: calc(var(--u) * 10.4);
+  font-weight: 800;
+  line-height: 1.25;
+  text-wrap: balance;
+}
+html[lang='en'] .lib-ctitle {
+  min-height: 2.2em;
+  font-size: calc(var(--u) * 9.6);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+.lib-cseason {
+  position: absolute;
+  inset-inline: 0;
+  bottom: calc(var(--band-b) * 0.5);
+  transform: translateY(50%);
+  font-size: max(8.5px, calc(var(--u) * 3.7));
+  font-weight: 600;
+  line-height: 1;
+}
+/* White-on-black copy of the foil art: white where there is foil, so light can be multiplied into it. */
+.lib-mono {
+  --foil: #fff;
+  --foil-hi: #fff;
+  --foil-lo: #fff;
+  --cloth: #000;
+  position: absolute;
+  inset: 0;
+  background: #000;
+  mix-blend-mode: multiply;
+}
+.lib-mono .lib-medal {
+  background: #000;
+}
+.lib-mono .lib-art,
+.lib-mono .lib-rtitle {
+  filter: none;
+}
+
+/* The real cover */
+.lib-cover.is-photo {
+  background: #e9b27a;
+}
+.lib-cover.is-photo img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  -webkit-user-drag: none;
+}
+.lib-cover.is-photo::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(180deg, rgba(70, 24, 4, 0) 80%, rgba(70, 24, 4, 0.5) 100%);
+}
+.lib-rtitle {
+  position: absolute;
+  top: 17.2%;
+  right: 6.5%;
+  z-index: 2;
+  width: 56%;
+  text-align: right;
+  font-weight: 900;
+  line-height: 1.24;
+  filter: drop-shadow(0 1px 0 rgba(255, 236, 200, 0.55));
+}
+html[lang='en'] .lib-rtitle {
+  line-height: 1.04;
+  letter-spacing: -0.025em;
+}
+.lib-rtitle .is-b {
+  margin-top: calc(var(--u) * 0.4);
+  font-weight: 800;
+  text-wrap: balance;
+}
+html[lang='en'] .lib-rtitle .is-b {
+  margin-top: calc(var(--u) * 1.4);
+  line-height: 1.12;
+}
+.lib-rby {
+  margin-top: calc(var(--u) * 2.6);
+  font-size: max(8.5px, calc(var(--u) * 3.5));
+  font-weight: 600;
+  line-height: 1.3;
+}
+.lib-rmark {
+  position: absolute;
+  inset-inline: 0;
+  bottom: calc(var(--u) * 5.4);
+  z-index: 2;
+  text-align: center;
+  color: #fff3dd;
+  font-size: max(8.5px, calc(var(--u) * 3.7));
+  font-weight: 600;
+  line-height: 1;
+  text-shadow: 0 1px 6px rgba(60, 20, 0, 0.6);
+}
+
+/* ── Light that travels ──────────────────────────────────────────────────────── */
+/* Soft sheen on cloth / printed board. */
+.lib-sheen {
+  position: absolute;
+  top: -12%;
+  bottom: -12%;
+  left: 50%;
+  z-index: 7;
+  width: 76%;
+  margin-left: -38%;
+  pointer-events: none;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.95) 50%, rgba(255, 255, 255, 0));
+  mix-blend-mode: soft-light;
+  opacity: 0.5;
+  transform: translateX(var(--sx, 0px)) skewX(-14deg);
+  will-change: transform;
+}
+/* Foil glint: bars of light (moved by transform) × a white-on-black copy of the foil art, screened onto the cover. */
+.lib-glint {
+  position: absolute;
+  inset: 0;
+  z-index: 8;
+  overflow: hidden;
+  pointer-events: none;
+  background: #000;
+  mix-blend-mode: screen;
+  opacity: var(--glint, 0.9);
+}
+.lib-glint-bar {
+  position: absolute;
+  top: -12%;
+  bottom: -12%;
+  left: 50%;
+  width: 48%;
+  margin-left: -24%;
+  background: linear-gradient(90deg, #000, #fff 50%, #000);
+  transform: translateX(var(--sx, 0px)) skewX(-14deg);
+  will-change: transform;
+}
+.lib-glint-bar.is-b {
+  transform: translateX(calc(var(--sx, 0px) + var(--sp, 0px))) skewX(-14deg);
+}
+
+/* Keyboard focus lands on the centred book, not on a page-wide box. */
+.lib-stage:focus-visible .lib-book[aria-selected='true'] .lib-front,
+.lib-stage:focus-visible .lib-book[aria-selected='true'] .lib-spine {
+  outline: 3px solid var(--color-maple-soft, #f4a35e);
+  outline-offset: -3px;
+}
+
+/* ── Caption under the shelf ─────────────────────────────────────────────────── */
+.lib-arrow {
+  display: grid;
+  place-items: center;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  color: var(--lib-ink);
+  box-shadow: inset 0 0 0 1.5px color-mix(in oklab, var(--lib-ink) 22%, transparent);
+  transition:
+    transform 0.2s ease,
+    background-color 0.2s ease,
+    color 0.2s ease,
+    opacity 0.2s ease;
+}
+.lib-arrow:hover:not(:disabled) {
+  background: var(--lib-ink);
+  color: var(--lib-paper);
+  transform: scale(1.05);
+}
+.lib-arrow:active:not(:disabled) {
+  transform: scale(0.95);
+}
+.lib-arrow:disabled {
+  opacity: 0.28;
+  cursor: default;
+}
+@keyframes lib-cap {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+    filter: blur(6px);
+  }
+}
+.lib-cap-in {
+  animation: lib-cap 0.5s var(--lib-ease) both;
+}
+/* The caption waits for the books to land. */
+.lib-caption {
+  transition:
+    opacity 0.8s var(--lib-ease),
+    transform 0.8s var(--lib-ease);
+}
+.lib.is-waiting .lib-caption {
+  opacity: 0;
+  transform: translateY(18px);
+}
+
+/* ── Detail ──────────────────────────────────────────────────────────────────── */
+.lib-ghost {
+  position: absolute;
+  inset-inline-end: -2%;
+  top: 50%;
+  z-index: 0;
+  font-size: clamp(7rem, 25vw, 24rem);
+  font-weight: 900;
+  line-height: 1;
+  white-space: nowrap;
+  color: color-mix(in oklab, var(--lib-ink) 5.5%, transparent);
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(-46%) scale(1.04);
+  transition:
+    opacity 0.5s ease,
+    transform 1.2s var(--lib-ease);
+}
+html[lang='en'] .lib-ghost {
+  letter-spacing: -0.05em;
+}
+.lib.is-detail .lib-ghost {
+  opacity: 1;
+  transform: translateY(-46%);
+  transition-delay: 0.15s;
+}
+.lib-detail {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  display: grid;
+  align-items: center;
+  pointer-events: none;
+  visibility: hidden;
+  transition: visibility 0s 0.4s;
+}
+.lib-detail.is-open {
+  visibility: visible;
+  transition: visibility 0s;
+}
+.lib-detail-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  justify-items: center;
+  gap: 28px;
+  padding-block: 88px 56px;
+}
+.lib-detail-slot {
+  height: min(40svh, 330px);
+  aspect-ratio: 0.753;
+}
+.lib-detail-slotwrap {
+  position: relative;
+}
+/* The opened book floats: one soft pool of shadow under it. */
+.lib-detail-shadow {
+  position: absolute;
+  inset-inline: -6%;
+  top: calc(100% + 4px);
+  height: 34px;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(40, 22, 8, 0.34), rgba(40, 22, 8, 0));
+  opacity: 0;
+  transform: scale(0.7);
+  transition:
+    opacity 0.4s ease,
+    transform 0.6s var(--lib-ease);
+}
+.lib-detail.is-open .lib-detail-shadow {
+  opacity: 1;
+  transform: none;
+  transition-delay: 0.55s;
+}
+.lib-detail-text {
+  width: 100%;
+  max-width: 34rem;
+  pointer-events: none;
+}
+.lib-detail.is-open .lib-detail-text {
+  pointer-events: auto;
+}
+.lib-detail [data-d] {
+  opacity: 0;
+  transform: translateY(22px);
+  transition:
+    opacity 0.3s ease,
+    transform 0.3s ease;
+}
+.lib-detail.is-open [data-d] {
+  opacity: 1;
+  transform: none;
+  transition:
+    opacity 0.8s var(--lib-ease),
+    transform 0.8s var(--lib-ease);
+  transition-delay: calc(var(--d, 0) * 80ms + 280ms);
+}
+.lib-detail .blur-words {
+  transition: opacity 0.3s ease;
+}
+.lib-detail:not(.is-open) .blur-words {
+  opacity: 0;
+}
+.lib-detail-title {
+  font-weight: 900;
+  font-size: clamp(2.35rem, 9.6vw, 3.4rem);
+  line-height: 1.02;
+  letter-spacing: -0.035em;
+  text-wrap: balance;
+}
+html[lang='ar'] .lib-detail-title {
+  line-height: 1.2;
+}
+.lib-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  height: 44px;
+  padding-inline-end: 14px;
+  border-radius: 999px;
+  font-size: 14.5px;
+  font-weight: 600;
+  color: var(--color-ink-2, #43362a);
+  transition: color 0.2s ease;
+}
+.lib-back span {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  box-shadow: inset 0 0 0 1.5px color-mix(in oklab, var(--lib-ink) 22%, transparent);
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    transform 0.2s ease;
+}
+.lib-back:hover {
+  color: var(--lib-ink);
+}
+.lib-back:hover span {
+  background: var(--lib-ink);
+  color: var(--lib-paper);
+  transform: scale(1.06);
+}
+.lib-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.lib-status i {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: currentColor;
+}
+.lib-status.is-soon i {
+  background: none;
+  box-shadow: inset 0 0 0 1.5px currentColor;
+}
+@media (min-width: 900px) {
+  .lib-detail-grid {
+    grid-template-columns: minmax(0, 1.08fr) minmax(0, 0.92fr);
+    align-items: center;
+    justify-items: stretch;
+    gap: 48px;
+    padding-block: 0;
+  }
+  .lib-detail-slotwrap {
+    order: 2;
+    justify-self: center;
+  }
+  .lib-detail-slot {
+    height: min(66svh, 600px);
+  }
+  .lib-detail-shadow {
+    height: 54px;
+    top: calc(100% + 10px);
+  }
+  .lib-detail-text {
+    max-width: 40rem;
+  }
+  .lib-detail-title {
+    font-size: clamp(3rem, 5.5vw, 5.25rem);
+  }
+}

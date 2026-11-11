@@ -14,8 +14,8 @@ import { shadowMaterial } from './Yard'
 function rig(aspect: number, phase: Phase) {
   const portrait = aspect < 0.9
   if (phase === 'done') return portrait ? { ox: 0, oy: 1.55, oz: 4.9, ly: 1.02, lz: 0, fov: 50 } : { ox: 0, oy: 1.3, oz: 3.8, ly: 0.95, lz: 0, fov: 42 }
-  if (portrait) return { ox: 0, oy: 3.5, oz: 7.3, ly: 1.3, lz: -0.6, fov: 66 }
-  return { ox: 0, oy: 2.35, oz: 5.5, ly: 1.2, lz: -0.4, fov: 50 }
+  if (portrait) return { ox: 0, oy: 3.1, oz: 6.3, ly: 1.25, lz: -0.6, fov: 64 }
+  return { ox: 0, oy: 2.15, oz: 4.9, ly: 1.15, lz: -0.4, fov: 50 }
 }
 
 const _look = new THREE.Vector3()

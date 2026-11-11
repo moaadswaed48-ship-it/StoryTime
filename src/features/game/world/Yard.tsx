@@ -74,8 +74,8 @@ function paint(g: THREE.BufferGeometry, fn: (x: number, y: number, z: number, ou
 
 function mistGeometry() {
   // rings around a centre in front of the yard: clear where Sari plays, solid mist where the painting begins
-  const radii = [13, 15.5, 18.5, 21.5, 75]
-  const alpha = [0, 0.32, 0.78, 1, 1]
+  const radii = [12.5, 15, 18, 21.5, 25, 27.2, 80]
+  const alpha = [0, 0.16, 0.4, 0.66, 0.9, 1, 1]
   const seg = 72
   const pos: number[] = []
   const col: number[] = []
@@ -104,7 +104,7 @@ function mistGeometry() {
 export function Ground({ onTap }: { onTap: (e: ThreeEvent<PointerEvent>) => void }) {
   const paving = useMemo(() => {
     const tex = pavingTexture()
-    tex.repeat.set(20, 20)
+    tex.repeat.set(27, 27)
     return tex
   }, [])
   const mist = useDisposable(() => {
@@ -149,17 +149,17 @@ export function Backdrop() {
 /* ── The big tree ───────────────────────────────────────────────────────────── */
 
 const BLOBS: [number, number, number, number][] = [
-  [0.4, 5.7, 0.3, 2.5],
-  [2.9, 4.9, 1.3, 1.8],
-  [-2.2, 5.0, 0.6, 1.9],
-  [0.7, 4.9, -2.0, 1.9],
-  [1.7, 6.8, -0.3, 1.7],
-  [-0.9, 6.6, 1.2, 1.5],
-  [4.3, 4.3, 0.5, 1.2],
+  [0.4, 6.1, 0.3, 2.6],
+  [3.2, 5.4, 1.0, 1.9],
+  [-2.4, 5.5, 0.6, 2.0],
+  [0.8, 5.4, -2.0, 2.0],
+  [1.9, 7.2, -0.3, 1.8],
+  [-0.9, 7.0, 1.2, 1.6],
+  [5.3, 5.1, 0.4, 1.4],
 ]
 const SQUASH = 0.8
 /** Mostly gold and orange, a few reds: the crown is back-lit. */
-const CROWN_COLORS = ['#f4a72c', '#f4a72c', '#e2711d', '#f2c14e', '#f2c14e', '#d9902f', '#c8421f']
+const CROWN_COLORS = ['#f4a72c', '#f4a72c', '#e2711d', '#f2c14e', '#f7d06a', '#d9902f', '#e98a2b', '#c8421f']
 
 function trunkGeometry() {
   const H = 4.5
@@ -182,7 +182,7 @@ function trunkGeometry() {
       pos.push(Math.sin(a) * r + Math.sin(y * 0.55) * 0.14, y, Math.cos(a) * r)
       const n = Math.hypot(Math.sin(a), 0.12, Math.cos(a))
       nor.push(Math.sin(a) / n, 0.12 / n, Math.cos(a) / n)
-      uv.push((i / seg) * 3, v * 2.4)
+      uv.push((i / seg) * 3, v * 0.98)
       _c.copy(dark).lerp(warm, 0.2 + 0.8 * v)
       col.push(_c.r, _c.g, _c.b)
     }
@@ -210,9 +210,9 @@ function branchGeometry(from: THREE.Vector3, to: THREE.Vector3, r0: number, r1: 
   return paint(g, (_x, _y, _z, out) => out.set('#a5744a'))
 }
 function canopyGeometry() {
-  const under = new THREE.Color('#b0501c')
-  const mid = new THREE.Color('#e9892a')
-  const top = new THREE.Color('#ffc552')
+  const under = new THREE.Color('#c9651d')
+  const mid = new THREE.Color('#ee952d')
+  const top = new THREE.Color('#ffcf63')
   return merge(
     BLOBS.map(([cx, cy, cz, r], i) => {
       const g = new THREE.IcosahedronGeometry(1, 2)
@@ -225,7 +225,7 @@ function canopyGeometry() {
         pos.setXYZ(v, cx + x * r * d, cy + y * r * d * SQUASH, cz + z * r * d)
       }
       return paint(g, (_x, y, _z, out) => {
-        const h = THREE.MathUtils.clamp((y - 3.2) / 4.6, 0, 1)
+        const h = THREE.MathUtils.clamp((y - 3.6) / 4.8, 0, 1)
         if (h < 0.5) out.copy(under).lerp(mid, h * 2)
         else out.copy(mid).lerp(top, (h - 0.5) * 2)
       })
@@ -235,22 +235,22 @@ function canopyGeometry() {
 
 export function Tree() {
   const trunk = useDisposable(() => {
-    const top = new THREE.Vector3(0.1, 4.2, 0)
+    const top = new THREE.Vector3(0.1, 4.3, 0)
     const geo = merge([
       trunkGeometry(),
-      branchGeometry(top, new THREE.Vector3(2.7, 5.2, 1.2), 0.36, 0.14),
-      branchGeometry(top, new THREE.Vector3(-2.0, 5.2, 0.5), 0.34, 0.14),
-      branchGeometry(top, new THREE.Vector3(0.6, 5.3, -1.8), 0.32, 0.14),
-      branchGeometry(top, new THREE.Vector3(1.2, 6.4, 0), 0.34, 0.16),
-      branchGeometry(new THREE.Vector3(2.4, 5.0, 1.1), new THREE.Vector3(4.2, 4.5, 0.6), 0.16, 0.08),
+      branchGeometry(top, new THREE.Vector3(3.0, 5.6, 1.0), 0.36, 0.14),
+      branchGeometry(top, new THREE.Vector3(-2.2, 5.6, 0.5), 0.34, 0.14),
+      branchGeometry(top, new THREE.Vector3(0.7, 5.6, -1.8), 0.32, 0.14),
+      branchGeometry(top, new THREE.Vector3(1.4, 6.8, 0), 0.34, 0.16),
+      branchGeometry(new THREE.Vector3(2.7, 5.45, 0.9), new THREE.Vector3(5.1, 5.2, 0.5), 0.17, 0.08),
     ])
     const bark = barkTexture()
     return new THREE.Mesh(geo, new THREE.MeshLambertMaterial({ vertexColors: true, map: bark }))
   })
-  const crown = useDisposable(() => new THREE.Mesh(canopyGeometry(), new THREE.MeshLambertMaterial({ vertexColors: true })))
+  const crown = useDisposable(() => new THREE.Mesh(canopyGeometry(), new THREE.MeshLambertMaterial({ vertexColors: true, emissive: '#6e2f0d' })))
   const leaves = useDisposable(() => {
     const rnd = mulberry32(17)
-    const total = 560
+    const total = 1250
     const sum = BLOBS.reduce((n, b) => n + b[3] * b[3], 0)
     const geo = new THREE.PlaneGeometry(1, 1)
     const mat = new THREE.MeshBasicMaterial({ map: leafTexture(), alphaTest: 0.4, side: THREE.DoubleSide })
@@ -261,17 +261,17 @@ export function Tree() {
     BLOBS.forEach(([cx, cy, cz, r], bi) => {
       const n = bi === BLOBS.length - 1 ? total - k : Math.round((total * r * r) / sum)
       for (let i = 0; i < n && k < total; i++, k++) {
-        const u = rnd() * 2 - 1
+        const u = rnd() * 1.75 - 1 // more of them underneath and on the sides, where the camera looks
         const a = rnd() * Math.PI * 2
         const s = Math.sqrt(1 - u * u)
         dir.set(Math.cos(a) * s, u, Math.sin(a) * s)
-        const out = r * (0.98 + rnd() * 0.22)
+        const out = r * (0.97 + rnd() * 0.2)
         _p.set(cx + dir.x * out, cy + dir.y * out * SQUASH, cz + dir.z * out)
         _q.setFromUnitVectors(z, dir)
         _q.multiply(new THREE.Quaternion().setFromEuler(_e.set((rnd() - 0.5) * 1.1, (rnd() - 0.5) * 1.1, rnd() * Math.PI * 2)))
-        const size = 0.5 + rnd() * 0.5
+        const size = 0.3 + rnd() * 0.3
         mesh.setMatrixAt(k, _m.compose(_p, _q, _s.setScalar(size)))
-        const light = 0.74 + 0.36 * (dir.y * 0.5 + 0.5) + rnd() * 0.1
+        const light = 0.8 + 0.3 * (dir.y * 0.5 + 0.5) + rnd() * 0.14
         mesh.setColorAt(k, _c.set(CROWN_COLORS[Math.floor(rnd() * CROWN_COLORS.length)]).multiplyScalar(light))
       }
     })
@@ -351,17 +351,23 @@ export function Softwork() {
     const rnd = mulberry32(31)
     const list: { p: [number, number, number]; s: [number, number, number]; c: string }[] = []
     for (const [x, z, w] of PLANTERS) {
-      const n = Math.round(w * 9)
-      for (let i = 0; i < n; i++) {
-        const green = i % 3 === 0
-        const r = green ? 0.2 + rnd() * 0.1 : 0.12 + rnd() * 0.1
-        list.push({ p: [x + (rnd() - 0.5) * (w - 0.3), 0.52 + rnd() * (green ? 0.1 : 0.26), z + (rnd() - 0.5) * 0.32], s: [r, r * 0.85, r], c: green ? GREENS[i % GREENS.length] : FLOWERS[Math.floor(rnd() * FLOWERS.length)] })
+      const bushes = Math.max(2, Math.round(w * 2.4))
+      for (let i = 0; i < bushes; i++) {
+        const bx = x - w / 2 + ((i + 0.5) / bushes) * w
+        const br = (w / bushes) * 0.62
+        list.push({ p: [bx, 0.52, z], s: [br, 0.24 + rnd() * 0.08, 0.3], c: GREENS[i % GREENS.length] })
+        for (let k = 0; k < 9; k++) {
+          const a = rnd() * Math.PI * 2
+          const d = Math.sqrt(rnd()) * br * 0.9
+          const r = 0.07 + rnd() * 0.055
+          list.push({ p: [bx + Math.cos(a) * d, 0.7 + rnd() * 0.12 - d * 0.18, z + Math.sin(a) * d * 0.7], s: [r, r * 0.8, r], c: FLOWERS[Math.floor(rnd() * FLOWERS.length)] })
+        }
       }
     }
     // the heap of leaves (its surface is covered by carpet leaves)
-    list.push({ p: [PILE.x, 0.02, PILE.z], s: [PILE.r, 0.46, PILE.r * 0.9], c: '#c9661f' })
-    list.push({ p: [PILE.x + 0.5, 0.02, PILE.z + 0.3], s: [0.6, 0.3, 0.6], c: '#b9581b' })
-    list.push({ p: [PILE.x - 0.55, 0.02, PILE.z - 0.2], s: [0.55, 0.26, 0.5], c: '#d67722' })
+    list.push({ p: [PILE.x, 0.0, PILE.z], s: [PILE.r * 0.95, 0.44, PILE.r * 0.85], c: '#cf6f22' })
+    list.push({ p: [PILE.x + 0.55, 0.0, PILE.z + 0.3], s: [0.6, 0.28, 0.58], c: '#c2621d' })
+    list.push({ p: [PILE.x - 0.6, 0.0, PILE.z - 0.15], s: [0.55, 0.25, 0.5], c: '#db7d26' })
     const mesh = new THREE.InstancedMesh(new THREE.IcosahedronGeometry(1, 2), new THREE.MeshLambertMaterial(), list.length)
     list.forEach((b, i) => {
       mesh.setMatrixAt(i, _m.compose(_p.set(...b.p), _q.identity(), _s.set(...b.s)))
@@ -405,7 +411,7 @@ export const shadowMaterial = (opacity: number) => new THREE.MeshBasicMaterial({
 export function LeafCarpet() {
   const mesh = useDisposable(() => {
     const rnd = mulberry32(44)
-    const max = 1250
+    const max = 1500
     const geo = new THREE.PlaneGeometry(1, 1)
     geo.rotateX(-Math.PI / 2)
     const m = new THREE.InstancedMesh(geo, new THREE.MeshBasicMaterial({ map: leafTexture(), alphaTest: 0.4, side: THREE.DoubleSide }), max)
@@ -417,11 +423,11 @@ export function LeafCarpet() {
       k++
     }
     // the heap first
-    for (let i = 0; i < 130; i++) {
+    for (let i = 0; i < 210; i++) {
       const a = rnd() * Math.PI * 2
-      const d = Math.sqrt(rnd()) * PILE.r * 1.15
-      const h = Math.max(0, 0.47 * (1 - (d / (PILE.r * 1.05)) ** 2))
-      put(PILE.x + Math.cos(a) * d, 0.05 + h, PILE.z + Math.sin(a) * d * 0.9, 0.3 + rnd() * 0.22, 1.1)
+      const d = Math.sqrt(rnd()) * PILE.r * 1.2
+      const h = Math.max(0, 0.45 * (1 - (d / (PILE.r * 1.0)) ** 2))
+      put(PILE.x + Math.cos(a) * d, 0.05 + h, PILE.z + Math.sin(a) * d * 0.9, 0.28 + rnd() * 0.2, 1.2)
     }
     // then the yard: thick along the fence and under the tree, thinner where Sari runs
     for (let tries = 0; k < max && tries < 20000; tries++) {
@@ -429,7 +435,7 @@ export function LeafCarpet() {
       const z = -7.4 + rnd() * 19
       const dTree = Math.hypot(x - TREE.x, z - TREE.z)
       if (dTree < 0.95) continue
-      let density = 0.24
+      let density = 0.27
       if (Math.abs(x) > 6.6 || z < -4.4) density += 0.45
       if (dTree < 3.6) density += 0.55 * (1 - dTree / 3.6)
       if (Math.abs(x) > FENCE_X || z < FENCE_Z) density = 0.5

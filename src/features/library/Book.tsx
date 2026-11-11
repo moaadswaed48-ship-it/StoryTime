@@ -1,4 +1,4 @@
-import { memo, type CSSProperties } from 'react'
+import { memo, type CSSProperties, type ReactNode } from 'react'
 import type { ShelfBook } from '@/content/library'
 import { t } from '@/i18n/copy'
 import { dirSign, locale } from '@/i18n/locale'
@@ -56,12 +56,12 @@ function Emblem({ book, id, tn, mono, className }: { book: ShelfBook; id: string
 }
 
 /** The two white bars of light that cross the foil when the book turns (see library.css → .lib-glint). */
-function Glint({ children }: { children: React.ReactNode }) {
+function Glint({ children }: { children: ReactNode }) {
   return (
     <div className="lib-glint">
       <span className="lib-glint-bar" />
       <span className="lib-glint-bar is-b" />
-      {children}
+      <div className="lib-mono is-mono">{children}</div>
     </div>
   )
 }
@@ -69,7 +69,7 @@ function Glint({ children }: { children: React.ReactNode }) {
 /* ── Series cover: cloth, double foil frame, blind-stamped pattern panel, medallion, title, belly band ── */
 function SeriesArt({ book, tn, mono }: { book: ShelfBook; tn: Tones; mono?: boolean }) {
   return (
-    <div className={cn('lib-art', mono && 'is-mono')}>
+    <div className="lib-art">
       <span className="lib-frame" />
       <p className="lib-cbrand lib-foil">
         <i />
@@ -106,14 +106,14 @@ function SeriesCover({ book, tn }: { book: ShelfBook; tn: Tones }) {
 }
 
 /* ── The real book: the painted cover, full bleed, with the title stamped in copper foil on the open sky ── */
-function ReadyTitle({ book, mono }: { book: ShelfBook; mono?: boolean }) {
+function ReadyTitle({ book }: { book: ShelfBook }) {
   const title = book.title[locale]
   // The copy already breaks this title by hand; fall back to a balanced split for any other book.
   const lines: string[] = title === `${t.hero.titleA} ${t.hero.titleB}` ? [t.hero.titleA, t.hero.titleB] : twoLines(title)
   const box = 53 // width of the lock-up in cover units
   const fit = (s: string, max: number, min: number) => Math.max(min, Math.min(max, box / (ADV * s.length)))
   return (
-    <div className={cn('lib-rtitle', mono && 'is-mono')}>
+    <div className="lib-rtitle">
       <p className="lib-foil" style={{ fontSize: `calc(var(--u) * ${fit(lines[0], 10.6, 6).toFixed(2)})` }}>
         {lines[0]}
       </p>
@@ -134,10 +134,10 @@ function ReadyCover({ book }: { book: ShelfBook }) {
       <span className="lib-hinge" />
       <ReadyTitle book={book} />
       <Glint>
-        <ReadyTitle book={book} mono />
+        <ReadyTitle book={book} />
       </Glint>
       <span className="lib-sheen" />
-      <p className="lib-rbrand">{t.brand}</p>
+      <p className="lib-rmark">{t.brand}</p>
     </div>
   )
 }

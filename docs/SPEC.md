@@ -34,6 +34,35 @@ The product: every story can be **read** (a book that opens, with pictures that 
 
 Must-read before designing (in this repo): `.claude/skills/motionsites-web-builder/references/craft.md`, `…/references/review.md`, and the technique file(s) named in your brief under `…/references/techniques/` (start from `INDEX.md`). They contain working recipes — adapt them to React + Tailwind 4 + GSAP (no framer-motion here).
 
+## 2b. Recipes learned from MotionSites (study notes, in our own words)
+
+The owner connected his MotionSites account and we opened the three free designs closest to this site. These are the mechanics behind them. Use them as the quality reference for `library`, `book` and `hero`: adapt the ideas and numbers to our stack, our content and right-to-left Arabic; never copy their text, names or media. Where your build is weaker than these mechanics, bring it up to them.
+
+**Shelf ("Shelf Hero") → `library`**
+- One `requestAnimationFrame` loop. Position `s` (in book units) chases a target `T`: `s += (T − s) · (1 − e^(−k·dt))`, `k ≈ 5.2` (≈ 18 while dragging), `dt` clamped to 50 ms. Snap `T` to an integer on release and 160 ms after the last wheel event. A one-step move settles in about 0.9 s; longer jumps glide through every book on the way.
+- Every book is a real box: the spine is the front face, the cover is the side face (`rotateY(90deg) translateZ(spineWidth/2)`), `backface-visibility: hidden`, perspective ≈ 2200px. All sizes derive from one height `H` (≈ `min(46vh, 31vw)`, phones `min(60vw, 40svh)`): spine ≈ 0.17 H, cover width = box depth ≈ 0.53 H, gap 0.03 H.
+- Openness `o = smoothstep(max(0, 1 − |r|))` with `r` = distance from the centre in book units. The box turns `−90°·o` so the cover faces front, leans `4.5°·o`, comes forward `0.2 H·o`, rises `0.025 H·o`. Books the shelf passes half-open and close again. Mirror the turn for Arabic binding.
+- Neighbours part smoothly to make room: `x = r·(spine + gap) + (cover − spine + 1.6·gap) · B(r)`, `B(r) = (r + sin(πr)/π)/2` for `|r| < 1`, else `±0.5`. It is continuous, so a fractional position never jumps.
+- Light: a dark overlay per face driven by `o` (spine darkens to 55 % as it turns away; cover goes from 50 % dark to fully lit), plus a soft cast shadow under the open cover. This is what makes it read as an object.
+- Life: hovered spines lift 4.5 % of `H`; the open cover leans toward the pointer (±9° / ±6°, eased); a round play badge pops at the cover's lower corner once the shelf settles; on desktop a ring cursor swells into a filled "open" disc over the cover.
+- Caption under the shelf: each line sits in an overflow mask; on change the new line slides in from the travel direction while the old one leaves (650 ms, `cubic-bezier(.2,.8,.2,1)`). **No opacity fades anywhere: reveals are mask slides, clips and scales.**
+- Opening a book: a sheet of paper grows out of the cover (`clip-path: inset(...)` matching the cover's rect and tilt → full screen and straight, ≈ 1050 ms, `cubic-bezier(.76,0,.18,1)`); text lines rise out of masks 75 ms apart; the picture bleeds in through expanding ragged blots (circles through `feTurbulence` + `feDisplacementMap`). Closing reverses in ≈ 850 ms. A paper-grain layer (`feTurbulence`, multiply) sits over everything.
+
+**Book ("Storybook") → `book`**
+- Stages: the closed book lies tilted on the table → lifts upright and small → flies to the reading position while the cover swings open. One progress value drives it, with overlapping eased segments (lift 0–0.42, fly 0.32–1, cover 0.45–0.95). On first appearance the book is seen open, flips back through its pages, closes and settles: a three-second showcase.
+- **The page bends; it does not hinge.** Turn angle `θ = π·t`, flex `k = 0.42·sin(π·t)`; along the page each segment's angle is `θ − k·s` (`s` = 0 at the spine, 1 at the edge), the lower corner lagging a little. In CSS-3D, build the turning leaf from about 12 nested vertical strips, each rotated by the increment, so it curls. Stack order swaps mid-turn and the page lifts slightly at the top of the arc.
+- One picture runs across the spine: the left half is printed on the back of the turned leaf, the right half on the front of the next. Gutter shadow fading from the spine (`≈ 20 %·e^(−22u)`), darker outer edge, rounded outer corners only, visible board thickness, a contact shadow that widens as the cover opens.
+- Depth and life: background layer shifts ≈ 1 % with the pointer, foreground ≈ 2.4 % (art zoomed ≈ 1.045 to allow it); the moving clip replaces the still once it is actually playing; the closed book floats a few pixels and tilts toward the pointer.
+- Timing: ≈ 1050 ms per turn, ease-in-out cubic. Dragging the page follows the finger and completes past 30 %, otherwise springs back.
+- Controls: page dots as small spheres showing a crop of each spread (active one larger, warm glow); hand-drawn arrows; a hand-drawn ring around the "open" button; a short dedication under it. Phones: text sits below the picture as captions, swipe to turn.
+
+**Hero ("Meadowbell", kids show) → `hero`, `nav`**
+- The UI takes its colour from the film: glass pills tinted with a scene colour (not grey), and the headline's shadow tinted with the scene (not black). White pill for the main action with scene-coloured text; tinted glass pill with a play triangle for "watch".
+- Headline: heavy rounded display, very tight line pitch (≈ 0.82 of the font size), small kicker above, three short lines of sub-copy below.
+- The frame is taller than the screen (≈ 9:8), so headline, pills and characters come first and the scene cards **peek just below the fold**: title at the start side, "browse all ›" at the end side, three cards with a play triangle in the lower start corner. Hover: card lifts 8px and its art zooms to 1.05; pills rise 2px; the chevron nudges.
+- Entrance as one timeline: nav drops in, kicker un-blurs, each headline line springs up out of a blur 0.16 s apart, then sub-copy, pills and cards rise in turn.
+- The moving film is registered exactly on its poster (first frame = poster = last frame), so nothing jumps when it starts. Phones: compact nav, headline ≈ 51px, cards in a swipe row, the picture shifted so the characters stay in view.
+
 ## 3. Assets (all under `public/`, load with `asset('…')` from `@/lib/asset`)
 
 | Path | What |

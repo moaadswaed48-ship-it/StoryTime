@@ -1,4 +1,4 @@
-import { Suspense, lazy, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState, type CSSProperties } from 'react'
+import { Suspense, lazy, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState, type CSSProperties, type RefObject } from 'react'
 import gsap from 'gsap'
 import { ArrowDown, ArrowLeft, ArrowRight, ArrowUp, BookOpen, Check, Gamepad2, Hand, RotateCcw, Volume2, VolumeX, X } from 'lucide-react'
 import { Leaves, type LeavesHandle } from '@/design/Leaves'
@@ -147,9 +147,13 @@ export function PlayView({ from, touch }: { from: DOMRect | null; touch: boolean
     >
       <div className="absolute inset-0 bg-night" style={{ opacity: grown ? 1 : 0 }}>
         {mode === '3d' ? (
-          <Suspense fallback={null}>
-            <World onFail={() => setMode('cards')} />
-          </Suspense>
+          <>
+            <Suspense fallback={null}>
+              <World onFail={() => setMode('cards')} />
+            </Suspense>
+            {/* film finish: low sun from the tree's side, darker corners, grain */}
+            <div className="game-light grain pointer-events-none absolute inset-0" aria-hidden />
+          </>
         ) : (
           <CardsYard />
         )}
@@ -171,14 +175,14 @@ export function PlayView({ from, touch }: { from: DOMRect | null; touch: boolean
       {mode === '3d' && phase === 'playing' && stick && <Stick />}
       {phase === 'playing' && grown && <Hint touch={stick} cards={mode === 'cards'} />}
       {asking && <QuestionCard key={`${useGame.getState().round}:${current}`} slots={slots} burst={burst} />}
-      {phase === 'done' && <Done cards={mode === 'cards'} onExit={exit} />}
+      {phase === 'done' && <Done cards={mode === 'cards'} />}
     </div>
   )
 }
 
 /* ── HUD: the row of collected papers, sound, exit ──────────────────────────── */
 
-function Hud({ slots, waiting, onExit }: { slots: React.RefObject<(HTMLLIElement | null)[]>; waiting: boolean; onExit: () => void }) {
+function Hud({ slots, waiting, onExit }: { slots: RefObject<(HTMLLIElement | null)[]>; waiting: boolean; onExit: () => void }) {
   const papers = useGame((g) => g.papers)
   const collected = useGame((g) => g.collected)
   const sound = useSiteStore((s) => s.sound)
@@ -372,7 +376,7 @@ function Arrows() {
 
 /* ── The question: the educational moment ───────────────────────────────────── */
 
-function QuestionCard({ slots, burst }: { slots: React.RefObject<(HTMLLIElement | null)[]>; burst: (x: number, y: number, n?: number) => void }) {
+function QuestionCard({ slots, burst }: { slots: RefObject<(HTMLLIElement | null)[]>; burst: (x: number, y: number, n?: number) => void }) {
   const phase = useGame((g) => g.phase)
   const current = useGame((g) => g.current)
   const papers = useGame((g) => g.papers)
@@ -495,13 +499,12 @@ function QuestionCard({ slots, burst }: { slots: React.RefObject<(HTMLLIElement 
 
 /* ── All five collected ─────────────────────────────────────────────────────── */
 
-function Done({ cards, onExit }: { cards: boolean; onExit: () => void }) {
+function Done({ cards }: { cards: boolean }) {
   const again = useGame((g) => g.again)
   const read = () => {
     useGame.getState().exit()
     useSiteStore.getState().openBook(0)
   }
-  void onExit
   return (
     <div className="absolute inset-0 z-[41] flex flex-col items-center justify-between px-5 pb-[max(30px,env(safe-area-inset-bottom))] pt-[clamp(104px,15vh,150px)]" data-game-done>
       <div className="game-done-shade pointer-events-none absolute inset-0" aria-hidden />

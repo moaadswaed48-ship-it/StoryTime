@@ -8,6 +8,8 @@ import { sfx } from '@/audio/synth'
 import { driftCss, driftOf } from './logic'
 import { GUTTER_CSS, blit, pageCanvas, paintPaper, paintPicture, type Affine } from './paint'
 import { runTurn, type TurnHandle } from './turn'
+import { cachedScene, pageScale, preloadScene, ready } from './pictures'
+import { NO_CLIP, type ClipInfo } from './qa'
 
 export type BookPhase = 'closed' | 'opening' | 'open'
 
@@ -20,13 +22,6 @@ export interface TurnReq {
   forward: boolean
   snapshot: HTMLCanvasElement
 }
-export interface ClipInfo {
-  has: boolean
-  playing: boolean
-  live: boolean
-  time: number
-  ready: number
-}
 export interface SpreadHandle {
   capture(): HTMLCanvasElement | null
   toggleClip(): boolean | null
@@ -34,23 +29,6 @@ export interface SpreadHandle {
   /** Freeze the next (or running) opening / page turn at a fraction of its length; `null` lets it run again. */
   hold(p: number | null): void
 }
-
-/* ── Scene pictures, loaded ahead so a leaf never turns onto an empty page ───── */
-const cache = new Map<number, HTMLImageElement>()
-export function preloadScene(i: number): HTMLImageElement | null {
-  if (i < 0 || i >= SCENES) return null
-  let im = cache.get(i)
-  if (!im) {
-    im = new Image()
-    im.decoding = 'async'
-    im.src = asset(story.scenes[i].img)
-    cache.set(i, im)
-    im.decode?.().catch(() => {})
-  }
-  return im
-}
-const ready = (im: HTMLImageElement | null | undefined): im is HTMLImageElement => !!im && im.complete && im.naturalWidth > 0
-const pageScale = (W: number) => Math.min(window.devicePixelRatio || 1, W > 900 ? 1.5 : 2)
 
 const BLUR = 14 // px, the frosted picture behind the paywall card (keep in step with .bk-page[data-blur])
 const COVER_T = 4 // px, thickness of the cover board
@@ -195,6 +173,7 @@ export const Spread = forwardRef<SpreadHandle, Props>(function Spread({ phase, s
   const pose = useRef({ x: 0, y: 0, s: 1, rx: RX0, ry: RY0 })
   const hold = useRef<number | null>(null)
   const turnH = useRef<TurnHandle | null>(null)
+  const turnNo = useRef(0)
   const openTl = useRef<gsap.core.Timeline | null>(null)
   const cb = useRef({ onOpened, onTurnEnd })
   cb.current = { onOpened, onTurnEnd }
@@ -224,6 +203,14 @@ export const Spread = forwardRef<SpreadHandle, Props>(function Spread({ phase, s
     blit(cv, scenePage(now.current.scene, now.current.step).c, rtl ? W / 2 : 0, rtl ? W : W / 2, W)
   }
 
+  const dropTurn = () => {
+    const h = turnH.current
+    if (!h) return
+    turnH.current = null
+    h.kill()
+    cb.current.onTurnEnd(turnNo.current)
+  }
+
   useLayoutEffect(() => {
     const el = sceneEl.current!
     const read = () => {
@@ -232,7 +219,7 @@ export const Spread = forwardRef<SpreadHandle, Props>(function Spread({ phase, s
       if (W === size.current.W && H === size.current.H) return
       size.current = { W, H }
       // A resize in the middle of a turn: drop the leaf, the page underneath is already right.
-      turnH.current?.kill()
+      dropTurn()
       paintInside()
     }
     read()
@@ -262,7 +249,7 @@ export const Spread = forwardRef<SpreadHandle, Props>(function Spread({ phase, s
         }
       }
       const v = p.video
-      const cached = cache.get(now.current.scene)
+      const cached = cachedScene(now.current.scene)
       const src = p.live && v && v.readyState >= 2 ? v : ready(p.img) ? p.img : ready(cached) ? cached : null
       paintPicture(c, src, m, k, now.current.blurred ? `blur(${BLUR * k}px) brightness(0.62) saturate(0.9)` : undefined)
       return c
@@ -270,13 +257,13 @@ export const Spread = forwardRef<SpreadHandle, Props>(function Spread({ phase, s
     toggleClip: () => pic.current?.toggle() ?? null,
     clip() {
       const v = pic.current?.video
-      return v ? { has: true, playing: !v.paused && !v.ended, live: !!pic.current?.live, time: v.currentTime, ready: v.readyState } : { has: false, playing: false, live: false, time: 0, ready: 0 }
+      return v ? { has: true, playing: !v.paused && !v.ended, live: !!pic.current?.live, time: v.currentTime, ready: v.readyState } : NO_CLIP
     },
     hold(p) {
       hold.current = p
       if (p == null) {
         openTl.current?.play()
-        turnH.current?.kill()
+        dropTurn()
         return
       }
       turnH.current?.seek(p)
@@ -452,6 +439,7 @@ export const Spread = forwardRef<SpreadHandle, Props>(function Spread({ phase, s
       },
     })
     turnH.current = h
+    turnNo.current = turn.id
     if (hold.current != null) h.seek(hold.current)
     sfx.flip()
     let alive = true

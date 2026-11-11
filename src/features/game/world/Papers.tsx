@@ -77,9 +77,9 @@ function PaperItem({ index, name }: { index: number; name: string }) {
     geo.attributes.position.needsUpdate = true
 
     const pulse = 0.5 + 0.5 * Math.sin(st.t * 2.4)
-    ring.current.scale.setScalar(1.3 + pulse * 0.18)
+    ring.current.scale.setScalar(1.45 + pulse * 0.2)
     mats.ring.opacity = (0.6 + pulse * 0.3) * (1 - k)
-    marker.current.position.y = 1.62 + Math.sin(st.t * 3) * 0.07
+    marker.current.position.y = 1.7 + Math.sin(st.t * 3) * 0.09
     mats.marker.opacity = 1 - k
   })
 
@@ -89,7 +89,7 @@ function PaperItem({ index, name }: { index: number; name: string }) {
         <planeGeometry args={[1, 1]} />
       </mesh>
       <mesh ref={sheet} geometry={geo} material={mats.sheet} renderOrder={6} />
-      <sprite ref={marker} material={mats.marker} scale={[0.36, 0.36, 0.36]} renderOrder={7} />
+      <sprite ref={marker} material={mats.marker} scale={[0.48, 0.48, 0.48]} renderOrder={7} />
     </group>
   )
 }

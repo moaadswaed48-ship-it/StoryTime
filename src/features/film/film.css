@@ -391,7 +391,8 @@ html[dir='rtl'] .film-scrub__fill {
   border-radius: 9999px;
   background: #fff;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.45);
-  transform: translateX(calc(var(--p) * var(--dir) * 100cqw)) scale(var(--thumb, 0.75));
+  translate: calc(var(--p) * var(--dir) * 100cqw) 0;
+  scale: var(--thumb, 0.75);
   transition: scale 0.2s ease-out;
 }
 .film-scrub:hover .film-scrub__thumb,
@@ -715,9 +716,6 @@ html[lang='ar'] .film-end__word {
     justify-content: center;
     padding: 12px 26px 18px;
     text-align: center;
-  }
-  .film-words > * {
-    grid-area: 1 / 1;
   }
   .film-words .film-title {
     position: absolute;

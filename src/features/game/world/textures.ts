@@ -209,11 +209,12 @@ export const ringTexture = () =>
     const S = 256
     const [c, g] = board(S, S)
     const grad = g.createRadialGradient(S / 2, S / 2, 0, S / 2, S / 2, S / 2)
-    grad.addColorStop(0, 'rgba(255,255,255,.3)')
-    grad.addColorStop(0.5, 'rgba(255,255,255,.12)')
-    grad.addColorStop(0.7, 'rgba(255,255,255,.2)')
-    grad.addColorStop(0.8, 'rgba(255,255,255,1)')
-    grad.addColorStop(0.88, 'rgba(255,255,255,.34)')
+    grad.addColorStop(0, 'rgba(255,255,255,.42)')
+    grad.addColorStop(0.45, 'rgba(255,255,255,.2)')
+    grad.addColorStop(0.66, 'rgba(255,255,255,.3)')
+    grad.addColorStop(0.74, 'rgba(255,255,255,1)')
+    grad.addColorStop(0.84, 'rgba(255,255,255,1)')
+    grad.addColorStop(0.9, 'rgba(255,255,255,.3)')
     grad.addColorStop(1, 'rgba(255,255,255,0)')
     g.fillStyle = grad
     g.fillRect(0, 0, S, S)

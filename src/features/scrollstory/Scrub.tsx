@@ -44,7 +44,32 @@ export function ScrubStory() {
   const words = useRef<(HTMLElement | null)[]>([])
   const counter = useRef<HTMLSpanElement>(null)
   const hooks = useRef<Hooks | null>(null)
-  const beatNow = useRef(0)
+  /** Fast values live here, never in React state (the ticker reads and writes them every frame). */
+  const fast = useRef({
+    first: true,
+    dirty: true,
+    settled: false,
+    v: -1, // last scroll value seen
+    p: 0, // smoothed runway progress
+    pos: 0, // smoothed frame position (float)
+    reel: -1, // word reel position: -1 hidden below, 0…2 the beats
+    beat: 0,
+    on: false,
+    open: -1,
+    out: -1,
+    fill: -1,
+    // last painted
+    a: -1,
+    b: -1,
+    mix: -1,
+    zoom: 0,
+    pan: 0,
+    shown: 1,
+    warmed: -1,
+    reelDrawn: NaN,
+    counted: -1,
+    filmed: false,
+  })
 
   const [beat, setBeat] = useState(0)
   /** The stage has (nearly) locked into place: the copy may enter. */
@@ -55,9 +80,30 @@ export function ScrubStory() {
   const [covered, setCovered] = useState(false)
 
   useLayoutEffect(() => {
-    const next = section.current?.nextElementSibling
-    setCovered(next instanceof HTMLElement && next.classList.contains('sheet') && next.offsetHeight > 0)
+    const sec = section.current
+    const parent = sec?.parentElement
+    if (!sec || !parent) return
     setLive(true)
+    // A following `.sheet` section (the library) is allowed to slide over the pinned film.
+    // Watch for it: it may mount, or get its height, after this section does.
+    let watched: Element | null = null
+    const ro = new ResizeObserver(() => check())
+    const check = () => {
+      const next = sec.nextElementSibling
+      if (next !== watched) {
+        if (watched) ro.unobserve(watched)
+        watched = next
+        if (next) ro.observe(next)
+      }
+      setCovered(next instanceof HTMLElement && next.classList.contains('sheet') && next.offsetHeight > 0)
+    }
+    const mo = new MutationObserver(check)
+    mo.observe(parent, { childList: true })
+    check()
+    return () => {
+      mo.disconnect()
+      ro.disconnect()
+    }
   }, [])
 
   useGSAP(
@@ -81,32 +127,9 @@ export function ScrubStory() {
         s.dirty = true
       }
 
-      // ── fast state (never React state) ──
-      const s = {
-        first: true,
-        dirty: true,
-        settled: false,
-        v: -1, // last scroll value seen
-        p: 0, // smoothed runway progress
-        pos: 0, // smoothed frame position (float)
-        reel: -1, // word reel position: -1 hidden below, 0…2 the beats
-        beat: 0,
-        on: false,
-        open: -1,
-        out: -1,
-        fill: -1,
-        // last painted
-        a: -1,
-        b: -1,
-        mix: -1,
-        zoom: 0,
-        pan: 0,
-        shown: 1,
-        warmed: -1,
-        reelDrawn: NaN,
-        counted: -1,
-        filmed: false,
-      }
+      // Fast state survives a rebuild of this engine; only "what is on screen" is forgotten.
+      const s = fast.current
+      Object.assign(s, { first: true, dirty: true, settled: false, v: -1, open: -1, out: -1, fill: -1, a: -1, b: -1, mix: -1, reelDrawn: NaN, counted: -1 })
 
       // ── frames ──
       let store: FrameStore | null = null
@@ -240,7 +263,6 @@ export function ScrubStory() {
         else if (third < b - 0.03) b = Math.max(0, Math.floor(third))
         if (b !== s.beat) {
           s.beat = b
-          beatNow.current = b
           setBeat(b)
         }
 
@@ -408,7 +430,7 @@ export function ScrubStory() {
                       <span>{b.line}</span>
                     </p>
                     <div className="ss-cta" style={{ '--i': 1 } as CSSProperties}>
-                      <Pill variant="solid" size="md" className="ss-pill shadow-lift" onClick={b.run} onFocus={() => i !== beatNow.current && goTo(i)}>
+                      <Pill variant="solid" size="md" className="ss-pill shadow-lift" onClick={b.run} onFocus={() => i !== fast.current.beat && goTo(i)}>
                         <b.Icon size={18} strokeWidth={2.2} aria-hidden />
                         {b.cta}
                         <span className="ss-pill-arrow" data-down={b.down ? '' : undefined} aria-hidden>

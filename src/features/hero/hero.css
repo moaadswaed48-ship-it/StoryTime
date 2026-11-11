@@ -103,15 +103,15 @@ html[lang='en'] .hero {
   background: linear-gradient(
     to top,
     var(--color-night, #120c08) 0%,
-    rgb(18 12 8 / 0.9) 7%,
-    rgb(18 12 8 / 0.7) 16%,
-    rgb(18 12 8 / 0.42) 27%,
-    rgb(18 12 8 / 0.18) 38%,
-    rgb(18 12 8 / 0) 50%
+    rgb(18 12 8 / 0.86) 7%,
+    rgb(18 12 8 / 0.62) 15%,
+    rgb(18 12 8 / 0.36) 23%,
+    rgb(18 12 8 / 0.14) 32%,
+    rgb(18 12 8 / 0) 42%
   );
 }
 .hero[data-layout='tall'] .hero-grade--sky {
-  background: linear-gradient(to bottom, rgb(168 92 40 / 0.62) 0%, rgb(172 96 42 / 0.44) 26%, rgb(176 100 44 / 0.14) 46%, rgb(176 100 44 / 0) 58%);
+  background: linear-gradient(to bottom, rgb(168 92 40 / 0.54) 0%, rgb(172 96 42 / 0.4) 26%, rgb(176 100 44 / 0.14) 46%, rgb(176 100 44 / 0) 58%);
 }
 .hero[data-layout='tall'] .hero-grade--floor {
   background: linear-gradient(to top, var(--color-night, #120c08) 0%, rgb(18 12 8 / 0.92) 10%, rgb(18 12 8 / 0.66) 20%, rgb(18 12 8 / 0.28) 30%, rgb(18 12 8 / 0) 40%);
@@ -213,8 +213,9 @@ html[lang='ar'] .hero-sub {
 }
 .hero-actions .hero-pill {
   height: clamp(46px, 5.8svh, 54px);
-  padding-inline: clamp(18px, 5.2vw, 32px);
-  font-size: clamp(15px, 4vw, 16px);
+  padding-inline: clamp(16px, 4.4vw, 32px);
+  gap: clamp(8px, 2.2vw, 10px);
+  font-size: clamp(14.5px, 3.9vw, 16px);
 }
 .hero-pill__disc {
   display: grid;
