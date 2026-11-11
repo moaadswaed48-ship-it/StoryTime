@@ -79,7 +79,7 @@ html[dir='ltr'] .ss-lqip {
   --ss-rail-angle: 270deg;
   background:
     linear-gradient(to bottom, rgb(18 12 8 / 0.5) 0%, rgb(18 12 8 / 0.16) 13%, rgb(18 12 8 / 0) 26%),
-    radial-gradient(ellipse 72% 98% at var(--ss-cx) 106%, rgb(18 12 8 / 0.9) 0%, rgb(18 12 8 / 0.74) 26%, rgb(18 12 8 / 0.4) 50%, rgb(18 12 8 / 0.12) 66%, rgb(18 12 8 / 0) 78%),
+    radial-gradient(ellipse 70% 104% at var(--ss-cx) 108%, rgb(18 12 8 / 0.94) 0%, rgb(18 12 8 / 0.84) 24%, rgb(18 12 8 / 0.62) 44%, rgb(18 12 8 / 0.3) 62%, rgb(18 12 8 / 0.08) 76%, rgb(18 12 8 / 0) 86%),
     linear-gradient(var(--ss-rail-angle), rgb(18 12 8 / 0.42) 0%, rgb(18 12 8 / 0.14) 9%, rgb(18 12 8 / 0) 20%),
     linear-gradient(to top, rgb(18 12 8 / 0.46) 0%, rgb(18 12 8 / 0.14) 16%, rgb(18 12 8 / 0) 32%);
 }
@@ -132,13 +132,17 @@ html[dir='rtl'] .ss-scrim {
 .ss-word {
   margin: 0;
   color: #fff;
-  font-size: clamp(4.25rem, min(15vw, 25svh), 15rem);
+  /* Sized so the widest word still clears the children: the calm third of the frame is ~35vw wide. */
+  font-size: clamp(4.25rem, min(13vw, 25svh), 13.5rem);
   white-space: nowrap;
   transform-origin: 0% 62%;
   will-change: transform, opacity, filter;
 }
 html[dir='rtl'] .ss-word {
   transform-origin: 100% 62%;
+}
+html[lang='en'] .ss-word {
+  font-size: clamp(4rem, min(11.6vw, 23svh), 12rem);
 }
 .ss-detail {
   display: flex;
@@ -154,6 +158,7 @@ html[dir='rtl'] .ss-word {
   margin: 0;
   max-width: 31rem;
   color: rgb(255 255 255 / 0.88);
+  text-wrap: balance;
 }
 .ss-idx {
   display: inline-flex;
@@ -243,7 +248,7 @@ html[dir='rtl'] .ss-word {
   position: absolute;
   pointer-events: auto;
   inset-inline-end: var(--ss-pad);
-  top: calc(50% - var(--ss-rail-h) / 2);
+  top: clamp(96px, 13.5svh, 132px);
   display: grid;
   grid-template-rows: repeat(3, 1fr);
   height: var(--ss-rail-h);
@@ -321,8 +326,8 @@ html[dir='rtl'] .ss-word {
   position: absolute;
   top: calc(100% + 14px);
   inset-inline-end: 0;
-  color: rgb(255 255 255 / 0.6);
-  font-size: 11.5px;
+  color: rgb(255 255 255 / 0.72);
+  font-size: 12px;
   font-weight: 500;
   font-variant-numeric: tabular-nums;
   white-space: nowrap;
@@ -332,7 +337,7 @@ html[dir='rtl'] .ss-word {
       its ground melts into shadow and the copy stands on it. ───────────────────── */
 @media (max-aspect-ratio: 1/1) {
   .ss {
-    --ss-band: min(62svh, 128vw);
+    --ss-band: min(59svh, 123vw);
   }
   .ss-plate {
     background: linear-gradient(to bottom, #7d5039 0, #7d5039 calc(var(--ss-band) * 0.7), #54341f var(--ss-band), #2a1a11 calc(var(--ss-band) + 15svh), var(--color-night) 100%);
@@ -354,7 +359,10 @@ html[dir='rtl'] .ss-word {
     padding-inline-end: 44px;
   }
   .ss-word {
-    font-size: clamp(4rem, min(27vw, 15svh), 10rem);
+    font-size: clamp(4rem, min(30vw, 16svh), 11rem);
+  }
+  html[lang='en'] .ss-word {
+    font-size: clamp(3.75rem, min(26vw, 15svh), 10rem);
   }
   .ss-line {
     max-width: 22rem;

@@ -43,8 +43,6 @@ export interface Frame {
   fadeTop: [number, number] | null
   /** Soft bottom edge (tall layout): opaque at [0], transparent at [1]. */
   fadeBottom: [number, number] | null
-  /** Wide layout: the scene strip may not grow past this x (so it never slides under a face). */
-  stripMaxRight: number | null
 }
 
 const clamp = (v: number, lo: number, hi: number) => Math.min(hi, Math.max(lo, v))
@@ -65,7 +63,7 @@ const hits = (ui: Box[], heads: Box[], pad: number) => ui.some((u) => heads.some
  * Landscape screens: the film always covers the hero. It is anchored to the top edge and enlarged just
  * enough to push the boys below the title stack (they end up cropped around the shins, like a medium shot).
  */
-export function frameWide(W: number, H: number, stack: Box[], stripTop: number): Frame {
+export function frameWide(W: number, H: number, stack: Box[]): Frame {
   const cover = Math.max(W / FILM.w, H / FILM.h)
   const pad = Math.max(12, H * 0.016)
   let s = cover
@@ -78,10 +76,7 @@ export function frameWide(W: number, H: number, stack: Box[], stripTop: number):
     heads = project(s, x, 0, ZOOM.wide)
     if (!hits(stack, heads, pad)) break
   }
-  // The strip sits bottom-left. If its top edge is higher than Amir's chin, keep it left of his head.
-  const amir = heads[0]
-  const stripMaxRight = stripTop < amir.y + amir.h + pad ? amir.x - pad - 8 : null
-  return { mode: 'wide', s, x, y: 0, w: FILM.w * s, h: FILM.h * s, heads, fadeTop: null, fadeBottom: null, stripMaxRight }
+  return { mode: 'wide', s, x, y: 0, w: FILM.w * s, h: FILM.h * s, heads, fadeTop: null, fadeBottom: null }
 }
 
 /**
@@ -106,5 +101,5 @@ export function frameTall(W: number, H: number, stackBottom: number, stripTop: n
   const visibleTop = Math.max(0, -y)
   const fadeTop: [number, number] = [Math.max(visibleTop, hair - Math.max(150, H * 0.32)), hair - 14]
   const fadeBottom: [number, number] | null = y + h < H + 1 ? [Math.min(SUBJECT.feet * s + 4, h - 24), h] : null
-  return { mode: 'tall', s, x, y, w: FILM.w * s, h, heads: project(s, x, y, ZOOM.tall), fadeTop, fadeBottom, stripMaxRight: null }
+  return { mode: 'tall', s, x, y, w: FILM.w * s, h, heads: project(s, x, y, ZOOM.tall), fadeTop, fadeBottom }
 }

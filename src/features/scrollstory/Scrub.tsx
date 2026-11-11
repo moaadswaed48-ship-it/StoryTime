@@ -167,7 +167,9 @@ export function ScrubStory() {
       const paint = (img: HTMLImageElement, alpha: number, zoom: number, pan: number) => {
         const iw = img.naturalWidth
         const ih = img.naturalHeight
-        const k = Math.max(cw / iw, ch / ih) * zoom
+        const cover = Math.max(cw / iw, ch / ih)
+        // The portrait band has no width to spare: there the camera barely pulls back.
+        const k = cover * (cw / (iw * cover) < 0.6 ? 1 + (zoom - 1) * 0.2 : zoom)
         const dw = iw * k
         const dh = ih * k
         const w = cw / dw // share of the frame's width that fits on the stage
@@ -289,7 +291,7 @@ export function ScrubStory() {
             mix = bb < 0 ? 0 : Math.round(mix * 64) / 64
           }
           const zoom = 1.05 - 0.05 * s.p + (1 - open) * 0.05
-          const pan = lerp(0.385, 0.45, smooth(0, 0.55, s.p))
+          const pan = lerp(0.392, 0.452, smooth(0, 0.5, s.p))
           const imgA = a >= 0 ? src.images[a] : undefined
           const imgB = bb >= 0 ? src.images[bb] : undefined
           if (imgA && cw > 0 && (a !== s.a || bb !== s.b || mix !== s.mix || Math.abs(zoom - s.zoom) > 0.0004 || Math.abs(pan - s.pan) > 0.0004)) {

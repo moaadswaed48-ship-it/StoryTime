@@ -1,0 +1,806 @@
+/* ─────────────────────────────────────────────────────────────────────────────
+   The film overlay: a small cinema. Black stage, the film large, the film's own
+   light spilling onto the walls, glass controls that leave while it plays.
+   Landscape: everything floats over the picture. Portrait: picture on top, the
+   words and the controls below it on black.
+   ───────────────────────────────────────────────────────────────────────────── */
+.film-stage {
+  --gx: clamp(0px, 3.2vw, 46px);
+  --gy: clamp(0px, 4.6vh, 44px);
+  --dock: 138px; /* height the captions rise by while the controls are up */
+  position: fixed;
+  inset: 0;
+  z-index: 70;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: #050302;
+  color: #fff;
+  outline: none;
+  isolation: isolate;
+  transition: opacity 0.22s ease-out;
+  -webkit-tap-highlight-color: transparent;
+}
+.film-stage.is-closing {
+  opacity: 0;
+}
+.film-stage.is-idle {
+  cursor: none;
+}
+
+/* ── the screen ─────────────────────────────────────────────────────────────── */
+.film-frame {
+  position: relative;
+  flex: none;
+  width: min(100vw - 2 * var(--gx), (100vh - 2 * var(--gy)) * 16 / 9);
+  width: min(100vw - 2 * var(--gx), (100dvh - 2 * var(--gy)) * 16 / 9);
+  aspect-ratio: 16 / 9;
+  container-type: inline-size;
+  isolation: isolate;
+}
+.film-screen {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  border-radius: clamp(14px, 1.8cqw, 26px);
+  background: #000;
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.06),
+    0 40px 120px rgba(0, 0, 0, 0.6);
+  transform: translateZ(0);
+}
+.film-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  background: #000;
+  opacity: 0;
+  transition: opacity 0.6s ease-out;
+}
+.film-video.is-ready {
+  opacity: 1;
+}
+/* The film's light on the walls: a tiny copy of the picture, blown up and blurred. Drawn at half size
+   and doubled so the blur stays cheap. */
+.film-ambient {
+  position: absolute;
+  z-index: -1;
+  left: 22%;
+  top: 22%;
+  width: 56%;
+  height: 56%;
+  transform: scale(2.1);
+  filter: blur(34px) saturate(1.4);
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+/* Soft directional shades: only where words or controls sit, only while they are there. */
+.film-shade {
+  position: absolute;
+  inset-inline: 0;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.5s ease-out;
+}
+.film-shade.is-on {
+  opacity: 1;
+}
+.film-shade--bottom {
+  bottom: 0;
+  height: 58%;
+  background: linear-gradient(to top, rgba(12, 8, 5, 0.86), rgba(12, 8, 5, 0.6) 30%, rgba(12, 8, 5, 0.22) 62%, rgba(12, 8, 5, 0));
+}
+.film-shade--bottom.is-soft {
+  opacity: 0.72;
+}
+.film-shade--top {
+  top: 0;
+  height: 26%;
+  background: linear-gradient(to bottom, rgba(12, 8, 5, 0.62), rgba(12, 8, 5, 0.3) 45%, rgba(12, 8, 5, 0));
+}
+.film-shade--title {
+  inset: 0;
+  background: radial-gradient(90% 95% at 0% 100%, rgba(12, 8, 5, 0.86), rgba(12, 8, 5, 0.5) 42%, rgba(12, 8, 5, 0) 72%);
+  transition-duration: 0.9s;
+}
+html[dir='rtl'] .film-shade--title {
+  background: radial-gradient(90% 95% at 100% 100%, rgba(12, 8, 5, 0.86), rgba(12, 8, 5, 0.5) 42%, rgba(12, 8, 5, 0) 72%);
+}
+
+/* ── title card (kicker + the story's title, set in type over the cover) ────── */
+.film-title {
+  transition:
+    opacity 0.8s var(--ease-out, ease-out),
+    filter 0.8s var(--ease-out, ease-out),
+    transform 0.8s var(--ease-out, ease-out);
+}
+.film-title.is-off {
+  opacity: 0;
+  filter: blur(10px);
+  transform: translateY(-10px);
+  pointer-events: none;
+}
+.film-title__name {
+  margin-top: 0.5em;
+  font-weight: 900;
+  line-height: 0.98;
+  letter-spacing: -0.035em;
+}
+.film-title__name .b {
+  display: block;
+  margin-top: 0.22em;
+  font-size: 0.55em;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  opacity: 0.94;
+}
+html[lang='ar'] .film-title__name {
+  line-height: 1.18;
+}
+.film-frame .film-title {
+  position: absolute;
+  z-index: 3;
+  inset-inline-start: 5.4%;
+  bottom: 9.5%;
+  max-width: 64%;
+}
+.film-frame .film-title__name {
+  font-size: clamp(2rem, 5.9cqw, 5.6rem);
+}
+
+/* ── captions: her words, in the story face ─────────────────────────────────── */
+.film-cue {
+  margin: 0;
+  font-weight: 500;
+  line-height: 1.6;
+  text-wrap: balance;
+  transition: opacity 0.3s ease-out;
+}
+html[lang='ar'] .film-cue {
+  line-height: 1.85;
+}
+.film-cue.is-leaving {
+  opacity: 0;
+}
+.film-cue .w {
+  display: inline-block;
+  animation: film-word 0.75s var(--ease-out, ease-out) both;
+  animation-delay: calc(var(--i) * 70ms);
+}
+@keyframes film-word {
+  from {
+    opacity: 0;
+    filter: blur(8px);
+    transform: translateY(0.3em);
+  }
+}
+.film-frame .film-caption {
+  position: absolute;
+  z-index: 3;
+  inset-inline: 9%;
+  bottom: 6.4%;
+  text-align: center;
+  pointer-events: none;
+  transition: transform 0.5s var(--ease-out, ease-out);
+}
+.film-stage.has-ui .film-frame .film-caption {
+  transform: translateY(calc(-1 * var(--dock)));
+}
+.film-frame .film-cue {
+  font-size: clamp(1.25rem, 2.55cqw, 2.5rem);
+  text-shadow:
+    0 1px 3px rgba(0, 0, 0, 0.6),
+    0 4px 28px rgba(0, 0, 0, 0.6);
+}
+
+/* ── controls ───────────────────────────────────────────────────────────────── */
+.film-ui {
+  transition:
+    opacity 0.35s ease-out,
+    transform 0.5s var(--ease-out, ease-out),
+    visibility 0s;
+}
+.film-stage:not(.has-ui) .film-ui {
+  opacity: 0;
+  pointer-events: none;
+  visibility: hidden;
+  transition:
+    opacity 0.35s ease-out,
+    transform 0.5s var(--ease-out, ease-out),
+    visibility 0s 0.35s;
+}
+.film-stage:not(.has-ui) .film-ui--rise {
+  transform: translateY(12px);
+}
+.film-stage:not(.has-ui) .film-ui--drop {
+  transform: translateY(-10px);
+}
+
+.film-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+.film-frame .film-top {
+  position: absolute;
+  z-index: 6;
+  inset-inline: 2.2%;
+  top: 3.6%;
+}
+.film-top__label {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 4px;
+  padding-inline-start: 8px;
+  text-shadow: 0 2px 16px rgba(0, 0, 0, 0.5);
+}
+.film-top__name {
+  overflow: hidden;
+  font-size: 14px;
+  font-weight: 500;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  color: rgba(255, 255, 255, 0.8);
+  transition: opacity 0.6s ease-out;
+}
+.film-top__name.is-off {
+  opacity: 0;
+}
+
+.film-btn {
+  display: grid;
+  width: 44px;
+  height: 44px;
+  flex: none;
+  place-items: center;
+  border-radius: 9999px;
+  color: #fff;
+  transition:
+    background-color 0.2s ease-out,
+    transform 0.15s ease-out,
+    opacity 0.2s ease-out;
+}
+.film-btn:active {
+  transform: scale(0.94);
+}
+.film-btn--main {
+  width: 48px;
+  height: 48px;
+  background: var(--color-paper, #f6f0e4);
+  color: var(--color-ink, #1a120b);
+}
+.film-btn[aria-pressed='false'] {
+  opacity: 0.62;
+}
+@media (hover: hover) {
+  .film-btn:hover {
+    background-color: rgba(255, 255, 255, 0.16);
+  }
+  .film-btn--main:hover {
+    background: #fff;
+  }
+  .film-btn[aria-pressed='false']:hover {
+    opacity: 1;
+  }
+}
+
+.film-dock {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.film-frame .film-dock {
+  position: absolute;
+  z-index: 6;
+  inset-inline: 2.2%;
+  bottom: 3.4%;
+}
+.film-bar {
+  display: flex;
+  height: 64px;
+  align-items: center;
+  gap: 6px;
+  padding-inline: 8px 10px;
+  border-radius: 9999px;
+}
+.film-time {
+  display: inline-flex;
+  flex: none;
+  gap: 0.4em;
+  margin-inline: 8px 10px;
+  font-size: 13.5px;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+  color: rgba(255, 255, 255, 0.92);
+}
+.film-time .of {
+  color: rgba(255, 255, 255, 0.55);
+}
+
+/* Scrubber: time runs with the reading direction. Only transforms move. */
+.film-scrub {
+  --p: 0;
+  --b: 0;
+  --dir: 1;
+  position: relative;
+  height: 44px;
+  flex: 1;
+  min-width: 0;
+  cursor: pointer;
+  touch-action: none;
+  container-type: inline-size;
+  outline-offset: -6px;
+}
+html[dir='rtl'] .film-scrub {
+  --dir: -1;
+}
+.film-scrub__track {
+  position: absolute;
+  inset-inline: 0;
+  top: 50%;
+  height: 5px;
+  margin-top: -2.5px;
+  overflow: hidden;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.2);
+  transition:
+    height 0.2s ease-out,
+    margin-top 0.2s ease-out;
+}
+.film-scrub:hover .film-scrub__track,
+.film-scrub.is-dragging .film-scrub__track {
+  height: 7px;
+  margin-top: -3.5px;
+}
+.film-scrub__fill {
+  position: absolute;
+  inset: 0;
+  transform: scaleX(var(--p));
+  transform-origin: left center;
+  background: #fff;
+}
+.film-scrub__fill--buffer {
+  transform: scaleX(var(--b));
+  background: rgba(255, 255, 255, 0.24);
+}
+html[dir='rtl'] .film-scrub__fill {
+  transform-origin: right center;
+}
+.film-scrub__tick {
+  position: absolute;
+  top: 0;
+  width: 3px;
+  height: 100%;
+  margin-inline-start: -1.5px;
+  background: rgba(12, 8, 5, 0.85);
+}
+.film-scrub__thumb {
+  position: absolute;
+  top: 50%;
+  inset-inline-start: 0;
+  width: 16px;
+  height: 16px;
+  margin: -8px;
+  border-radius: 9999px;
+  background: #fff;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.45);
+  transform: translateX(calc(var(--p) * var(--dir) * 100cqw)) scale(var(--thumb, 0.75));
+  transition: scale 0.2s ease-out;
+}
+.film-scrub:hover .film-scrub__thumb,
+.film-scrub.is-dragging .film-scrub__thumb,
+.film-scrub:focus-visible .film-scrub__thumb {
+  --thumb: 1;
+}
+/* Hover preview: the scene under the pointer. */
+.film-peek {
+  position: absolute;
+  bottom: 40px;
+  inset-inline-start: 0;
+  width: 176px;
+  margin-inline-start: -88px;
+  padding: 6px 6px 9px;
+  border-radius: 18px;
+  text-align: center;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateX(calc(var(--h, 0) * var(--dir) * 100cqw)) translateY(6px);
+  transition: opacity 0.18s ease-out;
+}
+.film-scrub.is-peeking .film-peek {
+  opacity: 1;
+  transform: translateX(calc(var(--h, 0) * var(--dir) * 100cqw));
+}
+.film-peek img {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: 13px;
+  object-fit: cover;
+}
+.film-peek__title {
+  display: block;
+  margin-top: 7px;
+  overflow: hidden;
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.film-peek__time {
+  display: block;
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+  color: rgba(255, 255, 255, 0.7);
+}
+@media (hover: none) {
+  .film-peek {
+    display: none;
+  }
+}
+
+/* Scene chips */
+.film-chips {
+  display: flex;
+  gap: 8px;
+  justify-content: safe center;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  padding: 3px;
+  margin: -3px;
+  scroll-snap-type: x proximity;
+  scrollbar-width: none;
+}
+.film-chips::-webkit-scrollbar {
+  display: none;
+}
+.film-chip {
+  display: inline-flex;
+  height: 44px;
+  flex: none;
+  align-items: center;
+  gap: 10px;
+  padding-inline: 6px 16px;
+  border-radius: 9999px;
+  font-size: 13.5px;
+  font-weight: 600;
+  white-space: nowrap;
+  color: #fff;
+  scroll-snap-align: center;
+  transition:
+    background-color 0.25s ease-out,
+    color 0.25s ease-out,
+    transform 0.2s ease-out;
+}
+.film-chip img {
+  width: 32px;
+  height: 32px;
+  border-radius: 9999px;
+  object-fit: cover;
+}
+.film-chip:active {
+  transform: scale(0.97);
+}
+.film-chip[aria-current='true'] {
+  background: var(--color-paper, #f6f0e4);
+  color: var(--color-ink, #1a120b);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+@media (hover: hover) {
+  .film-chip:not([aria-current='true']):hover {
+    background-color: rgba(255, 255, 255, 0.22);
+  }
+}
+
+/* ── things in the middle of the screen ─────────────────────────────────────── */
+.film-center {
+  position: absolute;
+  z-index: 4;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+}
+.film-bigplay {
+  display: grid;
+  width: clamp(72px, 8cqw, 104px);
+  height: clamp(72px, 8cqw, 104px);
+  place-items: center;
+  border-radius: 9999px;
+  color: #fff;
+  pointer-events: auto;
+  animation: film-pop 0.45s var(--ease-out, ease-out) both;
+  transition: transform 0.2s ease-out;
+}
+.film-bigplay:active {
+  transform: scale(0.95);
+}
+@media (hover: hover) {
+  .film-bigplay:hover {
+    transform: scale(1.05);
+  }
+}
+.film-bezel {
+  display: grid;
+  width: 88px;
+  height: 88px;
+  place-items: center;
+  border-radius: 9999px;
+  animation: film-bezel 0.6s ease-out both;
+}
+@keyframes film-bezel {
+  from {
+    opacity: 1;
+    transform: scale(0.82);
+  }
+  to {
+    opacity: 0;
+    transform: scale(1.22);
+  }
+}
+@keyframes film-pop {
+  from {
+    opacity: 0;
+    transform: scale(0.86);
+  }
+}
+.film-spinner {
+  width: 44px;
+  height: 44px;
+  border: 3px solid rgba(255, 255, 255, 0.22);
+  border-top-color: #fff;
+  border-radius: 9999px;
+  animation: film-spin 0.9s linear infinite;
+}
+@keyframes film-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+.film-unmute {
+  position: absolute;
+  z-index: 7;
+  top: 4.2%;
+  left: 50%;
+  translate: -50% 0;
+  box-shadow: 0 12px 34px rgba(0, 0, 0, 0.35);
+  animation: film-drop 0.6s var(--ease-out, ease-out) both;
+}
+html[dir='rtl'] .film-unmute {
+  translate: -50% 0;
+}
+@keyframes film-drop {
+  from {
+    opacity: 0;
+    transform: translateY(-14px);
+  }
+}
+
+/* ── end card ───────────────────────────────────────────────────────────────── */
+.film-end__back {
+  position: absolute;
+  z-index: 2;
+  inset: 0;
+  overflow: hidden;
+  background: #0c0805;
+  animation: fade-in 0.9s ease-out both;
+}
+.film-end__back img {
+  position: absolute;
+  inset: -6%;
+  width: 112%;
+  height: 112%;
+  object-fit: cover;
+  filter: blur(22px) saturate(1.1);
+  opacity: 0.5;
+}
+.film-end__back::before {
+  content: '';
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  background: radial-gradient(75% 85% at 50% 46%, rgba(12, 8, 5, 0.2), rgba(12, 8, 5, 0.82));
+}
+.film-end__word {
+  font-weight: 900;
+  line-height: 0.95;
+  letter-spacing: -0.04em;
+}
+html[lang='ar'] .film-end__word {
+  line-height: 1.2;
+}
+.film-end > * {
+  animation: film-rise 0.9s var(--ease-out, ease-out) both;
+}
+.film-end > :nth-child(2) {
+  animation-delay: 0.12s;
+}
+.film-end > :nth-child(3) {
+  animation-delay: 0.26s;
+}
+@keyframes film-rise {
+  from {
+    opacity: 0;
+    filter: blur(10px);
+    transform: translateY(22px);
+  }
+}
+.film-frame .film-end {
+  position: absolute;
+  z-index: 3;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding-bottom: 6%;
+  text-align: center;
+}
+.film-frame .film-end__word {
+  margin-top: 0.14em;
+  font-size: clamp(3.2rem, 10.5cqw, 9.5rem);
+}
+.film-end__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+}
+.film-frame .film-end__actions {
+  margin-top: clamp(18px, 3cqw, 40px);
+}
+
+/* ── short landscape screens (a phone on its side): the film fills the glass ── */
+@media (orientation: landscape) and (max-height: 560px) {
+  .film-stage {
+    --gx: 0px;
+    --gy: 0px;
+    --dock: 112px;
+  }
+  .film-screen {
+    border-radius: 0;
+    box-shadow: none;
+  }
+  .film-bar {
+    height: 56px;
+  }
+  .film-chip {
+    height: 40px;
+  }
+  .film-frame .film-dock {
+    gap: 8px;
+    inset-inline: max(2.2%, env(safe-area-inset-left), env(safe-area-inset-right));
+  }
+}
+
+/* ── portrait: picture on top, words and controls below on black ────────────── */
+@media (orientation: portrait) {
+  .film-stage {
+    --gx: 0px;
+    justify-content: flex-start;
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: max(14px, env(safe-area-inset-bottom));
+  }
+  .film-frame {
+    width: 100vw;
+  }
+  .film-screen {
+    border-radius: 0;
+    box-shadow: none;
+  }
+  .film-ambient {
+    opacity: 0.62;
+    filter: blur(30px) saturate(1.45);
+  }
+  .film-top {
+    width: 100%;
+    height: 68px;
+    flex: none;
+    padding-inline: 14px 12px;
+  }
+  .film-words {
+    position: relative;
+    display: flex;
+    width: 100%;
+    min-height: 0;
+    flex: 1;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 26px 18px;
+    text-align: center;
+  }
+  .film-words > * {
+    grid-area: 1 / 1;
+  }
+  .film-words .film-title {
+    position: absolute;
+    inset-inline: 26px;
+    top: 50%;
+    translate: 0 -54%;
+  }
+  .film-words .film-title__name {
+    font-size: clamp(2.3rem, 11.5vw, 3.6rem);
+  }
+  .film-words .film-title .t-label {
+    justify-content: center;
+  }
+  .film-words .film-cue {
+    font-size: clamp(1.45rem, 6.3vw, 2.1rem);
+  }
+  .film-words .film-end {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
+  }
+  .film-words .film-end__word {
+    margin-top: 0.1em;
+    font-size: clamp(4rem, 22vw, 7rem);
+  }
+  .film-words .film-end__actions {
+    width: 100%;
+    max-width: 22rem;
+    flex-direction: column;
+    margin-top: 26px;
+  }
+  .film-words .film-end__actions > * {
+    width: 100%;
+  }
+  .film-dock {
+    width: 100%;
+    flex: none;
+    gap: 14px;
+  }
+  .film-chips {
+    justify-content: flex-start;
+    margin: 0;
+    padding: 3px 16px;
+    scroll-padding-inline: 16px;
+  }
+  .film-bar {
+    height: auto;
+    flex-wrap: wrap;
+    row-gap: 0;
+    margin-inline: 12px;
+    padding: 6px 10px 8px;
+    border-radius: 28px;
+  }
+  .film-scrub {
+    order: -1;
+    flex: 0 0 100%;
+    margin-inline: 8px;
+    max-width: calc(100% - 16px);
+  }
+  .film-time {
+    margin-inline-end: auto;
+  }
+}
+
+/* ── reduced motion: nothing slides, nothing staggers; everything is simply there ── */
+html[data-reduce-motion] .film-cue .w,
+html[data-reduce-motion] .film-end > *,
+html[data-reduce-motion] .film-bigplay,
+html[data-reduce-motion] .film-unmute {
+  animation: none;
+}
+html[data-reduce-motion] .film-bezel {
+  display: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .film-cue .w,
+  .film-end > *,
+  .film-bigplay,
+  .film-unmute {
+    animation: none;
+  }
+  .film-bezel {
+    display: none;
+  }
+}
