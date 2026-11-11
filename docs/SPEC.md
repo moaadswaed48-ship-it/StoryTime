@@ -30,6 +30,8 @@ The product: every story can be **read** (a book that opens, with pictures that 
 - **Motion (MotionSites craft):** entrances 0.6–1.1s with `var(--ease-out)`; stagger 60–150ms; headline = word-by-word blur-in (`<BlurWords>`); in-view fade-up (`<Reveal>`); hovers ≤ scale 1.05 / 150–300ms; `:active` 0.97; no infinite decorative pulsing; video fades in on `loadeddata` and settles from scale 1.06. Lerp ≈ 0.12 for scrubbed things.
 - **Text over film:** never a flat black wash. Use footage with an empty zone, a soft directional gradient, `.text-on-film` / `.display-on-film` shadows, or glass behind small UI.
 
+**Owner's direction on MotionSites (latest):** learn their style, then build our own customised pieces. Each section should combine ideas from several MotionSites examples and add ideas of our own that they do not offer; never clone one template. Free material only: their free skill and what is publicly visible. Never copy their media, text, brand names or paid prompts.
+
 Must-read before designing (in this repo): `.claude/skills/motionsites-web-builder/references/craft.md`, `…/references/review.md`, and the technique file(s) named in your brief under `…/references/techniques/` (start from `INDEX.md`). They contain working recipes — adapt them to React + Tailwind 4 + GSAP (no framer-motion here).
 
 ## 3. Assets (all under `public/`, load with `asset('…')` from `@/lib/asset`)
