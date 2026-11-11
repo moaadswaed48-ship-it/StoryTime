@@ -1,0 +1,434 @@
+import { useEffect, useLayoutEffect, useRef, useState, type CSSProperties } from 'react'
+import gsap from 'gsap'
+import { useGSAP } from '@gsap/react'
+import { ArrowDown, ArrowUpRight } from 'lucide-react'
+import { Pill } from '@/design/ui'
+import { useSiteStore } from '@/store/useSiteStore'
+import { t } from '@/i18n/copy'
+import { num, rtl } from '@/i18n/locale'
+import { clamp, lerp } from '@/lib/clamp'
+import { cn } from '@/lib/cn'
+import { exposeQA } from '@/lib/qa'
+import { beats, LQIP } from './beats'
+import { frameStore, loadMeta, type FrameStore } from './frames'
+
+/** Where each beat rests on the scrub runway (0 → 1). */
+const REST = [1 / 6, 1 / 2, 5 / 6]
+const LERP = 0.12
+const easeOut = (x: number) => 1 - Math.pow(1 - x, 3)
+const smooth = (a: number, b: number, x: number) => {
+  const v = clamp((x - a) / (b - a), 0, 1)
+  return v * v * (3 - 2 * v)
+}
+const pad3 = (n: number) => num(n).padStart(3, num(0))
+
+interface Hooks {
+  frame: () => number
+  beat: () => number
+  loaded: () => number
+  total: () => number
+  progress: () => number
+  y: (p: number) => number
+  goTo: (i: number, immediate?: boolean) => void
+}
+
+/**
+ * The scrubbed stage. A tall section holds a sticky 100svh stage; a canvas draws the wind scene
+ * frame by frame as the visitor scrolls, and three giant words roll past like a counter on a film reel.
+ */
+export function ScrubStory() {
+  const section = useRef<HTMLElement>(null)
+  const stage = useRef<HTMLDivElement>(null)
+  const plate = useRef<HTMLDivElement>(null)
+  const canvas = useRef<HTMLCanvasElement>(null)
+  const words = useRef<(HTMLElement | null)[]>([])
+  const counter = useRef<HTMLSpanElement>(null)
+  const hooks = useRef<Hooks | null>(null)
+  const beatNow = useRef(0)
+
+  const [beat, setBeat] = useState(0)
+  /** The stage has (nearly) locked into place: the copy may enter. */
+  const [on, setOn] = useState(false)
+  /** Scripts are running: hidden "before" states may apply. Until then everything is simply visible. */
+  const [live, setLive] = useState(false)
+  /** The next section is a sheet: let it slide over the pinned film. */
+  const [covered, setCovered] = useState(false)
+
+  useLayoutEffect(() => {
+    const next = section.current?.nextElementSibling
+    setCovered(next instanceof HTMLElement && next.classList.contains('sheet') && next.offsetHeight > 0)
+    setLive(true)
+  }, [])
+
+  useGSAP(
+    () => {
+      const sec = section.current
+      const stg = stage.current
+      const plt = plate.current
+      const cv = canvas.current
+      const ctx = cv?.getContext('2d')
+      if (!sec || !stg || !plt || !cv || !ctx) return
+
+      // ── measurements (refreshed with ScrollTrigger) ──
+      const m = { top: 0, runway: 1, stage: 1, view: 1 }
+      const measure = () => {
+        let top = 0
+        for (let el: HTMLElement | null = sec; el; el = el.offsetParent as HTMLElement | null) top += el.offsetTop
+        m.top = top
+        m.stage = Math.max(1, stg.offsetHeight)
+        m.view = Math.max(1, window.innerHeight)
+        m.runway = Math.max(1, sec.offsetHeight - m.stage * (covered ? 2 : 1))
+        s.dirty = true
+      }
+
+      // ── fast state (never React state) ──
+      const s = {
+        first: true,
+        dirty: true,
+        settled: false,
+        p: 0, // smoothed runway progress
+        pos: 0, // smoothed frame position (float)
+        reel: -1, // word reel position: -1 hidden below, 0…2 the beats
+        beat: 0,
+        on: false,
+        open: -1,
+        out: -1,
+        fill: -1,
+        // last painted
+        a: -1,
+        b: -1,
+        mix: -1,
+        zoom: 0,
+        pan: 0,
+        shown: 1,
+        warmed: -1,
+        reelDrawn: NaN,
+        counted: -1,
+        filmed: false,
+      }
+
+      // ── frames ──
+      let store: FrameStore | null = null
+      let older: FrameStore | null = null
+      let dead = false
+      let wanted = false
+      const pick = () => {
+        loadMeta().then((meta) => {
+          if (dead) return
+          const next = frameStore(stg.clientWidth < 768 ? 'm' : 'd', meta)
+          if (next === store) return
+          if (store) {
+            store.onFrame = null
+            older = store
+          }
+          store = next
+          store.onFrame = () => (s.dirty = true)
+          store.start()
+          s.dirty = true
+        })
+      }
+      // Start fetching when the section is about two viewports away.
+      const near = new IntersectionObserver(
+        ([entry]) => {
+          if (!entry.isIntersecting) return
+          wanted = true
+          near.disconnect()
+          pick()
+        },
+        { rootMargin: '200% 0px 200% 0px' },
+      )
+      near.observe(sec)
+
+      // ── canvas ──
+      let cw = 0
+      let ch = 0
+      const size = () => {
+        const w = cv.clientWidth
+        const h = cv.clientHeight
+        if (!w || !h) return
+        const ratio = Math.min(window.devicePixelRatio || 1, 2, Math.sqrt(2.4e6 / (w * h)))
+        const nw = Math.round(w * ratio)
+        const nh = Math.round(h * ratio)
+        if (nw === cw && nh === ch) return
+        cw = cv.width = nw
+        ch = cv.height = nh
+        // In left-to-right layouts the film is mirrored, so its calm side (the house) is always under the type.
+        if (!rtl) ctx.setTransform(-1, 0, 0, 1, cw, 0)
+        ctx.imageSmoothingQuality = 'high'
+        s.a = -1
+        s.dirty = true
+        if (wanted) pick()
+      }
+      const ro = new ResizeObserver(size)
+      ro.observe(cv)
+      size()
+
+      const paint = (img: HTMLImageElement, alpha: number, zoom: number, pan: number) => {
+        const iw = img.naturalWidth
+        const ih = img.naturalHeight
+        const k = Math.max(cw / iw, ch / ih) * zoom
+        const dw = iw * k
+        const dh = ih * k
+        const w = cw / dw // share of the frame's width that fits on the stage
+        // Wide stages show the calm (house) side in full; narrower ones keep Sari's hand in frame;
+        // the portrait band follows both children with a slow pan.
+        const x0 = w >= 0.87 ? 1 - w : w >= 0.6 ? Math.min(1 - w, 0.13) : clamp(pan - w / 2, 0, 1 - w)
+        ctx.globalAlpha = alpha
+        ctx.drawImage(img, -x0 * dw, (ch - dh) / 2, dw, dh)
+      }
+
+      // ── scroll link: one scrubbed proxy, no pin ──
+      const proxy = { v: 0 }
+      const tween = gsap.to(proxy, {
+        v: 1,
+        ease: 'none',
+        scrollTrigger: { trigger: sec, start: 'top bottom', end: 'bottom bottom', scrub: true, onRefresh: measure },
+      })
+      const trig = tween.scrollTrigger
+      if (!trig) return
+      measure()
+
+      const tick = (_time: number, delta: number) => {
+        if (!s.first && s.settled && !s.dirty && !trig.isActive) return
+        const k = s.first ? 1 : 1 - Math.pow(1 - LERP, Math.min(delta, 50) / 16.667)
+        const kReel = s.first ? 0 : 1 - Math.pow(1 - 0.14, Math.min(delta, 50) / 16.667)
+        s.first = false
+        s.dirty = false
+
+        // Where the page is, in pixels past the moment the stage locks.
+        const px = trig.start + proxy.v * (trig.end - trig.start) - m.top
+        const enter = clamp(1 + px / m.view, 0, 1)
+        const target = clamp(px / m.runway, 0, 1)
+        const out = covered ? clamp((px - m.runway) / m.stage, 0, 1) : 0
+
+        s.p += (target - s.p) * k
+        if (Math.abs(target - s.p) < 0.0002) s.p = target
+
+        // Entrance: the film opens from a rounded card to full bleed as the stage rises into place.
+        const open = easeOut(clamp((enter - 0.08) / 0.92, 0, 1))
+        if (open !== s.open) {
+          s.open = open
+          const c = 1 - open
+          plt.style.clipPath = c < 0.001 ? '' : `inset(${(c * 7).toFixed(2)}% ${(c * 5.5).toFixed(2)}% 0 round ${(c * 48).toFixed(1)}px ${(c * 48).toFixed(1)}px 0 0)`
+        }
+        if (out !== s.out) {
+          s.out = out
+          stg.style.setProperty('--ss-out', out.toFixed(4))
+        }
+        const fill = clamp(s.p + 1 / 6, 0, 1)
+        if (Math.abs(fill - s.fill) > 0.0005) {
+          s.fill = fill
+          stg.style.setProperty('--ss-fill', fill.toFixed(4))
+        }
+
+        // Copy enters once the stage is nearly in place (and leaves again if the visitor scrolls back up).
+        const wantOn = s.on ? enter > 0.5 : enter > 0.72
+        if (wantOn !== s.on) {
+          s.on = wantOn
+          setOn(wantOn)
+        }
+
+        // Beats, with a little hysteresis so a resting scroll never flickers between two words.
+        const third = s.p * 3
+        let b = s.beat
+        if (third > b + 1.03) b = Math.min(2, Math.floor(third))
+        else if (third < b - 0.03) b = Math.max(0, Math.floor(third))
+        if (b !== s.beat) {
+          s.beat = b
+          beatNow.current = b
+          setBeat(b)
+        }
+
+        // The word reel: rolls to the current beat, and creeps a little with the scroll while it rests.
+        const reelTo = s.on ? s.beat : -1
+        s.reel += (reelTo - s.reel) * kReel
+        if (Math.abs(reelTo - s.reel) < 0.0015) s.reel = reelTo
+        const reelNow = s.reel + (clamp(third - s.beat, 0, 1) - 0.5) * 0.07
+        if (reelNow !== s.reelDrawn) {
+          s.reelDrawn = reelNow
+          for (let i = 0; i < words.current.length; i++) {
+            const el = words.current[i]
+            if (!el) continue
+            const d = i - reelNow
+            const far = Math.abs(d)
+            const o = clamp(1 - far * 1.35, 0, 1)
+            el.style.visibility = o < 0.004 ? 'hidden' : 'visible'
+            el.style.opacity = o.toFixed(3)
+            el.style.transform = `translate3d(0, ${(d * 0.9).toFixed(4)}em, 0) scale(${(1 - Math.min(far, 1) * 0.05).toFixed(4)})`
+            el.style.filter = far > 0.03 ? `blur(${(far * 16).toFixed(1)}px)` : 'none'
+          }
+        }
+
+        // The film.
+        const src = store && store.loaded ? store : older && older.loaded ? older : store
+        let moving = Math.abs(target - s.p) > 0.0002 || s.reel !== reelTo
+        if (src) {
+          const last = src.count - 1
+          const want = Math.round(target * last)
+          src.playhead = want
+          const goal = src.loaded ? src.nearest(want) : want
+          s.pos += (goal - s.pos) * k
+          if (Math.abs(goal - s.pos) < 0.004) s.pos = goal
+          if (s.pos !== goal) moving = true
+
+          const lo = src.below(Math.floor(s.pos))
+          const hi = src.above(Math.ceil(s.pos))
+          let a = lo
+          let bb = -1
+          let mix = 0
+          if (lo < 0) a = hi
+          else if (hi >= 0 && hi !== lo) {
+            // Between two frames: dissolve from one into the next, so a slow drag is silk, not steps.
+            mix = (s.pos - lo) / (hi - lo)
+            if (mix > 0.98) a = hi
+            else if (mix >= 0.02 && useSiteStore.getState().tier !== 'low') bb = hi
+            else if (mix >= 0.5) a = hi
+            mix = bb < 0 ? 0 : Math.round(mix * 64) / 64
+          }
+          const zoom = 1.05 - 0.05 * s.p + (1 - open) * 0.05
+          const pan = lerp(0.385, 0.45, smooth(0, 0.55, s.p))
+          const imgA = a >= 0 ? src.images[a] : undefined
+          const imgB = bb >= 0 ? src.images[bb] : undefined
+          if (imgA && cw > 0 && (a !== s.a || bb !== s.b || mix !== s.mix || Math.abs(zoom - s.zoom) > 0.0004 || Math.abs(pan - s.pan) > 0.0004)) {
+            paint(imgA, 1, zoom, pan)
+            if (imgB) paint(imgB, mix, zoom, pan)
+            s.a = a
+            s.b = bb
+            s.mix = mix
+            s.zoom = zoom
+            s.pan = pan
+            s.shown = (imgB && mix >= 0.5 ? bb : a) + 1
+            if (!s.filmed) {
+              s.filmed = true
+              stg.classList.add('has-film')
+            }
+          }
+          // Decode the next frames in the direction of travel before the playhead gets there.
+          const at = Math.round(s.pos)
+          if (at !== s.warmed && s.pos !== goal) {
+            const dir = goal > s.pos ? 1 : -1
+            src.warm(at + dir * 2)
+            src.warm(at + dir * 3)
+            s.warmed = at
+          }
+          if (s.shown !== s.counted && counter.current) {
+            s.counted = s.shown
+            counter.current.textContent = `${pad3(s.shown)} / ${num(src.count)}`
+          }
+        }
+        s.settled = !moving
+      }
+      gsap.ticker.add(tick)
+
+      hooks.current = {
+        frame: () => s.shown,
+        beat: () => s.beat,
+        loaded: () => store?.loaded ?? 0,
+        total: () => store?.count ?? 0,
+        progress: () => s.p,
+        y: (p) => m.top + m.runway * clamp(p, 0, 1),
+        goTo: (i, immediate) => {
+          const y = m.top + m.runway * REST[clamp(Math.round(i), 0, 2)]
+          const lenis = useSiteStore.getState().lenis
+          if (lenis) lenis.scrollTo(y, immediate ? { immediate: true, force: true } : { duration: 1.1 })
+          else window.scrollTo(0, y)
+        },
+      }
+
+      return () => {
+        dead = true
+        gsap.ticker.remove(tick)
+        ro.disconnect()
+        near.disconnect()
+        if (store) store.onFrame = null
+        hooks.current = null
+      }
+    },
+    { scope: section, dependencies: [covered], revertOnUpdate: true },
+  )
+
+  useEffect(() => {
+    exposeQA({
+      scrollstory: {
+        mode: () => 'scrub',
+        frame: () => hooks.current?.frame() ?? 0,
+        beat: () => hooks.current?.beat() ?? 0,
+        loaded: () => hooks.current?.loaded() ?? 0,
+        total: () => hooks.current?.total() ?? 0,
+        progress: () => hooks.current?.progress() ?? 0,
+        y: (p: number) => hooks.current?.y(p) ?? 0,
+        goTo: (i: number, immediate = true) => hooks.current?.goTo(i, immediate),
+      },
+    })
+  }, [])
+
+  const goTo = (i: number) => hooks.current?.goTo(i)
+
+  return (
+    <section id="ways" ref={section} className={cn('ss', covered && 'is-covered', live && 'is-live')} data-on={on ? '1' : '0'} aria-labelledby="ways-title">
+      <div ref={stage} className="ss-stage">
+        <div ref={plate} className="ss-plate grain">
+          <div className="ss-film">
+            <div className="ss-lqip" style={{ backgroundImage: `url(${LQIP})` }} aria-hidden />
+            <canvas ref={canvas} aria-hidden />
+          </div>
+          <div className="ss-scrim" aria-hidden />
+          <div className="ss-dim" aria-hidden />
+        </div>
+
+        <div className="ss-ui">
+          <div className="ss-copy">
+            <h2 id="ways-title" className="ss-kicker glass t-label inline-flex h-9 items-center gap-2.5 rounded-full px-4 text-white">
+              <span className="h-1.5 w-1.5 rounded-full bg-maple-soft" aria-hidden />
+              {t.scroll.kicker}
+            </h2>
+            <ol className="ss-beats">
+              {beats.map((b, i) => (
+                <li key={i} className="ss-beat" data-beat={i} data-state={on && i === beat ? 'on' : i < beat ? 'past' : 'next'}>
+                  <h3
+                    ref={(el) => {
+                      words.current[i] = el
+                    }}
+                    className="ss-word t-mega display-on-film"
+                    style={i === 0 ? undefined : { opacity: 0, visibility: 'hidden' }}
+                  >
+                    {b.word}
+                  </h3>
+                  <div className="ss-detail">
+                    <p className="ss-line t-lede text-on-film" style={{ '--i': 0 } as CSSProperties}>
+                      <span className="ss-idx" aria-hidden>
+                        {num(i + 1).padStart(2, num(0))}
+                      </span>
+                      <span>{b.line}</span>
+                    </p>
+                    <div className="ss-cta" style={{ '--i': 1 } as CSSProperties}>
+                      <Pill variant="solid" size="md" className="ss-pill shadow-lift" onClick={b.run} onFocus={() => i !== beatNow.current && goTo(i)}>
+                        <b.Icon size={18} strokeWidth={2.2} aria-hidden />
+                        {b.cta}
+                        <span className="ss-pill-arrow" data-down={b.down ? '' : undefined} aria-hidden>
+                          {b.down ? <ArrowDown size={15} strokeWidth={2.4} /> : <ArrowUpRight size={15} strokeWidth={2.4} className="flip-rtl" />}
+                        </span>
+                      </Pill>
+                    </div>
+                  </div>
+                </li>
+              ))}
+            </ol>
+          </div>
+
+          <nav className="ss-rail" aria-label={t.scroll.kicker}>
+            <span className="ss-rail-track" aria-hidden />
+            <span className="ss-rail-fill" aria-hidden />
+            {beats.map((b, i) => (
+              <button key={i} type="button" className="ss-tick" data-on={i === beat ? '1' : '0'} data-done={i < beat ? '1' : '0'} aria-current={i === beat ? 'step' : undefined} onClick={() => goTo(i)}>
+                <span className="ss-tick-label">{b.word}</span>
+                <span className="ss-tick-dot" aria-hidden />
+              </button>
+            ))}
+            <span ref={counter} className="ss-count" aria-hidden />
+          </nav>
+        </div>
+      </div>
+    </section>
+  )
+}

@@ -1,0 +1,41 @@
+{
+  "duration": 34.25,
+  "fps": 24,
+  "width": 1280,
+  "height": 720,
+  "opening": 2,
+  "xfade": 0.5,
+  "fadeOut": 2.5,
+  "scenes": [
+    {
+      "scene": 0,
+      "start": 1.75,
+      "end": 7.125
+    },
+    {
+      "scene": 3,
+      "start": 7.125,
+      "end": 12.5
+    },
+    {
+      "scene": 5,
+      "start": 12.5,
+      "end": 17.875
+    },
+    {
+      "scene": 7,
+      "start": 17.875,
+      "end": 23.25
+    },
+    {
+      "scene": 10,
+      "start": 23.25,
+      "end": 28.625
+    },
+    {
+      "scene": 11,
+      "start": 28.625,
+      "end": 34.25
+    }
+  ]
+}
