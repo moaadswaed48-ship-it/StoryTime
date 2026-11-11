@@ -4,7 +4,6 @@ import { Pill } from '@/design/ui'
 import { useOverlayLock } from '@/design/overlay'
 import { t } from '@/i18n/copy'
 import { locale, num, switchLocale } from '@/i18n/locale'
-import { cn } from '@/lib/cn'
 import { exposeQA } from '@/lib/qa'
 import { useSiteStore } from '@/store/useSiteStore'
 import './nav.css'
@@ -117,7 +116,7 @@ export function Nav() {
       return
     }
     wasOpen.current = true
-    sheet.current?.querySelector<HTMLElement>('a, button')?.focus({ preventScroll: true })
+    sheet.current?.focus({ preventScroll: true })
     const onKey = (e: KeyboardEvent) => {
       if (e.key !== 'Tab' || !root.current) return
       const items = Array.from(root.current.querySelectorAll<HTMLElement>('a[href], button:not([disabled])')).filter((n) => n.offsetParent !== null)
@@ -221,7 +220,7 @@ export function Nav() {
         </div>
       </div>
 
-      <div ref={sheet} id="st-menu" className="st-sheet" role="dialog" aria-modal="true" aria-label={t.nav.menu} data-open={menu ? '' : undefined} inert={!menu} data-lenis-prevent>
+      <div ref={sheet} id="st-menu" className="st-sheet" role="dialog" aria-modal="true" aria-label={t.nav.menu} tabIndex={-1} data-open={menu ? '' : undefined} inert={!menu} data-lenis-prevent>
         <nav className="st-sheet__links" aria-label={t.nav.menu}>
           {LINKS.map((l, i) =>
             link(
@@ -229,7 +228,7 @@ export function Nav() {
               'st-sheet__link st-stagger',
               <>
                 <span className="st-sheet__no" aria-hidden>
-                  {num(0)}
+                  {locale === 'en' && '0'}
                   {num(i + 1)}
                 </span>
                 {l.label}
@@ -240,14 +239,14 @@ export function Nav() {
         </nav>
         <div className="st-sheet__foot st-stagger" style={{ '--i': LINKS.length + 1 } as CSSProperties}>
           <div className="st-sheet__row">
-            <Pill variant="glass" size="lg" className={cn('w-full px-4')} onClick={account}>
+            <Pill variant="glass" size="lg" className="px-6" onClick={account}>
               <AccountIcon size={17} strokeWidth={1.9} className="flip-rtl" aria-hidden />
               {accountLabel}
             </Pill>
             <Pill
               variant="solid"
               size="lg"
-              className="w-full px-4"
+              className="w-full whitespace-nowrap px-4"
               onClick={() => {
                 setMenu(false)
                 openBook()

@@ -465,7 +465,7 @@ html[lang='ar'] .hero-strip__label {
 @media (min-width: 1024px) and (min-aspect-ratio: 6/5) {
   .hero {
     --pad: 56px;
-    --card: clamp(128px, min(13.4vw, 21svh), 214px);
+    --card: clamp(128px, min(12.6vw, 20svh), 204px);
   }
   .hero-strip {
     inset-inline: auto;

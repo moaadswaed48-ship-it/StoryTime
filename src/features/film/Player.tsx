@@ -434,7 +434,7 @@ export function Player() {
     >
       {portrait && top}
       <div className="film-frame">
-        <Ambient video={video} active={playing && !reduced} slow={tier === 'low'} />
+        <Ambient video={video} active={false && playing && !reduced} slow={tier === 'low'} />
         <div className="film-screen">
           <video
             ref={video}

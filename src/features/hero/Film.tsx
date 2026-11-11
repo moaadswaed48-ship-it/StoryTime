@@ -9,8 +9,8 @@ export interface FilmHandle {
 }
 
 const POSTER = 'film/hero-poster.jpg'
-/** 1080p from laptop width up, 720p on phones and small tablets (decided once per load). */
-const pickSrc = () => asset(typeof window !== 'undefined' && window.matchMedia('(min-width: 1024px)').matches ? 'film/hero-1080.mp4' : 'film/hero-720.mp4')
+/** 1080p from laptop width up (and on tall tablets, where the frame is drawn just as large), 720p on phones — decided once per load. */
+const pickSrc = () => asset(typeof window !== 'undefined' && window.matchMedia('(min-width: 1024px), (min-width: 700px) and (min-height: 900px)').matches ? 'film/hero-1080.mp4' : 'film/hero-720.mp4')
 
 /**
  * The film plane: poster → looping film (fades in on `loadeddata`, settles from a slight zoom),

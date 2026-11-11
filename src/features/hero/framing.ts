@@ -24,7 +24,7 @@ const HEADS = [
   { x0: 1355, y0: 415, x1: 1685, y1: 645 }, // Sari and the leaf he holds up
 ]
 /** Both boys, hair to shoes. */
-const SUBJECT = { x0: 925, x1: 1685, cx: 1305, top: 415, waist: 705, feet: 988 }
+const SUBJECT = { x0: 925, x1: 1685, cx: 1305, top: 415, waist: 705, feet: 988, reach: 1715 /* how far right Sari swings his leaf */ }
 /** Resting zoom of the film inside its frame (hero.css) and the point it grows from — the faces move with it. */
 const ZOOM = { wide: 1.03, tall: 1, ox: 0.62, oy: 0.58 }
 
@@ -72,7 +72,8 @@ export function frameWide(W: number, H: number, stack: Box[]): Frame {
   for (let k = 1; k <= 1.5001; k += 0.01) {
     s = cover * k
     x = clamp(0.7 * W - SUBJECT.cx * s, W - FILM.w * s, 0) // boys right of centre
-    x = Math.max(Math.min(x, W - 28 - SUBJECT.x1 * s), W - FILM.w * s) // …with Sari's raised hand inside the screen
+    const reach = (FILM.w * ZOOM.ox + (SUBJECT.reach - FILM.w * ZOOM.ox) * ZOOM.wide) * s
+    x = Math.max(Math.min(x, W - 16 - reach), W - FILM.w * s) // …with Sari's raised hand inside the screen
     heads = project(s, x, 0, ZOOM.wide)
     if (!hits(stack, heads, pad)) break
   }
