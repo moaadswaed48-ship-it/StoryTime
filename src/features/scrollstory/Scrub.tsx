@@ -86,6 +86,7 @@ export function ScrubStory() {
         first: true,
         dirty: true,
         settled: false,
+        v: -1, // last scroll value seen
         p: 0, // smoothed runway progress
         pos: 0, // smoothed frame position (float)
         reel: -1, // word reel position: -1 hidden below, 0…2 the beats
@@ -189,7 +190,8 @@ export function ScrubStory() {
       measure()
 
       const tick = (_time: number, delta: number) => {
-        if (!s.first && s.settled && !s.dirty && !trig.isActive) return
+        if (!s.first && s.settled && !s.dirty && proxy.v === s.v) return // at rest: do nothing at all
+        s.v = proxy.v
         const k = s.first ? 1 : 1 - Math.pow(1 - LERP, Math.min(delta, 50) / 16.667)
         const kReel = s.first ? 0 : 1 - Math.pow(1 - 0.14, Math.min(delta, 50) / 16.667)
         s.first = false
@@ -197,6 +199,7 @@ export function ScrubStory() {
 
         // Where the page is, in pixels past the moment the stage locks.
         const px = trig.start + proxy.v * (trig.end - trig.start) - m.top
+        if (!Number.isFinite(px)) return
         const enter = clamp(1 + px / m.view, 0, 1)
         const target = clamp(px / m.runway, 0, 1)
         const out = covered ? clamp((px - m.runway) / m.stage, 0, 1) : 0
@@ -319,6 +322,7 @@ export function ScrubStory() {
         s.settled = !moving
       }
       gsap.ticker.add(tick)
+      tick(0, 16.667) // correct state before the first paint
 
       hooks.current = {
         frame: () => s.shown,

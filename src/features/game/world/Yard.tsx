@@ -109,7 +109,7 @@ export function Ground({ onTap }: { onTap: (e: ThreeEvent<PointerEvent>) => void
   }, [])
   const mist = useDisposable(() => {
     const m = new THREE.Mesh(mistGeometry(), new THREE.MeshBasicMaterial({ vertexColors: true, transparent: true, depthWrite: false, fog: false, side: THREE.DoubleSide }))
-    m.position.y = 0.03
+    m.position.y = 0.075
     m.renderOrder = 3
     return m
   })
@@ -119,7 +119,7 @@ export function Ground({ onTap }: { onTap: (e: ThreeEvent<PointerEvent>) => void
         <planeGeometry args={[110, 110]} />
         <meshBasicMaterial map={paving} color="#f6e6d0" />
       </mesh>
-      <mesh rotation-x={-Math.PI / 2} position={[0.6, 0.02, -0.2]} renderOrder={1}>
+      <mesh rotation-x={-Math.PI / 2} position={[0.6, 0.062, -0.2]} renderOrder={1}>
         <planeGeometry args={[30, 24]} />
         <meshBasicMaterial map={dappleTexture()} transparent blending={THREE.AdditiveBlending} depthWrite={false} opacity={0.9} fog={false} />
       </mesh>
@@ -158,6 +158,8 @@ const BLOBS: [number, number, number, number][] = [
   [4.3, 4.3, 0.5, 1.2],
 ]
 const SQUASH = 0.8
+/** Mostly gold and orange, a few reds: the crown is back-lit. */
+const CROWN_COLORS = ['#f4a72c', '#f4a72c', '#e2711d', '#f2c14e', '#f2c14e', '#d9902f', '#c8421f']
 
 function trunkGeometry() {
   const H = 4.5
@@ -270,7 +272,7 @@ export function Tree() {
         const size = 0.5 + rnd() * 0.5
         mesh.setMatrixAt(k, _m.compose(_p, _q, _s.setScalar(size)))
         const light = 0.74 + 0.36 * (dir.y * 0.5 + 0.5) + rnd() * 0.1
-        mesh.setColorAt(k, _c.set(LEAF_COLORS[Math.floor(rnd() * rnd() * LEAF_COLORS.length * 0.999) % LEAF_COLORS.length === 4 ? 1 : Math.floor(rnd() * 4)]).multiplyScalar(light))
+        mesh.setColorAt(k, _c.set(CROWN_COLORS[Math.floor(rnd() * CROWN_COLORS.length)]).multiplyScalar(light))
       }
     })
     mesh.count = k
@@ -390,7 +392,7 @@ export function Shadows() {
     const geo = new THREE.PlaneGeometry(1, 1)
     geo.rotateX(-Math.PI / 2)
     const m = new THREE.InstancedMesh(geo, shadowMaterial(0.36), SHADOWS.length)
-    SHADOWS.forEach(([x, z, w, d, turn], i) => m.setMatrixAt(i, _m.compose(_p.set(x, 0.034, z), _q.setFromEuler(_e.set(0, turn, 0)), _s.set(w, 1, d))))
+    SHADOWS.forEach(([x, z, w, d, turn], i) => m.setMatrixAt(i, _m.compose(_p.set(x, 0.07, z), _q.setFromEuler(_e.set(0, turn, 0)), _s.set(w, 1, d))))
     m.renderOrder = 2
     return m
   })
@@ -433,7 +435,7 @@ export function LeafCarpet() {
       if (Math.abs(x) > FENCE_X || z < FENCE_Z) density = 0.5
       if (z > 6) density += 0.15
       if (rnd() > density) continue
-      put(x, 0.036 + rnd() * 0.02, z, 0.24 + rnd() * 0.24, 0.35)
+      put(x, 0.03 + rnd() * 0.025, z, 0.24 + rnd() * 0.24, 0.35)
     }
     m.count = k
     m.instanceMatrix.needsUpdate = true

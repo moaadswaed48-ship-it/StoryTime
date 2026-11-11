@@ -24,7 +24,9 @@ const HEADS = [
   { x0: 1355, y0: 415, x1: 1685, y1: 645 }, // Sari and the leaf he holds up
 ]
 /** Both boys, hair to shoes. */
-const SUBJECT = { x0: 925, x1: 1685, cx: 1305, top: 415, thigh: 775, feet: 988 }
+const SUBJECT = { x0: 925, x1: 1685, cx: 1305, top: 415, waist: 705, feet: 988 }
+/** Resting zoom of the film inside its frame (hero.css) and the point it grows from — the faces move with it. */
+const ZOOM = { wide: 1.03, tall: 1, ox: 0.62, oy: 0.58 }
 
 export interface Frame {
   mode: 'wide' | 'tall'
@@ -49,8 +51,12 @@ const clamp = (v: number, lo: number, hi: number) => Math.min(hi, Math.max(lo, v
 
 export const overlaps = (a: Box, b: Box, pad = 0) => a.x < b.x + b.w + pad && a.x + a.w > b.x - pad && a.y < b.y + b.h + pad && a.y + a.h > b.y - pad
 
-function project(s: number, x: number, y: number): Box[] {
-  return HEADS.map((h) => ({ x: x + h.x0 * s, y: y + h.y0 * s, w: (h.x1 - h.x0) * s, h: (h.y1 - h.y0) * s }))
+function project(s: number, x: number, y: number, zoom: number): Box[] {
+  const cx = FILM.w * ZOOM.ox
+  const cy = FILM.h * ZOOM.oy
+  const px = (v: number) => x + (cx + (v - cx) * zoom) * s
+  const py = (v: number) => y + (cy + (v - cy) * zoom) * s
+  return HEADS.map((h) => ({ x: px(h.x0), y: py(h.y0), w: px(h.x1) - px(h.x0), h: py(h.y1) - py(h.y0) }))
 }
 
 const hits = (ui: Box[], heads: Box[], pad: number) => ui.some((u) => heads.some((h) => overlaps(u, h, pad)))
@@ -69,7 +75,7 @@ export function frameWide(W: number, H: number, stack: Box[], stripTop: number):
     s = cover * k
     x = clamp(0.7 * W - SUBJECT.cx * s, W - FILM.w * s, 0) // boys right of centre
     x = Math.max(Math.min(x, W - 28 - SUBJECT.x1 * s), W - FILM.w * s) // …with Sari's raised hand inside the screen
-    heads = project(s, x, 0)
+    heads = project(s, x, 0, ZOOM.wide)
     if (!hits(stack, heads, pad)) break
   }
   // The strip sits bottom-left. If its top edge is higher than Amir's chin, keep it left of his head.
@@ -89,9 +95,9 @@ export function frameTall(W: number, H: number, stackBottom: number, stripTop: n
   const need = stackBottom + gap // the hair may not start above this line
   let s = Math.min(cover, W / (SUBJECT.x1 - SUBJECT.x0 + 36))
   let y = Math.max(stripTop - 8 - SUBJECT.feet * s, need - SUBJECT.top * s) // feet above the strip, but never under the text
-  if (SUBJECT.thigh * s + y > stripTop) {
-    // Too little height for everything: the strip may hide the legs, but not more than up to the thighs.
-    s = clamp((stripTop - need) / (SUBJECT.thigh - SUBJECT.top), Math.max(W / FILM.w, s * 0.62), s)
+  if (SUBJECT.waist * s + y > stripTop) {
+    // Too little height for everything: the strip may hide the legs, but never more than up to the waist.
+    s = clamp((stripTop - need) / (SUBJECT.waist - SUBJECT.top), Math.max(W / FILM.w, s * 0.62), s)
     y = need - SUBJECT.top * s
   }
   const x = clamp(W / 2 - SUBJECT.cx * s, W - FILM.w * s, 0)
@@ -100,5 +106,5 @@ export function frameTall(W: number, H: number, stackBottom: number, stripTop: n
   const visibleTop = Math.max(0, -y)
   const fadeTop: [number, number] = [Math.max(visibleTop, hair - Math.max(150, H * 0.32)), hair - 14]
   const fadeBottom: [number, number] | null = y + h < H + 1 ? [Math.min(SUBJECT.feet * s + 4, h - 24), h] : null
-  return { mode: 'tall', s, x, y, w: FILM.w * s, h, heads: project(s, x, y), fadeTop, fadeBottom, stripMaxRight: null }
+  return { mode: 'tall', s, x, y, w: FILM.w * s, h, heads: project(s, x, y, ZOOM.tall), fadeTop, fadeBottom, stripMaxRight: null }
 }

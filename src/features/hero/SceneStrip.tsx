@@ -4,7 +4,6 @@ import { story } from '@/content/story'
 import { t } from '@/i18n/copy'
 import { locale, num } from '@/i18n/locale'
 import { asset } from '@/lib/asset'
-import { cn } from '@/lib/cn'
 import { useSiteStore } from '@/store/useSiteStore'
 
 /** Scenes 4, 6 and 11 (0-based indexes into `story.scenes`): blowing the paper · the wind · the leaf boat. */
@@ -98,8 +97,7 @@ function SceneCard({ index, order, live, clash, reduced, register }: { index: nu
         <Play size={12} fill="currentColor" strokeWidth={0} aria-hidden />
       </span>
       <span className="hero-card__meta">
-        <span className="hero-card__no">{num(index + 1)}</span>
-        <span>{scene.title[locale]}</span>
+        <span className="hero-card__no">{num(index + 1)}</span> {scene.title[locale]}
       </span>
     </button>
   )
@@ -131,10 +129,12 @@ export const SceneStrip = forwardRef<StripHandle, { reduced: boolean; clash: num
         <p className="hero-strip__label">{t.hero.scenes}</p>
         <button type="button" className="hero-strip__all" onClick={() => openBook(0)}>
           {t.hero.all}
-          <ArrowRight size={15} className="flip-rtl" aria-hidden />
+          <span className="hero-strip__arrow">
+            <ArrowRight size={15} className="flip-rtl" aria-hidden />
+          </span>
         </button>
       </div>
-      <div className={cn('hero-strip__rail')} data-lenis-prevent-touch>
+      <div className="hero-strip__rail">
         {HERO_SCENES.map((index, order) => (
           <SceneCard key={index} index={index} order={order} live={live} clash={clash.includes(order)} reduced={reduced} register={register} />
         ))}
