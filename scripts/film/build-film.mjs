@@ -143,9 +143,8 @@ SCENES.forEach((_, k) => {
   graph.push(`[${k === 0 ? 's0' : `x${k - 1}`}][s${k + 1}]xfade=transition=fade:duration=${sec(XFADE_FRAMES)}:offset=${xfadeStart(k)}[x${k}]`)
 })
 graph.push(`[x${SCENES.length - 1}]fade=t=out:st=${DURATION - sec(FADE_OUT_FRAMES)}:d=${sec(FADE_OUT_FRAMES)},format=yuv420p[v]`)
-inputs.push('-i', MUSIC)
+inputs.push('-i', MUSIC) // already cut, faded and levelled for this timeline: it goes in untouched
 const audioIn = SCENES.length + 1
-graph.push(`[${audioIn}:a]atrim=0:${DURATION},asetpts=PTS-STARTPTS[a]`)
 
 // Two passes at a fixed bitrate: the best picture the 12 MB budget allows, with no guessing.
 const kbps = Number(arg.kbps ?? 2500)
@@ -153,7 +152,7 @@ const video = ['-c:v', 'libx264', '-preset', 'slower', '-profile:v', 'high', '-l
 const filter = ['-filter_complex', graph.join(';')]
 console.log(`film: ${TOTAL_FRAMES} frames · ${DURATION} s · video ${kbps} kb/s (two passes, this takes a few minutes)`)
 ff([...inputs, ...filter, '-map', '[v]', ...video, '-pass', '1', '-an', '-f', 'null', '/dev/null'])
-ff([...inputs, ...filter, '-map', '[v]', '-map', '[a]', ...video, '-pass', '2', '-c:a', 'aac', '-b:a', '128k', '-ar', '48000', '-ac', '2', '-t', String(DURATION), '-movflags', '+faststart', `${WORK}/watch.mp4`])
+ff([...inputs, ...filter, '-map', '[v]', '-map', `${audioIn}:a`, ...video, '-pass', '2', '-c:a', 'aac', '-b:a', '128k', '-ar', '48000', '-ac', '2', '-t', String(DURATION), '-movflags', '+faststart', `${WORK}/watch.mp4`])
 
 const size = statSync(`${WORK}/watch.mp4`).size
 if (size >= 12e6) throw new Error(`watch.mp4 is ${(size / 1e6).toFixed(2)} MB — over the 12 MB budget; lower --kbps`)

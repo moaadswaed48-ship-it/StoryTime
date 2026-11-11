@@ -1,0 +1,395 @@
+/* ─────────────────────────────────────────────────────────────────────────────
+   ScrollStory: the wind scene scrubbed by scroll under three giant words.
+   Everything here is scoped under .ss. The engine (Scrub.tsx) writes a few custom
+   properties on .ss-stage every frame; their defaults are the rest state.
+     --ss-out   0 → 1   the next sheet is sliding over the pinned film
+     --ss-fill  0 → 1   progress shown on the rail
+   ───────────────────────────────────────────────────────────────────────────── */
+.ss {
+  --ss-pad: clamp(20px, 3.9vw, 56px);
+  --ss-foot: clamp(28px, 6.5svh, 64px);
+  --ss-dir: 1;
+  position: relative;
+  isolation: isolate;
+  background: var(--color-night);
+  height: 380vh;
+  height: 380svh;
+}
+html[dir='rtl'] .ss {
+  --ss-dir: -1;
+}
+/* When the next section is a sheet it slides over the pinned film for one more screen. */
+.ss.is-covered {
+  height: 480vh;
+  height: 480svh;
+  margin-bottom: -100vh;
+  margin-bottom: -100svh;
+}
+
+.ss-stage {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  height: 100svh;
+  overflow: hidden;
+}
+
+/* ── The film plate ─────────────────────────────────────────────────────────── */
+.ss-plate {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  background: var(--color-night-2);
+  transform: scale(calc(1 - var(--ss-out, 0) * 0.06));
+  transform-origin: 50% 38%;
+}
+.ss-film {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+.ss-film > canvas {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+/* Blurred first frame under the canvas: the stage is never blank while the real frame loads. */
+.ss-lqip {
+  position: absolute;
+  inset: -5%;
+  background-size: cover;
+  background-position: 100% 50%;
+  filter: blur(18px);
+}
+html[dir='ltr'] .ss-lqip {
+  transform: scaleX(-1);
+}
+.ss-stage.has-film .ss-lqip {
+  display: none;
+}
+
+/* Protection for type: light from the top (nav), a soft pool in the copy corner, a hint on the rail side. */
+.ss-scrim {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  --ss-cx: 0%;
+  --ss-rail-angle: 270deg;
+  background:
+    linear-gradient(to bottom, rgb(18 12 8 / 0.5) 0%, rgb(18 12 8 / 0.16) 13%, rgb(18 12 8 / 0) 26%),
+    radial-gradient(ellipse 72% 98% at var(--ss-cx) 106%, rgb(18 12 8 / 0.9) 0%, rgb(18 12 8 / 0.74) 26%, rgb(18 12 8 / 0.4) 50%, rgb(18 12 8 / 0.12) 66%, rgb(18 12 8 / 0) 78%),
+    linear-gradient(var(--ss-rail-angle), rgb(18 12 8 / 0.42) 0%, rgb(18 12 8 / 0.14) 9%, rgb(18 12 8 / 0) 20%),
+    linear-gradient(to top, rgb(18 12 8 / 0.46) 0%, rgb(18 12 8 / 0.14) 16%, rgb(18 12 8 / 0) 32%);
+}
+html[dir='rtl'] .ss-scrim {
+  --ss-cx: 100%;
+  --ss-rail-angle: 90deg;
+}
+.ss-dim {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: var(--color-night);
+  opacity: calc(var(--ss-out, 0) * 0.6);
+}
+
+/* ── Copy: kicker, the word reel, one line, one pill ────────────────────────── */
+.ss-ui {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  opacity: calc(1 - var(--ss-out, 0) * 1.8);
+}
+.ss-copy {
+  position: absolute;
+  inset-inline-start: var(--ss-pad);
+  bottom: var(--ss-foot);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  max-width: calc(100% - var(--ss-pad) * 2 - 72px);
+}
+.ss-kicker {
+  margin: 0;
+}
+.ss-beats {
+  display: grid;
+  margin: clamp(8px, 1.6svh, 16px) 0 0;
+  padding: 0;
+  list-style: none;
+}
+.ss-beat {
+  grid-area: 1 / 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  min-width: 0;
+  pointer-events: none;
+}
+.ss-word {
+  margin: 0;
+  color: #fff;
+  font-size: clamp(4.25rem, min(15vw, 25svh), 15rem);
+  white-space: nowrap;
+  transform-origin: 0% 62%;
+  will-change: transform, opacity, filter;
+}
+html[dir='rtl'] .ss-word {
+  transform-origin: 100% 62%;
+}
+.ss-detail {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: clamp(14px, 2.4svh, 24px);
+  margin-top: clamp(6px, 1.3svh, 14px);
+}
+.ss-line {
+  display: flex;
+  gap: 14px;
+  margin: 0;
+  max-width: 31rem;
+  color: rgb(255 255 255 / 0.88);
+}
+.ss-idx {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  gap: 12px;
+  height: 1.6em;
+  color: var(--color-maple-soft);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+.ss-idx::after {
+  content: '';
+  width: 28px;
+  height: 1.5px;
+  border-radius: 2px;
+  background: rgb(255 255 255 / 0.5);
+}
+.ss-cta {
+  margin-top: auto;
+}
+.ss-pill-arrow {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  margin-inline-end: -12px;
+  border-radius: 50%;
+  background: var(--color-ink);
+  color: var(--color-paper);
+  transition: transform 0.25s var(--ease-out);
+}
+@media (hover: hover) {
+  .ss-pill:hover .ss-pill-arrow {
+    transform: translate(calc(2px * var(--ss-dir)), -2px);
+  }
+  .ss-pill:hover .ss-pill-arrow[data-down] {
+    transform: translateY(2px);
+  }
+}
+
+/* Live (scripted) states. Without .is-live everything above is simply visible. */
+.ss.is-live .ss-kicker,
+.ss.is-live .ss-rail {
+  opacity: 0;
+  transform: translate3d(0, 14px, 0);
+}
+.ss.is-live[data-on='1'] .ss-kicker,
+.ss.is-live[data-on='1'] .ss-rail {
+  opacity: 1;
+  transform: none;
+  transition:
+    opacity 0.8s var(--ease-out),
+    transform 0.8s var(--ease-out);
+}
+.ss.is-live[data-on='1'] .ss-rail {
+  transition-delay: 0.32s;
+}
+.ss.is-live .ss-detail > * {
+  opacity: 0;
+  transform: translate3d(0, 18px, 0);
+  transition:
+    opacity 0.3s var(--ease-state),
+    transform 0.3s var(--ease-state);
+}
+.ss.is-live .ss-beat[data-state='past'] .ss-detail > * {
+  transform: translate3d(0, -14px, 0);
+}
+.ss.is-live .ss-beat[data-state='on'] .ss-detail > * {
+  opacity: 1;
+  transform: none;
+  transition:
+    opacity 0.7s var(--ease-out),
+    transform 0.7s var(--ease-out);
+  transition-delay: calc(160ms + var(--i, 0) * 90ms);
+}
+.ss-beat[data-state='on'] .ss-cta {
+  pointer-events: auto;
+}
+.ss:not(.is-live) .ss-beat:first-child .ss-cta {
+  pointer-events: auto;
+}
+
+/* ── Progress rail (inline-end): three ticks, a filling line, a frame counter ── */
+.ss-rail {
+  --ss-rail-h: clamp(186px, 33svh, 282px);
+  position: absolute;
+  pointer-events: auto;
+  inset-inline-end: var(--ss-pad);
+  top: calc(50% - var(--ss-rail-h) / 2);
+  display: grid;
+  grid-template-rows: repeat(3, 1fr);
+  height: var(--ss-rail-h);
+}
+.ss-rail-track,
+.ss-rail-fill {
+  position: absolute;
+  inset-block: 0;
+  inset-inline-end: 5px;
+  width: 1.5px;
+  border-radius: 2px;
+  pointer-events: none;
+}
+.ss-rail-track {
+  background: rgb(255 255 255 / 0.28);
+}
+.ss-rail-fill {
+  background: #fff;
+  transform: scaleY(var(--ss-fill, 0.1667));
+  transform-origin: 50% 0;
+}
+.ss-tick {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 14px;
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0;
+  padding-inline-start: 14px;
+  border: 0;
+  background: none;
+  color: rgb(255 255 255 / 0.62);
+  font: inherit;
+  font-size: 13.5px;
+  font-weight: 600;
+  transition: color 0.3s var(--ease-state);
+}
+.ss-tick-dot {
+  flex: none;
+  width: 11.5px;
+  height: 11.5px;
+  border-radius: 50%;
+  background: var(--color-night);
+  box-shadow: inset 0 0 0 1.5px rgb(255 255 255 / 0.75);
+  transition:
+    transform 0.4s var(--ease-spring),
+    background-color 0.3s var(--ease-state),
+    box-shadow 0.3s var(--ease-state);
+}
+.ss-tick[data-done='1'] .ss-tick-dot {
+  background: #fff;
+  box-shadow: inset 0 0 0 1.5px #fff;
+}
+.ss-tick[data-on='1'] {
+  color: #fff;
+}
+.ss-tick[data-on='1'] .ss-tick-dot {
+  background: var(--color-maple);
+  box-shadow:
+    inset 0 0 0 1.5px #fff,
+    0 0 0 5px rgb(255 255 255 / 0.16);
+  transform: scale(1.18);
+}
+@media (hover: hover) {
+  .ss-tick:hover {
+    color: #fff;
+  }
+  .ss-tick:hover .ss-tick-dot {
+    transform: scale(1.18);
+  }
+}
+.ss-count {
+  position: absolute;
+  top: calc(100% + 14px);
+  inset-inline-end: 0;
+  color: rgb(255 255 255 / 0.6);
+  font-size: 11.5px;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+/* ── Portrait screens: the film sits in the upper part with both children in frame,
+      its ground melts into shadow and the copy stands on it. ───────────────────── */
+@media (max-aspect-ratio: 1/1) {
+  .ss {
+    --ss-band: min(62svh, 128vw);
+  }
+  .ss-plate {
+    background: linear-gradient(to bottom, #7d5039 0, #7d5039 calc(var(--ss-band) * 0.7), #54341f var(--ss-band), #2a1a11 calc(var(--ss-band) + 15svh), var(--color-night) 100%);
+  }
+  .ss-film {
+    bottom: auto;
+    height: var(--ss-band);
+    -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 68%, rgb(0 0 0 / 0.62) 84%, transparent 100%);
+    mask-image: linear-gradient(to bottom, #000 0%, #000 68%, rgb(0 0 0 / 0.62) 84%, transparent 100%);
+  }
+  .ss-scrim {
+    background:
+      linear-gradient(to bottom, rgb(18 12 8 / 0.52) 0%, rgb(18 12 8 / 0.16) 11%, rgb(18 12 8 / 0) 22%),
+      linear-gradient(to top, var(--color-night) 0%, rgb(18 12 8 / 0.82) 24%, rgb(18 12 8 / 0.3) 44%, rgb(18 12 8 / 0) 58%);
+  }
+  .ss-copy {
+    inset-inline: var(--ss-pad);
+    max-width: none;
+    padding-inline-end: 44px;
+  }
+  .ss-word {
+    font-size: clamp(4rem, min(27vw, 15svh), 10rem);
+  }
+  .ss-line {
+    max-width: 22rem;
+  }
+  .ss-rail {
+    --ss-rail-h: 132px;
+    top: auto;
+    bottom: var(--ss-foot);
+    inset-inline-end: calc(var(--ss-pad) - 6px);
+  }
+  .ss-tick {
+    padding-inline-start: 26px;
+  }
+  .ss-tick-label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+  .ss-count {
+    display: none;
+  }
+}
+
+/* Short landscape screens (phones on their side): keep the block compact. */
+@media (min-aspect-ratio: 1/1) and (max-height: 520px) {
+  .ss-rail {
+    --ss-rail-h: 150px;
+  }
+  .ss-count {
+    display: none;
+  }
+  .ss-line {
+    max-width: 26rem;
+  }
+}
