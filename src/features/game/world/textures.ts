@@ -51,18 +51,18 @@ export const pavingTexture = () =>
     g.fillStyle = '#93694a'
     g.fillRect(0, 0, S, S)
     const tones = ['#dab78e', '#cfa77d', '#c69b71', '#e0c29c', '#bf9168', '#d5ae84', '#caa179']
-    const rows = 8
+    const rows = 10
     const rh = S / rows
-    const gap = 5
+    const gap = 4
     for (let r = 0; r < rows; r++) {
-      const n = 4 + Math.floor(rnd() * 3)
+      const n = 5 + Math.floor(rnd() * 3)
       const ws = Array.from({ length: n }, () => 0.7 + rnd() * 0.9)
       const sum = ws.reduce((a, b) => a + b, 0)
       let x = rnd() * S
       for (const w0 of ws) {
         const w = (w0 / sum) * S
         const tone = tones[Math.floor(rnd() * tones.length)]
-        const rad = 14 + rnd() * 10
+        const rad = 12 + rnd() * 9
         const tilt = rnd()
         x %= S
         for (const ox of [0, -S]) {
@@ -80,8 +80,8 @@ export const pavingTexture = () =>
           g.fillStyle = grad
           roundRect(g, px, py, pw, ph, rad)
           g.fill()
-          g.strokeStyle = 'rgba(255,238,210,.22)'
-          g.lineWidth = 2.5
+          g.strokeStyle = 'rgba(255,238,210,.16)'
+          g.lineWidth = 2
           roundRect(g, px + 2.5, py + 2.5, pw - 5, ph - 5, Math.max(4, rad - 2))
           g.stroke()
         }

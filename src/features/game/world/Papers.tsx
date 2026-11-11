@@ -89,7 +89,7 @@ function PaperItem({ index, name }: { index: number; name: string }) {
         <planeGeometry args={[1, 1]} />
       </mesh>
       <mesh ref={sheet} geometry={geo} material={mats.sheet} renderOrder={6} />
-      <sprite ref={marker} material={mats.marker} scale={[0.48, 0.48, 0.48]} renderOrder={7} />
+      <sprite ref={marker} material={mats.marker} scale={[0.42, 0.42, 0.42]} renderOrder={7} />
     </group>
   )
 }

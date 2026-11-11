@@ -104,7 +104,7 @@ function mistGeometry() {
 export function Ground({ onTap }: { onTap: (e: ThreeEvent<PointerEvent>) => void }) {
   const paving = useMemo(() => {
     const tex = pavingTexture()
-    tex.repeat.set(27, 27)
+    tex.repeat.set(26, 26)
     return tex
   }, [])
   const mist = useDisposable(() => {
@@ -117,7 +117,7 @@ export function Ground({ onTap }: { onTap: (e: ThreeEvent<PointerEvent>) => void
     <group>
       <mesh rotation-x={-Math.PI / 2} onPointerDown={onTap}>
         <planeGeometry args={[110, 110]} />
-        <meshBasicMaterial map={paving} color="#f6e6d0" />
+        <meshBasicMaterial map={paving} color="#f1dcc0" />
       </mesh>
       <mesh rotation-x={-Math.PI / 2} position={[0.6, 0.062, -0.2]} renderOrder={1}>
         <planeGeometry args={[30, 24]} />
@@ -139,9 +139,9 @@ export function Backdrop() {
     return tex
   }, [])
   return (
-    <mesh position={[0, 6.5, 0]} renderOrder={-1}>
+    <mesh position={[0, 6.5, 0]}>
       <cylinderGeometry args={[21, 21, 13.4, 72, 1, true, Math.PI - ARC / 2, ARC]} />
-      <meshBasicMaterial map={map} side={THREE.BackSide} fog={false} depthWrite={false} />
+      <meshBasicMaterial map={map} side={THREE.BackSide} fog={false} />
     </mesh>
   )
 }
