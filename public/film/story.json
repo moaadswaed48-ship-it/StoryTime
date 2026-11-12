@@ -1,0 +1,65 @@
+{
+  "duration": 80,
+  "scenes": [
+    {
+      "scene": 0,
+      "start": 0,
+      "end": 5
+    },
+    {
+      "scene": 1,
+      "start": 5,
+      "end": 12.5
+    },
+    {
+      "scene": 2,
+      "start": 12.5,
+      "end": 20
+    },
+    {
+      "scene": 3,
+      "start": 20,
+      "end": 25
+    },
+    {
+      "scene": 4,
+      "start": 25,
+      "end": 32.5
+    },
+    {
+      "scene": 5,
+      "start": 32.5,
+      "end": 37.5
+    },
+    {
+      "scene": 6,
+      "start": 37.5,
+      "end": 45
+    },
+    {
+      "scene": 7,
+      "start": 45,
+      "end": 50
+    },
+    {
+      "scene": 8,
+      "start": 50,
+      "end": 57.5
+    },
+    {
+      "scene": 9,
+      "start": 57.5,
+      "end": 65
+    },
+    {
+      "scene": 10,
+      "start": 65,
+      "end": 70
+    },
+    {
+      "scene": 11,
+      "start": 70,
+      "end": 80
+    }
+  ]
+}
