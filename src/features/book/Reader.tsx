@@ -4,6 +4,7 @@ import { story, SCENES } from '@/content/story'
 import { t } from '@/i18n/copy'
 import { dirSign, locale, num, rtl } from '@/i18n/locale'
 import { useSiteStore } from '@/store/useSiteStore'
+import { useProfileStore } from '@/store/useProfileStore'
 import { useOverlayLock } from '@/design/overlay'
 import { BlurWords, Eyebrow, Pill } from '@/design/ui'
 import { Leaves, type LeavesHandle } from '@/design/Leaves'
@@ -34,6 +35,9 @@ export function Reader({ startScene }: { startScene: number }) {
   const openFilm = useSiteStore((s) => s.openFilm)
   const loggedIn = useSiteStore((s) => s.loggedIn)
   const setLoggedIn = useSiteStore((s) => s.setLoggedIn)
+  const openGame = useSiteStore((s) => s.openGame)
+  const childName = useProfileStore((s) => s.profile?.name?.trim() ?? '')
+  const classroom = useProfileStore((s) => s.classroom)
   const tierReduced = useSiteStore((s) => s.tier === 'reduced')
   const reduced = tierReduced || prefersReducedNow()
   const stack = useMedia(STACK_QUERY)
@@ -265,10 +269,14 @@ export function Reader({ startScene }: { startScene: number }) {
     act.current.goScene(startScene)
   }, [startScene])
 
-  // Tell the rest of the site where the reader is (for "continue reading" and the finished-story reward).
+  // The child's progress: where the reader is (for "continue reading"), and the "read" leaf at the end of the story.
   useEffect(() => {
     if (phase !== 'open') return
-    window.dispatchEvent(new CustomEvent('storytime:book', { detail: scene >= END ? { story: story.id, type: 'finished' } : { story: story.id, type: 'scene', scene } }))
+    const profile = useProfileStore.getState()
+    if (scene >= END) {
+      profile.mark(story.id, 'read')
+      profile.setScene(story.id, 0) // finished: the next visit starts from the cover again
+    } else profile.setScene(story.id, scene)
   }, [phase, scene])
 
   // The end of the story: a shower of leaves once the last leaf has landed.
@@ -375,20 +383,8 @@ export function Reader({ startScene }: { startScene: number }) {
     setLoggedIn(true)
   }
   const again = () => act.current.goScene(0)
-  const playGame = () => {
-    closeOverlay()
-    window.setTimeout(() => {
-      const st = useSiteStore.getState()
-      const target = document.querySelector('#game')
-      if (target) {
-        if (st.lenis) st.lenis.scrollTo('#game', { offset: -80, force: true })
-        else target.scrollIntoView()
-      } else {
-        // No game section on this screen: use the site's game overlay when it has one.
-        ;(st as unknown as { openGame?: () => void }).openGame?.()
-      }
-    }, 90)
-  }
+  // The game is a full-screen experience of its own: opening it takes the book's place.
+  const playGame = () => openGame()
 
   const qaPhase = phase !== 'open' ? phase : atEnd ? 'end' : gated ? 'gate' : 'open'
   const isOpen = phase === 'open'
@@ -461,6 +457,7 @@ export function Reader({ startScene }: { startScene: number }) {
       data-phase={qaPhase}
       data-turning={turning || undefined}
       data-dragging={dragging || undefined}
+      data-classroom={classroom || undefined}
     >
       <div className="bk-bg" aria-hidden>
         <Ambient src={asset(phase !== 'open' || atEnd ? story.coverThumb : story.scenes[scene].thumb)} />
@@ -585,6 +582,11 @@ export function Reader({ startScene }: { startScene: number }) {
             <p className="bk-dedication font-story bk-rise" style={{ '--i': 3 } as CSSProperties}>
               {t.book.dedication}
             </p>
+            {childName && (
+              <p className="bk-forchild bk-rise" style={{ '--i': 3.5 } as CSSProperties} data-testid="bk-forchild">
+                {t.book.forChild} <bdi>{childName}</bdi>
+              </p>
+            )}
             <div className="bk-rise" style={{ '--i': 4 } as CSSProperties}>
               <Pill variant="solid" size="lg" className="bk-open" onClick={open} data-testid="bk-open">
                 <BookOpen size={19} aria-hidden />

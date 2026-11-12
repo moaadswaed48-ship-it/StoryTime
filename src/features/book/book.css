@@ -25,6 +25,14 @@ html[lang='en'] .bk {
 .bk.is-closing {
   opacity: 0;
 }
+/* Classroom mode (a teacher presenting to a group): the book fills the screen and the text is larger. */
+.bk[data-classroom] {
+  --sw: min(94vw, calc((100svh - 196px) * 16 / 9));
+  --bk-fs: clamp(22px, calc(var(--sw) * 0.0305), 46px);
+}
+html[lang='en'] .bk[data-classroom] {
+  --bk-fs: clamp(20px, calc(var(--sw) * 0.027), 40px);
+}
 
 /* ── Stage: night ground, the scene's own colour as a faint glow, vignette, leaves ── */
 .bk-bg,
@@ -793,6 +801,17 @@ html[lang='en'] .bk-dedication {
   font-style: italic;
   line-height: 1.5;
 }
+/* "This copy belongs to …": the child's own name, like a bookplate. */
+.bk-forchild {
+  margin-top: 8px;
+  font-size: 14.5px;
+  font-weight: 600;
+  color: var(--color-maple-soft, #f4a35e);
+}
+.bk-forchild bdi {
+  color: var(--color-paper, #f6f0e4);
+  font-weight: 700;
+}
 .bk .bk-open {
   margin-top: clamp(22px, 3.6vh, 38px);
   box-shadow: 0 14px 34px rgba(0, 0, 0, 0.35);
@@ -1106,6 +1125,9 @@ html[lang='en'] .bk-end-title {
   .bk-hint {
     display: none;
   }
+  .bk[data-classroom] {
+    --sw: min(90vw, calc((100svh - 112px) * 16 / 9));
+  }
   .bk-closed {
     padding-block: 60px 20px;
   }
@@ -1123,6 +1145,13 @@ html[lang='en'] .bk-end-title {
   }
   html[lang='en'] .bk {
     --bk-fs: clamp(18px, 4.7vw, 22px);
+  }
+  .bk[data-classroom] {
+    --sw: min(calc(100vw - 28px), 620px);
+    --bk-fs: clamp(22px, 5.9vw, 28px);
+  }
+  html[lang='en'] .bk[data-classroom] {
+    --bk-fs: clamp(21px, 5.5vw, 26px);
   }
   .bk-top {
     height: 56px;

@@ -10,6 +10,7 @@ async function start(page: Page, scene: number, loggedIn: boolean) {
   await page.goto(pageUrl('book'))
   await waitForHook(page, 'book')
   await waitForHook(page, 'store')
+  await waitForHook(page, 'profile')
   await page.evaluate(
     ([n, on]) => {
       const st = window.__st!.store.getState()
@@ -39,6 +40,10 @@ test('the closed book opens into the first spread and shows the author’s text 
   await start(page, 0, false)
   expect(await phase(page)).toBe('closed')
   await expect(page.getByRole('dialog')).toBeVisible()
+  // A child's name on the profile is written into the book, like a bookplate.
+  await expect(page.getByTestId('bk-forchild')).toHaveCount(0)
+  await page.evaluate(() => window.__st!.profile.getState().setProfile({ name: 'ليلى', avatar: 'leaf' }))
+  await expect(page.getByTestId('bk-forchild')).toContainText('ليلى')
   await page.getByTestId('bk-open').click()
   await expect.poll(() => phase(page), SLOW).toBe('open')
   await expect(text(page)).toHaveText((await lines(page, 0))[0], SLOW)
@@ -64,6 +69,8 @@ test('next walks the paragraphs one at a time, then turns the page; previous com
   await call(page, 'prev')
   expect(await where(page)).toEqual({ scene: 1, step: first.length - 1 })
   await landed(page)
+  // The scene the reader is on is remembered for "continue reading".
+  await expect.poll(() => page.evaluate((id) => window.__st!.profile.getState().progress[id]?.scene, story.id), SLOW).toBe(1)
 
   // Scene 4 (index 3) has a five-second clip: it must really be playing inside the page.
   await page.evaluate(() => window.__st!.book.goScene(3))
@@ -98,6 +105,8 @@ test('after scene 12 comes the end page, and the story can start again', async (
   await landed(page)
   await expect(page.locator('.bk-end-title')).toBeVisible(SLOW)
   await expect(page.locator('.bk-end-actions button')).toHaveCount(3)
+  // Finishing the story earns the "read" leaf.
+  await expect.poll(() => page.evaluate((id) => window.__st!.profile.getState().progress[id]?.read, story.id), SLOW).toBe(true)
   await call(page, 'prev')
   expect(await where(page)).toEqual({ scene: 11, step: (await lines(page, 11)).length - 1 })
   await landed(page)

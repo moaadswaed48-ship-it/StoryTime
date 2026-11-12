@@ -95,26 +95,40 @@ export function Footer() {
     if (!box || !w) return
     let last = 0
     let raf = 0
+    let alive = true
     const fit = (force = false) => {
       const width = box.clientWidth
       if (!width || (!force && Math.abs(width - last) < 0.5)) return
       last = width
-      box.style.fontSize = '200px'
-      const natural = w.getBoundingClientRect().width
-      box.style.fontSize = natural > 0 ? `${((200 * width) / natural).toFixed(2)}px` : ''
+      // Width grows in step with the font size, so one ratio is exact. Read both as they are now: writing a size and
+      // reading it back in the same task is not safe (a global reduced-motion rule turns every change into a tiny transition).
+      const size = parseFloat(getComputedStyle(box).fontSize)
+      const now = w.getBoundingClientRect().width
+      if (size > 0 && now > 0 && Math.abs(now - width) > 0.5) box.style.fontSize = `${((size * width) / now).toFixed(2)}px`
     }
-    fit(true)
+    const refit = () => {
+      if (!alive) return
+      fit(true)
+      // once more after the frame, in case the first reading was taken mid-change
+      cancelAnimationFrame(raf)
+      raf = requestAnimationFrame(() => alive && fit(true))
+    }
+    refit()
     const ro = new ResizeObserver(() => {
       cancelAnimationFrame(raf)
       raf = requestAnimationFrame(() => fit())
     })
     ro.observe(box)
-    let alive = true
-    document.fonts?.ready.then(() => alive && fit(true))
+    // Measure again once the display face has really arrived (the first measure may have used a fallback).
+    const fonts = document.fonts
+    fonts?.ready.then(refit)
+    fonts?.load(`900 200px 'Rubik Variable'`, t.brand).then(refit, () => {})
+    fonts?.addEventListener?.('loadingdone', refit)
     return () => {
       alive = false
       cancelAnimationFrame(raf)
       ro.disconnect()
+      fonts?.removeEventListener?.('loadingdone', refit)
     }
   }, [])
 
