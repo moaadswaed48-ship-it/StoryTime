@@ -145,8 +145,9 @@ html[lang='en'] .hero {
 .hero-grade--sky {
   background: linear-gradient(to bottom, rgb(96 26 4 / 0.4) 0%, rgb(104 32 6 / 0.3) 26%, rgb(112 38 8 / 0.12) 46%, rgb(112 38 8 / 0) 58%);
 }
+/* a warm shadow behind the type: deepest where the small sub-copy sits */
 .hero-grade--halo {
-  background: radial-gradient(56% 40% at 50% 33%, rgb(40 16 4 / 0.42), rgb(40 16 4 / 0) 72%);
+  background: radial-gradient(58% 42% at 50% 36%, rgb(44 16 4 / 0.54), rgb(44 16 4 / 0.3) 44%, rgb(44 16 4 / 0) 74%);
 }
 .hero-grade--floor {
   background: linear-gradient(to top, var(--color-night, #120c08) 0%, rgb(18 12 8 / 0.92) 10%, rgb(18 12 8 / 0.66) 20%, rgb(18 12 8 / 0.28) 30%, rgb(18 12 8 / 0) 40%);
@@ -268,20 +269,23 @@ html[lang='ar'] .hero-title__b {
   max-width: 36rem;
   font-size: clamp(15px, calc(1.9 * var(--svh)), 17.5px);
   line-height: 1.6;
-  color: rgb(255 255 255 / 0.92);
+  color: rgb(255 255 255 / 0.96);
   text-wrap: balance;
   text-shadow:
-    0 1px 2px rgb(50 18 2 / 0.6),
-    0 2px 18px rgb(30 10 0 / 0.56);
+    0 1px 2px rgb(50 18 2 / 0.7),
+    0 0 12px rgb(40 14 0 / 0.5),
+    0 2px 22px rgb(30 10 0 / 0.6);
 }
 html[lang='ar'] .hero-sub {
   line-height: 1.7;
 }
-/* who the story is for: its own line, one step quieter */
+/* who the story is for: its own line, set a little smaller and firmer (quieter by size, not by fading it into the sky) */
 .hero-sub__for {
   display: block;
-  font-weight: 500;
-  color: rgb(255 244 228 / 0.82);
+  margin-top: 0.15em;
+  font-size: 0.92em;
+  font-weight: 600;
+  color: #fff3e2;
 }
 .hero-actions {
   margin-top: clamp(14px, calc(2.2 * var(--svh)), 22px);
@@ -365,10 +369,12 @@ html[lang='ar'] .hero-strip__label {
   min-height: 44px;
   margin-block: -10px;
   font-size: 13px;
-  font-weight: 500;
+  font-weight: 600;
   white-space: nowrap;
-  color: rgb(255 255 255 / 0.84);
-  text-shadow: 0 1px 10px rgb(0 0 0 / 0.5);
+  color: rgb(255 255 255 / 0.94);
+  text-shadow:
+    0 1px 2px rgb(0 0 0 / 0.5),
+    0 1px 10px rgb(0 0 0 / 0.5);
   transition: color 0.2s ease;
 }
 .hero-strip__arrow {

@@ -68,21 +68,21 @@
 .ft-body::before {
   content: '';
   position: absolute;
-  inset: -50svh 0 0 0;
+  inset: -40svh 0 0 0;
   z-index: -1;
   pointer-events: none;
   /* eased stops: the picture melts, it is not cut. Under the line of text it is already dusk. */
   background: linear-gradient(
     to bottom,
     rgba(18, 12, 8, 0) 0,
-    rgba(18, 12, 8, 0.05) 8svh,
-    rgba(18, 12, 8, 0.16) 18svh,
-    rgba(18, 12, 8, 0.34) 28svh,
-    rgba(18, 12, 8, 0.56) 38svh,
-    rgba(18, 12, 8, 0.76) 48svh,
-    rgba(18, 12, 8, 0.9) 57svh,
-    rgba(18, 12, 8, 0.97) 65svh,
-    var(--color-night) 72svh
+    rgba(18, 12, 8, 0.05) 6svh,
+    rgba(18, 12, 8, 0.16) 14svh,
+    rgba(18, 12, 8, 0.35) 23svh,
+    rgba(18, 12, 8, 0.58) 32svh,
+    rgba(18, 12, 8, 0.77) 40svh,
+    rgba(18, 12, 8, 0.9) 47svh,
+    rgba(18, 12, 8, 0.97) 54svh,
+    var(--color-night) 60svh
   );
 }
 .ft-wrap {
@@ -318,7 +318,7 @@ html[lang='ar'] .ft-word {
   padding: 0.1em 0 0.3em;
   letter-spacing: -0.045em;
   color: var(--color-paper);
-  background: linear-gradient(180deg, #fbf3e4 12%, #f6c08a 40%, var(--color-maple-soft) 56%, rgb(217 84 30 / 0.7) 76%, rgb(217 84 30 / 0.3) 100%);
+  background: linear-gradient(180deg, #fbf3e4 14%, #f8d3a8 40%, var(--color-maple-soft) 62%, rgb(217 84 30 / 0.78) 80%, rgb(217 84 30 / 0.34) 100%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;

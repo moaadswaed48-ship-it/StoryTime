@@ -73,9 +73,10 @@ html[lang='en'] .au-title {
   display: block;
   white-space: nowrap;
 }
-/* two-tone: the second line is the same ink, quieter */
+/* two-tone: the second line is the same ink, quieter.
+   (Opacity on the line, not alpha in the colour: joined Arabic letters overlap, and a see-through colour shows the seams.) */
 .au-title__b {
-  color: rgb(26 18 11 / 0.36);
+  opacity: 0.38;
 }
 .au-text {
   max-width: 33.5rem;
@@ -164,9 +165,12 @@ html[dir='rtl'] .au-sign {
   line-height: 1;
   letter-spacing: -0.05em;
   white-space: nowrap;
-  color: rgb(26 18 11 / 0.055);
+  color: var(--color-ink);
+  opacity: 0.055;
   pointer-events: none;
   user-select: none;
+  /* it drifts a little against the page, so the book stands in front of it */
+  translate: 0 calc((var(--sp, 0.5) - 0.5) * -56px);
 }
 html[lang='en'] .au-ghost {
   font-size: clamp(3.6rem, 9vw, 8.8rem);
@@ -619,10 +623,10 @@ html[lang='ar'] .au-cta__title {
   line-height: 1.34;
 }
 .au-cta__title span {
-  color: rgb(246 240 228 / 0.6);
+  opacity: 0.62;
 }
 .au-cta__title .is-ask {
-  color: var(--color-paper);
+  opacity: 1;
 }
 .au-cta__pills {
   display: flex;

@@ -87,6 +87,7 @@ export const LyingBook = forwardRef<BookHandle>(function LyingBook(_, ref) {
       // rest pose from the stylesheet
       Object.assign(s, { enter: 1, px: 0, py: 0, tx: 0, ty: 0, sp: 0.5, landed: true })
       for (const n of [book.current, ground.current, sheen.current, el]) if (n) (n.style.transform = ''), (n.style.opacity = '')
+      el.parentElement?.style.removeProperty('--sp')
       return
     }
     if (!on) return
@@ -106,7 +107,12 @@ export const LyingBook = forwardRef<BookHandle>(function LyingBook(_, ref) {
       const r = el.getBoundingClientRect()
       cx = r.left + r.width / 2
       cy = r.top + r.height / 2
-      s.sp = clamp(1 - cy / window.innerHeight, 0, 1)
+      const sp = clamp(1 - cy / window.innerHeight, 0, 1)
+      if (Math.abs(sp - s.sp) > 0.001) {
+        s.sp = sp
+        // the word standing behind the book reads this to drift against the page
+        el.parentElement?.style.setProperty('--sp', sp.toFixed(3))
+      }
       s.px = lerp(s.px, s.tx, 0.1)
       s.py = lerp(s.py, s.ty, 0.1)
       write()
