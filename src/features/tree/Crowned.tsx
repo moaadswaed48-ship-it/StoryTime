@@ -1,4 +1,4 @@
-import { Suspense, useEffect, useMemo, useRef } from 'react'
+import { Suspense, useEffect, useMemo, useRef, useState } from 'react'
 import * as THREE from 'three'
 import { useFrame } from '@react-three/fiber'
 import { LazyCanvas } from '@/design/LazyCanvas'
@@ -62,7 +62,7 @@ function Crown({ root }: { root: React.RefObject<THREE.Group | null> }) {
       </mesh>
       {CROWN.map((_, i) => {
         const a = (i / N) * Math.PI * 2 + 0.2
-        const size = i % 2 === 0 ? 0.19 : 0.15
+        const size = i % 2 === 0 ? 0.2 : 0.16
         return (
           <group key={i} position={[Math.sin(a) * RADIUS, -0.012, Math.cos(a) * RADIUS]} rotation={[0, a, 0]}>
             <mesh geometry={geo} material={mats[i]} rotation={[0.42, 0, (i % 3 - 1) * 0.16]} scale={size} />
@@ -93,28 +93,104 @@ function Figure({ onReady }: { onReady: () => void }) {
   )
 }
 
-/** Without WebGL: Sari's portrait as a round medallion, with the same crown drawn over it. */
+/**
+ * Sari's picture stands on a flat studio grey. Without WebGL we lift him off it in a small 2D canvas
+ * (flood from the edges, so greys inside the figure stay) and he stands on the hill like the 3D one.
+ */
+function useCutout(src: string): string | null {
+  const [url, setUrl] = useState<string | null>(null)
+  useEffect(() => {
+    let alive = true
+    let made: string | null = null
+    const img = new Image()
+    img.onload = () => {
+      try {
+        const w = 420
+        const h = Math.round((w * img.naturalHeight) / img.naturalWidth)
+        const c = document.createElement('canvas')
+        c.width = w
+        c.height = h
+        const ctx = c.getContext('2d', { willReadFrequently: true })
+        if (!ctx) return
+        ctx.drawImage(img, 0, 0, w, h)
+        const data = ctx.getImageData(0, 0, w, h)
+        const px = data.data
+        const [br, bg, bb] = [px[0], px[1], px[2]]
+        const far = (p: number) => Math.max(Math.abs(px[p * 4] - br), Math.abs(px[p * 4 + 1] - bg), Math.abs(px[p * 4 + 2] - bb))
+        const out = new Uint8Array(w * h)
+        const stack: number[] = []
+        for (let x = 0; x < w; x++) stack.push(x, (h - 1) * w + x)
+        for (let y = 0; y < h; y++) stack.push(y * w, y * w + w - 1)
+        while (stack.length) {
+          const p = stack.pop()!
+          if (out[p] || far(p) > 16) continue
+          out[p] = 1
+          const x = p % w
+          if (x > 0) stack.push(p - 1)
+          if (x < w - 1) stack.push(p + 1)
+          if (p >= w) stack.push(p - w)
+          if (p < w * (h - 1)) stack.push(p + w)
+        }
+        for (let p = 0; p < w * h; p++) {
+          if (out[p]) px[p * 4 + 3] = 0
+          else {
+            // a soft edge: pixels touching the background keep only as much as they differ from it
+            const x = p % w
+            const edge = (x > 0 && out[p - 1]) || (x < w - 1 && out[p + 1]) || (p >= w && out[p - w]) || (p < w * (h - 1) && out[p + w])
+            if (edge) px[p * 4 + 3] = Math.min(255, far(p) * 5)
+          }
+        }
+        ctx.putImageData(data, 0, 0)
+        c.toBlob((blob) => {
+          if (!blob || !alive) return
+          made = URL.createObjectURL(blob)
+          setUrl(made)
+        })
+      } catch {
+        /* the framed portrait below is shown instead */
+      }
+    }
+    img.src = src
+    return () => {
+      alive = false
+      if (made) URL.revokeObjectURL(made)
+    }
+  }, [src])
+  return url
+}
+
+function PaperCrown({ className }: { className: string }) {
+  return (
+    <svg viewBox="-110 -60 220 100" className={className} aria-hidden>
+      {CROWN.slice(0, 7).map((c, i) => {
+        const x = (i - 3) * 27
+        const y = Math.abs(i - 3) * 6
+        return <path key={i} d={MAPLE} fill={c} stroke="rgba(90,40,0,.4)" strokeWidth="2" transform={`translate(${x} ${y - 6}) rotate(${(i - 3) * 13}) scale(${i % 2 ? 0.6 : 0.76})`} />
+      })}
+    </svg>
+  )
+}
+
+/** Without WebGL: Sari's picture, standing where the 3D Sari would, with the same crown drawn over it. */
 function Picture({ onShown }: { onShown: () => void }) {
   useEffect(onShown, [onShown])
+  const src = asset('story/sari.webp')
+  const cut = useCutout(src)
   return (
-    <div className="absolute inset-0 flex items-end justify-center pb-[20%]" data-tree-sari="picture">
-      <div className="relative aspect-square w-[min(78%,190px)]">
-        <div className="absolute inset-0 overflow-hidden rounded-full bg-paper shadow-[0_0_0_5px_var(--color-paper),0_18px_40px_rgba(40,14,0,.4)]">
-          <img
-            src={asset('story/sari.webp')}
-            alt=""
-            className="h-full w-full origin-top scale-[1.3] object-cover object-top [filter:sepia(.32)_saturate(1.2)_brightness(1.05)]"
-            draggable={false}
-          />
+    <div className="absolute inset-0 flex items-end justify-center pb-[11%]" data-tree-sari="picture">
+      {cut ? (
+        <div className="relative h-[74%]" style={{ aspectRatio: '700 / 929' }}>
+          <img src={cut} alt="" className="h-full w-full [filter:drop-shadow(0_10px_14px_rgba(40,14,0,.35))]" draggable={false} />
+          <PaperCrown className="absolute inset-x-[27%] top-[-4%] w-[46%]" />
         </div>
-        <svg viewBox="-110 -60 220 100" className="absolute inset-x-[16%] top-[-9%] w-[68%]" aria-hidden>
-          {CROWN.slice(0, 7).map((c, i) => {
-            const x = (i - 3) * 27
-            const y = Math.abs(i - 3) * 6
-            return <path key={i} d={MAPLE} fill={c} stroke="rgba(90,40,0,.4)" strokeWidth="2" transform={`translate(${x} ${y - 6}) rotate(${(i - 3) * 13}) scale(${i % 2 ? 0.6 : 0.76})`} />
-          })}
-        </svg>
-      </div>
+      ) : (
+        <div className="relative mb-[9%] aspect-square w-[min(64%,160px)]">
+          <div className="absolute inset-0 overflow-hidden rounded-full bg-paper shadow-[0_0_0_5px_var(--color-paper),0_18px_40px_rgba(40,14,0,.4)]">
+            <img src={src} alt="" className="h-full w-full origin-top scale-[1.3] object-cover object-top [filter:sepia(.32)_saturate(1.2)_brightness(1.05)]" draggable={false} />
+          </div>
+          <PaperCrown className="absolute inset-x-[16%] top-[-9%] w-[68%]" />
+        </div>
+      )}
     </div>
   )
 }

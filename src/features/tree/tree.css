@@ -57,6 +57,9 @@
 .tree-leaf:hover .tree-leaf-art { transform: scale(1.05) rotate(-3deg); }
 .tree-leaf:active .tree-leaf-art { transform: scale(0.95); }
 .tree-leaf[data-on='true'] .tree-leaf-art { filter: drop-shadow(0 6px 10px rgba(60, 20, 0, 0.35)); }
+/* a leaf on its way down carries its own light, so a child's eye follows it */
+.tree-leaf.is-flying { z-index: 3; }
+.tree-leaf.is-flying .tree-leaf-art { filter: drop-shadow(0 0 16px rgba(255, 232, 170, 0.95)) drop-shadow(0 6px 10px rgba(60, 20, 0, 0.3)); }
 /* an empty place breathes once in a while so a child notices it can be touched (three slow beats, then rest) */
 .tree-leaf[data-on='false'] .tree-ghost {
   transform-box: fill-box;
@@ -93,10 +96,10 @@
 /* rest state: the flock simply hangs in the sky */
 html[data-reduce-motion] .tree-flock,
 html[data-reduce-motion] .tree-wing { animation: none; }
-html[data-reduce-motion] .tree-flock { transform: translate3d(8%, 0, 0); }
+html[data-reduce-motion] .tree-flock { transform: translate3d(var(--rest, 30%), 2%, 0); }
 @media (prefers-reduced-motion: reduce) {
   .tree-flock, .tree-wing, .tree-leaf .tree-ghost { animation: none !important; }
-  .tree-flock { transform: translate3d(8%, 0, 0); }
+  .tree-flock { transform: translate3d(var(--rest, 30%), 2%, 0); }
   .tree-limb .tree-small { transition: none !important; }
 }
 
@@ -117,6 +120,16 @@ html[data-reduce-motion] .tree-flock { transform: translate3d(8%, 0, 0); }
   .tree-stage { --h: clamp(520px, 76svh, 700px); }
 }
 .tree-box {
-  width: min(108%, calc(var(--h) * 0.86 * 600 / 620));
+  width: min(102%, calc(var(--h) * 0.86 * 600 / 620));
   aspect-ratio: 600 / 620;
+}
+
+/* warm shade behind Sari's head: separates the crown from the foliage without a hard edge */
+.tree-shade {
+  background: radial-gradient(closest-side, rgba(74, 26, 8, 0.5), rgba(74, 26, 8, 0.22) 55%, transparent);
+}
+
+/* the story's long English title in the small label: a little tighter on narrow phones so it does not orphan a word */
+@media (max-width: 480px) {
+  html[lang='en'] .tree-eyebrow { font-size: 11px; letter-spacing: 0.08em; }
 }

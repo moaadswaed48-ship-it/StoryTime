@@ -15,7 +15,9 @@ export const LEAF_TONE: Record<Activity, { a: string; b: string }> = {
   watched: { a: '#f08a2c', b: '#d9541e' },
   played: { a: '#e4582a', b: '#a8321a' },
 }
-const SMALL = ['#f2c14e', '#f4a72c', '#e2711d', '#d9541e', '#c8421f', '#eeb23a']
+/** Light at the top of a cluster, deep at the bottom: the sun is low, so foliage reads as a lit volume. */
+const SMALL = ['#fad566', '#f6c548', '#f4ad30', '#ee922a', '#e4751f', '#d9541e', '#c4411d']
+const BACK = ['#c9772a', '#b85a1c', '#a8451a', '#93381a']
 
 /** A maple leaf in a −50…50 box, stem down. Soft lobes: tips joined through shallow notches. */
 export const MAPLE =
@@ -54,6 +56,8 @@ function taper(p0: P, p1: P, p2: P, p3: P, w0: number, w1: number, steps = 14): 
 }
 
 export interface SmallLeaf {
+  /** Leaves at the back are darker and drawn first. */
+  back: boolean
   x: number
   y: number
   r: number
@@ -150,41 +154,85 @@ export function buildTree(seed = 20241): TreeArt {
   wood.push('M222,614 Q262,604 271,548 Q275,520 277,496 L325,496 Q327,520 331,548 Q340,604 380,614 Q340,620 300,618 Q260,620 222,614 Z')
   // three limbs, physical left → top → right; the reading side is decided by the page direction
   const defs: { p: [P, P, P, P]; side: number; hang: P }[] = [
-    { p: [[304, 446], [214, 402], [128, 344], [100, 250]], side: -1, hang: [-8, -28] },
-    { p: [[297, 392], [284, 304], [326, 206], [312, 110]], side: 1, hang: [2, -30] },
-    { p: [[294, 450], [386, 404], [474, 344], [502, 250]], side: 1, hang: [8, -28] },
+    { p: [[304, 446], [214, 402], [134, 344], [112, 252]], side: -1, hang: [-4, -30] },
+    // the middle limb starts inside the trunk, so the two outlines overlap and leave no seam
+    { p: [[300, 440], [288, 330], [326, 206], [312, 110]], side: 1, hang: [2, -30] },
+    { p: [[294, 450], [386, 404], [468, 344], [490, 252]], side: 1, hang: [4, -30] },
   ]
   const limbs: Limb[] = defs.map((d, li) => {
     const c: Ctx = { rnd, wood, light, marks: [] }
     dress(c, d.p[0], d.p[1], d.p[2], d.p[3], li === 1 ? 40 : 32, d.side)
     const spot: P = [d.p[3][0] + d.hang[0], d.p[3][1] + d.hang[1]]
     // a few leaves gather round the big one, so it sits in foliage rather than beside it
-    for (let i = 0; i < 6; i++) {
-      const a = (i / 6) * Math.PI * 2 + rnd()
-      const r = 58 + rnd() * 22
+    for (let i = 0; i < 16; i++) {
+      const a = (i / 16) * Math.PI * 2 + rnd()
+      const r = 56 + rnd() * 52
       c.marks.push({ x: spot[0] + Math.cos(a) * r, y: spot[1] + Math.sin(a) * r * 0.9 + 14, a })
     }
-    const leaves: SmallLeaf[] = c.marks
-      .filter((m) => Math.hypot(m.x - spot[0], m.y - spot[1]) > 50 && m.y < 430 && m.x > 16 && m.x < 584 && m.y > 16)
-      .map((m, i) => ({
-        x: m.x,
-        y: m.y,
-        r: (m.a * 180) / Math.PI + 90 + (rnd() - 0.5) * 80,
-        s: 0.28 + rnd() * 0.22,
-        c: SMALL[Math.floor(rnd() * SMALL.length)],
-        i,
-      }))
+    const kept = c.marks.filter((m) => {
+      const fromSpot = Math.hypot(m.x - spot[0], m.y - spot[1])
+      const fromFork = Math.hypot(m.x - 300, m.y - 430)
+      if (fromSpot < 52 || fromFork < 138 || m.y > 404 || m.x < 30 || m.x > 570 || m.y < 26) return false
+      // foliage thins toward the trunk and gathers at the ends of the limb
+      return fromSpot < 112 || rnd() < 0.4 + Math.min(0.36, fromFork / 560)
+    })
+    const ys = kept.map((m) => m.y)
+    const y0 = Math.min(...ys)
+    const y1 = Math.max(...ys)
+    const leaves: SmallLeaf[] = kept
+      .map((m, i) => {
+        const back = rnd() < 0.34
+        const h = (m.y - y0) / Math.max(1, y1 - y0) // 0 at the top of the cluster
+        const pick = Math.min(SMALL.length - 1, Math.max(0, Math.round(h * (SMALL.length - 1) + (rnd() - 0.5) * 2.4)))
+        return {
+          back,
+          x: m.x,
+          y: m.y,
+          r: (m.a * 180) / Math.PI + 90 + (rnd() - 0.5) * 90,
+          s: back ? 0.44 + rnd() * 0.16 : 0.34 + rnd() * 0.2,
+          c: back ? BACK[Math.floor(rnd() * BACK.length)] : SMALL[pick],
+          i,
+        }
+      })
+      .sort((p, q) => Number(q.back) - Number(p.back))
     return { kind: KINDS[li], spot, leaves }
   })
   return { wood, light, limbs }
 }
 
 /** A flock in the V the teacher points at: lead bird first, then pairs falling back on both sides. */
-export function flock(n = 9): { x: number; y: number; s: number; d: number }[] {
+export function flock(n = 11): { x: number; y: number; s: number; d: number }[] {
   const out = [{ x: 0, y: 0, s: 1, d: 0 }]
   for (let i = 1; out.length < n; i++) {
-    out.push({ x: -i * 30, y: -i * 15, s: 1 - i * 0.045, d: i * 0.13 })
-    if (out.length < n) out.push({ x: -i * 27, y: i * 17, s: 1 - i * 0.05, d: i * 0.13 + 0.07 })
+    out.push({ x: -i * 40, y: -i * 19, s: 1 - i * 0.03, d: i * 0.13 })
+    if (out.length < n) out.push({ x: -i * 37, y: i * 21, s: 1 - i * 0.035, d: i * 0.13 + 0.07 })
   }
   return out
+}
+
+/** The hill's top edge (y, in the ground's own 0–20 scale) at x (0–100): the same curve the ground is drawn with. */
+export const GROUND = 'M0,8 Q22,1 50,3.5 T100,6'
+function hillTop(x: number): number {
+  const q = (a: number, b: number, c: number, t: number) => (1 - t) * (1 - t) * a + 2 * (1 - t) * t * b + t * t * c
+  const [x0, cx, x1, y0, cy, y1] = x <= 50 ? [0, 22, 50, 8, 1, 3.5] : [50, 78, 100, 3.5, 6, 6]
+  let lo = 0
+  let hi = 1
+  for (let i = 0; i < 18; i++) {
+    const mid = (lo + hi) / 2
+    if (q(x0, cx, x1, mid) < x) lo = mid
+    else hi = mid
+  }
+  return q(y0, cy, y1, (lo + hi) / 2)
+}
+
+/** Fallen leaves lying on the hill (percent of the ground band), as in every outdoor scene of the film. */
+export function carpet(n = 44, seed = 771): { x: number; y: number; r: number; s: number; c: string }[] {
+  const rnd = mulberry32(seed)
+  const tones = ['#c9772a', '#b9601f', '#d48a2e', '#a8451a', '#c15a1e', '#8f3a18']
+  return Array.from({ length: n }, () => {
+    const x = 2 + rnd() * 96
+    const top = (hillTop(x) / 20) * 100
+    const depth = Math.pow(rnd(), 1.5) // most leaves lie near the crest, where the light is
+    return { x, y: top + 5 + depth * (88 - top), r: rnd() * 360, s: 0.6 + depth * 0.7 + rnd() * 0.3, c: tones[Math.floor(rnd() * tones.length)] }
+  })
 }

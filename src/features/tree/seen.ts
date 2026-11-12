@@ -21,3 +21,12 @@ export function writeSeen(seen: Set<string>) {
     /* ignore */
   }
 }
+
+/** Progress was cleared: every leaf may celebrate again when it is earned again. */
+export function forgetSeen() {
+  try {
+    localStorage.removeItem(KEY)
+  } catch {
+    /* ignore */
+  }
+}
