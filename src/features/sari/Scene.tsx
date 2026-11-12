@@ -99,7 +99,7 @@ function Director({ rt, turntable }: { rt: Runtime; turntable: React.RefObject<T
     // Stacked layout: he fills the stage, but a narrow stage never crops his arms.
     const { camera, size } = state
     const aspect = size.width / Math.max(1, size.height)
-    const fill = rt.docked ? THREE.MathUtils.clamp((size.height - 232) / size.height, 0.58, 0.79) / 0.973 : 0.8
+    const fill = rt.docked ? THREE.MathUtils.clamp((size.height - 232) / size.height, 0.58, 0.79) / 0.925 : 0.8
     const feet = rt.docked ? 152 / size.height : 0.15
     const dist = Math.max(TALL / fill / (2 * TAN), (size.width < 560 ? 1.12 : 1.42) / (2 * TAN * aspect))
     const viewH = 2 * dist * TAN

@@ -40,16 +40,18 @@ const PARALLEL = 4
  * Audited at full size, both children, against the 121-frame build of the wind scene.
  */
 export const SMEARED: ReadonlyArray<readonly [number, number]> = [
+  [7, 7],
   [10, 15],
   [26, 31],
+  [42, 42],
   [45, 48],
-  [54, 55],
+  [54, 57],
   [62, 71],
   [74, 74],
   [83, 86],
   [93, 95],
   [101, 103],
-  [111, 111],
+  [111, 112],
   [117, 119],
 ]
 
