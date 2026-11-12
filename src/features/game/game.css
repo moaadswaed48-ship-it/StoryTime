@@ -41,13 +41,17 @@ html[lang='ar'] .game-title {
   html[lang='ar'] .game-title {
     line-height: 1.12;
   }
+  /* three Latin words: one per line, so the title stays a narrow column beside the boys */
+  html[dir='ltr'] .game-title {
+    max-width: 4.4em;
+  }
   .game-poster-img {
     transform: scale(1.16);
     transform-origin: 100% 62%;
   }
   .game-tag {
     min-width: 0;
-    padding: 0.42rem 0.7rem 0.5rem;
+    padding: 0.55rem 0.72rem 0.65rem;
     font-size: 1rem;
   }
 }
@@ -78,17 +82,18 @@ html[lang='ar'] .game-title {
   }
 }
 @media (min-width: 1280px) {
+  /* the button and, right after it, the slips in a row on the ground of the picture (they may run on past the column) */
   .game-poster-body {
-    grid-template-areas: 'text' 'cta';
+    grid-template-columns: max-content max-content;
+    grid-template-areas: 'text text' 'cta tags';
     align-content: end;
+    align-items: end;
+    column-gap: 1.6rem;
     row-gap: 1.75rem;
   }
-  /* the slips lie in a row on the ground of the picture, between the boys' shoes and the words */
   .game-tags {
-    position: absolute;
-    inset-inline-start: calc(100% - 3.75rem);
-    bottom: 1.4rem;
     width: max-content;
+    padding-bottom: 5px;
   }
 }
 .game-poster-scrim {

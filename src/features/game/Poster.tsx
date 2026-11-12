@@ -32,7 +32,7 @@ export function Poster({ onStart, pictureRef, sectionRef, touch }: { onStart: ()
       <Container className="relative">
         <Reveal>
           <div className="game-poster relative isolate overflow-hidden rounded-[28px] bg-night-2 shadow-[0_40px_120px_rgba(0,0,0,0.45)] xl:aspect-[16/9]" data-game-poster>
-            <div ref={pictureRef} className="grain relative aspect-[4/3] overflow-hidden sm:aspect-[16/9] xl:absolute xl:inset-0 xl:aspect-auto" data-game-picture>
+            <div ref={pictureRef} className="grain relative aspect-[4/3] overflow-hidden sm:aspect-[16/9] lg:aspect-[2.15/1] xl:absolute xl:inset-0 xl:aspect-auto" data-game-picture>
               {/* composed for right-to-left reading (words over the school wall); mirrored for English so they never sit on a face */}
               <span className="game-flip block h-full w-full">
                 <img
@@ -41,7 +41,7 @@ export function Poster({ onStart, pictureRef, sectionRef, touch }: { onStart: ()
                   width={1344}
                   height={752}
                   decoding="async"
-                  className="game-poster-img h-full w-full object-cover object-[28%_50%] sm:object-center"
+                  className="game-poster-img h-full w-full object-cover object-[28%_50%] sm:object-center lg:object-[50%_36%] xl:object-center"
                 />
               </span>
               {/* wide screens: a soft shade on the reading side only (the boys stay in full light), and a little ground under the words */}
@@ -56,12 +56,12 @@ export function Poster({ onStart, pictureRef, sectionRef, touch }: { onStart: ()
                 </Reveal>
                 <BlurWords as="h2" text={t.game.title} className="game-title display-on-film mt-3 block text-paper" />
                 <Reveal delay={160}>
-                  <p className="t-lede text-on-film mt-4 max-w-[32rem] text-paper/85 xl:max-w-[20.5rem]">{t.game.text}</p>
+                  <p className="t-lede text-on-film mt-4 max-w-[32rem] text-paper/85 xl:max-w-[20rem]">{t.game.text}</p>
                 </Reveal>
               </div>
 
               {/* the names to collect: little white slips, as if the wind had just dropped them here */}
-              <ul ref={tags} aria-label={t.game.papers} className={cn('game-tags flex flex-wrap gap-2.5 xl:flex-nowrap xl:gap-1.5', armed && 'is-armed', armed && seen && 'is-in')} style={{ '--dir': dirSign } as CSSProperties}>
+              <ul ref={tags} aria-label={t.game.papers} className={cn('game-tags flex flex-wrap gap-2.5 xl:flex-nowrap xl:items-end xl:gap-1.5', armed && 'is-armed', armed && seen && 'is-in')} style={{ '--dir': dirSign } as CSSProperties}>
                 {t.game.names.map((name, i) => (
                   <li key={name} className="game-tag" style={{ '--r': `${TILT[i % TILT.length]}deg`, '--i': i, '--lift': `${LIFT[i % LIFT.length]}px` } as CSSProperties}>
                     {name}
@@ -74,7 +74,7 @@ export function Poster({ onStart, pictureRef, sectionRef, touch }: { onStart: ()
                   <Play size={18} fill="currentColor" strokeWidth={0} aria-hidden />
                   {t.game.start}
                 </Pill>
-                <span className="inline-flex items-center justify-center gap-2.5 text-[14px] text-paper/60 sm:justify-start xl:text-paper/75">
+                <span className="inline-flex items-center justify-center gap-2.5 whitespace-nowrap text-[14px] text-paper/60 sm:justify-start xl:hidden">
                   <Hint size={18} aria-hidden />
                   {touch ? t.game.move : t.game.moveKeys}
                 </span>
