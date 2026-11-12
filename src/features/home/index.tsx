@@ -1,4 +1,4 @@
-import { useEffect, type ComponentType } from 'react'
+import { useEffect } from 'react'
 import { BookOpen, ChevronLeft, ChevronRight } from 'lucide-react'
 import { go } from '@/app/router'
 import { story } from '@/content/story'
@@ -15,8 +15,6 @@ import { LivingPicture } from './Living'
 import { ACTIVITIES, earned, Leaf, LeafMarks } from './leaves'
 import './home.css'
 
-/** The shelf takes `variant="app"` once the library supports it (then it renders without its own heading); until then the prop is ignored. */
-const Shelf = Library as ComponentType<{ variant?: 'landing' | 'app' }>
 /** The scene of "today's story": leaves falling like rain (scene 8), the same picture that opens the landing page. */
 const TODAY = story.scenes[7]
 const Chevron = rtl ? ChevronLeft : ChevronRight
@@ -155,12 +153,12 @@ export function AppHome() {
         </div>
       </div>
 
-      {/* The shelf. Until the library takes `variant="app"`, home.css hides its landing-page heading so only ours shows. */}
+      {/* The shelf, in its in-app form (no landing heading of its own). */}
       <div className="home__shelf">
         <div className="home__wrap">
           <h2 className="home__h2">{t.app.home.shelf}</h2>
         </div>
-        <Shelf variant="app" />
+        <Library variant="app" />
       </div>
     </section>
   )
