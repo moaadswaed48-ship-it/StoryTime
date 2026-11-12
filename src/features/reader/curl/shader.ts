@@ -126,13 +126,16 @@ void main() {
   vec3 back = uGhost > 0.5 ? mix(paperBack, tBack, 0.13) : mix(paperBack, tBack, uHas.y);
   // Lit from above: the roll is brightest on its crest and falls into shade as it turns edge-on at the rim.
   float facing = sqrt(max(0.0, 1.0 - t * t));
-  float roll = 0.40 + 0.60 * pow(facing, 0.8) + 0.06 * exp(-pow((t - 0.38) / 0.22, 2.0)) * lift;
+  float roll = 0.34 + 0.66 * pow(facing, 1.15) + 0.07 * exp(-pow((t - 0.3) / 0.2, 2.0)) * lift;
   // Just behind the crest the folded sheet is still settling: a soft valley of shade that fades into the flat part.
   float valley = 1.0 - 0.11 * lift * exp(min(d, 0.0) / (1.6 * r + 2.0));
   // A sheet in the air is clear of the gutter; it sinks into it only as it lands.
   float backFlat = mix(1.0, flatLight, 1.0 - lift);
   float backLight = mix(1.0, roll, lift) * valley * backFlat * (uGhost > 0.5 ? 0.965 : 1.0);
-  // a hairline of shade along the sheet's own edge keeps it distinct from the page it lies on
+  // A sheet in the air is bowed, not a board: its light falls away gently towards its own edges ...
+  backLight *= 1.0 - 0.085 * lift * exp(sdB / (1.1 * r + 8.0));
+  backLight *= 1.0 + 0.04 * lift * sin(PI * clamp(-d / uPage.x, 0.0, 1.0));
+  // ... and a hairline of shade along the edge keeps it distinct from the page it lies on.
   backLight *= 1.0 - 0.10 * lift * smoothstep(-2.5, 0.0, sdB);
   col = mix(col, back, aB);
   light = mix(light, backLight, aB);

@@ -198,6 +198,14 @@ describe('the book', () => {
       })
     }
   })
+  it('closes up a scene that runs over by a line rather than give the line a page', () => {
+    const g = { ...geometryFor(390, 844, { size: 1, arabic: false }), lineHeight: 40, paraGap: 20, pictureH: 200, textTop: 220, plainTop: 60, textBottom: 220 + 4 * 40 + 10 }
+    // two paragraphs of two lines each: 4 lines fit, but not with a full gap between them
+    const scene = ['aaaa bbbb cccc dddd eeee ffff', 'gggg hhhh iiii jjjj kkkk llll']
+    const pages = buildBook([scene], { ...g, marginX: 45 }, mono(20), false)
+    expect(pages.filter((p) => p.kind === 'scene')).toHaveLength(1)
+    expect(pages[1].lines).toHaveLength(4)
+  })
   it('takes more pages when the type is larger', () => {
     expect(build(390, 844, 4, false).length).toBeGreaterThan(build(390, 844, 0, false).length)
   })
@@ -283,7 +291,7 @@ describe('curl geometry', () => {
       [150, 900, 400],
     ]) {
       const p = constrain({ x, y }, ay, w, h, R)
-      expect(solve(p, ay, w, h, R).r).toBeGreaterThan(R * 0.4)
+      expect(solve(p, ay, w, h, R).r).toBeGreaterThan(R * 0.3)
     }
   })
   it('lands flat: the roll closes as the leaf reaches the other side', () => {
@@ -314,9 +322,12 @@ describe('curl geometry', () => {
     expect(finger.x).toBeGreaterThan(c.ox - c.r * 0.5)
     expect(finger.x).toBeLessThan(c.ox + c.r * 1.2)
     // and a finger at the bound edge has rolled the page up against the binding
-    const end = solve(follow({ x: 0, y: 400 }, 400, w, h, true, R), 400, w, h, R)
-    expect(end.ox + end.r).toBeLessThan(w * 0.3)
-    expect(progressOf(follow({ x: 0, y: 400 }, 400, w, h, true, R), w)).toBeGreaterThan(0.65)
+    // and a finger near the bound edge has rolled the page right up to the binding
+    const end = solve(follow({ x: w * 0.06, y: 400 }, 400, w, h, true, R), 400, w, h, R)
+    expect(end.ox + end.r).toBeLessThan(w * 0.06)
+    expect(progressOf(follow({ x: w * 0.06, y: 400 }, 400, w, h, true, R), w)).toBeGreaterThan(0.97)
+    // while a finger that has only just started still has the edge under it
+    expect(follow({ x: w - 40, y: 400 }, 400, w, h, true, R).x).toBeCloseTo(w - 40, 3)
   })
   it('takes the page by its corner when it is held low or high, and straight in the middle', () => {
     expect(gripY(400, h)).toBe(400)

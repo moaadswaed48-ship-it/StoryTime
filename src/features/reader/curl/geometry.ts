@@ -33,7 +33,9 @@ export const FLAT: Cylinder = { ox: 1e6, oy: 0, nx: 1, ny: 0, r: 0 }
 export const baseRadius = (w: number) => Math.min(150, Math.max(40, w * 0.18))
 
 /** The roll may be this fraction of the clearance between the fold and the spine: it closes as the leaf comes down. */
-const ROLL_PER_ROOM = 0.42
+const ROLL_PER_ROOM = 0.56
+/** However the hand pulls, the roll keeps at least this share of its wished radius (it never becomes a crease). */
+const LEAST_ROLL = 0.36
 
 const smooth = (a: number, b: number, v: number) => {
   const t = Math.min(1, Math.max(0, (v - a) / (b - a)))
@@ -59,8 +61,8 @@ export function constrain(p: Vec, ay: number, w: number, h: number, radius = 0):
   for (let i = 0; i < 5; i++) {
     const dist = Math.hypot(w - x, ay - y)
     // room ≥ ρ  ⇔  |S − P|² ≤ |S − A|² − 2ρ·|A − P|
-    // (ρ: the clearance a full roll needs; from the middle of the turn on, no more than a straight fold would have.)
-    const rho = radius > 0 ? Math.min((wishRadius(radius, dist) * 0.9) / ROLL_PER_ROOM, 0.86 * w * (1 - progress)) : 0
+    // (ρ: the clearance the smallest acceptable roll needs; towards the end of the turn, no more than a straight fold would have.)
+    const rho = radius > 0 ? Math.min((wishRadius(radius, dist) * LEAST_ROLL) / ROLL_PER_ROOM, 0.86 * w * (1 - progress)) : 0
     const rTop = Math.sqrt(Math.max(0, top2 - 2 * rho * dist))
     const rBot = Math.sqrt(Math.max(0, bot2 - 2 * rho * dist))
     const dTop = Math.hypot(x, y)
@@ -139,8 +141,16 @@ export function gripY(fingerY: number, h: number): number {
   return Math.min(h, Math.max(0, fingerY + pull * 0.2 * h))
 }
 
-/** How far the edge point has travelled when the finger is `u` away from where the edge started. */
-export const travelFor = (u: number, single: boolean, radius: number) => (single ? u + Math.max(0, u - Math.PI * radius * 0.8) : u)
+/** How far the edge point has travelled when the finger is `u` away from where the edge started (page width `w`). */
+export function travelFor(u: number, single: boolean, w: number): number {
+  if (!single) return u
+  // One page: the finger has one page width to carry the edge two. At first the edge stays under it; then the
+  // roll does, gaining on the finger, and reaches the binding just before the finger reaches the screen's edge.
+  const from = 0.2 * w
+  const to = 0.93 * w
+  const s = Math.min(1, Math.max(0, (u - from) / (to - from)))
+  return Math.min(2 * w, u + (2 * w - to) * s * s)
+}
 
 /**
  * Where the edge point should be for a finger at F.
@@ -153,7 +163,7 @@ export function follow(f: Vec, ay: number, w: number, h: number, single: boolean
   const dy = f.y - ay
   const u = Math.hypot(dx, dy)
   if (u < 1e-3) return { x: w, y: ay }
-  const k = travelFor(u, single, radius) / u
+  const k = travelFor(u, single, w) / u
   return constrain({ x: w + dx * k, y: ay + dy * k }, ay, w, h, radius)
 }
 

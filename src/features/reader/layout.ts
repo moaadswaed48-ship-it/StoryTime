@@ -273,7 +273,13 @@ export function buildBook(scenes: string[][], g: PageGeometry, measure: Measure,
   const firstH = g.textBottom - g.textTop
   const restH = g.textBottom - g.plainTop
   scenes.forEach((paragraphs, scene) => {
-    const parts = flow(paragraphs, width, firstH, restH, g.lineHeight, g.paraGap, measure)
+    let parts = flow(paragraphs, width, firstH, restH, g.lineHeight, g.paraGap, measure)
+    // A scene that runs over by a line or two is kept on its page by closing up the space between its
+    // paragraphs a little, rather than left with a nearly empty page of its own.
+    if (parts.length === 2 && parts[1].lines.length <= 2) {
+      const tight = flow(paragraphs, width, firstH, restH, g.lineHeight, Math.round(g.paraGap * 0.4), measure)
+      if (tight.length === 1) parts = tight
+    }
     parts.forEach((p, part) => pages.push({ kind: 'scene', scene, part, parts: parts.length, picture: part === 0, lines: p.lines, textHeight: p.height, number: pages.length + 1 }))
   })
   const last = Math.max(0, scenes.length - 1)

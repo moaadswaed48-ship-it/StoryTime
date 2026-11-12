@@ -227,6 +227,7 @@ export class CurlEngine {
 
   setBook(book: CurlBook, position = this.pos) {
     this.book = book
+    this.live.clear() // film windows belong to the pages of the old book
     this.dropAll()
     this.settleNow()
     this.pos = Math.min(this.positions() - 1, Math.max(0, position))
@@ -435,14 +436,23 @@ export class CurlEngine {
       const dx = x - d.x
       const dy = y - d.y
       if (Math.hypot(dx, dy) < TAP_SLOP) return false
+      let forward = dx * (l.rtl ? -1 : 1) < 0
       if (Math.abs(dx) < Math.abs(dy) * 0.7) {
-        // A vertical stroke is not a page turn.
-        this.down = null
-        return false
+        // A steep stroke turns the page only when it takes a corner and pulls it up (or down) into the page;
+        // anywhere else a vertical stroke is not a page turn.
+        const at = this.toLeaf(d.x, d.y)
+        const w = this.px(l.pageW)
+        const h = this.px(l.pageH)
+        const corner = (at.y > h * 0.7 && dy < 0) || (at.y < h * 0.3 && dy > 0)
+        if (corner && at.x > w * 0.55) forward = true
+        else if (corner && l.spread && at.x < -w * 0.55) forward = false
+        else {
+          this.down = null
+          return false
+        }
       }
       d.moved = true
       if (this.turnState?.mode === 'auto') this.finish()
-      const forward = dx * (l.rtl ? -1 : 1) < 0
       if (!this.begin(forward ? 1 : -1, this.toLeaf(d.x, d.y), 'drag')) {
         this.down = null
         return false
@@ -480,7 +490,7 @@ export class CurlEngine {
     }
     // "Past the middle" is where the reader sees the page: on one page the roll under the finger has crossed
     // the middle of the page; on a spread the leaf's edge has crossed the spine.
-    const half = l.spread ? 0.5 : travelFor(l.pageW / 2, true, baseRadius(l.pageW)) / (2 * l.pageW)
+    const half = l.spread ? 0.5 : travelFor(l.pageW / 2, true, l.pageW) / (2 * l.pageW)
     const past = progressOf(t.p, w) > half
     // The page comes to the finger wherever it lands, so position alone is not a decision: the hand must also have moved it.
     const carried = (this.fingerIn(t).x - t.gx) / l.scale
@@ -645,7 +655,7 @@ export class CurlEngine {
     if (!this.begin(dir, { x: w, y: h * 0.7 }, 'auto', target)) return false
     const t = this.turnState!
     // On an open book the sheet crosses the whole spread, so it rises less: it must not leave the book.
-    this.settle(!t.startTurned, { x: 0, y: 0 }, (l.spread ? -0.14 : -0.26) * w, l.spread ? 0.82 : 0.66)
+    this.settle(!t.startTurned, { x: 0, y: 0 }, (l.spread ? -0.08 : -0.26) * w, l.spread ? 0.82 : 0.66)
     return true
   }
 

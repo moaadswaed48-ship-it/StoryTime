@@ -515,3 +515,15 @@
     padding-block: 2px 6px;
   }
 }
+
+/* Phone: the bar's label never loses its end. */
+.rd[data-full] .rd-top .rd-btn {
+  min-width: 42px;
+  padding-inline: 9px;
+}
+.rd[data-full] .rd-id {
+  padding-inline: 4px;
+}
+.rd[data-full] .rd-title {
+  font-size: 13.5px;
+}
