@@ -19,6 +19,18 @@ function strip(ch: string): string[] {
  * The rest state shows the final value; screen readers get the plain string.
  */
 export function Odometer({ value, order = 0 }: { value: string; order?: number }) {
+  // The Arabic-Indic zero is a small diamond by design; at display size it would read as a stray dot.
+  // Alone, it is drawn larger (the glyph itself, never a ring — a circle reads as «٥») and pops in instead of rolling.
+  if (value === '٠')
+    return (
+      <span className="pr-odo pr-odo--zero-ar" style={{ '--i': order } as CSSProperties}>
+        <span className="sr-only">{value}</span>
+        <span className="pr-odo__zero" aria-hidden>
+          <i>{value}</i>
+          <span>{value}</span>
+        </span>
+      </span>
+    )
   const runs = value.match(RUNS) ?? [value]
   let col = 0
   return (

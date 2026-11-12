@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useId, useRef, useState, type FormEvent, type KeyboardEvent } from 'react'
-import { ArrowRight, BookOpen, Check, Eye, EyeOff, LockKeyhole, Mail, ShieldCheck, X } from 'lucide-react'
+import { ArrowRight, Check, LibraryBig, Eye, EyeOff, LockKeyhole, Mail, ShieldCheck, X } from 'lucide-react'
 import { enterApp } from '@/app/router'
 import { sfx } from '@/audio/synth'
 import { Leaves, type LeavesHandle } from '@/design/Leaves'
@@ -19,6 +19,13 @@ const DEMO = { email: 'demo@storytime.example', pass: '123456' }
 /** Time the sheet takes to leave (matches auth.css). */
 const EXIT = 280
 const FOCUSABLE = 'a[href], button:not([disabled]), input:not([disabled]), select, textarea, [tabindex]:not([tabindex="-1"])'
+
+/** How the visitor last acted (pointer or keyboard), so the sheet only rings its button for keyboard users. */
+let viaKeys = false
+if (typeof window !== 'undefined') {
+  window.addEventListener('keydown', (e) => { if (!e.metaKey && !e.altKey && !e.ctrlKey) viaKeys = true }, true)
+  window.addEventListener('pointerdown', () => { viaKeys = false }, true)
+}
 
 const focusables = (root: HTMLElement | null) => Array.from(root?.querySelectorAll<HTMLElement>(FOCUSABLE) ?? []).filter((el) => el.getClientRects().length > 0)
 
@@ -68,10 +75,12 @@ export function AuthModal() {
     return () => window.clearTimeout(id)
   }, [open])
 
-  // Focus lands on the main action (the form is already filled in), and again on the next one after signing in.
+  // Keyboard users land on the main action (the form is already filled in), and again on the next one after signing in.
+  // After a tap or a click the dialog itself takes focus, so the trap holds without a ring on the button.
   useEffect(() => {
     if (!mounted || !open) return
-    card.current?.querySelector<HTMLElement>('[data-autofocus]')?.focus({ preventScroll: true })
+    const target = viaKeys ? card.current?.querySelector<HTMLElement>('[data-autofocus]') : card.current
+    target?.focus({ preventScroll: true })
   }, [mounted, open, done])
 
   // Focus stays inside the sheet, even if something outside asks for it.
@@ -93,7 +102,11 @@ export function AuthModal() {
     const first = list[0]
     const last = list[list.length - 1]
     const at = document.activeElement
-    if (e.shiftKey && (at === first || !card.current?.contains(at))) {
+    if (at === card.current) {
+      // the dialog itself holds focus (opened by a tap or click): Tab enters at either end
+      e.preventDefault()
+      ;(e.shiftKey ? last : first).focus()
+    } else if (e.shiftKey && (at === first || !card.current?.contains(at))) {
       e.preventDefault()
       last.focus()
     } else if (!e.shiftKey && (at === last || !card.current?.contains(at))) {
@@ -130,6 +143,7 @@ export function AuthModal() {
     }
   }, [fx])
 
+  // Into the app (SPEC 5.0): the label says so too (`t.app.enter`), matching the welcome line «the library is now open».
   const go = () => {
     handOver.current = true // the library takes the focus from here
     setLoginOpen(false)
@@ -180,8 +194,8 @@ export function AuthModal() {
                 {t.auth.welcome}
               </h2>
               <Pill variant="ink" size="lg" className="au__go" onClick={go} data-autofocus data-auth="go">
-                <BookOpen size={19} strokeWidth={2} aria-hidden />
-                {t.auth.go}
+                <LibraryBig size={19} strokeWidth={2} aria-hidden />
+                {t.app.enter}
               </Pill>
             </div>
           ) : (

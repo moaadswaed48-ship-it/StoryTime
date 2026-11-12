@@ -85,6 +85,11 @@ test.describe('auth', () => {
     await page.evaluate(() => document.getElementById('auth-opener')!.focus())
     await expect.poll(async () => (await state(page)).focusInside).toBe(true)
 
+    // keyboard users: Enter signs in and focus moves to the way into the library
+    await page.locator('[data-auth="submit"]').focus()
+    await page.keyboard.press('Enter')
+    await expect(page.locator('[data-auth="go"]')).toBeFocused()
+
     await page.keyboard.press('Escape')
     await expect.poll(async () => (await site(page)).loginOpen).toBe(false)
     await expect(dialog(page)).toHaveCount(0)
@@ -103,10 +108,14 @@ test.describe('auth', () => {
   test('signing in welcomes the visitor and leads into the library', async ({ page }) => {
     await open(page)
     await expect(dialog(page)).toBeVisible()
+    // opened without the keyboard: the dialog holds focus (no ring on the button), Tab still enters it
+    await expect(dialog(page)).toBeFocused()
     await page.locator('[data-auth="submit"]').click()
     const go = page.locator('[data-auth="go"]')
     await expect(go).toBeVisible()
-    await expect(go).toBeFocused()
+    await expect(dialog(page)).toBeFocused()
+    await page.keyboard.press('Tab')
+    expect((await state(page)).focusInside).toBe(true)
     await expect(page.locator('.au__welcome')).toBeVisible()
     expect((await site(page)).loggedIn).toBe(true)
 

@@ -13,7 +13,7 @@ export type Tier = (typeof t.pricing.tiers)[number]
  * A price is shown only for a real amount (> 0) and always carries the "sample" tag;
  * 0 and −1 show the plan's own words instead (`priceLabel`). Nothing here invents a number.
  */
-export function PlanCard({ tier, featured, yearly, order, onChoose }: { tier: Tier; featured: boolean; yearly: boolean; order: number; onChoose: () => void }) {
+export function PlanCard({ tier, featured, yearly, order, sweep = 0, onChoose }: { tier: Tier; featured: boolean; yearly: boolean; order: number; sweep?: number; onChoose: () => void }) {
   const amount = yearly ? tier.yearly : tier.monthly
   const priced = amount > 0
   const shown = useCount(priced ? amount : 0)
@@ -22,6 +22,17 @@ export function PlanCard({ tier, featured, yearly, order, onChoose }: { tier: Ti
     <article className={cn('pl-card', featured ? 'pl-card--featured' : 'glass-ink')} data-tier={tier.id} data-featured={featured ? '' : undefined} style={{ '--o': order } as CSSProperties}>
       <span className="pl-card__spot" aria-hidden />
       <span className="pl-card__ring" aria-hidden />
+      {featured && (
+        <span className="pl-card__clip" aria-hidden>
+          <Leaf className="pl-card__mark" strokeWidth={0.9} />
+          {sweep > 0 && <span key={`s${sweep}`} className="pl-card__sheen" data-first={sweep === 1 ? '' : undefined} />}
+        </span>
+      )}
+      {featured && sweep > 0 && (
+        <span key={`r${sweep}`} className="pl-card__sweep" data-first={sweep === 1 ? '' : undefined} aria-hidden>
+          <i />
+        </span>
+      )}
       {featured && (
         <span className="pl-tab">
           <Leaf size={13} strokeWidth={2.4} aria-hidden />

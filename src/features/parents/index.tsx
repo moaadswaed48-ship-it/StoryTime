@@ -3,7 +3,7 @@ import { Feather, Languages, Puzzle, School, ShieldCheck, UsersRound, type Lucid
 import { prefersReducedNow } from '@/app/useMotionTier'
 import { Container, Reveal, SectionHead, useInView } from '@/design/ui'
 import { t } from '@/i18n/copy'
-import { num } from '@/i18n/locale'
+import { locale, num } from '@/i18n/locale'
 import { cn } from '@/lib/cn'
 import { exposeQA } from '@/lib/qa'
 import { LiveTile, type LiveApi } from './LiveTile'
@@ -35,7 +35,8 @@ const LAYOUT: Array<{ card: number; cell: string }> = [
   { card: 5, cell: 'b-live' },
 ]
 
-const two = (n: number) => (n < 10 ? num(0) : '') + num(n)
+/** Card index: zero-padded in Latin («02»); Arabic shows the bare digit, since a small «٠» reads as a stray dot. */
+const two = (n: number) => (locale === 'ar' ? num(n) : (n < 10 ? '0' : '') + n)
 
 /** For parents and educators: an editorial bento with two living film tiles, then four big light numerals. */
 export function Parents() {

@@ -119,7 +119,8 @@
 .au__brand {
   position: absolute;
   inset-inline-start: 16px;
-  bottom: 14px;
+  /* top corner: the grip is centred, and the boys stand in the lower half of the strip */
+  top: 20px;
   display: inline-flex;
   align-items: center;
   height: 38px;
@@ -293,7 +294,8 @@ html[lang='ar'] .au__label {
 }
 .au__submit:focus-visible,
 .au__go:focus-visible {
-  outline-color: var(--color-maple, #d9541e);
+  outline: 2px solid var(--color-maple, #d9541e);
+  outline-offset: 3px;
   border-radius: 999px;
 }
 .au__chip {

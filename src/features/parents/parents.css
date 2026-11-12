@@ -136,7 +136,7 @@
 .pr-live__still {
   transition: opacity 0.7s ease;
 }
-.pr-live[data-playing] .pr-live__still {
+.pr-live[data-ready] .pr-live__still {
   opacity: 0;
 }
 /* The picture settles as the tile arrives, then zooms a little under the pointer. */
@@ -295,7 +295,7 @@
 .pr-live__no {
   flex: none;
   padding-bottom: 4px;
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 500;
   line-height: 1;
   letter-spacing: 0.08em;
@@ -385,12 +385,17 @@ html[lang='ar'] .pr-live__s {
   grid-column: 3;
   grid-row: 1;
   padding-top: 4px;
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 500;
   line-height: 1;
   letter-spacing: 0.08em;
   font-variant-numeric: tabular-nums;
-  color: rgb(26 18 11 / 0.38);
+  color: rgb(26 18 11 / 0.5);
+}
+html[lang='ar'] .pr-card__no,
+html[lang='ar'] .pr-live__no {
+  font-size: 16px;
+  letter-spacing: 0;
 }
 .pr-card__body {
   grid-column: 2;
@@ -541,6 +546,31 @@ html[lang='ar'] .pr-stat__l {
   height: 1.1em;
   line-height: 1.1em;
 }
+/* «٠» alone: the glyph drawn about 2.4× so its diamond is ≈ a fifth of the digit height and sits at mid-height. */
+.pr-odo__zero {
+  position: relative;
+  display: inline-block;
+  min-width: 0.62em;
+  height: 1.1em;
+  line-height: 1.1em;
+  text-align: center;
+}
+/* an in-flow copy at normal size keeps the line's baseline where the other numerals have it */
+.pr-odo__zero > i {
+  font-style: normal;
+  visibility: hidden;
+}
+.pr-odo__zero > span {
+  pointer-events: none;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  font-size: 1.9em;
+  font-weight: 400;
+  line-height: 1;
+  /* the glyph's diamond sits below the middle of its em box; lift it to the digits' mid-height */
+  transform: translate(-50%, calc(-50% - 0.17em));
+}
 .pr-odo__sep {
   padding-inline: 0.04em;
   color: var(--color-maple, #d9541e);
@@ -555,8 +585,20 @@ html[lang='ar'] .pr-stat__l {
   opacity: 0;
 }
 .pr-stats.is-armed .pr-odo__sep,
-.pr-stats.is-armed .pr-stat__l {
+.pr-stats.is-armed .pr-stat__l,
+.pr-stats.is-armed .pr-odo__zero {
   opacity: 0;
+}
+.pr-stats.is-armed .pr-odo__zero {
+  transform: scale(0.3);
+}
+.pr-stats.is-in .pr-odo__zero {
+  opacity: 1;
+  transform: none;
+  transition:
+    opacity 0.4s ease,
+    transform 0.9s var(--ease-spring, cubic-bezier(0.34, 1.56, 0.64, 1));
+  transition-delay: calc(var(--i) * 110ms + 380ms);
 }
 .pr-stats.is-armed .pr-stat__l {
   transform: translateY(12px);
@@ -597,8 +639,10 @@ html[lang='ar'] .pr-stat__l {
     transform: translate3d(-50%, calc(-100% * 5 / 6), 0);
     opacity: 1;
   }
-  .pr-stats.is-armed .pr-odo__sep {
+  .pr-stats.is-armed .pr-odo__sep,
+  .pr-stats.is-armed .pr-odo__zero {
     opacity: 1;
+    transform: none;
   }
   .reveal.is-armed .pr-live__zoom {
     transform: none;

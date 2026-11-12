@@ -34,6 +34,7 @@ export function LiveTile({ scene, no, title, text, icon: Icon, focus, register }
   const on = useOnScreen(root, '0px')
   const live = !!s.clip && !reduced
   const [armed, setArmed] = useState(false)
+  const [ready, setReady] = useState(false)
   const [playing, setPlaying] = useState(false)
 
   useEffect(() => {
@@ -77,7 +78,7 @@ export function LiveTile({ scene, no, title, text, icon: Icon, focus, register }
   }, [scene, register])
 
   return (
-    <div ref={root} className="pr-live" data-scene={scene} data-playing={playing && live ? '' : undefined} style={{ '--focus': focus } as CSSProperties}>
+    <div ref={root} className="pr-live" data-scene={scene} data-ready={ready && live ? '' : undefined} data-playing={playing && live ? '' : undefined} style={{ '--focus': focus } as CSSProperties}>
       <div className="pr-live__zoom">
         <div ref={layer} className="pr-live__layer">
           {armed && live && (
@@ -92,7 +93,11 @@ export function LiveTile({ scene, no, title, text, icon: Icon, focus, register }
               disablePictureInPicture
               tabIndex={-1}
               aria-hidden
-              onPlaying={() => setPlaying(true)}
+              onPlaying={() => {
+                setReady(true)
+                setPlaying(true)
+              }}
+              onPause={() => setPlaying(false)}
             />
           )}
           <img className="pr-live__media pr-live__still" src={asset(s.img)} srcSet={`${asset(s.thumb)} 640w, ${asset(s.img)} 1344w`} sizes="(min-width: 1024px) 720px, 100vw" alt="" width={1344} height={752} loading="lazy" decoding="async" draggable={false} />
