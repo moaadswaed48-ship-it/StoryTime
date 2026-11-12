@@ -58,7 +58,7 @@ export function Checkout() {
         const now = new Date()
         setBill({
           no: `ST-${num(Math.floor(100000 + Math.random() * 900000))}`,
-          date: new Intl.DateTimeFormat(locale === 'ar' ? 'ar-EG' : 'en-GB', { dateStyle: 'medium', timeStyle: 'short' }).format(now),
+          date: new Intl.DateTimeFormat(locale === 'ar' ? 'ar-EG-u-nu-latn' : 'en-GB', { dateStyle: 'medium', timeStyle: 'short' }).format(now),
         })
         setLoggedIn(true)
         setPhase('receipt')

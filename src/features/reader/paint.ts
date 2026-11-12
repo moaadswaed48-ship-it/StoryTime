@@ -4,6 +4,7 @@
  * drawn at once, never letters), so joining, marks and direction are exactly as in the rest of the site.
  */
 import { story } from '@/content/story'
+import { UI_FAMILY } from '@/design/fonts'
 import { t } from '@/i18n/copy'
 import { locale, num, rtl } from '@/i18n/locale'
 import { asset } from '@/lib/asset'
@@ -17,8 +18,8 @@ const INK_SOFT = 'rgba(67, 54, 42, 0.86)'
 const MUTED = 'rgba(125, 110, 94, 0.95)'
 const MAPLE = '#d9541e'
 
-const STORY_FONT = rtl ? `"Noto Naskh Arabic", "Rubik Variable", serif` : `Georgia, "Times New Roman", serif`
-const UI_FONT = `"Rubik Variable", ui-sans-serif, system-ui, sans-serif`
+const STORY_FONT = rtl ? `"Noto Naskh Arabic", "IBM Plex Sans Arabic", serif` : `Georgia, "Times New Roman", serif`
+const UI_FONT = UI_FAMILY
 export const storyFont = (px: number, weight = rtl ? 500 : 400) => `${weight} ${px}px ${STORY_FONT}`
 export const uiFont = (px: number, weight = 500) => `${weight} ${px}px ${UI_FONT}`
 
@@ -28,7 +29,7 @@ export const uiFont = (px: number, weight = 500) => `${weight} ${px}px ${UI_FONT
 export async function loadFonts(): Promise<void> {
   const fonts = document.fonts
   if (!fonts?.load) return
-  const sample = rtl ? 'أوراق الخريف ١٢٣' : 'Autumn Leaves 123'
+  const sample = rtl ? 'أوراق الخريف 123' : 'Autumn Leaves 123'
   const wanted = rtl ? [storyFont(24, 500), storyFont(24, 700), uiFont(24, 500), uiFont(24, 800)] : [uiFont(24, 500), uiFont(24, 800)]
   const all = Promise.all(wanted.map((f) => fonts.load(f, sample))).then(() => undefined)
   await Promise.race([all.catch(() => undefined), new Promise<void>((r) => setTimeout(r, 2500))])

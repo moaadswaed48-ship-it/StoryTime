@@ -1,4 +1,5 @@
 import * as THREE from 'three'
+import { UI_FACE, UI_FAMILY, UI_HEAVY } from '@/design/fonts'
 import { mulberry32 } from '@/lib/seeded'
 import { asset } from '@/lib/asset'
 import { rtl } from '@/i18n/locale'
@@ -355,7 +356,7 @@ export function paperTexture(name: string): THREE.CanvasTexture {
     g.direction = /\p{Script=Arabic}/u.test(name) ? 'rtl' : /\p{Script=Latin}/u.test(name) ? 'ltr' : rtl ? 'rtl' : 'ltr'
     let size = 200
     do {
-      g.font = `800 ${size}px "Rubik Variable", "Rubik", system-ui, sans-serif`
+      g.font = `${Math.min(UI_HEAVY, 800)} ${size}px ${UI_FAMILY}`
       size -= 6
     } while (g.measureText(name).width > W - 96 && size > 44)
     g.fillText(name, W / 2, 360)
@@ -363,7 +364,7 @@ export function paperTexture(name: string): THREE.CanvasTexture {
   }
   draw()
   // the web font may arrive after the first paint of the texture
-  document.fonts?.load('800 96px "Rubik Variable"', name).then(draw, () => undefined)
+  document.fonts?.load(`${Math.min(UI_HEAVY, 800)} 96px ${UI_FACE}`, name).then(draw, () => undefined)
   return tex
 }
 

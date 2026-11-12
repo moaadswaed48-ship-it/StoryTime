@@ -12,6 +12,7 @@
     "qa:e2e": "playwright test"
   },
   "dependencies": {
+    "@fontsource/ibm-plex-sans-arabic": "^5.3.0",
     "@gsap/react": "2.1.2",
     "@react-three/drei": "10.7.9",
     "@react-three/fiber": "9.8.2",

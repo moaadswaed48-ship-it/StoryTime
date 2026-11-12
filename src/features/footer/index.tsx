@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useLayoutEffect, useRef, useState, type MouseEvent } from 'react'
+import { UI_FACE, UI_HEAVY } from '@/design/fonts'
 import gsap from 'gsap'
 import { ArrowRight, ArrowUp, Play } from 'lucide-react'
 import { enterApp } from '@/app/router'
@@ -228,7 +229,7 @@ export function Footer() {
     // Measure again once the display face has really arrived (the first measure may have used a fallback).
     const fonts = document.fonts
     fonts?.ready.then(refit)
-    fonts?.load(`900 200px 'Rubik Variable'`, t.brand).then(refit, () => {})
+    fonts?.load(`${UI_HEAVY} 200px ${UI_FACE}`, t.brand).then(refit, () => {})
     fonts?.addEventListener?.('loadingdone', refit)
     return () => {
       alive = false

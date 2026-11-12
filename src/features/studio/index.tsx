@@ -20,7 +20,7 @@ const upcoming = (['winter', 'spring', 'summer', 'autumn'] as const).flatMap((se
 /** Her manuscript is Arabic. It is shown as she wrote it in both languages of the site, set in the story face. */
 function Hers({ children, className }: { children: string; className?: string }) {
   return (
-    <span lang="ar" dir="rtl" className={cn('font-story', className)} style={{ fontFamily: "'Noto Naskh Arabic', 'Rubik Variable', serif" }}>
+    <span lang="ar" dir="rtl" className={cn('font-story', className)} style={{ fontFamily: "'Noto Naskh Arabic', 'IBM Plex Sans Arabic', serif" }}>
       {children}
     </span>
   )
