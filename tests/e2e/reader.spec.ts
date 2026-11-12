@@ -217,14 +217,16 @@ for (const lang of ['ar', 'en'] as const) {
     // a real tap on the real button (a voice may only start from one)
     const listen = page.getByTestId('rd-listen')
     await expect(listen).toHaveAttribute('aria-pressed', 'false')
-    await expect(listen).toHaveAccessibleName(lang === 'ar' ? 'استمع إلى الحكاية' : 'Listen to the story')
+    await expect(listen).toHaveAttribute('aria-label', lang === 'ar' ? 'استمع إلى الحكاية' : 'Listen to the story')
     await expect(async () => {
       await rd(page, 'chrome(true)') // (the bars put themselves away after a few seconds)
-      await listen.click({ timeout: 3000 })
+      // (a click that landed but was slow to report must not be repeated: a second one would stop the voice)
+      if (!(await rd<boolean>(page, 'narrating()'))) await listen.click({ timeout: 3000 })
+      expect(await rd<boolean>(page, 'narrating()')).toBe(true)
     }).toPass({ timeout: 60_000 })
     expect(await rd<boolean>(page, 'narrating()')).toBe(true)
     await expect(listen).toHaveAttribute('aria-pressed', 'true')
-    await expect(listen).toHaveAccessibleName(lang === 'ar' ? 'أوقف الصوت' : 'Stop the voice')
+    await expect(listen).toHaveAttribute('aria-label', lang === 'ar' ? 'أوقف الصوت' : 'Stop the voice')
 
     // the first scene is what is read (from the title page the book turns to it first), with one audio element
     await page.waitForFunction(() => !window.__st!.reader.voice().paused && window.__st!.reader.voice().time > 0, null, { timeout: 120_000 })

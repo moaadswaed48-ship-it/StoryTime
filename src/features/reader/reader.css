@@ -538,8 +538,8 @@
 
 /* Phone: the bar's label never loses its end. */
 .rd[data-full] .rd-top .rd-btn {
-  min-width: 44px;
-  padding-inline: 9px;
+  min-width: 40px; /* five tools and the scene's number share a phone's width */
+  padding-inline: 7px;
 }
 .rd[data-full] .rd-id {
   padding-inline: 4px;
