@@ -1,0 +1,11 @@
+{
+ "bedLufs": -31.5,
+ "loudestEventLufsM": -15.6,
+ "eventAboveBedLU": 15.9,
+ "busyMix": {
+  "I": -19.3,
+  "TP": -1.7,
+  "Mmax": -15,
+  "dur": 10
+ }
+}

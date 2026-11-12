@@ -10,6 +10,7 @@ import { BookReader } from '@/features/book'
 import { Reader, canCurl } from '@/features/reader'
 import { FilmPlayer } from '@/features/film'
 import { GameOverlay } from '@/features/game'
+import { IslandOverlay } from '@/features/island'
 import { AuthModal } from '@/features/auth'
 import { Checkout } from '@/features/checkout'
 
@@ -24,6 +25,9 @@ function Views() {
   const view = useSiteStore((s) => s.view)
   return view === 'landing' ? <Landing /> : <AppShell view={view} />
 }
+
+/** The game every "play" door opens is Friends Island; the older yard game stays reachable with `?game=yard`. */
+const YARD = typeof location !== 'undefined' && new URLSearchParams(location.search).get('game') === 'yard'
 
 /** Two worlds on one page: the landing page (front door) and the app behind it. Full-screen experiences sit on top of both. */
 export default function App() {
@@ -41,7 +45,7 @@ export default function App() {
           <Enter />
           <Book />
           <FilmPlayer />
-          <GameOverlay />
+          {YARD ? <GameOverlay /> : <IslandOverlay />}
           <AuthModal />
           <Checkout />
         </ErrorBoundary>

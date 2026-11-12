@@ -29,3 +29,20 @@ Terrarium: tending nature, weather, a field guide of creatures met.
 1. Owner's yes to this choice.
 2. Owner's yes to download Wigglewild's source from Patch (it is code from an outside source; I read it before running it).
 3. Possibly the owner signed in to patch.gg, if the source is not downloadable without an account.
+
+## Built (12 Nov 2026): Friends Island / جزيرة الأصدقاء
+The remix exists. Source: `../game-src/wigglewild` (the downloaded Wigglewild, changed in place; `git diff` there shows
+every change). Built files: `public/play/friends-island/`. Shown by `src/features/island` in a full-screen frame while
+`overlay === 'game'`, so every "play" door opens it; the older yard game is still in `src/features/game` and opens
+with `?game=yard`.
+
+- Kept: the island, the procedural creatures, saying hello on a beat (sing, dance, smile, pose), fruit, friends that
+  walk with you, a book of creatures met.
+- Removed: bite, charge, strike, spit, the stomping giant, health, hunger, fainting, hunters, night, the Editor, the
+  Lab, the Meadow sandbox, Patch's credits button.
+- Added: six missions and four locked "coming soon" ones, saved progress per child profile, touch controls (a thumb
+  stick, tap-to-go, big round buttons), Arabic first with English behind `?lang=en`, a simple "make your creature"
+  sheet, credits ("built on Wigglewild by Patch, MIT/CC0") on the title card, in the menu and in About.
+- To rebuild after a change: in `game-src/wigglewild` run `npm run build`, then copy `dist/` over
+  `StoryTime/public/play/friends-island/`.
+- Words: `game-src/wigglewild/src/i18n.ts` (the game is its own small app, so its words are not in `copy.ts`).
