@@ -232,7 +232,10 @@ export function ReaderView({ startScene }: { startScene: number }) {
   const gated = visible.some((i) => i >= locked)
   const atEnd = !gated && !!pages && visible.some((i) => pages[i].kind === 'end')
   const phase = !pages ? 'loading' : gated ? 'gate' : atEnd ? 'end' : 'open'
-  const scene = first ? first.scene : 0
+  // The scene the reader is in: the one that starts on what is showing, else the one that is continuing.
+  // (Opening the book at this scene again shows this same page or spread.)
+  const scene = pages ? (visible.map((i) => pages[i]).find((p) => p.kind === 'scene' && p.part === 0) ?? first)?.scene ?? 0 : 0
+  const scenesShown = pages ? visible.filter((i) => i < locked && pages[i].kind === 'scene').map((i) => pages[i].scene) : []
 
   /* ── Shared behaviour: progress, reward ───────────────────────────────────── */
   useEffect(() => {
@@ -482,7 +485,13 @@ export function ReaderView({ startScene }: { startScene: number }) {
   const total = pages ? pages.filter((p) => p.kind !== 'blank').length : 0
   const numbers = visible.map((i) => pages![i]).filter((p) => p.kind !== 'blank').map((p) => p.number)
   const pageLabel = numbers.length ? `${s.page} ${num(numbers[0])}${numbers.length > 1 ? `–${num(numbers[numbers.length - 1])}` : ''} ${t.book.of} ${num(total)}` : ''
-  const sceneLabel = !first ? '' : first.kind === 'title' ? story.kicker[locale] : atEnd ? t.book.end : `${t.book.page} ${num(scene + 1)} ${t.book.of} ${num(SCENES)}`
+  const sceneLo = Math.min(...scenesShown)
+  const sceneHi = Math.max(...scenesShown)
+  const sceneLabel = !scenesShown.length
+    ? atEnd
+      ? t.book.end
+      : story.kicker[locale]
+    : `${t.book.page} ${num(sceneLo + 1)}${sceneHi > sceneLo ? `–${num(sceneHi + 1)}` : ''} ${t.book.of} ${num(SCENES)}`
   const positions = pages ? (stage.spread ? Math.ceil(pages.length / 2) : pages.length) : 1
   const canPrev = !!pages && pos > 0
   const canNext = !!pages && pos < positions - 1 && !gated
@@ -596,7 +605,7 @@ export function ReaderView({ startScene }: { startScene: number }) {
           setPanel((cur) => (cur === p ? null : p))
         }}
         onSound={toggleSound}
-        onWatch={() => openFilm(Math.min(scene, SCENES - 1))}
+        onWatch={() => openFilm(scenesShown.length ? sceneLo : Math.min(scene, SCENES - 1))}
       />
       <BottomBar
         shown={chrome}

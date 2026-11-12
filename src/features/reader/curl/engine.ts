@@ -458,7 +458,10 @@ export class CurlEngine {
       vx = (b.x - a.x) / dt / this.layout!.scale
       pv = { x: (b.px - a.px) / dt, y: (b.py - a.py) / dt }
     }
-    const toHi = t.resist ? false : vx < -FLICK ? true : vx > FLICK ? false : progressOf(t.p, w) > 0.5
+    // "Past the middle" is where the reader sees the page: on one page the roll under the finger has crossed
+    // the middle of the page; on a spread the leaf's edge has crossed the spine.
+    const half = this.layout!.spread ? 0.5 : 0.5 - (Math.PI * baseRadius(this.layout!.pageW)) / (2 * this.layout!.pageW)
+    const toHi = t.resist ? false : vx < -FLICK ? true : vx > FLICK ? false : progressOf(t.p, w) > half
     this.settle(toHi, pv)
     return 'drag'
   }
