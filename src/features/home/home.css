@@ -489,7 +489,7 @@ html[dir='rtl'] .home__leaves {
 }
 @media (min-width: 960px) {
   .home__leaves {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
     grid-template-rows: auto 1fr auto;
     align-items: start;
     gap: 0;
@@ -525,8 +525,8 @@ html[dir='rtl'] .home__leaves {
     stroke-width: 3.5;
   }
   .home__leaf {
-    width: 96px;
-    height: 96px;
+    width: 80px;
+    height: 80px;
   }
   .home__leaf-how svg {
     width: 26px;
