@@ -400,12 +400,16 @@ html[dir='rtl'] .ft-switch[data-on] .ft-switch__thumb {
   text-align: center;
   user-select: none;
 }
-/* Arabic keeps its dots: only the tails of the deepest letters leave the page. */
+/* Arabic keeps its dots whole (a half dot reads as a cropping mistake): only the tail of و leaves the page. */
 html[lang='ar'] .ft-word {
-  --sink: 1.205em;
+  --sink: 1.27em;
   font-size: 18vw;
 }
-.ft-word span {
+/* one line on wide screens: the two words sit side by side */
+.ft-word__l {
+  display: inline;
+}
+.ft-word > span {
   display: inline-block;
   /* the gradient is clipped to the glyphs, so the box must reach above and below the line to cover marks and tails */
   margin-top: -0.185em;
@@ -418,15 +422,15 @@ html[lang='ar'] .ft-word {
   -webkit-text-fill-color: transparent;
   will-change: transform;
 }
-html[lang='ar'] .ft-word span {
+html[lang='ar'] .ft-word > span {
   margin-top: -0.125em; /* the dots of ق stand above the line box */
   padding-top: 0.25em;
 }
 /* rises out of the bottom edge (a mask slide, no fade) */
-.ft-word.is-armed span {
+.ft-word.is-armed > span {
   transform: translate3d(0, 62%, 0);
 }
-.ft-word.is-in span {
+.ft-word.is-in > span {
   transform: none;
   transition: transform 1.25s var(--ease-out-2);
 }
@@ -510,17 +514,39 @@ html[lang='ar'] .ft-word span {
     font-size: 12.5px;
     line-height: 1.65;
   }
+  /* The wordmark on two lines, each as wide as it can be: twice the size of one line, so the close still reads as
+     giant on the phone. The first word keeps to the reading side, the second runs the full measure and sinks. */
   .ft-word {
-    margin-top: 12px;
+    --lead: 0.86em; /* the first line's share of the box */
+    margin: 14px 12px 0;
+    height: calc(var(--lead) + var(--sink));
+    font-size: 30vw;
+    text-align: start;
+  }
+  html[lang='ar'] .ft-word {
+    --lead: 1.02em;
+    font-size: 36vw;
+  }
+  .ft-word__l {
+    display: block;
+  }
+  .ft-word__sp {
+    display: none;
+  }
+  .ft-word__l:first-child {
+    height: var(--lead);
+  }
+  .ft-word__l:last-child {
+    text-align: end;
   }
 }
 
 /* Reduced motion: nothing waits for a transition. */
 @media (prefers-reduced-motion: reduce) {
-  .ft-word.is-armed span {
+  .ft-word.is-armed > span {
     transform: none;
   }
 }
-html[data-reduce-motion] .ft-word.is-armed span {
+html[data-reduce-motion] .ft-word.is-armed > span {
   transform: none;
 }

@@ -12,6 +12,9 @@ import { cn } from '@/lib/cn'
 import { exposeQA } from '@/lib/qa'
 import { useSiteStore } from '@/store/useSiteStore'
 import { QuietFilm, type QuietFilmHandle } from './QuietFilm'
+// the clip's last frame (open sky, the flock leaving): the picture at rest
+import endFrame from './k12-end.webp'
+import endFrameSm from './k12-end-sm.webp'
 import './footer.css'
 
 /** The last scene of the story: the birds leaving at sunset. */
@@ -28,8 +31,14 @@ const LINKS = [
  *  taller on its line (dots above, tails below), so it stops a little earlier; on very short screens both stop sooner. */
 const MAX_WORD = locale === 'ar' ? 0.27 : 0.3
 const MAX_WORD_SHORT = 0.2
-/** The film rests this long on its last frame — the open sky, where the line of text stands clear — before it starts again. */
-const HOLD = 9
+/** The film rests this long on its last frame — the open sky, where the line of text stands clear — before it dips to
+ *  the night and starts again. Short: the picture is moving for most of every cycle. */
+const HOLD = 2.5
+/** The crane-up is played a little slower than it was made, so it breathes (about 7 s instead of 5). */
+const RATE = 0.72
+const REST = { src: endFrame, sm: endFrameSm }
+/** The brand on two lines for the phone's wordmark ('وقت' / 'الحكاية', 'Story' / 'Time'). */
+const BRAND = t.brand.includes(' ') ? [t.brand.slice(0, t.brand.indexOf(' ')), t.brand.slice(t.brand.indexOf(' ') + 1)] : t.brand.split(/(?=[A-Z])/).length === 2 ? t.brand.split(/(?=[A-Z])/) : [t.brand]
 /** While the paper lifts off, the film underneath moves this much slower (share of its own height). */
 const UNDER = 14
 /** …and it rises while the last lines slide over it, so the line of text always stands on calm sky. The clip is a
@@ -62,7 +71,8 @@ function scrollToTop() {
  * The close of the page. The paper lifts off the last picture of the story — the birds leaving at sunset — which
  * stays pinned (CSS sticky) while the night rises over it, carrying one line of the story, the links, the fine
  * print and the wordmark, set as wide as the page and sinking off its bottom edge.
- * The film plays only on screen, rests on its last frame and dissolves back to its first. Reduced motion: the still.
+ * The film plays only on screen (a little slower than made), rests briefly on its last frame and dips to the night
+ * before it starts again. At rest — and with reduced motion — the picture is that last frame: open sky, the flock leaving.
  */
 export function Footer() {
   const root = useRef<HTMLElement>(null)
@@ -99,38 +109,78 @@ export function Footer() {
 
   // The film sits under the page: it lags while the paper lifts off it and rises a little under the last lines.
   // Transform only, written straight from the scroll position (Lenis has already smoothed it); runs on screen only.
+  // Reduced motion: no lag and no drift, but the picture is still set where the flock stands clear of the line.
   useEffect(() => {
     const el = root.current
     const plate = layer.current
     if (!el || !plate) return
-    if (!on || reduced) {
-      plate.style.transform = ''
+    if (!on) {
+      if (!reduced) plate.style.transform = ''
       return
     }
-    let shown = film.current?.progress() ?? 0
+    // sizes are read when they change, not every frame
+    const size = { w: plate.offsetWidth, h: Math.max(1, plate.offsetHeight), foot: 0, vh: window.innerHeight }
+    const measure = () => {
+      size.w = plate.offsetWidth
+      size.h = Math.max(1, plate.offsetHeight)
+      size.vh = window.innerHeight
+      // where the line's top sits once the page has ended, counted from the footer's bottom edge
+      const r = el.getBoundingClientRect()
+      size.foot = quote.current ? r.bottom - quote.current.getBoundingClientRect().top : size.vh
+    }
+    measure()
+    const ro = new ResizeObserver(measure)
+    ro.observe(plate)
+    ro.observe(el)
+    window.addEventListener('resize', measure)
+    // How far the picture rises at the end of the page so the point of the flock (on the resting frame) clears the line.
+    const topRise = (travel: number) => {
+      const { w, h, foot, vh } = size
+      const pic = Math.max(h, w / FRAME)
+      const flock = (h - pic) / 2 + FLOCK_Y * pic
+      const lineTop = vh - foot
+      const need = ((flock - (lineTop - Math.max(48, vh * 0.06))) / h) * 100
+      return Math.min(clamp(need, RISE_MIN, RISE_MAX), ((travel * RISE_PACE) / h) * 100)
+    }
+    if (reduced) {
+      // the still is the resting frame: set it once, where it will be when the page has ended
+      const place = () => {
+        const travel = Math.max(1, el.offsetHeight - size.vh)
+        plate.style.transform = `translate3d(0, ${(-topRise(travel)).toFixed(3)}%, 0)`
+      }
+      place()
+      const ro2 = new ResizeObserver(place)
+      ro2.observe(el)
+      return () => {
+        ro.disconnect()
+        ro2.disconnect()
+        window.removeEventListener('resize', measure)
+      }
+    }
+    let shown = film.current?.progress() ?? 1
+    let last = ''
     const tick = (_time: number, dt: number) => {
       const r = el.getBoundingClientRect()
-      const vh = window.innerHeight
+      const vh = size.vh
       const travel = Math.max(1, r.height - vh)
       const under = clamp(r.top / vh, 0, 1)
       const over = clamp(-r.top / travel, 0, 1)
-      // Where things will be when the page has ended: the point of the flock in the pinned picture (cover-fitted,
-      // centred), and the top of the line of text. The picture rises by the difference, plus some air.
-      const h = Math.max(1, plate.offsetHeight)
-      const pic = Math.max(h, plate.offsetWidth / FRAME)
-      const flock = (h - pic) / 2 + FLOCK_Y * pic
-      const lineTop = quote.current ? vh - r.height + (quote.current.getBoundingClientRect().top - r.top) : vh
-      const need = ((flock - (lineTop - Math.max(48, vh * 0.06))) / h) * 100
-      const top = Math.min(clamp(need, RISE_MIN, RISE_MAX), ((travel * RISE_PACE) / h) * 100)
+      const top = topRise(travel)
       const base = Math.min(RISE_MIN, top)
-      // follow the clip (and the dissolve back to its first frame) softly
-      shown += ((film.current?.progress() ?? 0) - shown) * (1 - Math.exp((-Math.min(dt || 16, 100) / 1000) * 3.2))
+      // follow the clip softly; while the picture is dipped to the night, catch up at once (nobody sees it move)
+      const k = film.current?.dipping() ? 14 : 3.2
+      shown += ((film.current?.progress() ?? 1) - shown) * (1 - Math.exp((-Math.min(dt || 16, 100) / 1000) * k))
       const rise = base + (top - base) * shown * shown * (3 - 2 * shown)
-      plate.style.transform = `translate3d(0, ${(-under * UNDER - over * rise).toFixed(3)}%, 0)`
+      const next = `translate3d(0, ${(-under * UNDER - over * rise).toFixed(3)}%, 0)`
+      if (next !== last) plate.style.transform = last = next
     }
     tick(0, 16)
     gsap.ticker.add(tick)
-    return () => gsap.ticker.remove(tick)
+    return () => {
+      gsap.ticker.remove(tick)
+      ro.disconnect()
+      window.removeEventListener('resize', measure)
+    }
   }, [on, reduced])
 
   // The wordmark is set exactly as wide as the page between its gutters (measured, never letter-spaced).
@@ -221,7 +271,7 @@ export function Footer() {
     <footer ref={root} id="footer" className="ft" data-seen={uncovered ? '' : undefined}>
       <div className="ft-stage grain" aria-hidden>
         <div ref={layer} className="ft-film">
-          <QuietFilm ref={film} clip={LAST.clip!} poster={LAST.img} posterSm={LAST.thumb} sizes="100vw" hold={HOLD} />
+          <QuietFilm ref={film} clip={LAST.clip!} poster={LAST.img} posterSm={LAST.thumb} sizes="100vw" hold={HOLD} rate={RATE} rest={REST} />
         </div>
       </div>
 
@@ -290,7 +340,17 @@ export function Footer() {
         </Container>
 
         <div ref={wordBox} className={cn('ft-word', armed && 'is-armed', armed && wordSeen && 'is-in')} aria-hidden>
-          <span ref={word}>{t.brand}</span>
+          <span ref={word}>
+            {BRAND.length === 2 ? (
+              <>
+                <span className="ft-word__l">{BRAND[0]}</span>
+                <span className="ft-word__sp"> </span>
+                <span className="ft-word__l">{BRAND[1]}</span>
+              </>
+            ) : (
+              t.brand
+            )}
+          </span>
         </div>
       </div>
     </footer>

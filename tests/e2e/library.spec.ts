@@ -83,8 +83,24 @@ test('the real book opens a detail view that leads to the reader and the film', 
   expect(await overlay(page)).toBe('film')
   await page.evaluate(() => window.__st!.store.getState().closeOverlay())
 
-  await detail.locator('.lib-return').click()
-  expect(await lib<{ detail: boolean }>(page, 'state()')).toMatchObject({ detail: false })
+  // "Story page" asks who is reading (first visit) or goes straight to the story's page in the app.
+  await detail.locator('[data-act="page"]').click()
+  const st = await page.evaluate(() => {
+    const s = window.__st!.store.getState()
+    return { picking: s.picking as boolean, view: s.view as string }
+  })
+  expect(st.picking || st.view === 'story').toBe(true)
+  await page.evaluate(() => window.__st!.store.getState().setPicking(false))
+  if (st.view === 'story') {
+    con.assertClean()
+    return
+  }
+
+  // "Play" puts the book back on the shelf and opens the game.
+  await detail.locator('[data-act="play"]').click()
+  expect(await overlay(page)).toBe('game')
+  await page.evaluate(() => window.__st!.store.getState().closeOverlay())
+  await page.waitForFunction(() => window.__st!.library.state().detail === false)
   await expect(detail).not.toHaveClass(/is-open/)
   con.assertClean()
 })
@@ -98,6 +114,14 @@ test('a coming-soon book says so and offers nothing to open', async ({ page }) =
   const detail = page.locator('#library .lib-detail')
   await expect(detail.locator('[data-soon]')).toBeVisible()
   await expect(detail.locator('[data-act]')).toHaveCount(0)
+  // Every spine on the shelf says "coming soon" in words (never just a mark), at any shelf size.
+  expect(await page.locator('#library .lib-band.is-spine').first().textContent()).not.toBe('')
+
+  // The other books of the season are one tap away: the open book goes back and the chosen one comes out.
+  const chip = detail.locator('[data-jump]').first()
+  const target = Number(await chip.getAttribute('data-jump'))
+  await chip.click()
+  await page.waitForFunction((i) => window.__st!.library.index() === i && window.__st!.library.state().detail === true, target, { timeout: 15_000 })
   await lib(page, 'close()')
   expect(await lib<{ detail: boolean }>(page, 'state()')).toMatchObject({ detail: false })
   expect(await overlay(page)).toBeNull()

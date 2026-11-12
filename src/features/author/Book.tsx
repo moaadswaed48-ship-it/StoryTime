@@ -42,7 +42,8 @@ export const LyingBook = forwardRef<BookHandle>(function LyingBook(_, ref) {
   const st = useRef({ enter: 1, px: 0, py: 0, tx: 0, ty: 0, sp: 0.5, rx: REST.rx, ry: D * REST.ry, rz: D * REST.rz, landed: true })
   const reduced = useSiteStore((s) => s.tier === 'reduced')
   const openBook = useSiteStore((s) => s.openBook)
-  const seen = useInView(scene, '0px 0px -18% 0px')
+  // lands as soon as the sheet brings it in (the paper never arrives empty)
+  const seen = useInView(scene, '0px 0px 4% 0px')
   const on = useOnScreen(scene, '10% 0px')
 
   const write = () => {
@@ -58,7 +59,8 @@ export const LyingBook = forwardRef<BookHandle>(function LyingBook(_, ref) {
     b.style.transform = `translate3d(0, ${(-(1 - e) * 26).toFixed(2)}px, ${((1 - e) * 170).toFixed(2)}px) ${turn}`
     g.style.transform = `${turn} scale(${(1 + (1 - e) * 0.14).toFixed(4)})`
     g.style.opacity = (e * e).toFixed(3)
-    if (scene.current) scene.current.style.opacity = clamp(e * 3.2, 0, 1).toFixed(3)
+    // present (still lifted, still in the air) the moment the sheet arrives, then settling into full presence
+    if (scene.current) scene.current.style.opacity = clamp(0.35 + e * 3.2, 0, 1).toFixed(3)
     // the gloss on the cover slides as the angle of view changes
     if (sheen.current) sheen.current.style.transform = `translate3d(${((s.px * 0.55 + (s.sp - 0.5) * 1.5 - (1 - e) * 1.2) * 70).toFixed(2)}%, 0, 0) skewX(-16deg)`
   }
@@ -103,8 +105,15 @@ export const LyingBook = forwardRef<BookHandle>(function LyingBook(_, ref) {
       s.tx = 0
       s.ty = 0
     }
+    let lastTop = NaN
+    let lastLeft = NaN
     const tick = () => {
+      // nothing moved (page, pointer, landing): no reads beyond one rect, no writes
       const r = el.getBoundingClientRect()
+      const still = r.top === lastTop && r.left === lastLeft && Math.abs(s.px - s.tx) < 1e-3 && Math.abs(s.py - s.ty) < 1e-3 && s.landed
+      if (still) return
+      lastTop = r.top
+      lastLeft = r.left
       cx = r.left + r.width / 2
       cy = r.top + r.height / 2
       const sp = clamp(1 - cy / window.innerHeight, 0, 1)
@@ -115,6 +124,8 @@ export const LyingBook = forwardRef<BookHandle>(function LyingBook(_, ref) {
       }
       s.px = lerp(s.px, s.tx, 0.1)
       s.py = lerp(s.py, s.ty, 0.1)
+      if (Math.abs(s.px - s.tx) < 1e-3) s.px = s.tx
+      if (Math.abs(s.py - s.ty) < 1e-3) s.py = s.ty
       write()
     }
     if (fine) {

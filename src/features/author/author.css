@@ -84,6 +84,7 @@ html[lang='en'] .aut-title {
   font-size: clamp(1.1rem, 1.52vw, 1.38rem);
   line-height: 1.62;
   color: var(--color-ink-2);
+  text-wrap: pretty; /* no lone word on the last line */
 }
 html[lang='ar'] .aut-text {
   line-height: 2;
@@ -172,9 +173,10 @@ html[dir='rtl'] .aut-sign {
   /* it drifts a little against the page, so the book stands in front of it */
   translate: 0 calc((var(--sp, 0.5) - 0.5) * -56px);
 }
+/* English: the word stands above the book's top corner, whole, instead of being half hidden behind it */
 html[lang='en'] .aut-ghost {
-  font-size: clamp(3.6rem, 9vw, 8.8rem);
-  top: clamp(6px, 2.2vw, 40px);
+  font-size: clamp(3.2rem, 8vw, 7.6rem);
+  top: -0.42em;
 }
 .aut-scene {
   --w: clamp(290px, 29.5vw, 430px);
@@ -648,9 +650,23 @@ html[lang='en'] .aut-lockup__b {
   left: clamp(14px, 2vw, 26px);
   bottom: clamp(14px, 2vw, 26px);
   z-index: 3;
-  width: min(30rem, 48%);
-  padding: clamp(24px, 2.5vw, 36px) clamp(22px, 2.5vw, 34px);
+  /* it hugs what it carries: no empty glass beside the words */
+  width: max-content;
+  max-width: min(36rem, 52%);
+  padding: clamp(24px, 2.5vw, 36px) clamp(22px, 2.5vw, 34px) clamp(20px, 2vw, 28px);
   border-radius: 26px;
+}
+/* wide screens: smoked glass, not caramel — darker, barely saturated, so the orange of the leaves does not pool in it */
+@media (min-width: 1024px) {
+  .aut-cta__panel.glass-ink {
+    background: linear-gradient(180deg, rgba(26, 18, 11, 0.58), rgba(26, 18, 11, 0.72));
+    -webkit-backdrop-filter: blur(22px) saturate(108%);
+    backdrop-filter: blur(22px) saturate(108%);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.16),
+      inset 0 0 0 1px rgba(255, 255, 255, 0.07),
+      0 18px 44px rgba(10, 6, 3, 0.34);
+  }
 }
 /* phones only: the picture carried on under the glass (see below) */
 .aut-cta__amb {
@@ -668,7 +684,7 @@ html[lang='ar'] .aut-cta__title {
   line-height: 1.34;
 }
 .aut-cta__title span {
-  opacity: 0.62;
+  opacity: 0.8;
 }
 .aut-cta__title .is-ask {
   opacity: 1;
@@ -687,64 +703,48 @@ html[lang='ar'] .aut-cta__title {
     transform: translateY(-2px);
   }
 }
-/* The quiet third way, on a line of its own under the two pills: the author's desk. A text link, not a third pill —
-   so the row never wraps by accident, at any width or in either language. */
-.aut-cta__studio {
-  display: inline-flex;
+/* The quiet third way, next to the two pills: the author's desk. A small outline pill on dark glass. */
+.aut-cta__pills {
   align-items: center;
-  gap: 8px;
-  min-height: 44px;
-  margin-top: 10px;
-  padding-inline: 4px;
-  font-size: 14.5px;
+}
+.aut-cta__studio.aut-cta__studio {
+  gap: 7px;
+  border-color: rgb(246 240 228 / 0.26);
+  color: rgb(246 240 228 / 0.84);
   font-weight: 500;
-  color: rgb(246 240 228 / 0.76);
-  transition: color 0.2s ease-out;
-}
-.aut-cta__studio span {
-  position: relative;
-  padding-bottom: 3px;
-}
-/* a hairline that brightens and is redrawn from the reading side under the pointer */
-.aut-cta__studio span::before,
-.aut-cta__studio span::after {
-  content: '';
-  position: absolute;
-  inset-inline: 0;
-  bottom: 0;
-  height: 1px;
-  background: currentColor;
-}
-.aut-cta__studio span::before {
-  opacity: 0.34;
-}
-.aut-cta__studio span::after {
-  transform: scaleX(0);
-  transform-origin: 0 50%;
-  transition: transform 0.35s var(--ease-out);
-}
-html[dir='rtl'] .aut-cta__studio span::after {
-  transform-origin: 100% 50%;
 }
 .aut-cta__studio svg {
   flex: none;
   transition: translate 0.25s var(--ease-out);
 }
-.aut-cta__studio:active {
-  color: var(--color-paper);
-}
 @media (hover: hover) {
-  .aut-cta__studio:hover {
+  .aut-cta__studio.aut-cta__studio:hover {
+    border-color: rgb(246 240 228 / 0.5);
+    background: rgb(246 240 228 / 0.08);
     color: var(--color-paper);
-  }
-  .aut-cta__studio:hover span::after {
-    transform: scaleX(1);
   }
   .aut-cta__studio:hover svg {
     translate: 2px -2px;
   }
   html[dir='rtl'] .aut-cta__studio:hover svg {
     translate: -2px -2px;
+  }
+}
+.aut-cta__studio:focus-visible {
+  outline: 2px solid var(--color-maple-soft);
+  outline-offset: 3px;
+}
+
+/* Very wide screens: the object and the headline grow with the sheet, so the block never looks small in it. */
+@media (min-width: 1600px) {
+  .aut-scene {
+    --w: clamp(430px, 27vw, 500px);
+  }
+  .aut-title {
+    font-size: clamp(5.7rem, 5.2vw, 6.6rem);
+  }
+  html[lang='en'] .aut-title {
+    font-size: clamp(4.4rem, 4vw, 5.2rem);
   }
 }
 
@@ -788,8 +788,8 @@ html[dir='rtl'] .aut-cta__studio span::after {
     font-size: clamp(6.5rem, 34vw, 13rem);
   }
   html[lang='en'] .aut-ghost {
-    font-size: clamp(3.6rem, 19.5vw, 8rem);
-    top: clamp(10px, 5vw, 40px);
+    font-size: clamp(3.2rem, 17vw, 7.2rem);
+    top: -0.3em;
   }
   .aut-caption {
     margin-top: 50px;
@@ -884,11 +884,9 @@ html[dir='rtl'] .aut-cta__studio span::after {
   .aut-cta__pill {
     width: 100%;
   }
-  .aut-cta__studio {
-    display: flex;
-    justify-content: center;
+  .aut-cta__studio.aut-cta__studio {
     width: 100%;
-    margin-top: 8px;
+    height: 44px;
   }
 }
 /* tablets: the sheet is wide, so the words and the ways in sit side by side */
@@ -906,10 +904,11 @@ html[dir='rtl'] .aut-cta__studio span::after {
   }
   .aut-cta__pills {
     margin-top: 0;
-    flex-wrap: nowrap;
+    max-width: 21rem;
+    justify-content: flex-end;
   }
-  .aut-cta__studio {
-    justify-self: start;
+  .aut-cta__pills {
+    grid-column: 2;
   }
 }
 

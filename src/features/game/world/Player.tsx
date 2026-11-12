@@ -25,6 +25,8 @@ function rig(aspect: number, phase: Phase, height: number) {
     return { ox: 0, oy: 1.3, oz: 3.8, ly: 0.95, lz: 0, fov: 42 }
   }
   if (portrait) return { ox: 0, oy: 2.4, oz: 5.0, ly: 1.19, lz: -1.4, fov: 60 }
+  // a phone held sideways has little height: come closer, so Sari is not a dot
+  if (height < 540) return { ox: 0, oy: 1.95, oz: 4.2, ly: 1.1, lz: -0.4, fov: 50 }
   return { ox: 0, oy: 2.15, oz: 4.9, ly: 1.15, lz: -0.4, fov: 50 }
 }
 

@@ -14,9 +14,10 @@ import { LyingBook, type BookHandle } from './Book'
 import { CtaCard } from './CtaCard'
 import './author.css'
 
-/** The headline is broken by hand into two lines at its middle; the second line is the quieter one. */
+/** The headline is broken by hand into two lines; the second line is the quieter one. Arabic breaks at the middle
+ *  ('حكايات تبدأ / من الصف'); English keeps its verb on the first line ('Stories that begin / in class'). */
 const TITLE = t.author.title.split(' ')
-const CUT = Math.max(1, Math.floor(TITLE.length / 2))
+const CUT = Math.max(1, locale === 'en' ? Math.ceil(TITLE.length * 0.6) : Math.floor(TITLE.length / 2))
 const LINE_A = TITLE.slice(0, CUT).join(' ')
 const LINE_B = TITLE.slice(CUT).join(' ')
 const WORDS = t.author.text.split(' ')

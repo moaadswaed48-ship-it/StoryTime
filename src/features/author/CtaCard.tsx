@@ -47,12 +47,12 @@ export const CtaCard = forwardRef<QuietFilmHandle>(function CtaCard(_, ref) {
             <Play size={14} fill="currentColor" strokeWidth={0} aria-hidden />
             {t.author.ctaWatch}
           </Pill>
+          {/* the quiet third way, next to them: the author's desk (a small outline pill) */}
+          <Pill variant="outline" size="sm" className="aut-cta__studio" data-act="studio" onClick={() => go('studio')}>
+            <span>{t.app.grown.studio}</span>
+            <ArrowUpRight size={15} strokeWidth={2.2} className="flip-rtl" aria-hidden />
+          </Pill>
         </div>
-        {/* the quiet third way, on a line of its own: the author's desk */}
-        <button type="button" className="aut-cta__studio" data-act="studio" onClick={() => go('studio')}>
-          <span>{t.app.grown.studio}</span>
-          <ArrowUpRight size={15} strokeWidth={2.2} className="flip-rtl" aria-hidden />
-        </button>
       </div>
     </Reveal>
   )
