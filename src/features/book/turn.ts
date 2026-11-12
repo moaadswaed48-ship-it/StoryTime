@@ -55,14 +55,19 @@ export interface TurnHandle {
 
 interface Face {
   cv: HTMLCanvasElement
+  /** The page this face is cut from, and where (CSS pixels across the spread). */
+  page: HTMLCanvasElement
   x0: number
   x1: number
+  /** The shade currently painted on it. */
+  shade: number
 }
 interface Strip {
   el: HTMLDivElement
-  fShade: HTMLDivElement
-  bShade: HTMLDivElement
-  back: Face
+  /** The front and the back face; only the one facing the reader is kept in the tree. */
+  front: Face
+  rear: Face
+  facing: 'front' | 'rear' | ''
 }
 interface Leaf {
   strips: Strip[]
@@ -78,20 +83,22 @@ function box(css: Partial<CSSStyleDeclaration>, tag: 'div' | 'canvas' = 'div') {
   return e
 }
 
-// Light comes from the reader's side: a face is brightest flat on the table and darkest edge-on. Angles in degrees.
-const dark = (t: number) => (t <= 90 ? 0.58 * (1 - Math.cos(t / DEG)) : 0.62 * (1 + Math.cos(t / DEG)))
+// Light comes from the reader's side: a face is brightest flat on the table and darkest edge-on, with a band of
+// sheen where the paper catches the light. The shade is painted into each strip's own little canvas (no overlay
+// layers, no filters); twelve strips are fine enough to read as a smooth falloff. Angle in degrees.
+const dark = (t: number) => (t <= 90 ? 0.6 * (1 - Math.cos(t / DEG)) : 0.64 * (1 + Math.cos(t / DEG)))
 const glint = (t: number) => (t <= 90 ? 0.2 * Math.exp(-(((t - 26) / 14) ** 2)) : 0.15 * Math.exp(-(((t - 150) / 15) ** 2)))
-const shade = (dir: string, t0: number, t1: number) =>
-  `linear-gradient(${dir}, rgba(255,244,226,${glint(t0).toFixed(3)}), rgba(255,244,226,${glint(t1).toFixed(3)})), linear-gradient(${dir}, rgba(24,12,5,${dark(t0).toFixed(3)}), rgba(24,12,5,${dark(t1).toFixed(3)}))`
+/** Positive: how dark the face is. Negative: how much sheen it carries. */
+const shadeOf = (t: number) => dark(t) - glint(t) * 1.25
 
 function cast(el: HTMLElement, dir: string, reach: number, alpha: number, height: number) {
   if (alpha < 0.004) {
     el.style.background = 'none'
     return
   }
-  const p1 = Math.min(100, reach * 100 + 3)
-  const p2 = Math.min(100, p1 + 14 + 46 * height)
-  el.style.background = `linear-gradient(${dir}, rgba(18,9,3,${(alpha * 0.85).toFixed(3)}) 0%, rgba(18,9,3,${alpha.toFixed(3)}) ${p1.toFixed(1)}%, rgba(18,9,3,${(alpha * 0.4).toFixed(3)}) ${((p1 + p2) / 2).toFixed(1)}%, rgba(18,9,3,0) ${p2.toFixed(1)}%)`
+  const p1 = Math.min(100, reach * 100 + 2)
+  const p2 = Math.min(100, p1 + 12 + 34 * height)
+  el.style.background = `linear-gradient(${dir}, rgba(18,9,3,${(alpha * 0.8).toFixed(3)}) 0%, rgba(18,9,3,${alpha.toFixed(3)}) ${p1.toFixed(1)}%, rgba(18,9,3,${(alpha * 0.42).toFixed(3)}) ${(p1 + (p2 - p1) * 0.38).toFixed(1)}%, rgba(18,9,3,0) ${p2.toFixed(1)}%)`
 }
 
 export function runTurn(o: TurnOpts): TurnHandle {
@@ -156,26 +163,18 @@ export function runTurn(o: TurnOpts): TurnHandle {
         const cv = box({ ...faceCss, transform: flip ? 'rotateY(180deg)' : 'none' }, 'canvas')
         cv.width = Math.max(1, Math.round((x1 - x0) * kx))
         cv.height = Math.round(H * ky)
-        const sh = box({ ...faceCss, transform: flip ? 'rotateY(180deg) translateZ(0.05px)' : 'translateZ(0.05px)' })
-        if (tip) {
-          // The outer corners follow the rounded page. On the back face the box is mirrored.
-          Object.assign(cv.style, outer(right !== flip))
-          Object.assign(sh.style, outer(right !== flip))
-        }
-        return { cv, sh }
+        // The outer corners follow the rounded page. On the back face the box is mirrored.
+        if (tip) Object.assign(cv.style, outer(right !== flip))
+        return cv
       }
-      const front = mk(false)
-      const back = mk(true)
-      blit(front.cv, pages[j], x0, x1, W)
       // After the turn this strip lies mirrored about the spine, showing the next page there.
-      const bx0 = 2 * c - x1
-      const bx1 = 2 * c - x0
-      blit(back.cv, pages[j + 1], bx0, bx1, W)
-      el.append(front.cv, front.sh, back.cv, back.sh)
+      const front: Face = { cv: mk(false), page: pages[j], x0, x1, shade: NaN }
+      const rear: Face = { cv: mk(true), page: pages[j + 1], x0: 2 * c - x1, x1: 2 * c - x0, shade: NaN }
+      el.append(front.cv, rear.cv)
       parent.appendChild(el)
       if (i === 0) nodes.push(el)
       parent = el
-      strips.push({ el, fShade: front.sh, bShade: back.sh, back: { cv: back.cv, x0: bx0, x1: bx1 } })
+      strips.push({ el, front, rear, facing: '' })
     }
     // The first leaf to lift starts on top of the pile and lands at the bottom of the other pile.
     leaves.push({ strips, z0: 0.6 + (m - 1 - j) * 0.5, z1: 0.6 + j * 0.5 })
@@ -185,6 +184,17 @@ export function runTurn(o: TurnOpts): TurnHandle {
   const fDir = right ? 'to right' : 'to left'
   const bDir = right ? 'to left' : 'to right'
   const qs = new Array<number>(m).fill(0)
+
+  /** Paints a face: its slice of the page, then the light it stands in. Skipped while the shade barely changes. */
+  function paintFace(f: Face, v: number) {
+    if (Math.abs(v - f.shade) < 0.006) return
+    f.shade = v
+    blit(f.cv, f.page, f.x0, f.x1, W)
+    if (Math.abs(v) < 0.004) return
+    const ctx = f.cv.getContext('2d')!
+    ctx.fillStyle = v > 0 ? `rgba(24,12,5,${v.toFixed(3)})` : `rgba(255,244,226,${(-v * 0.8).toFixed(3)})`
+    ctx.fillRect(0, 0, f.cv.width, f.cv.height)
+  }
 
   /** Draws every leaf at its own turn progress `qs[j]` (0 = lying on the page it leaves, 1 = landed). */
   function render() {
@@ -204,23 +214,26 @@ export function runTurn(o: TurnOpts): TurnHandle {
       let x = 0
       let z = 0
       for (let i = 0; i < N; i++) {
-        const a0 = theta - bend * i
-        const a1 = theta - bend * (i + 1)
-        const mid = (a0 + a1) / 2
+        const mid = theta - bend * (i + 0.5)
         const s = L.strips[i]
         // The hinge rises a few pixels at the top of the arc, like a sheet lifted off the gutter.
         s.el.style.transform = i === 0 ? `translateZ(${(L.z0 + (L.z1 - L.z0) * q + arc * 5).toFixed(2)}px) rotateY(${(sgn * mid).toFixed(3)}deg)` : `rotateY(${(-sgn * bend).toFixed(3)}deg)`
         x += w * Math.cos(mid / DEG)
         z += w * Math.sin(mid / DEG)
-        if (mid < 90) s.fShade.style.background = shade(fDir, a0, a1)
-        else s.bShade.style.background = shade(bDir, a0, a1)
+        const facing = mid < 90 ? 'front' : 'rear'
+        if (facing !== s.facing) {
+          s.facing = facing
+          s.front.cv.style.display = facing === 'front' ? '' : 'none'
+          s.rear.cv.style.display = facing === 'rear' ? '' : 'none'
+        }
+        paintFace(facing === 'front' ? s.front : s.rear, shadeOf(mid))
       }
       // Shadow of this leaf: it falls on the side the free edge is over, and stretches as the leaf rises.
       // The reach is taken where the raised edge appears on screen (perspective pushes it outwards).
       const zn = z / c
       const xn = (x / c) * (persp / Math.max(1, persp - z))
       const over = smooth((xn + 0.3) / 0.6)
-      const a = 0.56 * Math.min(1, zn * 2.2)
+      const a = 0.62 * Math.min(1, zn * 2.2)
       if (a * over > liftA) {
         liftA = a * over
         liftE = Math.max(0, xn)
@@ -310,8 +323,12 @@ export function runTurn(o: TurnOpts): TurnHandle {
     },
     repaintLast(page) {
       if (dead) return
-      for (const s of leaves[m - 1].strips) blit(s.back.cv, page, s.back.x0, s.back.x1, W)
+      for (const s of leaves[m - 1].strips) {
+        s.rear.page = page
+        s.rear.shade = NaN
+      }
       blit(under, page, right ? c : 0, right ? W : c, W)
+      render()
     },
   }
 }

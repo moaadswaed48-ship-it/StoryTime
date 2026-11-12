@@ -54,7 +54,7 @@ export function computeMetrics(stageW: number, stageH: number, viewH = stageH / 
   const S = Math.round(Math.min(stageH * 0.7, stageW * (phone ? 0.69 : 0.92), 470))
   const floorY = Math.round(stageH * 0.855)
   // Height of the detail slot (same numbers as library.css → .lib-detail-slot).
-  const slotH = stageW >= 900 ? Math.min(viewH * 0.66, 600) : Math.min(viewH * 0.34, 300)
+  const slotH = stageW >= 900 ? Math.min(viewH * 0.66, 600) : phone ? Math.min(viewH * 0.31, 280) : Math.min(viewH * 0.4, 440)
   return {
     K: Math.round(clamp(slotH / S, 1, 1.5) * 100) / 100,
     stageW,

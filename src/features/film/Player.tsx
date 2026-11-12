@@ -181,10 +181,10 @@ export function Player() {
     (k: number) => {
       if (!live.tl) return
       seek(clearStart(live.tl, k))
-      play()
+      video.current?.play().catch(() => {}) // not play(): from the end card that would rewind to the start
       wake()
     },
-    [seek, play, wake],
+    [seek, wake],
   )
   const toggleFull = useCallback(() => {
     const el = stage.current as FsElement | null
@@ -519,10 +519,10 @@ export function Player() {
             aria-label={`${t.film.title} · ${story.title[locale]}`}
             onLoadedData={() => setReady(true)}
             onPlay={() => (setPlaying(true), setEnded(false))}
-            onPlaying={() => (setPlaying(true), setWaiting(false))}
+            onPlaying={() => (setPlaying(true), setWaiting(false), setReady(true))}
             onPause={() => setPlaying(false)}
             onWaiting={() => setWaiting(true)}
-            onCanPlay={() => setWaiting(false)}
+            onCanPlay={() => (setWaiting(false), setReady(true))}
             onEnded={() => (setEnded(true), setPlaying(false), sync())}
             onError={() => (setFailed(true), setSettled(true))}
             onTimeUpdate={sync}

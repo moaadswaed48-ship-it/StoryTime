@@ -282,7 +282,7 @@ export function Reader({ startScene }: { startScene: number }) {
   }, [atEnd, turning, reduced])
 
   /* ── Drag the page (it follows the finger), swipe, or tap the picture ─────── */
-  const press = useRef<{ x: number; y: number; t: number; onPic: boolean; mode: 'none' | 'swipe' | 'drag'; forward: boolean; target: Pos | null; q: number } | null>(null)
+  const press = useRef<{ x: number; y: number; t: number; onPic: boolean; mode: 'none' | 'swipe' | 'drag'; forward: boolean; target: Pos | null; q: number; turn: number } | null>(null)
   /** How far a dragged leaf is turned: the grabbed point of the page follows the finger across the spine. */
   const dragProgress = (s: { x: number; forward: boolean }, x: number) => {
     const r = spread.current?.rect()
@@ -299,7 +299,7 @@ export function Reader({ startScene }: { startScene: number }) {
     if (e.button) return
     const tgt = e.target as HTMLElement
     if (tgt.closest('button, a')) return
-    press.current = { x: e.clientX, y: e.clientY, t: performance.now(), onPic: !!tgt.closest('.bk-scene') && !tgt.closest('[data-scroll="1"]'), mode: 'none', forward: true, target: null, q: 0 }
+    press.current = { x: e.clientX, y: e.clientY, t: performance.now(), onPic: !!tgt.closest('.bk-scene') && !tgt.closest('[data-scroll="1"]'), mode: 'none', forward: true, target: null, q: 0, turn: 0 }
   }
   const onPointerMove = (e: ReactPointerEvent) => {
     const s = press.current
@@ -324,6 +324,7 @@ export function Reader({ startScene }: { startScene: number }) {
           setDragging(true)
           s.mode = 'drag'
           s.target = target
+          s.turn = req.id
           try {
             e.currentTarget.setPointerCapture(e.pointerId)
           } catch {
@@ -332,7 +333,7 @@ export function Reader({ startScene }: { startScene: number }) {
         }
       }
     }
-    if (s.mode === 'drag') {
+    if (s.mode === 'drag' && turnRef.current?.id === s.turn) {
       s.q = dragProgress(s, e.clientX)
       spread.current?.dragTo(s.q)
     }
@@ -344,6 +345,9 @@ export function Reader({ startScene }: { startScene: number }) {
     const dx = e.clientX - s.x
     const dy = e.clientY - s.y
     if (s.mode === 'drag') {
+      setDragging(false)
+      // Something else (a key, a dot) already took over from this drag.
+      if (turnRef.current?.id !== s.turn) return
       // Past a third of the way the page goes over; a quick flick counts too. Otherwise it falls back.
       const flick = performance.now() - s.t < 320 && Math.abs(dx) > 36 && dx * dirSign < 0 === s.forward
       const land = !cancelled && !!s.target && (s.q > 0.3 || flick)
@@ -352,7 +356,6 @@ export function Reader({ startScene }: { startScene: number }) {
         setPosState(s.target)
         setMoved(true)
       }
-      setDragging(false)
       spread.current?.release(land)
       return
     }

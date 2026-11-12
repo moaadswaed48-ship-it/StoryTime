@@ -218,7 +218,7 @@ function canopyGeometry() {
   const top = new THREE.Color('#ffd067')
   return merge(
     BLOBS.map(([cx, cy, cz, r], i) => {
-      const g = new THREE.IcosahedronGeometry(1, 3)
+      const g = new THREE.IcosahedronGeometry(1, 2)
       const pos = g.attributes.position
       const col = new Float32Array(pos.count * 3)
       for (let v = 0; v < pos.count; v++) {
@@ -376,9 +376,9 @@ export function Softwork() {
       }
     }
     // the heap of leaves (its surface is covered by carpet leaves)
-    list.push({ p: [PILE.x, 0.0, PILE.z], s: [PILE.r * 0.95, 0.44, PILE.r * 0.85], c: '#cf6f22' })
-    list.push({ p: [PILE.x + 0.55, 0.0, PILE.z + 0.3], s: [0.6, 0.28, 0.58], c: '#c2621d' })
-    list.push({ p: [PILE.x - 0.6, 0.0, PILE.z - 0.15], s: [0.55, 0.25, 0.5], c: '#db7d26' })
+    list.push({ p: [PILE.x, 0.0, PILE.z], s: [PILE.r * 0.95, 0.4, PILE.r * 0.85], c: '#cf6f22' })
+    list.push({ p: [PILE.x + 0.55, 0.0, PILE.z + 0.3], s: [0.6, 0.26, 0.58], c: '#c2621d' })
+    list.push({ p: [PILE.x - 0.6, 0.0, PILE.z - 0.15], s: [0.55, 0.23, 0.5], c: '#db7d26' })
     const mesh = new THREE.InstancedMesh(new THREE.IcosahedronGeometry(1, 2), new THREE.MeshLambertMaterial(), list.length)
     list.forEach((b, i) => {
       mesh.setMatrixAt(i, _m.compose(_p.set(...b.p), _q.identity(), _s.set(...b.s)))
@@ -422,7 +422,7 @@ export const shadowMaterial = (opacity: number) => new THREE.MeshBasicMaterial({
 export function LeafCarpet() {
   const mesh = useDisposable(() => {
     const rnd = mulberry32(44)
-    const max = 1500
+    const max = 1600
     const geo = new THREE.PlaneGeometry(1, 1)
     geo.rotateX(-Math.PI / 2)
     const m = new THREE.InstancedMesh(geo, new THREE.MeshBasicMaterial({ map: leafTexture(), alphaTest: 0.4, side: THREE.DoubleSide }), max)
@@ -434,11 +434,11 @@ export function LeafCarpet() {
       k++
     }
     // the heap first
-    for (let i = 0; i < 210; i++) {
+    for (let i = 0; i < 300; i++) {
       const a = rnd() * Math.PI * 2
       const d = Math.sqrt(rnd()) * PILE.r * 1.2
-      const h = Math.max(0, 0.45 * (1 - (d / (PILE.r * 1.0)) ** 2))
-      put(PILE.x + Math.cos(a) * d, 0.05 + h, PILE.z + Math.sin(a) * d * 0.9, 0.28 + rnd() * 0.2, 1.2)
+      const h = Math.max(0, 0.41 * (1 - (d / (PILE.r * 1.0)) ** 2))
+      put(PILE.x + Math.cos(a) * d, 0.05 + h, PILE.z + Math.sin(a) * d * 0.9, 0.3 + rnd() * 0.22, 1.3)
     }
     // then the yard: thick along the fence and under the tree, thinner where Sari runs
     for (let tries = 0; k < max && tries < 20000; tries++) {

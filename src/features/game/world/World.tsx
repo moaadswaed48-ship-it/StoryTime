@@ -45,9 +45,10 @@ function Fail({ onFail }: { onFail: () => void }) {
  * The yard in WebGL. Loaded lazily (three.js never ships with the first paint) and only while the game is open.
  * No tone mapping: the canvas-painted colours and the film still are shown exactly as authored.
  */
-export default function World({ onFail }: { onFail: () => void }) {
+export default function World({ onFail, paused = false }: { onFail: () => void; paused?: boolean }) {
   return (
-    <LazyCanvas flat camera={{ fov: 50, near: 0.1, far: 140, position: [0, 2.35, 8.6] }} fallback={<Fail onFail={onFail} />}>
+    // the play view always fills the screen, so the loop only stops while the view is fading out
+    <LazyCanvas flat frameloop={paused ? 'never' : 'always'} camera={{ fov: 50, near: 0.1, far: 140, position: [0, 2.35, 8.6] }} fallback={<Fail onFail={onFail} />}>
       <color attach="background" args={['#f3cdb6']} />
       <fog attach="fog" args={[HAZE, 15, 54]} />
       <hemisphereLight args={['#fff0d8', '#a8683a', 2.1]} />

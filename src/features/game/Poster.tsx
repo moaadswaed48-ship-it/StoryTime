@@ -31,7 +31,7 @@ export function Poster({ onStart, pictureRef, sectionRef, touch }: { onStart: ()
       <Container className="relative">
         <Reveal>
           <div className="game-poster relative isolate overflow-hidden rounded-[28px] bg-night-2 shadow-[0_40px_120px_rgba(0,0,0,0.45)] lg:aspect-[16/9]" data-game-poster>
-            <div ref={pictureRef} className="grain relative aspect-[4/3] overflow-hidden sm:aspect-[16/9] lg:absolute lg:inset-0 lg:aspect-auto">
+            <div ref={pictureRef} className="grain relative aspect-[4/3] overflow-hidden sm:aspect-[16/9] lg:absolute lg:inset-0 lg:aspect-auto" data-game-picture>
               {/* composed for right-to-left reading (words over the school wall); mirrored for English so they never sit on a face */}
               <span className="game-flip block h-full w-full">
                 <img

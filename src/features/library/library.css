@@ -796,8 +796,13 @@ html[lang='en'] .lib-rtitle .is-b {
   gap: 22px;
 }
 .lib-detail-slot {
-  height: min(34svh, 300px);
+  height: min(31svh, 280px);
   aspect-ratio: 0.753;
+}
+@media (min-width: 640px) and (max-width: 899px) {
+  .lib-detail-slot {
+    height: min(40svh, 440px);
+  }
 }
 .lib-detail-slotwrap {
   position: relative;
@@ -852,7 +857,7 @@ html[lang='en'] .lib-rtitle .is-b {
 }
 .lib-detail-title {
   font-weight: 900;
-  font-size: clamp(2.35rem, 9.6vw, 3.4rem);
+  font-size: clamp(2.1rem, 8.8vw, 3.3rem);
   line-height: 1.02;
   letter-spacing: -0.035em;
   text-wrap: balance;
@@ -926,6 +931,9 @@ html[lang='ar'] .lib-detail-title {
   height: 7px;
   border-radius: 50%;
   background: currentColor;
+}
+.lib-status.is-ready i {
+  background: var(--lib-maple);
 }
 .lib-status.is-soon i {
   background: none;

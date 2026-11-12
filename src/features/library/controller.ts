@@ -489,6 +489,12 @@ export class Shelf {
     this.renderNow()
   }
 
+  /** QA: freeze the transition in flight (filter re-pack, snap, detail flight) at a fraction of its length. */
+  scrub(p: number) {
+    for (const t of [...this.pres, this.snap, this.fly]) if (t && t.duration() > 0) t.pause().progress(clamp(p, 0, 1))
+    this.renderNow()
+  }
+
   /* ── input ─────────────────────────────────────────────────────────────── */
   private down = (e: PointerEvent) => {
     if (this.detail >= 0 || (e.pointerType === 'mouse' && e.button !== 0)) return

@@ -17,6 +17,7 @@ import {
   isCorrect,
   nearestOpen,
   newProgress,
+  ownPaper,
   pushOut,
   scatter,
   standPoint,
@@ -107,6 +108,50 @@ describe('the round', () => {
     expect(isCorrect(hasan, 'H')).toBe(true)
     expect(isCorrect(hasan, 'h')).toBe(true)
     expect(isCorrect(hasan, 'A')).toBe(false)
+  })
+})
+
+describe("the reader's own name", () => {
+  it('becomes one more paper, with wrong answers from its own alphabet', () => {
+    const lina = ownPaper('  Lina ', EN_NAMES)!
+    expect(lina.name).toBe('Lina')
+    expect(lina.letter).toBe('L')
+    expect(lina.letters).not.toContain('L')
+    expect(lina.letters).toHaveLength(25)
+    const round = buildRound(AR_NAMES, AR_LETTERS, mulberry32(4), ownPaper('لينا', AR_NAMES))
+    expect(round).toHaveLength(6)
+    const own = round[5]
+    expect(own.own).toBe(true)
+    expect(own.name).toBe('لينا')
+    expect(own.letter).toBe('ل')
+    expect(own.options).toHaveLength(3)
+    expect(own.options.filter((l) => l === 'ل')).toHaveLength(1)
+    for (const l of own.options) expect(/\p{Script=Arabic}/u.test(l)).toBe(true)
+    for (let i = 0; i < round.length; i++) for (let j = i + 1; j < round.length; j++) expect(dist(round[i], round[j])).toBeGreaterThan(REACH * 2)
+  })
+  it('never offers a look-alike of the right letter', () => {
+    for (const name of ['إيمان', 'آدم', 'اسماعيل', 'أمل']) {
+      const p = ownPaper(name)!
+      expect(p.letter).toBe(Array.from(name)[0])
+      for (const l of ['ا', 'أ', 'إ', 'آ']) expect(p.letters).not.toContain(l)
+    }
+    expect(ownPaper('Émile')!.letter).toBe('É')
+    expect(ownPaper('Émile')!.letters).not.toContain('E')
+    // a Latin name in the Arabic game still gets Latin letters to choose from
+    const mixed = buildRound(AR_NAMES, AR_LETTERS, mulberry32(8), ownPaper('Omar', AR_NAMES))[5]
+    expect(mixed.letter).toBe('O')
+    for (const l of mixed.options) expect(/^[A-Z]$/.test(l)).toBe(true)
+  })
+  it('is skipped when the name is empty, has no first letter we can ask about, or is already in the yard', () => {
+    expect(ownPaper('')).toBeNull()
+    expect(ownPaper('   ')).toBeNull()
+    expect(ownPaper(null)).toBeNull()
+    expect(ownPaper('123')).toBeNull()
+    expect(ownPaper('🙂 Sam')).toBeNull()
+    expect(ownPaper('Саша')).toBeNull() // an alphabet we have no letters for
+    expect(ownPaper('ساري', AR_NAMES)).toBeNull()
+    expect(ownPaper('sari', EN_NAMES)).toBeNull()
+    expect(buildRound(AR_NAMES, AR_LETTERS, mulberry32(4), ownPaper('', AR_NAMES))).toHaveLength(5)
   })
 })
 

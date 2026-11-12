@@ -850,6 +850,11 @@ html[lang='ar'] .film-end__word {
     flex-direction: column;
     align-items: center;
   }
+  html[lang='en'] .film-words .film-end .t-label {
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    white-space: nowrap;
+  }
   .film-words .film-end__word {
     margin-top: 0.1em;
     font-size: clamp(3rem, min(22vw, 11vh), 7rem);

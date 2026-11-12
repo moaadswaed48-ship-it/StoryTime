@@ -8,7 +8,7 @@ import { REACH, SPEED, START, angleDelta, headingOf, stepWalker, touching } from
 import { rt } from '../runtime'
 import { useGame, type Phase } from '../store'
 import { ringTexture } from './textures'
-import { shadowMaterial } from './Yard'
+import { PILE, shadowMaterial } from './Yard'
 
 /** Where the camera sits relative to Sari, and what it looks at. Portrait phones get a higher, wider view. */
 function rig(aspect: number, phase: Phase) {
@@ -32,7 +32,7 @@ export function Player() {
   const shadow = useRef<THREE.Mesh>(null!)
   const mark = useRef<THREE.Mesh>(null!)
   const [action, setAction] = useState<SariAction>('wave')
-  const s = useRef({ action: 'wave' as SariAction, hello: 1.9, look: new THREE.Vector3(START.x, 1.2, START.z), first: true, fov: 50, markA: 0 })
+  const s = useRef({ action: 'wave' as SariAction, hello: 1.9, look: new THREE.Vector3(START.x, 1.2, START.z), first: true, fov: 50, markA: 0, lift: 0 })
   const shadowMat = useMemo(() => shadowMaterial(0.58), [])
   const markMat = useMemo(() => new THREE.MeshBasicMaterial({ map: ringTexture(), color: '#fff3e0', transparent: true, opacity: 0, depthWrite: false, fog: false }), [])
   useEffect(
@@ -119,7 +119,10 @@ export function Player() {
       st.action = want
       setAction(want)
     }
-    body.current.position.set(me.x, 0, me.z)
+    // over the heap of leaves he wades knee-deep instead of sinking to the waist
+    const heap = Math.hypot(me.x - PILE.x, (me.z - PILE.z) / 0.9) / PILE.r
+    st.lift += ((heap < 1 ? 0.24 * (1 - heap * heap) : 0) - st.lift) * (1 - Math.exp(-10 * dt))
+    body.current.position.set(me.x, st.lift, me.z)
     body.current.rotation.y = me.heading
     shadow.current.position.set(me.x + 0.14, 0.085, me.z + 0.1)
 
@@ -158,7 +161,7 @@ export function Player() {
     <>
       <group ref={body} position={[START.x, 0, START.z]}>
         <Suspense fallback={null}>
-          <SariModel action={action} speed={1.12} />
+          <SariModel action={action} speed={1.25} />
           <Ready />
         </Suspense>
       </group>

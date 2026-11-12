@@ -127,19 +127,30 @@ export function Library() {
   useEffect(() => shelf.setReduced(reduced), [shelf, reduced])
   useEffect(() => shelf.setOnScreen(onScreen), [shelf, onScreen])
 
-  // Signature moment: the books land when a good part of the shelf is in view (once).
+  // Signature moment (once): the books land when the ledge they land on is in view. If the visitor stops
+  // short of that, or has already scrolled past it, they still land — the shelf is never left empty on screen.
   useEffect(() => {
     const stage = stageRef.current!
+    let timer = 0
+    const go = () => {
+      window.clearTimeout(timer)
+      io.disconnect()
+      shelf.play()
+    }
     const io = new IntersectionObserver(
       ([en]) => {
+        window.clearTimeout(timer)
         if (!en.isIntersecting) return
-        io.disconnect()
-        shelf.play()
+        if (en.intersectionRatio >= 0.85 || en.boundingClientRect.top < 0) go()
+        else timer = window.setTimeout(go, 1100)
       },
-      { threshold: 0.4 },
+      { threshold: [0.2, 0.5, 0.85] },
     )
     io.observe(stage)
-    return () => io.disconnect()
+    return () => {
+      window.clearTimeout(timer)
+      io.disconnect()
+    }
   }, [shelf])
 
   // Test / screenshot hooks.
@@ -155,6 +166,7 @@ export function Library() {
         filter: (f: Filter) => shelf.setFilter(f),
         entrance: (p: number) => shelf.seek(p),
         replay: () => shelf.replay(),
+        scrub: (p: number) => shelf.scrub(p),
       },
     })
   }, [shelf])
@@ -268,10 +280,10 @@ export function Library() {
             <div className="min-h-[5.5rem] text-center" aria-live="polite">
               <div key={book.id} className="lib-cap-in">
                 <h3 className="text-balance text-[clamp(1.35rem,2.5vw,2.1rem)] font-extrabold leading-[1.25] tracking-[-0.02em]">{book.title[locale]}</h3>
-                <p className="mt-2 flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-[14.5px] font-medium text-muted">
+                <p className="mt-2 flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-[14.5px] font-medium text-ink-2/85">
                   <span>{t.library.filters[book.season]}</span>
-                  <span className="h-1 w-1 rounded-full bg-current opacity-50" aria-hidden />
-                  <span className={cn('lib-status', book.ready ? 'font-semibold text-maple' : 'is-soon')}>
+                  <span className="h-1 w-1 rounded-full bg-current opacity-40" aria-hidden />
+                  <span className={cn('lib-status', book.ready ? 'is-ready font-semibold text-ink' : 'is-soon')}>
                     <i aria-hidden />
                     {book.ready ? t.library.ready : t.library.soon}
                   </span>
@@ -282,7 +294,7 @@ export function Library() {
               <Arrow next />
             </button>
           </div>
-          <p className="mt-5 flex items-center justify-center gap-3 text-[13.5px] text-muted">
+          <p className="mt-5 flex items-center justify-center gap-3 text-[13.5px] text-ink-2/80">
             <span className="tabular-nums text-ink-2">
               {num(pos + 1)} / {num(list.length)}
             </span>
@@ -307,21 +319,21 @@ export function Library() {
                 <b>{t.library.back}</b>
               </button>
               <p className="mt-6 flex flex-wrap items-center gap-x-3 gap-y-1 lg:mt-9" data-d style={d(1)}>
-                <span className="t-label text-maple">{t.library.filters[dBook.season]}</span>
+                <span className="t-label inline-flex items-center gap-2.5 text-ink-2">
+                  <span className="h-1.5 w-1.5 rounded-full bg-maple" aria-hidden />
+                  {t.library.filters[dBook.season]}
+                </span>
                 {dBook.ready && (
                   <>
-                    <span className="h-1 w-1 rounded-full bg-ink/30" aria-hidden />
-                    <span className="lib-status text-[14px] font-semibold text-ink-2">
-                      <i aria-hidden />
-                      {t.library.ready}
-                    </span>
+                    <span className="h-3 w-px bg-ink/20" aria-hidden />
+                    <span className="text-[14px] font-semibold text-ink-2">{t.library.ready}</span>
                   </>
                 )}
               </p>
               <BlurWords key={`${dBook.id}-${shown.seq}`} as="h3" text={dBook.title[locale]} immediate={detail !== null} delay={260} className="lib-detail-title mt-3 block lg:mt-4" />
               {dBook.ready ? (
                 <>
-                  <p className="mt-4 flex flex-wrap gap-x-2.5 gap-y-0.5 text-[14.5px] font-medium text-muted lg:mt-5" data-d style={d(3)}>
+                  <p className="mt-4 flex flex-wrap gap-x-2.5 gap-y-0.5 text-[14.5px] font-medium text-ink-2/80 lg:mt-5" data-d style={d(3)}>
                     <span>{t.library.meta}</span>
                     <span className="opacity-50 max-sm:hidden" aria-hidden>
                       ·
