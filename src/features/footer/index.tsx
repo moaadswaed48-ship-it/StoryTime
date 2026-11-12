@@ -24,6 +24,8 @@ const LINKS = [
   { id: 'pricing', label: t.nav.pricing },
 ] as const
 
+/** Tallest the wordmark's type may be, as a share of the screen's height (wide screens only). */
+const MAX_WORD = 0.3
 /** While the paper lifts off, the film underneath moves this much slower (share of its own height). */
 const UNDER = 14
 /** …and it rises this much while the last lines slide over it, so the birds stay in the light. */
@@ -104,7 +106,11 @@ export function Footer() {
       // reading it back in the same task is not safe (a global reduced-motion rule turns every change into a tiny transition).
       const size = parseFloat(getComputedStyle(box).fontSize)
       const now = w.getBoundingClientRect().width
-      if (size > 0 && now > 0 && Math.abs(now - width) > 0.5) box.style.fontSize = `${((size * width) / now).toFixed(2)}px`
+      if (!(size > 0 && now > 0)) return
+      // On wide but short screens the word stops growing before it would push the film off the screen (it stays centred).
+      const wide = (size * width) / now
+      const next = window.innerWidth >= 900 ? Math.min(wide, window.innerHeight * MAX_WORD) : wide
+      if (Math.abs(next - size) > 0.05) box.style.fontSize = `${next.toFixed(2)}px`
     }
     const refit = () => {
       if (!alive) return
@@ -119,6 +125,7 @@ export function Footer() {
       raf = requestAnimationFrame(() => fit())
     })
     ro.observe(box)
+    window.addEventListener('resize', refit)
     // Measure again once the display face has really arrived (the first measure may have used a fallback).
     const fonts = document.fonts
     fonts?.ready.then(refit)
@@ -128,6 +135,7 @@ export function Footer() {
       alive = false
       cancelAnimationFrame(raf)
       ro.disconnect()
+      window.removeEventListener('resize', refit)
       fonts?.removeEventListener?.('loadingdone', refit)
     }
   }, [])

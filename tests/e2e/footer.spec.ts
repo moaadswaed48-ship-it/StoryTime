@@ -25,9 +25,14 @@ test.describe('footer', () => {
     await expect(footer.locator('.ft-legal')).not.toBeEmpty()
     await expect(footer.locator('.ft-note')).not.toBeEmpty()
     await expect(footer.locator('.ft-enter')).not.toBeEmpty()
-    // measured to the gutters, in both languages, with no letter-spacing tricks
-    await expect.poll(async () => { const s = await state(page); return Math.abs(s.wordWidth - s.boxWidth) }, { timeout: 20_000 }).toBeLessThan(2)
-    expect((await state(page)).boxWidth).toBeGreaterThan(200)
+    // measured to the gutters (never letter-spaced, never spilling); only a wide-but-short screen makes it stop earlier
+    const fitsHeight = await page.evaluate(() => window.innerWidth < 900 || window.innerHeight >= 860)
+    await expect
+      .poll(async () => { const s = await state(page); return s.boxWidth - s.wordWidth }, { timeout: 20_000 })
+      .toBeLessThan(fitsHeight ? 2 : 0.4 * (await state(page)).boxWidth)
+    const fit = await state(page)
+    expect(fit.boxWidth).toBeGreaterThan(200)
+    expect(fit.wordWidth).toBeLessThanOrEqual(fit.boxWidth + 2)
     // every control is a comfortable target
     for (const sel of ['.ft-link', '.ft-switch', '.ft-top', '.ft-enter']) {
       const box = await footer.locator(sel).first().boundingBox()

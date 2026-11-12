@@ -337,6 +337,34 @@ html[lang='ar'] .ft-word span {
   transition: transform 1.25s var(--ease-out-2);
 }
 
+/* Narrow laptops and tablets: the tools drop to their own row before anything is squeezed. */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .ft-bar {
+    flex-wrap: wrap;
+    row-gap: 4px;
+  }
+  .ft-enter {
+    order: 2;
+  }
+  .ft-tools {
+    order: 3;
+    flex: 1 0 100%;
+    justify-content: space-between;
+  }
+}
+/* Wide but short screens: the type steps down so the film keeps its share. */
+@media (min-width: 900px) and (max-height: 740px) {
+  .ft-line {
+    font-size: clamp(2rem, 4.1vw, 3.3rem);
+  }
+  .ft-quote {
+    padding-bottom: 20px;
+  }
+  .ft-word {
+    margin-top: 8px;
+  }
+}
+
 /* ── Phones ─────────────────────────────────────────────────────────────────── */
 @media (max-width: 767px) {
   .ft {

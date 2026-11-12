@@ -34,18 +34,22 @@ export function loadPasses(count: number): number[][] {
 const PARALLEL = 4
 
 /**
- * Frame numbers (1-based, inclusive) where fast motion smears a face in the source film. They are fine in
- * passing — that is what motion blur is for — but nobody should be left looking at one, so the playhead
- * never comes to rest inside these ranges. Checked by eye against the 121-frame build of the wind scene.
+ * Frame numbers (1-based, inclusive) where fast motion smears a face, a hand or the paper in the source film.
+ * They are fine in passing — that is what motion blur is for — but nobody should be left looking at one, so
+ * once the scroll has stopped the playhead eases to the nearest clean frame (it never snaps while scrolling).
+ * Audited at full size, both children, against the 121-frame build of the wind scene.
  */
-const SMEARED: ReadonlyArray<readonly [number, number]> = [
+export const SMEARED: ReadonlyArray<readonly [number, number]> = [
   [10, 15],
-  [27, 31],
+  [26, 31],
   [45, 48],
-  [61, 69],
+  [54, 55],
+  [62, 71],
+  [74, 74],
   [83, 86],
-  [93, 94],
+  [93, 95],
   [101, 103],
+  [111, 111],
   [117, 119],
 ]
 
@@ -75,6 +79,7 @@ export class FrameStore {
   private passes: number[][]
   private flying = 0
   private started = false
+  private open = false
 
   constructor(
     readonly set: FrameSet,
@@ -90,10 +95,18 @@ export class FrameStore {
     return asset(this.meta.pattern.replace('{set}', this.set).replace('{0000}', String(index + 1).padStart(4, '0')))
   }
 
+  /** Fetches the first frame only; the rest waits for `release()` so it never competes with the page's first paint. */
   start() {
     if (this.started) return
     this.started = true
     this.pump()
+  }
+
+  /** Lets the remaining passes load (every 8th, every 4th, then all). */
+  release() {
+    if (this.open) return
+    this.open = true
+    if (this.started) this.pump()
   }
 
   has(index: number) {
@@ -131,6 +144,7 @@ export class FrameStore {
     for (let p = 0; p < this.passes.length; p++) {
       const pass = this.passes[p]
       if (!pass.length) continue
+      if (p > 0 && !this.open) return undefined
       // The coarse passes keep their order's coverage but start near the playhead; so does the fill pass.
       let best = 0
       if (p > 0) {
@@ -172,6 +186,45 @@ export class FrameStore {
       this.images[index] = img
       img.src = this.url(index)
     }
+  }
+}
+
+/**
+ * Full-size frames for the resting playhead. Small screens scrub the light `m` set (5 MB instead of 12 MB);
+ * when the film comes to rest, the one frame being looked at is fetched from the `d` set and dissolved in.
+ */
+export class SharpFrames {
+  private ready = new Map<number, HTMLImageElement>()
+  private asked = new Set<number>()
+  constructor(
+    private source: FrameStore,
+    private keep = 6,
+  ) {}
+
+  get(index: number) {
+    return this.ready.get(index)
+  }
+
+  /** Fetches and decodes one frame; `done` runs once it can be drawn without a hitch. */
+  request(index: number, done: () => void) {
+    if (this.ready.has(index) || this.asked.has(index)) return
+    this.asked.add(index)
+    const img = new Image()
+    img.decoding = 'async'
+    const finish = (ok: boolean) => {
+      this.asked.delete(index)
+      if (!ok || !img.naturalWidth) return
+      this.ready.set(index, img)
+      // Oldest out: a visitor only ever looks back at the last few stops.
+      for (const key of this.ready.keys()) {
+        if (this.ready.size <= this.keep) break
+        if (key !== index) this.ready.delete(key)
+      }
+      done()
+    }
+    img.onload = () => (typeof img.decode === 'function' ? img.decode().then(() => finish(true), () => finish(true)) : finish(true))
+    img.onerror = () => finish(false)
+    img.src = this.source.url(index)
   }
 }
 

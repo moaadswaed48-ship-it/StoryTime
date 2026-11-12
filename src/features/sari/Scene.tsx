@@ -191,7 +191,9 @@ function RunCycle({ rt, turntable }: { rt: Runtime; turntable: React.RefObject<T
       // rotations for every bone; movement only for the hips (the bob of the run; its travel was removed at build time)
       const move = propertyName === 'position' && nodeName === 'Hips'
       if (!bone || !(propertyName === 'quaternion' || move)) return []
-      return [{ bone, at: track.createInterpolant(), move, restQ: bone.quaternion.clone(), restP: bone.position.clone(), posed: POSED.has(nodeName) }]
+      // KeyframeTrack.createInterpolant() is public three.js API (it honours the track's own interpolation) but is missing from its typings
+      const at = (track as unknown as { createInterpolant(): THREE.Interpolant }).createInterpolant()
+      return [{ bone, at, move, restQ: bone.quaternion.clone(), restP: bone.position.clone(), posed: POSED.has(nodeName) }]
     })
     return () => {
       // leave the rig as it was found
