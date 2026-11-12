@@ -9,7 +9,7 @@
   --pl-spring: var(--ease-spring, cubic-bezier(0.34, 1.56, 0.64, 1));
   isolation: isolate;
   overflow: clip;
-  padding-block: clamp(96px, 11vw, 164px) clamp(112px, 12vw, 184px);
+  padding-block: clamp(96px, 11vw, 164px) clamp(104px, 10.5vw, 152px);
 }
 .pl-light {
   position: absolute;
@@ -27,6 +27,11 @@
   inset-inline: 16%;
   height: 1px;
   background: linear-gradient(90deg, rgb(244 163 94 / 0), rgb(244 163 94 / 0.55), rgb(244 163 94 / 0));
+}
+
+.pl .t-lede {
+  max-width: 40rem;
+  text-wrap: balance;
 }
 
 /* ── Monthly / yearly ────────────────────────────────────────────────────────── */
@@ -125,7 +130,8 @@ html[lang='ar'] .pl-toggle__save {
   padding-block: 3px 4px;
 }
 .pl-toggle__opt[aria-checked='true'] .pl-toggle__save {
-  background: var(--color-maple, #d9541e);
+  /* maple, one step deeper so small white words pass 4.5:1 */
+  background: #c94a1a;
   color: #fff;
   box-shadow:
     inset 0 1px 0 rgb(255 255 255 / 0.3),
@@ -239,7 +245,8 @@ html[lang='ar'] .pl-toggle__save {
   height: 34px;
   padding-inline: 13px 15px;
   border-radius: 999px;
-  background: var(--color-maple, #d9541e);
+  /* maple, one step deeper so small white words pass 4.5:1 */
+  background: #c94a1a;
   color: #fff;
   font-size: 12.5px;
   font-weight: 700;
@@ -490,27 +497,22 @@ html[lang='ar'] .pl-check {
 }
 
 .pl-foot {
-  display: flex;
-  align-items: flex-start;
-  justify-content: center;
-  gap: 8px;
   max-width: 42rem;
   margin: clamp(36px, 4vw, 56px) auto 0;
   font-size: 13.5px;
   line-height: 1.6;
   text-align: center;
+  text-wrap: balance;
   color: rgb(246 240 228 / 0.56);
 }
 .pl-foot svg {
-  flex: none;
-  margin-top: 3px;
+  display: inline-block;
+  vertical-align: -2.5px;
+  margin-inline-end: 7px;
 }
 html[lang='ar'] .pl-foot {
   font-size: 14.5px;
   line-height: 1.8;
-}
-html[lang='ar'] .pl-foot svg {
-  margin-top: 6px;
 }
 
 /* ── Entrance (armed by JS only when motion is allowed; the rest state is the final one) ── */

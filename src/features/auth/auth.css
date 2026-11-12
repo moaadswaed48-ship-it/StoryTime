@@ -16,9 +16,9 @@
 .au__backdrop {
   position: absolute;
   inset: 0;
-  background: rgb(18 12 8 / 0.6);
-  -webkit-backdrop-filter: blur(16px) saturate(130%);
-  backdrop-filter: blur(16px) saturate(130%);
+  background: linear-gradient(180deg, rgb(18 12 8 / 0.7), rgb(18 12 8 / 0.8));
+  -webkit-backdrop-filter: blur(18px) saturate(150%);
+  backdrop-filter: blur(18px) saturate(150%);
   animation: au-fade 0.4s ease both;
 }
 .au__fx {
@@ -118,13 +118,17 @@
 }
 .au__brand {
   position: absolute;
-  inset-inline-start: 20px;
-  bottom: 16px;
-  font-size: 19px;
+  inset-inline-start: 16px;
+  bottom: 14px;
+  display: inline-flex;
+  align-items: center;
+  height: 38px;
+  padding-inline: 15px;
+  border-radius: 999px;
+  font-size: 16px;
   font-weight: 800;
-  line-height: 1.2;
+  line-height: 1;
   letter-spacing: -0.02em;
-  text-shadow: 0 2px 16px rgb(0 0 0 / 0.5);
 }
 .au__caption {
   display: none;
@@ -448,10 +452,11 @@ html[lang='ar'] .au__welcome {
     display: none;
   }
   .au__brand {
-    top: 26px;
+    top: 22px;
     bottom: auto;
-    inset-inline-start: 28px;
-    font-size: 20px;
+    inset-inline-start: 22px;
+    height: 40px;
+    font-size: 17px;
   }
   .au__caption {
     position: absolute;

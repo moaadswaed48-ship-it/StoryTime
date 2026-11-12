@@ -23,7 +23,7 @@ const tiers = t.pricing.tiers
 export function Pricing() {
   const [yearly, setYearly] = useState(false)
   const [armed, setArmed] = useState(false)
-  const [stacked, setStacked] = useState(false)
+  const [stacked, setStacked] = useState(() => typeof window !== 'undefined' && window.matchMedia('(max-width: 899px)').matches)
   const [fx, setFx] = useState(0)
   const grid = useRef<HTMLDivElement>(null)
   const fxBox = useRef<HTMLDivElement>(null)
@@ -55,15 +55,20 @@ export function Pricing() {
   // A few leaves fly off the "save" sticker when yearly is chosen. The canvas exists only while they fall.
   useEffect(() => {
     if (!fx) return
-    const box = fxBox.current
-    const chip = box?.querySelector('.pl-toggle__save')
-    if (box && chip) {
+    // one beat later, once the canvas has settled in (React's dev double-mount would drop leaves thrown at once)
+    const fire = window.setTimeout(() => {
+      const box = fxBox.current
+      const chip = box?.querySelector('.pl-toggle__save')
+      if (!box || !chip) return
       const a = box.getBoundingClientRect()
       const b = chip.getBoundingClientRect()
       leaves.current?.burst(b.left + b.width / 2 - a.left + 150, b.top + b.height / 2 - a.top + 110, 9)
+    }, 60)
+    const end = window.setTimeout(() => setFx(0), 2800)
+    return () => {
+      window.clearTimeout(fire)
+      window.clearTimeout(end)
     }
-    const id = window.setTimeout(() => setFx(0), 2600)
-    return () => window.clearTimeout(id)
   }, [fx])
 
   // Border glow that follows the pointer (mouse only). The position is eased in a rAF loop that sleeps when it settles.

@@ -8,8 +8,9 @@
   --lib-paper: var(--color-paper, #f6f0e4);
   --lib-ink: var(--color-ink, #1a120b);
   --lib-maple: var(--color-maple, #d9541e);
-  /* Grey fractal noise: laid over cloth, paper and wood with a blend mode so every surface has tooth. */
-  --lib-noise: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n' color-interpolation-filters='sRGB'><feTurbulence type='fractalNoise' baseFrequency='1.15' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='.72 0 0 0 .14 .72 0 0 0 .14 .72 0 0 0 .14 0 0 0 0 1'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  /* A tile of soft grey grain, laid over cloth, paper and wood with a blend mode. Set from noise.ts (a canvas-made
+     PNG); without it the surfaces are simply smooth. */
+  --lib-noise: none;
   overflow-x: clip;
 }
 
@@ -146,7 +147,7 @@
   background-size:
     auto,
     auto,
-    180px 180px,
+    128px 128px,
     auto;
   background-blend-mode: normal, normal, soft-light, normal;
 }
@@ -166,7 +167,7 @@
     auto,
     auto,
     auto,
-    180px 180px,
+    128px 128px,
     auto;
   background-blend-mode: normal, normal, normal, normal, soft-light, normal;
 }
@@ -259,7 +260,7 @@
 .lib-cloth {
   background-color: var(--cloth);
   background-image: var(--lib-noise);
-  background-size: calc(var(--k, 1) * 180px) calc(var(--k, 1) * 180px);
+  background-size: calc(var(--k, 1) * 128px) calc(var(--k, 1) * 128px);
   background-blend-mode: overlay;
 }
 .lib-cloth::before {
@@ -381,7 +382,7 @@ html[lang='en'] .lib-stitle-t {
   gap: 0.5em;
   background-color: #f8f2e5;
   background-image: var(--lib-noise);
-  background-size: 180px 180px;
+  background-size: 128px 128px;
   background-blend-mode: soft-light;
   color: var(--lib-ink);
   font-size: calc(var(--band-h) * 0.36);

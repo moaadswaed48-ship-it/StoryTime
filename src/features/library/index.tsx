@@ -11,6 +11,7 @@ import { useSiteStore } from '@/store/useSiteStore'
 import { Book } from './Book'
 import { READY, Shelf, type Filter } from './controller'
 import { computeGeoms, computeMetrics, type Metrics } from './engine'
+import { noiseTile } from './noise'
 import './library.css'
 
 const FILTERS: Filter[] = ['all', 'autumn', 'winter', 'spring', 'summer']
@@ -59,6 +60,10 @@ export function Library() {
   const [shown, setShown] = useState({ i: READY, seq: 0 })
   const [waiting, setWaiting] = useState(() => !prefersReducedNow())
   const reduced = useSiteStore((s) => s.tier === 'reduced')
+  const grain = useMemo(() => {
+    const tile = noiseTile()
+    return tile ? ({ '--lib-noise': tile } as CSSProperties) : undefined
+  }, [])
   const onScreen = useOnScreen(stageRef, '160px 0px')
 
   const shelfRef = useRef<Shelf | null>(null)
@@ -207,7 +212,7 @@ export function Library() {
   const d = (n: number) => ({ '--d': n }) as CSSProperties
 
   return (
-    <section ref={sectionRef} id="library" className={cn('sheet bg-paper text-ink lib', detail !== null && 'is-detail', waiting && 'is-waiting')}>
+    <section ref={sectionRef} id="library" className={cn('sheet bg-paper text-ink lib', detail !== null && 'is-detail', waiting && 'is-waiting')} style={grain}>
       <Container className="lib-chrome pt-24 lg:pt-28">
         <div className="flex flex-col gap-7 lg:flex-row lg:items-end lg:justify-between lg:gap-12">
           <SectionHead tone="light" eyebrow={t.library.eyebrow} title={t.library.title} lede={t.library.lede} />

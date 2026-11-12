@@ -377,11 +377,15 @@ export function Reader({ startScene }: { startScene: number }) {
   const playGame = () => {
     closeOverlay()
     window.setTimeout(() => {
+      const st = useSiteStore.getState()
       const target = document.querySelector('#game')
-      if (!target) return
-      const lenis = useSiteStore.getState().lenis
-      if (lenis) lenis.scrollTo('#game', { offset: -80, force: true })
-      else target.scrollIntoView()
+      if (target) {
+        if (st.lenis) st.lenis.scrollTo('#game', { offset: -80, force: true })
+        else target.scrollIntoView()
+      } else {
+        // No game section on this screen: use the site's game overlay when it has one.
+        ;(st as unknown as { openGame?: () => void }).openGame?.()
+      }
     }, 90)
   }
 
@@ -394,10 +398,11 @@ export function Reader({ startScene }: { startScene: number }) {
 
   const endActions = (
     <div className="bk-end-actions">
-      <Pill variant="maple" size={stack ? 'lg' : 'md'} onClick={playGame}>
-        <Gamepad2 size={18} aria-hidden />
+      <Pill variant="maple" size="lg" onClick={playGame}>
+        <Gamepad2 size={19} aria-hidden />
         {t.book.playGame}
       </Pill>
+      <i aria-hidden />
       <Pill variant={stack ? 'glass' : 'outline'} size={stack ? 'lg' : 'md'} onClick={again}>
         <RotateCcw size={17} aria-hidden />
         {t.book.again}
@@ -510,7 +515,12 @@ export function Reader({ startScene }: { startScene: number }) {
               </div>
             )}
 
-            {atEnd && stack && !turning && endActions}
+            {atEnd && stack && !turning && (
+              <>
+                {endActions}
+                <p className="bk-end-note font-story">{t.book.dedication}</p>
+              </>
+            )}
 
             {isOpen && hasClip && !gated && !turning && (
               <button type="button" className="bk-chip glass-ink bk-fade" aria-label={clip.playing ? t.film.pause : t.film.play} onClick={() => spread.current?.toggleClip()} data-playing={clip.playing || undefined}>

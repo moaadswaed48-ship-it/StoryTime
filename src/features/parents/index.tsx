@@ -41,7 +41,7 @@ export function Parents() {
   const stats = useRef<HTMLUListElement>(null)
   const seen = useInView(stats, '0px 0px -8% 0px')
   const [armed, setArmed] = useState(false)
-  const [wide, setWide] = useState(false)
+  const [wide, setWide] = useState(() => typeof window !== 'undefined' && window.matchMedia('(min-width: 700px)').matches)
   const tiles = useRef(new Map<number, LiveApi>())
 
   useEffect(() => {

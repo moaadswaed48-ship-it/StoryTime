@@ -331,7 +331,7 @@ html[lang='ar'] .pr-live__s {
   }
   .pr-live__shade {
     background:
-      linear-gradient(to top, rgb(43 31 21 / 1) 0%, rgb(43 31 21 / 1) 31%, rgb(43 31 21 / 0.72) 40%, rgb(43 31 21 / 0.24) 52%, rgb(43 31 21 / 0) 64%),
+      linear-gradient(to top, rgb(43 31 21 / 1) 0%, rgb(43 31 21 / 1) 31%, rgb(43 31 21 / 0.62) 36%, rgb(43 31 21 / 0.18) 43%, rgb(43 31 21 / 0) 50%),
       linear-gradient(to bottom, rgb(18 12 8 / 0.36) 0%, rgb(18 12 8 / 0) 22%);
   }
   .pr-live__icon {

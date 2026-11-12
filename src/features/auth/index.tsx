@@ -114,15 +114,20 @@ export function AuthModal() {
   // A handful of leaves fly up from the tick. The canvas exists only while they fall.
   useEffect(() => {
     if (!fx) return
-    const box = root.current
-    const badge = box?.querySelector('.au__badge')
-    if (box && badge) {
+    // one beat later, once the canvas has settled in (React's dev double-mount would drop leaves thrown at once)
+    const fire = window.setTimeout(() => {
+      const box = root.current
+      const badge = box?.querySelector('.au__badge')
+      if (!box || !badge) return
       const a = box.getBoundingClientRect()
       const b = badge.getBoundingClientRect()
       leaves.current?.burst(b.left + b.width / 2 - a.left, b.top + b.height / 2 - a.top, 16)
+    }, 60)
+    const end = window.setTimeout(() => setFx(false), 2800)
+    return () => {
+      window.clearTimeout(fire)
+      window.clearTimeout(end)
     }
-    const id = window.setTimeout(() => setFx(false), 2600)
-    return () => window.clearTimeout(id)
   }, [fx])
 
   const go = () => {
@@ -154,7 +159,7 @@ export function AuthModal() {
           </picture>
           <span className="au__art-shade" />
           <span className="au__grip" />
-          <span className="au__brand">{t.brand}</span>
+          <span className="au__brand glass">{t.brand}</span>
           <span className="au__caption">
             <span className="au__kicker">{story.kicker[locale]}</span>
             <span className="au__story">{story.title[locale]}</span>
