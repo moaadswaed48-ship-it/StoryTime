@@ -111,14 +111,15 @@ html[dir='ltr'] .sari-back__film {
 }
 .sari-back__rays {
   /* drawn for Arabic (the sun behind him on the left); mirrored whole for left-to-right pages */
-  --sun: 6% -14%;
+  --sun: 4% -16%;
   position: absolute;
   inset: 0;
-  background: conic-gradient(from 142deg at var(--sun), transparent 0deg, rgb(255 216 164 / 0.15) 12deg, rgb(255 216 164 / 0.15) 17deg, transparent 31deg, transparent 360deg);
-  filter: blur(18px);
+  background: conic-gradient(from 136deg at var(--sun), transparent 0deg, rgb(255 220 170 / 0.14) 14deg, rgb(255 220 170 / 0.14) 22deg, transparent 40deg, transparent 360deg);
+  filter: blur(24px);
   mix-blend-mode: screen;
-  -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 58%, transparent 84%);
-  mask-image: linear-gradient(to bottom, #000 0%, #000 58%, transparent 84%);
+  /* the beam lives inside the lit air only: it never draws a streak across the dark around the stage */
+  -webkit-mask-image: radial-gradient(ellipse 46% 44% at 50% 42%, #000 30%, transparent 100%);
+  mask-image: radial-gradient(ellipse 46% 44% at 50% 42%, #000 30%, transparent 100%);
 }
 html[dir='ltr'] .sari-back__rays {
   transform: scaleX(-1);
