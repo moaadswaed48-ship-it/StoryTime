@@ -65,7 +65,7 @@ export const useProfileStore = create<ProfileState>()((set, get) => {
   const edit = (storyId: string, fn: (p: StoryProgress) => StoryProgress) =>
     patch({ progress: { ...get().progress, [storyId]: fn(get().progress[storyId] ?? blank()) } })
   return {
-    ...(typeof localStorage === 'undefined' ? { profile: null, progress: {}, classroom: false } : load()),
+    ...load(), // load() guards itself: Safari throws on the localStorage getter when cookies are blocked
     setProfile: (profile) => patch({ profile }),
     mark: (storyId, what) => edit(storyId, (p) => ({ ...p, [what]: true })),
     setScene: (storyId, scene) => edit(storyId, (p) => ({ ...p, scene })),

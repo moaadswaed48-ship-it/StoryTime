@@ -36,6 +36,31 @@ export function useMotionTier() {
     setReduceToggle(readReduceToggle())
   }, [setReduceToggle])
 
+  // Safari has no `deviceMemory`, so an old iPhone would never get the lighter tier. Measure it instead: a few
+  // seconds after loading, time sixty frames; a phone that cannot hold about 36 frames a second gets the low tier.
+  const setPerfLow = useSiteStore((s) => s.setPerfLow)
+  useEffect(() => {
+    if (!window.matchMedia('(pointer: coarse)').matches || new URLSearchParams(location.search).has('qa')) return
+    let raf = 0
+    const times: number[] = []
+    let last = 0
+    const frame = (now: number) => {
+      if (document.hidden) {
+        last = 0
+      } else {
+        if (last) times.push(now - last)
+        last = now
+      }
+      if (times.length < 60) raf = requestAnimationFrame(frame)
+      else if ([...times].sort((a, b) => a - b)[30] > 28) setPerfLow(true)
+    }
+    const start = window.setTimeout(() => (raf = requestAnimationFrame(frame)), 3500)
+    return () => {
+      window.clearTimeout(start)
+      cancelAnimationFrame(raf)
+    }
+  }, [setPerfLow])
+
   useEffect(() => {
     const prm = window.matchMedia('(prefers-reduced-motion: reduce)')
     const coarse = window.matchMedia('(pointer: coarse)')

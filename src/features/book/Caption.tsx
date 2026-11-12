@@ -76,7 +76,7 @@ function Item({ scene, step, out, layout, grad }: { scene: number; step: number;
           </span>
         )}
       </div>
-      <div className="bk-cap-scroll" ref={scroller}>
+      <div className="bk-cap-scroll" ref={scroller} data-lenis-prevent>
         <p ref={para} className="bk-text font-story" data-short={text.length < 72 || undefined} data-testid={out ? undefined : 'bk-text'}>
           {text}
         </p>
@@ -99,7 +99,7 @@ export function Caption({ scene, step, wait, layout, hide }: { scene: number; st
     if (cap.current) cap.current.scrollTop = 0
   }, [scene, step])
   return (
-    <div className="bk-cap" ref={cap} aria-live="polite" data-layout={layout} data-wait={wait || undefined} data-hide={hide || undefined}>
+    <div className="bk-cap" ref={cap} data-lenis-prevent aria-live="polite" data-layout={layout} data-wait={wait || undefined} data-hide={hide || undefined}>
       {layout === 'wide' && gradLag.prev && <Grad key={gradLag.prev.k} out />}
       {layout === 'wide' && <Grad key={gradLag.cur.k} gref={grad} />}
       {lag.prev && <Item key={lag.prev.k} scene={lag.prev.v.scene} step={lag.prev.v.step} out layout={layout} />}

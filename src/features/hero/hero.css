@@ -15,7 +15,7 @@
   --svh: 1vh; /* small-viewport unit with a fallback for browsers that lack svh */
   height: 100vh;
   height: 100svh;
-  min-height: 640px;
+  min-height: min(640px, 100svh); /* small iPhones: never taller than the screen */
   --pad: 20px;
   --hero-vw: 15.2; /* Arabic title is narrower, so it can be larger */
   /* two cards and a clear slice of the third on a phone; never so tall that the boys lose their room */

@@ -2,11 +2,17 @@ import { Component, useEffect, useRef, useState, type ReactNode } from 'react'
 import { Canvas, type CanvasProps } from '@react-three/fiber'
 import { useOnScreen } from './ui'
 
+let probed: boolean | null = null
+/** Asked once per page, and the test context is given back: iPhones evict the oldest WebGL context past a small limit. */
 function webglSupported(): boolean {
   try {
     if (new URLSearchParams(location.search).has('nowebgl')) return false
+    if (probed !== null) return probed
     const c = document.createElement('canvas')
-    return !!(c.getContext('webgl2') || c.getContext('webgl'))
+    const gl = (c.getContext('webgl2') || c.getContext('webgl')) as WebGLRenderingContext | null
+    probed = !!gl
+    gl?.getExtension('WEBGL_lose_context')?.loseContext()
+    return probed
   } catch {
     return false
   }
@@ -49,8 +55,11 @@ export function LazyCanvas({ children, fallback = null, className, ...props }: C
             dpr={[1, coarse ? 1.5 : 1.75]}
             frameloop={visible ? 'always' : 'never'}
             gl={{ antialias: !coarse, powerPreference: 'high-performance', alpha: true }}
-            onCreated={({ gl }) => gl.domElement.addEventListener('webglcontextlost', (e) => (e.preventDefault(), setOk(false)))}
             {...props}
+            onCreated={(state) => {
+              state.gl.domElement.addEventListener('webglcontextlost', (e) => (e.preventDefault(), setOk(false)))
+              props.onCreated?.(state)
+            }}
           >
             {children}
           </Canvas>

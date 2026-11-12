@@ -590,6 +590,7 @@ html[dir='rtl'] .film-scrub__fill {
 .film-chips {
   display: flex;
   gap: 8px;
+  justify-content: center;
   justify-content: safe center;
   overflow-x: auto;
   overscroll-behavior-x: contain;

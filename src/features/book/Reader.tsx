@@ -461,7 +461,7 @@ export function Reader({ startScene }: { startScene: number }) {
   )
 
   const dots = (
-    <div className="bk-dots-strip" ref={strip}>
+    <div className="bk-dots-strip" ref={strip} data-lenis-prevent>
       <div className="bk-dots" style={{ '--i': Math.min(scene, SCENES - 1), '--n': SCENES, '--dir': dirSign } as CSSProperties} data-end={atEnd || undefined}>
         <span className="bk-dots-ind" aria-hidden />
         {story.scenes.map((_, i) => {
@@ -539,7 +539,7 @@ export function Reader({ startScene }: { startScene: number }) {
             {uiOn && !atEnd && !gated && <Caption scene={scene} step={pos.step} wait={turning} layout={layout} hide={lifted} />}
 
             {gateShown && (
-              <div className="bk-gate">
+              <div className="bk-gate" data-lenis-prevent>
                 <div key={nudge} className={cn('bk-gate-card glass', nudge > 0 && 'is-nudged')}>
                   <span className="bk-gate-icon" aria-hidden>
                     <LockKeyhole size={22} />

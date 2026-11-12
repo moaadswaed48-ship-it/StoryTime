@@ -18,7 +18,9 @@ export default defineConfig({
     ],
   },
   build: {
-    target: 'es2022',
+    // iPhones before iOS 16.4 cannot parse class static blocks (three.js ships them): build for older Safari.
+    target: ['es2020', 'safari15'],
+    cssTarget: ['safari15'],
     chunkSizeWarningLimit: 900,
     // three.js / R3F are only imported by lazily mounted 3D features — never preload them from the HTML.
     modulePreload: { resolveDependencies: (_file, deps) => deps.filter((d) => !/\/(three|r3f)-/.test(d)) },
@@ -26,6 +28,7 @@ export default defineConfig({
       output: {
         codeSplitting: {
           groups: [
+            { name: 'react', test: /node_modules[\\/](react|react-dom|scheduler)[\\/]/, priority: 30 },
             { name: 'three', test: /node_modules[\\/](three|three-stdlib)[\\/]/, priority: 20 },
             { name: 'r3f', test: /node_modules[\\/]@react-three[\\/]/, priority: 15 },
             { name: 'gsap', test: /node_modules[\\/]gsap[\\/]/, priority: 10 },

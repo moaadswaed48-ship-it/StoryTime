@@ -4,6 +4,7 @@ import { ArrowDown, ArrowLeft, ArrowRight, ArrowUp, BookOpen, Check, Gamepad2, H
 import { Leaves, type LeavesHandle } from '@/design/Leaves'
 import { BlurWords, Pill } from '@/design/ui'
 import { useOverlayLock } from '@/design/overlay'
+import { ErrorBoundary } from '@/design/ErrorBoundary'
 import { useSiteStore } from '@/store/useSiteStore'
 import { setSound, sfx } from '@/audio/synth'
 import { t } from '@/i18n/copy'
@@ -208,9 +209,11 @@ export function PlayView({ from, touch }: { from: DOMRect | null; touch: boolean
       <div className="absolute inset-0 bg-night" style={{ opacity: grown ? 1 : 0 }}>
         {mode === '3d' ? (
           <>
-            <Suspense fallback={null}>
-              <World onFail={() => setMode('cards')} paused={leaving} />
-            </Suspense>
+            <ErrorBoundary fallback={null} onError={() => setMode('cards')}>
+              <Suspense fallback={null}>
+                <World onFail={() => setMode('cards')} paused={leaving} />
+              </Suspense>
+            </ErrorBoundary>
             {/* film finish: low sun from the tree's side, darker corners, grain */}
             <div className={cn('game-light pointer-events-none absolute inset-0', !lowTier && 'grain')} aria-hidden />
           </>

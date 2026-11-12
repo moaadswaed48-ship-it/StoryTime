@@ -212,7 +212,15 @@ export function Player() {
       return
     }
     const request = el.requestFullscreen ?? el.webkitRequestFullscreen
-    if (!request) return v.webkitEnterFullscreen?.()
+    if (!request) {
+      // iPhone: only the video itself can go full screen, and only once it has loaded
+      try {
+        v.webkitEnterFullscreen?.()
+      } catch {
+        /* not ready yet: ignore the tap */
+      }
+      return
+    }
     // On a phone, full screen also turns the film on its side so it fills the glass.
     Promise.resolve(request.call(el))
       .then(() => (screen.orientation as LockableOrientation | undefined)?.lock?.('landscape'))
@@ -480,7 +488,7 @@ export function Player() {
 
   const scenes = film.length > 0 && !over && (
     <div className="film-scenes" onPointerEnter={rest(true)} onPointerLeave={rest(false)}>
-      <div ref={chips} className="film-chips" role="group" aria-label={t.film.chapters}>
+      <div ref={chips} className="film-chips" data-lenis-prevent role="group" aria-label={t.film.chapters}>
         {film.map((s, k) => (
           <button key={s.scene} type="button" className="film-chip glass" aria-current={k === Math.max(0, idx) ? 'true' : undefined} onClick={() => seekScene(k)} data-film-chip={s.scene}>
             <img src={asset(story.scenes[s.scene].thumb)} alt="" loading="lazy" decoding="async" />

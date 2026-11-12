@@ -120,6 +120,7 @@ export function BottomBar({
         )}
         <div className="rd-range" style={{ '--p': value / max } as CSSProperties}>
           <input
+            data-lenis-prevent-touch
             type="range"
             dir={rtl ? 'rtl' : 'ltr'}
             min={0}
@@ -160,7 +161,7 @@ export function ScenesPanel({ current, lockedFrom, onPick, onClose }: { current:
           <X size={19} aria-hidden />
         </button>
       </header>
-      <ol className="rd-scene-list" data-scroll="1">
+      <ol className="rd-scene-list" data-scroll="1" data-lenis-prevent>
         {story.scenes.map((sc, i) => (
           <li key={i}>
             <button type="button" className="rd-scene" aria-current={i === current ? 'true' : undefined} onClick={() => onPick(i)} data-testid={`rd-scene-${i}`}>

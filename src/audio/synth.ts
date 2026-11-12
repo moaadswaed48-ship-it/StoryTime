@@ -14,7 +14,7 @@ function ensure(): AudioContext | null {
     master.gain.value = 0.5
     master.connect(ctx.destination)
   }
-  if (ctx.state === 'suspended') void ctx.resume()
+  if (ctx.state !== 'running') void ctx.resume() // iOS reports 'interrupted' after a call or backgrounding
   return ctx
 }
 

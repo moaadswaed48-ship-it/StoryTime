@@ -1,4 +1,5 @@
 import { lazy, Suspense } from 'react'
+import { ErrorBoundary } from '@/design/ErrorBoundary'
 import type { View } from '@/store/useSiteStore'
 import { AppNav } from '@/features/appnav'
 
@@ -14,6 +15,7 @@ export function AppShell({ view }: { view: Exclude<View, 'landing'> }) {
     <div className="app-shell relative min-h-[100svh]" data-view={view}>
       <AppNav />
       <main id="main" key={view} className="view-in">
+        <ErrorBoundary>
         <Suspense fallback={<div className="min-h-[100svh]" />}>
           {view === 'home' && <AppHome />}
           {view === 'story' && <StoryPage />}
@@ -21,6 +23,7 @@ export function AppShell({ view }: { view: Exclude<View, 'landing'> }) {
           {view === 'grownups' && <GrownUps />}
           {view === 'studio' && <Studio />}
         </Suspense>
+        </ErrorBoundary>
       </main>
     </div>
   )

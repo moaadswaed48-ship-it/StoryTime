@@ -37,7 +37,8 @@ const recall = (k: string) => {
 
 /** Always in view: a grown-up should never have to wonder where the child's data goes. One sentence per line. */
 function Local({ className }: { className?: string }) {
-  const sentences = t.app.grown.local.split(/(?<=[.!؟?])\s+/)
+  // no RegExp lookbehind: iPhones before iOS 16.4 cannot parse it and the whole screen would fail to load
+  const sentences = t.app.grown.local.match(/[^.!؟?]+[.!؟?]*/g)?.map((s) => s.trim()).filter(Boolean) ?? [t.app.grown.local]
   return (
     <p className={cn('flex w-fit items-start gap-2.5 text-[14.5px] leading-relaxed text-ink-2', className)} data-gu-local>
       <ShieldCheck className="mt-[3px] h-[18px] w-[18px] shrink-0 text-maple" aria-hidden />

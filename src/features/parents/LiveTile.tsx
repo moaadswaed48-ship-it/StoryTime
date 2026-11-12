@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState, type CSSProperties } from 'react'
+import { pauseQuietly, playQuietly } from '@/lib/quiet'
 import gsap from 'gsap'
 import { Play, type LucideIcon } from 'lucide-react'
 import { useOnScreen } from '@/design/ui'
@@ -46,8 +47,8 @@ export function LiveTile({ scene, no, title, text, icon: Icon, focus, register }
   useEffect(() => {
     const v = video.current
     if (!v) return
-    if (want) v.play().catch(() => {})
-    else v.pause()
+    if (want) playQuietly(v)
+    else pauseQuietly(v)
   }, [want])
 
   // The picture moves a little slower than its frame (transform only; runs only while the tile is on screen).

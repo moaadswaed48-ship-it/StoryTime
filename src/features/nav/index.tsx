@@ -158,7 +158,9 @@ export function Nav() {
     const run = () => (id === 'film' ? openFilm() : scrollToSection(id))
     if (menu) {
       setMenu(false)
-      window.setTimeout(run, 80)
+      // the film must open inside the tap itself, or iPhones start it muted; scrolling waits for the sheet to close
+      if (id === 'film') run()
+      else window.setTimeout(run, 80)
     } else run()
   }
   const account = () => {

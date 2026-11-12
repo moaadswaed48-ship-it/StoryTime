@@ -1,4 +1,5 @@
 import { forwardRef, useEffect, useImperativeHandle, useLayoutEffect, useRef, useState } from 'react'
+import { pauseQuietly, playQuietly } from '@/lib/quiet'
 import { asset } from '@/lib/asset'
 import { blurPixels } from './blur'
 import type { Frame } from './framing'
@@ -140,8 +141,8 @@ export const Film = forwardRef<FilmHandle, { frame: Frame | null; play: boolean;
   useEffect(() => {
     const v = video.current
     if (!v) return
-    if (play) v.play().catch(() => {})
-    else v.pause()
+    if (play) playQuietly(v)
+    else pauseQuietly(v)
   }, [play, ready])
 
   return (

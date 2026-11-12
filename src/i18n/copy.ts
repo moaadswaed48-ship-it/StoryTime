@@ -378,6 +378,7 @@ const ar = {
   },
   /** Extra words of single screens (labels, confirmations, hints). */
   ui: {
+    retry: { text: "لم تُفتح هذه الصفحة. تحقّق من الاتصال ثم حاول مرة أخرى.", again: "حاول مرة أخرى" },
     auth: { show: "إظهار كلمة المرور", hide: "إخفاء كلمة المرور" },
     film: { fullscreen: "ملء الشاشة", exitFullscreen: "إنهاء ملء الشاشة" },
     game: {
@@ -811,6 +812,7 @@ const en: typeof ar = {
   },
   /** Extra words of single screens (labels, confirmations, hints). */
   ui: {
+    retry: { text: "This page did not open. Check the connection and try again.", again: "Try again" },
     auth: { show: "Show password", hide: "Hide password" },
     film: { fullscreen: "Full screen", exitFullscreen: "Exit full screen" },
     game: {

@@ -40,6 +40,15 @@
     background: var(--color-night);
     overflow-x: clip;
   }
+  /* iPhone: no grey flash on every tap, and no double-tap zoom on quick taps. */
+  html {
+    -webkit-tap-highlight-color: transparent;
+  }
+  button,
+  a,
+  [role='button'] {
+    touch-action: manipulation;
+  }
   /* Arabic letters must stay joined: never track them. */
   html[lang='ar'] * {
     letter-spacing: 0 !important;
@@ -187,7 +196,6 @@ html[lang='en'] .font-story {
 /* Per-word blur-in headline. Rest state is visible; JS adds .is-armed then .is-in. */
 .blur-words .w {
   display: inline-block;
-  will-change: transform, filter, opacity;
 }
 .blur-words.is-armed .w {
   opacity: 0;
@@ -281,3 +289,8 @@ html[dir='rtl'] .flip-rtl {
 @keyframes view-in { from { opacity: 0; transform: translate3d(0, 14px, 0); } }
 @media (prefers-reduced-motion: reduce) { .view-in { animation: none; } }
 html[data-reduce-motion] .view-in { animation: none; }
+
+/* Layers for the word blur-in exist only while the words wait to arrive (Safari keeps a layer per word otherwise). */
+.blur-words.is-armed:not(.is-in) .w {
+  will-change: transform, filter, opacity;
+}

@@ -142,5 +142,10 @@ export function SariModel({ action = 'idle', speed = 1, ...props }: { action?: S
     </group>
   )
 }
-if (B64) void modelBytes().then(() => useGLTF.preload(URL, false, false, imagesAsPictures as never))
-else useGLTF.preload(URL)
+// Warm the model up once the page has loaded and is idle, so it never competes with the hero film on a phone.
+const warm = () => (B64 ? void modelBytes().then(() => useGLTF.preload(URL, false, false, imagesAsPictures as never)) : useGLTF.preload(URL))
+if (typeof window !== 'undefined') {
+  const later = () => window.setTimeout(warm, 2500)
+  if (document.readyState === 'complete') later()
+  else window.addEventListener('load', later, { once: true })
+}

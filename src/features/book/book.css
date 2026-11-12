@@ -1227,6 +1227,7 @@ html[lang='en'] .bk-end-note {
   }
   .bk-cap[data-layout='side'] {
     padding: 8px 4px 8px 0;
+    align-content: center;
     align-content: safe center;
     overflow-y: auto;
     overscroll-behavior: contain;
@@ -1392,6 +1393,7 @@ html[lang='en'] .bk-end-note {
     min-height: 0;
     margin-top: 10px;
     padding: 14px 6px 10px;
+    align-content: center;
     align-content: safe center;
     overflow-y: auto;
     overscroll-behavior: contain;
@@ -1517,6 +1519,7 @@ html[lang='en'] .bk-end-note {
     position: static;
     flex: 1;
     min-height: 0;
+    align-content: center;
     align-content: safe center;
     padding: 12px 0 0;
     overflow-y: auto;

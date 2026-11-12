@@ -50,10 +50,16 @@ export function useRouter() {
       if (v && v !== st.view) {
         st.closeOverlay()
         st.setView(v)
+        window.scrollTo(0, 0) // a different screen starts at its top, also after the iPhone back-swipe
       } else if (!v && st.view !== 'landing' && !Object.values(HASH).includes(location.hash.replace(/^#/, ''))) {
         st.closeOverlay()
         st.setView('landing')
       }
+    }
+    try {
+      history.scrollRestoration = 'manual' // views share one page: the browser's remembered offset belongs to another screen
+    } catch {
+      /* not supported: nothing to do */
     }
     sync()
     window.addEventListener('popstate', sync)
