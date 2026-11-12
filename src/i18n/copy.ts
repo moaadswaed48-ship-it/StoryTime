@@ -182,7 +182,7 @@ const ar = {
     perMonth: "في الشهر",
     perYear: "في السنة",
     sample: "سعر تجريبي",
-    popular: "الأكثر اختيارًا",
+    popular: "اقتراحنا",
     currency: "₪",
     tiers: [
       {
@@ -763,7 +763,7 @@ const en: typeof ar = {
     perMonth: "per month",
     perYear: "per year",
     sample: "Sample price",
-    popular: "Most chosen",
+    popular: "Our pick",
     currency: "₪",
     tiers: [
       {
