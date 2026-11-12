@@ -7,7 +7,8 @@ import { asset } from '@/lib/asset'
 import { rtl } from '@/i18n/locale'
 import { MAPLE } from './art'
 
-const CROWN = ['#f2c14e', '#e2711d', '#f4a72c', '#c8421f', '#f7c24a', '#d9541e', '#eeb23a', '#e4582a', '#f4a72c']
+/** The crown is made of the three leaves the child collected: gold, orange, red. */
+const CROWN = ['#f1b62c', '#e2711d', '#c9401c', '#f1b62c', '#e2711d', '#c9401c', '#f1b62c', '#e2711d', '#c9401c']
 
 /** The maple outline (only M/Q/L commands) as a three.js shape, stem at the origin, tip up, 1 unit tall. */
 function mapleShape(): THREE.Shape {
@@ -31,7 +32,7 @@ function mapleShape(): THREE.Shape {
 function Crown({ root }: { root: React.RefObject<THREE.Group | null> }) {
   const crown = useRef<THREE.Group>(null)
   const geo = useMemo(() => new THREE.ShapeGeometry(mapleShape(), 6), [])
-  const mats = useMemo(() => CROWN.map((c) => new THREE.MeshStandardMaterial({ color: c, emissive: c, emissiveIntensity: 0.38, roughness: 0.78, side: THREE.DoubleSide })), [])
+  const mats = useMemo(() => CROWN.map((c) => new THREE.MeshStandardMaterial({ color: c, emissive: c, emissiveIntensity: 0.16, roughness: 0.85, side: THREE.DoubleSide })), [])
   useEffect(() => () => (geo.dispose(), mats.forEach((m) => m.dispose())), [geo, mats])
   const bone = useRef<THREE.Object3D | null>(null)
   const rest = useRef<THREE.Quaternion | null>(null)
@@ -189,17 +190,23 @@ function Picture({ onShown }: { onShown: () => void }) {
               </div>
             </div>
           </div>
-          <svg viewBox="0 0 100 40" preserveAspectRatio="none" className="absolute inset-x-[-12%] bottom-[-2%] h-[33%] w-[124%]" aria-hidden>
+          {/* the rise is a closed curve that lands on the hill at both ends, in the hill's own colours */}
+          <svg viewBox="0 0 100 40" preserveAspectRatio="none" className="absolute inset-x-[-6%] bottom-[1%] h-[31%] w-[112%]" aria-hidden>
             <defs>
               <linearGradient id="tree-mound" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0" stopColor="#b9651f" />
-                <stop offset="0.55" stopColor="#8a4518" />
-                <stop offset="1" stopColor="#6d3614" stopOpacity="0" />
+                <stop offset="0" stopColor="#b0601e" />
+                <stop offset="0.5" stopColor="#84421a" />
+                <stop offset="1" stopColor="#6a3515" />
               </linearGradient>
             </defs>
-            <path d="M0,22 Q22,2 50,3 T100,22 V40 H0 Z" fill="url(#tree-mound)" />
-            <path d="M6,17 Q24,2 50,3 T94,17" fill="none" stroke="#ffc27a" strokeOpacity="0.7" strokeWidth="1.5" vectorEffect="non-scaling-stroke" />
+            <path d="M0,40 C16,40 26,4 50,4 C74,4 84,40 100,40 Z" fill="url(#tree-mound)" />
+            <path d="M12,32 C24,20 32,4 50,4 C68,4 76,20 88,32" fill="none" stroke="#ffc27a" strokeOpacity="0.6" strokeWidth="1.5" vectorEffect="non-scaling-stroke" />
           </svg>
+          {[[22, 82, 30], [38, 76, 200], [55, 80, 120], [70, 86, 310], [47, 90, 60]].map(([x, y, r], i) => (
+            <svg key={i} viewBox="-56 -56 112 112" className="absolute h-[16px] w-[16px]" style={{ left: `${x}%`, top: `${y}%`, transform: `scaleY(0.5) rotate(${r}deg)` }} aria-hidden>
+              <path d={MAPLE} fill={CROWN[i % 3]} fillOpacity="0.85" />
+            </svg>
+          ))}
         </>
       ) : (
         <div className="relative mb-[9%] aspect-square w-[min(64%,160px)]">

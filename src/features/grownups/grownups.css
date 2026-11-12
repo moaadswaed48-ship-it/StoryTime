@@ -47,10 +47,10 @@ html[dir='rtl'] .gu-tabs { --dir: -1; }
   min-height: 60px;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start; /* icons line up even when one label takes two lines */
   gap: 4px;
   border-radius: 18px;
-  padding: 6px 4px;
+  padding: 11px 4px 6px;
   font-size: 12.5px;
   font-weight: 600;
   line-height: 1.15;
@@ -78,6 +78,7 @@ html[dir='rtl'] .gu-tabs { --dir: -1; }
   .gu-tab {
     min-height: 56px;
     flex-direction: row;
+    align-items: center;
     justify-content: flex-start;
     gap: 12px;
     padding: 0 18px;
@@ -93,7 +94,7 @@ html[dir='rtl'] .gu-tabs { --dir: -1; }
   height: 32px;
   flex: none;
   border-radius: 999px;
-  background: rgba(26, 18, 11, 0.16);
+  background: rgba(26, 18, 11, 0.3);
   transition: background-color 0.25s var(--ease-state);
 }
 .gu-switch::after {
@@ -120,3 +121,7 @@ html[dir='rtl'] .gu-switch[data-on='true']::after { transform: translateX(-24px)
     0 0 0 1px rgba(26, 18, 11, 0.07),
     0 4px 10px rgba(26, 18, 11, 0.06);
 }
+
+/* the accent, a shade deeper where it carries small text or a filled button (contrast) */
+.gu-done { color: #b9450f; }
+.gu-solid { background: #c24a14; }

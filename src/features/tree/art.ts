@@ -73,6 +73,8 @@ export interface Limb {
   leaves: SmallLeaf[]
 }
 export interface TreeArt {
+  /** Leaves lying against the foot of the trunk. */
+  foot: { x: number; y: number; r: number; s: number; c: string }[]
   wood: string[]
   /** Thin strokes on the sunny side of the wood. */
   light: string[]
@@ -152,11 +154,12 @@ export function buildTree(seed = 20241): TreeArt {
   // the trunk and its flare are one outline (no seam where they meet); a shallow curve rounds the foot
   wood.push(taper(base, [308, 530], [290, 460], top, 62, 40, 30, (t) => 40 + 22 * (1 - t) + 84 * Math.pow(1 - t, 7)))
   wood.push('M228,605 Q300,628 372,605 Z')
+  wood.push('M277.5,392 a19.5,19.5 0 1,0 39,0 a19.5,19.5 0 1,0 -39,0 Z') // closes the hairline where trunk and middle limb meet
   // three limbs, physical left → top → right; the reading side is decided by the page direction
   const defs: { p: [P, P, P, P]; side: number; hang: P }[] = [
     { p: [[304, 446], [214, 402], [134, 344], [112, 252]], side: -1, hang: [-4, -30] },
-    // the middle limb starts inside the trunk, so the two outlines overlap and leave no seam
-    { p: [[300, 440], [288, 330], [326, 206], [312, 110]], side: 1, hang: [2, -30] },
+    // the middle limb is the trunk carrying on: same width, same heading, so the outline has no shoulder
+    { p: [[297, 392], [305, 314], [326, 206], [312, 110]], side: 1, hang: [2, -30] },
     { p: [[294, 450], [386, 404], [468, 344], [490, 252]], side: 1, hang: [4, -30] },
   ]
   const limbs: Limb[] = defs.map((d, li) => {
@@ -197,15 +200,20 @@ export function buildTree(seed = 20241): TreeArt {
       .sort((p, q) => Number(q.back) - Number(p.back))
     return { kind: KINDS[li], spot, leaves }
   })
-  return { wood, light, limbs }
+  const tones = ['#c9772a', '#d48a2e', '#b9601f', '#e0992f', '#a8451a']
+  const foot = Array.from({ length: 11 }, (_, i) => {
+    const u = i / 10
+    return { x: 224 + u * 152 + (rnd() - 0.5) * 16, y: 607 + Math.sin(u * Math.PI) * 7 + (rnd() - 0.5) * 5, r: rnd() * 360, s: 0.2 + rnd() * 0.14, c: tones[Math.floor(rnd() * tones.length)] }
+  })
+  return { foot, wood, light, limbs }
 }
 
-/** A flock in the V the teacher points at: lead bird first, then pairs falling back on both sides. */
-export function flock(n = 11): { x: number; y: number; s: number; d: number }[] {
-  const out = [{ x: 0, y: 0, s: 1, d: 0 }]
+/** A flock in the V the teacher points at: lead bird first, then pairs falling back on both sides, the far ones smaller and paler. */
+export function flock(n = 7): { x: number; y: number; s: number; o: number; d: number }[] {
+  const out = [{ x: 0, y: 0, s: 1, o: 0.92, d: 0 }]
   for (let i = 1; out.length < n; i++) {
-    out.push({ x: -i * 40, y: -i * 19, s: 1 - i * 0.03, d: i * 0.13 })
-    if (out.length < n) out.push({ x: -i * 37, y: i * 21, s: 1 - i * 0.035, d: i * 0.13 + 0.07 })
+    out.push({ x: -i * 40, y: -i * 19, s: 1 - i * 0.11, o: 0.9 - i * 0.1, d: i * 0.13 })
+    if (out.length < n) out.push({ x: -i * 37, y: i * 21, s: 1 - i * 0.07, o: 0.92 - i * 0.07, d: i * 0.13 + 0.07 })
   }
   return out
 }
@@ -233,6 +241,6 @@ export function carpet(n = 44, seed = 771): { x: number; y: number; r: number; s
     const x = 2 + rnd() * 96
     const top = (hillTop(x) / 20) * 100
     const depth = Math.pow(rnd(), 1.5) // most leaves lie near the crest, where the light is
-    return { x, y: top + 5 + depth * (88 - top), r: rnd() * 360, s: 0.6 + depth * 0.7 + rnd() * 0.3, c: tones[Math.floor(rnd() * tones.length)] }
+    return { x, y: top + 6 + depth * (86 - top), r: rnd() * 360, s: 0.6 + depth * 0.9 + rnd() * 0.5, c: tones[Math.floor(rnd() * tones.length)] }
   })
 }

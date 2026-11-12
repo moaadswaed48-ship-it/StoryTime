@@ -98,21 +98,20 @@ export function MyTree() {
       const tl = gsap.timeline({ delay: 0.6 })
       fresh.forEach((k, i) => {
         const el = leafEls.current[k]
-        if (!el) return land(k)
+        const fly = el?.querySelector<HTMLElement>('.tree-leaf-fly')
+        if (!el || !fly) return land(k)
         const at = i * 0.85
         const side = i % 2 ? -1 : 1
-        // GSAP folds the leaf's own CSS placement (centred on its spot, tilted) into its transform, so the flight is
-        // written in pixels and ends on the leaf's own tilt: it lands exactly where it hangs.
         const size = el.offsetWidth
-        const tilt = Number(gsap.getProperty(el, 'rotation')) || 0
-        // it falls the way leaves fall in the film: down, swaying, turning
+        // It falls the way leaves fall in the film: down, swaying, turning. Only the inner part moves, from its
+        // own resting place, so the leaf always lands exactly where it hangs.
         tl.call(() => el.classList.add('is-flying'), [], at)
-        tl.fromTo(el, { y: -5.2 * size }, { y: 0, duration: 1.35, ease: 'power1.in' }, at)
-        tl.fromTo(el, { opacity: 0 }, { opacity: 1, duration: 0.25, ease: 'none' }, at)
-        tl.fromTo(el, { x: 0.9 * size * side }, { x: 0, duration: 1.35, ease: 'sine.inOut' }, at)
-        tl.fromTo(el, { rotation: tilt - 150 * side }, { rotation: tilt, duration: 1.35, ease: 'power2.out' }, at)
-        tl.fromTo(el, { scale: 1.25 }, { scale: 1.25, duration: 1.3, ease: 'none' }, at)
-        tl.to(el, { scale: 1, duration: 0.8, ease: 'elastic.out(1, 0.45)' }, at + 1.3)
+        tl.fromTo(fly, { y: -5.2 * size }, { y: 0, duration: 1.35, ease: 'power1.in' }, at)
+        tl.fromTo(fly, { opacity: 0 }, { opacity: 1, duration: 0.25, ease: 'none' }, at)
+        tl.fromTo(fly, { x: 0.9 * size * side }, { x: 0, duration: 1.35, ease: 'sine.inOut' }, at)
+        tl.fromTo(fly, { rotation: -150 * side }, { rotation: 0, duration: 1.35, ease: 'power2.out' }, at)
+        tl.fromTo(fly, { scale: 1.25 }, { scale: 1.25, duration: 1.3, ease: 'none' }, at)
+        tl.to(fly, { scale: 1, duration: 0.8, ease: 'elastic.out(1, 0.45)' }, at + 1.3)
         tl.call(() => (el.classList.remove('is-flying'), land(k), sfx.chime(), burstAt(el, 14)), [], at + 1.33)
       })
       if (freshAll)
@@ -140,11 +139,8 @@ export function MyTree() {
       // an earned leaf is a small toy: it rustles
       sfx.pop()
       burstAt(el, 8)
-      if (el && !reducedNow()) {
-        gsap.killTweensOf(el, 'rotation')
-        const tilt = Number(el.dataset.tilt) || 0
-        gsap.fromTo(el, { rotation: tilt - 22 }, { rotation: tilt, duration: 1.1, ease: 'elastic.out(1, 0.3)' })
-      }
+      const fly = el?.querySelector('.tree-leaf-fly')
+      if (fly && !reducedNow()) gsap.fromTo(fly, { rotation: -22 }, { rotation: 0, duration: 1.1, ease: 'elastic.out(1, 0.3)', overwrite: 'auto' })
     },
     [earned, burstAt],
   )
@@ -180,7 +176,7 @@ export function MyTree() {
           <div className="lg:col-start-2 lg:row-span-2 lg:row-start-1">
             <Scene ref={stage} earned={earned} bloomed={bloomed} still={still} party={party} count={count} leafRef={leafRef} onLeaf={onLeaf} onSari={setSari} leaves={leaves}>
               <div className="absolute inset-x-3 top-3 flex items-start justify-between gap-3 sm:inset-x-4 sm:top-4">
-                <p key={status} className="text-on-film view-in min-w-0 text-balance ps-1 pt-1 text-[16px] font-bold leading-snug text-white sm:text-[20px]" data-tree-status>
+                <p key={status} className="view-in min-w-0 text-balance ps-1 pt-1 text-[16px] font-bold leading-snug text-white [text-shadow:0_1px_12px_rgba(70,25,30,.6)] sm:text-[20px]" data-tree-status>
                   {status}
                 </p>
                 {/* how many leaves, as leaves: the pips fill from the start side as each leaf lands */}
@@ -225,14 +221,14 @@ export function MyTree() {
                       </span>
                       <span className="min-w-0 flex-1">
                         <span className="block text-[16px] font-bold leading-tight sm:text-[17px]">{t.app.tree[k]}</span>
-                        <span className={cn('mt-1 flex items-center gap-1.5 text-[14px]', on ? 'font-semibold text-maple' : 'text-muted')}>
+                        <span className={cn('mt-1 flex items-center gap-1.5 text-[14px]', on ? 'font-semibold text-[#b9450f]' : 'text-ink-2/70')}>
                           {on && <Check className="h-4 w-4" strokeWidth={3} aria-hidden />}
                           {on ? t.app.story.done : t.app.tree.go}
                         </span>
                       </span>
                       {on ? (
-                        <span className="grid h-12 w-12 shrink-0 place-items-center rounded-full border border-ink/15 text-ink-2 transition-colors group-hover:bg-ink group-hover:text-paper" aria-label={verb(k)}>
-                          <Icon className="h-5 w-5" aria-hidden />
+                        <span className="grid h-14 w-14 shrink-0 place-items-center rounded-full border border-ink/15 text-ink-2 transition-colors group-hover:bg-ink group-hover:text-paper" aria-label={verb(k)}>
+                          <Icon className="h-6 w-6" aria-hidden />
                         </span>
                       ) : (
                         <span
@@ -256,7 +252,7 @@ export function MyTree() {
               {letters.length > 0 ? (
                 <div className="mt-4 flex flex-wrap items-center gap-3">
                   {letters.map((l, i) => (
-                    <span key={l} className="tree-tile grid h-16 w-16 place-items-center rounded-[18px] bg-white text-[30px] font-extrabold text-ink" style={{ '--tilt': ((i * 37) % 9) - 4 } as React.CSSProperties} data-letter={l}>
+                    <span key={l} className="tree-tile grid h-16 w-16 place-items-center rounded-[18px] bg-white text-[30px] font-extrabold text-ink" style={{ '--tilt': ((i * 37) % 9) - 4, '--edge': LEAF_TONE[KINDS[i % 3]].a } as React.CSSProperties} data-letter={l}>
                       {l}
                     </span>
                   ))}

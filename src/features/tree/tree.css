@@ -42,7 +42,7 @@
 /* the three big leaves are buttons */
 .tree-leaf {
   position: absolute;
-  width: clamp(72px, 16.5%, 104px);
+  width: clamp(78px, 17%, 108px);
   aspect-ratio: 1;
   translate: -50% -50%;
   border-radius: 999px;
@@ -61,26 +61,27 @@
 .tree-leaf.is-flying { z-index: 3; }
 .tree-leaf.is-flying .tree-leaf-art { filter: drop-shadow(0 0 16px rgba(255, 232, 170, 0.95)) drop-shadow(0 6px 10px rgba(60, 20, 0, 0.3)); }
 /* an empty place breathes once in a while so a child notices it can be touched (three slow beats, then rest) */
-.tree-leaf[data-on='false'] .tree-ghost {
+.tree-leaf[data-next='true'] .tree-ghost {
   transform-box: fill-box;
   transform-origin: center;
-  animation: tree-invite 2.6s var(--ease-state) 1.2s 3;
+  animation: tree-invite 2.4s var(--ease-state) 1.2s 4;
 }
 @keyframes tree-invite {
   0%, 100% { transform: scale(1); }
   50% { transform: scale(1.07); }
 }
 
-/* the flock crosses, rests out of sight, crosses again: slow and sparse */
-.tree-flock {
-  animation: tree-cross 24s linear infinite;
-  animation-delay: var(--flock-delay, 0s);
+/* the flock flies in once, then stays: gliding slowly in the open sky */
+.tree-flock { transform: translate3d(var(--rest), 0, 0); animation: tree-arrive 3.4s var(--ease-out) both; }
+.tree-drift { animation: tree-drift 9s ease-in-out 3.4s infinite alternate; }
+.tree-flock.is-paused, .tree-flock.is-paused .tree-drift, .tree-flock.is-paused .tree-wing { animation-play-state: paused; }
+@keyframes tree-arrive {
+  from { transform: translate3d(calc(var(--from) * 1%), 10%, 0) scale(0.86); }
+  to { transform: translate3d(var(--rest), 0, 0); }
 }
-.tree-flock.is-paused { animation-play-state: paused; }
-@keyframes tree-cross {
-  0% { transform: translate3d(calc(var(--from) * 1%), 14%, 0) scale(0.8); }
-  46% { transform: translate3d(calc(var(--to) * 1%), -6%, 0) scale(1.05); }
-  100% { transform: translate3d(calc(var(--to) * 1%), -6%, 0) scale(1.05); }
+@keyframes tree-drift {
+  from { transform: translate3d(-7px, 3px, 0); }
+  to { transform: translate3d(7px, -4px, 0); }
 }
 .tree-wing {
   transform-box: fill-box;
@@ -88,18 +89,16 @@
   animation: tree-glide 2.8s ease-in-out infinite;
   animation-delay: calc(var(--d) * 1s);
 }
-.tree-flock.is-paused .tree-wing { animation-play-state: paused; }
 @keyframes tree-glide {
   0%, 62%, 100% { transform: scaleY(1); }
   78% { transform: scaleY(0.42); }
 }
 /* rest state: the flock simply hangs in the sky */
 html[data-reduce-motion] .tree-flock,
+html[data-reduce-motion] .tree-drift,
 html[data-reduce-motion] .tree-wing { animation: none; }
-html[data-reduce-motion] .tree-flock { transform: translate3d(var(--rest, 30%), 2%, 0); }
 @media (prefers-reduced-motion: reduce) {
-  .tree-flock, .tree-wing, .tree-leaf .tree-ghost { animation: none !important; }
-  .tree-flock { transform: translate3d(var(--rest, 30%), 2%, 0); }
+  .tree-flock, .tree-drift, .tree-wing, .tree-leaf .tree-ghost { animation: none !important; }
   .tree-limb .tree-small { transition: none !important; }
 }
 
@@ -107,6 +106,7 @@ html[data-reduce-motion] .tree-flock { transform: translate3d(var(--rest, 30%), 
 .tree-tile {
   rotate: calc(var(--tilt) * 1deg);
   box-shadow:
+    inset 0 -4px 0 var(--edge, transparent),
     0 1px 0 rgba(255, 255, 255, 0.9) inset,
     0 1px 2px rgba(26, 18, 11, 0.12),
     0 10px 22px rgba(26, 18, 11, 0.1);
@@ -144,7 +144,6 @@ html[data-reduce-motion] .tree-flock { transform: translate3d(var(--rest, 30%), 
   -webkit-mask-image: linear-gradient(to bottom, transparent 0, transparent 70px, #000 132px);
   mask-image: linear-gradient(to bottom, transparent 0, transparent 70px, #000 132px);
 }
-.tree-flock.is-still { top: 13%; }
 
 /* the story's long English title in the small label: a little tighter on narrow phones so it does not orphan a word */
 @media (max-width: 480px) {

@@ -1,5 +1,5 @@
 import { useState, type ReactNode } from 'react'
-import { ArrowUpRight, Bookmark, Check, ChevronLeft, Languages, PenLine, Presentation, Trash2, Volume2, Wind } from 'lucide-react'
+import { ArrowUpRight, Check, ChevronLeft, Languages, PenLine, Presentation, Trash2, Volume2, Wind } from 'lucide-react'
 import { Pill } from '@/design/ui'
 import { asset } from '@/lib/asset'
 import { cn } from '@/lib/cn'
@@ -28,7 +28,6 @@ function Label({ children, end }: { children: ReactNode; end?: ReactNode }) {
 
 /** What this child has done in the story. Every number is read from the progress kept in this browser. */
 export function ProgressPanel() {
-  const profile = useProfileStore((s) => s.profile)
   const p = useProfileStore((s) => s.progress[story.id])
   const scene = Math.min(SCENES - 1, Math.max(0, p?.scene ?? 0))
   const at = story.scenes[scene]
@@ -39,7 +38,6 @@ export function ProgressPanel() {
         <div className="min-w-0">
           <p className="text-[13.5px] font-semibold text-maple">{story.kicker[locale]}</p>
           <p className="mt-1 text-[19px] font-bold leading-snug sm:text-[22px]">{story.title[locale]}</p>
-          {profile?.name && <p className="mt-2 inline-flex h-8 items-center rounded-full bg-paper-2 px-3 text-[13.5px] font-semibold text-ink-2">{profile.name}</p>}
         </div>
       </div>
 
@@ -63,7 +61,7 @@ export function ProgressPanel() {
                   <span className="min-w-0">
                     <span className={cn('block text-[13.5px] font-semibold leading-tight', !p[k] && 'text-muted')}>{t.app.tree[k]}</span>
                     {p[k] && (
-                      <span className="mt-0.5 inline-flex items-center gap-1 text-[12.5px] font-semibold text-maple">
+                      <span className="gu-done mt-0.5 inline-flex items-center gap-1 text-[13px] font-semibold">
                         <Check className="h-3.5 w-3.5" strokeWidth={3} aria-hidden />
                         {t.app.story.done}
                       </span>
@@ -84,7 +82,7 @@ export function ProgressPanel() {
                   {t.book.page} {num(scene + 1)} {t.book.of} {num(SCENES)}
                 </span>
               </span>
-              <Bookmark className="me-2 h-5 w-5 shrink-0 text-maple" aria-hidden />
+              <ChevronLeft className="me-2 h-5 w-5 shrink-0 text-muted transition-transform duration-200 group-hover:-translate-x-0.5 ltr:rotate-180 ltr:group-hover:translate-x-0.5" aria-hidden />
             </button>
           </div>
 
@@ -112,7 +110,7 @@ export function ProgressPanel() {
 function SwitchRow({ icon, label, on, onChange, name }: { icon: ReactNode; label: string; on: boolean; onChange: (on: boolean) => void; name: string }) {
   return (
     <button type="button" role="switch" aria-checked={on} onClick={() => onChange(!on)} className="gu-row flex w-full items-center gap-4 px-5 text-start sm:px-7" data-gu-switch={name}>
-      <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-paper text-ink-2">{icon}</span>
+      <span className={cn('grid h-10 w-10 shrink-0 place-items-center rounded-full transition-colors duration-200', on ? 'bg-maple/12 text-maple' : 'bg-paper text-ink-2')}>{icon}</span>
       <span className="min-w-0 flex-1 text-[17px] font-semibold leading-snug">{label}</span>
       <span className="gu-switch" data-on={on} aria-hidden />
     </button>
@@ -128,8 +126,7 @@ export function ClassroomPanel() {
         <img src={asset(story.scenes[0].img)} alt="" className="h-full w-full object-cover object-[50%_30%]" draggable={false} />
       </div>
       <div className="p-5 pb-2 sm:p-7 sm:pb-3">
-        <h2 className="t-h3">{t.app.grown.classroomTitle}</h2>
-        <p className="t-lede mt-2 max-w-[38rem] text-ink-2/85">{t.app.grown.classroomText}</p>
+        <p className="t-lede max-w-[38rem] text-ink-2/85">{t.app.grown.classroomText}</p>
       </div>
       <SwitchRow name="classroom" icon={<Presentation className="h-5 w-5" aria-hidden />} label={t.app.grown.classroomOn} on={classroom} onChange={(v) => useProfileStore.getState().setClassroom(v)} />
       <div className="border-t border-ink/8 p-5 sm:p-7">
@@ -193,9 +190,10 @@ export function SettingsPanel() {
             <Trash2 className="h-5 w-5" aria-hidden />
           </span>
           <span className="min-w-0 flex-1 text-[17px] font-semibold leading-snug">{t.app.grown.reset}</span>
+          <ChevronLeft className="h-5 w-5 shrink-0 text-muted ltr:rotate-180" aria-hidden />
         </button>
       ) : (
-        <div className="gu-row flex flex-wrap items-center gap-x-4 gap-y-3 px-5 py-4 sm:px-7" data-gu-reset={reset}>
+        <div className="gu-row flex flex-wrap items-center gap-x-4 gap-y-4 px-5 py-4 sm:px-7" data-gu-reset={reset}>
           <span className={cn('grid h-10 w-10 shrink-0 place-items-center rounded-full', reset === 'done' ? 'bg-maple text-white' : 'bg-paper text-ink-2')}>
             {reset === 'done' ? <Check className="h-5 w-5" strokeWidth={3} aria-hidden /> : <Trash2 className="h-5 w-5" aria-hidden />}
           </span>
@@ -204,7 +202,7 @@ export function SettingsPanel() {
           </span>
           {reset === 'ask' && (
             <span className="flex w-full gap-2 sm:w-auto">
-              <Pill variant="maple" className="flex-1 sm:flex-none" onClick={() => (clearProgress(), setReset('done'))} data-gu-reset-yes>
+              <Pill variant="maple" className="gu-solid flex-1 sm:flex-none" onClick={() => (clearProgress(), setReset('done'))} data-gu-reset-yes>
                 {strings.resetYes}
               </Pill>
               <Pill variant="outline" className="flex-1 sm:flex-none" onClick={() => setReset('idle')} data-gu-reset-no>
@@ -247,13 +245,15 @@ function seePlans() {
 export function PlanPanel() {
   return (
     <div className="grid gap-4" data-gu-plan>
-      <div className="gu-card p-5 sm:p-7">
-        <p className="text-[13.5px] font-semibold text-muted">{t.app.grown.planNow}</p>
-        <p className="mt-2 flex items-center gap-3 text-[26px] font-bold leading-tight sm:text-[32px]">
-          <span className="h-2.5 w-2.5 shrink-0 rounded-full bg-maple" aria-hidden />
-          {t.app.grown.planDemo}
-        </p>
-        <Pill variant="ink" size="lg" className="mt-6 w-full sm:w-auto" onClick={seePlans} data-gu-plans>
+      <div className="gu-card flex flex-wrap items-center justify-between gap-x-6 gap-y-5 p-5 sm:p-7">
+        <div>
+          <p className="text-[13.5px] font-semibold text-muted">{t.app.grown.planNow}</p>
+          <p className="mt-2 flex items-center gap-3 text-[26px] font-bold leading-tight sm:text-[30px]">
+            <span className="h-2.5 w-2.5 shrink-0 rounded-full bg-maple" aria-hidden />
+            {t.app.grown.planDemo}
+          </p>
+        </div>
+        <Pill variant="ink" size="lg" className="w-full sm:w-auto" onClick={seePlans} data-gu-plans>
           {t.app.grown.planSee}
           <ArrowUpRight className="flip-rtl h-[18px] w-[18px]" aria-hidden />
         </Pill>
