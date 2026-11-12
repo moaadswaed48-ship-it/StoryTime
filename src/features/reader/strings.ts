@@ -1,4 +1,4 @@
-import { t } from '@/i18n/copy'
+import { t } from "@/i18n/copy";
 
 /** This feature's extra words; they live in `src/i18n/copy.ts` under `t.ui.reader`. */
-export const s = t.ui.reader
+export const s = t.ui.reader;
