@@ -24,7 +24,6 @@ export function PlanCard({ tier, featured, yearly, order, sweep = 0, onChoose }:
       <span className="pl-card__ring" aria-hidden />
       {featured && (
         <span className="pl-card__clip" aria-hidden>
-          <Leaf className="pl-card__mark" strokeWidth={0.9} />
           {sweep > 0 && <span key={`s${sweep}`} className="pl-card__sheen" data-first={sweep === 1 ? '' : undefined} />}
         </span>
       )}

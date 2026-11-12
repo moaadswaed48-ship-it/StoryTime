@@ -148,6 +148,8 @@ html[lang='ar'] .pl-toggle__save {
 .pl-stage {
   position: relative;
   isolation: isolate;
+  /* keeps the grid's top margin inside, so the word can sit in that gap */
+  display: flow-root;
 }
 .pl-ghost {
   position: absolute;
@@ -167,7 +169,7 @@ html[lang='ar'] .pl-toggle__save {
   letter-spacing: -0.045em;
   white-space: nowrap;
   color: transparent;
-  background: linear-gradient(180deg, rgb(244 163 94 / 0.3) 0%, rgb(246 240 228 / 0.1) 46%, rgb(246 240 228 / 0.02) 80%);
+  background: linear-gradient(180deg, rgb(244 163 94 / 0.27) 0%, rgb(246 240 228 / 0.09) 46%, rgb(246 240 228 / 0.02) 80%);
   -webkit-background-clip: text;
   background-clip: text;
 }
@@ -183,7 +185,8 @@ html[lang='ar'] .pl-ghost > span {
   display: grid;
   gap: 16px;
   max-width: 480px;
-  margin: clamp(52px, 5.4vw, 76px) auto 0;
+  /* room for the giant word to show above the first card */
+  margin: clamp(92px, 24vw, 128px) auto 0;
 }
 /* Desktop: the highlighted card spans three rows (1fr · auto · 1fr), the quiet ones share the middle row —
    so they are equal to each other, centred, and visibly shorter than the lifted card. */
@@ -284,7 +287,7 @@ html[lang='ar'] .pl-ghost > span {
   background: radial-gradient(520px circle at var(--mx, 50%) var(--my, 0%), rgb(217 84 30 / 0.16), rgb(217 84 30 / 0) 62%);
 }
 
-/* The highlighted card: a faint maple leaf pressed into the paper, and a light that travels it once when the
+/* The highlighted card: a light that travels it once when the
    cards land and again on every switch (a band across the surface and a bright run along the border). */
 .pl-card__clip {
   position: absolute;
@@ -294,18 +297,6 @@ html[lang='ar'] .pl-ghost > span {
   border-radius: inherit;
   pointer-events: none;
 }
-.pl-card__mark {
-  position: absolute;
-  inset-inline-end: -54px;
-  bottom: -64px;
-  width: 280px;
-  height: 280px;
-  color: rgb(217 84 30 / 0.085);
-  transform: rotate(-16deg);
-}
-[dir='rtl'] .pl-card__mark {
-  transform: scaleX(-1) rotate(-16deg);
-}
 .pl-card__sheen {
   position: absolute;
   top: -10%;
@@ -314,7 +305,7 @@ html[lang='ar'] .pl-ghost > span {
   width: 42%;
   background: linear-gradient(100deg, rgb(255 214 170 / 0) 0%, rgb(255 196 140 / 0.34) 50%, rgb(255 214 170 / 0) 100%);
   transform: translateX(-130%) skewX(-14deg);
-  animation: pl-sheen 1.4s var(--pl-ease) 0.12s both;
+  animation: pl-sheen 1.5s cubic-bezier(0.65, 0, 0.35, 1) 0.12s both;
 }
 [dir='rtl'] .pl-card__sheen {
   animation-name: pl-sheen-rtl;
@@ -344,7 +335,7 @@ html[lang='ar'] .pl-ghost > span {
   height: 180%;
   background: linear-gradient(90deg, rgb(217 84 30 / 0) 0%, rgb(217 84 30 / 0.9) 36%, rgb(255 214 170 / 1) 50%, rgb(217 84 30 / 0.9) 64%, rgb(217 84 30 / 0) 100%);
   transform: translateX(-140%) rotate(16deg);
-  animation: pl-sweep 1.4s var(--pl-ease) 0.12s both;
+  animation: pl-sweep 1.5s cubic-bezier(0.65, 0, 0.35, 1) 0.12s both;
 }
 [dir='rtl'] .pl-card__sweep > i {
   animation-name: pl-sweep-rtl;
