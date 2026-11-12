@@ -1,41 +1,41 @@
 {
-  "duration": 34.25,
-  "fps": 24,
+  "duration": 34.368,
+  "fps": 20.571,
   "width": 1280,
   "height": 720,
-  "opening": 2,
-  "xfade": 0.5,
-  "fadeOut": 2.5,
+  "opening": 1.993,
+  "xfade": 0.486,
+  "fadeOut": 2.479,
   "scenes": [
     {
       "scene": 0,
       "start": 1.75,
-      "end": 7.125
+      "end": 7.146
     },
     {
       "scene": 3,
-      "start": 7.125,
-      "end": 12.5
+      "start": 7.146,
+      "end": 12.542
     },
     {
       "scene": 5,
-      "start": 12.5,
-      "end": 17.875
+      "start": 12.542,
+      "end": 17.938
     },
     {
       "scene": 7,
-      "start": 17.875,
-      "end": 23.25
+      "start": 17.938,
+      "end": 23.333
     },
     {
       "scene": 10,
-      "start": 23.25,
-      "end": 28.625
+      "start": 23.333,
+      "end": 28.729
     },
     {
       "scene": 11,
-      "start": 28.625,
-      "end": 34.25
+      "start": 28.729,
+      "end": 34.368
     }
   ]
 }
