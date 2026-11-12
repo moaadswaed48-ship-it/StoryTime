@@ -65,13 +65,14 @@ export const QuietFilm = forwardRef<QuietFilmHandle, Props>(function QuietFilm({
   const want = armed && on && !covered && !reduced
 
   useEffect(() => {
+    window.clearTimeout(timer.current)
+    // with reduced motion the clip is not even in the page: the still must be what shows
+    if (reduced) show(false)
     const v = video.current
     if (!v) return
     v.muted = true
-    window.clearTimeout(timer.current)
     if (!want) {
       v.pause()
-      if (reduced) show(false)
       return
     }
     // Coming back to a clip that had finished: start it again from the still.
@@ -83,9 +84,10 @@ export const QuietFilm = forwardRef<QuietFilmHandle, Props>(function QuietFilm({
     return () => window.clearTimeout(timer.current)
   }, [want, reduced])
 
+  // (the element is new each time motion is allowed again, so this follows `reduced` too)
   useEffect(() => {
     const v = video.current
-    if (!v || !armed) return
+    if (!v || !armed || reduced) return
     const onPlaying = () => {
       // one beat later, so the first decoded frame is on the glass before the still leaves
       window.clearTimeout(timer.current)
@@ -122,7 +124,7 @@ export const QuietFilm = forwardRef<QuietFilmHandle, Props>(function QuietFilm({
       v.removeEventListener('ended', onEnded)
       window.clearTimeout(timer.current)
     }
-  }, [armed, hold])
+  }, [armed, hold, reduced])
 
   useEffect(() => {
     onLive?.(live)

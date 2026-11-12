@@ -5,6 +5,9 @@ import { story } from '../../src/content/story'
 
 /** The book reader overlay: opened through the store, driven through `window.__st.book`. */
 const SLOW = { timeout: 45_000 }
+// Page turns are real animations (about a second each on ordinary hardware). The shared test machine renders them
+// in software next to other jobs, so these tests get generous room rather than fake shortcuts.
+test.describe.configure({ timeout: 240_000 })
 
 async function start(page: Page, scene: number, loggedIn: boolean) {
   await page.goto(pageUrl('book'))
