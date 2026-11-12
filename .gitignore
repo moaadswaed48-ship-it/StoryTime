@@ -18,3 +18,4 @@ assets-src/story/*.png
 assets-src/film/*
 !assets-src/film/master/
 qa/out/
+.claude/worktrees/
