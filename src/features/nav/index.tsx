@@ -216,9 +216,9 @@ export function Nav() {
         <div className="st-nav__side st-nav__side--end">
           <div className="st-pill st-actions">
             <Skin />
-            <button type="button" className="st-ghost" onClick={switchLocale}>
+            <button type="button" className="st-ghost" onClick={switchLocale} aria-label={t.nav.lang} lang={otherLang}>
               <Globe size={16} strokeWidth={1.9} aria-hidden />
-              <span lang={otherLang}>{t.nav.lang}</span>
+              <span>{t.nav.lang}</span>
             </button>
             <button type="button" className="st-ghost st-only-wide" onClick={account} aria-label={accountLabel}>
               <AccountIcon size={16} strokeWidth={1.9} className="flip-rtl" aria-hidden />

@@ -499,7 +499,8 @@ html[lang='ar'] .hero-strip__label {
 .hero-card:active {
   transform: scale(0.97);
 }
-.hero-card[data-clash] {
+.hero-card[data-clash],
+.hero-strip__all[data-clash] {
   visibility: hidden;
   pointer-events: none;
 }
@@ -623,15 +624,15 @@ html[dir='rtl'] .hero[data-layout='wide'] .hero-cue__in {
   width: 1.5px;
   height: 40px;
 }
-/* Short laptop screens: the wordmark in the bar already names the brand, so the chip gives its 40px to the film. */
-@media (max-height: 780px) {
-  .hero[data-layout='wide'] .hero-chip {
+/* Short laptop and landscape-tablet screens: the wordmark in the bar already names the brand, so the chip gives its 40px to the film. */
+@media (min-width: 900px) and (max-height: 780px) {
+  .hero .hero-chip {
     display: none;
   }
-  .hero[data-layout='wide'] .hero-stack {
+  .hero .hero-stack {
     padding-top: 84px;
   }
-  .hero[data-layout='wide'] .hero-title {
+  .hero .hero-title {
     margin-top: 0;
   }
 }

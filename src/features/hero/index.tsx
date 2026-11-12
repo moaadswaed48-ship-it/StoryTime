@@ -65,6 +65,7 @@ export function Hero() {
   const forcedTall = useRef('')
   const [frame, setFrame] = useState<Frame | null>(null)
   const [clash, setClash] = useState<number[]>([])
+  const [hideAll, setHideAll] = useState(false)
   const [phase, setPhase] = useState<'pre' | 'in' | undefined>(undefined)
   const [filmState, setFilmState] = useState({ ready: false, settled: false })
 
@@ -109,21 +110,21 @@ export function Hero() {
     const onFace = (b: Box) => f.heads.some((h) => overlaps(b, h, 10))
     const cards = Array.from(el.querySelectorAll<HTMLElement>('.hero-card')).map(boxOf)
     const hit = cards.map((c, i) => (onFace(c) ? i : -1)).filter((i) => i >= 0)
-    if (want === 'wide') {
-      // One card touching a face is hidden. If the strip's own label would, or no card could stay, the screen is too
-      // small for this layout: use the tall one, where the strip sits under the boys.
-      const head = el.querySelector<HTMLElement>('.hero-strip__head')
-      if ((head && onFace(boxOf(head))) || hit.length === cards.length) {
-        forcedTall.current = size
-        layoutRef.current = 'tall'
-        setLayout('tall')
-        return
-      }
+    const label = el.querySelector<HTMLElement>('.hero-strip__label')
+    const all = el.querySelector<HTMLElement>('.hero-strip__all')
+    if (want === 'wide' && ((label && onFace(boxOf(label))) || hit.length === cards.length)) {
+      // A card or the "all scenes" link that would touch a face is simply left out. If the strip's own label would,
+      // or no card could stay, the screen is too small for this layout: use the tall one, where the strip sits under the boys.
+      forcedTall.current = size
+      layoutRef.current = 'tall'
+      setLayout('tall')
+      return
     }
     frameRef.current = f
     solvedFor.current = { w: W, h: H }
     setFrame((prev) => (sameFrame(prev, f) ? prev : f))
     setClash((prev) => (prev.join() === hit.join() ? prev : hit))
+    setHideAll(!!all && onFace(boxOf(all)))
   }, [boxOf, uiBoxes])
 
   useLayoutEffect(() => {
@@ -298,7 +299,7 @@ export function Hero() {
         </div>
       </div>
 
-      <SceneStrip ref={strip} reduced={reduced} clash={clash} />
+      <SceneStrip ref={strip} reduced={reduced} clash={clash} hideAll={hideAll} />
 
       <div ref={cue} className="hero-cue" data-hero-ui="cue">
         <div className="hero-cue__in hero-rise" style={d(700, 0)}>

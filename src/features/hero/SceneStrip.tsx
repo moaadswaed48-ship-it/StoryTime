@@ -123,7 +123,7 @@ function SceneCard({ index, order, live, warm, clash, reduced, register }: { ind
 }
 
 /** "Scenes from the story": three living scene cards. Wide screens: a row, bottom-left. Phones and tablets: a snap row of posters. */
-export const SceneStrip = forwardRef<StripHandle, { reduced: boolean; clash: number[] }>(function SceneStrip({ reduced, clash }, ref) {
+export const SceneStrip = forwardRef<StripHandle, { reduced: boolean; clash: number[]; hideAll: boolean }>(function SceneStrip({ reduced, clash, hideAll }, ref) {
   const el = useRef<HTMLDivElement>(null)
   const openBook = useSiteStore((s) => s.openBook)
   const cards = useRef<Array<CardApi | null>>([])
@@ -146,9 +146,11 @@ export const SceneStrip = forwardRef<StripHandle, { reduced: boolean; clash: num
   return (
     <div ref={el} className="hero-strip" onPointerEnter={(e) => e.pointerType === 'mouse' && live && setWarm(true)}>
       <div className="hero-strip__in">
-        <div className="hero-strip__head hero-rise" style={{ '--d': '600ms' } as CSSProperties} data-hero-ui="strip">
-          <p className="hero-strip__label">{t.hero.scenes}</p>
-          <button type="button" className="hero-strip__all" onClick={() => openBook(0)}>
+        <div className="hero-strip__head hero-rise" style={{ '--d': '600ms' } as CSSProperties}>
+          <p className="hero-strip__label" data-hero-ui="strip">
+            {t.hero.scenes}
+          </p>
+          <button type="button" className="hero-strip__all" data-hero-ui="strip" data-clash={hideAll ? '' : undefined} tabIndex={hideAll ? -1 : undefined} aria-hidden={hideAll || undefined} onClick={() => openBook(0)}>
             {t.hero.all}
             <span className="hero-strip__arrow">
               <ChevronRight size={16} strokeWidth={2.2} className="flip-rtl" aria-hidden />

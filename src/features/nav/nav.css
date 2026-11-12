@@ -483,6 +483,17 @@ html[lang='ar'] .st-sheet__link {
   }
 }
 
+/* 320px screens: wordmark, a globe and the menu button — the language's name would push the pills into each other. */
+@media (max-width: 359.98px) {
+  .st-actions .st-ghost {
+    width: 48px;
+    padding-inline: 0;
+  }
+  .st-actions .st-ghost > span {
+    display: none;
+  }
+}
+
 /* ── From 1024px: the full bar ──────────────────────────────────────────────── */
 @media (min-width: 1024px) {
   .st-nav__bar {
