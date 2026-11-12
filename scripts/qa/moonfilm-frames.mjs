@@ -40,7 +40,7 @@ if (opt.still) {
   const ctx = await browser.newContext(mobile ? { viewport: { width: 390, height: 844 }, deviceScaleFactor: 2, isMobile: true, hasTouch: true } : { viewport: { width: 1920, height: 1080 }, deviceScaleFactor: 1 })
   const page = await ctx.newPage()
   watch(page)
-  await page.goto(`${base}/demo.html?f=moonfilm&t=0${mobile ? '' : '&bare=1'}&qa=1`, { waitUntil: 'load' })
+  await page.goto(`${base}/demo.html?f=moonfilm&t=0${mobile ? '' : '&bare=1'}&qa=1${opt.scene ? '&scene=' + opt.scene : ''}`, { waitUntil: 'load' })
   await page.waitForFunction(() => window.__st?.moonfilm)
   await page.evaluate(() => document.fonts.ready)
   const tile = Number(opt.tile ?? 480)

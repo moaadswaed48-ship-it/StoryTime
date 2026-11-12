@@ -15,9 +15,11 @@ export function drawSky(P: Painter) {
 const LANDS = seededList(77, 60)
 /**
  * The Earth: a turning sea-and-cloud disc under a fixed half-shadow (lit half on the right, toward the Sun).
- * Drawn in whatever transform is active. `lights` adds the gold towns on the night half.
+ * Drawn in whatever transform is active. `lights` adds the gold towns on the night half (a number 0…1 lights only
+ * that share of them, so they can come on one by one).
  */
-export function drawEarth(P: Painter, x: number, y: number, r: number, time: number, lights = false) {
+export function drawEarth(P: Painter, x: number, y: number, r: number, time: number, lights: boolean | number = false) {
+  const lit = typeof lights === 'number' ? lights : lights ? 1 : 0
   const c = P.ctx
   const disc = circle(x, y, r)
   c.save()
@@ -39,7 +41,7 @@ export function drawEarth(P: Painter, x: number, y: number, r: number, time: num
     const h = size * r * (0.7 + LANDS[i * 5 + 3] * 0.6)
     c.fillStyle = C.land
     c.fill(blob([px - w, py - h * 0.2, px - w * 0.2, py - h, px + w, py - h * 0.5, px + w * 0.7, py + h * 0.6, px - w * 0.3, py + h, px - w * 0.9, py + h * 0.4]))
-    if (lights && cz > 0.1) {
+    if (lit > 0 && cz > 0.1) {
       towns.push([px - w * 0.3, py - h * 0.3], [px + w * 0.35, py + h * 0.2])
       if (LANDS[i * 5 + 4] > 0.4) towns.push([px, py + h * 0.55])
     }
@@ -67,12 +69,11 @@ export function drawEarth(P: Painter, x: number, y: number, r: number, time: num
   c.fillRect(-r * 1.2, -r * 1.2, r * 1.2, r * 2.4)
   c.rotate(0.1)
   c.translate(-x, -y)
-  if (lights) {
+  if (lit > 0) {
     c.fillStyle = C.gold
-    for (const [tx, ty] of towns) {
-      const lx = (tx - x) * Math.cos(0.1) - (ty - y) * Math.sin(0.1)
-      if (lx < -r * 0.06) c.fill(circle(tx, ty, Math.max(1.6, r * 0.014)))
-    }
+    const dark = towns.filter(([tx, ty]) => (tx - x) * Math.cos(0.1) - (ty - y) * Math.sin(0.1) < -r * 0.06)
+    const n = Math.ceil(dark.length * Math.min(1, lit))
+    for (let i = 0; i < n; i++) c.fill(circle(dark[i][0], dark[i][1], Math.max(1.6, r * 0.014)))
   }
   c.restore()
   // a thin bright limb on the sunward side
@@ -237,9 +238,9 @@ export function drawPrints(P: Painter, prints: Print[], t: number) {
  * The class's rocket, standing on (x, y): cardboard tube with tape strips, paper cone, three stubby fins, one round
  * porthole, an arched hatch with a short paper ladder; painted in stripes, dots and handprints (never writing).
  * `scale` 1 = about three children tall. `inside` draws whoever stands in the open hatch (rocket-local units, the
- * hatch sill at y = −120), clipped to the doorway.
+ * hatch sill at y = −120), clipped to the doorway. `open` 0…1 swings the door from shut to open.
  */
-export function drawRocket(P: Painter, x: number, y: number, scale = 1, inside?: () => void) {
+export function drawRocket(P: Painter, x: number, y: number, scale = 1, inside?: () => void, open = 1) {
   const c = P.ctx
   c.save()
   c.translate(x, y)
@@ -290,13 +291,19 @@ export function drawRocket(P: Painter, x: number, y: number, scale = 1, inside?:
     inside()
     c.restore()
   }
-  const leaf = blob([92, -430, 168, -452, 178, -128, 92, -118])
+  // the door: a paper panel that covers the doorway when shut and swings out to the sunward side
+  const xl = -90 + 182 * open
+  const xr = 90 + 84 * open
+  const leaf = open < 0.04 ? door : blob([xl, -432, xr, -432 - 20 * open, xr + 6 * open, -128, xl, -120 + 2 * open])
   P.fill(leaf, '#dcd2be', 4)
   if (!sil) {
     // two little handprints on the door
-    for (const [hx, hy, a, col] of [[132, -330, 0.25, C.skirt], [136, -230, -0.3, C.jeans]] as const) {
+    const mid = (xl + xr) / 2
+    const wide = Math.min(1.25, (xr - xl) / 84)
+    for (const [hx, hy, a, col] of [[-3, -330, 0.25, C.skirt], [1, -230, -0.3, C.jeans]] as const) {
       c.save()
-      c.translate(hx, hy)
+      c.translate(mid + hx * wide, hy)
+      c.scale(wide, 1)
       c.rotate(a)
       P.flat(ellipse(0, 0, 13, 15), col)
       for (let f = -2; f <= 2; f++) P.flat(rrect(f * 6.4 - 2.6, -32 + Math.abs(f) * 4, 5.2, 21, 2.6), col)
@@ -316,12 +323,110 @@ export function drawRocket(P: Painter, x: number, y: number, scale = 1, inside?:
   c.restore()
 }
 
-/** Two thin parallel wheel tracks round an ellipse on the ground (Wameed's happy circle). */
-export function drawTracks(P: Painter, x: number, y: number, rx: number, ry: number) {
-  if (P.light !== 'day') return
+/**
+ * Two thin parallel wheel tracks round an ellipse on the ground (Wameed's happy circle), from angle `a0` to `a1`
+ * (the whole circle when they are left out).
+ */
+export function drawTracks(P: Painter, x: number, y: number, rx: number, ry: number, a0 = 0, a1 = TAU) {
+  if (P.light !== 'day' || a1 <= a0) return
   const c = P.ctx
   c.lineWidth = 5
+  c.lineCap = 'round'
   c.strokeStyle = '#aaa59a'
-  c.stroke(ellipse(x, y, rx, ry))
-  c.stroke(ellipse(x, y, rx - 34, ry - 9))
+  for (const d of [0, 1]) {
+    c.beginPath()
+    c.ellipse(x, y, rx - 34 * d, ry - 9 * d, 0, a0, Math.min(a1, a0 + TAU))
+    c.stroke()
+  }
+}
+
+// ── the picnic ────────────────────────────────────────────────────────────────
+/**
+ * The picnic blanket, lying flat on the dust round (x, y): cream with terracotta checks, corners sharp. `unroll`
+ * 0…1 lays it out from its right edge to its left in one go; after that nothing moves it (there is no wind).
+ */
+export function drawBlanket(P: Painter, x: number, y: number, w: number, d: number, unroll = 1) {
+  if (unroll <= 0) return
+  const c = P.ctx
+  const skew = d * 0.32
+  const right = x + w
+  const left = right - 2 * w * Math.min(1, unroll)
+  const cloth = poly([left - skew, y + d, right - skew, y + d, right + skew, y - d, left + skew, y - d])
+  P.fill(cloth, C.cream, 0)
+  c.save()
+  c.clip(cloth)
+  c.globalAlpha = P.light === 'night' ? 0.4 : 0.6
+  c.fillStyle = P.col(C.cardigan)
+  // checks: bands across and bands along, darker where they cross
+  for (let i = -8; i <= 8; i++) {
+    const bx = x + i * 74
+    c.fill(poly([bx - skew - 16, y + d, bx - skew + 16, y + d, bx + skew + 16, y - d, bx + skew - 16, y - d]))
+  }
+  for (let j = -1; j <= 1; j++) c.fillRect(x - w - d, y + j * d * 0.62 - d * 0.14, 2 * w + 2 * d, d * 0.28)
+  c.restore()
+  if (unroll < 1) {
+    // the roll still to come
+    const r = 10 + 22 * (1 - unroll)
+    P.fill(poly([left - skew - r, y + d + 3, left - skew + r, y + d + 3, left + skew + r, y - d - 3, left + skew - r, y - d - 3]), C.dustNear, 2)
+    P.flat(ellipse(left - skew, y + d + 2, r, r * 0.5), C.cardigan)
+  }
+}
+
+/** An orange (turning slowly: the little leaf goes round). */
+export function drawOrange(P: Painter, x: number, y: number, r: number, spin = 0) {
+  P.fill(circle(x, y, r), C.orange, 2.5)
+  if (P.light === 'sil') return
+  P.flat(circle(x + r * 0.3, y - r * 0.32, r * 0.3), '#f6a54a')
+  const a = spin - 1.2
+  P.flat(ellipse(x + Math.cos(a) * r * 0.62, y + Math.sin(a) * r * 0.62, r * 0.26, r * 0.14, a), C.land)
+}
+
+/** Half a sandwich, held at (x, y). `flat` 0…1 squashes it against something (a helmet). */
+export function drawSandwich(P: Painter, x: number, y: number, rot = 0, flat = 0) {
+  const c = P.ctx
+  c.save()
+  c.translate(x, y)
+  c.rotate(rot)
+  c.scale(1 + 0.3 * flat, 1 - 0.45 * flat)
+  P.fill(poly([-26, 12, 26, 12, 22, -14, -22, -14]), C.cream, 2)
+  P.flat(rrect(-27, -3, 54, 6, 3), C.land)
+  P.flat(rrect(-25, 1, 50, 4, 2), C.sneaker)
+  P.flat(poly([-24, -14, 24, -14, 22, -19, -22, -19]), '#e3c99a')
+  c.restore()
+}
+
+const STARS = seededList(4242, 240)
+/** Stars: only ever seen from inside the night, and perfectly steady (no air to make them twinkle). */
+export function drawStars(P: Painter, drift = 0, maxX = Infinity, bottom = 620) {
+  P.screen()
+  const c = P.ctx
+  for (let i = 0; i < 80; i++) {
+    const x = (((STARS[i * 3] * 2100 - drift) % 2100) + 2100) % 2100 - 90
+    if (x > maxX) continue // never over sunlit ground
+    const y = STARS[i * 3 + 1] * bottom
+    const big = STARS[i * 3 + 2] > 0.86
+    c.fillStyle = big ? 'rgba(243,236,223,0.9)' : 'rgba(243,236,223,0.5)'
+    c.fill(circle(x, y, big ? 2.6 : 1.5))
+  }
+}
+
+/**
+ * The rocket's flame: layered paper triangles in gold, orange and cream under its base at (x, y) — never real fire.
+ * `power` 0…1 is how long it is; `time` makes the paper flutter.
+ */
+export function drawFlame(P: Painter, x: number, y: number, scale: number, power: number, time: number) {
+  if (power <= 0.01 || P.light === 'sil') return
+  const c = P.ctx
+  c.save()
+  c.translate(x, y)
+  c.scale(scale, scale)
+  const f = (k: number) => 1 + 0.14 * Math.sin(time * 31 + k) + 0.08 * Math.sin(time * 53 + k * 2)
+  const tri = (w: number, len: number, color: string) => {
+    c.fillStyle = color
+    c.fill(poly([-w, -6, w, -6, w * 0.3, len * 0.5, 0, len, -w * 0.3, len * 0.5]))
+  }
+  tri(84, 300 * power * f(0), C.gold)
+  tri(58, 220 * power * f(1.7), C.orange)
+  tri(32, 130 * power * f(3.1), C.cream)
+  c.restore()
 }

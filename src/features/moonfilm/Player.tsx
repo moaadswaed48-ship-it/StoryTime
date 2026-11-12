@@ -5,7 +5,7 @@ import { dirSign, rtl } from '@/i18n/locale'
 import { clamp } from '@/lib/clamp'
 import { exposeQA } from '@/lib/qa'
 import { Painter } from './kit/core'
-import { DURATION, SHOTS, auditMotion, captionAt, renderScene8 } from './scene8'
+import type { Film } from './film'
 import { Sound } from './sound'
 
 const clock = (s: number) => `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, '0')}`
@@ -16,11 +16,12 @@ const clock = (s: number) => `${Math.floor(s / 60)}:${String(Math.floor(s % 60))
 const SCALE = [1, 0.8, 0.62]
 
 /**
- * Plays scene 8 of «نزهة على القمر», drawn live on a canvas. The picture is a pure function of the time, so it can
+ * Plays the scenes of «نزهة على القمر» it is given, drawn live on a canvas. The picture is a pure function of the time, so it can
  * be scrubbed, restarted, or stepped frame by frame for capture (`window.__st.moonfilm.seek(t)`, or `&t=12.5` in the
  * address to open paused on a frame; `&bare=1` hides the controls so the stage fills the window).
  */
-export function Player({ startAt, bare, lockQuality, note, autoPlay }: { startAt: number | null; bare: boolean; lockQuality: boolean; note?: string; autoPlay?: boolean }) {
+export function Player({ film, startAt, bare, lockQuality, note, autoPlay }: { film: Film; startAt: number | null; bare: boolean; lockQuality: boolean; note?: string; autoPlay?: boolean }) {
+  const DURATION = film.duration
   const canvas = useRef<HTMLCanvasElement>(null)
   const stage = useRef<HTMLDivElement>(null)
   const scrub = useRef<HTMLDivElement>(null)
@@ -41,14 +42,14 @@ export function Player({ startAt, bare, lockQuality, note, autoPlay }: { startAt
     const ctx = cv?.getContext('2d')
     if (!cv || !ctx) return
     const T = time.current
-    renderScene8(new Painter(ctx, cv.width), T)
+    film.render(new Painter(ctx, cv.width), T)
     scrub.current?.style.setProperty('--p', String(T / DURATION))
     scrub.current?.setAttribute('aria-valuenow', String(Math.round(T)))
     if (clockEl.current) clockEl.current.textContent = `${clock(T)} / ${clock(DURATION)}`
     // the words: real right-to-left text in the page, their visibility set from the time in the same instant
     const el = capEl.current
     if (el) {
-      const cap = captionAt(T)
+      const cap = film.caption(T)
       const id = cap?.id ?? ''
       if (el.dataset.cap !== id) {
         el.dataset.cap = id
@@ -63,7 +64,7 @@ export function Player({ startAt, bare, lockQuality, note, autoPlay }: { startAt
       el.style.opacity = String(cap?.alpha ?? 0)
       cap?.alphas.forEach((a, i) => ((el.children[i] as HTMLElement).style.opacity = String(a)))
     }
-  }, [])
+  }, [film, DURATION])
 
   // the canvas keeps the stage's size (sharp up to 1920 wide, at most 2× the CSS pixels: phones stay smooth)
   const fit = useCallback(() => {
@@ -87,14 +88,14 @@ export function Player({ startAt, bare, lockQuality, note, autoPlay }: { startAt
       if (on) {
         setStarted(true)
         if (!sound.current) {
-          sound.current = new Sound()
+          sound.current = new Sound(film.score)
           sound.current.muted = true
         }
         sound.current.play(time.current)
       } else sound.current?.silence()
       fit()
     },
-    [fit],
+    [fit, film, DURATION],
   )
 
   const seek = useCallback(
@@ -103,7 +104,7 @@ export function Player({ startAt, bare, lockQuality, note, autoPlay }: { startAt
       if (playing.current && !drag.current) sound.current?.play(time.current)
       draw()
     },
-    [draw],
+    [draw, DURATION],
   )
 
   useEffect(() => {
@@ -151,7 +152,7 @@ export function Player({ startAt, bare, lockQuality, note, autoPlay }: { startAt
       sound.current?.dispose()
       sound.current = null
     }
-  }, [draw, fit, setPlay, lockQuality])
+  }, [draw, fit, setPlay, lockQuality, DURATION])
 
   // opened by someone who asked to watch: it starts by itself (the score stays off until asked for)
   useEffect(() => {
@@ -162,7 +163,8 @@ export function Player({ startAt, bare, lockQuality, note, autoPlay }: { startAt
     exposeQA({
       moonfilm: {
         duration: DURATION,
-        shots: SHOTS,
+        shots: film.shots,
+        scenes: film.scenes,
         seek: (T: number) => {
           setPlay(false)
           setStarted(true)
@@ -172,10 +174,10 @@ export function Player({ startAt, bare, lockQuality, note, autoPlay }: { startAt
         pause: () => setPlay(false),
         time: () => time.current,
         quality: () => quality.current,
-        audit: auditMotion,
+        audit: film.audit,
       },
     })
-  }, [seek, setPlay])
+  }, [seek, setPlay, film, DURATION])
 
   const timeAt = (clientX: number) => {
     const r = scrub.current!.getBoundingClientRect()
@@ -209,11 +211,10 @@ export function Player({ startAt, bare, lockQuality, note, autoPlay }: { startAt
   const toggleMute = () => {
     const m = !muted
     setMuted(m)
-    if (!sound.current) {
-      sound.current = new Sound()
-      if (playing.current) sound.current.play(time.current)
-    }
+    if (!sound.current) sound.current = new Sound(film.score)
     sound.current.setMuted(m)
+    // this tap is what lets the browser start the audio: (re)start the score from here if the film is running
+    if (!m && playing.current) sound.current.play(time.current)
   }
 
   return (
@@ -261,7 +262,7 @@ export function Player({ startAt, bare, lockQuality, note, autoPlay }: { startAt
             onPointerCancel={up}
             onKeyDown={key}
           >
-            {SHOTS.slice(1).map((s) => (
+            {(film.scenes.length > 1 ? film.scenes.map((s) => s.start) : film.shots).slice(1).map((s) => (
               <i key={s} style={{ insetInlineStart: `${(s / DURATION) * 100}%` }} />
             ))}
             <b />

@@ -204,6 +204,8 @@ export function blob(pts: number[]): Path2D {
 export type Light = 'day' | 'night' | 'lamp' | 'glow' | 'sil'
 export type Cam = { x: number; y: number; zoom: number }
 
+const LIT = new Map<string, string>()
+
 export class Painter {
   ctx: CanvasRenderingContext2D
   /** Canvas pixels per stage unit (before camera zoom). */
@@ -213,7 +215,8 @@ export class Painter {
   silColor: string = C.navy
   /** Rim-light thickness on the sunward (screen-right) edge, in stage units. 0 switches it off. */
   rim = 3
-  private cache = new Map<string, string>()
+  /** Colours under each light, worked out once and kept for every frame after. */
+  private cache = LIT
 
   constructor(ctx: CanvasRenderingContext2D, pxWidth: number) {
     this.ctx = ctx
@@ -366,8 +369,15 @@ export function paperGrain(P: Painter) {
   c.restore()
 }
 
-/** Seeded random numbers in a fixed table, so particles are the same on every run. */
+const TABLES = new Map<string, number[]>()
+/** Seeded random numbers in a fixed table, so particles are the same on every run (made once, then kept). */
 export function seededList(seed: number, n: number): number[] {
-  const r = mulberry32(seed)
-  return Array.from({ length: n }, () => r())
+  const key = `${seed}:${n}`
+  let list = TABLES.get(key)
+  if (!list) {
+    const r = mulberry32(seed)
+    list = Array.from({ length: n }, () => r())
+    TABLES.set(key, list)
+  }
+  return list
 }

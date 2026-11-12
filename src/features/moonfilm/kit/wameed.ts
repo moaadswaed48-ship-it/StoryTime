@@ -24,9 +24,11 @@ export type Rover = {
   dust: number
   /** Wheel turn (radians) and a little forward/back roll (units). */
   roll: number
+  /** 1 = facing screen right, −1 = facing left; in between he turns like a paper cut-out. */
+  flip: number
 }
 
-export const roverRest: Rover = { x: 0, y: 0, lift: 0, rot: 0, sq: 1, neck: 0, lookX: 0, lookY: 0, glow: 0, lid: 1, sweep: 0, dust: 1, roll: 0 }
+export const roverRest: Rover = { x: 0, y: 0, lift: 0, rot: 0, sq: 1, neck: 0, lookX: 0, lookY: 0, glow: 0, lid: 1, sweep: 0, dust: 1, roll: 0, flip: 1 }
 
 const HINGE = { x: -6, y: -86 }
 const PETAL = 112
@@ -42,7 +44,7 @@ export function roverEye(r: Rover) {
   const e = eyeLocal(r)
   const cr = Math.cos(r.rot)
   const sr = Math.sin(r.rot)
-  const x = e.x / Math.sqrt(r.sq)
+  const x = (e.x / Math.sqrt(r.sq)) * r.flip
   const y = e.y * r.sq + 40
   return { x: r.x + x * cr - y * sr, y: r.y - r.lift - 40 + x * sr + y * cr }
 }
@@ -61,7 +63,7 @@ export function drawRover(P: Painter, r: Rover) {
   c.translate(0, -40)
   c.rotate(r.rot)
   c.translate(0, 40)
-  c.scale(1 / Math.sqrt(r.sq), r.sq)
+  c.scale(r.flip / Math.sqrt(r.sq), r.sq)
 
   const dusty = (hex: string, k = 0.8) => (r.dust > 0.01 ? mixHex(hex, C.dustMid, r.dust * k) : hex)
 

@@ -17,18 +17,21 @@
  */
 import { moon } from '@/content/stories/moon'
 import { E, Painter, STAGE_W, clamp01, ellipse, hopArc, lerp, paperGrain, ramp, track, type Cam, type Key, type Light } from './kit/core'
+import { A3, A4, A5, B5, D3, D4, D5, D6, E4, E5, E6, F3, Fs3, Fs4, Fs5, bell, mallet, pad, thud } from './kit/notes'
 import { drawPerson, rest, skeleton, type Pose, type Who } from './kit/people'
+import { cuePhrases, jointsOf, phraseCaption, type Caption, type Note, type SceneDef } from './kit/stage'
 import { drawEyeHalo, drawRover, petalTip, roverEye, roverRest, type Rover } from './kit/wameed'
 import { dayRegion, drawBursts, drawEarth, drawGround, drawPrints, drawRock, drawSky, lineX, nightRegion, type Burst, type Ground, type Print, type Terminator } from './kit/world'
 
-export const DURATION = 35.2
-export const SHOTS = [0, 5.0, 8.4, 13.4, 18.8, 23.8, 26.2, 29.6]
+const DURATION = 35.2
+const SHOTS = [0, 5.0, 8.4, 13.4, 18.8, 23.8, 26.2, 29.6]
 
 // ── the set ───────────────────────────────────────────────────────────────────
-const LINE: Terminator = { x: 0, y: 790, slope: 0.45 }
+/** The place where Wameed sleeps (scene 7 finds him here; this scene carries him out of it). */
+export const LINE: Terminator = { x: 0, y: 790, slope: 0.45 }
 const DAY = dayRegion(LINE)
 const NIGHT = nightRegion(LINE)
-const GROUND: Ground = {
+export const GROUND: Ground = {
   horizon: 640,
   cx: -260,
   curve: 5600,
@@ -494,7 +497,7 @@ const PRINTS: Print[] = [
 ]
 
 // ── the frame ─────────────────────────────────────────────────────────────────
-export function renderScene8(P: Painter, T: number) {
+function renderScene8(P: Painter, T: number) {
   const all = cast(T)
   const { sari, amir, layla, rover: r } = all
   const cam = camera(T)
@@ -611,48 +614,46 @@ export function renderScene8(P: Painter, T: number) {
 }
 
 // ── the words on screen ───────────────────────────────────────────────────────
-/** Words on screen at one moment: how visible the line is, and each of its words (0…1), all from the time alone. */
-export type Caption = { id: string; words: string[]; alpha: number; alphas: number[] }
-
 const scene = moon.scenes[7]
 /** The count, taken verbatim from the scene's own text: «واحد.. اثنان.. ثلاثة.. هوب!» */
 const COUNT = (scene.ar[2].match(/"([^"]+)"/)?.[1] ?? '').split(' ')
 /** The narrator's cue line, in its two sentences. */
-const CUE = (scene.cue.ar.match(/[^!]+!?/g) ?? [scene.cue.ar]).map((s) => s.trim())
-const COUNT_AT = [5.5, 6.35, 7.2, HOP - 0.05]
-const CUE_AT = [BLINK3 + 1.3, 32.7]
+const CUE = cuePhrases(8, [4])
 
-const FADE = 0.3
-
-export function captionAt(T: number): Caption | null {
-  if (T >= COUNT_AT[0] - 0.1 && T < 8.9) return { id: 'count', words: COUNT, alpha: ramp(T, COUNT_AT[0] - 0.1, COUNT_AT[0] + 0.15) * (1 - ramp(T, 8.6, 8.9)), alphas: COUNT_AT.map((t) => ramp(T, t, t + FADE)) }
-  if (T >= CUE_AT[0] - 0.1) return { id: 'cue', words: CUE, alpha: ramp(T, CUE_AT[0] - 0.1, CUE_AT[0] + 0.25), alphas: CUE_AT.map((t) => ramp(T, t, t + FADE)) }
-  return null
+function captionAt(T: number): Caption | null {
+  return phraseCaption('count', COUNT, [5.5, 6.35, 7.2, HOP - 0.05], T, 8.9) ?? phraseCaption('cue', CUE, [BLINK3 + 1.3, 32.7], T)
 }
 
-// ── QA ────────────────────────────────────────────────────────────────────────
+// ── the score ─────────────────────────────────────────────────────────────────
 /**
- * Steps through the whole scene at `fps` and lists every moment a joint jumps further in one frame than anything
- * should (a pop the eye would read as a glitch: an elbow flipping sides, a position that is not continuous).
+ * Soft mallet notes on the beats of the picture (the count, the hop, each petal of the wing, the three blinks) over
+ * a quiet two-note drone that turns from minor to major when the Sun reaches the robot.
  */
-export function auditMotion(fps = 30, limit = 30) {
-  const out: { t: number; joint: string; jump: number }[] = []
-  let prev: Record<string, { x: number; y: number }> | null = null
-  for (let i = 0; i <= DURATION * fps; i++) {
-    const T = i / fps
-    const c = cast(T)
-    const now: Record<string, { x: number; y: number }> = { rover: { x: c.rover.x, y: c.rover.y - c.rover.lift }, 'rover.eye': roverEye(c.rover) }
-    for (const who of ['sari', 'amir', 'layla'] as const) {
-      const s = skeleton(who, c[who])
-      for (const j of ['head', 'elA', 'elB', 'haA', 'haB', 'knA', 'knB', 'ftA', 'ftB'] as const) now[`${who}.${j}`] = s.world(s[j])
-    }
-    if (prev) {
-      for (const k in now) {
-        const d = Math.hypot(now[k].x - prev[k].x, now[k].y - prev[k].y)
-        if (d > limit) out.push({ t: +T.toFixed(3), joint: k, jump: Math.round(d) })
-      }
-    }
-    prev = now
-  }
-  return out
-}
+const SCORE: Note[] = [
+  // the night: a hollow fifth with a minor third
+  pad(0, 19.4, D3, 0.05), pad(0, 19.4, A3, 0.035), pad(0.6, 18.6, F3, 0.022),
+  // 1 ─ the idea, and Sari's leap
+  bell(1.3, E5, 0.07, 1.0), mallet(2.25, A4, 0.1), mallet(2.45, D5, 0.1), thud(3.5, 0.12),
+  // 2 ─ one… two… three… hop!
+  mallet(5.5, D4, 0.2), mallet(6.35, E4, 0.2), mallet(7.2, Fs4, 0.22),
+  { t: 7.9, f: A4, to: D6, d: 0.9, v: 0.13, wave: 'sine' }, mallet(7.9, A4, 0.2),
+  // 3 ─ he floats… and is caught
+  bell(8.8, B5, 0.05), bell(9.56, D6, 0.06, 1.8), bell(10.3, A5, 0.045), thud(10.94, 0.2), mallet(10.96, D4, 0.12),
+  // 4 ─ three bounds into the light
+  mallet(13.0, D4, 0.13), thud(14.5, 0.16), mallet(14.75, Fs4, 0.13), thud(16.25, 0.16), bell(16.3, A5, 0.06), bell(16.4, D6, 0.05),
+  mallet(16.5, A4, 0.13), thud(17.5, 0.14), thud(18.12, 0.12), mallet(18.14, D4, 0.1),
+  // the daylight: the same fifth, now with a major third
+  pad(18.6, 36.5, D3, 0.05), pad(18.6, 36.5, A3, 0.035), pad(19.2, 36.5, Fs3, 0.026),
+  // 5 ─ the wing: a tick, an unfolding, then one note per petal, climbing
+  bell(20.2, B5, 0.035, 0.4), mallet(20.6, D5, 0.1),
+  ...[E5, Fs5, A5, B5, D6, E6].map((f, i) => mallet(20.9 + (i + 1) * 0.36 + 0.1, f, 0.12, 0.9)),
+  // 6, 7 ─ blink… blink… and the one that stays
+  bell(24.3, A5, 0.11, 0.7), bell(25.1, B5, 0.12, 0.8),
+  bell(26.8, D6, 0.12, 3.2), bell(26.8, A5, 0.09, 3.2), bell(26.84, Fs5, 0.08, 3.2), mallet(26.8, D4, 0.14, 2.0),
+  // 8 ─ the leap, the landing, a happy double blink, and home
+  { t: 30.3, f: A4, to: A5, d: 0.9, v: 0.1, wave: 'sine' }, mallet(30.3, D5, 0.14), bell(31.3, Fs5, 0.05),
+  thud(32.4, 0.18), mallet(32.42, D5, 0.12), bell(33.4, E6, 0.06, 0.3), bell(33.72, E6, 0.06, 0.3),
+  mallet(34.1, D4, 0.14, 2.6), mallet(34.1, A4, 0.1, 2.6), bell(34.14, D5, 0.08, 2.6), bell(34.18, Fs5, 0.07, 2.6),
+]
+
+export const scene8: SceneDef = { n: 8, duration: DURATION, shots: SHOTS, render: renderScene8, caption: captionAt, joints: (T) => jointsOf(cast(T)), score: SCORE }

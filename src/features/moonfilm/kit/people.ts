@@ -47,7 +47,7 @@ export type Pose = {
   bw: number
   bwx: number
   bwy: number
-  /** 1 = index finger out. */
+  /** Fingers held out: 1 points, 2 or 3 are a count. */
   aPoint: number
   bPoint: number
   /** 1 = that arm passes behind the body. */
@@ -61,6 +61,10 @@ export type Pose = {
   toe: number
   /** Swing of the things that hang (drawstrings, basket), radians. */
   swing: number
+  /** 1 = sitting on the ground (the children cross-legged, the teacher kneeling on her skirt). */
+  sit: number
+  /** 1 = eyes crossed. */
+  cross: number
   /**
    * Which way each elbow and knee bends, 0…1 between the two IK solutions, or −1 to let the rig choose. A film sets
    * these to the choice averaged over a few neighbouring moments, so a joint glides across instead of flipping.
@@ -111,7 +115,7 @@ export function rest(who: Who, x = 0, y = 0): Pose {
     aw: 0, awx: 0, awy: 0, bw: 0, bwx: 0, bwy: 0,
     aPoint: 0, bPoint: 0, aBack: 0, bBack: 0,
     fax: -23, fay: 0, fbx: 23, fby: 0, toe: 0,
-    swing: 0,
+    swing: 0, sit: 0, cross: 0,
     bendA: -1, bendB: -1, kneeA: -1, kneeB: -1,
   }
 }
@@ -172,7 +176,8 @@ function ik(sx: number, sy: number, tx: number, ty: number, l1: number, l2: numb
 
 export function skeleton(who: Who, p: Pose): Skeleton {
   const b = BUILD[who]
-  const hipH = (b.leg + b.ankle) * (1 - 0.48 * p.crouch)
+  const stand = (b.leg + b.ankle) * (1 - 0.48 * p.crouch)
+  const hipH = stand + ((who === 'layla' ? 64 : 30) - stand) * p.sit
   const hip = { x: p.hipx, y: -hipH }
   const sl = Math.sin(p.lean)
   const cl = Math.cos(p.lean)
@@ -250,6 +255,8 @@ export type PersonOpts = {
   /** Layla's hand lamp, drawn in hand b, aimed at this point in the world (or along her forearm). */
   lamp?: boolean
   lampAim?: { x: number; y: number }
+  /** false = the lamp is still switched off. */
+  lampLit?: boolean
   /** Extra warm light on the face from below (0…1) — Wameed's eye. */
   glow?: number
 }
@@ -296,7 +303,13 @@ export function drawPerson(P: Painter, who: Who, p: Pose, o: PersonOpts = {}) {
     else P.limb([ha.x - ux * 7, ha.y - uy * 7, ha.x - ux * 2, ha.y - uy * 2], b.armW + 1, k.topDark, 0)
     const hx = ha.x + ux * (b.hand * 0.65)
     const hy = ha.y + uy * (b.hand * 0.65)
-    if (point > 0.5) P.limb([hx, hy, hx + ux * (b.hand + 9), hy + uy * (b.hand + 9)], 7.5, C.skin, 0)
+    // fingers out: one points; two or three are a count held up
+    const n = Math.min(3, Math.round(point))
+    for (let i = 0; i < n; i++) {
+      const fa = Math.atan2(uy, ux) + (i - (n - 1) / 2) * 0.56
+      const len = b.hand + (n > 1 ? 18 : 9)
+      P.limb([hx, hy, hx + Math.cos(fa) * len, hy + Math.sin(fa) * len], 7.5, C.skin, 0)
+    }
     P.fill(circle(hx, hy, b.hand), C.skin, 2)
     // a thumb, so the hand is a hand
     P.flat(circle(hx - uy * side * b.hand * 0.62 + ux * 2, hy + ux * side * b.hand * 0.62 + uy * 2, b.hand * 0.42), C.skin)
@@ -341,13 +354,17 @@ export function drawPerson(P: Painter, who: Who, p: Pose, o: PersonOpts = {}) {
 
     if (who === 'layla') {
       // socks and strap shoes, then the long skirt over them
-      for (const [kn, ft, side, fl] of [[s.knA, s.ftA, -1, p.fay], [s.knB, s.ftB, 1, p.fby]] as const) {
-        P.limb([kn.x, kn.y, ft.x, ft.y], b.legW, C.cream, 2)
-        foot(ft, side, fl)
+      const kneel = p.sit
+      if (kneel < 0.6) {
+        for (const [kn, ft, side, fl] of [[s.knA, s.ftA, -1, p.fay], [s.knB, s.ftB, 1, p.fby]] as const) {
+          P.limb([kn.x, kn.y, ft.x, ft.y], b.legW, C.cream, 2)
+          foot(ft, side, fl)
+        }
       }
-      const hem = -Math.max(18, 62 * (1 - p.crouch * 0.9)) - Math.min(p.fay, p.fby) * 0.5
-      const lx = Math.min(s.ftA.x, s.hip.x - 30) - 40
-      const rx = Math.max(s.ftB.x, s.hip.x + 30) + 40
+      // kneeling, the skirt pools on the ground round her
+      const hem = (-Math.max(18, 62 * (1 - p.crouch * 0.9)) - Math.min(p.fay, p.fby) * 0.5) * (1 - kneel) - 2 * kneel
+      const lx = Math.min(s.ftA.x, s.hip.x - 30) - 40 - 44 * kneel
+      const rx = Math.max(s.ftB.x, s.hip.x + 30) + 40 + 44 * kneel
       const wy = s.hip.y - 26
       const sk = new Path2D()
       sk.moveTo(s.hip.x - 37, wy)
@@ -365,6 +382,22 @@ export function drawPerson(P: Painter, who: Who, p: Pose, o: PersonOpts = {}) {
       f.moveTo(s.hip.x + 16, wy + 50)
       f.quadraticCurveTo(s.hip.x + 24, wy + 100, lx + (rx - lx) * 0.72, hem + 6)
       P.line(f, C.skirtDark, 4)
+      }
+    } else if (p.sit > 0.5) {
+      // cross-legged on the ground: each shin lies across in front, a shoe showing at either side
+      const hx = s.hip.x
+      const hy = s.hip.y
+      for (const side of [1, -1]) {
+        const kx = hx + side * 60
+        const ax = hx - side * 18
+        P.limb([hx + side * 20, hy, kx, hy + 10, ax, hy + 20], b.legW - 3, k.leg)
+        if (!sil) P.limb([ax + side * 9, hy + 18, ax, hy + 20], b.legW + 1, k.cuff, 0)
+        c.save()
+        c.translate(ax - side * 22, hy + 28)
+        c.scale(-side, 1)
+        P.fill(blob([-18, -4, -16, -22, 2, -24, 20, -16, 20, -2]), k.shoe, 2)
+        if (!sil) P.flat(rrect(-18, -6, 40, 7, 3), k.sole)
+        c.restore()
       }
     } else {
       for (const [hj, kn, ft, side, fl] of [[s.hjA, s.knA, s.ftA, -1, p.fay], [s.hjB, s.knB, s.ftB, 1, p.fby]] as const) {
@@ -511,7 +544,7 @@ export function drawPerson(P: Painter, who: Who, p: Pose, o: PersonOpts = {}) {
       c.save()
       c.translate(s.haB.x + Math.cos(f) * 10, s.haB.y + Math.sin(f) * 10)
       c.rotate(a)
-      drawLamp(P)
+      drawLamp(P, o.lampLit ?? true)
       c.restore()
     }
     if (p.bBack < 0.5) drawArm(s.shB, s.elB, s.haB, p.bPoint, 1)
@@ -708,7 +741,7 @@ function drawFace(P: Painter, who: Who, p: Pose, fx: number) {
   c.restore()
 
   for (const side of [-1, 1]) {
-    const x = fx + side * gap + lx
+    const x = fx + side * gap + lx - side * p.cross * 5.5
     if (p.happy > 0.5) {
       const q = new Path2D()
       q.arc(x - lx * 0.5, ey + 4, 8.5 * sc, Math.PI * 1.12, Math.PI * 1.88)
@@ -779,10 +812,11 @@ export function drawBasket(P: Painter) {
 }
 
 /** Layla's hand lamp, pointing along +x from the hand at (0,0). */
-export function drawLamp(P: Painter) {
+export function drawLamp(P: Painter, lit = true) {
   P.fill(rrect(-12, -8, 26, 16, 5), C.cream, 1.5)
   P.fill(poly([12, -9, 27, -15, 27, 15, 12, 9]), C.dustMid, 1.5)
-  if (P.light !== 'sil') {
+  if (P.light !== 'sil' && !lit) P.flat(ellipse(27, 0, 4.5, 13), C.dustFar)
+  if (P.light !== 'sil' && lit) {
     P.ctx.fillStyle = C.goldHot
     P.ctx.fill(ellipse(27, 0, 4.5, 13))
     // three short rays: it is on

@@ -9,7 +9,7 @@ import { createHash } from 'node:crypto'
 const base = process.argv.find((a) => a.startsWith('--base='))?.slice(7) ?? 'http://localhost:5173'
 const browser = await chromium.launch()
 const page = await (await browser.newContext({ viewport: { width: 1280, height: 720 } })).newPage()
-await page.goto(`${base}/demo.html?f=moonfilm&t=0&bare=1&qa=1`, { waitUntil: 'load' })
+await page.goto(`${base}/demo.html?f=moonfilm&t=0&bare=1&qa=1${process.argv.find((a) => a.startsWith('--scene='))?.replace('--scene=', '&scene=') ?? ''}`, { waitUntil: 'load' })
 await page.waitForFunction(() => window.__st?.moonfilm)
 await page.evaluate(() => document.fonts.ready)
 
