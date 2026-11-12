@@ -365,10 +365,10 @@ html[lang='en'] .ss-word {
     padding-inline-end: 44px;
   }
   .ss-word {
-    font-size: clamp(4rem, min(30vw, 16svh), 11rem);
+    font-size: clamp(4rem, min(32vw, 16svh), 11rem);
   }
   html[lang='en'] .ss-word {
-    font-size: clamp(3.75rem, min(26vw, 15svh), 10rem);
+    font-size: clamp(3.75rem, min(28vw, 15svh), 10rem);
   }
   .ss-line {
     gap: 12px;
