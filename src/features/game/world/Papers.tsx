@@ -78,7 +78,7 @@ function PaperItem({ index, name }: { index: number; name: string }) {
       Math.sin(st.t * 0.8) * 0.55 * (1 - k) * (1 - lay * 0.75) + k * Math.PI * 2,
       Math.sin(st.t * 2.2) * 0.15 * (1 + gust * 2) * (1 - k) * (1 - lay * 0.6),
     )
-    m.scale.setScalar(big * (1 - k) + k * 2.3)
+    m.scale.setScalar((big + (1 - big) * lay) * (1 - k) + k * 2.3) // lying near the lens it needs no extra size
     // a paper right under the lens would fill the screen: it fades (with its ring and marker) as the camera passes over it
     const lens = Math.hypot(_v.x, _v.y - 1.1, _v.z)
     // (a paper lying on the ground stays solid: half-clear, it would look like a fault)
@@ -186,6 +186,8 @@ export function Papers() {
       hidden.push({ i, px, py, d: Math.hypot(p.x - rt.sari.x, p.z - rt.sari.z) })
     }
     hidden.sort((a, b) => a.d - b.d)
+    let firstX = -999
+    let firstY = -999
     hidden.forEach(({ i, px, py }, rank) => {
       const el = rt.arrows[i]
       if (!el) return
@@ -203,6 +205,13 @@ export function Papers() {
           const up = shown[n + 1] - 150
           cy = up > top ? up : Math.min(bottom, shown[n + 1] + 90)
         }
+      }
+      // two chips on the same edge keep apart
+      if (rank === 0) {
+        firstX = cx
+        firstY = cy
+      } else if (Math.abs(cx - firstX) < 56 && Math.abs(cy - firstY) < 56) {
+        cy = firstY + 60 <= bottom ? firstY + 60 : firstY - 60
       }
       el.style.opacity = '1'
       el.style.transform = `translate3d(${cx.toFixed(1)}px, ${cy.toFixed(1)}px, 0)`

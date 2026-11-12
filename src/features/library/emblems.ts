@@ -1,8 +1,8 @@
 /**
  * The twelve stamped emblems of the season series, drawn on a 64 × 64 grid.
  * `fg` is the foil, `ko` the knock-out (the cloth showing through) — the same drawing is used as
- * inline SVG (foil gradient), as a white-on-black mask for the travelling light, and as a tiled
- * blind-stamp pattern on the cover panel.
+ * a mask for an element painted in foil (spine, cover, detail view) and as a tiled pattern stamped
+ * all over a cover board.
  */
 import type { Emblem } from '@/content/library'
 
@@ -71,17 +71,24 @@ const DRAW: Record<Emblem, (p: Paint) => string> = {
 /** Inner SVG markup of an emblem (for `dangerouslySetInnerHTML` inside a 64 × 64 viewBox). */
 export const emblemMarkup = (name: Emblem, fg: string, ko: string) => DRAW[name]({ fg, ko })
 
-/** Foil gradient definition + emblem painted with it. */
-export function emblemFoil(name: Emblem, id: string, lo: string, mid: string, hi: string, ko: string) {
-  return (
-    `<defs><linearGradient id="${id}" gradientUnits="userSpaceOnUse" x1="6" y1="4" x2="58" y2="60"><stop offset="0" stop-color="${lo}"/><stop offset=".32" stop-color="${mid}"/><stop offset=".5" stop-color="${hi}"/><stop offset=".7" stop-color="${mid}"/><stop offset="1" stop-color="${lo}"/></linearGradient></defs>` +
-    DRAW[name]({ fg: `url(#${id})`, ko })
-  )
+const maskCache = new Map<Emblem, string>()
+/**
+ * The emblem as a CSS mask image: opaque where there is foil, clear where the cloth shows through.
+ * The element that wears it is painted with the foil gradient, so the light that crosses the lettering crosses the emblem too.
+ */
+export function emblemMask(name: Emblem): string {
+  let url = maskCache.get(name)
+  if (!url) {
+    const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><defs><mask id="m" maskUnits="userSpaceOnUse" x="0" y="0" width="64" height="64">${DRAW[name]({ fg: '#fff', ko: '#000' })}</mask></defs><rect width="64" height="64" fill="#fff" mask="url(#m)"/></svg>`
+    url = `url("data:image/svg+xml,${encodeURIComponent(svg)}")`
+    maskCache.set(name, url)
+  }
+  return url
 }
 
-/** A half-drop repeat of the emblem as a CSS background image (the blind-stamped pattern of the cover panel). */
+/** A half-drop repeat of the emblem as a CSS background image (the pattern stamped all over a cover board). */
 export function emblemPattern(name: Emblem, fg: string, ko: string): string {
   const one = DRAW[name]({ fg, ko })
-  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="96" height="96" viewBox="0 0 96 96"><g transform="translate(7 7) scale(.53)">${one}</g><g transform="translate(55 55) scale(.53)">${one}</g></svg>`
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="96" height="96" viewBox="0 0 96 96"><g transform="translate(9 9) scale(.47)">${one}</g><g transform="translate(57 57) scale(.47)">${one}</g></svg>`
   return `url("data:image/svg+xml,${encodeURIComponent(svg)}")`
 }

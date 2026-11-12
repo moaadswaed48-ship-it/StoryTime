@@ -267,8 +267,11 @@
   content: '';
   position: absolute;
   inset: 0;
+  border-radius: inherit;
   pointer-events: none;
-  background: repeating-linear-gradient(90deg, rgba(0, 0, 0, 0.028) 0 var(--hair), rgba(255, 255, 255, 0.02) var(--hair) calc(var(--hair) * 2));
+  background:
+    repeating-linear-gradient(90deg, rgba(0, 0, 0, 0.045) 0 var(--hair), rgba(255, 255, 255, 0.03) var(--hair) calc(var(--hair) * 2)),
+    repeating-linear-gradient(0deg, rgba(0, 0, 0, 0.03) 0 var(--hair), rgba(255, 255, 255, 0.02) var(--hair) calc(var(--hair) * 2));
 }
 
 /* Page block */
@@ -285,18 +288,37 @@
     repeating-linear-gradient(90deg, #f5eddd 0 var(--pg), #e1d6c0 var(--pg) calc(var(--pg) * 2));
 }
 
-/* Foil: a metallic gradient clipped to type. */
+/* Foil: a metallic gradient with, on top of it, one band of light whose position (--sx) the shelf loop moves
+   as the book turns. Both are plain backgrounds, clipped to the lettering or seen through an emblem's mask —
+   no blend modes, so the cover stays one crisp layer in every browser. */
+.lib-foil,
+.lib-foilfill {
+  background-image:
+    linear-gradient(100deg, transparent calc(50% - var(--bw)), var(--foil-gl) 50%, transparent calc(50% + var(--bw))),
+    linear-gradient(112deg, var(--foil-lo) 0%, var(--foil) 18%, var(--foil-hi) 36%, var(--foil) 52%, var(--foil-lo) 70%, var(--foil) 84%, var(--foil-hi) 100%);
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  background-position:
+    calc(50% + var(--sx, 0px) - var(--ox, 0px)) 0,
+    0 0;
+}
 .lib-foil {
-  background-image: linear-gradient(112deg, var(--foil-lo) 0%, var(--foil) 30%, var(--foil-hi) 50%, var(--foil) 70%, var(--foil-lo) 100%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
   -webkit-text-fill-color: transparent;
 }
-.lib-mono .lib-foil {
-  background-image: none;
-  color: #fff;
-  -webkit-text-fill-color: #fff;
+.lib-emb {
+  display: block;
+  aspect-ratio: 1;
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+}
+/* A spine is too narrow for the band of light: it only wears the metal. */
+.lib-spine {
+  --foil-gl: transparent;
 }
 
 /* ── Spine ───────────────────────────────────────────────────────────────────── */
@@ -316,6 +338,11 @@
   align-items: center;
   padding-top: calc(var(--T) * 0.2);
   filter: drop-shadow(0 calc(var(--k, 1) * 0.6px) 0 rgba(0, 0, 0, 0.3));
+}
+/* Pigment pressed into pale cloth: the lower lip of each letter catches the light. */
+.lib-book.is-pigment .lib-spine-in,
+.lib-book.is-pigment .lib-art {
+  filter: drop-shadow(0 calc(var(--k, 1) * 0.8px) 0 rgba(255, 255, 255, 0.34));
 }
 .lib-rule2 {
   flex: none;
@@ -416,18 +443,25 @@ html[lang='en'] .lib-stitle-t {
 .lib-band.is-spine span span {
   display: block;
 }
-.lib-band.is-dot i {
-  width: max(calc(var(--k, 1) * 5px), calc(var(--T) * 0.16));
-  height: max(calc(var(--k, 1) * 5px), calc(var(--T) * 0.16));
+/* Narrow spines (phones): the words run down the band, the same way the title runs down the spine. */
+.lib-band.is-v > span {
+  display: flex;
+  writing-mode: vertical-rl;
+  line-height: 1.12;
+}
+html[lang='ar'] .lib-band.is-v > span {
+  transform: rotate(180deg);
 }
 
 /* ── Covers ──────────────────────────────────────────────────────────────────── */
 .lib-cover {
+  --bw: calc(var(--u) * 17);
   position: absolute;
   inset: 0;
   overflow: hidden;
   box-shadow:
     inset 0 0 0 var(--hair) rgba(0, 0, 0, 0.16),
+    inset 0 calc(var(--k, 1) * 1.5px) 0 rgba(255, 255, 255, 0.14),
     inset 0 0 calc(var(--u) * 12) rgba(0, 0, 0, 0.14);
 }
 /* The joint of a hard cover: a pressed groove beside the spine. */
@@ -440,27 +474,40 @@ html[lang='en'] .lib-stitle-t {
   pointer-events: none;
   background: linear-gradient(90deg, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.26) 42%, rgba(255, 255, 255, 0.16) 58%, rgba(255, 255, 255, 0));
 }
+/* The emblem stamped all over the board, inside the frame; it stops under the belly band. */
+.lib-pattern {
+  position: absolute;
+  inset: calc(var(--u) * 6.8);
+  bottom: calc(var(--band-b) + var(--hair) * 2);
+  background-size: calc(var(--u) * 28.8) calc(var(--u) * 28.8);
+  background-position: 50% 0;
+  pointer-events: none;
+}
+.lib-cover.is-medal .lib-pattern {
+  -webkit-mask-image: linear-gradient(#000 0 52%, transparent 76%);
+  mask-image: linear-gradient(#000 0 52%, transparent 76%);
+}
 .lib-art {
   position: absolute;
   inset: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: calc(var(--u) * 8.6) calc(var(--u) * 8.6) calc(var(--band-b) + var(--band-h) + var(--u) * 2.4);
-  color: var(--foil);
+  padding: calc(var(--u) * 9.6) calc(var(--u) * 8) calc(var(--band-b) + var(--band-h) + var(--u) * 3.2);
   text-align: center;
-  filter: drop-shadow(0 calc(var(--k, 1) * 0.7px) 0 rgba(0, 0, 0, 0.3));
+  filter: drop-shadow(0 calc(var(--k, 1) * 0.7px) 0 rgba(0, 0, 0, 0.32));
 }
 .lib-frame {
   position: absolute;
-  inset: calc(var(--u) * 4.2);
+  inset: calc(var(--u) * 3.6);
   border: max(calc(var(--k, 1) * 1.5px), calc(var(--u) * 0.6)) solid var(--foil);
+  border-image: linear-gradient(118deg, var(--foil-lo), var(--foil) 22%, var(--foil-hi) 40%, var(--foil) 58%, var(--foil-lo) 78%, var(--foil-hi)) 1;
   pointer-events: none;
 }
 .lib-frame::after {
   content: '';
   position: absolute;
-  inset: calc(var(--u) * 1.3);
+  inset: calc(var(--u) * 1.2);
   border: var(--hair) solid var(--foil);
   opacity: 0.85;
 }
@@ -469,8 +516,8 @@ html[lang='en'] .lib-stitle-t {
   display: flex;
   align-items: center;
   gap: 0.7em;
-  margin-bottom: calc(var(--u) * 2.6);
-  font-size: max(calc(var(--k, 1) * 8.5px), calc(var(--u) * 3.7));
+  margin-bottom: calc(var(--u) * 3);
+  font-size: max(calc(var(--k, 1) * 8.5px), calc(var(--u) * 3.5));
   font-weight: 600;
   line-height: 1.3;
   white-space: nowrap;
@@ -485,84 +532,144 @@ html[lang='en'] .lib-rmark {
   width: calc(var(--u) * 5);
   border-top: var(--hair) solid var(--foil);
 }
-.lib-panel {
+.lib-fig {
   position: relative;
   flex: 1 1 0;
   min-height: 0;
   align-self: stretch;
   display: grid;
   place-items: center;
-  border: var(--hair) solid var(--foil);
 }
-.lib-pattern {
+/* A foil ring: a turned (conic) metal gradient seen through a ring-shaped mask. */
+.lib-ring {
+  --rw: max(calc(var(--k, 1) * 1.6px), calc(var(--u) * 0.9));
   position: absolute;
   inset: 0;
-  background-size: calc(var(--u) * 15) calc(var(--u) * 15);
-  background-position: 50% 50%;
+  border-radius: 50%;
+  background: conic-gradient(from 205deg, var(--foil-lo), var(--foil-hi) 11%, var(--foil) 24%, var(--foil-lo) 40%, var(--foil-hi) 56%, var(--foil) 70%, var(--foil-lo) 86%, var(--foil-hi) 95%, var(--foil-lo));
+  -webkit-mask-image: radial-gradient(closest-side, transparent calc(100% - var(--rw) - 0.6px), #000 calc(100% - var(--rw)));
+  mask-image: radial-gradient(closest-side, transparent calc(100% - var(--rw) - 0.6px), #000 calc(100% - var(--rw)));
 }
+.lib-ring.is-in {
+  inset: calc(var(--u) * 2.2);
+  border: var(--hair) solid var(--foil);
+  background: none;
+  -webkit-mask-image: none;
+  mask-image: none;
+  opacity: 0.85;
+}
+/* medal */
 .lib-medal {
   position: relative;
-  height: 84%;
-  max-width: 88%;
+  height: 96%;
+  max-width: 96%;
   aspect-ratio: 1;
   display: grid;
   place-items: center;
-  overflow: hidden;
   border-radius: 50%;
-  outline: max(calc(var(--k, 1) * 1.5px), calc(var(--u) * 0.55)) solid var(--foil);
   box-shadow:
-    0 0 0 calc(var(--u) * 2.1) var(--cloth),
-    0 0 0 calc(var(--u) * 2.1 + var(--hair)) var(--foil);
+    0 0 0 calc(var(--u) * 1.8) var(--cloth),
+    inset 0 0 calc(var(--u) * 7) rgba(0, 0, 0, 0.16);
 }
-.lib-medal svg {
+.lib-medal .lib-emb {
   position: relative;
-  width: 60%;
-  height: 60%;
+  width: 66%;
 }
-.lib-ctitle {
-  flex: none;
+/* arch */
+.lib-arch {
+  position: relative;
+  height: 97%;
+  max-width: 92%;
+  aspect-ratio: 0.8;
   display: grid;
   place-items: center;
-  min-height: 2.5em;
-  margin-top: calc(var(--u) * 3.6);
-  padding-inline: calc(var(--u) * 1.5);
-  font-size: calc(var(--u) * 10.4);
+  border-radius: 50% 50% 0 0 / 40% 40% 0 0;
+  background: color-mix(in srgb, var(--cloth) 85%, #000);
+  box-shadow:
+    inset 0 calc(var(--u) * 1.4) calc(var(--u) * 3.4) rgba(0, 0, 0, 0.3),
+    inset 0 calc(var(--u) * -0.6) calc(var(--u) * 1.6) rgba(255, 255, 255, 0.08),
+    0 0 0 max(calc(var(--k, 1) * 1.5px), calc(var(--u) * 0.7)) var(--foil),
+    0 0 0 calc(var(--u) * 2.2) var(--cloth),
+    0 0 0 calc(var(--u) * 2.2 + var(--hair)) var(--foil);
+}
+.lib-arch .lib-emb {
+  width: 72%;
+  margin-top: 12%;
+}
+.lib-stud {
+  position: absolute;
+  top: calc(var(--u) * 9.2);
+  width: calc(var(--u) * 2.4);
+  aspect-ratio: 1;
+  background: linear-gradient(135deg, var(--foil-hi), var(--foil) 55%, var(--foil-lo));
+  transform: rotate(45deg);
+}
+.lib-stud.is-1 {
+  left: calc(var(--u) * 9.2);
+}
+.lib-stud.is-2 {
+  right: calc(var(--u) * 9.2);
+}
+/* plate */
+.lib-cover.is-plate .lib-fig {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.lib-plate {
+  position: relative;
+  flex: none;
+  width: calc(var(--u) * 74);
+  padding: calc(var(--u) * 6) calc(var(--u) * 4) calc(var(--u) * 10.5);
+  border: max(calc(var(--k, 1) * 1.5px), calc(var(--u) * 0.6)) solid var(--foil);
+  border-image: linear-gradient(118deg, var(--foil-lo), var(--foil) 22%, var(--foil-hi) 40%, var(--foil) 58%, var(--foil-lo) 78%, var(--foil-hi)) 1;
+  outline: var(--hair) solid var(--foil);
+  outline-offset: calc(var(--u) * -1.9);
+  box-shadow: 0 0 0 calc(var(--u) * 1.6) var(--cloth);
+}
+.lib-seal {
+  position: relative;
+  flex: none;
+  width: calc(var(--u) * 27);
+  aspect-ratio: 1;
+  margin-top: calc(var(--u) * -8.5);
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  box-shadow: 0 0 0 calc(var(--u) * 1.5) var(--cloth);
+}
+.lib-seal .lib-emb {
+  position: relative;
+  width: 60%;
+}
+.lib-ctitle {
+  position: relative;
+  flex: none;
+  margin-top: calc(var(--u) * 3.4);
   font-weight: 800;
-  line-height: 1.25;
-  text-wrap: balance;
+  line-height: 1.24;
+}
+.lib-plate .lib-ctitle {
+  margin-top: 0;
+}
+.lib-ctitle span {
+  display: block;
+  white-space: nowrap;
 }
 html[lang='en'] .lib-ctitle {
-  min-height: 2.2em;
-  font-size: calc(var(--u) * 9.6);
-  line-height: 1.1;
+  line-height: 1.08;
   letter-spacing: -0.02em;
 }
+/* The season, in the clear strip of cloth between the belly band and the frame. */
 .lib-cseason {
   position: absolute;
   inset-inline: 0;
-  bottom: calc(var(--band-b) * 0.5);
+  bottom: calc((var(--band-b) + var(--u) * 5.6) / 2);
   transform: translateY(50%);
-  font-size: max(calc(var(--k, 1) * 8.5px), calc(var(--u) * 3.7));
+  font-size: max(calc(var(--k, 1) * 8px), calc(var(--u) * 3.4));
   font-weight: 600;
   line-height: 1;
-}
-/* White-on-black copy of the foil art: white where there is foil, so light can be multiplied into it. */
-.lib-mono {
-  --foil: #fff;
-  --foil-hi: #fff;
-  --foil-lo: #fff;
-  --cloth: #000;
-  position: absolute;
-  inset: 0;
-  background: #000;
-  mix-blend-mode: multiply;
-}
-.lib-mono .lib-medal {
-  background: #000;
-}
-.lib-mono .lib-art,
-.lib-mono .lib-rtitle {
-  filter: none;
 }
 
 /* The real cover */
@@ -587,6 +694,7 @@ html[lang='en'] .lib-ctitle {
 }
 /* Placed by the picture, not by the reading direction: the open sky is under the birds, on the right. */
 .lib-rtitle {
+  --ox: calc(var(--u) * 15.5);
   position: absolute;
   top: 17.2%;
   right: 6.5%;
@@ -598,17 +706,20 @@ html[lang='en'] .lib-ctitle {
   filter: drop-shadow(0 calc(var(--k, 1) * 1px) 0 rgba(255, 236, 200, 0.55));
 }
 html[lang='en'] .lib-rtitle {
+  --ox: calc(var(--u) * 12.5);
+  width: 62%;
   line-height: 1.04;
   letter-spacing: -0.025em;
 }
 .lib-rtitle .is-b {
   margin-top: calc(var(--u) * 0.4);
   font-weight: 800;
-  text-wrap: balance;
 }
 html[lang='en'] .lib-rtitle .is-b {
-  margin-top: calc(var(--u) * 1.4);
+  margin-top: calc(var(--u) * 1.6);
   line-height: 1.12;
+  letter-spacing: -0.015em;
+  white-space: nowrap;
 }
 .lib-rby {
   margin-top: calc(var(--u) * 2.6);
@@ -630,7 +741,7 @@ html[lang='en'] .lib-rtitle .is-b {
 }
 
 /* ── Light that travels ──────────────────────────────────────────────────────── */
-/* Soft sheen on cloth / printed board. */
+/* A soft veil of light over cloth / printed board; it moves with the band on the foil (same --sx). */
 .lib-sheen {
   position: absolute;
   top: -12%;
@@ -640,42 +751,8 @@ html[lang='en'] .lib-rtitle .is-b {
   width: 76%;
   margin-left: -38%;
   pointer-events: none;
-  background: linear-gradient(90deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.95) 50%, rgba(255, 255, 255, 0));
-  mix-blend-mode: soft-light;
-  opacity: calc(0.5 * var(--fx, 1));
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.17) 50%, rgba(255, 255, 255, 0));
   transform: translateX(var(--sx, 0px)) skewX(-14deg);
-  will-change: transform;
-}
-/* Foil glint: bars of light (moved by transform) × a white-on-black copy of the foil art, screened onto the cover. */
-.lib-glint {
-  position: absolute;
-  inset: 0;
-  z-index: 8;
-  overflow: hidden;
-  pointer-events: none;
-  background: #000;
-  mix-blend-mode: screen;
-  opacity: calc(var(--glint, 0.9) * var(--fx, 1));
-}
-.lib-glint-bar {
-  position: absolute;
-  top: -12%;
-  bottom: -12%;
-  left: 50%;
-  width: 48%;
-  margin-left: -24%;
-  background: linear-gradient(90deg, #000, #fff 50%, #000);
-  transform: translateX(var(--sx, 0px)) skewX(-14deg);
-  will-change: transform;
-}
-.lib-glint-bar.is-b {
-  transform: translateX(calc(var(--sx, 0px) + var(--sp, 0px))) skewX(-14deg);
-}
-@supports not (mix-blend-mode: screen) {
-  .lib-glint,
-  .lib-sheen {
-    display: none;
-  }
 }
 
 /* "Open" disc on the corner of the centred cover: the visible invitation to click it (and a real button for keys). */
