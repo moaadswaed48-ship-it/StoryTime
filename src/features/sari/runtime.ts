@@ -26,6 +26,8 @@ export const WAVE_MS = 2600
 export interface Runtime {
   /** What he is doing right now (mirrors React state, so the loop never waits for a render). */
   action: SariAction
+  /** Autumn leaves in the air around him (the new landing page turns them off: it is not about one season). */
+  leaves: boolean
   /** The visitor's own turn (rad), on top of the resting turn. */
   yaw: number
   /** Turn speed (rad/s) kept after a throw. */
@@ -67,6 +69,7 @@ export interface Runtime {
 
 export const createRuntime = (): Runtime => ({
   action: 'idle',
+  leaves: true,
   yaw: 0,
   vel: 0,
   dragging: false,

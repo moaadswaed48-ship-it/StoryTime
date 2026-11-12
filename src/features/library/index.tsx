@@ -16,7 +16,7 @@ import { computeGeoms, computeMetrics, type Metrics } from './engine'
 import { noiseTile } from './noise'
 import './library.css'
 
-const FILTERS: Filter[] = ['all', 'autumn', 'winter', 'spring', 'summer']
+const FILTERS: Filter[] = ['all', 'nature', 'sea', 'space', 'town', 'magic']
 const COUNTS = Object.fromEntries(FILTERS.map((f) => [f, library.filter((b) => f === 'all' || b.season === f).length])) as Record<Filter, number>
 
 /** First guess of the stage box (same clamps as library.css) so the first paint is already the right size. */
@@ -423,7 +423,12 @@ export function Library({ variant = 'landing' }: { variant?: 'landing' | 'app' }
                       {t.library.soon}
                     </span>
                   </p>
-                  <p className="t-lede mt-4 max-w-[30rem] text-ink-2 lg:mt-5" data-d style={d(4)}>
+                  {dBook.blurb && (
+                    <p className="t-lede mt-4 max-w-[34rem] text-ink-2 lg:mt-5" data-d style={d(4)}>
+                      {dBook.blurb[locale]}
+                    </p>
+                  )}
+                  <p className="mt-3 max-w-[30rem] text-[14px] font-medium text-ink-2/75" data-d style={d(4)} data-idea>
                     {t.library.soonNote}
                   </p>
                   {sameSeason.length > 0 && (

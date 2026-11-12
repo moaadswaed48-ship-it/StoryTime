@@ -14,8 +14,8 @@ import './studio.css'
 
 const reducedNow = () => document.documentElement.hasAttribute('data-reduce-motion') || window.matchMedia('(prefers-reduced-motion: reduce)').matches
 const two = (n: number) => (n < 10 ? num(0) : '') + num(n)
-/** One waiting folder per season: enough to show how the next story gets in, without a wall of look-alike cards. */
-const upcoming = (['winter', 'spring', 'summer', 'autumn'] as const).flatMap((season) => library.filter((b) => !b.ready && b.season === season).slice(0, 1))
+/** A few of our story ideas as waiting folders: enough to show how the next story gets in, without a wall of look-alike cards. */
+const upcoming = library.filter((b) => !b.ready).slice(0, 4)
 
 /** Her manuscript is Arabic. It is shown as she wrote it in both languages of the site, set in the story face. */
 function Hers({ children, className }: { children: string; className?: string }) {

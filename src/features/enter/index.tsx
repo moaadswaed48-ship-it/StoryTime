@@ -3,7 +3,6 @@ import { ArrowLeft, ArrowRight, Check, Lock, X } from 'lucide-react'
 import { go } from '@/app/router'
 import { prefersReducedNow } from '@/app/useMotionTier'
 import { sfx } from '@/audio/synth'
-import { Leaves } from '@/design/Leaves'
 import { useOverlayLock } from '@/design/overlay'
 import { BlurWords, Pill } from '@/design/ui'
 import { t } from '@/i18n/copy'
@@ -191,7 +190,6 @@ export function Enter() {
       {choosing && (
         <div className="enter__sheet" role="dialog" aria-modal="true" aria-label={t.app.who.title} inert={phase !== 'open'}>
           <button type="button" className="enter__backdrop" tabIndex={-1} aria-label={t.nav.close} onClick={cancel} />
-          <Leaves density={7} className="enter__leaves" />
           <button type="button" className="enter__close glass" aria-label={t.nav.close} onClick={cancel}>
             <X size={22} strokeWidth={2.2} aria-hidden />
           </button>

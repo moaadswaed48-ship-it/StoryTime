@@ -18,7 +18,7 @@ const settled = (page: Page) => page.waitForFunction(() => window.__st!.library.
 test('the shelf starts on the real book and can be walked with hooks, arrows and keys', async ({ page }) => {
   const con = watchConsole(page)
   await openShelf(page)
-  expect(await lib<number>(page, 'count()')).toBe(12)
+  expect(await lib<number>(page, 'count()')).toBe(7)
   expect(await lib<{ ready: boolean; id: string }>(page, 'state()')).toMatchObject({ ready: true, id: 'autumn-leaves', detail: false })
   const start = await lib<number>(page, 'index()')
   await expect(page.locator('#library [role="option"][aria-selected="true"]')).toHaveCount(1)
@@ -48,21 +48,21 @@ test('the shelf starts on the real book and can be walked with hooks, arrows and
   con.assertClean()
 })
 
-test('a season filter sinks the other books and re-packs the row', async ({ page }) => {
+test('a world filter sinks the other books and re-packs the row', async ({ page }) => {
   const con = watchConsole(page)
   await openShelf(page)
-  await page.locator('#library [data-filter="winter"]').click()
+  await page.locator('#library [data-filter="magic"]').click()
   expect(await lib<number>(page, 'count()')).toBe(3)
-  await expect(page.locator('#library [data-filter="winter"]')).toHaveAttribute('aria-pressed', 'true')
+  await expect(page.locator('#library [data-filter="magic"]')).toHaveAttribute('aria-pressed', 'true')
   const s = await lib<{ index: number; ready: boolean; filter: string }>(page, 'state()')
-  expect(s).toMatchObject({ ready: false, filter: 'winter' })
+  expect(s).toMatchObject({ ready: false, filter: 'magic' })
   expect(s.index).toBeGreaterThanOrEqual(0)
 
-  // The real book is an autumn story: filtering to autumn brings the shelf back to it.
-  await page.locator('#library [data-filter="autumn"]').click()
-  expect(await lib<{ count: number; ready: boolean }>(page, 'state()')).toMatchObject({ count: 3, ready: true })
+  // The real book is the nature story: filtering to nature brings the shelf back to it.
+  await page.locator('#library [data-filter="nature"]').click()
+  expect(await lib<{ count: number; ready: boolean }>(page, 'state()')).toMatchObject({ count: 1, ready: true })
   await page.locator('#library [data-filter="all"]').click()
-  expect(await lib<{ count: number; ready: boolean }>(page, 'state()')).toMatchObject({ count: 12, ready: true })
+  expect(await lib<{ count: number; ready: boolean }>(page, 'state()')).toMatchObject({ count: 7, ready: true })
   con.assertClean()
 })
 

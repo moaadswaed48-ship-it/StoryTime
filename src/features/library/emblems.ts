@@ -1,5 +1,5 @@
 /**
- * The twelve stamped emblems of the season series, drawn on a 64 × 64 grid.
+ * The stamped emblems of the series covers, drawn on a 64 × 64 grid.
  * `fg` is the foil, `ko` the knock-out (the cloth showing through) — the same drawing is used as
  * a mask for an element painted in foil (spine, cover, detail view) and as a tiled pattern stamped
  * all over a cover board.
@@ -66,6 +66,33 @@ const DRAW: Record<Emblem, (p: Paint) => string> = {
   moon: ({ fg }) =>
     `<path d="M39.5 6.5A26 26 0 1 0 57.6 42 21.5 21.5 0 0 1 39.5 6.5Z" fill="${fg}"/>` +
     `<path d="M49.5 12l2 5.4 5.4 2-5.4 2-2 5.4-2-5.4-5.4-2 5.4-2Z" fill="${fg}"/><circle cx="57" cy="31" r="1.7" fill="${fg}"/>`,
+  shell: ({ fg, ko }) =>
+    `<path d="M32 53 8.5 26.5C11.5 14.5 20.5 7.5 32 7.5s20.5 7 23.5 19Z" fill="${fg}" stroke="${fg}" stroke-width="2" stroke-linejoin="round"/>` +
+    `<path d="M25 52h14l-2.4 6.5h-9.2Z" fill="${fg}"/>` +
+    `<path d="M32 49 14 22M32 49 22.5 13.5M32 49V10.5M32 49 41.5 13.5M32 49 50 22" fill="none" stroke="${ko}" stroke-width="1.8" stroke-linecap="round"/>`,
+  rocket: ({ fg, ko }) =>
+    `<path d="M32 4C40.5 12 43.5 24 42.5 41h-21C20.5 24 23.5 12 32 4Z" fill="${fg}"/>` +
+    `<path d="M22 30 12.5 43l1 7.5L22 45ZM42 30l9.5 13-1 7.5L42 45Z" fill="${fg}"/>` +
+    `<path d="M26 44h12l-6 15Z" fill="${fg}"/>` +
+    `<circle cx="32" cy="22" r="5" fill="${ko}"/><path d="M27.5 36h9" stroke="${ko}" stroke-width="1.8" stroke-linecap="round"/>`,
+  lantern: ({ fg, ko }) =>
+    `<path d="M27.5 9a4.5 4.5 0 0 1 9 0" fill="none" stroke="${fg}" stroke-width="2.6" stroke-linecap="round"/>` +
+    `<path d="M24 10h16l4 6H20Z" fill="${fg}"/>` +
+    `<path d="M20.5 17h23c2.5 9 2.5 25 0 34h-23c-2.5-9-2.5-25 0-34Z" fill="${fg}"/>` +
+    `<path d="M22 52h20v5H22Z" fill="${fg}"/>` +
+    `<path d="M32 25c4.5 5 6 9 0 16-6-7-4.5-11 0-16Z" fill="${ko}"/>`,
+  clock: ({ fg, ko }) =>
+    `<circle cx="17" cy="11.5" r="6" fill="${fg}"/><circle cx="47" cy="11.5" r="6" fill="${fg}"/>` +
+    `<circle cx="32" cy="35" r="24" fill="${fg}"/>` +
+    `<g fill="none" stroke="${ko}" stroke-linecap="round" stroke-width="2.2">${spin(12, 30, (i) => (i % 3 ? `<path d="M32 15v2.4"/>` : `<path d="M32 14.5v5"/>`)).replace(/32 32/g, '32 35')}</g>` +
+    `<path d="M32 35V22.5M32 35l9 5.5" fill="none" stroke="${ko}" stroke-width="3" stroke-linecap="round"/><circle cx="32" cy="35" r="2.6" fill="${ko}"/>`,
+  book: ({ fg, ko }) =>
+    `<path d="M32 15C24 9.5 14 9.5 5.5 11.5v39c8.5-2 18.5-2 26.5 4ZM32 15c8-5.5 18-5.5 26.5-3.5v39c-8.5-2-18.5-2-26.5 4Z" fill="${fg}"/>` +
+    `<path d="M32 15v39" fill="none" stroke="${ko}" stroke-width="1.8"/>` +
+    `<path d="M11 21c5-1 10-.8 15 1M11 28.5c5-1 10-.8 15 1M11 36c5-1 10-.8 15 1M38 22c5-1.8 10-2 15-1M38 29.5c5-1.8 10-2 15-1M38 37c5-1.8 10-2 15-1" fill="none" stroke="${ko}" stroke-width="1.6" stroke-linecap="round"/>`,
+  flame: ({ fg, ko }) =>
+    `<path d="M32 4c3.5 12 18 18.5 18 37a18 18 0 0 1-36 0c0-8.5 4-13.5 8.5-16.5 0 6 2.6 9.5 6.5 10C25.5 24.5 27 13 32 4Z" fill="${fg}"/>` +
+    `<path d="M32 34c4.5 4.2 7.5 7.4 7.5 12.2a7.5 7.5 0 0 1-15 0c0-4.8 3-8 7.5-12.2Z" fill="${ko}"/>`,
 }
 
 /** Inner SVG markup of an emblem (for `dangerouslySetInnerHTML` inside a 64 × 64 viewBox). */

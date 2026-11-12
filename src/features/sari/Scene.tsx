@@ -342,8 +342,8 @@ export function Scene({ rt, onReady }: { rt: Runtime; onReady: () => void }) {
       <Lights />
       <Director rt={rt} turntable={turntable} />
       <Floor rt={rt} turntable={turntable} />
-      <LeafField rt={rt} count={26} />
-      <LeafField rt={rt} count={6} soft />
+      {rt.leaves && <LeafField rt={rt} count={26} />}
+      {rt.leaves && <LeafField rt={rt} count={6} soft />}
       <group ref={turntable} rotation-y={REST_YAW}>
         <Suspense fallback={null}>
           {/* SariModel draws him and breathes; what he does on this stage is acted on top (see Acting.tsx) */}

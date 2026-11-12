@@ -50,7 +50,7 @@ function Portrait({ onShown }: { onShown: () => void }) {
  * The stage: backdrop, the giant word, the 3D canvas, and the dock that makes him wave, run and stand.
  * Drag turns him (with a throw), a tap makes him wave, and he waves once by himself the first time he is seen.
  */
-export function Stage() {
+export function Stage({ calm = false }: { calm?: boolean } = {}) {
   const stage = useRef<HTMLDivElement>(null)
   const track = useRef<HTMLDivElement>(null)
   const leaves = useRef<LeavesHandle>(null)
@@ -128,7 +128,8 @@ export function Stage() {
   useLayoutEffect(() => {
     rt.action = action
     rt.reduced = reduced
-  }, [rt, action, reduced])
+    rt.leaves = !calm
+  }, [rt, action, reduced, calm])
   // two-column layouts (same conditions as sari.css): the dock floats over the stage, so the framing leaves room for it
   useLayoutEffect(() => {
     const mq = window.matchMedia('(min-width: 1024px), (min-width: 700px) and (max-height: 480px)')
@@ -254,7 +255,7 @@ export function Stage() {
       rt.pop = 1
       wave()
       sfx.pop()
-      if (!reduced) {
+      if (!reduced && !calm) {
         const r = e.currentTarget.getBoundingClientRect()
         const at = { x: e.clientX - r.left, y: e.clientY - r.top }
         setBurst((b) => ({ ...at, n: (b?.n ?? 0) + 1 }))
@@ -328,7 +329,7 @@ export function Stage() {
         onKeyDown={onKey}
       >
         <div className="sari-back" aria-hidden>
-          <div className="sari-back__film" style={FILM} />
+          {!calm && <div className="sari-back__film" style={FILM} />}
           <div className="sari-back__glow" />
           <div className="sari-back__rays" />
           <div className="sari-back__floor" />
@@ -349,7 +350,7 @@ export function Stage() {
             </ErrorBoundary>
           )}
         </div>
-        {(flat || burst) && <Leaves ref={leaves} density={flat ? 9 : 0} className="sari-burst" />}
+        {!calm && (flat || burst) && <Leaves ref={leaves} density={flat ? 9 : 0} className="sari-burst" />}
       </div>
       {!flat && (
         <div className="sari-controls">

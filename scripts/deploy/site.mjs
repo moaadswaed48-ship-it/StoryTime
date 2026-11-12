@@ -9,7 +9,7 @@ import { resolve } from 'node:path'
 const out = resolve((process.argv.find((a) => a.startsWith('--out=')) ?? '').slice(6) || 'site')
 // The public address goes into the link-preview tags: WhatsApp only shows the picture when it has a full address.
 const url = (process.argv.find((a) => a.startsWith('--url=')) ?? '').slice(6) || 'https://moaadswaed48-ship-it.github.io/StoryTime/'
-execFileSync('npx', ['vite', 'build'], { stdio: 'inherit', env: { ...process.env, VITE_BASE: './', VITE_SITE_URL: url } })
+execFileSync('npx', ['vite', 'build'], { stdio: 'inherit', shell: process.platform === 'win32', env: { ...process.env, VITE_BASE: './', VITE_SITE_URL: url } })
 mkdirSync(out, { recursive: true })
 // `b/` holds the comparison build (version B) when one is published beside the main site: leave it in place
 for (const f of readdirSync(out)) if (f !== '.git' && f !== 'b') rmSync(resolve(out, f), { recursive: true, force: true })

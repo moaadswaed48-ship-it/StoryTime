@@ -31,7 +31,7 @@ const DIM = 0.34
  * is drawn with one stroke. Then the invitation: the falling leaves behind dark glass.
  * The sheet has rounded shoulders above and below: it slides over the night and lifts off the last film of the page.
  */
-export function Author() {
+export function Author({ cta = true }: { cta?: boolean } = {}) {
   const para = useRef<HTMLParagraphElement>(null)
   const sign = useRef<HTMLDivElement>(null)
   const book = useRef<BookHandle>(null)
@@ -139,7 +139,7 @@ export function Author() {
           </div>
         </div>
 
-        <CtaCard ref={film} />
+        {cta && <CtaCard ref={film} />}
       </Container>
     </section>
   )
