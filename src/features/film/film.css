@@ -1,13 +1,18 @@
 /* ─────────────────────────────────────────────────────────────────────────────
    The film overlay: a small cinema. Black stage, the film large, the film's own
-   light spilling onto the walls, glass controls that leave while it plays.
-   Landscape: everything floats over the picture. Portrait: picture on top, the
-   words and the controls below it on black.
+   light on the walls, glass controls that leave while it plays.
+   Landscape: everything floats over the picture; the scene row only shows while
+   the film is paused (or the pointer rests on the controls).
+   Portrait: the screen floats in the middle of the room with her words under it;
+   the top bar and the controls are pinned to the edges and come and go without
+   moving the film.
    ───────────────────────────────────────────────────────────────────────────── */
 .film-stage {
   --gx: clamp(0px, 3.2vw, 46px);
   --gy: clamp(0px, 4.6vh, 44px);
-  --dock: 138px; /* height the captions rise by while the controls are up */
+  --bar: 64px; /* height of the control bar */
+  --chip: 44px; /* height of a scene chip */
+  --lift: calc(var(--bar) + 4px); /* how far the words rise while the controls are up */
   position: fixed;
   inset: 0;
   z-index: 70;
@@ -22,6 +27,10 @@
   isolation: isolate;
   transition: opacity 0.22s ease-out;
   -webkit-tap-highlight-color: transparent;
+}
+/* Paused, the scene row stands above the bar: the words step above both. */
+.film-stage[data-film='paused'][data-film-started='yes'] {
+  --lift: calc(var(--bar) + var(--chip) + 18px);
 }
 .film-stage.is-closing {
   opacity: 0;
@@ -53,12 +62,6 @@
   }
 }
 .film-screen {
-  animation: film-screen-in 0.9s var(--ease-out-2, cubic-bezier(0.16, 1, 0.3, 1)) both;
-}
-.film-ambient {
-  animation: film-glow-in 1.6s 0.25s ease-out both;
-}
-.film-screen {
   position: absolute;
   inset: 0;
   overflow: hidden;
@@ -68,6 +71,7 @@
     0 0 0 1px rgba(255, 255, 255, 0.06),
     0 40px 120px rgba(0, 0, 0, 0.6);
   transform: translateZ(0);
+  animation: film-screen-in 0.9s var(--ease-out-2, cubic-bezier(0.16, 1, 0.3, 1)) both;
 }
 .film-video {
   position: absolute;
@@ -75,15 +79,49 @@
   width: 100%;
   height: 100%;
   object-fit: contain;
-  background: #000;
   opacity: 0;
   transition: opacity 0.6s ease-out;
 }
 .film-video.is-ready {
   opacity: 1;
 }
-/* The film's light on the walls: the scene's picture, blown up and blurred. Laid out at half size and
-   doubled so the blur stays cheap; pictures dissolve when the scene changes. */
+
+/* What the screen shows until the film's data is here: the film's first frame, drawn in CSS (the cover as
+   a card on its own amber glow — same geometry as scripts/film/build-film.mjs), so nothing jumps. */
+.film-poster {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(to right, rgba(70, 8, 0, 0.42), rgba(70, 8, 0, 0) 46%),
+    radial-gradient(62% 92% at 50% 48%, #80490f 0%, #6a3c0f 34%, #46280b 62%, #241407 100%);
+}
+.film-poster__card {
+  position: absolute;
+  top: 6%;
+  left: 50%;
+  height: 88%;
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
+  border-radius: 1.5625cqw;
+  box-shadow: 0 2.4cqw 4.6cqw rgba(0, 0, 0, 0.62);
+  translate: -50% 0;
+}
+.film-poster__card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.film-poster__card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0) 35%, rgba(18, 12, 8, 0.16));
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.2);
+}
+
+/* The film's light on the walls: the scene's picture, blown up and blurred. Laid out small and scaled up so
+   the blur stays cheap; pictures dissolve when the scene changes. */
 .film-ambient {
   position: absolute;
   z-index: -1;
@@ -95,6 +133,7 @@
   filter: blur(17px) saturate(1.4);
   opacity: 0.55;
   pointer-events: none;
+  animation: film-glow-in 1.6s 0.25s ease-out both;
 }
 .film-ambient img {
   position: absolute;
@@ -103,6 +142,27 @@
   height: 100%;
   object-fit: cover;
   animation: fade-in 1.6s ease-out both;
+}
+/* Portrait only: the same light, filling the room above and below the screen. */
+.film-room {
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  display: none;
+  overflow: hidden;
+  pointer-events: none;
+  -webkit-mask-image: radial-gradient(125% 62% at 50% 44%, #000 26%, transparent 80%);
+  mask-image: radial-gradient(125% 62% at 50% 44%, #000 26%, transparent 80%);
+}
+.film-room .film-ambient {
+  z-index: 0;
+  left: 37.5%;
+  top: 37.5%;
+  width: 25%;
+  height: 25%;
+  transform: scale(4.5);
+  filter: blur(15px) saturate(1.5);
+  opacity: 0.42;
 }
 
 /* Soft directional shades: only where words or controls sit, only while they are there. */
@@ -119,7 +179,7 @@
 .film-shade--bottom {
   bottom: 0;
   height: 58%;
-  background: linear-gradient(to top, rgba(12, 8, 5, 0.86), rgba(12, 8, 5, 0.6) 30%, rgba(12, 8, 5, 0.22) 62%, rgba(12, 8, 5, 0));
+  background: linear-gradient(to top, rgba(12, 8, 5, 0.84), rgba(12, 8, 5, 0.56) 30%, rgba(12, 8, 5, 0.2) 62%, rgba(12, 8, 5, 0));
 }
 .film-shade--bottom.is-soft {
   opacity: 0.72;
@@ -131,14 +191,14 @@
 }
 .film-shade--title {
   inset: 0;
-  background: radial-gradient(90% 95% at 0% 100%, rgba(12, 8, 5, 0.86), rgba(12, 8, 5, 0.5) 42%, rgba(12, 8, 5, 0) 72%);
+  background: radial-gradient(86% 92% at 0% 100%, rgba(12, 8, 5, 0.8), rgba(12, 8, 5, 0.44) 42%, rgba(12, 8, 5, 0) 72%);
   transition-duration: 0.9s;
 }
 html[dir='rtl'] .film-shade--title {
-  background: radial-gradient(90% 95% at 100% 100%, rgba(12, 8, 5, 0.86), rgba(12, 8, 5, 0.5) 42%, rgba(12, 8, 5, 0) 72%);
+  background: radial-gradient(86% 92% at 100% 100%, rgba(12, 8, 5, 0.8), rgba(12, 8, 5, 0.44) 42%, rgba(12, 8, 5, 0) 72%);
 }
 
-/* ── title card (kicker + the story's title, set in type over the cover) ────── */
+/* ── title card (kicker + the story's title, set in type beside the book) ───── */
 .film-title {
   transition:
     opacity 0.8s var(--ease-out, ease-out),
@@ -174,16 +234,14 @@ html[lang='ar'] .film-title__name {
   inset-inline-start: 5.4%;
   bottom: 9.5%;
   max-width: 64%;
-}
-/* While the controls are up, the title steps above them (same move as the captions). */
-.film-frame .film-title {
   transform-origin: 0% 100%;
 }
 html[dir='rtl'] .film-frame .film-title {
   transform-origin: 100% 100%;
 }
+/* While the controls are up, the title steps above them (same move as the captions). */
 .film-stage.has-ui .film-frame .film-title:not(.is-off) {
-  transform: translateY(calc(-1 * var(--dock) + 1.2cqw)) scale(0.76);
+  transform: translateY(calc(-1 * var(--lift) + 1.2cqw)) scale(0.8);
 }
 .film-frame .film-title__name {
   font-size: clamp(2rem, 5.9cqw, 5.6rem);
@@ -228,10 +286,12 @@ html[lang='en'] .film-cue {
   bottom: 6.4%;
   text-align: center;
   pointer-events: none;
+  transform-origin: 50% 100%;
   transition: transform 0.5s var(--ease-out, ease-out);
 }
+/* Controls up: the words step back a little and rise clear of them. */
 .film-stage.has-ui .film-frame .film-caption {
-  transform: translateY(calc(-1 * var(--dock)));
+  transform: translateY(calc(-1 * var(--lift))) scale(0.86);
 }
 .film-frame .film-cue {
   font-size: clamp(1.3rem, 2.95cqw, 2.9rem);
@@ -282,6 +342,9 @@ html[lang='en'] .film-cue {
   gap: 4px;
   padding-inline-start: 8px;
   text-shadow: 0 2px 16px rgba(0, 0, 0, 0.5);
+  transition:
+    opacity 0.3s ease-out,
+    visibility 0s;
 }
 .film-top__name {
   overflow: hidden;
@@ -333,11 +396,6 @@ html[lang='en'] .film-cue {
   }
 }
 
-.film-dock {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
 .film-frame .film-dock {
   position: absolute;
   z-index: 6;
@@ -346,7 +404,7 @@ html[lang='en'] .film-cue {
 }
 .film-bar {
   display: flex;
-  height: 64px;
+  height: var(--bar);
   align-items: center;
   gap: 6px;
   padding-inline: 8px 10px;
@@ -388,10 +446,6 @@ html[lang='en'] .film-cue {
     0 0 0 4px var(--color-maple-soft, #f4a35e),
     0 2px 10px rgba(0, 0, 0, 0.45);
 }
-.film-scrub:focus-visible .film-scrub__track {
-  height: 7px;
-  margin-top: -3.5px;
-}
 html[dir='rtl'] .film-scrub {
   --dir: -1;
 }
@@ -404,14 +458,12 @@ html[dir='rtl'] .film-scrub {
   overflow: hidden;
   border-radius: 9999px;
   background: rgba(255, 255, 255, 0.2);
-  transition:
-    height 0.2s ease-out,
-    margin-top 0.2s ease-out;
+  transition: transform 0.2s ease-out;
 }
 .film-scrub:hover .film-scrub__track,
-.film-scrub.is-dragging .film-scrub__track {
-  height: 7px;
-  margin-top: -3.5px;
+.film-scrub.is-dragging .film-scrub__track,
+.film-scrub:focus-visible .film-scrub__track {
+  transform: scaleY(1.4);
 }
 .film-scrub__fill {
   position: absolute;
@@ -454,11 +506,11 @@ html[dir='rtl'] .film-scrub__fill {
 .film-scrub:focus-visible .film-scrub__thumb {
   --thumb: 1;
 }
-/* Hover preview: the scene under the pointer. */
+/* Hover preview: the scene under the pointer, standing clear above the bar. */
 .film-peek {
   position: absolute;
   z-index: 2;
-  bottom: 40px;
+  bottom: 54px;
   background: rgba(18, 12, 8, 0.94);
   box-shadow:
     inset 0 0 0 1px rgba(255, 255, 255, 0.12),
@@ -505,7 +557,34 @@ html[dir='rtl'] .film-scrub__fill {
   }
 }
 
-/* Scene chips */
+/* ── scene chips: a row of its own, shown while paused (or while the pointer rests on the controls) ── */
+.film-scenes {
+  z-index: 6;
+  opacity: 0;
+  pointer-events: none;
+  visibility: hidden;
+  transform: translateY(8px);
+  transition:
+    opacity 0.3s ease-out,
+    transform 0.45s var(--ease-out, ease-out),
+    visibility 0s 0.3s;
+}
+.film-stage.has-ui[data-film='paused'][data-film-started='yes'] .film-scenes {
+  opacity: 1;
+  pointer-events: auto;
+  visibility: visible;
+  transform: none;
+  transition:
+    opacity 0.3s ease-out,
+    transform 0.45s var(--ease-out, ease-out),
+    visibility 0s;
+}
+.film-frame .film-scenes {
+  position: absolute;
+  inset-inline: 2.2%;
+  bottom: calc(3.4% + var(--bar));
+  padding-bottom: 12px; /* reaches down to the bar, so the pointer can travel from one to the other */
+}
 .film-chips {
   display: flex;
   gap: 8px;
@@ -523,11 +602,11 @@ html[dir='rtl'] .film-scrub__fill {
 .film-chip {
   position: relative;
   display: inline-flex;
-  height: 44px;
+  height: var(--chip);
   flex: none;
   align-items: center;
   gap: 10px;
-  padding-inline: 6px 16px;
+  padding-inline: 7px 16px;
   border-radius: 9999px;
   font-size: 13.5px;
   font-weight: 600;
@@ -540,31 +619,38 @@ html[dir='rtl'] .film-scrub__fill {
     transform 0.2s ease-out;
 }
 .film-chip img {
-  width: 32px;
-  height: 32px;
+  width: 46px;
+  height: 30px;
   border-radius: 9999px;
   object-fit: cover;
 }
 .film-chip:active {
   transform: scale(0.97);
 }
-/* The scene on screen: a paper chip that fills, from the reading side, as the scene plays. */
+/* The scene on screen: a paper chip; a maple line under its name fills, from the reading side, as it plays. */
 .film-chip[aria-current='true'] {
-  overflow: hidden;
-  background: rgba(246, 240, 228, 0.66);
+  background: var(--color-paper, #f6f0e4);
   color: var(--color-ink, #1a120b);
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
 }
-.film-chip[aria-current='true']::before {
+.film-chip[aria-current='true']::before,
+.film-chip[aria-current='true']::after {
   content: '';
   position: absolute;
-  z-index: -1;
-  inset: 0;
-  background: var(--color-paper, #f6f0e4);
+  inset-inline: 63px 16px;
+  bottom: 6px;
+  height: 2px;
+  border-radius: 2px;
+  background: rgba(26, 18, 11, 0.14);
+}
+.film-chip[aria-current='true']::after {
+  background: var(--color-maple, #d9541e);
   transform: scaleX(var(--sp, 0));
   transform-origin: left center;
 }
-html[dir='rtl'] .film-chip[aria-current='true']::before {
+html[dir='rtl'] .film-chip[aria-current='true']::after {
   transform-origin: right center;
 }
 @media (hover: hover) {
@@ -649,9 +735,6 @@ html[dir='rtl'] .film-chip[aria-current='true']::before {
   box-shadow: 0 12px 34px rgba(0, 0, 0, 0.35);
   animation: film-drop 0.6s var(--ease-out, ease-out) both;
 }
-html[dir='rtl'] .film-unmute {
-  translate: -50% 0;
-}
 @keyframes film-drop {
   from {
     opacity: 0;
@@ -659,7 +742,7 @@ html[dir='rtl'] .film-unmute {
   }
 }
 
-/* ── end card ───────────────────────────────────────────────────────────────── */
+/* ── end card: the last picture, clear, with the words in its lower corner ──── */
 .film-end__back {
   position: absolute;
   z-index: 2;
@@ -670,19 +753,31 @@ html[dir='rtl'] .film-unmute {
 }
 .film-end__back img {
   position: absolute;
-  inset: -6%;
-  width: 112%;
-  height: 112%;
+  inset: 0;
+  width: 100%;
+  height: 100%;
   object-fit: cover;
-  filter: blur(20px) saturate(1.15);
-  opacity: 0.74;
+  animation: film-settle 1.8s var(--ease-out, ease-out) both;
 }
+@keyframes film-settle {
+  from {
+    transform: scale(1.05);
+  }
+}
+/* A directional shade from the corner where the words sit, and a low one for the bar: the sky stays clear. */
 .film-end__back::before {
   content: '';
   position: absolute;
   z-index: 1;
   inset: 0;
-  background: radial-gradient(80% 90% at 50% 44%, rgba(12, 8, 5, 0.34), rgba(12, 8, 5, 0.86));
+  background:
+    radial-gradient(78% 108% at 0% 100%, rgba(12, 8, 5, 0.88), rgba(12, 8, 5, 0.52) 46%, rgba(12, 8, 5, 0) 76%),
+    linear-gradient(to top, rgba(12, 8, 5, 0.62), rgba(12, 8, 5, 0) 34%);
+}
+html[dir='rtl'] .film-end__back::before {
+  background:
+    radial-gradient(78% 108% at 100% 100%, rgba(12, 8, 5, 0.88), rgba(12, 8, 5, 0.52) 46%, rgba(12, 8, 5, 0) 76%),
+    linear-gradient(to top, rgba(12, 8, 5, 0.62), rgba(12, 8, 5, 0) 34%);
 }
 .film-end__word {
   font-weight: 900;
@@ -711,126 +806,223 @@ html[lang='ar'] .film-end__word {
 .film-frame .film-end {
   position: absolute;
   z-index: 3;
-  inset: 0;
+  inset-inline-start: 5.4%;
+  bottom: calc(3.4% + var(--bar) + 5.2%);
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding-bottom: 6%;
-  text-align: center;
+  align-items: flex-start;
+  text-align: start;
 }
 .film-frame .film-end__word {
-  margin-top: 0.14em;
-  font-size: clamp(3.2rem, 10.5cqw, 9.5rem);
+  margin-top: 0.08em;
+  font-size: clamp(3rem, 8.4cqw, 7.5rem);
 }
 .film-end__actions {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
   gap: 12px;
 }
 .film-frame .film-end__actions {
-  margin-top: clamp(18px, 3cqw, 40px);
+  margin-top: clamp(14px, 2.2cqw, 30px);
 }
 
-/* A mouse is precise: on desktop the chips can be lighter than a fingertip needs. */
+/* A mouse is precise: on desktop the controls can be lighter than a fingertip needs, and the scene row
+   also answers to the pointer resting on the controls while the film plays. */
 @media (hover: hover) and (pointer: fine) and (orientation: landscape) {
   .film-stage {
-    --dock: 128px;
+    --bar: 60px;
+    --chip: 40px;
   }
   .film-chip {
-    height: 40px;
     gap: 9px;
-    padding-inline: 5px 15px;
+    padding-inline: 6px 15px;
     font-size: 13px;
   }
   .film-chip img {
-    width: 30px;
-    height: 30px;
+    width: 42px;
+    height: 28px;
   }
-  .film-bar {
-    height: 60px;
+  .film-chip[aria-current='true']::before,
+  .film-chip[aria-current='true']::after {
+    inset-inline: 57px 15px;
+    bottom: 5px;
+  }
+}
+@media (hover: hover) and (pointer: fine) and (orientation: landscape) and (min-height: 701px) {
+  .film-stage[data-film='playing']:has(.film-dock:hover, .film-scenes:hover, .film-dock:focus-within, .film-scenes:focus-within) {
+    --lift: calc(var(--bar) + var(--chip) + 18px);
+  }
+  .film-stage.has-ui[data-film='playing']:has(.film-dock:hover, .film-scenes:hover, .film-dock:focus-within, .film-scenes:focus-within) .film-scenes {
+    opacity: 1;
+    pointer-events: auto;
+    visibility: visible;
+    transform: none;
+    transition:
+      opacity 0.3s ease-out,
+      transform 0.45s var(--ease-out, ease-out),
+      visibility 0s;
   }
 }
 
-/* ── short landscape screens (a phone on its side): the film fills the glass ── */
+/* ── low landscape windows (a laptop with its browser bars): smaller words, nothing over the faces ── */
+@media (orientation: landscape) and (max-height: 700px) {
+  .film-frame .film-cue {
+    font-size: clamp(1.05rem, 2.5cqw, 1.6rem);
+  }
+  .film-frame .film-end__word {
+    font-size: clamp(2.4rem, 8cqw, 4.6rem);
+  }
+  .film-frame .film-end__actions {
+    margin-top: 12px;
+  }
+}
+
+/* ── a phone on its side: the film fills the glass; the scene row moves up beside the close button, so
+      the lower part of the picture only carries the words and the bar ─────────────────────────────── */
 @media (orientation: landscape) and (max-height: 560px) {
   .film-stage {
     --gx: 0px;
     --gy: 0px;
-    --dock: 116px;
+    --bar: 56px;
+  }
+  .film-stage[data-film='paused'][data-film-started='yes'] {
+    --lift: calc(var(--bar) + 4px);
   }
   .film-screen {
     border-radius: 0;
     box-shadow: none;
   }
-  .film-bar {
-    height: 56px;
-  }
   .film-frame .film-dock {
-    gap: 8px;
     inset-inline: max(2.2%, env(safe-area-inset-left), env(safe-area-inset-right));
+  }
+  .film-frame .film-scenes {
+    top: 3.6%;
+    bottom: auto;
+    inset-inline: 2.2% calc(2.2% + 56px);
+    padding-bottom: 0;
+    transform: translateY(-8px);
+  }
+  .film-chips {
+    justify-content: flex-start;
+    -webkit-mask-image: linear-gradient(to right, transparent, #000 18px, #000 calc(100% - 18px), transparent);
+    mask-image: linear-gradient(to right, transparent, #000 18px, #000 calc(100% - 18px), transparent);
+    padding-inline: 14px;
+    scroll-padding-inline: 14px;
+  }
+  .film-stage[data-film='paused'][data-film-started='yes'] .film-top__label {
+    opacity: 0;
+    visibility: hidden;
+  }
+  .film-frame .film-end {
+    bottom: calc(3.4% + var(--bar) + 3%);
+  }
+  .film-frame .film-end__word {
+    font-size: clamp(2.2rem, 8cqw, 3.6rem);
+  }
+  .film-frame .film-end__actions > * {
+    height: 3rem;
+    padding-inline: 20px;
+    font-size: 15px;
   }
 }
 
-/* ── portrait: picture on top, words and controls below on black ────────────── */
+/* ── portrait: the screen floats in the middle of the room, her words under it ── */
 @media (orientation: portrait) {
   .film-stage {
-    --gx: 0px;
-    justify-content: flex-start;
-    padding-top: env(safe-area-inset-top);
-    padding-bottom: max(14px, env(safe-area-inset-bottom));
+    --gx: 10px;
+    --top: 68px;
+    --bar: 106px;
+    --foot: max(14px, env(safe-area-inset-bottom));
+    /* the film and its words are centred in what the top bar and the controls leave free, and stay there */
+    padding-top: calc(env(safe-area-inset-top) + var(--top));
+    padding-bottom: calc(var(--foot) + var(--bar));
+  }
+  .film-room {
+    display: block;
   }
   .film-frame {
-    width: 100vw;
+    width: calc(100vw - 2 * var(--gx));
+  }
+  .film-frame > .film-ambient {
+    display: none;
   }
   .film-screen {
-    border-radius: 0;
-    box-shadow: none;
-  }
-  .film-ambient {
-    transform: scale(2.3);
-    filter: blur(28px) saturate(1.45);
-    opacity: 0.6;
+    border-radius: clamp(14px, 4cqw, 22px);
+    box-shadow:
+      0 0 0 1px rgba(255, 255, 255, 0.07),
+      0 24px 70px rgba(0, 0, 0, 0.55);
   }
   .film-bigplay {
     width: 64px;
     height: 64px;
   }
-  /* The end: the last picture stays clear on top, the words sit below it. */
-  .film-end__back img {
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    filter: none;
-    opacity: 0.9;
-  }
-  .film-end__back::before {
-    background: linear-gradient(to bottom, rgba(5, 3, 2, 0) 55%, rgba(5, 3, 2, 0.9));
+  .film-unmute {
+    top: auto;
+    bottom: calc(100% + 14px); /* above the screen, never on the children's faces */
   }
   .film-top {
-    width: 100%;
-    height: 68px;
-    flex: none;
-    padding-inline: 14px 12px;
+    position: absolute;
+    z-index: 6;
+    top: env(safe-area-inset-top);
+    inset-inline: 0;
+    height: var(--top);
+    padding-inline: 16px 12px;
   }
+  .film-dock {
+    position: absolute;
+    z-index: 6;
+    inset-inline: 0;
+    bottom: var(--foot);
+  }
+  .film-scenes {
+    position: absolute;
+    inset-inline: 0;
+    bottom: calc(var(--foot) + var(--bar));
+    padding-bottom: 12px;
+  }
+  .film-chips {
+    justify-content: flex-start;
+    margin: 0;
+    padding: 3px 18px;
+    scroll-padding-inline: 18px;
+    -webkit-mask-image: linear-gradient(to right, transparent, #000 18px, #000 calc(100% - 18px), transparent);
+    mask-image: linear-gradient(to right, transparent, #000 18px, #000 calc(100% - 18px), transparent);
+  }
+  .film-bar {
+    height: auto;
+    min-height: var(--bar);
+    flex-wrap: wrap;
+    row-gap: 0;
+    margin-inline: 12px;
+    padding: 6px 10px 8px;
+    border-radius: 28px;
+  }
+  .film-scrub {
+    order: -1;
+    flex: 0 0 100%;
+    margin-inline: 8px;
+    max-width: calc(100% - 16px);
+  }
+  .film-time {
+    margin-inline-end: auto;
+  }
+
   .film-words {
     position: relative;
     display: flex;
     width: 100%;
-    min-height: 0;
-    flex: 1;
+    min-height: 9.5rem;
+    flex: 0 0 auto;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    padding: 12px 26px 18px;
+    justify-content: flex-start;
+    padding: 22px 26px 0;
     text-align: center;
   }
   .film-words .film-title {
     position: absolute;
     inset-inline: 26px;
-    top: 50%;
-    translate: 0 -54%;
+    top: 24px;
   }
   .film-words .film-title__name {
     font-size: clamp(2rem, min(11.5vw, 6.4vh), 3.6rem);
@@ -838,11 +1030,20 @@ html[lang='ar'] .film-end__word {
   html[lang='en'] .film-words .film-title__name {
     font-size: clamp(1.7rem, min(9.4vw, 6vh), 3.2rem); /* "Autumn Leaves" stays on one line */
   }
-  .film-words .film-title .t-label {
+  .film-words .t-label {
     justify-content: center;
   }
+  .film-words .film-caption {
+    transform-origin: 50% 0%;
+    transition: transform 0.5s var(--ease-out, ease-out);
+  }
   .film-words .film-cue {
-    font-size: clamp(1.3rem, min(7vw, 3.7vh), 2.3rem);
+    font-size: clamp(1.45rem, min(7.6vw, 4vh), 2.5rem);
+  }
+  /* The end: the last picture stays clear in the screen, the words sit under it. */
+  .film-end__back::before,
+  html[dir='rtl'] .film-end__back::before {
+    background: linear-gradient(to bottom, rgba(5, 3, 2, 0) 60%, rgba(5, 3, 2, 0.5));
   }
   .film-words .film-end {
     display: flex;
@@ -868,47 +1069,35 @@ html[lang='ar'] .film-end__word {
   .film-words .film-end__actions > * {
     width: 100%;
   }
-  .film-dock {
-    width: 100%;
-    flex: none;
-    gap: 14px;
-  }
-  .film-chips {
-    justify-content: flex-start;
-    margin: 0;
-    padding: 3px 16px;
-    scroll-padding-inline: 16px;
-  }
-  .film-bar {
-    height: auto;
-    flex-wrap: wrap;
-    row-gap: 0;
-    margin-inline: 12px;
-    padding: 6px 10px 8px;
-    border-radius: 28px;
-  }
-  .film-scrub {
-    order: -1;
-    flex: 0 0 100%;
-    margin-inline: 8px;
-    max-width: calc(100% - 16px);
-  }
-  .film-time {
-    margin-inline-end: auto;
+}
+/* Tall portrait screens have room for the scene row whenever the controls are up. */
+@media (orientation: portrait) and (min-height: 741px) {
+  .film-stage.has-ui[data-film='playing'] .film-scenes {
+    opacity: 1;
+    pointer-events: auto;
+    visibility: visible;
+    transform: none;
+    transition:
+      opacity 0.3s ease-out,
+      transform 0.45s var(--ease-out, ease-out),
+      visibility 0s;
   }
 }
-
-/* Short portrait screens (small phones, a browser with its bars showing): tighter, and the two end
-   actions share one row. */
+/* Short portrait screens (small phones, a browser with its bars showing): tighter; the scene row only
+   while paused, the words step back a little under it, and the two end actions share one row. */
 @media (orientation: portrait) and (max-height: 740px) {
-  .film-top {
-    height: 58px;
+  .film-stage {
+    --top: 58px;
   }
   .film-words {
-    padding-block: 6px 10px;
+    min-height: 8rem;
+    padding-top: 16px;
   }
-  .film-dock {
-    gap: 10px;
+  .film-words .film-title {
+    top: 16px;
+  }
+  .film-stage.has-ui[data-film='paused'] .film-words .film-caption {
+    transform: scale(0.88);
   }
   .film-words .film-end__actions {
     max-width: none;
@@ -929,6 +1118,7 @@ html[lang='ar'] .film-end__word {
 /* ── reduced motion: nothing slides, nothing staggers; everything is simply there ── */
 html[data-reduce-motion] .film-cue .w,
 html[data-reduce-motion] .film-end > *,
+html[data-reduce-motion] .film-end__back img,
 html[data-reduce-motion] .film-bigplay,
 html[data-reduce-motion] .film-unmute {
   animation: none;
@@ -939,6 +1129,8 @@ html[data-reduce-motion] .film-bezel {
 @media (prefers-reduced-motion: reduce) {
   .film-cue .w,
   .film-end > *,
+  .film-end__back img,
+  .film-screen,
   .film-bigplay,
   .film-unmute {
     animation: none;

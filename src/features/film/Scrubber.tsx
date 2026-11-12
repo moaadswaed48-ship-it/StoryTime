@@ -109,7 +109,8 @@ export function Scrubber({ video, tl, duration, onSeek, onScrub }: { video: RefO
       <div className="film-scrub__track">
         <div className="film-scrub__fill film-scrub__fill--buffer" />
         <div className="film-scrub__fill" />
-        {tl?.scenes.map((s) => (s.start > 0.5 ? <span key={s.scene} className="film-scrub__tick" style={{ insetInlineStart: `${(s.start / duration) * 100}%` }} /> : null))}
+        {/* a gap at every change of scene (not before the first one: the cover opening is part of it) */}
+        {tl?.scenes.map((s, k) => (k > 0 ? <span key={s.scene} className="film-scrub__tick" style={{ insetInlineStart: `${(s.start / duration) * 100}%` }} /> : null))}
       </div>
       <span className="film-scrub__thumb" />
       {scene && (

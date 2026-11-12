@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef, useState, type KeyboardEvent as ReactKe
 import { Captions, CaptionsOff, Maximize, Minimize, Pause, Play, Volume2, VolumeX, X } from 'lucide-react'
 import { Eyebrow, Pill } from '@/design/ui'
 import { useOverlayLock } from '@/design/overlay'
+import { useProfileStore } from '@/store/useProfileStore'
 import { useSiteStore } from '@/store/useSiteStore'
 import { story } from '@/content/story'
 import { t } from '@/i18n/copy'
@@ -11,15 +12,15 @@ import { clamp } from '@/lib/clamp'
 import { cn } from '@/lib/cn'
 import { exposeQA } from '@/lib/qa'
 import { Scrubber } from './Scrubber'
-import { Ambient, Caption, EndCard, TitleCard } from './parts'
+import { Ambient, Caption, EndCard, Poster, TitleCard } from './parts'
 import { strings } from './strings'
 import { clearStart, clock, loadTimeline, nearestFilmScene, sceneIndexAt, type Timeline } from './timeline'
 import './film.css'
 
-/** The title card leaves at this point of the cover opening, in time for the first dissolve. */
-const TITLE_UNTIL = 1.15
-/** With reduced motion the film waits, paused, on this frame of the cover. */
-const POSTER_AT = 1
+/** The title holds over the cover, through the first dissolve and into the first second of scene 1. */
+const TITLE_UNTIL = 3
+/** The first caption waits until the title has left. */
+const CUE_AFTER_TITLE = 0.5
 const HIDE_AFTER = 2800
 const CC_KEY = 'st:film-captions'
 
@@ -37,6 +38,9 @@ type FsDocument = Document & { webkitFullscreenElement?: Element | null; webkitE
 type FsElement = HTMLElement & { webkitRequestFullscreen?: () => Promise<void> | void }
 type FsVideo = HTMLVideoElement & { webkitEnterFullscreen?: () => void }
 type LockableOrientation = ScreenOrientation & { lock?: (orientation: string) => Promise<void> }
+// The scene timings are tiny: fetch them while the page is idle, so a film opened at a scene can seek at once.
+if (typeof window !== 'undefined') window.setTimeout(() => void loadTimeline(), 2500)
+
 const fullscreenElement = () => document.fullscreenElement ?? (document as FsDocument).webkitFullscreenElement ?? null
 const canFullscreen = () => !!(document.fullscreenEnabled || (document as FsDocument).webkitFullscreenEnabled || 'webkitEnterFullscreen' in HTMLVideoElement.prototype)
 
@@ -73,11 +77,16 @@ export function Player() {
   const pendingSeek = useRef<number | null>(null)
   const lastWake = useRef(0)
   const titleFirst = useRef(!prefersReduced() && useSiteStore.getState().startScene === 0)
+  const titleGone = useRef(useSiteStore.getState().startScene > 0) // the title only shows on the way in from the cover
+  const cueFrom = useRef(0)
 
   const startScene = useSiteStore((s) => s.startScene)
 
   const [tl, setTl] = useState<Timeline | null>(null)
   const [ready, setReady] = useState(false)
+  const [armed, setArmed] = useState(false) // the film stands at the place it was asked to start from
+  const [shown, setShown] = useState(false) // the film has faded in over its poster
+  const [started, setStarted] = useState(false) // it has played at least once (before that: the rest state)
   const [settled, setSettled] = useState(false) // the first attempt to start has finished, one way or the other
   const [playing, setPlaying] = useState(false)
   const [waiting, setWaiting] = useState(false)
@@ -91,6 +100,7 @@ export function Player() {
   const [closing, setClosing] = useState(false)
   const [sec, setSec] = useState(0)
   const [idx, setIdx] = useState(-1)
+  const [cueOn, setCueOn] = useState(false)
   const [intro, setIntro] = useState(() => useSiteStore.getState().startScene === 0)
   const [outro, setOutro] = useState(false)
   const [bezel, setBezel] = useState<{ id: number; play: boolean } | null>(null)
@@ -117,13 +127,19 @@ export function Player() {
     if (!v) return
     const time = v.currentTime
     setSec(Math.floor(time))
-    setIntro(time < TITLE_UNTIL)
     const line = live.tl
+    // The title belongs to the way in from the cover; a chip or the scrubber into scene 1 does not bring it back.
+    if (time < (line?.opening ?? 2) - 0.25) titleGone.current = false
+    else if (time >= TITLE_UNTIL) titleGone.current = true
+    const title = time < TITLE_UNTIL && !titleGone.current
+    if (title) cueFrom.current = TITLE_UNTIL + CUE_AFTER_TITLE
+    else if (time >= cueFrom.current || time < (line?.opening ?? 2) - 0.25) cueFrom.current = 0
+    setIntro(title)
+    setCueOn(!title && time >= cueFrom.current)
     if (!line) return
-    const i = sceneIndexAt(line, time)
-    setIdx(i === 0 && time < line.opening - 0.05 ? -1 : i) // the first caption waits for the title to leave
+    setIdx(sceneIndexAt(line, time))
     setOutro(time > line.duration - line.fadeOut + 0.4)
-    if (titleFirst.current && time >= line.opening) {
+    if (titleFirst.current && time >= TITLE_UNTIL + 0.4) {
       titleFirst.current = false
       if (!v.paused) wake()
     }
@@ -209,41 +225,59 @@ export function Player() {
   }, [])
   useOverlayLock(true, close)
 
-  /* ── start: load the timings, go to the asked scene, play with sound if allowed ── */
+  /* ── start: ask for sound while the opening tap still counts, then timings, then the asked scene ── */
   useEffect(() => {
     const v = video.current!
     let alive = true
     live.video = v
     live.seek = seek
+    const from = useSiteStore.getState().startScene
+    const still = prefersReduced()
+    // The overlay mounts inside the tap that opened it. Phones only allow sound from inside that tap, so
+    // play() is called right here, before anything is awaited.
+    let first: Promise<unknown> = Promise.resolve(null)
+    if (!still) {
+      v.muted = false
+      first = v.play().then(
+        () => null,
+        (e: unknown) => e,
+      )
+    }
     const metadata = new Promise<void>((resolve) => {
       if (v.readyState >= 1) return resolve()
       v.addEventListener('loadedmetadata', () => resolve(), { once: true })
       v.addEventListener('error', () => resolve(), { once: true })
     })
-    void Promise.all([loadTimeline(), metadata]).then(async ([line]) => {
+    void (async () => {
+      const line = await loadTimeline()
       if (!alive) return
       live.tl = line
       setTl(line)
-      const from = useSiteStore.getState().startScene
-      const still = prefersReduced()
-      const at = line && from > 0 ? clearStart(line, nearestFilmScene(line, from)) : still ? POSTER_AT : 0
-      if (at > 0) v.currentTime = at
+      if (line && from > 0) {
+        await metadata
+        if (!alive) return
+        const at = clearStart(line, nearestFilmScene(line, from))
+        await new Promise<void>((resolve) => {
+          v.addEventListener('seeked', () => resolve(), { once: true })
+          v.addEventListener('error', () => resolve(), { once: true })
+          window.setTimeout(resolve, 2500)
+          v.currentTime = at
+        })
+        if (!alive) return
+      }
+      setArmed(true)
       sync()
       if (still) return setSettled(true) // rest state: paused on the cover, a play button in the middle
-      v.muted = false
-      try {
-        await v.play()
-      } catch (e) {
-        if (!alive) return
-        if ((e as DOMException)?.name === 'NotAllowedError') {
-          // Sound needs a tap here: start silently and say so.
-          v.muted = true
-          setNeedUnmute(true)
-          await v.play().catch(() => {})
-        }
+      const refused = await first
+      if (!alive) return
+      if ((refused as DOMException | null)?.name === 'NotAllowedError') {
+        // Sound needs a tap here: start silently and say so.
+        v.muted = true
+        setNeedUnmute(true)
+        await v.play().catch(() => {})
       }
       if (alive) setSettled(true)
-    })
+    })()
     return () => {
       alive = false
       v.pause()
@@ -364,7 +398,7 @@ export function Player() {
   const trapTab = (e: ReactKeyboardEvent<HTMLDivElement>) => {
     if (e.key !== 'Tab' || !stage.current) return
     wake()
-    const items = [...stage.current.querySelectorAll<HTMLElement>('button:not([disabled]), [tabindex="0"]')].filter((el) => el.offsetParent !== null)
+    const items = [...stage.current.querySelectorAll<HTMLElement>('button:not([disabled]), [tabindex="0"]')].filter((el) => el.offsetParent !== null && getComputedStyle(el).visibility !== 'hidden')
     if (!items.length) return e.preventDefault()
     const first = items[0]
     const last = items[items.length - 1]
@@ -391,7 +425,7 @@ export function Player() {
 
   /* ── pointer: a mouse click plays/pauses, a tap brings the controls (or sends them away) ── */
   const onStageClick = (e: ReactMouseEvent<HTMLDivElement>) => {
-    if ((e.target as HTMLElement).closest('button, [role="slider"], .film-dock, .film-top')) return
+    if ((e.target as HTMLElement).closest('button, [role="slider"], .film-dock, .film-scenes, .film-top')) return
     if (needUnmute) {
       toggleMute()
       return wake()
@@ -425,10 +459,12 @@ export function Player() {
   const over = ended || failed
   const titleOn = intro && !over
   const film = tl?.scenes ?? []
-  const cue = captions && !over && !outro && idx >= 0 && film[idx] ? story.scenes[film[idx].scene].cue[locale] : null
+  const last = story.scenes[story.scenes.length - 1]
+  const cue = captions && cueOn && !over && !outro && idx >= 0 && film[idx] ? story.scenes[film[idx].scene].cue[locale] : null
   const note = t.book.draft || story.title[locale] // English: say the captions are a draft translation
-  const showBigPlay = settled && !playing && !over && !waiting
+  const showBigPlay = settled && !started && !playing && !over && !waiting // the rest state only; later the bar's button does it
   const showSpinner = !over && (waiting || (!ready && !settled))
+  const light = asset(over ? last.thumb : idx >= 0 && film[idx] ? story.scenes[film[idx].scene].thumb : story.coverThumb)
 
   const top = (
     <div className="film-top film-ui film-ui--drop" onPointerEnter={rest(true)} onPointerLeave={rest(false)}>
@@ -442,18 +478,21 @@ export function Player() {
     </div>
   )
 
+  const scenes = film.length > 0 && !over && (
+    <div className="film-scenes" onPointerEnter={rest(true)} onPointerLeave={rest(false)}>
+      <div ref={chips} className="film-chips" role="group" aria-label={t.film.chapters}>
+        {film.map((s, k) => (
+          <button key={s.scene} type="button" className="film-chip glass" aria-current={k === Math.max(0, idx) ? 'true' : undefined} onClick={() => seekScene(k)} data-film-chip={s.scene}>
+            <img src={asset(story.scenes[s.scene].thumb)} alt="" loading="lazy" decoding="async" />
+            {story.scenes[s.scene].title[locale]}
+          </button>
+        ))}
+      </div>
+    </div>
+  )
+
   const dock = (
     <div className="film-dock film-ui film-ui--rise" onPointerEnter={rest(true)} onPointerLeave={rest(false)}>
-      {film.length > 0 && !(portrait && over) && (
-        <div ref={chips} className="film-chips" role="group" aria-label={t.film.chapters}>
-          {film.map((s, k) => (
-            <button key={s.scene} type="button" className="film-chip glass" aria-current={k === Math.max(0, idx) && !over ? 'true' : undefined} onClick={() => seekScene(k)} data-film-chip={s.scene}>
-              <img src={asset(story.scenes[s.scene].thumb)} alt="" loading="lazy" decoding="async" />
-              {story.scenes[s.scene].title[locale]}
-            </button>
-          ))}
-        </div>
-      )}
       <div className="film-bar glass">
         <button type="button" className="film-btn film-btn--main" aria-label={playing ? t.film.pause : t.film.play} title={playing ? t.film.pause : t.film.play} onClick={onPlayerClick} data-film-play>
           {playing ? <Pause size={20} fill="currentColor" strokeWidth={0} aria-hidden /> : <Play size={20} fill="currentColor" strokeWidth={0} className="translate-x-[1.5px]" aria-hidden />}
@@ -496,34 +535,46 @@ export function Player() {
       role="dialog"
       aria-modal="true"
       aria-label={`${t.film.title} · ${story.title[locale]}`}
+      aria-busy={showSpinner || undefined}
       tabIndex={-1}
       data-film={over ? 'ended' : playing ? 'playing' : 'paused'}
       data-film-ui={ui ? 'on' : 'off'}
+      data-film-started={started ? 'yes' : 'no'}
       onPointerDownCapture={(e) => (pointer.current = e.pointerType)}
       onPointerMove={onStageMove}
       onClick={onStageClick}
-      onDoubleClick={(e) => pointer.current === 'mouse' && (e.target as HTMLElement).closest('.film-frame') && !(e.target as HTMLElement).closest('button, [role="slider"], .film-dock, .film-top') && toggleFull()}
+      onDoubleClick={(e) => pointer.current === 'mouse' && (e.target as HTMLElement).closest('.film-frame') && !(e.target as HTMLElement).closest('button, [role="slider"], .film-dock, .film-scenes, .film-top') && toggleFull()}
       onKeyDown={trapTab}
       onFocus={(e) => (e.target as HTMLElement).matches?.(':focus-visible') && e.target !== stage.current && wake()}
     >
+      {/* portrait: the film's light fills the room around the screen */}
+      <div className="film-room" aria-hidden>
+        <Ambient src={light} />
+      </div>
       {portrait && top}
       <div className="film-frame">
-        <Ambient src={asset(over ? story.scenes[story.scenes.length - 1].thumb : idx >= 0 && film[idx] ? story.scenes[film[idx].scene].thumb : story.coverThumb)} />
+        <Ambient src={light} />
         <div className="film-screen">
+          {!shown && <Poster />}
           <video
             ref={video}
-            className={cn('film-video', ready && 'is-ready')}
+            className={cn('film-video', ready && armed && 'is-ready')}
             src={asset('film/watch.mp4')}
             preload="auto"
             playsInline
             aria-label={`${t.film.title} · ${story.title[locale]}`}
             onLoadedData={() => setReady(true)}
             onPlay={() => (setPlaying(true), setEnded(false))}
-            onPlaying={() => (setPlaying(true), setWaiting(false), setReady(true))}
+            onPlaying={() => (setPlaying(true), setStarted(true), setWaiting(false), setReady(true))}
             onPause={() => setPlaying(false)}
             onWaiting={() => setWaiting(true)}
             onCanPlay={() => (setWaiting(false), setReady(true))}
-            onEnded={() => (setEnded(true), setPlaying(false), sync())}
+            onEnded={() => {
+              setEnded(true)
+              setPlaying(false)
+              sync()
+              useProfileStore.getState().mark(story.id, 'watched') // a leaf on the child's tree
+            }}
             onError={() => (setFailed(true), setSettled(true))}
             onTimeUpdate={sync}
             onSeeking={sync}
@@ -537,10 +588,11 @@ export function Player() {
               sync()
             }}
             onVolumeChange={() => setMuted(!!video.current?.muted)}
+            onTransitionEnd={(e) => e.propertyName === 'opacity' && ready && armed && setShown(true)}
           />
           {over && (
             <div className="film-end__back grain" aria-hidden>
-              <img src={asset(story.scenes[story.scenes.length - 1].thumb)} alt="" decoding="async" />
+              <img src={asset(last.img)} alt="" decoding="async" />
             </div>
           )}
           {!portrait && <div className={cn('film-shade film-shade--title', titleOn && 'is-on')} />}
@@ -550,7 +602,7 @@ export function Player() {
         {!portrait && words}
         <div className="film-center">
           {showSpinner ? (
-            <span className="film-spinner" role="status" aria-label={t.film.title} />
+            <span className="film-spinner" aria-hidden />
           ) : showBigPlay ? (
             <button type="button" className="film-bigplay glass" aria-label={t.film.play} onClick={onPlayerClick} data-film-bigplay>
               <Play size={34} fill="currentColor" strokeWidth={0} className="translate-x-[2px]" aria-hidden />
@@ -570,9 +622,11 @@ export function Player() {
           </Pill>
         )}
         {!portrait && top}
+        {!portrait && scenes}
         {!portrait && dock}
       </div>
       {portrait && <div className="film-words">{words}</div>}
+      {portrait && scenes}
       {portrait && dock}
     </div>
   )

@@ -4,6 +4,7 @@ import { BlurWords, Eyebrow, Pill } from '@/design/ui'
 import { story } from '@/content/story'
 import { t } from '@/i18n/copy'
 import { locale } from '@/i18n/locale'
+import { asset } from '@/lib/asset'
 import { cn } from '@/lib/cn'
 
 /**
@@ -21,6 +22,21 @@ export function Ambient({ src }: { src: string }) {
       {stack.map((url) => (
         <img key={url} src={url} alt="" decoding="async" />
       ))}
+    </div>
+  )
+}
+
+/**
+ * What the screen shows before the film's data arrives: the film's own first frame, drawn in CSS — the cover
+ * as a card on a warm dark ground (same geometry as `scripts/film/build-film.mjs` composes it), so the film
+ * fades in over it without a jump.
+ */
+export function Poster() {
+  return (
+    <div className="film-poster" aria-hidden>
+      <span className="film-poster__card">
+        <img src={asset(story.cover)} alt="" decoding="async" />
+      </span>
     </div>
   )
 }
@@ -73,8 +89,8 @@ export function TitleCard({ off }: { off: boolean }) {
     <div className={cn('film-title', off && 'is-off')} aria-hidden={off} data-film-title={off ? 'off' : 'on'}>
       <Eyebrow>{story.kicker[locale]}</Eyebrow>
       <p className="film-title__name display-on-film">
-        <BlurWords text={a} immediate delay={120} />
-        {b && <BlurWords text={b} immediate delay={320} className="b" />}
+        <BlurWords text={a} immediate delay={0} />
+        {b && <BlurWords text={b} immediate delay={160} className="b" />}
       </p>
     </div>
   )
@@ -88,7 +104,7 @@ export function EndCard({ onRead, onReplay, canReplay = true }: { onRead: () => 
   }, [])
   return (
     <div ref={ref} className="film-end" data-film-end>
-      <Eyebrow className="justify-center">{story.title[locale]}</Eyebrow>
+      <Eyebrow>{story.title[locale]}</Eyebrow>
       <p className="film-end__word display-on-film">{t.film.end}</p>
       <div className="film-end__actions">
         <Pill variant="solid" size="lg" onClick={onRead} data-film-read>

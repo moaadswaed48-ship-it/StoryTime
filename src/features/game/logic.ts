@@ -19,10 +19,10 @@ export interface Bounds {
 
 /** Where Sari may walk (the fence stands just outside). */
 export const YARD: Bounds = { minX: -7.3, maxX: 7.3, minZ: -4.8, maxZ: 5.2 }
-/** Sari starts here, facing the camera. */
-export const START: Point = { x: 0, z: 3.1 }
+/** Sari starts here, facing the camera (a little to one side, so the big tree stands in a phone's narrow first view). */
+export const START: Point = { x: -0.8, z: 3.1 }
 /** Things Sari walks around: the big tree, the leaf pile is soft (not listed). */
-export const OBSTACLES: Circle[] = [{ x: -5.3, z: -3.5, r: 1.05 }]
+export const OBSTACLES: Circle[] = [{ x: -3.0, z: -3.9, r: 1.05 }]
 export const SARI_RADIUS = 0.34
 /** Walking this close to a paper picks it up. */
 export const REACH = 0.9

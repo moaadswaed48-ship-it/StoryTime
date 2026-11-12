@@ -119,7 +119,9 @@ test.describe('footer', () => {
     await expect(sw).toHaveAttribute('aria-checked', 'true')
     await expect(sw).toHaveAttribute('aria-disabled', 'true')
     expect((await state(page)).locked).toBe(true)
-    await sw.click()
+    // (aria-disabled: a real click is refused by the test driver, so press it anyway and go through the hook as well)
+    await sw.click({ force: true })
+    await page.evaluate(() => window.__st!.footer.toggleMotion())
     // nothing to give back: our own setting is untouched, the still stays
     await expect(sw).toHaveAttribute('aria-checked', 'true')
     expect((await state(page)).toggle).toBe(false)

@@ -23,6 +23,8 @@ interface GameState {
   round: number
   papers: Paper[]
   collected: boolean[]
+  /** Paper indices in the order they were collected: the first name a child wins fills the first slot of the row. */
+  order: number[]
   /** Index of the paper being asked about. */
   current: number | null
   /** Wrong letters already tried for the current paper. */
@@ -48,12 +50,17 @@ interface GameState {
 export function webglSupported(): boolean {
   try {
     if (new URLSearchParams(location.search).has('nowebgl')) return false
-    const c = document.createElement('canvas')
-    return !!(c.getContext('webgl2') || c.getContext('webgl'))
+    // asked once per page: every test makes (and throws away) a WebGL context
+    if (webglKnown === null) {
+      const c = document.createElement('canvas')
+      webglKnown = !!(c.getContext('webgl2') || c.getContext('webgl'))
+    }
+    return webglKnown
   } catch {
     return false
   }
 }
+let webglKnown: boolean | null = null
 /** Set when the 3D yard failed once on this page (lost context, driver trouble): stay with the cards after that. */
 let webglFailed = false
 
@@ -62,7 +69,7 @@ function newRound(round: number) {
   const own = ownPaper(useProfileStore.getState().profile?.name, t.game.names)
   const papers = buildRound(t.game.names, t.game.letters, mulberry32(4177 + round * 97), own)
   resetRuntime(papers)
-  return { round, papers, collected: papers.map(() => false), current: null, wrong: [], shakes: 0, moved: false }
+  return { round, papers, collected: papers.map(() => false), order: [] as number[], current: null, wrong: [], shakes: 0, moved: false }
 }
 
 export const useGame = create<GameState>()((set, get) => ({
@@ -71,6 +78,7 @@ export const useGame = create<GameState>()((set, get) => ({
   round: 0,
   papers: [],
   collected: [],
+  order: [],
   current: null,
   wrong: [],
   shakes: 0,
@@ -91,7 +99,7 @@ export const useGame = create<GameState>()((set, get) => ({
     const s = get()
     if (s.phase !== 'asking' || s.current === null) return false
     if (isCorrect(s.papers[s.current], letter)) {
-      set({ phase: 'right', collected: collect(s.collected, s.current) })
+      set({ phase: 'right', collected: collect(s.collected, s.current), order: [...s.order, s.current] })
       // "letters I know" on the child's tree
       useProfileStore.getState().addLetter(story.id, s.papers[s.current].letter)
       return true
