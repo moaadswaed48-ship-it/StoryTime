@@ -433,6 +433,30 @@ export const backdropTexture = () =>
       sk.fillStyle = veil
       sk.fillRect(0, 0, 8, TH)
       g.drawImage(skyC, 0, 0, TW * 2, TH)
+      // …and lower down beside the school, where the rays are strongest (the school stands on the mirror line = the canvas edges)
+      const [sideC, sd] = board(256, 256)
+      const lower = sd.createLinearGradient(0, 0, 0, 256)
+      lower.addColorStop(0.3, '#f7d3b0')
+      lower.addColorStop(0.6, '#f9d6a6')
+      sd.fillStyle = lower
+      sd.fillRect(0, 0, 256, 256)
+      sd.globalCompositeOperation = 'destination-in'
+      const down = sd.createLinearGradient(0, 0, 0, 256)
+      down.addColorStop(0, 'rgba(0,0,0,1)')
+      down.addColorStop(0.36, 'rgba(0,0,0,.92)')
+      down.addColorStop(0.58, 'rgba(0,0,0,0)')
+      sd.fillStyle = down
+      sd.fillRect(0, 0, 256, 256)
+      const across = sd.createLinearGradient(0, 0, 256, 0)
+      across.addColorStop(0, 'rgba(0,0,0,1)')
+      across.addColorStop(0.1, 'rgba(0,0,0,1)')
+      across.addColorStop(0.27, 'rgba(0,0,0,0)')
+      across.addColorStop(0.73, 'rgba(0,0,0,0)')
+      across.addColorStop(0.9, 'rgba(0,0,0,1)')
+      across.addColorStop(1, 'rgba(0,0,0,1)')
+      sd.fillStyle = across
+      sd.fillRect(0, 0, 256, 256)
+      g.drawImage(sideC, 0, 0, TW * 2, TH)
       // a breath of mist over everything, thick at the base where the 3D ground arrives
       g.fillStyle = 'rgba(236,171,118,.1)'
       g.fillRect(0, 0, TW * 2, TH)

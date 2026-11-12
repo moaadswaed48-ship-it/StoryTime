@@ -47,8 +47,8 @@ html[lang='ar'] .game-title {
   }
   .game-tag {
     min-width: 0;
-    padding: 0.5rem 0.8rem 0.58rem;
-    font-size: 1.06rem;
+    padding: 0.42rem 0.7rem 0.5rem;
+    font-size: 1rem;
   }
 }
 /* words, slips and button: stacked on a phone, two columns on a tablet, one bottom-anchored column over the picture on wide screens */
@@ -79,9 +79,16 @@ html[lang='ar'] .game-title {
 }
 @media (min-width: 1280px) {
   .game-poster-body {
-    grid-template-areas: 'text' 'tags' 'cta';
+    grid-template-areas: 'text' 'cta';
     align-content: end;
-    row-gap: 1.6rem;
+    row-gap: 1.75rem;
+  }
+  /* the slips lie in a row on the ground of the picture, between the boys' shoes and the words */
+  .game-tags {
+    position: absolute;
+    inset-inline-start: calc(100% - 3.75rem);
+    bottom: 1.4rem;
+    width: max-content;
   }
 }
 .game-poster-scrim {

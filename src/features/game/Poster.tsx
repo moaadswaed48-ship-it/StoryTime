@@ -56,12 +56,12 @@ export function Poster({ onStart, pictureRef, sectionRef, touch }: { onStart: ()
                 </Reveal>
                 <BlurWords as="h2" text={t.game.title} className="game-title display-on-film mt-3 block text-paper" />
                 <Reveal delay={160}>
-                  <p className="t-lede text-on-film mt-4 max-w-[32rem] text-paper/85 xl:max-w-[27rem]">{t.game.text}</p>
+                  <p className="t-lede text-on-film mt-4 max-w-[32rem] text-paper/85 xl:max-w-[20.5rem]">{t.game.text}</p>
                 </Reveal>
               </div>
 
               {/* the names to collect: little white slips, as if the wind had just dropped them here */}
-              <ul ref={tags} aria-label={t.game.papers} className={cn('game-tags flex flex-wrap gap-2.5 xl:flex-nowrap xl:gap-2', armed && 'is-armed', armed && seen && 'is-in')} style={{ '--dir': dirSign } as CSSProperties}>
+              <ul ref={tags} aria-label={t.game.papers} className={cn('game-tags flex flex-wrap gap-2.5 xl:flex-nowrap xl:gap-1.5', armed && 'is-armed', armed && seen && 'is-in')} style={{ '--dir': dirSign } as CSSProperties}>
                 {t.game.names.map((name, i) => (
                   <li key={name} className="game-tag" style={{ '--r': `${TILT[i % TILT.length]}deg`, '--i': i, '--lift': `${LIFT[i % LIFT.length]}px` } as CSSProperties}>
                     {name}
