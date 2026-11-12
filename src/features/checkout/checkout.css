@@ -344,8 +344,8 @@
 }
 .pay__stamp {
   position: absolute;
-  inset-inline-end: 12px;
-  top: 44%;
+  inset-inline-end: 14px;
+  bottom: 30px; /* over the barcode, never over a price */
   padding: 3px 10px;
   border: 2px solid var(--color-maple);
   border-radius: 8px;
