@@ -1,65 +1,65 @@
 {
-  "duration": 80,
+  "duration": 117.5,
   "scenes": [
     {
       "scene": 0,
       "start": 0,
-      "end": 5
+      "end": 7.5
     },
     {
       "scene": 1,
-      "start": 5,
-      "end": 12.5
+      "start": 7.5,
+      "end": 17.5
     },
     {
       "scene": 2,
-      "start": 12.5,
-      "end": 20
+      "start": 17.5,
+      "end": 27.5
     },
     {
       "scene": 3,
-      "start": 20,
-      "end": 25
+      "start": 27.5,
+      "end": 40
     },
     {
       "scene": 4,
-      "start": 25,
-      "end": 32.5
-    },
-    {
-      "scene": 5,
-      "start": 32.5,
-      "end": 37.5
-    },
-    {
-      "scene": 6,
-      "start": 37.5,
-      "end": 45
-    },
-    {
-      "scene": 7,
-      "start": 45,
+      "start": 40,
       "end": 50
     },
     {
-      "scene": 8,
+      "scene": 5,
       "start": 50,
-      "end": 57.5
+      "end": 60
+    },
+    {
+      "scene": 6,
+      "start": 60,
+      "end": 72.5
+    },
+    {
+      "scene": 7,
+      "start": 72.5,
+      "end": 80
+    },
+    {
+      "scene": 8,
+      "start": 80,
+      "end": 87.5
     },
     {
       "scene": 9,
-      "start": 57.5,
-      "end": 65
+      "start": 87.5,
+      "end": 95
     },
     {
       "scene": 10,
-      "start": 65,
-      "end": 70
+      "start": 95,
+      "end": 107.5
     },
     {
       "scene": 11,
-      "start": 70,
-      "end": 80
+      "start": 107.5,
+      "end": 117.5
     }
   ]
 }
