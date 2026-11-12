@@ -32,10 +32,12 @@ const MAX_WORD_SHORT = 0.2
 const HOLD = 9
 /** While the paper lifts off, the film underneath moves this much slower (share of its own height). */
 const UNDER = 14
-/** …and it rises while the last lines slide over it, so the birds stay in the light: at least RISE_MIN, and as much as
- *  it takes (up to RISE_MAX) for the lowest bird of the resting frame to fly clear above the line of text —
- *  but never faster than a share of the page's own travel, so on screens with little travel it does not rush. */
-const RISE_MIN = 9
+/** …and it rises while the last lines slide over it, so the line of text always stands on calm sky. The clip is a
+ *  crane-up from the children to the birds, so the right amount changes as it plays: little (RISE_MIN) while the
+ *  children are in the frame — they stay down in the dusk, below the line — and, by the resting frame, as much as it
+ *  takes (up to RISE_MAX) for the point of the flock to fly clear above the line. Never faster than a share of the
+ *  page's own travel, so on screens with little travel it does not rush. */
+const RISE_MIN = 6
 const RISE_MAX = 20
 const RISE_PACE = 0.6
 /** Where the point of the flock's V is when the clip comes to rest, as a share of the frame's height. */
@@ -105,7 +107,8 @@ export function Footer() {
       plate.style.transform = ''
       return
     }
-    const tick = () => {
+    let shown = film.current?.progress() ?? 0
+    const tick = (_time: number, dt: number) => {
       const r = el.getBoundingClientRect()
       const vh = window.innerHeight
       const travel = Math.max(1, r.height - vh)
@@ -118,10 +121,14 @@ export function Footer() {
       const flock = (h - pic) / 2 + FLOCK_Y * pic
       const lineTop = quote.current ? vh - r.height + (quote.current.getBoundingClientRect().top - r.top) : vh
       const need = ((flock - (lineTop - vh * 0.05)) / h) * 100
-      const rise = Math.min(clamp(need, RISE_MIN, RISE_MAX), ((travel * RISE_PACE) / h) * 100)
+      const top = Math.min(clamp(need, RISE_MIN, RISE_MAX), ((travel * RISE_PACE) / h) * 100)
+      const base = Math.min(RISE_MIN, top)
+      // follow the clip (and the dissolve back to its first frame) softly
+      shown += ((film.current?.progress() ?? 0) - shown) * (1 - Math.exp((-Math.min(dt || 16, 100) / 1000) * 3.2))
+      const rise = base + (top - base) * shown * shown * (3 - 2 * shown)
       plate.style.transform = `translate3d(0, ${(-under * UNDER - over * rise).toFixed(3)}%, 0)`
     }
-    tick()
+    tick(0, 16)
     gsap.ticker.add(tick)
     return () => gsap.ticker.remove(tick)
   }, [on, reduced])

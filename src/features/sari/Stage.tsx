@@ -27,7 +27,7 @@ const ACTIONS: Array<{ id: SariAction; icon: LucideIcon }> = [
 ]
 const coarse = typeof window !== 'undefined' && window.matchMedia('(pointer: coarse)').matches
 /** Colours stay as painted (the hoodie's mustard, the jeans' teal): highlights roll off softly instead of clipping. */
-const GL = { antialias: !coarse, powerPreference: 'high-performance' as const, alpha: true, toneMapping: THREE.NeutralToneMapping, toneMappingExposure: 1.02 }
+const GL = { antialias: !coarse, powerPreference: 'high-performance' as const, alpha: true, toneMapping: THREE.NeutralToneMapping, toneMappingExposure: 0.99 }
 const CAMERA = { fov: FOV, near: 0.1, far: 40, position: [0, 0.95, 5] as [number, number, number] }
 /** The giant word is repeated so it can rush past while he runs; at rest only the middle copy is on stage. */
 const COPIES = [0, 1, 2, 3, 4]

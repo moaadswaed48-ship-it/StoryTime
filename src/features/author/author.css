@@ -638,8 +638,7 @@ html[lang='en'] .aut-lockup__b {
   left: clamp(14px, 2vw, 26px);
   bottom: clamp(14px, 2vw, 26px);
   z-index: 3;
-  /* wide enough for the three ways in to share one row */
-  width: min(34rem, 52%);
+  width: min(30rem, 48%);
   padding: clamp(24px, 2.5vw, 36px) clamp(22px, 2.5vw, 34px);
   border-radius: 26px;
 }
@@ -678,36 +677,58 @@ html[lang='ar'] .aut-cta__title {
     transform: translateY(-2px);
   }
 }
-/* the quiet third way: the author's desk — a hairline pill beside the two loud ones */
+/* The quiet third way, on a line of its own under the two pills: the author's desk. A text link, not a third pill —
+   so the row never wraps by accident, at any width or in either language. */
 .aut-cta__studio {
   display: inline-flex;
-  flex: none;
   align-items: center;
-  justify-content: center;
   gap: 8px;
-  height: 48px;
-  padding-inline: 20px 16px;
-  border-radius: 999px;
-  box-shadow: inset 0 0 0 1px rgb(246 240 228 / 0.2);
+  min-height: 44px;
+  margin-top: 10px;
+  padding-inline: 4px;
   font-size: 14.5px;
   font-weight: 500;
-  color: rgb(246 240 228 / 0.82);
-  transition:
-    color 0.2s ease-out,
-    background-color 0.2s ease-out,
-    transform 0.2s ease-out;
+  color: rgb(246 240 228 / 0.76);
+  transition: color 0.2s ease-out;
+}
+.aut-cta__studio span {
+  position: relative;
+  padding-bottom: 3px;
+}
+/* a hairline that brightens and is redrawn from the reading side under the pointer */
+.aut-cta__studio span::before,
+.aut-cta__studio span::after {
+  content: '';
+  position: absolute;
+  inset-inline: 0;
+  bottom: 0;
+  height: 1px;
+  background: currentColor;
+}
+.aut-cta__studio span::before {
+  opacity: 0.34;
+}
+.aut-cta__studio span::after {
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+  transition: transform 0.35s var(--ease-out);
+}
+html[dir='rtl'] .aut-cta__studio span::after {
+  transform-origin: 100% 50%;
 }
 .aut-cta__studio svg {
   flex: none;
   transition: translate 0.25s var(--ease-out);
 }
 .aut-cta__studio:active {
-  transform: scale(0.97);
+  color: var(--color-paper);
 }
 @media (hover: hover) {
   .aut-cta__studio:hover {
     color: var(--color-paper);
-    background: rgb(246 240 228 / 0.08);
+  }
+  .aut-cta__studio:hover span::after {
+    transform: scaleX(1);
   }
   .aut-cta__studio:hover svg {
     translate: 2px -2px;
@@ -842,9 +863,14 @@ html[lang='ar'] .aut-cta__title {
   .aut-cta__pills {
     flex-direction: column;
   }
-  .aut-cta__pill,
-  .aut-cta__studio {
+  .aut-cta__pill {
     width: 100%;
+  }
+  .aut-cta__studio {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin-top: 8px;
   }
 }
 

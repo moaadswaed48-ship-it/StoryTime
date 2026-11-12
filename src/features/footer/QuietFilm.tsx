@@ -14,6 +14,8 @@ export interface QuietFilmHandle {
   live: () => boolean
   /** How many times the clip has run to its end. */
   loops: () => number
+  /** How far through the clip the picture on show is: 0 while the still (the first frame) shows, 1 on the resting last frame. */
+  progress: () => number
 }
 
 interface Props {
@@ -135,6 +137,11 @@ export const QuietFilm = forwardRef<QuietFilmHandle, Props>(function QuietFilm({
     playing: () => !!video.current && !video.current.paused && !video.current.ended && video.current.readyState >= 2,
     live: () => liveRef.current,
     loops: () => loops.current,
+    progress: () => {
+      const v = video.current
+      if (!v || !liveRef.current || !(v.duration > 0)) return 0
+      return Math.min(1, Math.max(0, v.currentTime / v.duration))
+    },
   }))
 
   const style = focus ? ({ '--qf-focus': focus } as CSSProperties) : undefined
