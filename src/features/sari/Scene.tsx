@@ -204,7 +204,7 @@ function Floor({ rt, turntable }: { rt: Runtime; turntable: React.RefObject<THRE
     <group>
       <mesh rotation-x={-Math.PI / 2} position-y={0.001} renderOrder={1}>
         <planeGeometry args={[2.3, 2.3]} />
-        <meshBasicMaterial map={tex.pool} color="#ffa55c" transparent opacity={0.62} depthWrite={false} blending={THREE.AdditiveBlending} toneMapped={false} />
+        <meshBasicMaterial map={tex.pool} color="#ffa552" transparent opacity={0.78} depthWrite={false} blending={THREE.AdditiveBlending} toneMapped={false} />
       </mesh>
       <mesh ref={ring} rotation-x={-Math.PI / 2} position-y={0.002} renderOrder={2}>
         <planeGeometry args={[1.36, 1.36]} />
@@ -224,18 +224,15 @@ function Floor({ rt, turntable }: { rt: Runtime; turntable: React.RefObject<THRE
   )
 }
 
-/** Nothing begins its fall in front of his face or chest: leaves on the near side start out at the sides. */
-const clearOfHim = (x: number, z: number) => (z > -0.35 && Math.abs(x) < 0.5 ? (x < 0 ? -1 : 1) * (0.5 + Math.abs(x) * 0.9) : x)
-
 interface Leaf {
-  x: number
-  y: number
+  /** Place across and up the view at its depth, as shares (−1 … 1 and 0 … 1), so the field always fills the frame. */
+  u: number
+  v: number
   z: number
   fall: number
   sway: number
   ph: number
   spin: number
-  tilt: number
   size: number
 }
 
@@ -255,11 +252,16 @@ function LeafField({ rt, count, soft = false }: { rt: Runtime; count: number; so
   }, [count, soft])
   const leaves = useMemo<Leaf[]>(() => {
     const rnd = mulberry32(soft ? 97 : 41)
-    return Array.from({ length: count }, () => {
-      const z = soft ? 1.15 + rnd() * 0.75 : -2.6 + rnd() * 3.5
-      const wide = soft ? 1.35 : 2.6
-      return { x: clearOfHim((rnd() * 2 - 1) * wide, z), y: 0.1 + rnd() * 2.2, z, fall: 0.07 + rnd() * 0.11, sway: 0.35 + rnd() * 0.5, ph: rnd() * 6.283, spin: (rnd() - 0.5) * 1.6, tilt: rnd() * 6.283, size: soft ? 0.13 + rnd() * 0.07 : 0.085 + rnd() * 0.06 }
-    })
+    return Array.from({ length: count }, () => ({
+      u: rnd() * 2 - 1,
+      v: rnd(),
+      z: soft ? 1.1 + rnd() * 0.7 : -2.8 + rnd() * 3.6,
+      fall: 0.045 + rnd() * 0.06,
+      sway: 0.35 + rnd() * 0.5,
+      ph: rnd() * 6.283,
+      spin: (rnd() - 0.5) * 1.1,
+      size: soft ? 0.12 + rnd() * 0.07 : 0.085 + rnd() * 0.065,
+    }))
   }, [count, soft])
   useEffect(() => {
     const rnd = mulberry32(soft ? 98 : 42)
@@ -273,25 +275,34 @@ function LeafField({ rt, count, soft = false }: { rt: Runtime; count: number; so
     }
   }, [mesh, leaves, soft])
   const clock = useRef(0)
-  useFrame((_, delta) => {
+  useFrame(({ camera, size }, delta) => {
     const dt = rt.reduced ? 0 : Math.min(delta, 1 / 20)
     clock.current += dt
     const t = clock.current
-    const wind = rt.run * (soft ? 3.4 : 2.3) * -SIDE
-    const wide = soft ? 1.7 : 3.1
+    const aspect = size.width / Math.max(1, size.height)
+    const wind = rt.run * (soft ? 2.6 : 1.7) * -SIDE
     for (let i = 0; i < leaves.length; i++) {
       const l = leaves[i]
-      l.y -= l.fall * (1 - rt.run * 0.55) * dt
-      l.x += (Math.sin(t * l.sway + l.ph) * 0.045 + wind * (0.6 + l.sway * 0.7)) * dt
-      if (l.y < -0.06) {
-        l.y = 2.35
-        l.x = clearOfHim((Math.sin(l.ph * 7.3 + t) * 0.5 + 0.5) * wide * 2 - wide, l.z)
+      // the slice of the view at this leaf's depth (a little wider than the frame, so leaves enter and leave off screen)
+      const halfH = (camera.position.z - l.z) * TAN
+      const halfW = halfH * aspect + l.size
+      l.v -= (l.fall * (1 - rt.run * 0.5) * dt) / halfH
+      l.u += ((Math.sin(t * l.sway + l.ph) * 0.03 + wind * (0.6 + l.sway * 0.7)) * dt) / halfW
+      if (l.v < -0.08) {
+        l.v = 1.08
+        l.u = Math.sin(l.ph * 7.3 + t * 1.7) // somewhere new across the frame
       }
-      if (l.x > wide) l.x -= wide * 2
-      else if (l.x < -wide) l.x += wide * 2
-      const a = t * l.spin + l.tilt
-      _e.set(a * 0.7 + rt.run * 0.6, a, Math.sin(t * l.sway + l.ph) * 0.6 + wind * 0.12)
-      _m.compose(_v.set(l.x, l.y, l.z), _q.setFromEuler(_e), _s.setScalar(l.size))
+      if (l.u > 1) l.u -= 2
+      else if (l.u < -1) l.u += 2
+      let x = l.u * halfW
+      // nothing falls across his face or chest: leaves on the near side slip past at his sides
+      const near = THREE.MathUtils.smoothstep(l.z, -0.5, 0.1) * (1 - rt.run)
+      if (near > 0 && Math.abs(x) < 0.72) x = THREE.MathUtils.lerp(x, (x < 0 ? -1 : 1) * (0.46 + Math.abs(x) * 0.361), near)
+      const y = camera.position.y - 0.42 * (1 - l.z / camera.position.z) - halfH + l.v * halfH * 2
+      // they tumble but never turn edge-on for long, so each one reads as a leaf
+      const a = t * l.spin + l.ph
+      _e.set(Math.sin(a * 1.3) * 0.95 + rt.run * 0.5, Math.sin(a * 0.8 + 1.7) * 0.95, a * 0.6 + wind * 0.25)
+      _m.compose(_v.set(x, y, l.z), _q.setFromEuler(_e), _s.setScalar(l.size))
       mesh.setMatrixAt(i, _m)
     }
     mesh.instanceMatrix.needsUpdate = true
@@ -307,7 +318,7 @@ export function Scene({ rt, action, onReady }: { rt: Runtime; action: SariAction
       <Lights />
       <Director rt={rt} turntable={turntable} />
       <Floor rt={rt} turntable={turntable} />
-      <LeafField rt={rt} count={38} />
+      <LeafField rt={rt} count={26} />
       <LeafField rt={rt} count={6} soft />
       <group ref={turntable} rotation-y={REST_YAW}>
         <Suspense fallback={null}>

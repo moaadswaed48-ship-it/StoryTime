@@ -1203,6 +1203,10 @@ html[lang='en'] .bk-end-title {
     text-shadow: none;
     max-inline-size: none;
   }
+  /* A short line of dialogue gets a little more voice on the phone. */
+  .bk-text[data-short] {
+    font-size: calc(var(--bk-fs) * 1.16);
+  }
 
   .bk-bottom {
     width: auto;

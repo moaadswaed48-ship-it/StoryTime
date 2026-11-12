@@ -8,7 +8,7 @@ let cached: string | null = null
  * with an SVG turbulence filter: a bitmap is decoded once and tiled for free, whereas the filter would be
  * re-run by the rasteriser for every one of the ~50 layers that wear it.
  */
-export function noiseTile(size = 128, contrast = 0.2): string {
+export function noiseTile(size = 128, contrast = 0.13): string {
   if (cached !== null) return cached
   cached = ''
   try {
@@ -23,10 +23,10 @@ export function noiseTile(size = 128, contrast = 0.2): string {
     const at = (x: number, y: number) => raw[((y + size) % size) * size + ((x + size) % size)]
     for (let y = 0; y < size; y++) {
       for (let x = 0; x < size; x++) {
-        // Half sharp grain, half a 3×3 average (wrapping at the edges, so the tile repeats without a seam).
+        // Mostly sharp grain plus a little of its 3×3 average (wrapping at the edges, so the tile repeats without a seam).
         let soft = 0
         for (let dy = -1; dy <= 1; dy++) for (let dx = -1; dx <= 1; dx++) soft += at(x + dx, y + dy)
-        const v = 0.5 + (raw[y * size + x] * 0.55 + (soft / 9) * 1.6) * contrast * 2
+        const v = 0.5 + (raw[y * size + x] * 0.7 + (soft / 9) * 0.9) * contrast * 2
         const g = Math.max(0, Math.min(255, Math.round(v * 255)))
         const o = (y * size + x) * 4
         img.data[o] = img.data[o + 1] = img.data[o + 2] = g

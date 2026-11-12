@@ -68,23 +68,20 @@ html[dir='rtl'] .sari {
   cursor: default;
 }
 
-/* Backdrop: the film's own autumn sky, far out of focus (falling leaves turn into soft bokeh), and low sun rays
-   coming from the key light's side. Both are still: the light never moves, he does. */
+/* Backdrop: the low autumn sun behind him (a soft halo, light spilling along the floor) and its rays coming
+   from the key light's side. All of it is still: the light never moves, he does. */
 .sari-back {
   position: absolute;
   inset: 0;
   pointer-events: none;
 }
-.sari-back__film {
+.sari-back__glow {
   position: absolute;
-  inset: -2% -4% 4%;
-  background-repeat: no-repeat;
-  background-size: auto 138%;
-  background-position: 3% 0%;
-  filter: blur(18px) saturate(1.25) brightness(0.5);
-  opacity: 0.9;
-  -webkit-mask-image: radial-gradient(ellipse 50% 50% at 50% 45%, #000 0%, rgb(0 0 0 / 0.86) 28%, rgb(0 0 0 / 0.52) 54%, rgb(0 0 0 / 0.17) 78%, transparent 100%);
-  mask-image: radial-gradient(ellipse 50% 50% at 50% 45%, #000 0%, rgb(0 0 0 / 0.86) 28%, rgb(0 0 0 / 0.52) 54%, rgb(0 0 0 / 0.17) 78%, transparent 100%);
+  inset: 0;
+  background:
+    radial-gradient(ellipse 30% 27% at 50% 36%, rgb(244 158 78 / 0.3), rgb(232 132 56 / 0.1) 60%, transparent 100%),
+    radial-gradient(ellipse 48% 50% at 50% 45%, rgb(206 104 40 / 0.32), rgb(160 72 26 / 0.13) 56%, rgb(150 66 24 / 0.035) 82%, transparent 100%),
+    radial-gradient(ellipse 47% 13% at 50% 83%, rgb(246 160 80 / 0.2), transparent 100%);
 }
 .sari-back__rays {
   /* drawn for Arabic (the words, and the sun, on the right); mirrored whole for left-to-right pages */
@@ -157,6 +154,9 @@ html[lang='ar'] .sari-word__track {
   inset: 0;
   opacity: 0;
   transition: opacity 1s var(--sari-ease);
+  /* phones: the floor melts into the page under the stage */
+  -webkit-mask-image: linear-gradient(to bottom, #000 84%, transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 84%, transparent 100%);
 }
 .is-live .sari-canvas {
   opacity: 1;
@@ -387,6 +387,10 @@ html[lang='ar'] .sari-title {
   mask-composite: intersect;
   -webkit-user-drag: none;
 }
+.is-flat .sari-canvas {
+  -webkit-mask-image: none;
+  mask-image: none;
+}
 .is-flat .sari-back__rays {
   opacity: 0.4;
 }
@@ -469,11 +473,12 @@ html[lang='ar'] .sari-title {
   .sari-dock {
     width: auto;
   }
-  /* the hint steps aside to the outer corner, level with the dock */
+  /* the hint steps aside, level with the dock, on its outer side */
   .sari-hint {
     position: absolute;
-    inset-inline-end: clamp(28px, 4vw, 64px);
-    bottom: 18px;
+    inset-inline-start: calc(50% + 188px);
+    bottom: 19px;
+    white-space: nowrap;
   }
   .sari-dock__btn {
     min-width: 108px;

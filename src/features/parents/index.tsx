@@ -17,11 +17,12 @@ const ICONS: LucideIcon[] = [Feather, UsersRound, Puzzle, ShieldCheck, Languages
  * Two cards are "living": a scene of the film loops behind their words.
  * Card 2 (the same three characters everywhere) → scene 1, the classroom, where all three faces are seen.
  * Card 6 (classroom and home) → scene 12, the whole class watching the birds at sunset.
- * `focus` keeps the faces in frame: [phones (tall crop), wide tiles].
+ * `focus` keeps the subject in frame: [phones (tall crop), wide tiles]. The sunset clip tilts up to the sky,
+ * so on phones its crop sits where both the children (at the start) and the flock (to the end) pass through.
  */
 const LIVING: Record<number, { scene: number; focus: [string, string] }> = {
   1: { scene: 0, focus: ['26% 50%', '72% 50%'] },
-  5: { scene: 11, focus: ['17% 50%', '46% 50%'] },
+  5: { scene: 11, focus: ['58% 50%', '46% 50%'] },
 }
 
 /** Bento order: two blocks of three, each built around its film tile (7 columns) with two cards (5 columns) beside it. */

@@ -285,7 +285,7 @@ export function Stage() {
         onKeyDown={onKey}
       >
         <div className="sari-back" aria-hidden>
-          <div className="sari-back__film" style={{ backgroundImage: `url(${asset('story/k08-sm.webp')})` }} />
+          <div className="sari-back__glow" />
           <div className="sari-back__rays" />
         </div>
         <div className="sari-word" aria-hidden>

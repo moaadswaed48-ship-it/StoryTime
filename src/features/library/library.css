@@ -260,7 +260,7 @@
 .lib-cloth {
   background-color: var(--cloth);
   background-image: var(--lib-noise);
-  background-size: calc(var(--k, 1) * 128px) calc(var(--k, 1) * 128px);
+  background-size: 128px 128px;
   background-blend-mode: overlay;
 }
 .lib-cloth::before {
@@ -585,6 +585,7 @@ html[lang='en'] .lib-ctitle {
   pointer-events: none;
   background: linear-gradient(180deg, rgba(70, 24, 4, 0) 80%, rgba(70, 24, 4, 0.5) 100%);
 }
+/* Placed by the picture, not by the reading direction: the open sky is under the birds, on the right. */
 .lib-rtitle {
   position: absolute;
   top: 17.2%;
@@ -669,6 +670,12 @@ html[lang='en'] .lib-rtitle .is-b {
 }
 .lib-glint-bar.is-b {
   transform: translateX(calc(var(--sx, 0px) + var(--sp, 0px))) skewX(-14deg);
+}
+@supports not (mix-blend-mode: screen) {
+  .lib-glint,
+  .lib-sheen {
+    display: none;
+  }
 }
 
 /* "Open" disc on the corner of the centred cover: the visible invitation to click it (and a real button for keys). */

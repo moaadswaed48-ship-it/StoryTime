@@ -75,7 +75,7 @@ function Item({ scene, step, go, out, stack, grad }: { scene: number; step: numb
         )}
       </div>
       <div className="bk-cap-scroll" ref={scroller}>
-        <p ref={para} className="bk-text font-story" data-testid={out ? undefined : 'bk-text'}>
+        <p ref={para} className="bk-text font-story" data-short={text.length < 72 || undefined} data-testid={out ? undefined : 'bk-text'}>
           {text}
         </p>
       </div>
