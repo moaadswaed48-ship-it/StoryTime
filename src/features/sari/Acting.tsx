@@ -138,10 +138,12 @@ export function Acting({ rt, turntable }: { rt: Runtime; turntable: React.RefObj
     const lag = Math.sin(v.waveT * 8.6 - 1.5)
     for (const side of ['Right', 'Left'] as const) {
       const m = side === 'Right' ? 1 : -1
-      const k = side === WAVER ? w : 0
+      const up = side === WAVER ? w : 0
       for (const j of JOINTS) {
         const a = hang[j]
         const b = hello[j]
+        // the elbow folds before the arm has finished rising and unfolds last on the way down: the hand leads, as a child's does
+        const k = j === 'Arm' ? up : 1 - (1 - up) ** 2
         let x = a[0] + (b[0] - a[0]) * k
         let y = a[1] + (b[1] - a[1]) * k
         let z = a[2] + (b[2] - a[2]) * k

@@ -203,7 +203,11 @@ export function Stage() {
       drag.current = { id: e.pointerId, x: e.clientX, t: e.timeStamp, moved: 0, downAt: e.timeStamp }
       return
     }
-    e.currentTarget.setPointerCapture(e.pointerId)
+    try {
+      e.currentTarget.setPointerCapture(e.pointerId)
+    } catch {
+      /* a pointer that is already gone cannot be captured: the drag still works inside the stage */
+    }
     drag.current = { id: e.pointerId, x: e.clientX, t: e.timeStamp, moved: 0, downAt: e.timeStamp }
     rt.dragging = true
     rt.hold = false
