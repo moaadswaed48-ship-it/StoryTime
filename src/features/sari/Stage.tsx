@@ -130,9 +130,9 @@ export function Stage() {
     rt.action = action
     rt.reduced = reduced
   }, [rt, action, reduced])
-  // wide layout (same breakpoint as sari.css): the dock floats over the stage, so the framing leaves room for it
+  // two-column layouts (same conditions as sari.css): the dock floats over the stage, so the framing leaves room for it
   useLayoutEffect(() => {
-    const mq = window.matchMedia('(min-width: 1024px)')
+    const mq = window.matchMedia('(min-width: 1024px), (min-width: 700px) and (max-height: 480px)')
     const sync = () => void (rt.docked = mq.matches)
     sync()
     mq.addEventListener('change', sync)

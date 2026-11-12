@@ -10,7 +10,8 @@ const SLOW = { timeout: 45_000 }
 test.describe.configure({ timeout: 240_000 })
 
 async function start(page: Page, scene: number, loggedIn: boolean) {
-  await page.goto(pageUrl('book'))
+  // On the full page the WebGL curl reader takes the book where it can run (§8.9); `nowebgl` keeps this DOM book.
+  await page.goto(pageUrl('book', '&nowebgl'))
   await waitForHook(page, 'book')
   await waitForHook(page, 'store')
   await waitForHook(page, 'profile')

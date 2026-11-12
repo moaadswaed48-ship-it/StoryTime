@@ -90,6 +90,14 @@ html[dir='rtl'] .sari {
   -webkit-mask-image: radial-gradient(ellipse 47% 47% at 50% 45%, #000 0%, rgb(0 0 0 / 0.86) 34%, rgb(0 0 0 / 0.34) 66%, transparent 100%);
   mask-image: radial-gradient(ellipse 47% 47% at 50% 45%, #000 0%, rgb(0 0 0 / 0.86) 34%, rgb(0 0 0 / 0.34) 66%, transparent 100%);
 }
+/* the picture's pale sky is grey once it is dimmed: an amber gel brings back the film's golden hour */
+.sari-back__film::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: #ffb060;
+  mix-blend-mode: multiply;
+}
 html[dir='ltr'] .sari-back__film {
   transform: scaleX(-1);
 }
@@ -106,7 +114,7 @@ html[dir='ltr'] .sari-back__film {
   --sun: 6% -14%;
   position: absolute;
   inset: 0;
-  background: conic-gradient(from 142deg at var(--sun), transparent 0deg, rgb(255 216 164 / 0.1) 12deg, rgb(255 216 164 / 0.1) 17deg, transparent 31deg, transparent 360deg);
+  background: conic-gradient(from 142deg at var(--sun), transparent 0deg, rgb(255 216 164 / 0.15) 12deg, rgb(255 216 164 / 0.15) 17deg, transparent 31deg, transparent 360deg);
   filter: blur(18px);
   mix-blend-mode: screen;
   -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 58%, transparent 84%);
@@ -549,6 +557,76 @@ html[lang='ar'] .sari-title {
   .sari-dock__btn {
     min-width: 108px;
     padding-inline: 20px;
+  }
+}
+
+/* A phone on its side: words and stage side by side in one screen, the dock low on the stage */
+@media (min-width: 700px) and (max-width: 1023.98px) and (max-height: 480px) {
+  .sari-inner {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    min-height: 100svh;
+    padding-block: 0;
+  }
+  .sari-copy {
+    align-self: center;
+    align-items: flex-start;
+    max-width: none;
+    margin: 0;
+    padding: 34px 28px 24px;
+    text-align: start;
+  }
+  .sari-title {
+    margin-top: 10px;
+    font-size: clamp(2.3rem, 6.4vw, 3.4rem);
+  }
+  .sari-text {
+    margin-top: 10px;
+    font-size: 15px;
+  }
+  .sari-facts {
+    justify-content: start;
+    margin-top: 14px;
+  }
+  .sari-fact {
+    padding: 7px 12px 8px;
+  }
+  .sari-cta {
+    margin-top: 16px;
+  }
+  .sari-stagewrap {
+    order: 0;
+    min-height: 100%;
+  }
+  .sari-stage {
+    position: absolute;
+    inset: 0;
+    height: auto;
+    border-radius: 0;
+  }
+  /* his name must not outgrow him */
+  .sari-word__track,
+  html[lang='ar'] .sari-word__track {
+    font-size: min(36cqw, 54svh);
+  }
+  .sari-controls {
+    position: absolute;
+    inset-inline: 0;
+    bottom: 12px;
+    margin: 0;
+    pointer-events: none;
+  }
+  .sari-controls > * {
+    pointer-events: auto;
+  }
+  .sari-hint {
+    display: none;
+  }
+  .sari-dock {
+    width: auto;
+  }
+  .sari-dock__btn {
+    min-width: 92px;
   }
 }
 

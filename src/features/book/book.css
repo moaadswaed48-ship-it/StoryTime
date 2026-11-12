@@ -827,9 +827,35 @@ html[lang='en'] .bk-dedication {
   color: var(--color-paper, #f6f0e4);
   font-weight: 700;
 }
-.bk .bk-open {
+.bk-open-wrap {
+  position: relative;
+  display: inline-block;
   margin-top: clamp(22px, 3.6vh, 38px);
+}
+.bk .bk-open {
+  position: relative;
+  z-index: 1;
   box-shadow: 0 14px 34px rgba(0, 0, 0, 0.35);
+}
+/* A ring drawn round the "open" button by hand: it draws itself once, then stays. */
+.bk-ring {
+  position: absolute;
+  inset: -16px -22px -14px;
+  width: calc(100% + 44px);
+  height: calc(100% + 30px);
+  overflow: visible;
+  pointer-events: none;
+  transform: scaleX(var(--dir)) rotate(-2deg);
+}
+.bk-ring path {
+  fill: none;
+  stroke: var(--color-maple-soft, #f4a35e);
+  stroke-width: 2;
+  stroke-linecap: round;
+  vector-effect: non-scaling-stroke;
+  stroke-dasharray: 1;
+  opacity: 0.9;
+  animation: bk-draw 1.1s cubic-bezier(0.6, 0, 0.3, 1) 1.15s backwards;
 }
 .bk-ghost {
   position: relative;
@@ -882,11 +908,11 @@ html[lang='en'] .bk-dedication {
   bottom: 0;
   height: var(--sh);
   transform-origin: 50% 100%;
-  transform: scaleY(min(1, calc(var(--g, 0.42) * 1.5)));
+  transform: scaleY(var(--g, 0.42));
   /* A pool of shade from the start-bottom corner: the text's own page darkens, the other page's art stays clean. */
   background:
-    radial-gradient(78% 100% at var(--gx) 100%, rgba(18, 12, 8, 0.9) 0%, rgba(18, 12, 8, 0.8) 28%, rgba(18, 12, 8, 0.5) 54%, rgba(18, 12, 8, 0.16) 78%, rgba(18, 12, 8, 0) 100%),
-    linear-gradient(to top, rgba(18, 12, 8, 0.3), rgba(18, 12, 8, 0) 60%);
+    radial-gradient(80% 100% at var(--gx) 100%, rgba(18, 12, 8, 0.92) 0%, rgba(18, 12, 8, 0.86) 30%, rgba(18, 12, 8, 0.64) 56%, rgba(18, 12, 8, 0.26) 80%, rgba(18, 12, 8, 0) 100%),
+    linear-gradient(to top, rgba(18, 12, 8, 0.34), rgba(18, 12, 8, 0) 70%);
   animation: bk-fade 0.6s var(--ease-state, ease) 0.06s backwards;
   transition:
     opacity 0.3s var(--ease-state, ease),
@@ -1127,22 +1153,141 @@ html[lang='en'] .bk-end-title {
   transition-delay: 0.3s;
 }
 
-/* ── Short landscape screens ────────────────────────────────────────────────── */
+/* ── Outside the picture (phones): end actions and the long-paragraph scroll fade ── */
+.bk-cap[data-scroll='1'] {
+  -webkit-mask-image: linear-gradient(to bottom, transparent, #000 14px, #000 calc(100% - 24px), transparent);
+  mask-image: linear-gradient(to bottom, transparent, #000 14px, #000 calc(100% - 24px), transparent);
+}
+.bk-out-end .bk-end-actions {
+  margin-top: 0;
+  /* The buttons arrive after the shower of leaves. */
+  animation: bk-rise 0.7s var(--ease-out, ease) 0.6s backwards;
+}
+.bk-out-end .bk-end-actions > i {
+  display: none;
+}
+.bk-end-note {
+  margin-top: 22px;
+  text-align: center;
+  font-size: 1.05rem;
+  line-height: 1.8;
+  color: rgba(246, 240, 228, 0.6);
+  animation: bk-rise 0.7s var(--ease-out, ease) 0.8s backwards;
+}
+html[lang='en'] .bk-end-note {
+  font-style: italic;
+}
+
+/* ── Short landscape screens (phones on their side): picture at the start, the text in a column beside it ── */
 @media (max-height: 600px) and (orientation: landscape) {
   .bk {
-    --sw: min(86vw, calc((100svh - 118px) * 16 / 9));
+    --side: max(16px, env(safe-area-inset-left), env(safe-area-inset-right));
+    --gap: 26px;
+    --sw: min(56vw, calc((100svh - 112px) * 16 / 9));
+    --colw: calc(100vw - var(--sw) - var(--gap) - 2 * var(--side));
+  }
+  .bk[data-classroom] {
+    --sw: min(58vw, calc((100svh - 108px) * 16 / 9));
   }
   .bk-top {
     height: 56px;
+    padding-inline: var(--side);
   }
   .bk-bottom {
-    height: 54px;
+    height: 56px;
+    width: auto;
+    margin-inline: var(--side);
   }
   .bk-hint {
     display: none;
   }
-  .bk[data-classroom] {
-    --sw: min(90vw, calc((100svh - 112px) * 16 / 9));
+  .bk[data-layout='side'] .bk-main {
+    align-items: flex-start;
+    padding-inline-start: var(--side);
+  }
+  .bk-cap[data-layout='side'],
+  .bk[data-layout='side'] .bk-gate,
+  .bk[data-layout='side'] .bk-out-end {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    inset-inline-start: calc(100% + var(--gap));
+    inset-inline-end: auto;
+    width: var(--colw);
+  }
+  .bk-cap[data-layout='side'] {
+    padding: 8px 4px 8px 0;
+    align-content: safe center;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    border-radius: 0;
+    pointer-events: auto;
+  }
+  .bk-cap[data-layout='side'] .bk-cap-item {
+    align-self: center;
+    padding: 0;
+  }
+  .bk-cap[data-layout='side'] .bk-text {
+    text-shadow: none;
+    max-inline-size: none;
+  }
+  .bk[data-layout='side'] .bk-gate {
+    padding: 0;
+    place-items: center stretch;
+  }
+  .bk[data-layout='side'] .bk-gate-card {
+    width: 100%;
+    padding: 18px 18px 20px;
+  }
+  .bk[data-layout='side'] .bk-gate-icon {
+    width: 40px;
+    height: 40px;
+    margin-bottom: 10px;
+  }
+  .bk[data-layout='side'] .bk-gate-sub {
+    margin: 6px 0 14px;
+    font-size: 14px;
+    line-height: 1.55;
+  }
+  .bk[data-layout='side'] .bk-out-end {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .bk[data-layout='side'] .bk-out-end .bk-end-actions {
+    flex-direction: column;
+    gap: 10px;
+  }
+  .bk[data-layout='side'] .bk-out-end .bk-end-actions > button {
+    width: 100%;
+  }
+  .bk[data-layout='side'] .bk-end-note {
+    margin-top: 14px;
+  }
+  .bk[data-layout='side'] .bk-end {
+    grid-template-columns: 1fr;
+  }
+  .bk[data-layout='side'] .bk-end-plate {
+    display: none;
+  }
+  .bk[data-layout='side'] .bk-end-text {
+    align-items: center;
+    text-align: center;
+  }
+  .bk[data-layout='side'] .bk-arrow {
+    width: 44px;
+    height: 44px;
+    margin-top: -22px;
+  }
+  .bk[data-layout='side'] .bk-arrow-prev {
+    inset-inline-start: 10px;
+  }
+  .bk[data-layout='side'] .bk-arrow-next {
+    inset-inline-end: 10px;
+  }
+  .bk-chip {
+    top: 10px;
+    inset-inline-end: 10px;
   }
   .bk-closed {
     padding-block: 60px 20px;
@@ -1155,7 +1300,9 @@ html[lang='en'] .bk-end-title {
 /* ── Stack mode: portrait phones ────────────────────────────────────────────── */
 @media (max-width: 900px) and (orientation: portrait) {
   .bk {
-    --sw: min(calc(100vw - 28px), 560px);
+    --sw: min(calc(100vw - 24px), 560px);
+    --sh: calc(var(--sw) * 0.75); /* a 4:3 picture card: two 2:3 pages */
+    --ca: 0.6667;
     --rr: 14px;
     --bk-fs: clamp(19px, 5vw, 23px);
   }
@@ -1163,7 +1310,7 @@ html[lang='en'] .bk-end-title {
     --bk-fs: clamp(18px, 4.7vw, 22px);
   }
   .bk[data-classroom] {
-    --sw: min(calc(100vw - 28px), 620px);
+    --sw: min(calc(100vw - 24px), 620px);
     --bk-fs: clamp(22px, 5.9vw, 28px);
   }
   html[lang='en'] .bk[data-classroom] {
@@ -1173,11 +1320,19 @@ html[lang='en'] .bk-end-title {
     height: 56px;
     padding-inline: 14px;
   }
+  /* The title is on the cover and on the end page; up here only the kicker (or the draft-translation note). */
   .bk-top-title {
-    font-size: 14px;
+    display: none;
   }
   .bk-top-sub {
-    font-size: 11.5px;
+    margin: 0;
+    font-size: 13px;
+    line-height: 1.25;
+    opacity: 0.7;
+    white-space: normal;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
   }
   .bk .bk-watch {
     width: 44px;
@@ -1219,38 +1374,55 @@ html[lang='en'] .bk-end-title {
     inset-inline-end: 10px;
   }
 
+  /* The text sits in the middle of the band between the card and the buttons; a long paragraph scrolls. */
   .bk-cap {
     position: relative;
     inset: auto;
     flex: 1;
     min-height: 0;
-    margin-top: 22px;
-    padding-inline: 4px;
-    align-content: start;
+    margin-top: 10px;
+    padding: 14px 6px 10px;
+    align-content: safe center;
     overflow-y: auto;
     overscroll-behavior: contain;
     border-radius: 0;
     pointer-events: auto;
-    -webkit-mask-image: linear-gradient(to bottom, #000 calc(100% - 20px), transparent);
-    mask-image: linear-gradient(to bottom, #000 calc(100% - 20px), transparent);
   }
-  .bk-cap-grad {
-    display: none;
+  .bk-cap[data-scroll='1'] {
+    -webkit-mask-image: linear-gradient(to bottom, transparent, #000 14px, #000 calc(100% - 24px), transparent);
+    mask-image: linear-gradient(to bottom, transparent, #000 14px, #000 calc(100% - 24px), transparent);
   }
   .bk-cap-item {
-    align-self: start;
-    padding: 0 0 22px;
+    align-self: center;
+    padding: 0;
+    animation: none;
   }
   .bk-cap-meta {
-    margin-bottom: 10px;
+    margin-bottom: 12px;
+    animation: bk-fade 0.5s var(--ease-state, ease) backwards;
+  }
+  .bk-cap-scroll {
+    animation: bk-cap-in 0.75s var(--ease-out, ease) 0.06s backwards;
+  }
+  /* While the card's leaf turns, the next scene's title already waits in the band; its text follows on landing. */
+  .bk-cap[data-wait] {
+    opacity: 1;
+  }
+  .bk-cap[data-wait] .bk-cap-meta {
+    opacity: 0.6;
+  }
+  .bk-cap[data-wait] .bk-cap-scroll {
+    opacity: 0;
+    animation: none;
   }
   .bk-text {
     text-shadow: none;
     max-inline-size: none;
   }
-  /* A short line of dialogue gets a little more voice on the phone. */
+  /* A short line of dialogue gets more voice on the phone. */
   .bk-text[data-short] {
-    font-size: calc(var(--bk-fs) * 1.16);
+    font-size: calc(var(--bk-fs) * 1.4);
+    line-height: 1.75;
   }
 
   .bk-bottom {
@@ -1263,15 +1435,44 @@ html[lang='en'] .bk-end-title {
     gap: 0;
     padding: 2px 14px calc(14px + env(safe-area-inset-bottom));
   }
+  /* Scene beads: a strip of 44px targets that scrolls sideways; the current bead is kept in the middle. */
+  .bk-dots-strip {
+    margin-inline: -14px;
+    padding-inline: 14px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x proximity;
+    scrollbar-width: none;
+    -webkit-mask-image: linear-gradient(to right, transparent, #000 28px, #000 calc(100% - 28px), transparent);
+    mask-image: linear-gradient(to right, transparent, #000 28px, #000 calc(100% - 28px), transparent);
+  }
+  .bk-dots-strip::-webkit-scrollbar {
+    display: none;
+  }
   .bk-dots {
-    width: 100%;
+    --cell: 46px;
+    margin-inline: auto;
   }
   .bk-dot {
-    height: 40px;
+    flex: none;
+    width: var(--cell);
+    height: 52px;
+    scroll-snap-align: center;
+  }
+  .bk-dot > span {
+    width: 26px;
+    height: 26px;
+  }
+  .bk-dot > span > svg {
+    width: 11px;
+    height: 11px;
+  }
+  .bk-dot[data-state='on'] > span {
+    transform: scale(1.32);
   }
   .bk-dots-ind::before {
-    width: 30px;
-    height: 30px;
+    width: 42px;
+    height: 42px;
   }
   .bk-nav-row {
     display: flex;
@@ -1300,8 +1501,10 @@ html[lang='en'] .bk-end-title {
 
   .bk-gate {
     position: static;
-    padding: 0;
-    margin-top: 20px;
+    flex: 1;
+    min-height: 0;
+    align-content: safe center;
+    padding: 12px 0 0;
   }
   .bk-gate-card {
     width: 100%;
@@ -1328,29 +1531,26 @@ html[lang='en'] .bk-end-title {
     font-size: clamp(1.05rem, 4.6vw, 1.3rem);
     margin-top: 0.2em;
   }
-  .bk-wrap > .bk-end-actions {
+  .bk-out-end {
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-top: 12px;
+  }
+  .bk-out-end .bk-end-actions {
     flex-direction: column;
     flex-wrap: nowrap;
     gap: 12px;
-    margin-top: 26px;
-    animation: bk-rise 0.7s var(--ease-out, ease) 0.25s backwards;
+    margin-top: 0;
   }
-  .bk-wrap > .bk-end-actions > button {
+  .bk-out-end .bk-end-actions > button {
     width: 100%;
   }
-  .bk-wrap > .bk-end-actions > i {
-    display: none;
-  }
-  .bk-end-note {
-    margin-top: 26px;
-    text-align: center;
-    font-size: 1.05rem;
-    line-height: 1.8;
-    color: rgba(246, 240, 228, 0.6);
-    animation: bk-rise 0.7s var(--ease-out, ease) 0.45s backwards;
-  }
-  html[lang='en'] .bk-end-note {
-    font-style: italic;
+  /* The end is celebrated from the top of the card; the leaves fall behind the buttons. */
+  .bk[data-phase='end'] .bk-burst {
+    z-index: 1;
   }
 
   .bk-closed {
@@ -1380,6 +1580,17 @@ html[lang='en'] .bk-end-title {
   }
   .bk-ghost {
     height: min(40svh, 76vw);
+    aspect-ratio: 2 / 3;
+  }
+  /* While the book lands on the card, the text, beads and buttons come in under it. */
+  .bk[data-phase='opening'] .bk-cap {
+    animation: bk-fade 0.55s var(--ease-state, ease) 1.08s backwards;
+  }
+  .bk[data-phase='opening'] .bk-bottom {
+    transition-delay: 1.2s;
+  }
+  .bk[data-phase='opening'] .bk-top .bk-fade {
+    animation-delay: 1.1s;
   }
 }
 
@@ -1398,6 +1609,17 @@ html[lang='en'] .bk-end-title {
   }
   to {
     opacity: 0;
+  }
+}
+@keyframes bk-cap-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+}
+@keyframes bk-draw {
+  from {
+    stroke-dashoffset: 1;
   }
 }
 @keyframes bk-rise {

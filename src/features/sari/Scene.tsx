@@ -13,8 +13,8 @@ export const FOV = 24
 const TAN = Math.tan(THREE.MathUtils.degToRad(FOV / 2))
 /** His height with the curls (units). */
 const TALL = 1.16
-/** Wide layout: how far above the stage's bottom edge he stands (px), clear of the dock. */
-const FEET = 172
+/** Docked layout: how far above the stage's bottom edge he stands (px), clear of the dock (a phone on its side has a lower one). */
+const feetPx = (h: number) => (h < 520 ? 102 : 172)
 const easeOutExpo = (t: number) => (t >= 1 ? 1 : 1 - Math.pow(2, -10 * t))
 const damp = (rate: number, dt: number) => 1 - Math.exp(-rate * dt)
 
@@ -104,8 +104,8 @@ function Director({ rt, turntable }: { rt: Runtime; turntable: React.RefObject<T
     const { camera, size } = state
     const aspect = size.width / Math.max(1, size.height)
     // (short laptops keep more air above his curls, so they never touch the nav)
-    const fill = rt.docked ? THREE.MathUtils.clamp((size.height - (size.height < 760 ? 270 : 250)) / size.height, 0.58, 0.79) : 0.8
-    const feet = rt.docked ? FEET / size.height : 0.15
+    const fill = rt.docked ? THREE.MathUtils.clamp((size.height - (size.height < 520 ? 126 : size.height < 760 ? 270 : 250)) / size.height, 0.58, 0.79) : 0.8
+    const feet = rt.docked ? feetPx(size.height) / size.height : 0.15
     const dist = Math.max(TALL / fill / (2 * TAN), (size.width < 560 ? 1.12 : rt.docked ? 1.25 : 1.42) / (2 * TAN * aspect))
     const viewH = 2 * dist * TAN
     const cy = viewH * (0.5 - feet)
@@ -179,10 +179,10 @@ function Floor({ rt, turntable }: { rt: Runtime; turntable: React.RefObject<THRE
   const bones = useRef<Array<THREE.Object3D | null>>([null, null])
   const ground = useRef([Infinity, Infinity])
   const spin = useRef(0)
-  useFrame(({ viewport }, delta) => {
+  useFrame(({ viewport, size }, delta) => {
     const dt = Math.min(delta, 1 / 20)
-    // (device pixels from the canvas' bottom edge; the dock's top is 118px up)
-    if (rt.docked) fade.value.set(122 * viewport.dpr, 164 * viewport.dpr)
+    // (device pixels from the canvas' bottom edge: gone 50px below his feet, where the dock's top is)
+    if (rt.docked) fade.value.set((feetPx(size.height) - 50) * viewport.dpr, (feetPx(size.height) - 8) * viewport.dpr)
     else fade.value.set(-2, -1)
     // the ground runs back under a runner
     if (!rt.reduced) spin.current += rt.run * 2.6 * dt * SIDE

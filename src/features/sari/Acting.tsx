@@ -36,8 +36,8 @@ export const TUNE: { hang?: typeof HANG; hello?: typeof HELLO; freeze?: number; 
 
 /**
  * Sari's acting, layered on <SariModel> (which draws him and breathes). Runs after it in the frame and adds:
- *  - a relaxed stand: arms hanging with the palms toward the legs, one a little further out, a slow shift of weight,
- *    shoulders that rise with the breath;
+ *  - a relaxed stand: arms hanging with the palms toward the legs, one a little further out, a slow sway of his
+ *    weight above planted feet, shoulders that rise with the breath;
  *  - the hello: elbow bent, hand up by his curls, forearm and hand swinging, body and head leaning into it;
  *  - the run: the baked cycle from the same file, blended over the stand;
  *  - the look: his head follows the pointer and keeps looking at you over his shoulder when he is turned.
@@ -157,11 +157,12 @@ export function Acting({ rt, turntable }: { rt: Runtime; turntable: React.RefObj
       add(side + 'Shoulder', 0, 0, (-breath * 0.014 - (side === WAVER ? w * 0.16 : 0)) * m)
     }
     const lean = SIDE > 0 ? 1 : -1
-    add('Hips', 0, 0, shift * 0.016 * stand)
-    add('Spine', 0, 0, -shift * 0.02 * stand)
-    add('Spine01', breath * 0.014 * stand, 0, (-shift * 0.006 + w * 0.05 * lean) * stand)
-    add('Spine02', 0, w * 0.06 * lean * stand, w * 0.03 * lean * stand)
-    add('Head', 0, 0, (shift * 0.02 + w * -0.1 * lean + Math.sin(v.waveT * 8.6 - 2.2) * 0.018 * w) * stand)
+    // his weight drifts from one leg to the other above planted feet: the body sways from the waist, the shoulders
+    // answer the other way and the head stays level; a hello leans the whole of him into the raised arm
+    add('Spine02', 0, w * 0.06 * lean * stand, (shift * 0.024 + w * 0.03 * lean) * stand)
+    add('Spine01', breath * 0.014 * stand, 0, w * 0.05 * lean * stand)
+    add('Spine', 0, 0, -shift * 0.013 * stand)
+    add('Head', 0, 0, (-shift * 0.009 + w * -0.1 * lean + Math.sin(v.waveT * 8.6 - 2.2) * 0.018 * w) * stand)
 
     // the run: the baked cycle blended over whatever he was doing
     if (v.run > 0) {
