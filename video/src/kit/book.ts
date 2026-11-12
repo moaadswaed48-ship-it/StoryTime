@@ -61,43 +61,43 @@ export function spreadPage(img: HTMLImageElement, side: 'right' | 'left', opts: 
   const c = makeCanvas(w, h)
   const g = c.getContext('2d', { willReadFrequently: true })!
   paperBase(g, w, h, side === 'right' ? 'left' : 'right')
-  // the painting runs across both pages, bleeding off the top and the outer edges
-  const ph = Math.round(h * 0.7)
-  const srcW = img.width
-  const srcH = Math.round((srcW * ph) / (w * 2))
+  // the painting runs across both pages and bleeds off every edge
+  const srcH = Math.min(img.height, Math.round((img.width * h) / (w * 2)))
+  const srcW = Math.round((srcH * w * 2) / h)
+  const sx = Math.round((img.width - srcW) / 2)
   const sy = Math.round((img.height - srcH) * (opts.cy ?? 0.4))
-  g.drawImage(img, side === 'left' ? 0 : srcW / 2, sy, srcW / 2, srcH, 0, 0, w, ph)
+  g.drawImage(img, side === 'left' ? sx : sx + srcW / 2, sy, srcW / 2, srcH, 0, 0, w, h)
   // gutter shade over the picture
   const gx = side === 'right' ? 0 : w
   const grd = g.createLinearGradient(gx, 0, side === 'right' ? w * 0.16 : w - w * 0.16, 0)
   grd.addColorStop(0, 'rgba(40,20,8,0.42)')
   grd.addColorStop(1, 'rgba(40,20,8,0)')
   g.fillStyle = grd
-  g.fillRect(0, 0, w, ph)
+  g.fillRect(0, 0, w, h)
   g.direction = 'rtl'
   if (opts.text) {
-    g.font = `600 50px "Noto Naskh Arabic"`
+    // her line on a band of paper along the foot of the page
+    g.font = `600 52px "Noto Naskh Arabic"`
+    const lines = wrapRtl(g, opts.text, w - 150)
+    const lh = 88
+    const bandH = lines.length * lh + 110
+    const top = h - bandH
+    const fade = g.createLinearGradient(0, top - 70, 0, top + 10)
+    fade.addColorStop(0, 'rgba(251,245,232,0)')
+    fade.addColorStop(1, 'rgba(251,245,232,0.96)')
+    g.fillStyle = fade
+    g.fillRect(0, top - 70, w, 80)
+    g.fillStyle = 'rgba(251,245,232,0.96)'
+    g.fillRect(0, top + 10, w, bandH)
     g.fillStyle = INK
     g.textAlign = 'right'
     g.textBaseline = 'alphabetic'
-    const lines = wrapRtl(g, opts.text, w - 150)
-    const lh = 86
-    const y0 = ph + (h - ph) / 2 - ((lines.length - 1) * lh) / 2 + 8
-    lines.forEach((ln, i) => g.fillText(ln, w - 78, y0 + i * lh))
-  } else {
-    // a quiet maple rule and the page number
-    g.strokeStyle = 'rgba(217,84,30,0.8)'
-    g.lineWidth = 5
-    g.lineCap = 'round'
-    g.beginPath()
-    g.moveTo(w / 2 - 46, ph + (h - ph) / 2 - 24)
-    g.lineTo(w / 2 + 46, ph + (h - ph) / 2 - 24)
-    g.stroke()
+    lines.forEach((ln, i) => g.fillText(ln, w - 78, top + 86 + i * lh))
+    g.font = `500 28px "Rubik Variable"`
+    g.fillStyle = 'rgba(42,26,16,0.55)'
+    g.textAlign = 'center'
+    g.fillText(arNum(opts.page), w / 2, h - 30)
   }
-  g.font = `500 30px "Rubik Variable"`
-  g.fillStyle = 'rgba(42,26,16,0.55)'
-  g.textAlign = 'center'
-  g.fillText(arNum(opts.page), w / 2, h - 44)
   return tex(c)
 }
 
@@ -370,12 +370,20 @@ export class Book {
     for (let i = 0; i < n; i++) {
       const k = clamp(turns[i] ?? 0)
       const phi = (k * k * (3 - 2 * k)) * Math.PI
-      const yL = CT + TL + 0.0015 * (n - i)
-      const yR = CT + TR + 0.0015 * (i + 1)
-      this.leaves[i].shape(phi, 0, yL + (yR - yL) * k)
+      const yL = CT + TL + 0.003 * (n - i)
+      const yR = CT + TR + 0.003 * (i + 1)
+      // the hinge stays on top of the left block until the whole leaf leans right, then settles: it must
+      // never sink through the pages still lying on the left
+      const down = smooth(clamp((phi - 2.3) / (Math.PI - 2.3)))
+      this.leaves[i].shape(phi, 0, yL + (yR - yL) * down)
       this.leaves[i].mesh.renderOrder = 4 + (k > 0 && k < 1 ? 1 : 0)
+      // only the top sheet of each pile is drawn (sheets a millimetre apart would fight for depth)
+      const coveredL = i > 0 && clamp(turns[i - 1] ?? 0) <= 0
+      const coveredR = i < n - 1 && clamp(turns[i + 1] ?? 0) >= 1
+      this.leaves[i].mesh.visible = !coveredL && !coveredR
     }
     this.rest.shape(0, 0, CT + TL + 0.0005)
+    this.rest.mesh.visible = clamp(turns[n - 1] ?? 0) > 0
     const openW = 1 + smooth(clamp(open))
     this.shadow.scale.set((PAGE.w + 0.5) * openW, 1, PAGE.h + 0.55)
     this.shadow.position.set(-PAGE.w / 2 + (PAGE.w / 2) * smooth(clamp(open)) + 0.06, 0.003, 0.05)

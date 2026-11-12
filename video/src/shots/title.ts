@@ -51,9 +51,11 @@ export async function titleShot(stage: Stage, mode: 'open' | 'close'): Promise<S
       let look
       if (mode === 'open') {
         // rack focus: sharp → soft between 0.2 s and 1.1 s
-        const a1 = ramp(t, 0.2, 0.7)
-        const a2 = ramp(t, 0.5, 1.15)
-        const dim = lerp(1, 0.6, ramp(t, 0.25, 1.15))
+        // …and back to sharp as the title leaves, so the cut into the film comes from a clear picture
+        const back = 1 - ramp(t, 3.55, 4.3)
+        const a1 = ramp(t, 0.2, 0.7) * back
+        const a2 = ramp(t, 0.5, 1.15) * back
+        const dim = lerp(1, 0.6, ramp(t, 0.25, 1.15) * back)
         look = { cx: (stage.tall ? 0.5 : 0.56) + drift(t * 0.2, 2) * 0.004, cy: (stage.tall ? 0.42 : 0.46) - k * 0.012, zoom: 1.08 + k * 0.07, exposure: dim, tint: [1, lerp(1, 0.93, a2), lerp(1, 0.86, a2)] as [number, number, number] }
         sharp.look(look)
         sharp.draw(target, true)

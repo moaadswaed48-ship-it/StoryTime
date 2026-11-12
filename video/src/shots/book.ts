@@ -16,7 +16,7 @@ import { Dust, Ground, Shafts } from '../kit/world'
 export async function bookShot(stage: Stage, dur: number): Promise<Shot> {
   const light = WARM_LIGHT()
   light.dir.set(-0.5, 0.78, 0.38).normalize()
-  const [cover, k01, k06, k11] = await Promise.all([loadImage('/site/story/cover.webp'), sitePicture('k01'), sitePicture('k06'), sitePicture('k11')])
+  const [cover, k01, k06] = await Promise.all([loadImage('/site/story/cover.webp'), sitePicture('k01'), sitePicture('k06')])
   const title: [string, string] = ['أوراق الخريف', 'والطيور المهاجرة']
   const cue = (i: number) => story.scenes[i].cue.ar
   const book = new Book(
@@ -31,7 +31,6 @@ export async function bookShot(stage: Stage, dur: number): Promise<Shot> {
     },
     light,
   )
-  void k11
   const scene = new THREE.Scene()
   scene.background = new THREE.Color(0.9, 0.52, 0.24)
   const cam = new THREE.PerspectiveCamera(stage.tall ? 38 : 27, stage.aspect, 0.1, 80)
@@ -79,9 +78,10 @@ export async function bookShot(stage: Stage, dur: number): Promise<Shot> {
     aa: true,
     render(t, target) {
       // cover: opens on the first beat; leaves follow on the next bar lines
-      const open = easeInOutCubic(ramp(t, 0.35, 1.5, (x) => x))
-      const turn1 = ramp(t, 1.95, 3.0, (x) => x)
-      const turn2 = ramp(t, dur - 1.45, dur - 0.4, (x) => x)
+      // the title leaf follows the cover at once, so each painted spread is held long enough to be seen
+      const open = easeInOutCubic(ramp(t, 0.25, 1.25, (x) => x))
+      const turn1 = ramp(t, 1.2, 2.15, (x) => x)
+      const turn2 = ramp(t, dur - 1.4, dur - 0.4, (x) => x)
       book.update(t, open, [turn1, turn2])
       // the camera starts on the closed book (it lies to the left of its spine) and settles on the spread
       const k = smooth(ramp(t, 0.2, 1.9, (x) => x))
@@ -89,7 +89,7 @@ export async function bookShot(stage: Stage, dur: number): Promise<Shot> {
       const cx = lerp(-0.5, 0.0, k)
       if (stage.tall) {
         cam.position.set(cx * 0.6 + 0.05 + drift(t * 0.3, 3) * 0.02, lerp(4.6, 5.9, k) - push * 0.3, lerp(3.0, 3.6, k))
-        cam.lookAt(cx * 0.6 - 0.02, 0, lerp(0.75, 0.95, k))
+        cam.lookAt(cx * 0.6 - 0.02, 0, lerp(0.55, 0.62, k))
       } else {
         cam.position.set(cx + 0.56 + drift(t * 0.3, 3) * 0.02, lerp(2.45, 2.85, k) - push * 0.16, lerp(2.05, 2.4, k) - push * 0.14)
         cam.lookAt(cx + 0.34, 0, 0.02)

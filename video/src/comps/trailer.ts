@@ -46,13 +46,13 @@ async function build(stage: Stage, params: URLSearchParams): Promise<Film> {
   const end = await titleShot(stage, 'close')
   const v01 = footageShot(stage, { clip: 'v01', startFrame: 2, dur: B, from: { cx: 0.5, cy: 0.5, zoom: 1.02 }, to: { cx: 0.46, cy: 0.48, zoom: 1.1 }, tallFrom: { cx: 0.25, zoom: 1.0 }, tallTo: { cx: 0.27, zoom: 1.06 }, leafSeed: 3, leaves: 14 })
   const v04 = footageShot(stage, { clip: 'v04', startFrame: 0, dur: B, from: { cx: 0.5, cy: 0.52, zoom: 1.04 }, to: { cx: 0.52, cy: 0.54, zoom: 1.1 }, tallFrom: { cx: 0.52, zoom: 1.0 }, tallTo: { cx: 0.6, zoom: 1.05 }, leafSeed: 5, leaves: 18 })
-  const v06 = footageShot(stage, { clip: 'v06', startFrame: 0, dur: B, from: { cx: 0.5, cy: 0.5, zoom: 1.02 }, to: { cx: 0.5, cy: 0.47, zoom: 1.09 }, tallFrom: { cx: 0.44, zoom: 1.0 }, tallTo: { cx: 0.5, zoom: 1.05 }, leafSeed: 7, leaves: 30 })
+  const v06 = footageShot(stage, { clip: 'v06', startFrame: 0, dur: B, from: { cx: 0.5, cy: 0.5, zoom: 1.02 }, to: { cx: 0.5, cy: 0.47, zoom: 1.09 }, tallFrom: { cx: 0.3, zoom: 1.0 }, tallTo: { cx: 0.34, zoom: 1.05 }, leafSeed: 7, leaves: 30 })
   const gust = await gustShot(stage)
   const v08 = footageShot(stage, { clip: 'v08', startFrame: 30, dur: B, from: { cx: 0.5, cy: 0.5, zoom: 1.02 }, to: { cx: 0.54, cy: 0.5, zoom: 1.1 }, tallFrom: { cx: 0.64, zoom: 1.0 }, tallTo: { cx: 0.66, zoom: 1.06 }, leafSeed: 9, leaves: 44 })
   const v12 = footageShot(stage, { clip: 'v12', startFrame: 4, dur: 2 * B, from: { cx: 0.5, cy: 0.5, zoom: 1.02 }, to: { cx: 0.52, cy: 0.46, zoom: 1.08 }, tallFrom: { cx: 0.3, zoom: 1.0 }, tallTo: { cx: 0.62, zoom: 1.04 }, leafSeed: 13, leaves: 16 })
   const book = await bookShot(stage, at('watch') - at('read'))
   // the film, shown as a film: a 16:9 screen on the phone, letterboxed on the wide cut
-  const FILM_CARD = { x: 40, y: 430, w: 1000, h: 563 }
+  const FILM_CARD = { x: 40, y: 330, w: 1000, h: 800 }
   const v11 = footageShot(stage, { clip: 'v11', startFrame: 6, dur: B, from: { cx: 0.5, cy: 0.5, zoom: 1.03 }, to: { cx: 0.5, cy: 0.5, zoom: 1.09 }, tallFrom: { cx: 0.5, zoom: 1.0 }, tallTo: { cx: 0.5, zoom: 1.05 }, card: FILM_CARD, leafSeed: 17, leaves: 20 })
   const play = await playShot(stage, TL.beat, at('end') - at('play'))
 
@@ -92,14 +92,14 @@ async function build(stage: Stage, params: URLSearchParams): Promise<Film> {
   const titleY = tall ? H * 0.43 : H * 0.5
   const kickerStyle = { font: 'ui' as const, size: tall ? 44 : 40, weight: 600, color: '#ffd9ae', shadow: true }
   const titleStyle = { font: 'display' as const, size: tall ? 128 : 150, weight: 800, lineHeight: 1.18, shadow: '0 4px 40px rgba(18,10,5,0.55), 0 2px 6px rgba(18,10,5,0.45)' }
-  add(new TextBlock(stage, SITE.kicker, kickerStyle, cx, titleY - (tall ? 250 : 215)), { in: 0.55, out: 3.95, mode: 'block', rise: 0.7 })
-  add(new TextBlock(stage, [SITE.titleA, SITE.titleB], titleStyle, cx, titleY), { in: 0.7, out: 3.95, stagger: 0.2, rise: 0.8 })
+  add(new TextBlock(stage, SITE.kicker, kickerStyle, cx, titleY - (tall ? 250 : 215)), { in: 0.55, out: 3.7, mode: 'block', rise: 0.7 })
+  add(new TextBlock(stage, [SITE.titleA, SITE.titleB], titleStyle, cx, titleY), { in: 0.7, out: 3.7, stagger: 0.2, rise: 0.8 })
 
   // her lines over her world
   const quoteStyle = { font: 'story' as const, size: tall ? 62 : 60, weight: 600, lineHeight: 1.6, width: tall ? 930 : 1500, shadow: true }
   const quoteY = tall ? TALL_CARD.y + TALL_CARD.h + 190 : H - 132
   const q = (text: string, tin: number, tout: number) => add(new TextBlock(stage, text, quoteStyle, cx, quoteY), { in: tin, out: tout, stagger: 0.1, rise: 0.5, fall: 0.3 })
-  q(cue(0), at('v01') + 0.2, at('v06') - 0.45)
+  q(cue(0), at('v01') + 0.2, at('v04') - 0.3) // the blowing shot plays without a line: hers for it is too long to read in one bar
   q(cue(5), at('v06') + 0.15, at('v08') - 0.45)
   q(cue(7), at('v08') + 0.15, at('v12') - 0.4)
   q(cue(11), at('v12') + 0.2, at('read') - 0.5)
@@ -135,14 +135,16 @@ async function build(stage: Stage, params: URLSearchParams): Promise<Film> {
 
   // closing: her line, then the title and the name of the site, on a soft shade so the type holds on the painting
   const E = at('end')
-  const endShade = box(stage, `left:${cx - (tall ? 620 : 900)}px;top:${(tall ? H * 0.24 : H * 0.42) - (tall ? 560 : 470)}px;width:${tall ? 1240 : 1800}px;height:${tall ? 1120 : 940}px;background:radial-gradient(closest-side, rgba(24,12,6,0.62), rgba(24,12,6,0.4) 55%, rgba(24,12,6,0));opacity:0;`)
-  add(new TextBlock(stage, SITE.autumn, { font: 'story', size: tall ? 120 : 132, weight: 700, shadow: true, lineHeight: 1.4 }, cx, tall ? H * 0.235 : H * 0.36), { in: E + 0.25, out: E + B - 0.4, stagger: 0.22, rise: 0.8, fall: 0.4 })
-  const endY = tall ? H * 0.215 : H * 0.385
-  add(new TextBlock(stage, SITE.kicker, kickerStyle, cx, endY - (tall ? 250 : 215)), { in: E + B + 0.1, out: 999, mode: 'block', rise: 0.7 })
-  add(new TextBlock(stage, [SITE.titleA, SITE.titleB], titleStyle, cx, endY), { in: E + B + 0.15, out: 999, stagger: 0.16, rise: 0.7 })
-  const rule = box(stage, `left:${cx - 60}px;top:${endY + (tall ? 196 : 205)}px;width:120px;height:5px;border-radius:3px;background:#d9541e;opacity:0;`)
-  add(new TextBlock(stage, SITE.brand, { font: 'display', size: tall ? 58 : 54, weight: 700, shadow: true }, cx, endY + (tall ? 262 : 280)), { in: E + B + 0.7, out: 999, mode: 'block', rise: 0.7 })
-  add(new TextBlock(stage, SITE.ways, { font: 'ui', size: tall ? 36 : 32, weight: 500, color: '#ffd9ae', shadow: true }, cx, endY + (tall ? 336 : 352)), { in: E + B + 0.9, out: 999, mode: 'block', rise: 0.7 })
+  const endShade = box(stage, `left:${cx - (tall ? 620 : 900)}px;top:${(tall ? H * 0.24 : H * 0.3) - (tall ? 560 : 470)}px;width:${tall ? 1240 : 1800}px;height:${tall ? 1120 : 940}px;background:radial-gradient(closest-side, rgba(24,12,6,${tall ? 0.3 : 0.5}), rgba(24,12,6,${tall ? 0.18 : 0.3}) 55%, rgba(24,12,6,0));opacity:0;`)
+  add(new TextBlock(stage, SITE.autumn, { font: 'story', size: tall ? 120 : 132, weight: 700, shadow: true, lineHeight: 1.4 }, cx, tall ? H * 0.235 : H * 0.29), { in: E + 0.25, out: E + B - 0.4, stagger: 0.22, rise: 0.8, fall: 0.4 })
+  const endY = tall ? H * 0.215 : H * 0.27
+  // wide: the whole block is smaller and sits in the sky, clear of the children's heads
+  const endTitle = tall ? titleStyle : { ...titleStyle, size: 118 }
+  add(new TextBlock(stage, SITE.kicker, kickerStyle, cx, endY - (tall ? 250 : 172)), { in: E + B + 0.1, out: 999, mode: 'block', rise: 0.7 })
+  add(new TextBlock(stage, [SITE.titleA, SITE.titleB], endTitle, cx, endY), { in: E + B + 0.15, out: 999, stagger: 0.16, rise: 0.7 })
+  const rule = box(stage, `left:${cx - 60}px;top:${endY + (tall ? 196 : 162)}px;width:120px;height:5px;border-radius:3px;background:#d9541e;opacity:0;`)
+  add(new TextBlock(stage, SITE.brand, { font: 'display', size: tall ? 58 : 54, weight: 700, shadow: true }, cx, endY + (tall ? 262 : 226)), { in: E + B + 0.7, out: 999, mode: 'block', rise: 0.7 })
+  add(new TextBlock(stage, SITE.ways, { font: 'ui', size: tall ? 36 : 32, weight: 500, color: '#ffd9ae', shadow: true }, cx, endY + (tall ? 336 : 290)), { in: E + B + 0.9, out: 999, mode: 'block', rise: 0.7 })
 
   return {
     duration: posterMode ? 1 / TL.fps : TL.duration,

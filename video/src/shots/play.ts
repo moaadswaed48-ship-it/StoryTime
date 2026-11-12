@@ -137,22 +137,24 @@ export async function playShot(stage: Stage, beat: number, dur: number): Promise
         const bob = Math.sin(t * 2.4 + k * 1.3) * 0.05
         const pop = clamp(since / 0.42)
         const e = easeOutCubic(pop)
-        const y = 0.74 + bob + (since > 0 ? e * 0.7 : 0)
-        p.pos.set(px, y, pz + (since > 0 ? SPEED * since : 0))
+        // taken: it lifts up and out to its own side, so it never crosses his face
+        const y = 0.74 + bob + (since > 0 ? e * 1.0 : 0)
+        const x = px + (since > 0 ? Math.sign(px) * e * 0.5 : 0)
+        p.pos.set(x, y, pz + (since > 0 ? SPEED * since : 0))
         // face the camera, swaying; spin away when taken
         _e.set(-0.06, Math.sin(t * 1.6 + k * 2.1) * 0.35 + (since > 0 ? e * 3.4 : 0), Math.sin(t * 1.3 + k) * 0.07)
         p.quat.setFromEuler(_e)
-        p.size = (0.42 / 0.86) * (since > 0 ? 1 + e * 0.3 : 1)
+        p.size = (0.42 / 0.86) * (since > 0 ? 1 - e * 0.35 : 1)
         // papers behind the lens are not drawn; they fade in as they enter the frame
         const ahead = sz + dist - pz
-        p.alpha = (since > 0 ? 1 - pop * pop : 1) * clamp((ahead - 0.5) / 0.5)
+        p.alpha = (since > 0 ? 1 - pop * pop : 1) * clamp((ahead - 1.5) / 0.7)
         p.bend = 0.08 + Math.sin(t * 2 + k) * 0.05
         p.wave = 0.25
         p.dapple = 0.35
         const g = glows[k]
-        g.position.set(px, y, p.pos.z - 0.06)
+        g.position.set(x, y, p.pos.z - 0.06)
         const mat = g.material as THREE.SpriteMaterial
-        mat.opacity = (since > 0 ? 0.9 * (1 - pop) : 0.3 + 0.08 * Math.sin(t * 3 + k)) * clamp((ahead - 0.5) / 0.5)
+        mat.opacity = (since > 0 ? 0.9 * (1 - pop) : 0.3 + 0.08 * Math.sin(t * 3 + k)) * clamp((ahead - 1.5) / 0.7)
         g.scale.setScalar(since > 0 ? 1.4 + e * 2.2 : 1.3)
       })
       set.update(t, cam)

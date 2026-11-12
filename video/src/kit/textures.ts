@@ -338,13 +338,13 @@ export function makeStonesTexture(size = 1024, seed = 3): THREE.Texture {
       let d1 = 1e9
       let d2 = 1e9
       let id = 0
-      for (let oj = -1; oj <= 1; oj++)
-        for (let oi = -1; oi <= 1; oi++) {
+      for (let oj = -2; oj <= 2; oj++)
+        for (let oi = -2; oi <= 2; oi++) {
           const ii = ci + oi
           const jj = cj + oj
-          const k = ((jj + N) % N) * N + ((ii + N) % N)
-          const sx = px[k] + (ii - ((ii + N) % N)) * cell
-          const sy = py[k] + (jj - ((jj + N) % N)) * cell
+          const k = ((jj + 2 * N) % N) * N + ((ii + 2 * N) % N)
+          const sx = px[k] + (ii - ((ii + 2 * N) % N)) * cell
+          const sy = py[k] + (jj - ((jj + 2 * N) % N)) * cell
           // stones are a little wider than tall, like laid pavers
           const dx = (x - sx) * 0.86
           const dy = y - sy
