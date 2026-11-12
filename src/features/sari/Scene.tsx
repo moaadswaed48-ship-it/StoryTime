@@ -1,8 +1,9 @@
-import { Suspense, useEffect, useMemo, useRef, useState } from 'react'
+import { Suspense, useEffect, useMemo, useRef } from 'react'
 import * as THREE from 'three'
 import { useFrame } from '@react-three/fiber'
-import { Environment, Lightformer } from '@react-three/drei'
+import { Environment, Lightformer, useGLTF } from '@react-three/drei'
 import { SariModel, type SariAction } from '@/design/SariModel'
+import { asset } from '@/lib/asset'
 import { mulberry32 } from '@/lib/seeded'
 import { REST_YAW, RUN_YAW, SCROLL_YAW, SIDE, wrapAngle, type Runtime } from './runtime'
 import { LEAF_COLORS, leafTexture, ringTexture, softDisc } from './textures'
@@ -14,6 +15,9 @@ const TAN = Math.tan(THREE.MathUtils.degToRad(FOV / 2))
 const TALL = 1.16
 const easeOutExpo = (t: number) => (t >= 1 ? 1 : 1 - Math.pow(2, -10 * t))
 const damp = (rate: number, dt: number) => 1 - Math.exp(-rate * dt)
+
+/** Bones whose standing pose <SariModel> rewrites every frame (arms, chest, head): the run blends on top of those. */
+const POSED = new Set(['LeftArm', 'RightArm', 'LeftForeArm', 'RightForeArm', 'Spine01', 'Head', 'RightHand'])
 
 const _e = new THREE.Euler(0, 0, 0, 'YXZ')
 const _q = new THREE.Quaternion()
@@ -133,10 +137,9 @@ function Director({ rt, turntable }: { rt: Runtime; turntable: React.RefObject<T
  * He looks at the pointer. Runs after <SariModel> (which restores the head bone every frame), so this only adds
  * a turn of the head on top of its breathing; it never accumulates and it fades out when his back is to us.
  */
-function HeadLook({ rt, turntable, take }: { rt: Runtime; turntable: React.RefObject<THREE.Group | null>; take: number }) {
+function HeadLook({ rt, turntable }: { rt: Runtime; turntable: React.RefObject<THREE.Group | null> }) {
   const head = useRef<THREE.Object3D | null>(null)
   const look = useRef({ yaw: 0, pitch: 0 })
-  useEffect(() => void (head.current = null), [take]) // a fresh Sari has fresh bones
   useFrame((_, delta) => {
     const dt = Math.min(delta, 1 / 20)
     if (!head.current) head.current = turntable.current?.getObjectByName('Head') ?? null
@@ -155,6 +158,69 @@ function HeadLook({ rt, turntable, take }: { rt: Runtime; turntable: React.RefOb
   return null
 }
 
+interface Channel {
+  bone: THREE.Object3D
+  /** Samples the run clip for this bone at a time (s). */
+  at: THREE.Interpolant
+  move: boolean
+  restQ: THREE.Quaternion
+  restP: THREE.Vector3
+  /** True when <SariModel> poses this bone itself each frame, so the blend starts from what it left there. */
+  posed: boolean
+}
+
+/**
+ * The run, played here rather than through <SariModel action="run">.
+ * Why: in development React replays a new component's effects, and SariModel stops its run clip in that replay
+ * without starting it again, so on some page loads his legs never move (see REQUESTS in the build report).
+ * A character who sometimes cannot run is not acceptable on this stage, so the stage samples the same baked clip
+ * from the same file and blends it over SariModel's standing pose: identical result, every time, in dev and in
+ * production. SariModel is always asked to stand or wave; this adds the legs. Runs after SariModel in the frame.
+ */
+function RunCycle({ rt, turntable }: { rt: Runtime; turntable: React.RefObject<THREE.Group | null> }) {
+  const gltf = useGLTF(asset('models/sari.glb')) // already in memory: SariModel loaded it
+  const clip = useMemo(() => gltf.animations.find((a) => a.name === 'run') ?? gltf.animations[0], [gltf.animations])
+  const channels = useRef<Channel[]>([])
+  const s = useRef({ w: 0, t: 0, resting: true })
+  useEffect(() => {
+    const root = turntable.current
+    if (!root || !clip) return
+    channels.current = clip.tracks.flatMap((track) => {
+      const { nodeName, propertyName } = THREE.PropertyBinding.parseTrackName(track.name)
+      const bone = root.getObjectByName(nodeName)
+      // rotations for every bone; movement only for the hips (the bob of the run; its travel was removed at build time)
+      const move = propertyName === 'position' && nodeName === 'Hips'
+      if (!bone || !(propertyName === 'quaternion' || move)) return []
+      return [{ bone, at: track.createInterpolant(), move, restQ: bone.quaternion.clone(), restP: bone.position.clone(), posed: POSED.has(nodeName) }]
+    })
+    return () => {
+      // leave the rig as it was found
+      for (const c of channels.current) if (!c.posed) c.move ? c.bone.position.copy(c.restP) : c.bone.quaternion.copy(c.restQ)
+      channels.current = []
+    }
+  }, [clip, turntable])
+  useFrame((_, delta) => {
+    const dt = Math.min(delta, 1 / 30)
+    const v = s.current
+    v.w += ((rt.action === 'run' ? 1 : 0) - v.w) * damp(9, dt)
+    if (v.w < 0.002) {
+      if (v.resting) return
+      v.w = 0 // one last pass puts the legs back exactly
+      v.resting = true
+    } else v.resting = false
+    v.t = (v.t + dt) % clip.duration
+    for (const c of channels.current) {
+      const run = c.at.evaluate(v.t)
+      if (c.move) c.bone.position.copy(c.restP).lerp(_v.fromArray(run), v.w)
+      else {
+        if (!c.posed) c.bone.quaternion.copy(c.restQ)
+        c.bone.quaternion.slerp(_q.fromArray(run), v.w)
+      }
+    }
+  })
+  return null
+}
+
 /** Tells the page the model is on stage (inside the Suspense boundary, so it mounts with him). */
 function Ready({ onReady }: { onReady: () => void }) {
   useEffect(() => onReady(), [onReady])
@@ -162,24 +228,10 @@ function Ready({ onReady }: { onReady: () => void }) {
 }
 
 /**
- * Development only. React's StrictMode replays the effects of a newly mounted tree (mount → unmount → mount), and
- * <SariModel> stops its run clip in that replay without starting it again: a replayed Sari can stand and wave but
- * his legs never run. This sits next to him, notices the replay (its own effect runs a second time) and asks for a
- * fresh Sari. In a production build effects run once, so this never fires.
- */
-function Replayed({ onReplay }: { onReplay: () => void }) {
-  const runs = useRef(0)
-  useEffect(() => {
-    if (++runs.current === 2) onReplay()
-  }, [onReplay])
-  return null
-}
-
-/**
  * What he stands on: a round pool of warm light, a fine turntable ring that turns with him (and spins under his
  * feet while he runs), a soft body shadow and a tight contact shadow under each shoe that fades as the foot lifts.
  */
-function Floor({ rt, turntable, take }: { rt: Runtime; turntable: React.RefObject<THREE.Group | null>; take: number }) {
+function Floor({ rt, turntable }: { rt: Runtime; turntable: React.RefObject<THREE.Group | null> }) {
   const tex = useMemo(
     () => ({
       pool: softDisc([[0, 0.95], [0.18, 0.62], [0.45, 0.24], [0.75, 0.06], [1, 0]]),
@@ -195,7 +247,6 @@ function Floor({ rt, turntable, take }: { rt: Runtime; turntable: React.RefObjec
   const bones = useRef<Array<THREE.Object3D | null>>([null, null])
   const ground = useRef([Infinity, Infinity])
   const spin = useRef(0)
-  useEffect(() => void (bones.current = [null, null]), [take]) // a fresh Sari has fresh bones
   useFrame((_, delta) => {
     const dt = Math.min(delta, 1 / 20)
     // the ground runs back under a runner
@@ -339,31 +390,21 @@ function LeafField({ rt, count, soft = false }: { rt: Runtime; count: number; so
   return <primitive object={mesh} />
 }
 
-// TEMP DEBUG (removed after the experiment)
-const _stop = THREE.AnimationMixer.prototype.stopAllAction
-THREE.AnimationMixer.prototype.stopAllAction = function (this: THREE.AnimationMixer) {
-  console.log('SARI stopAllAction')
-  return _stop.call(this)
-}
-
 /** Everything inside the canvas. */
 export function Scene({ rt, action, onReady }: { rt: Runtime; action: SariAction; onReady: () => void }) {
   const turntable = useRef<THREE.Group>(null)
-  /** Which Sari is on stage: a new number mounts a fresh one (see <Replayed>). */
-  const [take, setTake] = useState(0)
-  const retake = useRef(() => setTake((n) => (console.log('SARI retake ' + (n + 1)), n < 3 ? n + 1 : n))).current
   return (
     <>
       <Lights />
       <Director rt={rt} turntable={turntable} />
-      <Floor rt={rt} turntable={turntable} take={take} />
+      <Floor rt={rt} turntable={turntable} />
       <LeafField rt={rt} count={26} />
       <LeafField rt={rt} count={6} soft />
       <group ref={turntable} rotation-y={REST_YAW}>
         <Suspense fallback={null}>
-          <SariModel key={take} action={action} speed={1.05} />
-          <Replayed key={`r${take}`} onReplay={retake} />
-          <HeadLook rt={rt} turntable={turntable} take={take} />
+          <SariModel action={action === 'run' ? 'idle' : action} />
+          <RunCycle rt={rt} turntable={turntable} />
+          <HeadLook rt={rt} turntable={turntable} />
           <Ready onReady={onReady} />
         </Suspense>
       </group>
