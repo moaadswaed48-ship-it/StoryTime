@@ -36,6 +36,22 @@
   inset: 0;
   will-change: transform;
 }
+/* The picture settles as it is uncovered (the frame moves, never the <video> itself). */
+.ft-film .qf {
+  transform: scale(1.06);
+}
+.ft[data-seen] .ft-film .qf {
+  transform: none;
+  transition: transform 2s var(--ease-out);
+}
+@media (prefers-reduced-motion: reduce) {
+  .ft-film .qf {
+    transform: none;
+  }
+}
+html[data-reduce-motion] .ft-film .qf {
+  transform: none;
+}
 /* Phones see a tall slice of the 16:9 frame: keep the sun, the flock and the two boys' side of the yard. */
 .ft-film .qf {
   --qf-focus: 50% 50%;

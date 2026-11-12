@@ -63,10 +63,14 @@ export function Footer() {
   const on = useOnScreen(root, '0px')
   const wordSeen = useInView(wordBox, '0px 0px -4% 0px')
   const [armed, setArmed] = useState(false)
+  const [uncovered, setUncovered] = useState(false)
 
   useEffect(() => {
     if (!prefersReducedNow()) setArmed(true)
   }, [])
+  useEffect(() => {
+    if (on) setUncovered(true)
+  }, [on])
 
   // The film sits under the page: it lags while the paper lifts off it and rises a little under the last lines.
   // Transform only, written straight from the scroll position (Lenis has already smoothed it); runs on screen only.
@@ -170,7 +174,7 @@ export function Footer() {
   }
 
   return (
-    <footer ref={root} id="footer" className="ft">
+    <footer ref={root} id="footer" className="ft" data-seen={uncovered ? '' : undefined}>
       <div className="ft-stage grain" aria-hidden>
         <div ref={layer} className="ft-film">
           <QuietFilm ref={film} clip={LAST.clip!} poster={LAST.img} posterSm={LAST.thumb} sizes="100vw" hold={5} />
