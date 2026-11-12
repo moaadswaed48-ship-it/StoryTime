@@ -345,46 +345,41 @@ html[lang='ar'] .sari-title {
   }
 }
 
-/* ── No WebGL: the portrait in a spotlight ───────────────────────────────────── */
+/* ── No WebGL: his portrait in a lit arch ────────────────────────────────────── */
 .sari-portrait {
   position: absolute;
   inset: 0;
-  display: grid;
-  place-items: center;
-  padding-top: 2%;
 }
-.sari-portrait__light {
+.sari-portrait__arch {
   position: absolute;
   left: 50%;
-  top: 49%;
-  height: 96%;
-  aspect-ratio: 1 / 1.06;
-  max-width: 108%;
-  border-radius: 50%;
-  transform: translate(-50%, -50%);
-  background: radial-gradient(closest-side, #f8e6c8 0%, #f6dcb6 44%, #efc48c 64%, rgb(226 150 82 / 0.72) 78%, rgb(190 100 40 / 0.28) 90%, transparent 100%);
-}
-.sari-portrait__floor {
-  position: absolute;
-  left: 50%;
-  top: 87.2%;
-  width: min(46%, 300px);
-  height: 5.4%;
-  border-radius: 50%;
-  transform: translate(-50%, -50%);
-  background: radial-gradient(closest-side, rgb(92 44 14 / 0.62), rgb(120 60 20 / 0.3) 55%, transparent 100%);
+  bottom: 7%;
+  height: 86%;
+  aspect-ratio: 0.66;
+  max-width: 88%;
+  border-radius: 999px 999px 44px 44px;
+  transform: translateX(-50%);
+  background:
+    radial-gradient(ellipse 72% 46% at 50% 32%, #fdf4e3 0%, rgb(253 244 227 / 0) 100%),
+    linear-gradient(180deg, #f4e4c9 0%, #f0d3a8 60%, #e6b174 100%);
+  box-shadow:
+    inset 0 0 0 1px rgb(255 255 255 / 0.45),
+    inset 0 -46px 90px rgb(156 74 22 / 0.3),
+    inset 0 40px 80px rgb(255 255 255 / 0.18),
+    0 34px 90px rgb(0 0 0 / 0.5),
+    0 0 140px rgb(232 132 60 / 0.22);
 }
 .sari-portrait img {
-  position: relative;
-  height: 88%;
+  position: absolute;
+  left: 50%;
+  bottom: 7.4%;
+  height: 83%;
   width: auto;
   max-width: none;
-  /* the picture's flat studio grey multiplies into the light behind it and disappears */
+  transform: translateX(-50%);
+  /* 255 / 208: the studio grey becomes white, and white multiplied onto the arch changes nothing */
+  filter: brightness(1.226);
   mix-blend-mode: multiply;
-  -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 9%, #000 91%, transparent 100%), linear-gradient(180deg, transparent 0%, #000 3.5%, #000 96%, transparent 100%);
-  mask-image: linear-gradient(90deg, transparent 0%, #000 9%, #000 91%, transparent 100%), linear-gradient(180deg, transparent 0%, #000 3.5%, #000 96%, transparent 100%);
-  -webkit-mask-composite: source-in;
-  mask-composite: intersect;
   -webkit-user-drag: none;
 }
 .is-flat .sari-canvas {

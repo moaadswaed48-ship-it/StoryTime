@@ -33,15 +33,15 @@ const CAMERA = { fov: FOV, near: 0.1, far: 40, position: [0, 0.95, 5] as [number
 const COPIES = [0, 1, 2, 3, 4]
 
 /**
- * Without WebGL: his portrait, lit like the stage. The picture's flat studio grey is multiplied into a warm
- * spotlight painted behind it, so the grey disappears and he stands in a pool of light instead of a grey box.
+ * Without WebGL: his portrait, standing in a lit arch like a studio alcove.
+ * The picture has a flat studio grey behind him: brightened until that grey is white and multiplied onto the arch,
+ * the grey vanishes and only he (and his own soft shadow) lands on the warm wall. No cut-out file needed.
  */
 function Portrait({ onShown }: { onShown: () => void }) {
   useEffect(() => onShown(), [onShown])
   return (
     <div className="sari-portrait">
-      <div className="sari-portrait__light" aria-hidden />
-      <div className="sari-portrait__floor" aria-hidden />
+      <div className="sari-portrait__arch" aria-hidden />
       <img src={asset('story/sari.webp')} alt={t.sari.title} width={700} height={929} decoding="async" draggable={false} />
     </div>
   )

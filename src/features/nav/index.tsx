@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState, type CSSProperties, type MouseEvent, type ReactNode } from 'react'
-import { ArrowRight, Globe, LogIn, LogOut, Play } from 'lucide-react'
+import { ArrowRight, ArrowUpRight, Globe, LogIn, LogOut, Play } from 'lucide-react'
 import { enterApp } from '@/app/router'
 import { story } from '@/content/story'
 import { Pill } from '@/design/ui'
@@ -250,6 +250,9 @@ export function Nav() {
                   {num(i + 1)}
                 </span>
                 <span className="st-sheet__text">{l.label}</span>
+                <span className="st-sheet__go" aria-hidden>
+                  {l.id === 'film' ? <Play size={12} fill="currentColor" strokeWidth={0} /> : <ArrowUpRight size={17} strokeWidth={2} className="flip-rtl" />}
+                </span>
               </>,
               { '--i': i } as CSSProperties,
             ),
