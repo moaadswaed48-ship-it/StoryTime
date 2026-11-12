@@ -1,5 +1,5 @@
 // "Eyes": drive the site like a person and photograph it.
-//   node scripts/qa/eyes.mjs <url> <outPrefix> [--device=iphone|desktop|ipad|land] [--dpr=1] [--steps='[...]'] [--walk=700] [--reduce]
+//   node scripts/qa/eyes.mjs <url> <outPrefix> [--device=iphone|desktop|ipad|land | --vp=820x1180[:touch]] [--dpr=1] [--steps='[...]'] [--walk=700] [--reduce]
 // steps: [{type:[css,text]}|{hash:"#app"}|{walk:600,name:"home"}|{scroll:800}|{to:1200}|{sel:"#id"}|{tap:"css"}|{tapText:"..."}|{wait:500}|{eval:"js"}|{shot:"name"}|{key:"Escape"}|{drag:[x1,y1,x2,y2]}]
 // --walk=N scrolls the whole page in small steps (so reveals fire like real scrolling) and shoots every N px.
 import { chromium, devices } from 'playwright'
@@ -11,6 +11,13 @@ const profiles = {
   land: { ...devices['iPhone 14 landscape'], deviceScaleFactor: dpr },
   ipad: { ...devices['iPad (gen 7)'], deviceScaleFactor: dpr },
   desktop: { viewport: { width: 1440, height: 900 }, deviceScaleFactor: dpr },
+}
+if (opt.vp) {
+  // --vp=820x1180 or --vp=820x1180:touch — any other screen
+  const [size, touch] = String(opt.vp).split(':')
+  const [width, height] = size.split('x').map(Number)
+  profiles.custom = { viewport: { width, height }, deviceScaleFactor: dpr, hasTouch: !!touch, isMobile: !!touch }
+  opt.device = 'custom'
 }
 const browser = await chromium.launch({ args: ['--use-gl=angle', '--use-angle=swiftshader', '--enable-unsafe-swiftshader', '--ignore-gpu-blocklist', '--autoplay-policy=no-user-gesture-required'] })
 const ctx = await browser.newContext({ ...profiles[opt.device ?? 'iphone'], reducedMotion: opt.reduce ? 'reduce' : 'no-preference' })

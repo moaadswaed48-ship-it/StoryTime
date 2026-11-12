@@ -1,11 +1,9 @@
-import { useCallback, useEffect, useLayoutEffect, useRef, useState, type CSSProperties, type KeyboardEvent, type PointerEvent } from 'react'
-import * as THREE from 'three'
+import { lazy, Suspense, useCallback, useEffect, useLayoutEffect, useRef, useState, type CSSProperties, type KeyboardEvent, type PointerEvent } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { useGSAP } from '@gsap/react'
 import { Footprints, Hand, PersonStanding, Rotate3d, type LucideIcon } from 'lucide-react'
 import { sfx } from '@/audio/synth'
-import { LazyCanvas } from '@/design/LazyCanvas'
 import { Leaves, type LeavesHandle } from '@/design/Leaves'
 import type { SariAction } from '@/design/SariModel'
 import { useInView, useOnScreen } from '@/design/ui'
@@ -16,7 +14,6 @@ import { cn } from '@/lib/cn'
 import { exposeQA } from '@/lib/qa'
 import { useSiteStore } from '@/store/useSiteStore'
 import { DRAG, WAVE_MS, createRuntime, wrapAngle } from './runtime'
-import { FOV, Scene } from './Scene'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -25,11 +22,8 @@ const ACTIONS: Array<{ id: SariAction; icon: LucideIcon }> = [
   { id: 'run', icon: Footprints },
   { id: 'idle', icon: PersonStanding },
 ]
-/** Colours stay as painted (the hoodie's mustard, the jeans' teal): highlights roll off softly instead of clipping. */
-const GL = { antialias: true, powerPreference: 'high-performance' as const, alpha: true, toneMapping: THREE.NeutralToneMapping, toneMappingExposure: 0.99 }
-/** Up to 2 device pixels per CSS pixel, on phones too: his outline sits beside razor-sharp type, and the scene is nine draw calls. */
-const DPR: [number, number] = [1, 2]
-const CAMERA = { fov: FOV, near: 0.1, far: 40, position: [0, 0.95, 5] as [number, number, number] }
+/** three.js and the 3D stage arrive in their own chunk, only when the stage is on its way into view. */
+const Canvas3D = lazy(() => import('./Canvas3D'))
 /** Behind him, far out of focus: the courtyard of the film under its autumn tree. The film carries the colour. */
 const FILM: CSSProperties = { backgroundImage: `url(${asset('story/k08-sm.webp')})` }
 /** The giant word is repeated so it can rush past while he runs; at rest only the middle copy is on stage. */
@@ -63,6 +57,8 @@ export function Stage() {
   const reduced = useSiteStore((s) => s.tier === 'reduced')
   const seen = useInView(stage, '0px 0px -16% 0px')
   const onScreen = useOnScreen(stage, '40px 0px')
+  /** A screen and a half before he is reached: fetch the 3D stage then, not with the first paint. */
+  const near = useInView(stage, '150% 0px 150% 0px')
 
   /** What the visitor chose (stays until changed). A wave on top of it is a passing gesture. */
   const [mode, setMode] = useState<SariAction>('idle')
@@ -344,9 +340,11 @@ export function Stage() {
           </div>
         </div>
         <div className="sari-canvas">
-          <LazyCanvas camera={CAMERA} gl={GL} dpr={DPR} frameloop={!onScreen ? 'never' : reduced && !busy && action === 'idle' ? 'demand' : 'always'} fallback={<Portrait onShown={onFlat} />}>
-            <Scene rt={rt} onReady={onReady} />
-          </LazyCanvas>
+          {near && (
+            <Suspense fallback={null}>
+              <Canvas3D rt={rt} onReady={onReady} frameloop={!onScreen ? 'never' : reduced && !busy && action === 'idle' ? 'demand' : 'always'} fallback={<Portrait onShown={onFlat} />} />
+            </Suspense>
+          )}
         </div>
         {(flat || burst) && <Leaves ref={leaves} density={flat ? 9 : 0} className="sari-burst" />}
       </div>
