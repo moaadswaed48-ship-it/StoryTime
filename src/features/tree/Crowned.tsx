@@ -62,7 +62,7 @@ function Crown({ root }: { root: React.RefObject<THREE.Group | null> }) {
       </mesh>
       {CROWN.map((_, i) => {
         const a = (i / N) * Math.PI * 2 + 0.2
-        const size = i % 2 === 0 ? 0.2 : 0.16
+        const size = i % 2 === 0 ? 0.23 : 0.185
         return (
           <group key={i} position={[Math.sin(a) * RADIUS, -0.012, Math.cos(a) * RADIUS]} rotation={[0, a, 0]}>
             <mesh geometry={geo} material={mats[i]} rotation={[0.42, 0, (i % 3 - 1) * 0.16]} scale={size} />
@@ -179,10 +179,28 @@ function Picture({ onShown }: { onShown: () => void }) {
   return (
     <div className="absolute inset-0 flex items-end justify-center pb-[11%]" data-tree-sari="picture">
       {cut ? (
-        <div className="relative h-[74%]" style={{ aspectRatio: '700 / 929' }}>
-          <img src={cut} alt="" className="h-full w-full [filter:drop-shadow(0_10px_14px_rgba(40,14,0,.35))]" draggable={false} />
-          <PaperCrown className="absolute inset-x-[27%] top-[-4%] w-[46%]" />
-        </div>
+        <>
+          {/* one front-view picture is all there is, so he looks over a rise in the hill: head, shoulders and crown */}
+          <div className="absolute inset-x-0 bottom-[27%] top-0 overflow-hidden">
+            <div className="absolute bottom-0 start-1/2 w-[94%] -translate-x-1/2 rtl:translate-x-1/2" style={{ aspectRatio: '700 / 929' }}>
+              <div className="h-full w-full translate-y-[55%]">
+                <img src={cut} alt="" className="tree-cut h-full w-full" draggable={false} />
+                <PaperCrown className="absolute inset-x-[25%] top-[-5%] w-[50%]" />
+              </div>
+            </div>
+          </div>
+          <svg viewBox="0 0 100 40" preserveAspectRatio="none" className="absolute inset-x-[-12%] bottom-[-2%] h-[33%] w-[124%]" aria-hidden>
+            <defs>
+              <linearGradient id="tree-mound" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stopColor="#b9651f" />
+                <stop offset="0.55" stopColor="#8a4518" />
+                <stop offset="1" stopColor="#6d3614" stopOpacity="0" />
+              </linearGradient>
+            </defs>
+            <path d="M0,22 Q22,2 50,3 T100,22 V40 H0 Z" fill="url(#tree-mound)" />
+            <path d="M6,17 Q24,2 50,3 T94,17" fill="none" stroke="#ffc27a" strokeOpacity="0.7" strokeWidth="1.5" vectorEffect="non-scaling-stroke" />
+          </svg>
+        </>
       ) : (
         <div className="relative mb-[9%] aspect-square w-[min(64%,160px)]">
           <div className="absolute inset-0 overflow-hidden rounded-full bg-paper shadow-[0_0_0_5px_var(--color-paper),0_18px_40px_rgba(40,14,0,.4)]">

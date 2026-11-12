@@ -40,13 +40,13 @@ function cubic(p0: P, p1: P, p2: P, p3: P, t: number): { p: P; n: P } {
 }
 
 /** A tapered limb as a closed outline (wide at the base, a rounded point at the tip). */
-function taper(p0: P, p1: P, p2: P, p3: P, w0: number, w1: number, steps = 14): string {
+function taper(p0: P, p1: P, p2: P, p3: P, w0: number, w1: number, steps = 14, width?: (t: number) => number): string {
   const left: P[] = []
   const right: P[] = []
   for (let i = 0; i <= steps; i++) {
     const t = i / steps
     const { p, n } = cubic(p0, p1, p2, p3, t)
-    const w = (w0 + (w1 - w0) * Math.pow(t, 0.85)) / 2
+    const w = (width ? width(t) : w0 + (w1 - w0) * Math.pow(t, 0.85)) / 2
     left.push([p[0] + n[0] * w, p[1] + n[1] * w])
     right.push([p[0] - n[0] * w, p[1] - n[1] * w])
   }
@@ -98,7 +98,7 @@ function grow(c: Ctx, x: number, y: number, ang: number, len: number, w: number,
   const d2 = dir(ang + bend * 2)
   const p1: P = [x + d0[0] * len * 0.38, y + d0[1] * len * 0.38]
   const p2: P = [p3[0] - d2[0] * len * 0.34, p3[1] - d2[1] * len * 0.34]
-  const w1 = depth === 0 ? 2.2 : w * 0.5
+  const w1 = depth === 0 ? 2.6 : w * 0.5
   c.wood.push(taper(p0, p1, p2, p3, w, w1))
   // leaf marks along the outer half and at the tip
   const marks = depth === 0 ? 3 : depth === 1 ? 2 : 1
@@ -149,9 +149,9 @@ export function buildTree(seed = 20241): TreeArt {
   const light: string[] = []
   const base: P = [300, 606]
   const top: P = [297, 392]
-  // trunk with a flare where it meets the ground
-  wood.push(taper(base, [308, 530], [290, 460], top, 62, 40, 16))
-  wood.push('M222,614 Q262,604 271,548 Q275,520 277,496 L325,496 Q327,520 331,548 Q340,604 380,614 Q340,620 300,618 Q260,620 222,614 Z')
+  // the trunk and its flare are one outline (no seam where they meet); a shallow curve rounds the foot
+  wood.push(taper(base, [308, 530], [290, 460], top, 62, 40, 30, (t) => 40 + 22 * (1 - t) + 84 * Math.pow(1 - t, 7)))
+  wood.push('M228,605 Q300,628 372,605 Z')
   // three limbs, physical left → top → right; the reading side is decided by the page direction
   const defs: { p: [P, P, P, P]; side: number; hang: P }[] = [
     { p: [[304, 446], [214, 402], [134, 344], [112, 252]], side: -1, hang: [-4, -30] },

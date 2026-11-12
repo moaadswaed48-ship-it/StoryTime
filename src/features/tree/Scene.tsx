@@ -1,4 +1,4 @@
-import { forwardRef, useMemo, useRef, type CSSProperties, type ReactNode } from 'react'
+import { forwardRef, useEffect, useMemo, useRef, useState, type CSSProperties, type ReactNode } from 'react'
 import { BookOpen, Gamepad2, Play } from 'lucide-react'
 import { Leaves, type LeavesHandle } from '@/design/Leaves'
 import { useOnScreen } from '@/design/ui'
@@ -7,6 +7,7 @@ import { cn } from '@/lib/cn'
 import { rtl } from '@/i18n/locale'
 import { t } from '@/i18n/copy'
 import type { Activity } from '@/store/useProfileStore'
+import { useSiteStore } from '@/store/useSiteStore'
 import { buildTree, carpet, flock, GROUND, KINDS, MAPLE, VIEW } from './art'
 import { Crowned } from './Crowned'
 import { Maple } from './Maple'
@@ -18,11 +19,12 @@ export const DOOR_ICON = { read: BookOpen, watched: Play, played: Gamepad2 }
 const TILT = [-16, 7, 15]
 
 /** The migrating birds, in the V the teacher points at. They cross the sky in front of the tree, slowly, again and again. */
-function Flock({ paused }: { paused: boolean }) {
-  const birds = useMemo(() => flock(11), [])
+function Flock({ paused, still }: { paused: boolean; still: boolean }) {
+  // standing still (reduced motion) the flock waits in open sky, smaller, clear of the tree and the words
+  const birds = useMemo(() => flock(still ? 7 : 11), [still])
   return (
-    <div className={cn('tree-flock pointer-events-none absolute inset-x-0 top-[12%]', paused && 'is-paused')} style={{ direction: 'ltr', '--from': rtl ? 110 : -56, '--to': rtl ? -56 : 110, '--rest': rtl ? '40%' : '8%' } as CSSProperties} data-tree-flock>
-      <svg viewBox="-216 -118 240 236" className="h-auto w-[52%] min-w-[190px] max-w-[330px]" style={{ transform: rtl ? 'scaleX(-1)' : undefined }} aria-hidden>
+    <div className={cn('tree-flock pointer-events-none absolute inset-x-0 top-[12%]', paused && 'is-paused', still && 'is-still')} style={{ direction: 'ltr', '--from': rtl ? 110 : -56, '--to': rtl ? -56 : 110, '--rest': rtl ? '3%' : '52%' } as CSSProperties} data-tree-flock>
+      <svg viewBox={still ? '-136 -78 160 156' : '-216 -118 240 236'} className={still ? 'h-auto w-[42%] min-w-[150px] max-w-[240px]' : 'h-auto w-[52%] min-w-[190px] max-w-[330px]'} style={{ transform: rtl ? 'scaleX(-1)' : undefined }} aria-hidden>
         {birds.map((b, i) => (
           <g key={i} transform={`translate(${b.x} ${b.y}) scale(${b.s})`}>
             <g className="tree-wing" style={{ '--d': b.d } as CSSProperties}>
@@ -57,6 +59,30 @@ export const Scene = forwardRef<HTMLDivElement, Props>(function Scene({ earned, 
   const fallen = useMemo(() => carpet(), [])
   const holder = useRef<HTMLDivElement>(null)
   const onScreen = useOnScreen(holder, '0px')
+  const reduced = useSiteStore((s) => s.tier === 'reduced')
+  const first = KINDS.find((k) => !earned[k])
+
+  // When Sari arrives, the small leaves nearest his head fold away, so his crown stands against open sky.
+  const boxRef = useRef<HTMLDivElement>(null)
+  const sariRef = useRef<HTMLDivElement>(null)
+  const [room, setRoom] = useState<{ x: number; y: number; r: number } | null>(null)
+  useEffect(() => {
+    if (!party) return setRoom(null)
+    const measure = () => {
+      const b = boxRef.current?.getBoundingClientRect()
+      const s = sariRef.current?.getBoundingClientRect()
+      if (!b?.width || !s?.width) return
+      const k = VIEW.w / b.width
+      setRoom({ x: (s.left + s.width / 2 - b.left) * k, y: (s.top + s.height * 0.23 - b.top) * k, r: (Math.max(46, s.width * 0.2) + 18) * k })
+    }
+    // after the tree has stepped aside (at once when motion is reduced)
+    const timers = [window.setTimeout(measure, 60), window.setTimeout(measure, 1350)]
+    window.addEventListener('resize', measure)
+    return () => {
+      timers.forEach(clearTimeout)
+      window.removeEventListener('resize', measure)
+    }
+  }, [party])
   const box = `0 0 ${VIEW.w} ${VIEW.h}`
   return (
     <div ref={ref} className="tree-stage grain relative overflow-hidden rounded-[32px] shadow-lift" data-leaves={count} data-party={party}>
@@ -87,7 +113,7 @@ export const Scene = forwardRef<HTMLDivElement, Props>(function Scene({ earned, 
         </div>
 
         {/* the tree steps aside and back a little when Sari arrives */}
-        <div className="tree-box absolute bottom-[4.5%] start-1/2 origin-bottom transition-transform duration-[1200ms] ease-[var(--ease-out)]" style={{ transform: `translateX(${(rtl ? 50 : -50) + (party ? (rtl ? 9 : -9) : 0)}%) scale(${party ? 0.9 : 1})` }}>
+        <div ref={boxRef} className="tree-box absolute bottom-[4.5%] start-1/2 origin-bottom transition-transform duration-[1200ms] ease-[var(--ease-out)]" style={{ transform: `translateX(calc(${rtl ? 50 : -50}% + ${party ? `var(--party-shift) * ${rtl ? 1 : -1}` : '0%'})) scale(${party ? 'var(--party-scale)' : 1})` }}>
           <div className="absolute bottom-[-1.5%] start-1/2 h-[5%] w-[58%] -translate-x-1/2 rounded-[50%] bg-[#1a0a03]/55 blur-[10px] rtl:translate-x-1/2" aria-hidden />
           {/* the wood is modelled by one light from the low sun, so the limbs read as round, not as cut paper */}
           <svg viewBox={box} className="absolute inset-0 h-full w-full overflow-visible" aria-hidden>
@@ -126,7 +152,7 @@ export const Scene = forwardRef<HTMLDivElement, Props>(function Scene({ earned, 
                 <g key={li} className={cn('tree-limb', bloomed[kind] && 'is-on', still[kind] && 'is-still')} data-limb={kind}>
                   {limb.leaves.map((l) => (
                     <g key={l.i} transform={`translate(${l.x.toFixed(1)} ${l.y.toFixed(1)}) rotate(${l.r.toFixed(0)}) scale(${l.s.toFixed(2)})`}>
-                      <use href="#tree-maple" x="-56" y="-56" width="112" height="112" className="tree-small" fill={l.c} style={{ '--i': l.i } as CSSProperties} />
+                      <use href="#tree-maple" x="-56" y="-56" width="112" height="112" className={cn('tree-small', room && Math.hypot(l.x - room.x, l.y - room.y) < room.r && 'is-away')} fill={l.c} style={{ '--i': l.i } as CSSProperties} />
                     </g>
                   ))}
                 </g>
@@ -146,26 +172,29 @@ export const Scene = forwardRef<HTMLDivElement, Props>(function Scene({ earned, 
                 style={{ left: `${(limb.spot[0] / VIEW.w) * 100}%`, top: `${(limb.spot[1] / VIEW.h) * 100}%`, rotate: `${TILT[li]}deg` }}
                 data-leaf={kind}
                 data-on={on}
+                data-next={kind === first}
+                data-tilt={TILT[li]}
                 aria-label={on ? `${t.app.tree[kind]} · ${t.app.story.done}` : `${t.app.tree.go} · ${t.app.tree[kind]}`}
                 onClick={() => onLeaf(kind)}
               >
                 <Maple kind={kind} on={on} className="tree-leaf-art" big />
-                {!on && <Icon className="absolute start-1/2 top-[46%] h-[26%] w-[26%] -translate-x-1/2 -translate-y-1/2 rtl:translate-x-1/2" strokeWidth={2.4} style={{ rotate: `${-TILT[li]}deg` }} aria-hidden />}
+                {!on && <Icon className="absolute start-1/2 top-[46%] h-[32%] w-[32%] -translate-x-1/2 -translate-y-1/2 rtl:translate-x-1/2" strokeWidth={2.4} style={{ rotate: `${-TILT[li]}deg` }} aria-hidden />}
               </button>
             )
           })}
         </div>
 
-        {party && <Flock paused={!onScreen} />}
+        {party && <Flock paused={!onScreen} still={reduced} />}
         {party && (
-          <div className="tree-sari absolute bottom-[5%] end-[-3%] h-[58%] w-[48%] sm:end-0 sm:w-[42%] lg:bottom-[3%]" data-tree-sari>
-            {/* a pocket of warm shade behind him, so the crown reads against the foliage */}
-            <div className="tree-shade absolute inset-x-[-6%] top-[-4%] h-[62%] rounded-[50%]" aria-hidden />
-            <div className="absolute bottom-[10%] start-1/2 h-[7%] w-[56%] -translate-x-1/2 rounded-[50%] bg-[#1a0a03]/55 blur-[7px] rtl:translate-x-1/2" aria-hidden />
+          <div ref={sariRef} className="tree-sari absolute bottom-[5%] end-[-7%] h-[58%] w-[48%] sm:end-[-3%] sm:w-[42%] lg:bottom-[3%]" data-tree-sari>
+            <div className="absolute bottom-[10.5%] start-1/2 h-[6%] w-[46%] -translate-x-1/2 rounded-[50%] bg-[#3c190a]/45 blur-[8px] rtl:translate-x-1/2" aria-hidden />
             <Crowned onMode={onSari} />
           </div>
         )}
-        <Leaves ref={leaves} density={7} />
+        {/* falling leaves stay out of the band where the words sit */}
+        <div className="tree-fall pointer-events-none absolute inset-0">
+          <Leaves ref={leaves} density={7} />
+        </div>
       </div>
       {children}
     </div>

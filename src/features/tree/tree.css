@@ -42,7 +42,7 @@
 /* the three big leaves are buttons */
 .tree-leaf {
   position: absolute;
-  width: clamp(64px, 16.5%, 104px);
+  width: clamp(72px, 16.5%, 104px);
   aspect-ratio: 1;
   translate: -50% -50%;
   border-radius: 999px;
@@ -120,14 +120,31 @@ html[data-reduce-motion] .tree-flock { transform: translate3d(var(--rest, 30%), 
   .tree-stage { --h: clamp(520px, 76svh, 700px); }
 }
 .tree-box {
-  width: min(102%, calc(var(--h) * 0.86 * 600 / 620));
+  width: min(96%, calc(var(--h) * 0.86 * 600 / 620));
+  --party-scale: 0.8;
+  --party-shift: 9%;
   aspect-ratio: 600 / 620;
 }
 
-/* warm shade behind Sari's head: separates the crown from the foliage without a hard edge */
-.tree-shade {
-  background: radial-gradient(closest-side, rgba(74, 26, 8, 0.5), rgba(74, 26, 8, 0.22) 55%, transparent);
+/* Sari is lit from behind by the low sun: a thin warm rim, no backdrop */
+.tree-sari canvas, .tree-sari .tree-cut { filter: drop-shadow(0 0 6px rgba(255, 214, 150, 0.55)); }
+@media (min-width: 640px) {
+  .tree-box { --party-scale: 0.88; --party-shift: 13%; }
 }
+/* leaves that make room for his crown */
+.tree-limb .tree-small.is-away {
+  transform: scale(0) !important;
+  opacity: 0 !important;
+  transition: transform 0.5s var(--ease-out), opacity 0.35s linear !important;
+  transition-delay: 0ms !important;
+}
+/* the next leaf to earn is the warm one, like the dark button beside it */
+.tree-leaf[data-next='true'] .tree-ghost path { fill: var(--color-maple); fill-opacity: 0.42; }
+.tree-fall {
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0, transparent 70px, #000 132px);
+  mask-image: linear-gradient(to bottom, transparent 0, transparent 70px, #000 132px);
+}
+.tree-flock.is-still { top: 13%; }
 
 /* the story's long English title in the small label: a little tighter on narrow phones so it does not orphan a word */
 @media (max-width: 480px) {

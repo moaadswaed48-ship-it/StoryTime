@@ -46,12 +46,22 @@ test('an empty tree is calm, and a waiting leaf opens its door', async ({ page }
 test('a finished activity earns its leaf, once, and the tree remembers it', async ({ page }) => {
   const log = await open(page)
   const tree = page.locator('#tree')
+  const centre = () => tree.locator('[data-leaf="read"]').evaluate((el) => {
+    const r = el.getBoundingClientRect()
+    return [r.left + r.width / 2, r.top + r.height / 2]
+  })
+  const before = await centre()
   await mark(page, ['read'])
   await expect(tree.locator('[data-leaf="read"]')).toHaveAttribute('data-on', 'true')
   // the leaf lands, then its limb opens its small leaves
   await page.waitForFunction(() => window.__st!.tree.state().bloomed.read === true, null, { timeout: 15_000 })
   await expect(tree.locator('[data-limb="read"]')).toHaveClass(/is-on/)
   await expect(tree.locator('[data-row="read"]')).toHaveAttribute('data-on', 'true')
+  // the leaf comes to rest exactly on its place on the branch
+  await page.waitForTimeout(1200)
+  const after = await centre()
+  expect(Math.abs(after[0] - before[0])).toBeLessThan(2)
+  expect(Math.abs(after[1] - before[1])).toBeLessThan(2)
   const s = await state(page)
   expect(s.shown).toBe(1)
   expect(s.party).toBe(false)

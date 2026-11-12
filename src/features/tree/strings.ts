@@ -9,10 +9,13 @@ const all = {
     /** The line over the tree while one or two leaves are earned (empty and full already have theirs). */
     one: 'ورقتك الأولى على الشجرة!',
     two: 'بقيت ورقة واحدة!',
+    /** Under "Letters I know" before the game has been played. */
+    lettersEmpty: 'الحروف التي تعرفها في اللعبة تظهر هنا.',
   },
   en: {
     one: 'Your first leaf is on the tree!',
     two: 'One more leaf to go!',
+    lettersEmpty: 'Letters you get right in the game appear here.',
   },
 }
 

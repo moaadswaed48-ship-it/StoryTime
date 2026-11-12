@@ -2,7 +2,7 @@ import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } fr
 import gsap from 'gsap'
 import { Check } from 'lucide-react'
 import type { LeavesHandle } from '@/design/Leaves'
-import { Container, Eyebrow, Pill } from '@/design/ui'
+import { Container, Eyebrow } from '@/design/ui'
 import { cn } from '@/lib/cn'
 import { exposeQA } from '@/lib/qa'
 import { sfx } from '@/audio/synth'
@@ -101,12 +101,16 @@ export function MyTree() {
         if (!el) return land(k)
         const at = i * 0.85
         const side = i % 2 ? -1 : 1
+        // GSAP folds the leaf's own CSS placement (centred on its spot, tilted) into its transform, so the flight is
+        // written in pixels and ends on the leaf's own tilt: it lands exactly where it hangs.
+        const size = el.offsetWidth
+        const tilt = Number(gsap.getProperty(el, 'rotation')) || 0
         // it falls the way leaves fall in the film: down, swaying, turning
         tl.call(() => el.classList.add('is-flying'), [], at)
-        tl.fromTo(el, { yPercent: -520 }, { yPercent: 0, duration: 1.35, ease: 'power1.in' }, at)
+        tl.fromTo(el, { y: -5.2 * size }, { y: 0, duration: 1.35, ease: 'power1.in' }, at)
         tl.fromTo(el, { opacity: 0 }, { opacity: 1, duration: 0.25, ease: 'none' }, at)
-        tl.fromTo(el, { xPercent: 90 * side }, { xPercent: 0, duration: 1.35, ease: 'sine.inOut' }, at)
-        tl.fromTo(el, { rotation: -150 * side }, { rotation: 0, duration: 1.35, ease: 'power2.out' }, at)
+        tl.fromTo(el, { x: 0.9 * size * side }, { x: 0, duration: 1.35, ease: 'sine.inOut' }, at)
+        tl.fromTo(el, { rotation: tilt - 150 * side }, { rotation: tilt, duration: 1.35, ease: 'power2.out' }, at)
         tl.fromTo(el, { scale: 1.25 }, { scale: 1.25, duration: 1.3, ease: 'none' }, at)
         tl.to(el, { scale: 1, duration: 0.8, ease: 'elastic.out(1, 0.45)' }, at + 1.3)
         tl.call(() => (el.classList.remove('is-flying'), land(k), sfx.chime(), burstAt(el, 14)), [], at + 1.33)
@@ -136,8 +140,11 @@ export function MyTree() {
       // an earned leaf is a small toy: it rustles
       sfx.pop()
       burstAt(el, 8)
-      const svg = el?.querySelector('.tree-leaf-art')
-      if (svg && !reducedNow()) gsap.fromTo(svg, { rotation: -22 }, { rotation: 0, duration: 1.1, ease: 'elastic.out(1, 0.3)', overwrite: true })
+      if (el && !reducedNow()) {
+        gsap.killTweensOf(el, 'rotation')
+        const tilt = Number(el.dataset.tilt) || 0
+        gsap.fromTo(el, { rotation: tilt - 22 }, { rotation: tilt, duration: 1.1, ease: 'elastic.out(1, 0.3)' })
+      }
     },
     [earned, burstAt],
   )
@@ -172,22 +179,24 @@ export function MyTree() {
 
           <div className="lg:col-start-2 lg:row-span-2 lg:row-start-1">
             <Scene ref={stage} earned={earned} bloomed={bloomed} still={still} party={party} count={count} leafRef={leafRef} onLeaf={onLeaf} onSari={setSari} leaves={leaves}>
-              {/* how many leaves, as leaves: the pips fill from the start side as each leaf lands */}
-              <div className="glass absolute end-3 top-3 flex h-11 items-center gap-1.5 rounded-full px-3.5 text-white sm:end-4 sm:top-4" data-tree-count={lit.length} role="img" aria-label={`${t.app.home.leaves}: ${num(lit.length)} ${t.book.of} ${num(3)}`}>
-                {KINDS.map((k, i) => (
-                  <Maple key={k} kind={lit[i] ?? k} on={i < lit.length} className="h-[22px] w-[22px]" />
-                ))}
-                {lit.length > 0 && (
-                  <span className="ms-1 whitespace-nowrap text-[14px] font-semibold tabular-nums" aria-hidden>
-                    {num(lit.length)} {t.book.of} {num(3)}
-                  </span>
-                )}
+              <div className="absolute inset-x-3 top-3 flex items-start justify-between gap-3 sm:inset-x-4 sm:top-4">
+                <p key={status} className="text-on-film view-in min-w-0 text-balance ps-1 pt-1 text-[16px] font-bold leading-snug text-white sm:text-[20px]" data-tree-status>
+                  {status}
+                </p>
+                {/* how many leaves, as leaves: the pips fill from the start side as each leaf lands */}
+                <div className="glass flex h-11 flex-none items-center gap-1.5 rounded-full px-3.5 text-white" data-tree-count={lit.length} role="img" aria-label={`${t.app.home.leaves}: ${num(lit.length)} ${t.book.of} ${num(3)}`}>
+                  {KINDS.map((k, i) => (
+                    <Maple key={k} kind={lit[i] ?? k} on={i < lit.length} className="h-[22px] w-[22px]" />
+                  ))}
+                  {lit.length > 0 && (
+                    <span className="ms-1 whitespace-nowrap text-[14px] font-semibold tabular-nums" aria-hidden>
+                      {num(lit.length)} {t.book.of} {num(3)}
+                    </span>
+                  )}
+                </div>
               </div>
-              <p key={status} className="text-on-film view-in absolute start-4 top-4 max-w-[50%] text-balance text-[16px] font-bold leading-snug text-white sm:start-5 sm:top-5 sm:max-w-[58%] sm:text-[20px]" data-tree-status>
-                {status}
-              </p>
               {party && (
-                <p className="glass view-in absolute bottom-3 end-3 rounded-full px-4 py-2 text-[13.5px] font-semibold text-white sm:bottom-4 sm:end-4" data-tree-crown>
+                <p className="text-on-film view-in absolute bottom-3 end-4 text-[13.5px] font-semibold text-white/90 sm:bottom-4 sm:end-5" data-tree-crown>
                   {t.app.tree.crown}
                 </p>
               )}
@@ -208,14 +217,14 @@ export function MyTree() {
                       data-on={on}
                       className={cn(
                         'group flex min-h-[84px] w-full items-center gap-3.5 rounded-[26px] py-3 pe-3 ps-4 text-start transition-[transform,background-color,box-shadow] duration-200 ease-out active:scale-[0.985]',
-                        on ? 'bg-white/70 shadow-soft hover:bg-white' : 'border border-dashed border-ink/20 hover:border-ink/40 hover:bg-white/40',
+                        on ? 'bg-white/75 shadow-soft hover:bg-white' : 'bg-white/40 shadow-[0_0_0_1px_rgba(26,18,11,.09)] hover:bg-white/70',
                       )}
                     >
                       <span className={cn('shrink-0', !on && 'opacity-70')} style={on ? undefined : { color: LEAF_TONE[k].b }}>
                         <Maple kind={k} on={on} className="h-12 w-12" />
                       </span>
                       <span className="min-w-0 flex-1">
-                        <span className="block text-[17px] font-bold leading-tight">{t.app.tree[k]}</span>
+                        <span className="block text-[16px] font-bold leading-tight sm:text-[17px]">{t.app.tree[k]}</span>
                         <span className={cn('mt-1 flex items-center gap-1.5 text-[14px]', on ? 'font-semibold text-maple' : 'text-muted')}>
                           {on && <Check className="h-4 w-4" strokeWidth={3} aria-hidden />}
                           {on ? t.app.story.done : t.app.tree.go}
@@ -244,21 +253,19 @@ export function MyTree() {
 
             <div className="mt-8 lg:mt-10" data-tree-letters>
               <h2 className="t-h3">{t.app.tree.letters}</h2>
-              <div className="mt-4 flex flex-wrap items-center gap-3">
-                {letters.length > 0
-                  ? letters.map((l, i) => (
-                      <span key={l} className="tree-tile grid h-16 w-16 place-items-center rounded-[18px] bg-white text-[30px] font-extrabold text-ink" style={{ '--tilt': ((i * 37) % 9) - 4 } as React.CSSProperties} data-letter={l}>
-                        {l}
-                      </span>
-                    ))
-                  : [0, 1, 2].map((i) => <span key={i} className="h-16 w-16 rounded-[18px] border border-dashed border-ink/20" style={{ rotate: `${((i * 37) % 9) - 4}deg` }} aria-hidden />)}
-                {letters.length === 0 && (
-                  <Pill variant="outline" className="h-14 w-full sm:w-auto" onClick={() => openDoor('played')} data-tree-play>
-                    <DOOR_ICON.played className="h-[18px] w-[18px]" aria-hidden />
-                    {t.game.start}
-                  </Pill>
-                )}
-              </div>
+              {letters.length > 0 ? (
+                <div className="mt-4 flex flex-wrap items-center gap-3">
+                  {letters.map((l, i) => (
+                    <span key={l} className="tree-tile grid h-16 w-16 place-items-center rounded-[18px] bg-white text-[30px] font-extrabold text-ink" style={{ '--tilt': ((i * 37) % 9) - 4 } as React.CSSProperties} data-letter={l}>
+                      {l}
+                    </span>
+                  ))}
+                </div>
+              ) : (
+                <p className="mt-2 text-[16px] leading-relaxed text-muted" data-tree-letters-empty>
+                  {strings.lettersEmpty}
+                </p>
+              )}
             </div>
           </div>
         </div>
