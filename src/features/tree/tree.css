@@ -1,0 +1,122 @@
+/* My tree: the stage is a film still (soft-focus sky from the story's last scene) with a tree drawn in front of it. */
+.tree-stage {
+  --sky: 0.9;
+  isolation: isolate;
+  background: #3a2114;
+}
+.tree-stage[data-leaves='1'] { --sky: 0.96; }
+.tree-stage[data-leaves='2'] { --sky: 1.02; }
+.tree-stage[data-leaves='3'] { --sky: 1.08; }
+.tree-sky {
+  filter: blur(16px) saturate(calc(0.55 + var(--sky) * 0.6)) brightness(var(--sky));
+  transform-origin: 62% 0%;
+  transform: scale(1.95);
+  transition: filter 1.6s var(--ease-out);
+}
+/* the sun sits low behind the tree: light, not decoration */
+.tree-sun {
+  background: radial-gradient(closest-side, rgba(255, 226, 170, 0.55), rgba(255, 190, 120, 0.18) 55%, transparent);
+  opacity: calc(var(--sky) - 0.35);
+  transition: opacity 1.6s var(--ease-out);
+}
+
+/* small leaves open on a limb once its big leaf has landed */
+.tree-small {
+  transform-box: fill-box;
+  transform-origin: 50% 85%;
+  transform: scale(0);
+  opacity: 0;
+}
+.tree-limb.is-on .tree-small {
+  transform: scale(1);
+  opacity: 1;
+  transition:
+    transform 0.7s var(--ease-spring),
+    opacity 0.3s linear;
+  transition-delay: calc(var(--i) * 34ms);
+}
+.tree-limb.is-still .tree-small {
+  transition: none;
+}
+
+/* the three big leaves are buttons */
+.tree-leaf {
+  position: absolute;
+  width: clamp(64px, 16.5%, 104px);
+  aspect-ratio: 1;
+  translate: -50% -50%;
+  border-radius: 999px;
+  -webkit-tap-highlight-color: transparent;
+}
+.tree-leaf .tree-leaf-art {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  transition: transform 0.25s var(--ease-out);
+}
+.tree-leaf:hover .tree-leaf-art { transform: scale(1.05) rotate(-3deg); }
+.tree-leaf:active .tree-leaf-art { transform: scale(0.95); }
+.tree-leaf[data-on='true'] .tree-leaf-art { filter: drop-shadow(0 6px 10px rgba(60, 20, 0, 0.35)); }
+/* an empty place breathes once in a while so a child notices it can be touched (three slow beats, then rest) */
+.tree-leaf[data-on='false'] .tree-ghost {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: tree-invite 2.6s var(--ease-state) 1.2s 3;
+}
+@keyframes tree-invite {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.07); }
+}
+
+/* the flock crosses, rests out of sight, crosses again: slow and sparse */
+.tree-flock {
+  animation: tree-cross 24s linear infinite;
+  animation-delay: var(--flock-delay, 0s);
+}
+.tree-flock.is-paused { animation-play-state: paused; }
+@keyframes tree-cross {
+  0% { transform: translate3d(calc(var(--from) * 1%), 14%, 0) scale(0.8); }
+  46% { transform: translate3d(calc(var(--to) * 1%), -6%, 0) scale(1.05); }
+  100% { transform: translate3d(calc(var(--to) * 1%), -6%, 0) scale(1.05); }
+}
+.tree-wing {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+  animation: tree-glide 2.8s ease-in-out infinite;
+  animation-delay: calc(var(--d) * 1s);
+}
+.tree-flock.is-paused .tree-wing { animation-play-state: paused; }
+@keyframes tree-glide {
+  0%, 62%, 100% { transform: scaleY(1); }
+  78% { transform: scaleY(0.42); }
+}
+/* rest state: the flock simply hangs in the sky */
+html[data-reduce-motion] .tree-flock,
+html[data-reduce-motion] .tree-wing { animation: none; }
+html[data-reduce-motion] .tree-flock { transform: translate3d(8%, 0, 0); }
+@media (prefers-reduced-motion: reduce) {
+  .tree-flock, .tree-wing, .tree-leaf .tree-ghost { animation: none !important; }
+  .tree-flock { transform: translate3d(8%, 0, 0); }
+  .tree-limb .tree-small { transition: none !important; }
+}
+
+/* letters the child knows: name papers lying a little askew, as in the yard */
+.tree-tile {
+  rotate: calc(var(--tilt) * 1deg);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.9) inset,
+    0 1px 2px rgba(26, 18, 11, 0.12),
+    0 10px 22px rgba(26, 18, 11, 0.1);
+  transition: rotate 0.3s var(--ease-out), transform 0.3s var(--ease-out);
+}
+.tree-tile:hover { rotate: 0deg; transform: translateY(-3px); }
+
+/* sizes: everything on the stage derives from one height */
+.tree-stage { --h: clamp(420px, 60svh, 560px); height: var(--h); }
+@media (min-width: 1024px) {
+  .tree-stage { --h: clamp(520px, 76svh, 700px); }
+}
+.tree-box {
+  width: min(108%, calc(var(--h) * 0.86 * 600 / 620));
+  aspect-ratio: 600 / 620;
+}
