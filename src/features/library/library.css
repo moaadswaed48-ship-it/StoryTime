@@ -322,6 +322,18 @@
 .lib-back::after {
   content: none;
 }
+/* Engines that cannot draw CSS 3D at all (they report `(-webkit-transform-3d)` false — e.g. Playwright's WebKit on
+   Windows) flatten every face into its parent's plane and paint them in DOM order, without depth sorting or backface
+   culling: the back board, painted after the cover, hid it and each book showed as a plain block of colour. There,
+   leave out the faces that can only be seen from behind or edge-on, so the cover (and the spine, when it is the face
+   turned to us) is what shows. Browsers that do draw 3D — Chromium, Firefox, Safari on iPhone and Mac — never match. */
+@media not all and (-webkit-transform-3d) {
+  .lib-back,
+  .lib-fore,
+  .lib-top {
+    display: none;
+  }
+}
 
 /* Cloth: colour + grain + the faintest weave. */
 .lib-cloth {

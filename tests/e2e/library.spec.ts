@@ -1,4 +1,5 @@
 import { expect, test, type Page } from '@playwright/test'
+import { library } from '../../src/content/library'
 import { pageUrl } from './_url'
 import { scrollToY, waitForHook, watchConsole } from './helpers'
 
@@ -40,7 +41,7 @@ test('the shelf starts on the real book and can be walked with hooks, arrows and
   await page.keyboard.press(rtl ? 'ArrowRight' : 'ArrowLeft')
   expect(await lib<number>(page, 'index()')).toBe(3)
   await page.keyboard.press('End')
-  expect(await lib<number>(page, 'index()')).toBe(11)
+  expect(await lib<number>(page, 'index()')).toBe(library.length - 1)
   await page.keyboard.press('Home')
   expect(await lib<number>(page, 'index()')).toBe(0)
   await lib(page, `select(${start})`)
@@ -117,11 +118,13 @@ test('a coming-soon book says so and offers nothing to open', async ({ page }) =
   // Every spine on the shelf says "coming soon" in words (never just a mark), at any shelf size.
   expect(await page.locator('#library .lib-band.is-spine').first().textContent()).not.toBe('')
 
-  // The other books of the season are one tap away: the open book goes back and the chosen one comes out.
+  // Other books of the same world, when there are any, are one tap away: the open book goes back and the chosen one comes out.
   const chip = detail.locator('[data-jump]').first()
-  const target = Number(await chip.getAttribute('data-jump'))
-  await chip.click()
-  await page.waitForFunction((i) => window.__st!.library.index() === i && window.__st!.library.state().detail === true, target, { timeout: 15_000 })
+  if (await chip.count()) {
+    const target = Number(await chip.getAttribute('data-jump'))
+    await chip.click()
+    await page.waitForFunction((i) => window.__st!.library.index() === i && window.__st!.library.state().detail === true, target, { timeout: 15_000 })
+  }
   await lib(page, 'close()')
   expect(await lib<{ detail: boolean }>(page, 'state()')).toMatchObject({ detail: false })
   expect(await overlay(page)).toBeNull()

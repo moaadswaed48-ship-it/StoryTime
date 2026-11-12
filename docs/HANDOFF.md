@@ -19,7 +19,7 @@ Read this, then `CLAUDE.md` (rules) and `docs/AUDIT-2.md` (what is wrong, ranked
 | Part | State | Not done / not verified |
 |---|---|---|
 | Landing (`src/features/landing`) | New light/green look around the book-mountain hero; sign-in/up, parents' questions, how it works, plans, FAQ. | ~15 phone screens (owner once asked for shorter). Arabic copy not proofread by a native speaker. |
-| App (home, story, tree, grown-ups, desk) | Works; still the first story's autumn look. Shelf has her story + 6 story ideas of ours. | Shelf covers blank in Safari's engine (AUDIT-2 B1, fix in progress 13 Nov). |
+| App (home, story, tree, grown-ups, desk) | Works; still the first story's autumn look. Shelf has her story + 6 story ideas of ours. | Shelf: the "blank covers" seen in test WebKit were a test-browser limit (no CSS 3D), not an iPhone bug; a fallback is in place. Not yet seen on a real iPhone. |
 | Her story: book + listen | Narration = ElevenLabs Alice (`eleven_v4`); listen plays and turns pages (checked on the live site, WebKit + Chromium). | Free-plan audio: not licensed for commercial use. |
 | Her story: film | `public/film/story.mp4`, 85 s, re-timed to the new voice (`video/scripts/timeline.mjs`). | Nobody has listened to it. |
 | Moon story («نزهة على القمر») | Arabic text `src/content/stories/moon.ts` (our draft), shot list `docs/stories/moon-art.md`; code-drawn film `src/features/moonfilm`, scenes 4–9 and 11 (3:04), opened from the Moon book on the shelf. | Scenes 1, 2, 3, 10, 12 not made; no narration (no voice credits); not readable as a book; score unheard. |
