@@ -1,7 +1,7 @@
 import { useEffect, useLayoutEffect, useRef, useState, type CSSProperties } from 'react'
 import gsap from 'gsap'
 import { useGSAP } from '@gsap/react'
-import { ArrowDown, ArrowUpRight } from 'lucide-react'
+import { ArrowUpRight } from 'lucide-react'
 import { Pill } from '@/design/ui'
 import { useSiteStore } from '@/store/useSiteStore'
 import { t } from '@/i18n/copy'
@@ -173,11 +173,15 @@ export function ScrubStory() {
         const ratio = Math.min(window.devicePixelRatio || 1, 2, Math.sqrt(2.4e6 / (w * h)))
         const nw = Math.round(w * ratio)
         const nh = Math.round(h * ratio)
-        if (nw === cw && nh === ch) return
-        cw = cv.width = nw
-        ch = cv.height = nh
+        if (nw !== cv.width || nh !== cv.height) {
+          // Resizing wipes the bitmap, so only do it when the size really changed (the next tick repaints).
+          cv.width = nw
+          cv.height = nh
+        } else if (nw === cw && nh === ch) return
+        cw = nw
+        ch = nh
         // In left-to-right layouts the film is mirrored, so its calm side (the house) is always under the type.
-        if (!rtl) ctx.setTransform(-1, 0, 0, 1, cw, 0)
+        ctx.setTransform(rtl ? 1 : -1, 0, 0, 1, rtl ? 0 : cw, 0)
         ctx.imageSmoothingQuality = 'high'
         s.a = -1
         s.dirty = true
@@ -440,8 +444,8 @@ export function ScrubStory() {
                       <Pill variant="solid" size="md" className="ss-pill shadow-lift" onClick={b.run} onFocus={() => i !== fast.current.beat && goTo(i)}>
                         <b.Icon size={18} strokeWidth={2.2} aria-hidden />
                         {b.cta}
-                        <span className="ss-pill-arrow" data-down={b.down ? '' : undefined} aria-hidden>
-                          {b.down ? <ArrowDown size={15} strokeWidth={2.4} /> : <ArrowUpRight size={15} strokeWidth={2.4} className="flip-rtl" />}
+                        <span className="ss-pill-arrow" aria-hidden>
+                          <ArrowUpRight size={15} strokeWidth={2.4} className="flip-rtl" />
                         </span>
                       </Pill>
                     </div>

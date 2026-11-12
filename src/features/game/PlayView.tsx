@@ -32,11 +32,17 @@ const reducedNow = () => window.matchMedia('(prefers-reduced-motion: reduce)').m
  * the film still with the same five papers to tap.
  */
 export function PlayView({ from, touch }: { from: DOMRect | null; touch: boolean }) {
+  // the rectangle of the poster picture, if the game was started from it (kept as it was at that moment)
+  const [origin] = useState(() => {
+    const vh = window.innerHeight
+    return from && !reducedNow() && from.width >= 40 && from.bottom >= 40 && from.top <= vh - 40 ? from : null
+  })
   const phase = useGame((g) => g.phase)
   const mode = useGame((g) => g.mode)
   const ready = useGame((g) => g.ready)
   const current = useGame((g) => g.current)
   const setMode = useGame((g) => g.setMode)
+  const lowTier = useSiteStore((s) => s.tier === 'low')
   const root = useRef<HTMLDivElement>(null)
   const curtain = useRef<HTMLDivElement>(null)
   const leaves = useRef<LeavesHandle>(null)
@@ -45,10 +51,14 @@ export function PlayView({ from, touch }: { from: DOMRect | null; touch: boolean
   const [leaving, setLeaving] = useState(false)
   const [stick, setStick] = useState(touch)
 
+  const leaveTimer = useRef(0)
   const exit = useCallback(() => {
     setLeaving(true)
-    window.setTimeout(() => useGame.getState().exit(), reducedNow() ? 0 : 300)
+    window.clearTimeout(leaveTimer.current)
+    // closing the overlay is what ends the game (GameOverlay listens to it)
+    leaveTimer.current = window.setTimeout(() => useSiteStore.getState().closeOverlay(), reducedNow() ? 0 : 300)
   }, [])
+  useEffect(() => () => window.clearTimeout(leaveTimer.current), [])
   useOverlayLock(true, exit)
 
   // a modal layer: focus comes in, stays in, and goes back to where it was (the start button) afterwards
@@ -72,8 +82,9 @@ export function PlayView({ from, touch }: { from: DOMRect | null; touch: boolean
     if (!el) return
     const vw = window.innerWidth
     const vh = window.innerHeight
-    const r = from
-    if (!r || reducedNow() || r.width < 40 || r.bottom < 40 || r.top > vh - 40) {
+    const r = origin
+    if (!r) {
+      // opened from somewhere else (the story page, the scroll story): the picture simply covers the screen
       Object.assign(el.style, { left: '0px', top: '0px', width: '100%', height: '100%', borderRadius: '0px' })
       setGrown(true)
       return
@@ -88,7 +99,7 @@ export function PlayView({ from, touch }: { from: DOMRect | null; touch: boolean
       { x: vw / 2 - (r.left + r.width / 2) - (focus - 0.5) * r.width * scale, y: vh / 2 - (r.top + r.height / 2), scale, duration: 0.85, ease: 'power3.inOut', onComplete: () => setGrown(true) },
     )
     return () => void tween.kill()
-  }, [from])
+  }, [origin])
 
   // keyboard: arrows or WASD by physical key, so an Arabic keyboard layout works too
   useEffect(() => {
@@ -156,7 +167,7 @@ export function PlayView({ from, touch }: { from: DOMRect | null; touch: boolean
     <div
       ref={root}
       tabIndex={-1}
-      className={cn('game-play fixed inset-0 z-[60] overflow-hidden text-paper outline-none', leaving && 'game-out')}
+      className={cn('game-play fixed inset-0 z-[60] overflow-hidden text-paper outline-none', !origin && 'overlay-in', leaving && 'game-out')}
       role="dialog"
       aria-modal="true"
       aria-label={t.game.title}
@@ -167,10 +178,10 @@ export function PlayView({ from, touch }: { from: DOMRect | null; touch: boolean
         {mode === '3d' ? (
           <>
             <Suspense fallback={null}>
-              <World onFail={() => setMode('cards')} />
+              <World onFail={() => setMode('cards')} paused={leaving} />
             </Suspense>
             {/* film finish: low sun from the tree's side, darker corners, grain */}
-            <div className="game-light grain pointer-events-none absolute inset-0" aria-hidden />
+            <div className={cn('game-light pointer-events-none absolute inset-0', !lowTier && 'grain')} aria-hidden />
           </>
         ) : (
           <CardsYard />
@@ -188,7 +199,10 @@ export function PlayView({ from, touch }: { from: DOMRect | null; touch: boolean
         )}
       </div>
 
-      <Leaves ref={leaves} density={mode === 'cards' ? 14 : 0} className="pointer-events-none absolute inset-0 z-40 h-full w-full" />
+      {/* 2D leaves: ambient over the still picture; over the 3D yard only for the bursts of a right answer and the finale */}
+      {(mode === 'cards' || phase === 'right' || phase === 'done') && (
+        <Leaves ref={leaves} density={mode === 'cards' ? 14 : 0} className="pointer-events-none absolute inset-0 z-40 h-full w-full" />
+      )}
 
       {mode === '3d' && <Arrows />}
       <Hud slots={slots} waiting={!grown} onExit={exit} />
@@ -235,7 +249,7 @@ function Hud({ slots, waiting, onExit }: { slots: RefObject<(HTMLLIElement | nul
             </li>
           ))}
         </ol>
-        <span className="min-w-[2.3rem] text-center text-[14px] font-semibold tabular-nums text-paper/85 sm:min-w-[2.6rem] sm:text-[15px]" dir="ltr">
+        <span className={cn('min-w-[2.3rem] text-center text-[14px] font-semibold tabular-nums text-paper/85 sm:min-w-[2.6rem] sm:text-[15px]', papers.length > 5 && 'max-[400px]:hidden')} dir="ltr">
           {num(count)} / {num(papers.length)}
         </span>
       </div>
@@ -524,10 +538,8 @@ function QuestionCard({ slots, burst }: { slots: RefObject<(HTMLLIElement | null
 
 function Done({ cards }: { cards: boolean }) {
   const again = useGame((g) => g.again)
-  const read = () => {
-    useGame.getState().exit()
-    useSiteStore.getState().openBook(0)
-  }
+  // the book takes the overlay's place; that closes the game
+  const read = () => useSiteStore.getState().openBook(0)
   return (
     <div className="absolute inset-0 z-[41] flex flex-col items-center justify-between px-5 pb-[max(30px,env(safe-area-inset-bottom))] pt-[clamp(76px,15vh,150px)]" data-game-done>
       <div className="game-done-shade pointer-events-none absolute inset-0" aria-hidden />
@@ -571,6 +583,15 @@ const SPOTS = [
   { x: 69, y: 70, xm: 72, ym: 62 },
   { x: 87, y: 42, xm: 44, ym: 76 },
 ]
+// six papers (the reader's own name is among them): two staggered columns on a phone
+const SPOTS6 = [
+  { x: 10, y: 44, xm: 27, ym: 25 },
+  { x: 28, y: 70, xm: 73, ym: 31 },
+  { x: 45, y: 31, xm: 27, ym: 47 },
+  { x: 59, y: 71, xm: 73, ym: 53 },
+  { x: 76, y: 34, xm: 27, ym: 69 },
+  { x: 90, y: 64, xm: 73, ym: 75 },
+]
 
 function CardsYard() {
   const papers = useGame((g) => g.papers)
@@ -579,7 +600,7 @@ function CardsYard() {
   const phase = useGame((g) => g.phase)
   const round = useGame((g) => g.round)
   const touchPaper = useGame((g) => g.touch)
-  const spots = useMemo(() => shuffle(SPOTS, mulberry32(round * 13 + 5)), [round])
+  const spots = useMemo(() => shuffle(papers.length > 5 ? SPOTS6 : SPOTS, mulberry32(round * 13 + 5)), [round, papers.length])
   return (
     <div className="absolute inset-0 overflow-hidden" data-game-cards>
       <span className="game-flip absolute inset-0 block">

@@ -415,7 +415,7 @@ export const Spread = forwardRef<SpreadHandle, Props>(function Spread({ phase, s
       b.style.setProperty('--r', `${(6 + (RR - 6) * st.widen).toFixed(2)}px`)
       // The shadow on the table widens as the cover comes over; the boards show once the pages spread out.
       b.style.setProperty('--floor', smooth(c * 1.15).toFixed(3))
-      b.style.setProperty('--dress', st.widen.toFixed(3))
+      b.style.setProperty('--dress', smooth((c - 0.88) / 0.12).toFixed(3))
       if (block.current) block.current.style.visibility = p < 0.004 ? 'hidden' : 'visible'
     }
     const tl = gsap.timeline({ onUpdate: apply, onComplete: () => cb.current.onOpened() })

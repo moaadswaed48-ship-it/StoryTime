@@ -8,8 +8,9 @@
   --lib-paper: var(--color-paper, #f6f0e4);
   --lib-ink: var(--color-ink, #1a120b);
   --lib-maple: var(--color-maple, #d9541e);
-  /* Grey fractal noise: laid over cloth, paper and wood with a blend mode so every surface has tooth. */
-  --lib-noise: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n' color-interpolation-filters='sRGB'><feTurbulence type='fractalNoise' baseFrequency='1.15' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='.72 0 0 0 .14 .72 0 0 0 .14 .72 0 0 0 .14 0 0 0 0 1'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  /* A tile of soft grey grain, laid over cloth, paper and wood with a blend mode. Set from noise.ts (a canvas-made
+     PNG); without it the surfaces are simply smooth. */
+  --lib-noise: none;
   overflow-x: clip;
 }
 
@@ -79,9 +80,13 @@
 }
 
 /* ── Stage ───────────────────────────────────────────────────────────────────── */
+/* The stage sits above the heading: for one second the landing books fall in front of the type. */
+.lib-stagewrap {
+  position: relative;
+  z-index: 3;
+}
 .lib-stage {
   position: relative;
-  z-index: 1;
   height: clamp(460px, 64svh, 640px);
   touch-action: pan-y;
   user-select: none;
@@ -92,7 +97,7 @@
 }
 @media (max-width: 639px) {
   .lib-stage {
-    height: clamp(410px, 52svh, 460px);
+    height: clamp(380px, 48svh, 430px);
   }
 }
 .lib-stage.is-drag {
@@ -107,6 +112,18 @@
   inset: -12% 0 0;
   pointer-events: none;
   background: radial-gradient(58% 62% at 50% 56%, rgba(255, 253, 247, 0.95), rgba(255, 253, 247, 0) 72%);
+}
+.lib-wallshadow {
+  position: absolute;
+  left: 50%;
+  width: 1000px;
+  margin-left: -500px;
+  border-radius: 24px;
+  background: rgba(70, 44, 18, 0.34);
+  filter: blur(30px);
+  opacity: 0;
+  pointer-events: none;
+  will-change: transform, opacity;
 }
 .lib-scene {
   position: absolute;
@@ -130,7 +147,7 @@
   background-size:
     auto,
     auto,
-    180px 180px,
+    128px 128px,
     auto;
   background-blend-mode: normal, normal, soft-light, normal;
 }
@@ -150,7 +167,7 @@
     auto,
     auto,
     auto,
-    180px 180px,
+    128px 128px,
     auto;
   background-blend-mode: normal, normal, normal, normal, soft-light, normal;
 }
@@ -159,8 +176,8 @@
   position: absolute;
   inset-inline: 0;
   top: 100%;
-  height: 96px;
-  background: linear-gradient(180deg, rgba(26, 18, 11, 0.3), rgba(26, 18, 11, 0.1) 30%, rgba(26, 18, 11, 0.03) 62%, rgba(26, 18, 11, 0));
+  height: 54px;
+  background: linear-gradient(180deg, rgba(26, 18, 11, 0.3), rgba(26, 18, 11, 0.09) 34%, rgba(26, 18, 11, 0.02) 70%, rgba(26, 18, 11, 0));
 }
 /* Contact shadow: one per book, living in the plane of the ledge, turning with the book. */
 .lib-shadow {
@@ -168,10 +185,10 @@
   left: 0;
   top: 0;
   border-radius: 8px;
-  background: rgba(40, 22, 8, 0.62);
+  background: rgba(40, 22, 8, 0.7);
   box-shadow:
-    0 0 24px 12px rgba(40, 22, 8, 0.55),
-    0 0 90px 48px rgba(40, 22, 8, 0.28);
+    0 0 26px 16px rgba(40, 22, 8, 0.62),
+    0 0 100px 60px rgba(40, 22, 8, 0.3);
   will-change: transform, opacity;
 }
 
@@ -243,7 +260,7 @@
 .lib-cloth {
   background-color: var(--cloth);
   background-image: var(--lib-noise);
-  background-size: calc(var(--k, 1) * 180px) calc(var(--k, 1) * 180px);
+  background-size: 128px 128px;
   background-blend-mode: overlay;
 }
 .lib-cloth::before {
@@ -365,7 +382,7 @@ html[lang='en'] .lib-stitle-t {
   gap: 0.5em;
   background-color: #f8f2e5;
   background-image: var(--lib-noise);
-  background-size: 180px 180px;
+  background-size: 128px 128px;
   background-blend-mode: soft-light;
   color: var(--lib-ink);
   font-size: calc(var(--band-h) * 0.36);
@@ -568,6 +585,7 @@ html[lang='en'] .lib-ctitle {
   pointer-events: none;
   background: linear-gradient(180deg, rgba(70, 24, 4, 0) 80%, rgba(70, 24, 4, 0.5) 100%);
 }
+/* Placed by the picture, not by the reading direction: the open sky is under the birds, on the right. */
 .lib-rtitle {
   position: absolute;
   top: 17.2%;
@@ -624,7 +642,7 @@ html[lang='en'] .lib-rtitle .is-b {
   pointer-events: none;
   background: linear-gradient(90deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.95) 50%, rgba(255, 255, 255, 0));
   mix-blend-mode: soft-light;
-  opacity: 0.5;
+  opacity: calc(0.5 * var(--fx, 1));
   transform: translateX(var(--sx, 0px)) skewX(-14deg);
   will-change: transform;
 }
@@ -637,7 +655,7 @@ html[lang='en'] .lib-rtitle .is-b {
   pointer-events: none;
   background: #000;
   mix-blend-mode: screen;
-  opacity: var(--glint, 0.9);
+  opacity: calc(var(--glint, 0.9) * var(--fx, 1));
 }
 .lib-glint-bar {
   position: absolute;
@@ -652,6 +670,60 @@ html[lang='en'] .lib-rtitle .is-b {
 }
 .lib-glint-bar.is-b {
   transform: translateX(calc(var(--sx, 0px) + var(--sp, 0px))) skewX(-14deg);
+}
+@supports not (mix-blend-mode: screen) {
+  .lib-glint,
+  .lib-sheen {
+    display: none;
+  }
+}
+
+/* "Open" disc on the corner of the centred cover: the visible invitation to click it (and a real button for keys). */
+.lib-open {
+  position: absolute;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  width: 52px;
+  height: 52px;
+  margin: -26px;
+  border-radius: 50%;
+  background: var(--lib-ink);
+  color: var(--lib-paper);
+  box-shadow:
+    0 1px 2px rgba(26, 18, 11, 0.2),
+    0 8px 20px rgba(26, 18, 11, 0.28);
+  transition:
+    opacity 0.35s ease,
+    transform 0.45s var(--lib-ease),
+    background-color 0.2s ease;
+}
+.lib-open:hover {
+  transform: scale(1.08);
+  background: var(--lib-maple);
+}
+.lib-open:active {
+  transform: scale(0.96);
+}
+.lib-open svg {
+  transition: transform 0.3s var(--lib-ease);
+}
+.lib-open:hover svg {
+  transform: translate(calc(var(--dir, 1) * 1.5px), -1.5px);
+}
+.lib.is-waiting .lib-open,
+.lib.is-detail .lib-open,
+.lib-stage.is-drag + .lib-open {
+  opacity: 0;
+  transform: scale(0.6);
+  pointer-events: none;
+}
+@media (max-width: 639px) {
+  .lib-open {
+    width: 46px;
+    height: 46px;
+    margin: -23px;
+  }
 }
 
 /* Keyboard focus lands on the centred book, not on a page-wide box. */
@@ -713,7 +785,7 @@ html[lang='en'] .lib-rtitle .is-b {
 .lib-detail {
   position: absolute;
   inset: 0;
-  z-index: 3;
+  z-index: 4;
   display: grid;
   align-items: center;
   pointer-events: none;
@@ -732,8 +804,13 @@ html[lang='en'] .lib-rtitle .is-b {
   gap: 22px;
 }
 .lib-detail-slot {
-  height: min(34svh, 300px);
+  height: min(31svh, 280px);
   aspect-ratio: 0.753;
+}
+@media (min-width: 640px) and (max-width: 899px) {
+  .lib-detail-slot {
+    height: min(40svh, 440px);
+  }
 }
 .lib-detail-slotwrap {
   position: relative;
@@ -788,7 +865,7 @@ html[lang='en'] .lib-rtitle .is-b {
 }
 .lib-detail-title {
   font-weight: 900;
-  font-size: clamp(2.35rem, 9.6vw, 3.4rem);
+  font-size: clamp(2.1rem, 8.8vw, 3.3rem);
   line-height: 1.02;
   letter-spacing: -0.035em;
   text-wrap: balance;
@@ -863,6 +940,9 @@ html[lang='ar'] .lib-detail-title {
   border-radius: 50%;
   background: currentColor;
 }
+.lib-status.is-ready i {
+  background: var(--lib-maple);
+}
 .lib-status.is-soon i {
   background: none;
   box-shadow: inset 0 0 0 1.5px currentColor;
@@ -873,7 +953,8 @@ html[lang='ar'] .lib-detail-title {
     align-items: center;
     justify-items: stretch;
     gap: 48px;
-    padding-block: 0;
+    /* Room for the shadow and for the near edge of the turned book, which perspective draws a little lower. */
+    padding-bottom: 48px;
   }
   .lib-detail-slotwrap {
     order: 2;

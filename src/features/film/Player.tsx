@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState, type KeyboardEvent as ReactKeyboardEvent, type MouseEvent as ReactMouseEvent, type PointerEvent as ReactPointerEvent } from 'react'
-import { Captions, CaptionsOff, Pause, Play, Volume2, VolumeX, X } from 'lucide-react'
+import { Captions, CaptionsOff, Maximize, Minimize, Pause, Play, Volume2, VolumeX, X } from 'lucide-react'
 import { Eyebrow, Pill } from '@/design/ui'
 import { useOverlayLock } from '@/design/overlay'
 import { useSiteStore } from '@/store/useSiteStore'
@@ -12,6 +12,7 @@ import { cn } from '@/lib/cn'
 import { exposeQA } from '@/lib/qa'
 import { Scrubber } from './Scrubber'
 import { Ambient, Caption, EndCard, TitleCard } from './parts'
+import { strings } from './strings'
 import { clearStart, clock, loadTimeline, nearestFilmScene, sceneIndexAt, type Timeline } from './timeline'
 import './film.css'
 
@@ -30,6 +31,14 @@ const readCaptions = () => {
     return true
   }
 }
+
+// Full screen: the standard API where it exists; on iPhone only the video element itself can go full screen.
+type FsDocument = Document & { webkitFullscreenElement?: Element | null; webkitExitFullscreen?: () => void; webkitFullscreenEnabled?: boolean }
+type FsElement = HTMLElement & { webkitRequestFullscreen?: () => Promise<void> | void }
+type FsVideo = HTMLVideoElement & { webkitEnterFullscreen?: () => void }
+type LockableOrientation = ScreenOrientation & { lock?: (orientation: string) => Promise<void> }
+const fullscreenElement = () => document.fullscreenElement ?? (document as FsDocument).webkitFullscreenElement ?? null
+const canFullscreen = () => !!(document.fullscreenEnabled || (document as FsDocument).webkitFullscreenEnabled || 'webkitEnterFullscreen' in HTMLVideoElement.prototype)
 
 /* ── QA hooks: always present, they read whatever player is open ────────────── */
 const live: { video: HTMLVideoElement | null; tl: Timeline | null; ui: boolean; captions: boolean; ended: boolean; seek: (time: number) => void } = { video: null, tl: null, ui: false, captions: true, ended: false, seek: () => {} }
@@ -50,6 +59,7 @@ exposeQA({
     captions: () => live.captions,
     controls: () => live.ui,
     ended: () => live.ended,
+    fullscreen: () => !!fullscreenElement(),
   },
 })
 
@@ -85,6 +95,7 @@ export function Player() {
   const [outro, setOutro] = useState(false)
   const [bezel, setBezel] = useState<{ id: number; play: boolean } | null>(null)
   const [portrait, setPortrait] = useState(() => window.matchMedia('(orientation: portrait)').matches)
+  const [full, setFull] = useState(false)
 
   const duration = tl?.duration ?? (video.current && Number.isFinite(video.current.duration) ? video.current.duration : 0)
 
@@ -170,11 +181,27 @@ export function Player() {
     (k: number) => {
       if (!live.tl) return
       seek(clearStart(live.tl, k))
-      play()
+      video.current?.play().catch(() => {}) // not play(): from the end card that would rewind to the start
       wake()
     },
-    [seek, play, wake],
+    [seek, wake],
   )
+  const toggleFull = useCallback(() => {
+    const el = stage.current as FsElement | null
+    const v = video.current as FsVideo | null
+    if (!el || !v) return
+    if (fullscreenElement()) {
+      const doc = document as FsDocument
+      void (doc.exitFullscreen ?? doc.webkitExitFullscreen)?.call(doc)
+      return
+    }
+    const request = el.requestFullscreen ?? el.webkitRequestFullscreen
+    if (!request) return v.webkitEnterFullscreen?.()
+    // On a phone, full screen also turns the film on its side so it fills the glass.
+    Promise.resolve(request.call(el))
+      .then(() => (screen.orientation as LockableOrientation | undefined)?.lock?.('landscape'))
+      .catch(() => {})
+  }, [])
   const close = useCallback(() => {
     video.current?.pause()
     setClosing(true)
@@ -257,6 +284,35 @@ export function Player() {
   }, [])
 
   useEffect(() => {
+    const on = () => setFull(!!fullscreenElement())
+    document.addEventListener('fullscreenchange', on)
+    document.addEventListener('webkitfullscreenchange', on)
+    return () => {
+      document.removeEventListener('fullscreenchange', on)
+      document.removeEventListener('webkitfullscreenchange', on)
+    }
+  }, [])
+
+  // The chip of the scene on screen fills as the scene plays (a CSS variable, straight from the clock).
+  useEffect(() => {
+    if (!tl) return
+    let raf = 0
+    let last = -1
+    const tick = () => {
+      const v = video.current
+      const row = chips.current
+      if (v && row) {
+        const s = tl.scenes[Math.max(0, sceneIndexAt(tl, v.currentTime))]
+        const p = Math.round(clamp((v.currentTime - s.start) / (s.end - s.start), 0, 1) * 400) / 400
+        if (p !== last || !row.style.getPropertyValue('--sp')) row.style.setProperty('--sp', String((last = p)))
+      }
+      raf = requestAnimationFrame(tick)
+    }
+    raf = requestAnimationFrame(tick)
+    return () => cancelAnimationFrame(raf)
+  }, [tl])
+
+  useEffect(() => {
     const mq = window.matchMedia('(orientation: portrait)')
     const on = () => setPortrait(mq.matches)
     mq.addEventListener('change', on)
@@ -290,6 +346,9 @@ export function Player() {
         case 'KeyC':
           toggleCaptions()
           break
+        case 'KeyF':
+          toggleFull()
+          break
         case 'Home':
           seek(0)
           break
@@ -300,7 +359,7 @@ export function Player() {
     }
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
-  }, [seek, togglePlay, toggleMute, toggleCaptions, wake])
+  }, [seek, togglePlay, toggleMute, toggleCaptions, toggleFull, wake])
 
   const trapTab = (e: ReactKeyboardEvent<HTMLDivElement>) => {
     if (e.key !== 'Tab' || !stage.current) return
@@ -413,6 +472,11 @@ export function Player() {
         <button type="button" className="film-btn" aria-label={muted ? t.film.unmute : t.film.mute} title={muted ? t.film.unmute : t.film.mute} onClick={toggleMute} data-film-mute>
           {muted ? <VolumeX size={21} aria-hidden /> : <Volume2 size={21} aria-hidden />}
         </button>
+        {canFullscreen() && (
+          <button type="button" className="film-btn" aria-label={full ? strings.exitFullscreen : strings.fullscreen} title={full ? strings.exitFullscreen : strings.fullscreen} onClick={toggleFull} data-film-full>
+            {full ? <Minimize size={20} aria-hidden /> : <Maximize size={20} aria-hidden />}
+          </button>
+        )}
       </div>
     </div>
   )
@@ -438,6 +502,7 @@ export function Player() {
       onPointerDownCapture={(e) => (pointer.current = e.pointerType)}
       onPointerMove={onStageMove}
       onClick={onStageClick}
+      onDoubleClick={(e) => pointer.current === 'mouse' && (e.target as HTMLElement).closest('.film-frame') && !(e.target as HTMLElement).closest('button, [role="slider"], .film-dock, .film-top') && toggleFull()}
       onKeyDown={trapTab}
       onFocus={(e) => (e.target as HTMLElement).matches?.(':focus-visible') && e.target !== stage.current && wake()}
     >
@@ -454,10 +519,10 @@ export function Player() {
             aria-label={`${t.film.title} · ${story.title[locale]}`}
             onLoadedData={() => setReady(true)}
             onPlay={() => (setPlaying(true), setEnded(false))}
-            onPlaying={() => (setPlaying(true), setWaiting(false))}
+            onPlaying={() => (setPlaying(true), setWaiting(false), setReady(true))}
             onPause={() => setPlaying(false)}
             onWaiting={() => setWaiting(true)}
-            onCanPlay={() => setWaiting(false)}
+            onCanPlay={() => (setWaiting(false), setReady(true))}
             onEnded={() => (setEnded(true), setPlaying(false), sync())}
             onError={() => (setFailed(true), setSettled(true))}
             onTimeUpdate={sync}

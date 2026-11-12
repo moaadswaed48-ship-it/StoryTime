@@ -1,7 +1,9 @@
 import { create } from 'zustand'
 import { t } from '@/i18n/copy'
 import { mulberry32 } from '@/lib/seeded'
-import { allCollected, buildRound, collect, isCorrect, type Paper } from './logic'
+import { story } from '@/content/story'
+import { useProfileStore } from '@/store/useProfileStore'
+import { allCollected, buildRound, collect, isCorrect, ownPaper, type Paper } from './logic'
 import { resetRuntime } from './runtime'
 
 /**
@@ -42,8 +44,23 @@ interface GameState {
   setMoved: () => void
 }
 
+/** The same test LazyCanvas makes, so the game can choose its no-WebGL version before anything is loaded. */
+export function webglSupported(): boolean {
+  try {
+    if (new URLSearchParams(location.search).has('nowebgl')) return false
+    const c = document.createElement('canvas')
+    return !!(c.getContext('webgl2') || c.getContext('webgl'))
+  } catch {
+    return false
+  }
+}
+/** Set when the 3D yard failed once on this page (lost context, driver trouble): stay with the cards after that. */
+let webglFailed = false
+
 function newRound(round: number) {
-  const papers = buildRound(t.game.names, t.game.letters, mulberry32(4177 + round * 97))
+  // a reader who typed a name finds it among the papers
+  const own = ownPaper(useProfileStore.getState().profile?.name, t.game.names)
+  const papers = buildRound(t.game.names, t.game.letters, mulberry32(4177 + round * 97), own)
   resetRuntime(papers)
   return { round, papers, collected: papers.map(() => false), current: null, wrong: [], shakes: 0, moved: false }
 }
@@ -61,7 +78,7 @@ export const useGame = create<GameState>()((set, get) => ({
   moved: false,
   start: () => {
     if (get().phase !== 'poster') return
-    set({ ...newRound(get().round + 1), phase: 'playing', ready: false })
+    set({ ...newRound(get().round + 1), phase: 'playing', ready: false, mode: !webglFailed && webglSupported() ? '3d' : 'cards' })
   },
   exit: () => set({ phase: 'poster', current: null, wrong: [], ready: false }),
   again: () => set({ ...newRound(get().round + 1), phase: 'playing' }),
@@ -75,6 +92,8 @@ export const useGame = create<GameState>()((set, get) => ({
     if (s.phase !== 'asking' || s.current === null) return false
     if (isCorrect(s.papers[s.current], letter)) {
       set({ phase: 'right', collected: collect(s.collected, s.current) })
+      // "letters I know" on the child's tree
+      useProfileStore.getState().addLetter(story.id, s.papers[s.current].letter)
       return true
     }
     if (!s.wrong.includes(letter)) set({ wrong: [...s.wrong, letter], shakes: s.shakes + 1 })
@@ -84,9 +103,14 @@ export const useGame = create<GameState>()((set, get) => ({
   advance: () => {
     const s = get()
     if (s.phase !== 'right') return
-    set({ phase: allCollected(s.collected) ? 'done' : 'playing', current: null, wrong: [] })
+    const done = allCollected(s.collected)
+    set({ phase: done ? 'done' : 'playing', current: null, wrong: [] })
+    if (done) useProfileStore.getState().mark(story.id, 'played') // earns the "played" leaf
   },
   setReady: (ready) => set({ ready }),
-  setMode: (mode) => set({ mode }),
+  setMode: (mode) => {
+    if (mode === 'cards') webglFailed = true
+    set({ mode })
+  },
   setMoved: () => !get().moved && set({ moved: true }),
 }))

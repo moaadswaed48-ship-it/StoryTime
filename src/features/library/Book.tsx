@@ -159,8 +159,9 @@ function Spine({ book, g, m, tn }: { book: ShelfBook; g: Box; m: Box & { S: numb
   const lines = useTwo ? two : [title]
   const size = useTwo ? Math.min(g.T * 0.3, room / (ADV * Math.max(two[0].length, two[1]!.length))) : single
   const soon = t.library.soon
-  // The band text only when it can be read on this spine; otherwise the band carries a dot.
-  const bandText = !book.ready && g.T / m.K >= (locale === 'ar' ? 42 : 46)
+  // The band carries its words only where they can be read; on small shelves it carries a dot.
+  // Decided for the whole row (from its thinnest possible spine), so the shelf never mixes words and dots.
+  const bandText = !book.ready && (m.S / m.K) * 0.122 >= (locale === 'ar' ? 42 : 46)
   return (
     <>
       <span className="lib-round" />
@@ -248,9 +249,10 @@ export const Book = memo(function Book({ book, g: geom, m, i, selected, setRef }
       data-i={i}
       role="option"
       aria-selected={selected}
-      aria-label={`${book.title[locale]} — ${t.library.filters[book.season]} · ${status}`}
       style={style}
     >
+      {/* The accessible name; everything painted on the faces is decoration and hidden from assistive tech. */}
+      <span className="sr-only">{`${book.title[locale]} — ${t.library.filters[book.season]} · ${status}`}</span>
       <div className="lib-face lib-front" aria-hidden style={{ transform: `translateZ(${half}px)` }}>
         {book.ready ? <ReadyCover book={book} /> : <SeriesCover book={book} tn={tn} />}
       </div>

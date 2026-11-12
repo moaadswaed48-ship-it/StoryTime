@@ -148,7 +148,7 @@ html[dir='rtl'] .ss-word {
   transform-origin: 100% 62%;
 }
 html[lang='en'] .ss-word {
-  font-size: clamp(4rem, min(11.6vw, 23svh), 12rem);
+  font-size: clamp(4rem, min(11vw, 23svh), 12rem);
 }
 .ss-detail {
   display: flex;
@@ -200,9 +200,6 @@ html[lang='en'] .ss-word {
 @media (hover: hover) {
   .ss-pill:hover .ss-pill-arrow {
     transform: translate(calc(2px * var(--ss-dir)), -2px);
-  }
-  .ss-pill:hover .ss-pill-arrow[data-down] {
-    transform: translateY(2px);
   }
 }
 

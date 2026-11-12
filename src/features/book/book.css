@@ -44,9 +44,11 @@ html[lang='en'] .bk {
 }
 .bk-amb {
   position: absolute;
-  inset: -8%;
-  width: 116%;
-  height: 116%;
+  left: 50%;
+  top: 50%;
+  width: max(118vw, 118vh * 16 / 9);
+  height: max(118vh, 118vw * 9 / 16);
+  transform: translate(-50%, -50%);
   opacity: 0;
   transition: opacity 1.2s var(--ease-state, ease);
 }
@@ -172,7 +174,7 @@ html[lang='en'] .bk {
   width: var(--sw);
   height: var(--sh);
   perspective: calc(var(--sw) * 2.1);
-  animation: bk-fade 0.7s var(--ease-state, ease) both;
+  animation: bk-fade 0.7s var(--ease-state, ease) backwards;
 }
 .bk-bottom {
   position: relative;
@@ -207,8 +209,9 @@ html[lang='en'] .bk {
   line-height: 1.5;
   opacity: 0.5;
 }
+/* Entrances fill backwards only, so an element's own opacity and transform apply again once it has arrived. */
 .bk-fade {
-  animation: bk-fade 0.6s var(--ease-state, ease) 0.1s both;
+  animation: bk-fade 0.6s var(--ease-state, ease) 0.1s backwards;
 }
 
 /* Scene beads: a round crop of every picture, with one sliding ring. Scenes behind the paywall are dimmed. */
@@ -358,9 +361,6 @@ html[lang='en'] .bk {
 .bk-book[data-rtl='0'] {
   transform-origin: calc(50% + var(--sh) * 0.375) 50%;
 }
-.bk-book:not([data-phase='open']) {
-  will-change: transform;
-}
 
 /* Open-book dressing: a shadow on the table, the boards, and the page edges peeking out under the spread. */
 .bk-dress {
@@ -372,38 +372,38 @@ html[lang='en'] .bk {
 .bk-book[data-phase='open'] {
   --dress: 1;
   --floor: 1;
+  --bw: calc(var(--sw) / 2);
 }
 .bk-floor {
   position: absolute;
-  inset: 8% 1.5% -2.5%;
-  border-radius: 40px;
+  inset: auto -2% -9.5%;
+  height: 21%;
   opacity: var(--floor);
-  transform: scaleX(calc(0.62 + 0.38 * var(--floor)));
-  box-shadow:
-    0 60px 90px -30px rgba(0, 0, 0, 0.85),
-    0 24px 44px -16px rgba(0, 0, 0, 0.65);
+  transform: scaleX(calc(0.56 + 0.44 * var(--floor)));
+  background: radial-gradient(closest-side, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.3) 55%, transparent);
 }
 .bk-board,
 .bk-edges-s,
 .bk-edges-b {
   opacity: var(--dress);
 }
+/* Boards and page edges hug the pages, so they widen with them while the book opens. */
 .bk-board {
   position: absolute;
-  inset: -7px -11px -12px;
+  inset: -7px calc(50% - var(--bw) - 11px) -12px;
   border-radius: calc(var(--rr) + 9px);
   background: linear-gradient(180deg, #43291a, #23150c);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 .bk-edges-s {
   position: absolute;
-  inset: 5px -5px 3px;
+  inset: 5px calc(50% - var(--bw) - 5px) 3px;
   border-radius: calc(var(--rr) - 4px);
   background: repeating-linear-gradient(to right, #f1e8d5 0 1.2px, #c8b998 1.2px 2.4px);
 }
 .bk-edges-b {
   position: absolute;
-  inset: auto 3px -6px;
+  inset: auto calc(50% - var(--bw) + 3px) -6px;
   height: 30px;
   border-radius: 0 0 calc(var(--rr) + 2px) calc(var(--rr) + 2px);
   background: repeating-linear-gradient(to bottom, #f4ecda 0 1.2px, #cdbf9f 1.2px 2.4px);
@@ -820,7 +820,7 @@ html[lang='en'] .bk-dedication {
   filter: blur(9px);
 }
 .bk-rise {
-  animation: bk-rise 0.9s var(--ease-out, ease) both;
+  animation: bk-rise 0.9s var(--ease-out, ease) backwards;
   animation-delay: calc(var(--i, 0) * 110ms + 120ms);
 }
 
@@ -860,7 +860,7 @@ html[lang='en'] .bk-dedication {
   );
   opacity: 0;
   transition:
-    opacity 0.6s var(--ease-state, ease) var(--d, 0s),
+    opacity 0.6s var(--ease-state, ease) 0.06s,
     transform 0.7s var(--ease-out, ease);
 }
 .bk-cap-grad.is-in {
@@ -878,8 +878,8 @@ html[lang='en'] .bk-dedication {
   opacity: 0;
   transform: translateY(12px);
   transition:
-    opacity 0.7s var(--ease-out, ease) var(--d, 0s),
-    transform 0.85s var(--ease-out, ease) var(--d, 0s);
+    opacity 0.7s var(--ease-out, ease) 0.06s,
+    transform 0.85s var(--ease-out, ease) 0.06s;
 }
 .bk-cap-item.is-in {
   opacity: 1;
@@ -966,7 +966,7 @@ html[lang='en'] .bk-text {
   padding: 30px 32px 32px;
   border-radius: 28px;
   text-align: center;
-  animation: bk-rise 0.7s var(--ease-out, ease) 0.3s both;
+  animation: bk-rise 0.7s var(--ease-out, ease) 0.3s backwards;
 }
 .bk-gate-card.is-nudged {
   animation: bk-nudge 0.45s var(--ease-state, ease);
@@ -1033,6 +1033,11 @@ html[lang='en'] .bk-end-title {
   flex-wrap: wrap;
   gap: 10px;
   margin-top: clamp(22px, calc(var(--sh) * 0.06), 44px);
+}
+/* The game is the next thing to do: it gets its own line; the two quieter choices share the line below. */
+.bk-end-actions > i {
+  flex-basis: 100%;
+  height: 0;
 }
 .bk-end-plate {
   display: flex;
@@ -1154,14 +1159,14 @@ html[lang='en'] .bk-end-title {
     flex: none;
   }
   .bk-board {
-    inset: -4px -6px -7px;
+    inset: -4px calc(50% - var(--bw) - 6px) -7px;
     border-radius: calc(var(--rr) + 5px);
   }
   .bk-edges-s {
-    inset: 4px -3px 2px;
+    inset: 4px calc(50% - var(--bw) - 3px) 2px;
   }
   .bk-edges-b {
-    inset: auto 2px -4px;
+    inset: auto calc(50% - var(--bw) + 2px) -4px;
     height: 20px;
   }
   .bk-chip {
@@ -1197,6 +1202,10 @@ html[lang='en'] .bk-end-title {
   .bk-text {
     text-shadow: none;
     max-inline-size: none;
+  }
+  /* A short line of dialogue gets a little more voice on the phone. */
+  .bk-text[data-short] {
+    font-size: calc(var(--bk-fs) * 1.16);
   }
 
   .bk-bottom {
@@ -1279,10 +1288,24 @@ html[lang='en'] .bk-end-title {
     flex-wrap: nowrap;
     gap: 12px;
     margin-top: 26px;
-    animation: bk-rise 0.7s var(--ease-out, ease) 0.25s both;
+    animation: bk-rise 0.7s var(--ease-out, ease) 0.25s backwards;
   }
   .bk-wrap > .bk-end-actions > button {
     width: 100%;
+  }
+  .bk-wrap > .bk-end-actions > i {
+    display: none;
+  }
+  .bk-end-note {
+    margin-top: 26px;
+    text-align: center;
+    font-size: 1.05rem;
+    line-height: 1.8;
+    color: rgba(246, 240, 228, 0.6);
+    animation: bk-rise 0.7s var(--ease-out, ease) 0.45s backwards;
+  }
+  html[lang='en'] .bk-end-note {
+    font-style: italic;
   }
 
   .bk-closed {

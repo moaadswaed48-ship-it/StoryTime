@@ -19,7 +19,6 @@ import { preloadScene } from './pictures'
 import { NO_CLIP, idleHooks } from './qa'
 import { Caption } from './Caption'
 import { Ambient } from './Ambient'
-import { turnSeconds } from './turn'
 
 interface Actions {
   next(): void
@@ -154,8 +153,6 @@ export function Reader({ startScene }: { startScene: number }) {
   const gateShown = gated && !turning
   const clipOn = phase === 'open' && !turning && !gated && !atEnd && !reduced
   const hasClip = !atEnd && !!story.scenes[pos.scene].clip
-  const leavesInTurn = turn ? Math.max(1, Math.min(3, Math.abs(turn.to - turn.from))) : 0
-  const afterTurn = reduced ? 0 : turn ? (turn.manual ? 0.4 : turnSeconds(leavesInTurn) - 0.14) : 0.1
   // While a page is held by the finger (and not yet let go), its text steps aside.
   const lifted = !!turn?.manual && turn.from === pos.scene
   const scene = pos.scene
@@ -285,7 +282,7 @@ export function Reader({ startScene }: { startScene: number }) {
   }, [atEnd, turning, reduced])
 
   /* ── Drag the page (it follows the finger), swipe, or tap the picture ─────── */
-  const press = useRef<{ x: number; y: number; t: number; onPic: boolean; mode: 'none' | 'swipe' | 'drag'; forward: boolean; target: Pos | null; q: number } | null>(null)
+  const press = useRef<{ x: number; y: number; t: number; onPic: boolean; mode: 'none' | 'swipe' | 'drag'; forward: boolean; target: Pos | null; q: number; turn: number } | null>(null)
   /** How far a dragged leaf is turned: the grabbed point of the page follows the finger across the spine. */
   const dragProgress = (s: { x: number; forward: boolean }, x: number) => {
     const r = spread.current?.rect()
@@ -302,7 +299,7 @@ export function Reader({ startScene }: { startScene: number }) {
     if (e.button) return
     const tgt = e.target as HTMLElement
     if (tgt.closest('button, a')) return
-    press.current = { x: e.clientX, y: e.clientY, t: performance.now(), onPic: !!tgt.closest('.bk-scene') && !tgt.closest('[data-scroll="1"]'), mode: 'none', forward: true, target: null, q: 0 }
+    press.current = { x: e.clientX, y: e.clientY, t: performance.now(), onPic: !!tgt.closest('.bk-scene') && !tgt.closest('[data-scroll="1"]'), mode: 'none', forward: true, target: null, q: 0, turn: 0 }
   }
   const onPointerMove = (e: ReactPointerEvent) => {
     const s = press.current
@@ -327,6 +324,7 @@ export function Reader({ startScene }: { startScene: number }) {
           setDragging(true)
           s.mode = 'drag'
           s.target = target
+          s.turn = req.id
           try {
             e.currentTarget.setPointerCapture(e.pointerId)
           } catch {
@@ -335,7 +333,7 @@ export function Reader({ startScene }: { startScene: number }) {
         }
       }
     }
-    if (s.mode === 'drag') {
+    if (s.mode === 'drag' && turnRef.current?.id === s.turn) {
       s.q = dragProgress(s, e.clientX)
       spread.current?.dragTo(s.q)
     }
@@ -347,6 +345,9 @@ export function Reader({ startScene }: { startScene: number }) {
     const dx = e.clientX - s.x
     const dy = e.clientY - s.y
     if (s.mode === 'drag') {
+      setDragging(false)
+      // Something else (a key, a dot) already took over from this drag.
+      if (turnRef.current?.id !== s.turn) return
       // Past a third of the way the page goes over; a quick flick counts too. Otherwise it falls back.
       const flick = performance.now() - s.t < 320 && Math.abs(dx) > 36 && dx * dirSign < 0 === s.forward
       const land = !cancelled && !!s.target && (s.q > 0.3 || flick)
@@ -355,7 +356,6 @@ export function Reader({ startScene }: { startScene: number }) {
         setPosState(s.target)
         setMoved(true)
       }
-      setDragging(false)
       spread.current?.release(land)
       return
     }
@@ -377,11 +377,15 @@ export function Reader({ startScene }: { startScene: number }) {
   const playGame = () => {
     closeOverlay()
     window.setTimeout(() => {
+      const st = useSiteStore.getState()
       const target = document.querySelector('#game')
-      if (!target) return
-      const lenis = useSiteStore.getState().lenis
-      if (lenis) lenis.scrollTo('#game', { offset: -80, force: true })
-      else target.scrollIntoView()
+      if (target) {
+        if (st.lenis) st.lenis.scrollTo('#game', { offset: -80, force: true })
+        else target.scrollIntoView()
+      } else {
+        // No game section on this screen: use the site's game overlay when it has one.
+        ;(st as unknown as { openGame?: () => void }).openGame?.()
+      }
     }, 90)
   }
 
@@ -394,10 +398,11 @@ export function Reader({ startScene }: { startScene: number }) {
 
   const endActions = (
     <div className="bk-end-actions">
-      <Pill variant="maple" size={stack ? 'lg' : 'md'} onClick={playGame}>
-        <Gamepad2 size={18} aria-hidden />
+      <Pill variant="maple" size="lg" onClick={playGame}>
+        <Gamepad2 size={19} aria-hidden />
         {t.book.playGame}
       </Pill>
+      <i aria-hidden />
       <Pill variant={stack ? 'glass' : 'outline'} size={stack ? 'lg' : 'md'} onClick={again}>
         <RotateCcw size={17} aria-hidden />
         {t.book.again}
@@ -493,7 +498,7 @@ export function Reader({ startScene }: { startScene: number }) {
           <div className="bk-wrap">
             <Spread ref={spread} phase={phase} scene={scene} step={pos.step} turn={turn} blurred={gateShown} clipOn={clipOn} reduced={reduced} ghost={ghost} onOpen={openStable} onOpened={onOpened} onTurnEnd={onTurnEnd} onClip={onClip} endPage={endPage} />
 
-            {isOpen && !atEnd && !gated && <Caption scene={scene} step={pos.step} delay={afterTurn} stack={stack} hide={lifted} />}
+            {isOpen && !atEnd && !gated && <Caption scene={scene} step={pos.step} go={!turning} stack={stack} hide={lifted} />}
 
             {gateShown && (
               <div className="bk-gate">
@@ -510,7 +515,12 @@ export function Reader({ startScene }: { startScene: number }) {
               </div>
             )}
 
-            {atEnd && stack && !turning && endActions}
+            {atEnd && stack && !turning && (
+              <>
+                {endActions}
+                <p className="bk-end-note font-story">{t.book.dedication}</p>
+              </>
+            )}
 
             {isOpen && hasClip && !gated && !turning && (
               <button type="button" className="bk-chip glass-ink bk-fade" aria-label={clip.playing ? t.film.pause : t.film.play} onClick={() => spread.current?.toggleClip()} data-playing={clip.playing || undefined}>

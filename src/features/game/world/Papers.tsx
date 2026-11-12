@@ -40,7 +40,7 @@ function PaperItem({ index, name }: { index: number; name: string }) {
     [mats],
   )
   useEffect(() => () => geo.dispose(), [geo])
-  const s = useRef({ t: index * 1.7, fly: 0 })
+  const s = useRef({ t: index * 1.7, fly: 0, clear: 1 })
 
   useFrame((state, delta) => {
     const dt = Math.min(delta, 0.1)
@@ -68,7 +68,10 @@ function PaperItem({ index, name }: { index: number; name: string }) {
     m.rotation.set(-0.3 + Math.sin(st.t * 1.6) * 0.12 * (1 + gust), Math.sin(st.t * 0.8) * 0.55 * (1 - k) + k * Math.PI * 2, Math.sin(st.t * 2.2) * 0.15 * (1 + gust * 2) * (1 - k))
     m.scale.setScalar(1 + k * 1.3)
     // a paper right under the lens would fill the screen: let it fade as the camera passes over it
-    const close = picked ? 1 : smooth(1.9, 3.1, _v.length())
+    // …and a paper standing between the camera and Sari turns glassy, so it never hides him
+    const inFront = !picked && p.z > rt.sari.z + 0.45 && Math.abs(p.x - rt.sari.x) < 1.25
+    st.clear += ((inFront ? 0.38 : 1) - st.clear) * (1 - Math.exp(-8 * dt))
+    const close = picked ? 1 : smooth(1.7, 3.0, Math.hypot(_v.x, _v.y - 1.1, _v.z)) * st.clear
     mats.sheet.opacity = (1 - smooth(0.62, 1, st.fly)) * close
     // a travelling wave makes it flutter
     const arr = geo.attributes.position.array as Float32Array

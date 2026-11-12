@@ -288,7 +288,7 @@ html[lang='ar'] .game-slot.is-full {
   letter-spacing: -0.035em;
   color: var(--color-ink, #1a120b);
   /* the ruled line a child writes a name on */
-  border-bottom: 4px solid color-mix(in oklab, var(--color-maple, #d9541e) 46%, transparent);
+  border-bottom: 4px solid rgb(217 84 30 / 0.46);
 }
 html[lang='ar'] .game-name {
   line-height: 1.5;
@@ -336,6 +336,8 @@ html[lang='ar'] .game-letter {
   animation: game-shake 0.48s var(--ease-state, ease);
 }
 .game-letter.is-right {
+  /* the answer lights up at once: no fade between "pressed" and "right" */
+  transition: none;
   background: var(--color-maple, #d9541e);
   color: #fff;
   box-shadow:
@@ -497,7 +499,7 @@ html[lang='ar'] .game-done-title {
   bottom: 24%;
   height: 3px;
   border-radius: 2px;
-  background: color-mix(in oklab, var(--color-maple, #d9541e) 42%, transparent);
+  background: rgb(217 84 30 / 0.42);
 }
 @keyframes game-sway {
   from {

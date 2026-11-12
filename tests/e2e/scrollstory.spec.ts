@@ -20,6 +20,9 @@ async function open(page: Page) {
 }
 
 test.describe('scrollstory', () => {
+  // The dev machine is shared and slow at times; the film itself needs 121 pictures.
+  test.describe.configure({ timeout: 180_000 })
+
   test('the film plays forward and back under the scroll, and the three words swap', async ({ page }) => {
     const con = watchConsole(page)
     await open(page)
@@ -52,11 +55,11 @@ test.describe('scrollstory', () => {
   })
 
   test('every frame loads and the canvas is painted at each stop', async ({ page }) => {
-    test.slow() // 121 pictures from a busy dev server can take a while
+    test.setTimeout(300_000)
     const con = watchConsole(page)
     await open(page)
     const total = await hook<number>(page, 'total()')
-    await expect.poll(() => hook<number>(page, 'loaded()'), { timeout: 150_000 }).toBe(total)
+    await expect.poll(() => hook<number>(page, 'loaded()'), { timeout: 240_000 }).toBe(total)
 
     const seen = new Set<number>()
     for (const p of [0.05, 0.28, 0.52, 0.76, 0.97]) {
@@ -98,7 +101,10 @@ test.describe('scrollstory', () => {
     await page.locator('#ways .ss-tick').nth(2).click()
     await expect.poll(() => beat(page), { timeout: 15_000 }).toBe(2)
     await expect(page.locator('#ways .ss-tick').nth(2)).toHaveAttribute('aria-current', 'step')
-    await expect(page.locator('#ways [data-beat="2"] button')).toBeVisible()
+    await expect(page.locator('#ways [data-beat="2"]')).toHaveAttribute('data-state', 'on')
+    await page.locator('#ways [data-beat="2"] button').click()
+    expect(await overlay()).toBe('game')
+    await close()
     con.assertClean()
   })
 

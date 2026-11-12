@@ -13,9 +13,9 @@ function paint(cv: HTMLCanvasElement, im: HTMLImageElement) {
   ctx.clearRect(0, 0, cv.width, cv.height)
   ctx.imageSmoothingEnabled = true
   ctx.imageSmoothingQuality = 'high'
-  if ('filter' in ctx) ctx.filter = 'blur(4px) saturate(1.4)'
+  if ('filter' in ctx) ctx.filter = 'blur(6px) saturate(1.4)'
   // Overscan, so the blurred edge never fades to transparent.
-  ctx.drawImage(tiny, -8, -5, cv.width + 16, cv.height + 10)
+  ctx.drawImage(tiny, -12, -7, cv.width + 24, cv.height + 14)
 }
 
 export function Ambient({ src }: { src: string }) {

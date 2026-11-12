@@ -1,16 +1,17 @@
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState, type CSSProperties } from 'react'
-import { ArrowLeft, ArrowRight, BookOpen, Gamepad2, Play } from 'lucide-react'
+import { ArrowLeft, ArrowRight, ArrowUpLeft, ArrowUpRight, BookOpen, Gamepad2, Play } from 'lucide-react'
 import { prefersReducedNow } from '@/app/useMotionTier'
 import { library } from '@/content/library'
 import { BlurWords, Container, Pill, SectionHead, useOnScreen } from '@/design/ui'
 import { t } from '@/i18n/copy'
-import { locale, num, rtl } from '@/i18n/locale'
+import { dirSign, locale, num, rtl } from '@/i18n/locale'
 import { cn } from '@/lib/cn'
 import { exposeQA } from '@/lib/qa'
 import { useSiteStore } from '@/store/useSiteStore'
 import { Book } from './Book'
 import { READY, Shelf, type Filter } from './controller'
 import { computeGeoms, computeMetrics, type Metrics } from './engine'
+import { noiseTile } from './noise'
 import './library.css'
 
 const FILTERS: Filter[] = ['all', 'autumn', 'winter', 'spring', 'summer']
@@ -20,9 +21,11 @@ const COUNTS = Object.fromEntries(FILTERS.map((f) => [f, library.filter((b) => f
 function guessMetrics(): Metrics {
   const w = typeof window === 'undefined' ? 1440 : window.innerWidth
   const h = typeof window === 'undefined' ? 900 : window.innerHeight
-  const stageH = w < 640 ? Math.min(460, Math.max(410, h * 0.52)) : Math.min(640, Math.max(460, h * 0.64))
+  const stageH = w < 640 ? Math.min(430, Math.max(380, h * 0.48)) : Math.min(640, Math.max(460, h * 0.64))
   return computeMetrics(w, Math.round(stageH), h)
 }
+
+const OpenIcon = rtl ? ArrowUpLeft : ArrowUpRight
 
 /** Arrow that points toward the previous / next book whatever the reading direction. */
 function Arrow({ next }: { next?: boolean }) {
@@ -41,6 +44,7 @@ export function Library() {
   const sceneRef = useRef<HTMLDivElement>(null)
   const plankRef = useRef<HTMLDivElement>(null)
   const lipRef = useRef<HTMLDivElement>(null)
+  const wallRef = useRef<HTMLDivElement>(null)
   const slotRef = useRef<HTMLDivElement>(null)
   const panelRef = useRef<HTMLDivElement>(null)
   const backRef = useRef<HTMLButtonElement>(null)
@@ -56,6 +60,10 @@ export function Library() {
   const [shown, setShown] = useState({ i: READY, seq: 0 })
   const [waiting, setWaiting] = useState(() => !prefersReducedNow())
   const reduced = useSiteStore((s) => s.tier === 'reduced')
+  const grain = useMemo(() => {
+    const tile = noiseTile()
+    return tile ? ({ '--lib-noise': tile } as CSSProperties) : undefined
+  }, [])
   const onScreen = useOnScreen(stageRef, '160px 0px')
 
   const shelfRef = useRef<Shelf | null>(null)
@@ -66,7 +74,7 @@ export function Library() {
         setDetail(i)
         if (i !== null) setShown((s) => ({ i, seq: s.seq + 1 }))
       },
-      onLanded: () => setWaiting(false),
+      onLanded: (landed) => setWaiting(!landed),
       onFilter: setFilter,
       onCover: (i) => library[i].ready && useSiteStore.getState().openBook(0),
     })
@@ -85,6 +93,7 @@ export function Library() {
       scene: sceneRef.current!,
       plank: plankRef.current!,
       lip: lipRef.current!,
+      wall: wallRef.current!,
       slot: slotRef.current!,
       panel: panelRef.current!,
       books: bookEls.current,
@@ -115,22 +124,38 @@ export function Library() {
     shelf.renderNow()
   }, [shelf, metrics, geoms])
 
+  // The detail panel is centred, so its slot moves when its text changes: re-read it after every such render.
+  useLayoutEffect(() => {
+    if (detail !== null) shelf.measureSlot()
+  }, [shelf, detail, shown])
+
   useEffect(() => shelf.setReduced(reduced), [shelf, reduced])
   useEffect(() => shelf.setOnScreen(onScreen), [shelf, onScreen])
 
-  // Signature moment: the books land when a good part of the shelf is in view (once).
+  // Signature moment (once): the books land when the ledge they land on is in view. If the visitor stops
+  // short of that, or has already scrolled past it, they still land — the shelf is never left empty on screen.
   useEffect(() => {
     const stage = stageRef.current!
+    let timer = 0
+    const go = () => {
+      window.clearTimeout(timer)
+      io.disconnect()
+      shelf.play()
+    }
     const io = new IntersectionObserver(
       ([en]) => {
+        window.clearTimeout(timer)
         if (!en.isIntersecting) return
-        io.disconnect()
-        shelf.play()
+        if (en.intersectionRatio >= 0.85 || en.boundingClientRect.top < 0) go()
+        else timer = window.setTimeout(go, 1100)
       },
-      { threshold: 0.4 },
+      { threshold: [0.2, 0.5, 0.85] },
     )
     io.observe(stage)
-    return () => io.disconnect()
+    return () => {
+      window.clearTimeout(timer)
+      io.disconnect()
+    }
   }, [shelf])
 
   // Test / screenshot hooks.
@@ -146,6 +171,7 @@ export function Library() {
         filter: (f: Filter) => shelf.setFilter(f),
         entrance: (p: number) => shelf.seek(p),
         replay: () => shelf.replay(),
+        scrub: (p: number) => shelf.scrub(p),
       },
     })
   }, [shelf])
@@ -186,7 +212,7 @@ export function Library() {
   const d = (n: number) => ({ '--d': n }) as CSSProperties
 
   return (
-    <section ref={sectionRef} id="library" className={cn('sheet bg-paper text-ink lib', detail !== null && 'is-detail', waiting && 'is-waiting')}>
+    <section ref={sectionRef} id="library" className={cn('sheet bg-paper text-ink lib', detail !== null && 'is-detail', waiting && 'is-waiting')} style={grain}>
       <Container className="lib-chrome pt-24 lg:pt-28">
         <div className="flex flex-col gap-7 lg:flex-row lg:items-end lg:justify-between lg:gap-12">
           <SectionHead tone="light" eyebrow={t.library.eyebrow} title={t.library.title} lede={t.library.lede} />
@@ -201,44 +227,57 @@ export function Library() {
         </div>
       </Container>
 
-      <div
-        ref={stageRef}
-        className="lib-stage mt-2 lg:mt-0"
-        role="listbox"
-        aria-orientation="horizontal"
-        aria-label={t.library.title}
-        aria-activedescendant={`lib-book-${book.id}`}
-        tabIndex={detail === null ? 0 : -1}
-        style={{ perspective: `${m.persp}px`, perspectiveOrigin: `50% ${m.eyeY}px` }}
-      >
-        <div className="lib-wall" aria-hidden />
-        <div ref={sceneRef} className="lib-scene" role="presentation" style={{ transformOrigin: `50% ${m.floorY}px` }}>
-          <div
-            ref={plankRef}
-            className="lib-plank"
-            aria-hidden
-            style={{ top: m.floorY, width: m.plankW, height: m.plankFront + m.plankBack, marginLeft: -m.plankW / 2, transform: `translateZ(${-m.plankBack}px) rotateX(90deg)` }}
-          >
+      <div className="lib-stagewrap mt-2 lg:mt-0">
+        <div
+          ref={stageRef}
+          className="lib-stage"
+          role="listbox"
+          aria-orientation="horizontal"
+          aria-label={t.library.title}
+          aria-activedescendant={`lib-book-${book.id}`}
+          tabIndex={detail === null ? 0 : -1}
+          style={{ perspective: `${m.persp}px`, perspectiveOrigin: `50% ${m.eyeY}px` }}
+        >
+          <div className="lib-wall" aria-hidden />
+          <div ref={wallRef} className="lib-wallshadow" aria-hidden style={{ top: m.floorY - m.S * 0.8, height: m.S * 0.8 }} />
+          <div ref={sceneRef} className="lib-scene" role="presentation" style={{ transformOrigin: `50% ${m.floorY}px` }}>
+            <div
+              ref={plankRef}
+              className="lib-plank"
+              aria-hidden
+              style={{ top: m.floorY, width: m.plankW, height: m.plankFront + m.plankBack, marginLeft: -m.plankW / 2, transform: `translateZ(${-m.plankBack}px) rotateX(90deg)` }}
+            >
+              {library.map((b, i) => (
+                <div
+                  key={b.id}
+                  ref={(el) => {
+                    shadowEls.current[i] = el
+                  }}
+                  className="lib-shadow"
+                  style={{ width: geoms[i].W, height: geoms[i].T }}
+                />
+              ))}
+            </div>
+            <div ref={lipRef} className="lib-lip" aria-hidden style={{ top: m.floorY, width: m.plankW, height: m.lip, marginLeft: -m.plankW / 2, transform: `translateZ(${m.plankFront}px)` }} />
             {library.map((b, i) => (
-              <div
-                key={b.id}
-                ref={(el) => {
-                  shadowEls.current[i] = el
-                }}
-                className="lib-shadow"
-                style={{ width: geoms[i].W, height: geoms[i].T }}
-              />
+              <Book key={b.id} book={b} g={geoms[i]} m={m} i={i} selected={i === sel} setRef={setBookRef} />
             ))}
           </div>
-          <div ref={lipRef} className="lib-lip" aria-hidden style={{ top: m.floorY, width: m.plankW, height: m.lip, marginLeft: -m.plankW / 2, transform: `translateZ(${m.plankFront}px)` }} />
-          {library.map((b, i) => (
-            <Book key={b.id} book={b} g={geoms[i]} m={m} i={i} selected={i === sel} setRef={setBookRef} />
-          ))}
         </div>
+        <button
+          type="button"
+          className="lib-open"
+          aria-label={book.title[locale]}
+          tabIndex={detail === null ? 0 : -1}
+          style={{ left: `calc(50% + ${Math.round(dirSign * geoms[READY].W * 0.52)}px)`, top: m.floorY + Math.round(m.S * 0.075), '--dir': dirSign } as CSSProperties}
+          onClick={() => shelf.open()}
+        >
+          <OpenIcon size={22} strokeWidth={2.2} aria-hidden />
+        </button>
       </div>
 
       <Container className="lib-chrome pb-20 lg:pb-28">
-        <div className="lib-caption">
+        <div className="lib-caption pt-5 lg:pt-7">
           <div className="mx-auto grid max-w-[44rem] grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-3 sm:gap-8">
             <button type="button" className="lib-arrow" aria-label={t.library.prev} disabled={pos <= 0} onClick={() => shelf.step(-1)}>
               <Arrow />
@@ -246,10 +285,10 @@ export function Library() {
             <div className="min-h-[5.5rem] text-center" aria-live="polite">
               <div key={book.id} className="lib-cap-in">
                 <h3 className="text-balance text-[clamp(1.35rem,2.5vw,2.1rem)] font-extrabold leading-[1.25] tracking-[-0.02em]">{book.title[locale]}</h3>
-                <p className="mt-2 flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-[14.5px] font-medium text-muted">
+                <p className="mt-2 flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-[14.5px] font-medium text-ink-2/85">
                   <span>{t.library.filters[book.season]}</span>
-                  <span className="h-1 w-1 rounded-full bg-current opacity-50" aria-hidden />
-                  <span className={cn('lib-status', book.ready ? 'font-semibold text-maple' : 'is-soon')}>
+                  <span className="h-1 w-1 rounded-full bg-current opacity-40" aria-hidden />
+                  <span className={cn('lib-status', book.ready ? 'is-ready font-semibold text-ink' : 'is-soon')}>
                     <i aria-hidden />
                     {book.ready ? t.library.ready : t.library.soon}
                   </span>
@@ -260,7 +299,7 @@ export function Library() {
               <Arrow next />
             </button>
           </div>
-          <p className="mt-5 flex items-center justify-center gap-3 text-[13.5px] text-muted">
+          <p className="mt-5 flex items-center justify-center gap-3 text-[13.5px] text-ink-2/80">
             <span className="tabular-nums text-ink-2">
               {num(pos + 1)} / {num(list.length)}
             </span>
@@ -285,21 +324,21 @@ export function Library() {
                 <b>{t.library.back}</b>
               </button>
               <p className="mt-6 flex flex-wrap items-center gap-x-3 gap-y-1 lg:mt-9" data-d style={d(1)}>
-                <span className="t-label text-maple">{t.library.filters[dBook.season]}</span>
+                <span className="t-label inline-flex items-center gap-2.5 text-ink-2">
+                  <span className="h-1.5 w-1.5 rounded-full bg-maple" aria-hidden />
+                  {t.library.filters[dBook.season]}
+                </span>
                 {dBook.ready && (
                   <>
-                    <span className="h-1 w-1 rounded-full bg-ink/30" aria-hidden />
-                    <span className="lib-status text-[14px] font-semibold text-ink-2">
-                      <i aria-hidden />
-                      {t.library.ready}
-                    </span>
+                    <span className="h-3 w-px bg-ink/20" aria-hidden />
+                    <span className="text-[14px] font-semibold text-ink-2">{t.library.ready}</span>
                   </>
                 )}
               </p>
               <BlurWords key={`${dBook.id}-${shown.seq}`} as="h3" text={dBook.title[locale]} immediate={detail !== null} delay={260} className="lib-detail-title mt-3 block lg:mt-4" />
               {dBook.ready ? (
                 <>
-                  <p className="mt-4 flex flex-wrap gap-x-2.5 gap-y-0.5 text-[14.5px] font-medium text-muted lg:mt-5" data-d style={d(3)}>
+                  <p className="mt-4 flex flex-wrap gap-x-2.5 gap-y-0.5 text-[14.5px] font-medium text-ink-2/80 lg:mt-5" data-d style={d(3)}>
                     <span>{t.library.meta}</span>
                     <span className="opacity-50 max-sm:hidden" aria-hidden>
                       ·
@@ -316,11 +355,11 @@ export function Library() {
                       <BookOpen size={19} aria-hidden />
                       {t.library.read}
                     </Pill>
-                    <Pill variant="outline" size="lg" className="px-5" data-act="watch" onClick={() => useSiteStore.getState().openFilm(0)}>
+                    <Pill variant="outline" size="lg" className="whitespace-nowrap px-4 max-sm:gap-2 max-sm:text-[15px] sm:px-6" data-act="watch" onClick={() => useSiteStore.getState().openFilm(0)}>
                       <Play size={17} fill="currentColor" aria-hidden />
                       {t.library.watch}
                     </Pill>
-                    <Pill variant="outline" size="lg" className="px-5" data-act="play" onClick={playGame}>
+                    <Pill variant="outline" size="lg" className="whitespace-nowrap px-4 max-sm:gap-2 max-sm:text-[15px] sm:px-6" data-act="play" onClick={playGame}>
                       <Gamepad2 size={19} aria-hidden />
                       {t.library.play}
                     </Pill>

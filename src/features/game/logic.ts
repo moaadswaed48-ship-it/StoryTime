@@ -26,8 +26,8 @@ export const OBSTACLES: Circle[] = [{ x: -5.3, z: -3.5, r: 1.05 }]
 export const SARI_RADIUS = 0.34
 /** Walking this close to a paper picks it up. */
 export const REACH = 0.9
-/** Jogging speed in units per second. */
-export const SPEED = 3.3
+/** Jogging speed in units per second (matched to the stride of Sari's run cycle, so his shoes do not slide). */
+export const SPEED = 3
 
 const clamp = (v: number, min: number, max: number) => Math.min(max, Math.max(min, v))
 const dist = (a: Point, b: Point) => Math.hypot(a.x - b.x, a.z - b.z)
@@ -71,6 +71,44 @@ export function buildOptions(name: string, letters: readonly string[], rng: () =
   return shuffle([right, ...decoys], rng)
 }
 
+/* ── The child's own name (when a reader has typed one) ─────────────────────── */
+
+const ARABIC = 'ابتثجحخدذرزسشصضطظعغفقكلمنهوي'
+const LATIN = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+/** The plain letter under any mark: أ, إ and آ are all "alef"; É is E. */
+const baseLetter = (s: string) => s.normalize('NFD').replace(/\p{M}/gu, '')
+
+/** The alphabet a letter belongs to, or null when we cannot offer fair wrong answers for it. */
+export function alphabetOf(letter: string): string[] | null {
+  if (/\p{Script=Arabic}/u.test(letter)) return [...ARABIC]
+  if (/\p{Script=Latin}/u.test(letter)) return [...LATIN]
+  return null
+}
+
+export interface OwnPaper {
+  name: string
+  letter: string
+  /** Wrong answers to draw from: the same alphabet, without look-alikes of the right letter. */
+  letters: string[]
+}
+
+/**
+ * The reader's own name as one more paper. Null (no extra paper) when the name is empty, does not start with a letter,
+ * is written in an alphabet we have no letters for, or is already one of the names in the yard.
+ */
+export function ownPaper(raw: string | null | undefined, taken: readonly string[] = []): OwnPaper | null {
+  const name = (raw ?? '').normalize('NFC').replace(/\s+/g, ' ').trim()
+  if (!name) return null
+  const first = Array.from(name)[0]
+  if (!/\p{L}/u.test(first) || first === '\u0640') return null
+  const letter = firstLetter(name)
+  const alphabet = letter ? alphabetOf(letter) : null
+  if (!alphabet) return null
+  const same = (a: string) => a.normalize('NFC').trim().toLocaleLowerCase()
+  if (taken.some((n) => same(n) === same(name))) return null
+  return { name, letter, letters: alphabet.filter((l) => baseLetter(l) !== baseLetter(letter)) }
+}
+
 /* ── The round ──────────────────────────────────────────────────────────────── */
 
 export interface Paper extends Point {
@@ -78,6 +116,8 @@ export interface Paper extends Point {
   name: string
   letter: string
   options: string[]
+  /** True for the reader's own name. */
+  own?: boolean
 }
 
 /**
@@ -110,10 +150,15 @@ export function scatter(count: number, rng: () => number, bounds: Bounds = YARD,
   return pts
 }
 
-/** Everything a round needs: one paper per name with its letter, its three buttons and its place in the yard. */
-export function buildRound(names: readonly string[], letters: readonly string[], rng: () => number): Paper[] {
-  const spots = shuffleTail(scatter(names.length, rng), rng)
-  return names.map((name, id) => ({ id, name, letter: firstLetter(name), options: buildOptions(name, letters, rng), ...spots[id] }))
+/**
+ * Everything a round needs: one paper per name with its letter, its three buttons and its place in the yard.
+ * `own` adds the reader's own name as the last paper.
+ */
+export function buildRound(names: readonly string[], letters: readonly string[], rng: () => number, own: OwnPaper | null = null): Paper[] {
+  const spots = shuffleTail(scatter(names.length + (own ? 1 : 0), rng), rng)
+  const papers: Paper[] = names.map((name, id) => ({ id, name, letter: firstLetter(name), options: buildOptions(name, letters, rng), ...spots[id] }))
+  if (own) papers.push({ id: names.length, name: own.name, letter: own.letter, options: buildOptions(own.name, own.letters, rng), own: true, ...spots[names.length] })
+  return papers
 }
 /** Keeps the near spot first (paper 0) and shuffles the rest, so the far papers are not always the same names. */
 function shuffleTail(spots: Point[], rng: () => number): Point[] {

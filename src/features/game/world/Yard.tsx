@@ -213,9 +213,9 @@ function branchGeometry(from: THREE.Vector3, to: THREE.Vector3, r0: number, r1: 
   return paint(g, (_x, _y, _z, out) => out.set('#a5744a'))
 }
 function canopyGeometry() {
-  const under = new THREE.Color('#c9651d')
-  const mid = new THREE.Color('#ee952d')
-  const top = new THREE.Color('#ffcf63')
+  const under = new THREE.Color('#cf6c20')
+  const mid = new THREE.Color('#ee9a31')
+  const top = new THREE.Color('#ffd067')
   return merge(
     BLOBS.map(([cx, cy, cz, r], i) => {
       const g = new THREE.IcosahedronGeometry(1, 2)
@@ -233,7 +233,7 @@ function canopyGeometry() {
         const h = THREE.MathUtils.clamp((wy - 3.9) / 3.6, 0, 1)
         if (h < 0.5) _c.copy(under).lerp(mid, h * 2)
         else _c.copy(mid).lerp(top, (h - 0.5) * 2)
-        _c.multiplyScalar(0.84 + 0.16 * (y * 0.5 + 0.5) + lump * 0.5)
+        _c.multiplyScalar(0.92 + 0.08 * (y * 0.5 + 0.5) + lump * 0.45)
         col[v * 3] = _c.r
         col[v * 3 + 1] = _c.g
         col[v * 3 + 2] = _c.b
@@ -258,10 +258,10 @@ export function Tree() {
     const bark = barkTexture()
     return new THREE.Mesh(geo, new THREE.MeshLambertMaterial({ vertexColors: true, map: bark }))
   })
-  const crown = useDisposable(() => new THREE.Mesh(canopyGeometry(), new THREE.MeshLambertMaterial({ vertexColors: true, emissive: '#6e2f0d' })))
+  const crown = useDisposable(() => new THREE.Mesh(canopyGeometry(), new THREE.MeshBasicMaterial({ vertexColors: true })))
   const leaves = useDisposable(() => {
     const rnd = mulberry32(17)
-    const total = 1900
+    const total = 2600
     const sum = BLOBS.reduce((n, b) => n + b[3] * b[3], 0)
     const geo = new THREE.PlaneGeometry(1, 1)
     const mat = new THREE.MeshBasicMaterial({ map: leafTexture(), alphaTest: 0.4, side: THREE.DoubleSide })
@@ -272,15 +272,15 @@ export function Tree() {
     BLOBS.forEach(([cx, cy, cz, r], bi) => {
       const n = bi === BLOBS.length - 1 ? total - k : Math.round((total * r * r) / sum)
       for (let i = 0; i < n && k < total; i++, k++) {
-        const u = rnd() * 1.75 - 1 // more of them underneath and on the sides, where the camera looks
+        const u = rnd() * 1.8 - 1 // more of them underneath and on the sides, where the camera looks
         const a = rnd() * Math.PI * 2
         const s = Math.sqrt(1 - u * u)
         dir.set(Math.cos(a) * s, u, Math.sin(a) * s)
-        const out = r * (0.97 + rnd() * 0.2)
+        const out = r * (0.96 + rnd() * 0.3)
         _p.set(cx + dir.x * out, cy + dir.y * out * SQUASH, cz + dir.z * out)
         _q.setFromUnitVectors(z, dir)
         _q.multiply(new THREE.Quaternion().setFromEuler(_e.set((rnd() - 0.5) * 1.1, (rnd() - 0.5) * 1.1, rnd() * Math.PI * 2)))
-        const size = 0.28 + rnd() * 0.3
+        const size = 0.3 + rnd() * 0.3
         mesh.setMatrixAt(k, _m.compose(_p, _q, _s.setScalar(size)))
         const light = 0.8 + 0.3 * (dir.y * 0.5 + 0.5) + rnd() * 0.14
         mesh.setColorAt(k, _c.set(CROWN_COLORS[Math.floor(rnd() * CROWN_COLORS.length)]).multiplyScalar(light))
@@ -376,9 +376,9 @@ export function Softwork() {
       }
     }
     // the heap of leaves (its surface is covered by carpet leaves)
-    list.push({ p: [PILE.x, 0.0, PILE.z], s: [PILE.r * 0.95, 0.44, PILE.r * 0.85], c: '#cf6f22' })
-    list.push({ p: [PILE.x + 0.55, 0.0, PILE.z + 0.3], s: [0.6, 0.28, 0.58], c: '#c2621d' })
-    list.push({ p: [PILE.x - 0.6, 0.0, PILE.z - 0.15], s: [0.55, 0.25, 0.5], c: '#db7d26' })
+    list.push({ p: [PILE.x, 0.0, PILE.z], s: [PILE.r * 0.95, 0.4, PILE.r * 0.85], c: '#cf6f22' })
+    list.push({ p: [PILE.x + 0.55, 0.0, PILE.z + 0.3], s: [0.6, 0.26, 0.58], c: '#c2621d' })
+    list.push({ p: [PILE.x - 0.6, 0.0, PILE.z - 0.15], s: [0.55, 0.23, 0.5], c: '#db7d26' })
     const mesh = new THREE.InstancedMesh(new THREE.IcosahedronGeometry(1, 2), new THREE.MeshLambertMaterial(), list.length)
     list.forEach((b, i) => {
       mesh.setMatrixAt(i, _m.compose(_p.set(...b.p), _q.identity(), _s.set(...b.s)))
@@ -422,7 +422,7 @@ export const shadowMaterial = (opacity: number) => new THREE.MeshBasicMaterial({
 export function LeafCarpet() {
   const mesh = useDisposable(() => {
     const rnd = mulberry32(44)
-    const max = 1500
+    const max = 1600
     const geo = new THREE.PlaneGeometry(1, 1)
     geo.rotateX(-Math.PI / 2)
     const m = new THREE.InstancedMesh(geo, new THREE.MeshBasicMaterial({ map: leafTexture(), alphaTest: 0.4, side: THREE.DoubleSide }), max)
@@ -434,11 +434,11 @@ export function LeafCarpet() {
       k++
     }
     // the heap first
-    for (let i = 0; i < 210; i++) {
+    for (let i = 0; i < 300; i++) {
       const a = rnd() * Math.PI * 2
       const d = Math.sqrt(rnd()) * PILE.r * 1.2
-      const h = Math.max(0, 0.45 * (1 - (d / (PILE.r * 1.0)) ** 2))
-      put(PILE.x + Math.cos(a) * d, 0.05 + h, PILE.z + Math.sin(a) * d * 0.9, 0.28 + rnd() * 0.2, 1.2)
+      const h = Math.max(0, 0.41 * (1 - (d / (PILE.r * 1.0)) ** 2))
+      put(PILE.x + Math.cos(a) * d, 0.05 + h, PILE.z + Math.sin(a) * d * 0.9, 0.3 + rnd() * 0.22, 1.3)
     }
     // then the yard: thick along the fence and under the tree, thinner where Sari runs
     for (let tries = 0; k < max && tries < 20000; tries++) {
