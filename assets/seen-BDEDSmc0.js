@@ -1,0 +1,1 @@
+var e=`st:tree:seen:v1`;function t(){try{let t=localStorage.getItem(e);if(t)return new Set(JSON.parse(t))}catch{}return new Set}function n(t){try{localStorage.setItem(e,JSON.stringify([...t]))}catch{}}function r(){try{localStorage.removeItem(e)}catch{}}export{t as n,n as r,r as t};
