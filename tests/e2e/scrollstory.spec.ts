@@ -2,7 +2,7 @@ import { expect, test, type Page } from '@playwright/test'
 import { pageUrl } from './_url'
 import { scrollToY, waitForHook, watchConsole } from './helpers'
 
-/** The scroll-scrubbed film: hooks are `window.__st.scrollstory = { frame(), beat(), loaded(), total(), progress(), y(p), goTo(i) }`. */
+/** The scroll-scrubbed film: hooks are `window.__st.scrollstory = { frame(), beat(), loaded(), total(), progress(), y(p), goTo(i), rest(n), sharp() }`. */
 const hook = <T>(page: Page, expr: string) => page.evaluate(`window.__st.scrollstory.${expr}`) as Promise<T>
 const frame = (page: Page) => hook<number>(page, 'frame()')
 const beat = (page: Page) => hook<number>(page, 'beat()')
@@ -76,6 +76,52 @@ test.describe('scrollstory', () => {
       expect(alpha).toEqual([255, 255, 255])
     }
     expect(seen.size).toBe(5)
+
+    // Wherever the scroll stops, the playhead settles on a clean frame: never on one where the film smears a face.
+    const rests = await page.evaluate((n) => Array.from({ length: n }, (_, i) => window.__st!.scrollstory.rest(i + 1) as number), total)
+    const smeared = rests.map((r, i) => (r === i + 1 ? 0 : i + 1)).filter(Boolean)
+    expect(smeared.length).toBeGreaterThan(0)
+    for (const n of smeared) {
+      expect(smeared).not.toContain(rests[n - 1])
+      expect(Math.abs(rests[n - 1] - n)).toBeLessThan(8)
+    }
+    const mid = smeared[Math.floor(smeared.length / 2)]
+    await scrub(page, (mid - 1) / (total - 1))
+    await expect.poll(() => frame(page), { timeout: 15_000 }).toBe(rests[mid - 1])
+    con.assertClean()
+  })
+
+  test('the stage is never blank while the frames are still on their way', async ({ page }) => {
+    const con = watchConsole(page)
+    let let_through = () => {}
+    const gate = new Promise<void>((resolve) => (let_through = resolve))
+    await page.route('**/film/scrub/**/*.webp', async (route) => {
+      await gate
+      await route.continue()
+    })
+    await page.goto(pageUrl('scrollstory'))
+    await waitForHook(page, 'scrollstory')
+    await scrollToY(page, '#ways')
+    await scrub(page, 0.5)
+    // Nothing has arrived: the blurred placeholder fills the stage and the copy is already readable.
+    await expect.poll(() => beat(page)).toBe(1)
+    expect(await hook<number>(page, 'loaded()')).toBe(0)
+    await expect(page.locator('#ways .ss-lqip')).toBeVisible()
+    await expect(page.locator('#ways [data-beat="1"]')).toHaveAttribute('data-state', 'on')
+    await expect(page.locator('#ways [data-beat="1"] button')).toBeVisible()
+
+    let_through()
+    await expect.poll(() => hook<number>(page, 'loaded()'), { timeout: 60_000 }).toBeGreaterThan(0)
+    // The nearest frame that has arrived is on the canvas, opaque, and the canvas has faded in.
+    await expect
+      .poll(() =>
+        page.evaluate(() => {
+          const cv = document.querySelector<HTMLCanvasElement>('#ways canvas')!
+          return cv.getContext('2d')!.getImageData(Math.floor(cv.width / 2), Math.floor(cv.height / 2), 1, 1).data[3] === 255 && getComputedStyle(cv).opacity === '1'
+        }),
+      )
+      .toBe(true)
+    await expect.poll(() => frame(page)).toBeGreaterThan(0)
     con.assertClean()
   })
 

@@ -385,7 +385,7 @@ html[lang='ar'] .sari-title {
   mix-blend-mode: multiply;
   -webkit-user-drag: none;
 }
-.is-flat .sari-canvas {
+.sari-stagewrap.is-flat .sari-canvas {
   -webkit-mask-image: none;
   mask-image: none;
 }
@@ -444,13 +444,17 @@ html[lang='ar'] .sari-title {
     height: auto;
     border-radius: 0;
   }
+  /* the canvas melts away toward the words and into the next section, so no leaf or light is ever cut */
   .sari-canvas {
-    -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 12%);
-    mask-image: linear-gradient(to right, transparent 0%, #000 12%);
+    --edge: 0%;
+    -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 12%, #000 calc(100% - var(--edge)), transparent 100%), linear-gradient(to bottom, #000 91%, transparent 100%);
+    mask-image: linear-gradient(to right, transparent 0%, #000 12%, #000 calc(100% - var(--edge)), transparent 100%), linear-gradient(to bottom, #000 91%, transparent 100%);
+    -webkit-mask-composite: source-in;
+    mask-composite: intersect;
   }
   html[dir='rtl'] .sari-canvas {
-    -webkit-mask-image: linear-gradient(to left, transparent 0%, #000 12%);
-    mask-image: linear-gradient(to left, transparent 0%, #000 12%);
+    -webkit-mask-image: linear-gradient(to left, transparent 0%, #000 12%, #000 calc(100% - var(--edge)), transparent 100%), linear-gradient(to bottom, #000 91%, transparent 100%);
+    mask-image: linear-gradient(to left, transparent 0%, #000 12%, #000 calc(100% - var(--edge)), transparent 100%), linear-gradient(to bottom, #000 91%, transparent 100%);
   }
   .sari-word__track {
     top: 15%;
@@ -462,7 +466,7 @@ html[lang='ar'] .sari-title {
     position: absolute;
     inset-inline: 0;
     /* 44px of the stage hang below the screen when the sheet's top is at the top: keep the dock inside the view */
-    bottom: calc(44px + clamp(16px, 2.6svh, 28px));
+    bottom: calc(44px + 18px);
     margin: 0;
     pointer-events: none;
   }
@@ -482,6 +486,13 @@ html[lang='ar'] .sari-title {
   .sari-dock__btn {
     min-width: 108px;
     padding-inline: 20px;
+  }
+}
+
+/* Very wide screens: the stage's outer edge is inside the page, so it fades as well */
+@media (min-width: 1641px) {
+  .sari-canvas {
+    --edge: 9%;
   }
 }
 

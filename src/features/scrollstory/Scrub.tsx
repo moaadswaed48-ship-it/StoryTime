@@ -32,6 +32,7 @@ interface Hooks {
   loaded: () => number
   total: () => number
   sharp: () => number
+  rest: (n: number) => number
   progress: () => number
   y: (p: number) => number
   goTo: (i: number, immediate?: boolean) => void
@@ -241,9 +242,9 @@ export function ScrubStory() {
         const dw = iw * k
         const dh = ih * k
         const w = cw / dw // share of the frame's width that fits on the stage
-        // Wide stages show the calm (house) side in full; narrower ones keep Sari's face in frame;
+        // Wide stages show the calm (house) side in full; squarer ones (4:3) give some of it back to Sari's face;
         // the portrait band follows both children with a slow pan.
-        const x0 = w >= 0.6 ? Math.min(1 - w, 0.18) : clamp(pan - w / 2, 0, 1 - w)
+        const x0 = w >= 0.6 ? Math.min(1 - w, w < 0.86 ? 0.14 : 0.18) : clamp(pan - w / 2, 0, 1 - w)
         ctx.globalAlpha = alpha
         ctx.drawImage(img, -x0 * dw, (ch - dh) / 2, dw, dh)
       }
@@ -322,7 +323,7 @@ export function ScrubStory() {
         }
 
         // The word reel: each word rolls through its own masked window like a digit on a film counter
-        // (no fade: at every moment a word is fully legible or cleanly out of the window).
+        // (no fade; one word's height is exactly the window's, so the outgoing word hands over to the incoming one).
         const lowTier = useSiteStore.getState().tier === 'low'
         const reelTo = s.on ? s.beat : -1
         s.reel += (reelTo - s.reel) * kReel
@@ -338,13 +339,13 @@ export function ScrubStory() {
             const far = Math.abs(d)
             if (far >= 1) {
               el.style.opacity = '0'
-              el.style.transform = `translate3d(0, ${d > 0 ? 1.6 : -1.6}em, 0)`
+              el.style.transform = `translate3d(0, ${d > 0 ? 100 : -100}%, 0)`
               el.style.filter = 'none'
               continue
             }
             el.style.opacity = '1'
-            el.style.transform = `translate3d(0, ${(d * 1.6 + creep * (1 - far)).toFixed(4)}em, 0)`
-            el.style.filter = far > 0.02 && !lowTier ? `blur(${(Math.sin(far * Math.PI) * 5).toFixed(1)}px)` : 'none'
+            el.style.transform = `translate3d(0, calc(${(d * 100).toFixed(2)}% + ${(creep * (1 - far)).toFixed(4)}em), 0)`
+            el.style.filter = far > 0.02 && !lowTier ? `blur(${(Math.sin(far * Math.PI) * 3).toFixed(1)}px)` : 'none'
           }
         }
 
@@ -444,6 +445,7 @@ export function ScrubStory() {
         loaded: () => store?.loaded ?? 0,
         total: () => store?.count ?? 0,
         sharp: () => s.sharpDrawn,
+        rest: (n) => restFrame(Math.round(n) - 1, store?.count ?? 0) + 1,
         progress: () => s.p,
         y: (p) => m.top + m.runway * clamp(p, 0, 1),
         goTo: (i, immediate) => {
@@ -479,6 +481,8 @@ export function ScrubStory() {
         loaded: () => hooks.current?.loaded() ?? 0,
         total: () => hooks.current?.total() ?? 0,
         sharp: () => hooks.current?.sharp() ?? 0,
+        /** The frame (1-based) the playhead settles on when the scroll stops at frame `n`. */
+        rest: (n: number) => hooks.current?.rest(n) ?? n,
         progress: () => hooks.current?.progress() ?? 0,
         y: (p: number) => hooks.current?.y(p) ?? 0,
         goTo: (i: number, immediate = true) => hooks.current?.goTo(i, immediate),

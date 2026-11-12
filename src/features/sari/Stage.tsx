@@ -126,6 +126,14 @@ export function Stage() {
     rt.action = action
     rt.reduced = reduced
   }, [rt, action, reduced])
+  // wide layout (same breakpoint as sari.css): the dock floats over the stage, so the framing leaves room for it
+  useLayoutEffect(() => {
+    const mq = window.matchMedia('(min-width: 1024px)')
+    const sync = () => void (rt.docked = mq.matches)
+    sync()
+    mq.addEventListener('change', sync)
+    return () => mq.removeEventListener('change', sync)
+  }, [rt])
 
   // first time on screen with him ready: the entrance turn starts, then he waves hello
   useEffect(() => {

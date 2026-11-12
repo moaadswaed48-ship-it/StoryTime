@@ -48,6 +48,8 @@ export interface Runtime {
   introAt: number
   /** No entrance, no parallax, no drifting: only what the visitor asks for moves. */
   reduced: boolean
+  /** Wide layout: the dock floats over the foot of the stage, so he must stand clear of it (and of the nav above). */
+  docked: boolean
   /** The giant word behind him (DOM): the loop slides it, so there is one clock for everything. */
   word: HTMLElement | null
   /** Width of one word + gap (px): the marquee wraps on it. */
@@ -75,6 +77,7 @@ export const createRuntime = (): Runtime => ({
   shown: REST_YAW,
   introAt: 0,
   reduced: false,
+  docked: false,
   word: null,
   pitch: 0,
   slide: 0,

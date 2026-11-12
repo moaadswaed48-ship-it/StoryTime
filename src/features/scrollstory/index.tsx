@@ -20,7 +20,7 @@ export function ScrollStory() {
   const mounted = useRef(false)
 
   useEffect(() => {
-    if (reduced) exposeQA({ scrollstory: { mode: () => 'still', frame: () => 1, beat: () => 0, loaded: () => 1, total: () => 1, progress: () => 0, y: () => 0, goTo: () => {} } })
+    if (reduced) exposeQA({ scrollstory: { mode: () => 'still', frame: () => 1, beat: () => 0, loaded: () => 1, total: () => 1, sharp: () => 0, rest: (n: number) => n, progress: () => 0, y: () => 0, goTo: () => {} } })
     if (!mounted.current) {
       mounted.current = true
       return

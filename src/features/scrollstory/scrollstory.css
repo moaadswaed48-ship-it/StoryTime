@@ -140,7 +140,7 @@ html[dir='rtl'] .ss-scrim {
      larger than the line (Arabic marks, descenders, the soft shadow) and its top and bottom edges are soft. */
   --ss-win: 0.2em;
   margin: calc(var(--ss-win) * -1) -0.4em;
-  padding: var(--ss-win) 0.4em;
+  padding: 0 0.4em;
   color: #fff;
   /* Sized so the widest word still clears the children: the calm third of the frame is ~35vw wide. */
   font-size: clamp(4.25rem, min(12vw, 24svh), 13rem);
@@ -154,6 +154,8 @@ html[dir='rtl'] .ss-scrim {
 }
 .ss-word-in {
   display: block;
+  /* The rolling word is exactly as tall as its window: moving it by 100% hands over to the next word. */
+  padding-block: var(--ss-win);
   will-change: transform;
 }
 html[lang='en'] .ss-word {
@@ -166,6 +168,25 @@ html[lang='en'] .ss-word {
   }
   html[lang='en'] .ss-word {
     font-size: clamp(3.75rem, min(8.8vw, 19svh), 9rem);
+  }
+  /* No room for labels beside Sari's face here: the rail becomes a slim capsule of three dots. */
+  .ss-rail {
+    padding-inline: 0 10px;
+    padding-bottom: 10px;
+  }
+  .ss-tick {
+    padding-inline-start: 22px;
+  }
+  .ss-tick-label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+  .ss-count {
+    display: none;
   }
 }
 .ss-detail {

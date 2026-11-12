@@ -95,13 +95,15 @@ function Director({ rt, turntable }: { rt: Runtime; turntable: React.RefObject<T
       g.rotation.x = rt.run * 0.05
     }
 
-    // framing: fill the stage's height, but never crop his arms on a narrow stage
+    // framing. Wide layout: he stands between the nav (84px) and the dock that floats over the foot of the stage.
+    // Stacked layout: he fills the stage, but a narrow stage never crops his arms.
     const { camera, size } = state
     const aspect = size.width / Math.max(1, size.height)
-    const tall = aspect < 0.95
-    const dist = Math.max(TALL / (tall ? 0.8 : 0.7) / (2 * TAN), (tall ? 1.12 : 1.42) / (2 * TAN * aspect))
+    const fill = rt.docked ? THREE.MathUtils.clamp((size.height - 232) / size.height, 0.58, 0.79) / 0.973 : 0.8
+    const feet = rt.docked ? 152 / size.height : 0.15
+    const dist = Math.max(TALL / fill / (2 * TAN), (size.width < 560 ? 1.12 : 1.42) / (2 * TAN * aspect))
     const viewH = 2 * dist * TAN
-    const cy = viewH * (0.5 - (tall ? 0.15 : 0.195))
+    const cy = viewH * (0.5 - feet)
     camera.position.set(v.px * 0.16, cy + 0.42 - v.py * 0.06, dist)
     camera.lookAt(v.px * 0.02, cy, 0)
 
