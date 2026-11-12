@@ -489,6 +489,9 @@ export class CurlEngine {
       const dt = Math.max(0.016, (b.t - a.t) / 1000)
       vx = ((b.x - a.x) / dt / l.scale) * (t.mirror ? -1 : 1)
       pv = { x: (b.px - a.px) / dt, y: (b.py - a.py) / dt }
+    } else if (time - d.t < 240) {
+      // A flick so short it left hardly any samples: its speed is its whole length over its whole time.
+      vx = (this.fingerIn(t).x - t.gx) / l.scale / Math.max(0.016, (time - d.t) / 1000)
     }
     // "Past the middle" is where the reader sees the page: on one page the roll under the finger has crossed
     // the middle of the page; on a spread the leaf's edge has crossed the spine.

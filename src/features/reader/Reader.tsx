@@ -82,13 +82,15 @@ export function ReaderView({ startScene }: { startScene: number }) {
   // The canvas covers the book and a little air around it (a lifted corner pokes out); on a phone, the screen.
   const frame = useMemo(() => {
     const bookW = stage.spread ? stage.pageW * 2 : stage.pageW
+    // Sideways a little air is enough; above and below the canvas runs to the window's edge, so a sheet that
+    // rises out of the book is never cut by a line in mid-air.
     const m = stage.full ? 0 : 26
     const x = Math.max(0, stage.left - m)
-    const y = Math.max(0, stage.top - m)
+    const y = 0
     const w = Math.min(view.w, stage.left + bookW + m) - x
-    const h = Math.min(view.h, stage.top + stage.pageH + m) - y
+    const h = view.h
     // Sharp enough to read print at arm's length, never more pixels than the device can shade smoothly.
-    const budget = (coarse ? 3.9e6 : 6e6) * (low ? 0.55 : 1)
+    const budget = (coarse ? 3.9e6 : 7e6) * (low ? 0.55 : 1)
     const scale = Math.min(window.devicePixelRatio || 1, 3, Math.sqrt(budget / (w * h)))
     return { x, y, w, h, scale }
   }, [stage, view.w, view.h, low])
