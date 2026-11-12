@@ -7,7 +7,8 @@ export default defineConfig({
   plugins: [react(), tailwindcss()],
   base: process.env.VITE_BASE ?? '/',
   resolve: { alias: { '@': fileURLToPath(new URL('./src', import.meta.url)) } },
-  server: { host: true },
+  // Screenshots and test output must not trigger reloads on the shared dev server.
+  server: { host: true, watch: { ignored: ['**/qa/**', '**/test-results/**', '**/assets-src/**', '**/video/**'] } },
   // Pre-bundle everything a feature may import so the shared dev server never reloads mid-session.
   optimizeDeps: {
     include: [

@@ -35,11 +35,11 @@ export const CtaCard = forwardRef<QuietFilmHandle>(function CtaCard(_, ref) {
           ))}
         </h3>
         <div className="au-cta__pills">
-          <Pill variant="solid" size="lg" className="au-cta__pill" data-act="read" onClick={() => openBook(0)}>
+          <Pill variant="solid" size="md" className="au-cta__pill" data-act="read" onClick={() => openBook(0)}>
             <BookOpen size={18} strokeWidth={2.1} aria-hidden />
             {t.author.ctaRead}
           </Pill>
-          <Pill variant="glass" size="lg" className="au-cta__pill" data-act="watch" onClick={() => openFilm(0)}>
+          <Pill variant="glass" size="md" className="au-cta__pill" data-act="watch" onClick={() => openFilm(0)}>
             <Play size={14} fill="currentColor" strokeWidth={0} aria-hidden />
             {t.author.ctaWatch}
           </Pill>
