@@ -355,7 +355,7 @@ const PLANTERS: [number, number, number][] = [
   [-6.4, -5.45, 1.5],
   [-7.6, 2.4, 0.7],
 ]
-const FLOWERS = ['#f1b23a', '#e9792b', '#d9541e', '#f6d16a', '#e2603a']
+const FLOWERS = ['#f1b23a', '#e9792b', '#d9541e', '#f6d16a', '#e2603a', '#fbe7b0']
 const GREENS = ['#7c8a3c', '#93993f', '#6f7d38']
 
 /** Round things: flowers in the planters and the heap of leaves. */
@@ -370,18 +370,19 @@ export function Softwork() {
         const bx = x - w / 2 + ((i + 0.5) / bushes) * w
         const br = (w / bushes) * 0.66
         list.push({ p: [bx, 0.5, z], s: [br, 0.17 + rnd() * 0.05, 0.3], c: GREENS[i % GREENS.length] })
-        for (let k = 0; k < 14; k++) {
+        for (let k = 0; k < 18; k++) {
           const a = rnd() * Math.PI * 2
           const d = Math.sqrt(rnd()) * br * 0.92
-          const r = k % 3 === 0 ? 0.085 + rnd() * 0.03 : 0.045 + rnd() * 0.02
+          const r = k % 4 === 0 ? 0.062 + rnd() * 0.018 : 0.034 + rnd() * 0.016
           list.push({ p: [bx + Math.cos(a) * d, 0.64 + rnd() * 0.07 - d * 0.12, z + Math.sin(a) * d * 0.72], s: [r, r * 0.7, r], c: FLOWERS[Math.floor(rnd() * FLOWERS.length)] })
         }
       }
     }
     // the heap of leaves (its surface is covered by carpet leaves)
-    list.push({ p: [PILE.x, 0.0, PILE.z], s: [PILE.r * 0.95, 0.4, PILE.r * 0.85], c: '#cf6f22' })
-    list.push({ p: [PILE.x + 0.55, 0.0, PILE.z + 0.3], s: [0.6, 0.26, 0.58], c: '#c2621d' })
-    list.push({ p: [PILE.x - 0.6, 0.0, PILE.z - 0.15], s: [0.55, 0.23, 0.5], c: '#db7d26' })
+    // …so these mounds stay well under the leaves and are dark: seen between leaves, they read as the shade inside the heap
+    list.push({ p: [PILE.x, 0.0, PILE.z], s: [PILE.r * 0.8, 0.3, PILE.r * 0.72], c: '#9a4a18' })
+    list.push({ p: [PILE.x + 0.5, 0.0, PILE.z + 0.26], s: [0.5, 0.2, 0.48], c: '#8f4416' })
+    list.push({ p: [PILE.x - 0.52, 0.0, PILE.z - 0.14], s: [0.46, 0.18, 0.42], c: '#a3511b' })
     const mesh = new THREE.InstancedMesh(new THREE.IcosahedronGeometry(1, 2), new THREE.MeshLambertMaterial(), list.length)
     list.forEach((b, i) => {
       mesh.setMatrixAt(i, _m.compose(_p.set(...b.p), _q.identity(), _s.set(...b.s)))
@@ -424,7 +425,7 @@ export const shadowMaterial = (opacity: number) => new THREE.MeshBasicMaterial({
 export function LeafCarpet() {
   const mesh = useDisposable(() => {
     const rnd = mulberry32(44)
-    const max = 2200
+    const max = 2360
     const geo = new THREE.PlaneGeometry(1, 1)
     geo.rotateX(-Math.PI / 2)
     const m = new THREE.InstancedMesh(geo, new THREE.MeshBasicMaterial({ map: leafTexture(), alphaTest: 0.4, side: THREE.DoubleSide }), max)
@@ -436,11 +437,12 @@ export function LeafCarpet() {
       k++
     }
     // the heap first
-    for (let i = 0; i < 300; i++) {
+    for (let i = 0; i < 460; i++) {
       const a = rnd() * Math.PI * 2
-      const d = Math.sqrt(rnd()) * PILE.r * 1.2
-      const h = Math.max(0, 0.41 * (1 - (d / (PILE.r * 1.0)) ** 2))
-      put(PILE.x + Math.cos(a) * d, 0.05 + h, PILE.z + Math.sin(a) * d * 0.9, 0.3 + rnd() * 0.22, 1.3)
+      const d = Math.sqrt(rnd()) * PILE.r * 1.22
+      // a round dome that sits clear above the mounds underneath, with loose leaves spilling out around its foot
+      const h = 0.46 * Math.sqrt(Math.max(0, 1 - (d / (PILE.r * 1.06)) ** 2))
+      put(PILE.x + Math.cos(a) * d, 0.05 + h + rnd() * 0.05, PILE.z + Math.sin(a) * d * 0.9, 0.32 + rnd() * 0.24, 1.25)
     }
     // leaves drifted up against the foot of the tree: they bury the line where the trunk meets the ground
     for (let i = 0; i < 170; i++) {

@@ -81,7 +81,8 @@ function PaperItem({ index, name }: { index: number; name: string }) {
     m.scale.setScalar(big * (1 - k) + k * 2.3)
     // a paper right under the lens would fill the screen: it fades (with its ring and marker) as the camera passes over it
     const lens = Math.hypot(_v.x, _v.y - 1.1, _v.z)
-    const close = picked ? 1 : smooth(1.9, 3.4, lens)
+    // (a paper lying on the ground stays solid: half-clear, it would look like a fault)
+    const close = picked ? 1 : THREE.MathUtils.lerp(smooth(1.9, 3.4, lens), 1, lay)
     const high = picked ? 1 : smooth(2.6, 4.6, lens) // the marker floats at eye level: it leaves earlier
     root.current.visible = st.fly < 1 && close > 0.05
     mats.sheet.opacity = (1 - smooth(0.62, 1, st.fly)) * close
@@ -171,7 +172,9 @@ export function Papers() {
         py = height * 2
       }
       const cam = state.camera.position
-      const underLens = Math.hypot(p.x - cam.x, cam.y, p.z - cam.z) < 2.6 // faded out there, see PaperItem
+      // a standing paper fades out near the lens (see PaperItem); one lying in front of Sari stays in view
+      const laid = p.z > rt.sari.z + 0.45 && Math.abs(p.x - rt.sari.x) < 1.25
+      const underLens = !laid && Math.hypot(p.x - cam.x, cam.y, p.z - cam.z) < 2.6
       // a paper half inside the picture is seen well enough: no chip on top of it
       const seen = !behind && !underLens && px > -24 && px < width + 24 && py > 56 && py < height + 10
       if (underLens) py = height * 2
