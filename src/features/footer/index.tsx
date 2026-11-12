@@ -38,7 +38,7 @@ const UNDER = 14
  *  takes (up to RISE_MAX) for the point of the flock to fly clear above the line. Never faster than a share of the
  *  page's own travel, so on screens with little travel it does not rush. */
 const RISE_MIN = 6
-const RISE_MAX = 20
+const RISE_MAX = 26
 const RISE_PACE = 0.6
 /** Where the point of the flock's V is when the clip comes to rest, as a share of the frame's height. */
 const FLOCK_Y = 0.492
@@ -120,7 +120,7 @@ export function Footer() {
       const pic = Math.max(h, plate.offsetWidth / FRAME)
       const flock = (h - pic) / 2 + FLOCK_Y * pic
       const lineTop = quote.current ? vh - r.height + (quote.current.getBoundingClientRect().top - r.top) : vh
-      const need = ((flock - (lineTop - vh * 0.05)) / h) * 100
+      const need = ((flock - (lineTop - Math.max(48, vh * 0.06))) / h) * 100
       const top = Math.min(clamp(need, RISE_MIN, RISE_MAX), ((travel * RISE_PACE) / h) * 100)
       const base = Math.min(RISE_MIN, top)
       // follow the clip (and the dissolve back to its first frame) softly

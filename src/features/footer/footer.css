@@ -46,11 +46,11 @@
 }
 @media (max-aspect-ratio: 1/1) and (min-width: 600px) {
   .ft {
-    --ft-h: min(100vh, 118vw);
+    --ft-h: min(100vh, 104vw);
   }
   @supports (height: 100svh) {
     .ft {
-      --ft-h: min(100svh, 118vw);
+      --ft-h: min(100svh, 104vw);
     }
   }
 }

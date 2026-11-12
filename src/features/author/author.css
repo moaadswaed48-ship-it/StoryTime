@@ -599,7 +599,7 @@ html[lang='en'] .aut-lockup__b {
   --qf-focus: 50% 64%;
 }
 /* wide screens: the picture is set a touch larger from its left edge, so the boys stand clear of the glass */
-@media (min-width: 768px) {
+@media (min-width: 900px) {
   .aut-cta__zoom .qf {
     inset: 0 -5% 0 0;
   }
@@ -789,6 +789,11 @@ html[dir='rtl'] .aut-cta__studio span::after {
   .aut {
     padding-block: 84px 56px;
   }
+  .aut-cta {
+    margin-top: 64px;
+  }
+}
+@media (max-width: 899px) {
   /* The whole scene stands on top — the tree, the leaves, both boys down to their shoes — and a sheet of dark glass
      rises over its foot. Under the glass the picture carries on, turned over like a reflection and out of focus,
      so the glass has something real to be glass over. */
@@ -797,7 +802,6 @@ html[dir='rtl'] .aut-cta__studio span::after {
     display: flex;
     flex-direction: column;
     height: auto;
-    margin-top: 64px;
     border-radius: 28px;
   }
   .aut-cta__film {
@@ -822,7 +826,7 @@ html[dir='rtl'] .aut-cta__studio span::after {
     inset: calc(var(--film-h) - 36px) calc(-1 * var(--bleed)) 0 calc(-1 * var(--bleed));
     background-image: var(--amb);
     background-size: cover;
-    background-position: 88% 50%;
+    background-position: 88% 100%; /* the picture's foot meets the film's foot */
     transform: scaleY(-1);
     filter: blur(22px);
     /* cut back to the card's own outline after the blur (the box is upside down: its top is the card's foot) */
@@ -860,6 +864,9 @@ html[dir='rtl'] .aut-cta__studio span::after {
   html[lang='en'] .aut-cta__title {
     font-size: clamp(1.6rem, 7.3vw, 2.05rem);
   }
+}
+/* phones: one thumb, full-width targets */
+@media (max-width: 599px) {
   .aut-cta__pills {
     flex-direction: column;
   }
@@ -871,6 +878,27 @@ html[dir='rtl'] .aut-cta__studio span::after {
     justify-content: center;
     width: 100%;
     margin-top: 8px;
+  }
+}
+/* tablets: the sheet is wide, so the words and the ways in sit side by side */
+@media (min-width: 600px) and (max-width: 899px) {
+  .aut-cta__panel {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: end;
+    column-gap: 24px;
+    padding: 30px 30px 26px;
+  }
+  .aut-cta__title {
+    grid-row: 1 / span 2;
+    align-self: center;
+  }
+  .aut-cta__pills {
+    margin-top: 0;
+    flex-wrap: nowrap;
+  }
+  .aut-cta__studio {
+    justify-self: start;
   }
 }
 
