@@ -204,7 +204,7 @@ export function Hero() {
 
       <div ref={stack} className="hero-stack">
         <div ref={stackPar} className="flex w-full flex-col items-center">
-          <p className="hero-chip glass hero-rise" style={d(120, 16)} data-hero-ui="stack">
+          <p className="hero-chip glass hero-rise hero-rise--blur" style={d(120, 16)} data-hero-ui="stack">
             <span className="hero-chip__dot" aria-hidden />
             {t.hero.presents}
           </p>
@@ -220,11 +220,11 @@ export function Hero() {
             {t.hero.sub}
           </p>
           <div className="hero-actions">
-            <Pill variant="solid" size="lg" className="hero-pill hero-rise" style={d(700)} data-hero-ui="stack" onClick={() => openBook(0)}>
+            <Pill variant="solid" size="lg" className="hero-pill hero-pill--read hero-rise" style={d(700)} data-hero-ui="stack" onClick={() => openBook(0)}>
               <BookOpen size={18} strokeWidth={2.2} aria-hidden />
               {t.hero.read}
             </Pill>
-            <Pill variant="glass" size="lg" className="hero-pill hero-rise" style={d(780)} data-hero-ui="stack" onClick={() => openFilm(0)}>
+            <Pill variant="glass" size="lg" className="hero-pill hero-pill--watch hero-rise" style={d(780)} data-hero-ui="stack" onClick={() => openFilm(0)}>
               <span className="hero-pill__disc" aria-hidden>
                 <Play size={11} fill="currentColor" strokeWidth={0} />
               </span>

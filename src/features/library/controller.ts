@@ -396,11 +396,11 @@ export class Shelf {
       const l = this.live[i]
       const g = this.geoms[i]
       const at = 0.1 + k * 0.056
-      const fall = 0.34 + 0.2 * (g.dropFrom / (this.m.S * 0.72)) // higher drops take a little longer
+      const fall = 0.36 + 0.18 * (g.dropFrom / (this.m.S * 0.5)) // higher drops take a little longer
       const hit = at + fall
       const hop = 6 + (g.dropFrom / this.m.S) * 13
       this.hits[i] = hit
-      tl.fromTo(l, { alpha: 0 }, { alpha: 1, duration: 0.13, ease: 'none' }, at)
+      tl.fromTo(l, { alpha: 0 }, { alpha: 1, duration: 0.2, ease: 'none' }, at)
       tl.fromTo(l, { dropY: -g.dropFrom }, { dropY: 0, duration: fall, ease: 'power2.in' }, at) // gravity
       tl.fromTo(l, { tilt: g.dropTilt }, { tilt: -g.dropTilt * 0.3, duration: fall, ease: 'power1.in' }, at)
       tl.to(l, { dropY: -hop, duration: 0.1, ease: 'power2.out' }, hit) // one small bounce

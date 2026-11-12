@@ -196,9 +196,9 @@ export function ScrubStory() {
         const dw = iw * k
         const dh = ih * k
         const w = cw / dw // share of the frame's width that fits on the stage
-        // Wide stages show the calm (house) side in full; narrower ones keep Sari's hand in frame;
+        // Wide stages show the calm (house) side in full; narrower ones keep Sari's face in frame;
         // the portrait band follows both children with a slow pan.
-        const x0 = w >= 0.87 ? 1 - w : w >= 0.6 ? Math.min(1 - w, 0.13) : clamp(pan - w / 2, 0, 1 - w)
+        const x0 = w >= 0.6 ? Math.min(1 - w, 0.18) : clamp(pan - w / 2, 0, 1 - w)
         ctx.globalAlpha = alpha
         ctx.drawImage(img, -x0 * dw, (ch - dh) / 2, dw, dh)
       }
@@ -285,11 +285,12 @@ export function ScrubStory() {
             el.style.visibility = o < 0.004 ? 'hidden' : 'visible'
             el.style.opacity = o.toFixed(3)
             el.style.transform = `translate3d(0, ${(d * 0.9 + creep).toFixed(4)}em, 0) scale(${(1 - Math.min(far, 1) * 0.05).toFixed(4)})`
-            el.style.filter = far > 0.01 ? `blur(${(far * 16).toFixed(1)}px)` : 'none'
+            el.style.filter = far > 0.01 && useSiteStore.getState().tier !== 'low' ? `blur(${(far * 16).toFixed(1)}px)` : 'none'
           }
         }
 
         // The film.
+        const lowTier = useSiteStore.getState().tier === 'low'
         const src = store && store.loaded ? store : older && older.loaded ? older : store
         let moving = Math.abs(target - s.p) > 0.0002 || s.reel !== reelTo
         if (src) {
@@ -309,10 +310,11 @@ export function ScrubStory() {
           let mix = 0
           if (lo < 0) a = hi
           else if (hi >= 0 && hi !== lo) {
-            // Between two frames: dissolve from one into the next, so a slow drag is silk, not steps.
-            mix = (s.pos - lo) / (hi - lo)
+            // Between two frames each one is held crisp, with a short dissolve across the cut:
+            // a slow drag feels like film sliding through a gate, not like steps (and never like a ghost).
+            mix = smooth(0.3, 0.7, (s.pos - lo) / (hi - lo))
             if (mix > 0.98) a = hi
-            else if (mix >= 0.02 && useSiteStore.getState().tier !== 'low') bb = hi
+            else if (mix >= 0.02 && !lowTier) bb = hi
             else if (mix >= 0.5) a = hi
             mix = bb < 0 ? 0 : Math.round(mix * 64) / 64
           }

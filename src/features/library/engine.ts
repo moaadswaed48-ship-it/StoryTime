@@ -105,7 +105,7 @@ export function computeGeoms(books: ShelfBook[], m: Metrics): Geom[] {
       recess: b.ready ? 0 : Math.round(r4 * m.S * 0.02),
       jitter: (r5 - 0.5) * 13,
       air: 3 + r6 * 13,
-      dropFrom: m.S * (0.42 + 0.3 * r7),
+      dropFrom: m.S * (0.3 + 0.2 * r7),
       dropTilt: (r5 > 0.5 ? 1 : -1) * (4 + r6 * 6),
     }
   })

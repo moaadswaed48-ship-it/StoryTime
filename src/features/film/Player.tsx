@@ -41,6 +41,8 @@ exposeQA({
     duration: liveDuration,
     playing: () => !!live.video && !live.video.paused && !live.video.ended && live.video.readyState > 2,
     seek: (time: number) => live.seek(time),
+    play: () => void live.video?.play().catch(() => {}),
+    pause: () => live.video?.pause(),
     /** 0-based index into story.scenes of the scene on screen (the first scene during the cover opening). */
     scene: () => (live.tl && live.video ? live.tl.scenes[Math.max(0, sceneIndexAt(live.tl, live.video.currentTime))].scene : -1),
     scenes: () => live.tl?.scenes ?? [],

@@ -1,8 +1,8 @@
 import { forwardRef, useCallback, useEffect, useImperativeHandle, useRef, useState, type CSSProperties } from 'react'
-import { ArrowRight, Play } from 'lucide-react'
+import { ChevronRight, Play } from 'lucide-react'
 import { story } from '@/content/story'
 import { t } from '@/i18n/copy'
-import { locale, num } from '@/i18n/locale'
+import { locale } from '@/i18n/locale'
 import { asset } from '@/lib/asset'
 import { useSiteStore } from '@/store/useSiteStore'
 
@@ -93,11 +93,11 @@ function SceneCard({ index, order, live, clash, reduced, register }: { index: nu
         />
       )}
       <span className="hero-card__shade" />
-      <span className="hero-card__play">
-        <Play size={12} fill="currentColor" strokeWidth={0} aria-hidden />
-      </span>
       <span className="hero-card__meta">
-        <span className="hero-card__no">{num(index + 1)}</span> {scene.title[locale]}
+        <span className="hero-card__play">
+          <Play size={10} fill="currentColor" strokeWidth={0} aria-hidden />
+        </span>
+        {scene.title[locale]}
       </span>
     </button>
   )
@@ -130,7 +130,7 @@ export const SceneStrip = forwardRef<StripHandle, { reduced: boolean; clash: num
         <button type="button" className="hero-strip__all" onClick={() => openBook(0)}>
           {t.hero.all}
           <span className="hero-strip__arrow">
-            <ArrowRight size={15} className="flip-rtl" aria-hidden />
+            <ChevronRight size={16} strokeWidth={2.2} className="flip-rtl" aria-hidden />
           </span>
         </button>
       </div>
