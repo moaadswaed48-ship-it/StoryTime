@@ -201,7 +201,7 @@ export function blob(pts: number[]): Path2D {
 
 // ── the painter ───────────────────────────────────────────────────────────────
 /** How a thing is lit. `sil` is a flat one-colour silhouette (cast shadows). */
-export type Light = 'day' | 'night' | 'lamp' | 'sil'
+export type Light = 'day' | 'night' | 'lamp' | 'glow' | 'sil'
 export type Cam = { x: number; y: number; zoom: number }
 
 export class Painter {
@@ -242,13 +242,14 @@ export class Painter {
     const key = L + hex
     let c = this.cache.get(key)
     if (!c) {
-      c = L === 'night' ? mixHex(hex, '#222b58', 0.74) : mixHex(mixHex(hex, '#5a3f2e', 0.2), C.gold, 0.1)
+      const lamp = mixHex(mixHex(hex, '#5a3f2e', 0.2), C.gold, 0.1)
+      c = L === 'night' ? mixHex(hex, '#222b58', 0.74) : L === 'glow' ? mixHex(lamp, '#2a2f58', 0.2) : lamp
       this.cache.set(key, c)
     }
     return c
   }
   get rimColor(): string {
-    return this.light === 'night' ? '#b9a66a' : this.light === 'lamp' ? '#f6e3a0' : '#fff1bf'
+    return this.light === 'night' ? '#b9a66a' : this.light === 'day' ? '#fff1bf' : '#f6e3a0'
   }
   private rimWidth(rim: number | undefined): number {
     if (this.light === 'sil') return 0
@@ -322,13 +323,13 @@ export class Painter {
    * The long hard shadow the low Sun (screen right) throws to the left: `fn` is drawn as a flat silhouette laid down
    * on the ground at (gx, gy). `lift` is how far the thing is off the ground (the shadow slides away from it).
    */
-  shadow(gx: number, gy: number, fn: () => void, lift = 0, len = 4.2) {
+  shadow(gx: number, gy: number, fn: () => void, lift = 0, len = 4.2, depth = 0.24) {
     const c = this.ctx
     const old = this.light
     this.light = 'sil'
     c.save()
     // local x (figure width) → depth on the ground; local y (height, negative up) → distance to the left
-    c.transform(0.001, 0.2, len, 0.035, gx - lift * 0.9, gy)
+    c.transform(0.001, depth, len, 0.035, gx - lift * 0.9, gy)
     fn()
     c.restore()
     this.light = old
@@ -350,7 +351,7 @@ export function paperGrain(P: Painter) {
       const v = rnd()
       const light = v > 0.5
       img.data[i * 4] = img.data[i * 4 + 1] = img.data[i * 4 + 2] = light ? 255 : 0
-      img.data[i * 4 + 3] = Math.pow(Math.abs(v - 0.5) * 2, 3) * (light ? 34 : 46)
+      img.data[i * 4 + 3] = Math.pow(Math.abs(v - 0.5) * 2, 3) * (light ? 16 : 24)
     }
     g.putImageData(img, 0, 0)
   }

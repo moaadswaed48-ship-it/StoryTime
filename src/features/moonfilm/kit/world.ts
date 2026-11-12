@@ -102,6 +102,7 @@ const TONES: Record<Exclude<Light, 'sil'>, { near: string; mid: string; far: str
   day: { near: C.dustNear, mid: C.dustMid, far: C.dustFar, shade: C.navy, hi: C.cream, pit: '#c3beb2' },
   night: { near: C.navy, mid: C.nightMid, far: C.nightFar, shade: '#151b3b', hi: '#2c3668', pit: '#19203f' },
   lamp: { near: '#d9c98f', mid: '#bdac77', far: '#978a62', shade: '#3b3552', hi: '#f6e9b6', pit: '#bfae7a' },
+  glow: { near: '#8d8773', mid: '#7c7765', far: '#666354', shade: '#2b2c4c', hi: '#b3aa86', pit: '#7d7866' },
 }
 export const tones = (P: Painter) => TONES[P.light === 'sil' ? 'day' : P.light]
 
@@ -211,7 +212,7 @@ export function drawBursts(P: Painter, bursts: Burst[], t: number) {
       if (dy < 0) continue // landed: gone
       const x = b.x + Math.cos(a) * v * s
       const r = 2 + rnd[i * 4 + 2] * 3
-      c.fillStyle = P.light === 'night' ? '#3b4576' : P.light === 'lamp' ? '#efe0a8' : rnd[i * 4 + 3] > 0.5 ? C.cream : '#a39e93'
+      c.fillStyle = P.light === 'night' ? '#3b4576' : P.light === 'lamp' ? '#efe0a8' : P.light === 'glow' ? '#a9a184' : rnd[i * 4 + 3] > 0.5 ? C.cream : '#a39e93'
       c.fill(circle(x, b.y - dy, r))
     }
   }
@@ -225,83 +226,105 @@ export function drawPrints(P: Painter, prints: Print[], t: number) {
   for (const p of prints) {
     if (t < p.t) continue
     const w = p.who === 'layla' ? 11 : 15
-    c.fillStyle = '#aaa59a'
-    c.fill(ellipse(p.x, p.y, w, 4.6))
-    c.fillStyle = mixHex(C.navy, '#aaa59a', 0.35)
-    c.fill(ellipse(p.x + w * 0.42, p.y, w * 0.5, 3.6))
-    c.fillStyle = '#aaa59a'
-    c.fill(ellipse(p.x + w * 0.2, p.y + 0.6, w * 0.56, 3.4))
+    c.fillStyle = '#a19c91'
+    c.fill(ellipse(p.x, p.y, w, 5))
+    c.fillStyle = mixHex(C.navy, '#a19c91', 0.3)
+    c.fill(ellipse(p.x + w * 0.42, p.y, w * 0.52, 4))
+    c.fillStyle = '#a19c91'
+    c.fill(ellipse(p.x + w * 0.16, p.y + 0.7, w * 0.56, 3.6))
   }
 }
 
 // ── the paper rocket ──────────────────────────────────────────────────────────
 /**
  * The class's rocket, standing on (x, y): cardboard tube with tape strips, paper cone, three stubby fins, one round
- * porthole, a hatch with a short paper ladder; painted in stripes, dots and handprints (never writing).
- * `scale` 1 = about three children tall.
+ * porthole, an arched hatch with a short paper ladder; painted in stripes, dots and handprints (never writing).
+ * `scale` 1 = about three children tall. `inside` draws whoever stands in the open hatch (rocket-local units, the
+ * hatch sill at y = −120), clipped to the doorway.
  */
-export function drawRocket(P: Painter, x: number, y: number, scale = 1, hatchOpen = true) {
+export function drawRocket(P: Painter, x: number, y: number, scale = 1, inside?: () => void) {
   const c = P.ctx
   c.save()
   c.translate(x, y)
   c.scale(scale, scale)
   const sil = P.light === 'sil'
   // fins
-  P.fill(blob([-96, 0, -150, 6, -168, -70, -110, -190, -92, -150]), C.skirt, 4)
-  P.fill(blob([96, 0, 150, 6, 168, -70, 110, -190, 92, -150]), C.skirt, 4)
-  P.fill(blob([-22, 10, 22, 10, 16, -130, -16, -130]), '#333d73', 3)
-  // tube
-  const tube = blob([-104, -40, -112, -620, 0, -640, 112, -620, 104, -40, 0, -24])
+  P.fill(blob([-96, 0, -150, 6, -172, -70, -112, -196, -92, -150]), C.skirt, 4)
+  P.fill(blob([96, 0, 150, 6, 172, -70, 112, -196, 92, -150]), C.skirt, 4)
+  // tube and cone
+  const tube = blob([-106, -40, -114, -620, 0, -640, 114, -620, 106, -40, 0, -24])
   P.fill(tube, '#e8dfcd', 5)
-  // cone
-  P.fill(blob([-118, -604, -70, -760, 0, -900, 70, -760, 118, -604, 0, -588]), C.cream, 5)
+  const cone = blob([-120, -604, -70, -764, 0, -910, 70, -764, 120, -604, 0, -588])
+  P.fill(cone, C.cream, 5)
   if (!sil) {
     c.save()
     c.clip(tube)
-    // shade side, away from the Sun
-    c.fillStyle = 'rgba(29,36,71,0.16)'
-    c.fillRect(-130, -700, 78, 720)
-    // painted stripes and tape
-    P.flat(rrect(-130, -560, 260, 34, 0), C.jeans)
-    P.flat(rrect(-130, -512, 260, 14, 0), C.sea)
-    P.flat(rrect(-130, -120, 260, 30, 0), C.jeans)
-    for (const [tx, ty, a] of [[-70, -430, 0.2], [58, -250, -0.25], [-30, -180, 0.1]] as const) {
+    // painted stripes, tape, and the shade side away from the Sun
+    P.flat(rrect(-130, -596, 260, 30, 0), C.jeans)
+    P.flat(rrect(-130, -556, 260, 12, 0), C.sea)
+    P.flat(rrect(-130, -104, 260, 26, 0), C.jeans)
+    for (const [tx, ty, a] of [[-84, -470, 0.5], [86, -500, -0.4], [-74, -66, 0.1]] as const) {
       c.save()
       c.translate(tx, ty)
       c.rotate(a)
-      P.flat(rrect(-34, -8, 68, 16, 2), C.dustNear)
+      P.flat(rrect(-30, -8, 60, 16, 2), C.dustNear)
       c.restore()
     }
-    // dots and two little handprints
-    for (const [dx, dy, r, col] of [[-62, -330, 13, C.sea], [-20, -372, 9, C.land], [70, -470, 11, C.sea], [48, -150, 8, C.land], [-78, -230, 8, C.sea]] as const) P.flat(circle(dx, dy, r), col)
-    for (const [hx, hy, a] of [[62, -372, 0.3], [-58, -470, -0.4]] as const) {
+    c.fillStyle = 'rgba(29,36,71,0.16)'
+    c.fillRect(-130, -700, 66, 720)
+    c.restore()
+    c.save()
+    c.clip(cone)
+    for (const [dx, dy, r, col] of [[-44, -660, 14, C.sea], [16, -720, 11, C.land], [50, -640, 12, C.sea], [-6, -800, 9, C.land], [-70, -610, 8, C.land]] as const) P.flat(circle(dx, dy, r), col)
+    c.fillStyle = 'rgba(29,36,71,0.14)'
+    c.fillRect(-130, -920, 70, 340)
+    c.restore()
+    // porthole
+    P.fill(circle(0, -500, 40), C.dustMid, 3)
+    P.flat(circle(0, -500, 30), '#16204a')
+    P.flat(circle(-8, -508, 6.5), C.sea)
+  }
+  // the arched hatch, whoever is in it, its door swung open toward the Sun, and the ladder
+  const door = rrect(-90, -440, 180, 320, 88)
+  P.flat(door, sil ? P.silColor : '#2a2342')
+  if (inside && !sil) {
+    c.save()
+    c.clip(door)
+    inside()
+    c.restore()
+  }
+  const leaf = blob([92, -430, 168, -452, 178, -128, 92, -118])
+  P.fill(leaf, '#dcd2be', 4)
+  if (!sil) {
+    // two little handprints on the door
+    for (const [hx, hy, a, col] of [[132, -330, 0.25, C.skirt], [136, -230, -0.3, C.jeans]] as const) {
       c.save()
       c.translate(hx, hy)
       c.rotate(a)
-      P.flat(ellipse(0, 0, 12, 14), C.skirt)
-      for (let f = -2; f <= 2; f++) P.flat(rrect(f * 6 - 2.5, -30 + Math.abs(f) * 4, 5, 20, 2.5), C.skirt)
+      P.flat(ellipse(0, 0, 13, 15), col)
+      for (let f = -2; f <= 2; f++) P.flat(rrect(f * 6.4 - 2.6, -32 + Math.abs(f) * 4, 5.2, 21, 2.6), col)
       c.restore()
     }
-    c.restore()
-    // porthole
-    P.fill(circle(0, -500 + 60, 46), C.dustMid, 3)
-    P.flat(circle(0, -440, 35), '#16204a')
-    P.flat(circle(-10, -450, 8), '#3b78c2')
   }
-  // hatch and the short paper ladder
-  if (hatchOpen) {
-    P.flat(rrect(-52, -330, 104, 150, 44), sil ? P.silColor : '#2b2440')
-    P.fill(blob([52, -326, 118, -340, 124, -196, 52, -184]), '#d8cdb8', 3)
-    const lad = new Path2D()
-    lad.moveTo(-36, -184)
-    lad.lineTo(-44, 0)
-    lad.moveTo(36, -184)
-    lad.lineTo(44, 0)
-    for (let i = 0; i < 4; i++) {
-      lad.moveTo(-38 - i * 1.6, -150 + i * 42)
-      lad.lineTo(38 + i * 1.6, -150 + i * 42)
-    }
-    P.line(lad, C.cream, 9, 2)
+  const lad = new Path2D()
+  lad.moveTo(-40, -122)
+  lad.lineTo(-48, 2)
+  lad.moveTo(40, -122)
+  lad.lineTo(48, 2)
+  for (let i = 0; i < 3; i++) {
+    lad.moveTo(-42 - i * 2, -92 + i * 38)
+    lad.lineTo(42 + i * 2, -92 + i * 38)
   }
+  P.line(lad, C.cream, 10, 2)
   c.restore()
+}
+
+/** Two thin parallel wheel tracks round an ellipse on the ground (Wameed's happy circle). */
+export function drawTracks(P: Painter, x: number, y: number, rx: number, ry: number) {
+  if (P.light !== 'day') return
+  const c = P.ctx
+  c.lineWidth = 5
+  c.strokeStyle = '#aaa59a'
+  c.stroke(ellipse(x, y, rx, ry))
+  c.stroke(ellipse(x, y, rx - 34, ry - 9))
 }

@@ -1,0 +1,217 @@
+/* «نزهة على القمر» — the code-drawn film: a 16:9 stage, letterboxed on any screen, with quiet controls under it. */
+.mf-room {
+  position: relative;
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  padding: 0 0 max(10px, env(safe-area-inset-bottom));
+  background: #05070f;
+  color: #f3ecdf;
+}
+.mf-stage {
+  --bar: 74px;
+  position: relative;
+  flex: none;
+  width: min(100vw, (100vh - var(--bar)) * 16 / 9);
+  width: min(100vw, (100dvh - var(--bar)) * 16 / 9);
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background: #0b0f24;
+  container-type: inline-size;
+  isolation: isolate;
+}
+.mf-room[data-bare] .mf-stage {
+  --bar: 0px;
+}
+.mf-stage canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+/* the words: real right-to-left text, set bottom-centre over a soft shade that only appears with them */
+.mf-caption {
+  position: absolute;
+  inset-inline: 0;
+  bottom: 0;
+  padding: 6cqw 6cqw 3.6cqw;
+  text-align: center;
+  font-family: var(--font-story, 'Noto Naskh Arabic', serif);
+  font-weight: 700;
+  font-size: clamp(15px, 3.25cqw, 66px);
+  line-height: 1.7;
+  color: #fdf7ea;
+  text-shadow: 0 0.06em 0.12em rgba(5, 7, 15, 0.9), 0 0 0.5em rgba(5, 7, 15, 0.75);
+  background: linear-gradient(to top, rgba(8, 11, 28, 0.62), rgba(8, 11, 28, 0.3) 50%, rgba(8, 11, 28, 0));
+  opacity: 0;
+  transition: opacity 0.35s ease-out;
+  pointer-events: none;
+}
+.mf-caption[data-on] {
+  opacity: 1;
+}
+.mf-word {
+  opacity: 0;
+  transition: opacity 0.28s ease-out;
+}
+.mf-word[data-on] {
+  opacity: 1;
+}
+.mf-start {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: rgba(5, 7, 15, 0.28);
+  border: 0;
+  color: #0b0f24;
+  cursor: pointer;
+}
+.mf-start span {
+  display: grid;
+  place-items: center;
+  width: clamp(64px, 9cqw, 120px);
+  aspect-ratio: 1;
+  border-radius: 999px;
+  background: #f3ecdf;
+  box-shadow: 0 0 0 0.9cqw rgba(243, 236, 223, 0.18);
+  transition: transform 0.18s ease-out;
+}
+.mf-start:active span {
+  transform: scale(0.94);
+}
+.mf-start svg {
+  width: 42%;
+  height: 42%;
+  margin-inline-start: 6%;
+}
+.mf-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: min(100vw - 24px, 980px);
+  height: 50px;
+}
+.mf-btn {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  border: 0;
+  border-radius: 999px;
+  background: rgba(243, 236, 223, 0.1);
+  color: #f3ecdf;
+  cursor: pointer;
+  transition: background 0.15s ease-out, transform 0.15s ease-out;
+}
+.mf-btn:active {
+  transform: scale(0.94);
+}
+@media (hover: hover) {
+  .mf-btn:hover {
+    background: rgba(243, 236, 223, 0.2);
+  }
+}
+.mf-btn:focus-visible,
+.mf-scrub:focus-visible {
+  outline: 2px solid #e9d58a;
+  outline-offset: 3px;
+}
+.mf-scrub {
+  --p: 0;
+  position: relative;
+  flex: 1;
+  height: 46px;
+  cursor: pointer;
+  touch-action: none;
+}
+.mf-scrub::before,
+.mf-scrub::after {
+  content: '';
+  position: absolute;
+  inset-inline-start: 0;
+  top: 50%;
+  height: 6px;
+  margin-top: -3px;
+  border-radius: 3px;
+}
+.mf-scrub::before {
+  width: 100%;
+  background: rgba(243, 236, 223, 0.18);
+}
+.mf-scrub::after {
+  width: calc(var(--p) * 100%);
+  background: #e9d58a;
+}
+.mf-scrub i {
+  position: absolute;
+  top: 50%;
+  width: 2px;
+  height: 12px;
+  margin-top: -6px;
+  background: rgba(5, 7, 15, 0.85);
+  z-index: 1;
+}
+.mf-scrub b {
+  position: absolute;
+  top: 50%;
+  inset-inline-start: calc(var(--p) * 100%);
+  width: 18px;
+  height: 18px;
+  margin: -9px;
+  border-radius: 999px;
+  background: #fdf7ea;
+  z-index: 2;
+}
+.mf-time {
+  flex: none;
+  min-width: 5.2em;
+  font: 500 13px/1 var(--font-sans, system-ui);
+  font-variant-numeric: tabular-nums;
+  text-align: center;
+  opacity: 0.75;
+}
+/* the three book pictures */
+.mf-gallery {
+  min-height: 100vh;
+  padding: clamp(14px, 3vw, 40px);
+  display: grid;
+  gap: clamp(18px, 3vw, 40px);
+  justify-items: center;
+  background: #05070f;
+  color: #f3ecdf;
+}
+.mf-plate {
+  width: min(100%, 1344px);
+  margin: 0;
+}
+.mf-plate canvas {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: 10px;
+}
+.mf-plate figcaption {
+  padding-top: 10px;
+  font: 600 clamp(15px, 1.6vw, 20px) / 1.7 var(--font-story, serif);
+  text-align: center;
+  opacity: 0.86;
+}
+.mf-solo {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: #05070f;
+}
+.mf-solo canvas {
+  width: min(100vw, 100vh * 16 / 9);
+  aspect-ratio: 16 / 9;
+  display: block;
+}

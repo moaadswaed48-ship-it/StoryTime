@@ -57,6 +57,15 @@ function save(s: Saved) {
   }
 }
 
+/** "Clear all progress" also forgets the Friends Island game (it keeps its own saves in this browser, see `features/island`). */
+function clearGameSaves() {
+  try {
+    for (const key of Object.keys(localStorage)) if (key.startsWith('friends-island:save:')) localStorage.removeItem(key)
+  } catch {
+    /* ignore */
+  }
+}
+
 export const useProfileStore = create<ProfileState>()((set, get) => {
   const patch = (next: Partial<Saved>) => {
     set(next)
@@ -71,7 +80,10 @@ export const useProfileStore = create<ProfileState>()((set, get) => {
     setScene: (storyId, scene) => edit(storyId, (p) => ({ ...p, scene })),
     addLetter: (storyId, letter) => edit(storyId, (p) => (p.letters.includes(letter) ? p : { ...p, letters: [...p.letters, letter] })),
     setClassroom: (classroom) => patch({ classroom }),
-    reset: () => patch({ profile: null, progress: {}, classroom: false }),
+    reset: () => {
+      clearGameSaves()
+      patch({ profile: null, progress: {}, classroom: false })
+    },
   }
 })
 

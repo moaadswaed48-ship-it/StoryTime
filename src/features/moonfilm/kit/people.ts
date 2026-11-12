@@ -230,8 +230,11 @@ export type PersonOpts = {
   /** 'body' leaves the front arms out, 'arms' draws only them (so hands can close over something). */
   pass?: 'all' | 'body' | 'arms'
   basket?: boolean
-  /** Layla's hand lamp: 0 = none, otherwise drawn in hand b. */
+  /** Which arm the basket hangs on (default 'a'). */
+  basketOn?: 'a' | 'b'
+  /** Layla's hand lamp, drawn in hand b, aimed at this point in the world (or along her forearm). */
   lamp?: boolean
+  lampAim?: { x: number; y: number }
   /** Extra warm light on the face from below (0…1) — Wameed's eye. */
   glow?: number
 }
@@ -462,7 +465,10 @@ export function drawPerson(P: Painter, who: Who, p: Pose, o: PersonOpts = {}) {
   // 5 ─ arms in front
   if (pass !== 'body') {
     if (o.basket) {
-      const h = p.aBack >= 0.5 ? s.haA : { x: (s.elA.x + s.haA.x * 2) / 3, y: (s.elA.y + s.haA.y * 2) / 3 }
+      const onB = o.basketOn === 'b'
+      const el = onB ? s.elB : s.elA
+      const ha = onB ? s.haB : s.haA
+      const h = { x: (el.x + ha.x * 2) / 3, y: (el.y + ha.y * 2) / 3 }
       c.save()
       c.translate(h.x, h.y)
       c.rotate(p.swing)
@@ -471,9 +477,11 @@ export function drawPerson(P: Painter, who: Who, p: Pose, o: PersonOpts = {}) {
     }
     if (p.aBack < 0.5) drawArm(s.shA, s.elA, s.haA, p.aPoint, -1)
     if (o.lamp) {
-      const a = Math.atan2(s.haB.y - s.elB.y, s.haB.x - s.elB.x)
+      const f = Math.atan2(s.haB.y - s.elB.y, s.haB.x - s.elB.x)
+      const hw = s.world(s.haB)
+      const a = o.lampAim ? Math.atan2(o.lampAim.y - hw.y, o.lampAim.x - hw.x) - p.rot : f
       c.save()
-      c.translate(s.haB.x + Math.cos(a) * 10, s.haB.y + Math.sin(a) * 10)
+      c.translate(s.haB.x + Math.cos(f) * 10, s.haB.y + Math.sin(f) * 10)
       c.rotate(a)
       drawLamp(P)
       c.restore()
@@ -535,7 +543,7 @@ function drawHead(P: Painter, who: Who, p: Pose, R: number, back: boolean, glow:
     for (let i = 0; i < 13; i++) {
       const a = (150 + i * 20) * (Math.PI / 180)
       const r = [22, 26, 20, 25, 23, 27, 22, 26, 21, 25, 23, 26, 21][i]
-      P.fill(circle(Math.cos(a) * (R + 2) - t * 5, Math.sin(a) * (R + 2) - 2, r), k.hair, 2)
+      P.fill(circle(Math.cos(a) * (R + 2) - t * 5, Math.sin(a) * (R + 2) - 2, r), k.hair, 0)
     }
   } else if (who === 'amir') {
     P.fill(blob([-R - 5, 12, -R - 6, -R * 0.7, -R * 0.55, -R - 7, R * 0.55, -R - 7, R + 6, -R * 0.7, R + 5, 12, R - 6, 20, -R + 6, 20].map((v, i) => (i % 2 ? v : v - t * 5))), k.hair, 2)
@@ -595,7 +603,7 @@ function drawHead(P: Painter, who: Who, p: Pose, R: number, back: boolean, glow:
       c.fill(ellipse(R * 0.1, R * 1.05, R * 1.2, R * 0.8))
       c.restore()
     }
-    drawFace(P, who, p, R, fx)
+    drawFace(P, who, p, fx)
   }
 
   // hair in front
@@ -647,13 +655,16 @@ function drawHead(P: Painter, who: Who, p: Pose, R: number, back: boolean, glow:
   }
 }
 
-function drawFace(P: Painter, who: Who, p: Pose, R: number, fx: number) {
+function drawFace(P: Painter, who: Who, p: Pose, fx: number) {
   const c = P.ctx
   const k = COSTUME[who]
   const sc = who === 'layla' ? 0.86 : 1
   const gap = (who === 'layla' ? 19 : 23) * (1 - 0.1 * Math.abs(p.turn))
-  const ey = (who === 'layla' ? 4 : 5) + p.lookY * 2.4
-  const lx = p.lookX * 4
+  // looking up or down slides the whole face a little (the head pitches), and the eyes a little more
+  const pitch = p.lookY * 5
+  const ey = (who === 'layla' ? 4 : 5) + pitch
+  const lx = p.lookX * 5
+  const ly = p.lookY * 2.6
   const wide = 1 + 0.3 * p.wide
 
   // cheeks
@@ -667,12 +678,12 @@ function drawFace(P: Painter, who: Who, p: Pose, R: number, fx: number) {
     const x = fx + side * gap + lx
     if (p.happy > 0.5) {
       const q = new Path2D()
-      q.arc(x, ey + 4, 8.5 * sc, Math.PI * 1.12, Math.PI * 1.88)
+      q.arc(x - lx * 0.5, ey + 4, 8.5 * sc, Math.PI * 1.12, Math.PI * 1.88)
       P.line(q, C.ink, 4 * sc)
     } else {
       const open = Math.max(0.08, 1 - p.blink)
-      P.flat(ellipse(x, ey, 6.4 * sc * wide, 8.6 * sc * wide * open), C.ink)
-      if (open > 0.5 && P.light !== 'night') P.flat(circle(x + 2.2, ey - 3.2, 2.1 * sc), '#fff8ec')
+      P.flat(ellipse(x, ey + ly, 6.4 * sc * wide, 8.6 * sc * wide * open), C.ink)
+      if (open > 0.5 && P.light !== 'night') P.flat(circle(x + 2.2, ey + ly - 3.2, 2.1 * sc), '#fff8ec')
     }
     // brow
     const by = ey - 17 * sc - p.brow * 7 - (wide - 1) * 8
@@ -744,5 +755,15 @@ export function drawLamp(P: Painter) {
   if (P.light !== 'sil') {
     P.ctx.fillStyle = C.goldHot
     P.ctx.fill(ellipse(27, 0, 4.5, 13))
+    // three short rays: it is on
+    const r = new Path2D()
+    for (const a of [-0.5, 0, 0.5]) {
+      r.moveTo(36 + Math.cos(a) * 2, Math.sin(a) * 18)
+      r.lineTo(36 + Math.cos(a) * 15, Math.sin(a) * 30)
+    }
+    P.ctx.strokeStyle = C.gold
+    P.ctx.lineWidth = 3
+    P.ctx.lineCap = 'round'
+    P.ctx.stroke(r)
   }
 }
