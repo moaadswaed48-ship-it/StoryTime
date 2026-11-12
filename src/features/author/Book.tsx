@@ -12,7 +12,7 @@ import { useSiteStore } from '@/store/useSiteStore'
 /** +1 for an Arabic book (spine on the right, pages on the left), −1 for a left-bound one. Mirrors every turn. */
 const D = rtl ? 1 : -1
 /** How the book lies when nothing moves it (degrees). Keep in step with `.au-book` in author.css. */
-const REST = { rx: 17, ry: 15, rz: 5 }
+const REST = { rx: 24, ry: 19, rz: 5 }
 
 /** The story's title, broken the way the copy already breaks it; any other title falls back to one line. */
 const TITLE = story.title[locale]

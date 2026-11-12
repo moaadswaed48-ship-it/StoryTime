@@ -169,27 +169,30 @@ html[lang='en'] .au-ghost {
   top: clamp(6px, 2.2vw, 40px);
 }
 .au-scene {
-  --w: clamp(280px, 27vw, 392px);
+  --w: clamp(290px, 29.5vw, 430px);
   --h: calc(var(--w) * 4 / 3);
-  --t: calc(var(--w) * 0.082); /* thickness of the whole book */
+  --t: calc(var(--w) * 0.104); /* thickness of the whole book */
   --b: max(2.5px, calc(var(--w) * 0.011)); /* one cover board */
   --o: calc(var(--w) * 0.014); /* how far the boards stand out from the pages */
   --p: calc(var(--t) - 2 * var(--b)); /* the page block */
   position: relative;
   width: var(--w);
   height: var(--h);
-  perspective: 1500px;
+  perspective: 1400px;
   perspective-origin: 50% 42%;
 }
 .au-book,
 .au-ground {
   position: absolute;
   inset: 0;
-  transform-style: preserve-3d;
   /* rest pose — the script writes the same numbers plus pointer and scroll */
-  transform: rotateX(17deg) rotateY(calc(var(--d) * 15deg)) rotateZ(calc(var(--d) * 5deg));
+  transform: rotateX(24deg) rotateY(calc(var(--d) * 19deg)) rotateZ(calc(var(--d) * 5deg));
   will-change: transform;
 }
+.au-book {
+  transform-style: preserve-3d;
+}
+/* the paper's plane is flat: its shadows are painted as ordinary soft shadows, then the plane is turned */
 .au-ground {
   pointer-events: none;
 }
@@ -227,7 +230,7 @@ html[lang='en'] .au-ghost {
   width: 3.5%;
   height: 15.5%;
   transform-origin: 50% 0;
-  transform: translateZ(1px) rotate(calc(var(--d) * -7deg));
+  transform: rotate(calc(var(--d) * -7deg));
   filter: drop-shadow(calc(var(--d) * -1px) 2px 2px rgba(36, 20, 8, 0.36));
 }
 .au-scene[data-fore='left'] .au-ribbon {
