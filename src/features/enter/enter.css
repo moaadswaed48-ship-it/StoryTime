@@ -1,0 +1,508 @@
+/* ─────────────────────────────────────────────────────────────────────────────
+   Enter — "Who is reading today?" and the crossing into the library.
+   The page behind is seen through warm dark glass; the content floats on it.
+   ───────────────────────────────────────────────────────────────────────────── */
+.enter {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  color: #fff;
+}
+.enter[data-phase='parting'] {
+  cursor: pointer;
+}
+.enter__sheet {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: max(72px, calc(env(safe-area-inset-top) + 64px)) 20px max(24px, env(safe-area-inset-bottom));
+}
+.enter__backdrop {
+  position: fixed;
+  inset: 0;
+  border: 0;
+  cursor: default;
+  background:
+    radial-gradient(120% 70% at 50% 0%, rgb(244 163 94 / 0.2), transparent 62%),
+    linear-gradient(180deg, rgb(18 12 8 / 0.66), rgb(18 12 8 / 0.86));
+  -webkit-backdrop-filter: blur(28px) saturate(150%);
+  backdrop-filter: blur(28px) saturate(150%);
+  animation: enter-fade 0.4s ease both;
+}
+/* inside the app there is only paper behind: the ground is then its own warm night, not a grey wash */
+.enter[data-over='app'] .enter__backdrop {
+  background:
+    radial-gradient(120% 70% at 50% 0%, rgb(244 163 94 / 0.22), transparent 62%),
+    linear-gradient(180deg, rgb(52 28 12 / 0.95), rgb(18 12 8 / 0.98));
+}
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .enter__backdrop {
+    background: linear-gradient(180deg, #2b1f15, #120c08);
+  }
+}
+.enter__leaves {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  opacity: 0.32;
+}
+.enter__close {
+  position: fixed;
+  top: max(14px, env(safe-area-inset-top));
+  inset-inline-end: 16px;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 999px;
+  color: #fff;
+  transition: transform 0.2s ease;
+  animation: enter-fade 0.5s 0.2s ease both;
+}
+.enter__close:active {
+  transform: scale(0.94);
+}
+
+.enter__panel {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(18px, 3svh, 34px);
+  width: min(100%, 680px);
+  text-align: center;
+  transition:
+    opacity 0.3s ease,
+    transform 0.45s var(--ease-state);
+}
+.enter[data-phase='covering'] .enter__panel {
+  opacity: 0;
+  transform: scale(0.96);
+}
+.enter__title {
+  display: block;
+  font-weight: 900;
+  font-size: clamp(2.15rem, 5.2vw + 0.9rem, 4.25rem);
+  line-height: 1.02;
+  letter-spacing: -0.035em;
+  text-wrap: balance;
+}
+html[lang='ar'] .enter__title {
+  line-height: 1.22;
+}
+html[lang='en'] .enter__title {
+  letter-spacing: -0.015em;
+}
+.enter__sub {
+  margin-top: 10px;
+  font-size: clamp(1rem, 0.6vw + 0.9rem, 1.2rem);
+  line-height: 1.6;
+  color: rgb(255 255 255 / 0.8);
+  animation: enter-rise 0.8s 0.25s var(--ease-out) both;
+}
+
+/* Four round pictures: 2 × 2 on a phone, one row from 640px. */
+.enter__avatars {
+  --av: clamp(80px, 12.6svh, 116px);
+  display: grid;
+  grid-template-columns: repeat(2, auto);
+  justify-content: center;
+  gap: clamp(10px, 1.6svh, 18px) clamp(26px, 9vw, 44px);
+}
+@media (min-width: 640px) {
+  .enter__avatars {
+    --av: clamp(96px, 15svh, 136px);
+    grid-template-columns: repeat(4, auto);
+    gap: 30px;
+  }
+}
+.enter__pick {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  padding: 4px 6px;
+  border-radius: 28px;
+  color: rgb(255 255 255 / 0.78);
+  -webkit-tap-highlight-color: transparent;
+  outline: none; /* selection follows focus in this radio group: the ring around the picture is the focus mark */
+  animation: enter-pop 0.7s calc(0.28s + var(--i) * 70ms) var(--ease-spring) both;
+}
+.enter__face {
+  position: relative;
+  width: var(--av);
+  height: var(--av);
+  border-radius: 999px;
+  box-shadow:
+    0 0 0 3px rgb(255 255 255 / 0.22),
+    0 14px 30px rgb(0 0 0 / 0.32);
+  transition:
+    transform 0.45s var(--ease-spring),
+    box-shadow 0.3s ease;
+}
+/* the ring of the chosen one grows out from the picture */
+.enter__face::after {
+  content: '';
+  position: absolute;
+  inset: -8px;
+  z-index: 0;
+  border-radius: inherit;
+  border: 4px solid var(--color-maple-soft);
+  opacity: 0;
+  transform: scale(0.86);
+  transition:
+    opacity 0.25s ease,
+    transform 0.45s var(--ease-spring);
+}
+.enter__pick.is-on .enter__face {
+  transform: scale(1.06);
+  box-shadow:
+    0 0 0 3px rgb(255 255 255 / 0.9),
+    0 18px 36px rgb(0 0 0 / 0.4);
+}
+.enter__pick.is-on .enter__face::after {
+  opacity: 1;
+  transform: none;
+}
+.enter__pick:focus-visible .enter__face {
+  outline: 3px dashed var(--color-maple-soft);
+  outline-offset: 13px;
+}
+.enter__pick:active .enter__face {
+  transform: scale(0.96);
+}
+@media (hover: hover) {
+  .enter__pick:not(.is-on):hover .enter__face {
+    transform: scale(1.04);
+  }
+}
+.enter__tick {
+  position: absolute;
+  z-index: 2;
+  inset-block-end: -6px;
+  inset-inline-end: -6px;
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 999px;
+  background: var(--color-maple);
+  color: #fff;
+  box-shadow: 0 0 0 3px rgb(255 255 255 / 0.95);
+  transform: scale(0);
+  transition: transform 0.4s var(--ease-spring);
+}
+.enter__pick.is-on .enter__tick {
+  transform: none;
+}
+.enter__who {
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.3;
+  transition: color 0.2s ease;
+}
+.enter__pick.is-on .enter__who {
+  color: #fff;
+  font-weight: 800;
+}
+
+/* The name paper — one of the white name papers of the story. */
+.enter__form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  width: min(100%, 360px);
+}
+.enter__paper {
+  position: relative;
+  display: block;
+  width: 100%;
+  padding: 9px 18px 13px;
+  border-radius: 8px;
+  background: linear-gradient(180deg, #fffefa, #f9f3e6);
+  color: var(--color-ink);
+  text-align: start;
+  transform: rotate(-1.4deg);
+  box-shadow:
+    inset 0 1px 0 #fff,
+    0 2px 5px rgb(0 0 0 / 0.22),
+    0 18px 38px rgb(0 0 0 / 0.34);
+  cursor: text;
+  transition: transform 0.35s var(--ease-out);
+  animation: enter-paper 0.8s 0.55s var(--ease-out) both;
+}
+html[dir='rtl'] .enter__paper {
+  transform: rotate(1.4deg);
+}
+.enter__paper:focus-within {
+  transform: none;
+  outline: 3px solid var(--color-maple-soft);
+  outline-offset: 4px;
+}
+.enter__paper-label {
+  display: block;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--color-muted);
+}
+.enter__input {
+  display: block;
+  width: 100%;
+  height: 44px;
+  margin-top: 1px;
+  border: 0;
+  border-bottom: 2px dashed rgb(26 18 11 / 0.2);
+  border-radius: 0;
+  background: transparent;
+  outline: none;
+  text-align: center;
+  font-size: 25px;
+  font-weight: 800;
+  line-height: 1.4;
+  color: var(--color-ink);
+  caret-color: var(--color-maple);
+}
+.enter__input::placeholder {
+  font-size: 17px;
+  font-weight: 500;
+  color: rgb(125 110 94 / 0.85);
+}
+
+.enter__go {
+  width: 100%;
+  height: 64px;
+  margin-top: 4px;
+  justify-content: space-between;
+  padding-inline: 30px 14px;
+  font-size: 19px;
+  font-weight: 800;
+  box-shadow: 0 14px 34px rgb(0 0 0 / 0.3);
+  animation: enter-rise 0.8s 0.66s var(--ease-out) both;
+}
+.enter__go-arrow {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 999px;
+  background: var(--color-maple);
+  color: #fff;
+  transition: transform 0.25s var(--ease-out);
+}
+@media (hover: hover) {
+  .enter__go:hover .enter__go-arrow {
+    transform: translateX(3px);
+  }
+  html[dir='rtl'] .enter__go:hover .enter__go-arrow {
+    transform: translateX(-3px);
+  }
+}
+.enter__guest {
+  min-height: 48px;
+  padding-inline: 22px;
+  border-radius: 999px;
+  font-size: 16px;
+  font-weight: 600;
+  color: rgb(255 255 255 / 0.82);
+  text-decoration: underline;
+  text-decoration-color: rgb(255 255 255 / 0.3);
+  text-underline-offset: 6px;
+  transition:
+    color 0.2s ease,
+    text-decoration-color 0.2s ease;
+  animation: enter-rise 0.8s 0.74s var(--ease-out) both;
+}
+.enter__guest:hover {
+  color: #fff;
+  text-decoration-color: #fff;
+}
+.enter__note {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  margin-top: -2px;
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: rgb(255 255 255 / 0.62);
+  animation: enter-fade 0.8s 0.62s ease both;
+}
+
+/* Short screens (a phone with the keyboard closed but little height): tighten instead of scrolling. */
+@media (max-height: 700px) {
+  .enter__sheet {
+    padding-top: max(60px, calc(env(safe-area-inset-top) + 56px));
+  }
+  .enter__sub {
+    display: none;
+  }
+  .enter__panel {
+    gap: 12px;
+  }
+  .enter__avatars {
+    --av: 76px;
+  }
+  .enter__pick {
+    gap: 12px;
+  }
+  .enter__form {
+    gap: 9px;
+  }
+  .enter__go {
+    height: 58px;
+  }
+  .enter__guest {
+    min-height: 44px;
+  }
+}
+
+/* The crossing */
+.enter__curtain {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+.enter__medal {
+  position: absolute;
+  inset-block-start: 50%;
+  inset-inline-start: 50%;
+  z-index: 4;
+  width: clamp(120px, 20svh, 168px);
+  height: clamp(120px, 20svh, 168px);
+  margin: calc(clamp(120px, 20svh, 168px) / -2);
+  border-radius: 999px;
+  box-shadow:
+    0 0 0 5px #fff,
+    0 0 0 11px var(--color-maple-soft),
+    0 24px 60px rgb(0 0 0 / 0.5);
+  opacity: 0;
+  transform: scale(0.4);
+  pointer-events: none;
+}
+.enter__hello {
+  position: absolute;
+  inset-inline: 0;
+  top: calc(50% + clamp(120px, 20svh, 168px) / 2 + 24px);
+  z-index: 4;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 4px 12px;
+  width: fit-content;
+  max-width: calc(100% - 32px);
+  margin-inline: auto;
+  padding: 8px 20px 10px;
+  border-radius: 999px;
+  background: rgb(24 13 6 / 0.6);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  font-weight: 900;
+  font-size: clamp(1.7rem, 4.6vw + 0.7rem, 2.75rem);
+  line-height: 1.3;
+  color: #fff;
+  opacity: 0;
+  pointer-events: none;
+}
+.enter__hello-name {
+  display: inline-block;
+  padding: 0.02em 0.45em 0.06em;
+  border-radius: 7px;
+  background: linear-gradient(180deg, #fffefa, #fbf6ea);
+  color: var(--color-ink);
+  letter-spacing: 0;
+  box-shadow:
+    0 2px 5px rgb(0 0 0 / 0.2),
+    0 14px 30px rgb(0 0 0 / 0.3);
+  transform: rotate(-2deg);
+}
+html[dir='rtl'] .enter__hello-name {
+  transform: rotate(2deg);
+}
+.enter[data-phase='covering'] .enter__hello {
+  animation: enter-hello-in 0.28s 0.1s var(--ease-out) both;
+}
+.enter[data-phase='parting'] .enter__hello {
+  animation: enter-medal-out 0.34s 0.22s var(--ease-state) both;
+}
+.enter[data-phase='covering'] .enter__medal {
+  animation: enter-medal-in 0.42s 0.16s var(--ease-spring) both;
+}
+.enter[data-phase='parting'] .enter__medal {
+  animation: enter-medal-out 0.36s 0.2s var(--ease-state) both;
+}
+
+@keyframes enter-fade {
+  from {
+    opacity: 0;
+  }
+}
+@keyframes enter-rise {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 22px, 0);
+  }
+}
+@keyframes enter-pop {
+  from {
+    opacity: 0;
+    transform: scale(0.72);
+  }
+}
+@keyframes enter-paper {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 26px, 0) rotate(-6deg);
+  }
+}
+@keyframes enter-medal-in {
+  from {
+    opacity: 0;
+    transform: scale(0.4);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes enter-hello-in {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 16px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes enter-medal-out {
+  from {
+    opacity: 1;
+    transform: none;
+  }
+  to {
+    opacity: 0;
+    transform: scale(1.35);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .enter__backdrop,
+  .enter__close,
+  .enter__sub,
+  .enter__pick,
+  .enter__paper,
+  .enter__go,
+  .enter__guest,
+  .enter__note {
+    animation: none;
+  }
+}

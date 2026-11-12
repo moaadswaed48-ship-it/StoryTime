@@ -1,0 +1,611 @@
+/* ─────────────────────────────────────────────────────────────────────────────
+   Home — the child's library. Paper ground; the film carries the colour.
+   Shared bits at the top (living picture, leaves) are also used by the story page.
+   ───────────────────────────────────────────────────────────────────────────── */
+
+/* A scene picture that comes alive: the clip fades in over the still once it is playing. */
+.living__film {
+  opacity: 0;
+  transition: opacity 0.7s ease;
+}
+.living[data-live] .living__film {
+  opacity: 1;
+}
+.living__still {
+  animation: living-settle 1.8s var(--ease-out) both;
+}
+@keyframes living-settle {
+  from {
+    transform: scale(1.06);
+  }
+}
+
+/* Leaves: an outline until earned, autumn once earned. */
+.leaf {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+.leaf__blade {
+  fill: rgb(26 18 11 / 0.07);
+  stroke: rgb(26 18 11 / 0.32);
+  stroke-width: 0.6;
+  stroke-linejoin: round;
+}
+.leaf__stem {
+  fill: rgb(26 18 11 / 0.38);
+}
+.leaf.is-on .leaf__blade {
+  fill: var(--color-maple);
+  stroke: none;
+}
+.leaf.is-on .leaf__stem {
+  fill: #8a3a12;
+}
+/* three small leaves on dark glass (over a picture) */
+.leaf-marks {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  height: 40px;
+  padding-inline: 12px;
+  border-radius: 999px;
+  background: rgb(24 13 6 / 0.52);
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
+  backdrop-filter: blur(14px) saturate(140%);
+  box-shadow:
+    inset 0 0 0 1px rgb(255 255 255 / 0.16),
+    0 8px 22px rgb(0 0 0 / 0.22);
+}
+.leaf-marks__one {
+  width: 21px;
+  height: 21px;
+}
+.leaf-marks .leaf__blade {
+  fill: rgb(255 255 255 / 0.1);
+  stroke: rgb(255 255 255 / 0.75);
+  stroke-width: 1;
+}
+.leaf-marks .leaf__stem {
+  fill: rgb(255 255 255 / 0.75);
+}
+.leaf-marks .leaf.is-on .leaf__blade,
+.leaf-marks .leaf.is-on .leaf__stem {
+  fill: var(--color-maple-soft);
+  stroke: none;
+}
+
+.home {
+  position: relative;
+  min-height: 100svh;
+  padding-top: calc(var(--appnav-top, 72px) + 14px);
+  padding-bottom: calc(var(--appnav-bottom, 0px) + 20px);
+  overflow-x: clip;
+}
+.home__wrap {
+  width: 100%;
+  max-width: 1320px; /* the shelf's own column, so the edges line up */
+  margin-inline: auto;
+  padding-inline: 20px;
+}
+@media (min-width: 640px) {
+  .home__wrap {
+    padding-inline: 32px;
+  }
+}
+@media (min-width: 1024px) {
+  .home__wrap {
+    padding-inline: 56px;
+  }
+}
+
+/* Greeting */
+.home__hello {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  animation: home-rise 0.8s 0.05s var(--ease-out) both;
+}
+.home__me {
+  flex: none;
+  width: 60px;
+  height: 60px;
+  border-radius: 999px;
+  box-shadow:
+    0 0 0 3px #fff,
+    0 8px 20px rgb(26 18 11 / 0.18);
+  transition: transform 0.3s var(--ease-spring);
+}
+.home__me:active {
+  transform: scale(0.94);
+}
+.home__greet {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 12px;
+  min-width: 0;
+  font-weight: 900;
+  font-size: clamp(1.85rem, 3.4vw + 1.05rem, 3.5rem);
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+}
+html[lang='ar'] .home__greet {
+  line-height: 1.3;
+}
+.home__hi {
+  color: rgb(26 18 11 / 0.55);
+}
+/* the child's name on a name paper, like the papers of the story */
+.home__name {
+  display: inline-block;
+  letter-spacing: 0;
+  max-width: 100%;
+  padding: 0.02em 0.42em 0.06em;
+  border-radius: 7px;
+  background: linear-gradient(180deg, #fffefa, #fbf6ea);
+  box-shadow:
+    inset 0 1px 0 #fff,
+    0 1px 2px rgb(26 18 11 / 0.14),
+    0 10px 22px rgb(26 18 11 / 0.13);
+  transform: rotate(-2deg);
+  animation: home-paper 0.9s 0.35s var(--ease-spring) both;
+}
+html[dir='rtl'] .home__name {
+  transform: rotate(2deg);
+}
+@media (min-width: 960px) {
+  .home__hello {
+    gap: 20px;
+  }
+  .home__me {
+    width: 76px;
+    height: 76px;
+  }
+}
+
+/* Today's story, then my leaves */
+.home__grid {
+  display: grid;
+  gap: 14px;
+  margin-top: 20px;
+}
+@media (min-width: 960px) {
+  .home__grid {
+    gap: 18px;
+    margin-top: 26px;
+  }
+}
+
+.home__today {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  flex-direction: column;
+  border-radius: 32px;
+  overflow: hidden;
+  color: #fff;
+  background: var(--color-night-2);
+  box-shadow:
+    0 1px 2px rgb(26 18 11 / 0.1),
+    0 10px 20px rgb(26 18 11 / 0.1),
+    0 30px 60px rgb(26 18 11 / 0.18);
+  animation: home-card 0.9s 0.15s var(--ease-out) both;
+}
+/* The picture keeps its people clear: it sits above the words (phones) or beside them (desktop) and melts into the card. */
+.home__today-pic {
+  position: relative;
+  z-index: 0;
+  aspect-ratio: 5 / 4;
+  max-height: 46svh;
+  overflow: hidden;
+}
+.home__today-pic.grain::after {
+  z-index: 1;
+}
+.home__today-fade {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background:
+    linear-gradient(to top, rgb(30 21 14) 0%, rgb(30 21 14 / 0.78) 12%, rgb(30 21 14 / 0) 40%),
+    linear-gradient(to bottom, rgb(30 21 14 / 0.36) 0%, rgb(30 21 14 / 0) 26%);
+}
+.home__today-hit {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  cursor: pointer;
+}
+.home__today-top {
+  position: absolute;
+  inset-inline: 14px;
+  top: 14px;
+  z-index: 4;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  pointer-events: none;
+}
+.home__chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  height: 40px;
+  padding-inline: 14px 16px;
+  border-radius: 999px;
+  font-size: 14.5px;
+  font-weight: 700;
+}
+.home__chip-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 999px;
+  background: var(--color-maple-soft);
+}
+.home__today-body {
+  position: relative;
+  z-index: 4;
+  margin-top: -34px;
+  padding: 0 18px 18px;
+}
+.home__kicker {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--color-maple-soft);
+}
+.home__title {
+  margin-top: 2px;
+  max-width: 13ch;
+  font-weight: 900;
+  font-size: clamp(2rem, 2.6vw + 1.35rem, 3.5rem);
+  line-height: 1.04;
+  letter-spacing: -0.03em;
+  text-wrap: balance;
+}
+html[lang='ar'] .home__title {
+  line-height: 1.24;
+}
+html[lang='en'] .home__title {
+  letter-spacing: -0.015em;
+}
+.home__acts {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 16px;
+}
+.home__go {
+  height: 64px;
+  font-size: 19px;
+  font-weight: 800;
+}
+.home__open {
+  height: 52px;
+  font-size: 16px;
+}
+@media (min-width: 560px) {
+  .home__today-pic {
+    aspect-ratio: 16 / 9;
+  }
+  .home__today-body {
+    padding: 0 26px 26px;
+  }
+  .home__acts {
+    flex-direction: row;
+    align-items: center;
+  }
+  .home__go {
+    padding-inline: 34px;
+  }
+  .home__open {
+    height: 64px;
+    padding-inline: 26px;
+  }
+}
+@media (min-width: 960px) {
+  .home__today {
+    --today-pos: 52% 56%;
+    justify-content: flex-end;
+    min-height: min(52svh, 480px);
+  }
+  html[dir='rtl'] .home__today {
+    --today-pos: 100% 56%;
+  }
+  /* the picture runs on behind the words: the tree trunk stays visible under the title */
+  .home__today-pic {
+    position: absolute;
+    inset-block: 0;
+    inset-inline-end: 0;
+    width: 78%;
+    max-height: none;
+    aspect-ratio: auto;
+  }
+  .home__today-fade {
+    background:
+      linear-gradient(to right, rgb(30 21 14) 0%, rgb(30 21 14 / 0.7) 9%, rgb(30 21 14 / 0.28) 22%, rgb(30 21 14 / 0) 36%),
+      linear-gradient(to top, rgb(30 21 14 / 0.4) 0%, rgb(30 21 14 / 0) 26%);
+  }
+  html[dir='rtl'] .home__today-fade {
+    background:
+      linear-gradient(to left, rgb(30 21 14) 0%, rgb(30 21 14 / 0.7) 9%, rgb(30 21 14 / 0.28) 22%, rgb(30 21 14 / 0) 36%),
+      linear-gradient(to top, rgb(30 21 14 / 0.4) 0%, rgb(30 21 14 / 0) 26%);
+  }
+  .home__today-top {
+    inset-inline: 22px;
+    top: 22px;
+  }
+  .home__today-body {
+    width: 40%;
+    margin-top: 0;
+    padding: 90px 32px 32px;
+  }
+  .home__title {
+    max-width: none;
+    font-size: clamp(2.3rem, 3.1vw, 3rem);
+  }
+  .home__acts {
+    flex-direction: column;
+    align-items: stretch;
+    max-width: 320px;
+  }
+  .home__open {
+    height: 52px;
+  }
+}
+@media (hover: hover) {
+  .home__today .living {
+    transition: transform 0.9s var(--ease-out);
+  }
+  .home__today:hover .living {
+    transform: scale(1.035);
+  }
+}
+
+/* My leaves: a strip under the card */
+.home__leaves {
+  position: relative;
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-areas:
+    'text go'
+    'row row';
+  align-items: center;
+  gap: 10px 12px;
+  padding: 16px 16px 18px 20px;
+  border-radius: 28px;
+  background: var(--color-paper-2);
+  text-align: start;
+  transition:
+    transform 0.25s var(--ease-out),
+    background-color 0.25s ease;
+  animation: home-rise 0.8s 0.3s var(--ease-out) both;
+}
+html[dir='rtl'] .home__leaves {
+  padding: 16px 20px 18px 16px;
+}
+.home__leaves:active {
+  transform: scale(0.985);
+}
+.home__leaves-text {
+  grid-area: text;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+.home__leaves-title {
+  font-size: 20px;
+  font-weight: 800;
+  line-height: 1.35;
+}
+.home__leaves-note {
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.5;
+  color: var(--color-ink-2);
+}
+.home__leaves-note b {
+  font-size: 19px;
+  font-weight: 800;
+  color: var(--color-maple);
+}
+.home__leaves-row {
+  grid-area: row;
+  position: relative;
+  display: flex;
+  justify-content: space-around;
+  margin-inline: -20px -16px;
+  padding: 22px 22px 0;
+}
+html[dir='rtl'] .home__leaves-row {
+  margin-inline: -16px -20px;
+}
+.home__twig {
+  position: absolute;
+  inset-inline: 14px 0;
+  top: 2px;
+  width: calc(100% - 14px);
+  height: 34px;
+  fill: #6b4a2b;
+}
+html[dir='rtl'] .home__twig {
+  transform: scaleX(-1);
+}
+.home__leaf {
+  position: relative;
+  display: block;
+  width: 68px;
+  height: 68px;
+  transform: rotate(180deg); /* hanging: stalk up, on the branch */
+}
+.home__leaf:nth-of-type(1) {
+  transform: rotate(170deg);
+}
+.home__leaf:nth-of-type(2) {
+  transform: rotate(180deg) translateY(-7px);
+}
+.home__leaf:nth-of-type(3) {
+  transform: rotate(190deg) translateY(4px);
+}
+.home__leaf.is-on .leaf {
+  filter: drop-shadow(0 -5px 6px rgb(160 60 10 / 0.28));
+  animation: home-leaf 0.8s calc(0.5s + var(--i) * 110ms) var(--ease-spring) both;
+}
+/* how each leaf is earned: a book, a film, a game */
+.home__leaf-how {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding-top: 13px; /* on the blade, below the stalk */
+  color: rgb(67 54 42 / 0.68);
+  transform: rotate(180deg); /* the leaf hangs upside down; its sign stays upright */
+}
+.home__leaf-how svg {
+  width: 18px;
+  height: 18px;
+}
+.home__leaf.is-on .home__leaf-how {
+  color: #fff;
+}
+.home__leaves-go {
+  grid-area: go;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--color-ink);
+}
+.home__leaves-arrow {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 999px;
+  background: var(--color-ink);
+  color: var(--color-paper);
+  transition: transform 0.25s var(--ease-out);
+}
+@media (hover: hover) {
+  .home__leaves:hover {
+    background: #e7dac4;
+  }
+  .home__leaves:hover .home__leaves-arrow {
+    transform: translateX(3px);
+  }
+  html[dir='rtl'] .home__leaves:hover .home__leaves-arrow {
+    transform: translateX(-3px);
+  }
+}
+@media (min-width: 960px) {
+  .home__leaves,
+  html[dir='rtl'] .home__leaves {
+    grid-template-columns: minmax(220px, 0.9fr) minmax(0, 1.6fr) auto;
+    grid-template-areas: 'text row go';
+    gap: 28px;
+    padding: 6px 30px 16px;
+    min-height: 156px;
+  }
+  .home__leaves-title {
+    font-size: 24px;
+  }
+  .home__leaves-note {
+    font-size: 16px;
+  }
+  .home__leaves-row,
+  html[dir='rtl'] .home__leaves-row {
+    align-self: start;
+    margin: 0;
+    padding: 40px 40px 0;
+  }
+  .home__twig {
+    inset-inline: 0 -400px;
+    top: 12px;
+    width: calc(100% + 400px);
+    height: 46px;
+  }
+  .home__leaf {
+    width: 96px;
+    height: 96px;
+  }
+  .home__leaf-how {
+    padding-top: 18px;
+  }
+  .home__leaf-how svg {
+    width: 26px;
+    height: 26px;
+  }
+  .home__leaves-go {
+    font-size: 17px;
+    gap: 12px;
+  }
+  .home__leaves-arrow {
+    width: 46px;
+    height: 46px;
+  }
+}
+
+/* The shelf */
+.home__shelf {
+  margin-top: 64px;
+}
+/* The shelf is the landing page's section. Inside the app it sits flat in the page, and until it takes `variant="app"`
+   its own landing heading is hidden here so the screen has one heading for it (ours). */
+.home__shelf > section.sheet {
+  margin-top: 0;
+  border-radius: 0;
+}
+/* only the shelf's first block (its heading and filter chips); the caption and arrows under the books stay as they are */
+.home__shelf > section > .lib-chrome:first-child {
+  padding-top: 14px;
+}
+.home__shelf > section > .lib-chrome:first-child > div > div:first-child:not(.lib-filters) {
+  display: none;
+}
+.home__h2 {
+  font-weight: 800;
+  font-size: clamp(1.6rem, 2.4vw + 1rem, 2.75rem);
+  line-height: 1.25;
+  letter-spacing: -0.025em;
+}
+
+@keyframes home-rise {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 22px, 0);
+  }
+}
+@keyframes home-card {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 26px, 0) scale(0.98);
+  }
+}
+@keyframes home-paper {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 10px, 0) rotate(-10deg) scale(0.9);
+  }
+}
+@keyframes home-leaf {
+  from {
+    opacity: 0;
+    transform: translate3d(0, -14px, 0) rotate(-30deg) scale(0.6);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .home__hello,
+  .home__name,
+  .home__today,
+  .home__leaves,
+  .home__leaf.is-on .leaf,
+  .living__still {
+    animation: none;
+  }
+}
