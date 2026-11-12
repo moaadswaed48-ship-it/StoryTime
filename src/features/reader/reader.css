@@ -101,60 +101,21 @@
   opacity: 1;
   transition: opacity 0.4s var(--ease-out) 0.05s;
 }
-.rd-over[data-on] > * {
+.rd-over[data-on] button {
   pointer-events: auto;
 }
 
-.rd-gate {
+.rd-over .rd-gate-btn {
   position: absolute;
-  inset-inline: 0;
-  top: 50%;
-  margin-inline: auto;
-  width: min(86%, 400px);
-  transform: translateY(-50%);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 12px;
-  padding: 30px 26px 28px;
-  border-radius: 28px;
-  text-align: center;
-  color: #fff;
-}
-.rd-gate.is-nudged {
-  animation: rd-nudge 0.42s var(--ease-out);
-}
-@keyframes rd-nudge {
-  0% {
-    transform: translateY(-50%) scale(1);
-  }
-  35% {
-    transform: translateY(-50%) scale(1.04);
-  }
-  100% {
-    transform: translateY(-50%) scale(1);
-  }
-}
-.rd-gate-icon {
-  display: grid;
-  place-items: center;
-  width: 50px;
-  height: 50px;
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.14);
-  color: var(--color-maple-soft);
+  background: transparent;
+  transition: background-color 0.18s var(--ease-state);
 }
-.rd-gate-title {
-  font-size: clamp(20px, 2.1vw, 25px);
-  font-weight: 800;
-  line-height: 1.3;
+.rd-over .rd-gate-btn:hover {
+  background: rgba(255, 255, 255, 0.35);
 }
-.rd-gate-sub {
-  font-size: 15px;
-  line-height: 1.7;
-  color: rgba(255, 255, 255, 0.8);
-  margin-bottom: 6px;
-  max-width: 30ch;
+.rd-over .rd-gate-btn:active {
+  background: rgba(26, 18, 11, 0.08);
 }
 
 .rd-end {
@@ -182,10 +143,13 @@
   place-items: center;
   border-radius: 999px;
   color: #fff;
-  opacity: 0.72;
+  opacity: 0.42;
   transition:
-    opacity 0.2s var(--ease-state),
+    opacity 0.3s var(--ease-state),
     transform 0.2s var(--ease-out);
+}
+.rd[data-chrome] .rd-arrow {
+  opacity: 0.85;
 }
 .rd-arrow:hover {
   opacity: 1;
@@ -540,4 +504,14 @@
 }
 .rd-size-dots span[data-on] {
   background: var(--color-maple-soft);
+}
+
+/* A phone on its side: the bars keep to one line each. */
+@media (max-height: 480px) {
+  .rd-hint {
+    display: none;
+  }
+  .rd-bottom {
+    padding-block: 2px 6px;
+  }
 }

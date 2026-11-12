@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState, type CSSProperties, type PointerEvent as ReactPointerEvent, type WheelEvent as ReactWheelEvent } from 'react'
-import { ChevronLeft, ChevronRight, Gamepad2, LockKeyhole, Play, RotateCcw } from 'lucide-react'
+import { ChevronLeft, ChevronRight, Gamepad2, Play, RotateCcw } from 'lucide-react'
 import { story, sceneText, SCENES } from '@/content/story'
 import { t } from '@/i18n/copy'
 import { locale, num, rtl } from '@/i18n/locale'
@@ -14,9 +14,10 @@ import { exposeQA } from '@/lib/qa'
 import { FREE_SCENES } from '@/features/book/logic'
 import { CurlEngine } from './curl/engine'
 import { DEFAULT_SIZE, SIZE_STEPS, buildBook, endPage, geometryFor, lockedFrom, pageOfScene, pagesAt, positionOf, relocate, stageFor, type BookPage } from './layout'
-import { PAPER_RGB, frameOf, loadFonts, measurer, paintPage, picture, pictureBox, storyFont, END_TEXT } from './paint'
+import { PAPER_RGB, frameOf, gateLayout, loadFonts, measurer, paintPage, picture, pictureBox, storyFont, END_TEXT } from './paint'
 import { BottomBar, ScenesPanel, SizePanel, TopBar, type Panel } from './Chrome'
 import { idleHooks, type ReaderHooks } from './qa'
+import { noCurl } from './support'
 import { s } from './strings'
 
 const SIZE_KEY = 'st:reader:size'
@@ -63,7 +64,6 @@ export function ReaderView({ startScene }: { startScene: number }) {
   const [turning, setTurning] = useState(false)
   const [chrome, setChrome] = useState(true)
   const [panel, setPanel] = useState<Panel>(null)
-  const [nudge, setNudge] = useState(0)
   const [closing, setClosing] = useState(false)
   const [hinted, setHinted] = useState(false)
 
@@ -105,6 +105,9 @@ export function ReaderView({ startScene }: { startScene: number }) {
   const windows = useRef(new Set<number>())
   const frozen = useRef(new Set<number>())
   const restPos = useRef(0)
+  const peeking = useRef(false)
+  /** Set by the bars' own buttons: a turn asked for from the controls does not put the controls away. */
+  const fromBar = useRef(false)
 
   /* ── Screen size, safe areas, fonts ───────────────────────────────────────── */
   useLayoutEffect(() => {
@@ -159,9 +162,10 @@ export function ReaderView({ startScene }: { startScene: number }) {
           }
           windows.current.clear()
           setTurning(true)
-          setChrome(false)
+          if (!fromBar.current) setChrome(false)
+          fromBar.current = false
           setPanel(null)
-          setHinted(true)
+          if (!peeking.current) setHinted(true)
         },
         onChange: (p) => {
           sfx.flip()
@@ -178,14 +182,15 @@ export function ReaderView({ startScene }: { startScene: number }) {
           restPos.current = p
           setTurning(false)
         },
-        onBlocked: (dir) => {
-          const { pages: pg, locked: lk, stage: sg, pos: at } = live.current
-          if (dir > 0 && pg && lk !== Infinity && pagesAt(at, pg.length, sg.spread).some((i) => i >= lk)) setNudge((n) => n + 1)
-        },
       })
     } catch {
-      // WebGL went away between the check and now: hand the book back so the fallback reader can take it.
+      // WebGL went away between the check and now: say so, and open the book again so the plain reader takes it.
       host.removeChild(canvas)
+      noCurl()
+      const st = useSiteStore.getState()
+      const at = st.startScene
+      st.closeOverlay()
+      window.setTimeout(() => useSiteStore.getState().openBook(at), 0)
       return
     }
     e.setPaper(PAPER_RGB)
@@ -213,7 +218,7 @@ export function ReaderView({ startScene }: { startScene: number }) {
     e.setBook(
       {
         count: pages.length,
-        paint: (i) => paintPage(pages[i], geo, px.w, px.h, { scale: frame.scale, locked: i >= locked, childName, onPicture: () => engine.current?.invalidate(i) }),
+        paint: (i) => paintPage(pages[i], geo, px.w, px.h, { scale: frame.scale, locked: i >= locked, gate: i === locked, childName, onPicture: () => engine.current?.invalidate(i) }),
       },
       position,
     )
@@ -258,8 +263,7 @@ export function ReaderView({ startScene }: { startScene: number }) {
     const e = engine.current
     if (!pg || !e) return
     const to = Math.min(pg.length - 1, Math.max(0, Math.round(index)))
-    if (to > lk) setNudge((n) => n + 1)
-    e.jump(positionOf(Math.min(to, lk), sg.spread), animate)
+    if (!e.jump(positionOf(Math.min(to, lk), sg.spread), animate)) fromBar.current = false
   }, [])
   const goScene = useCallback(
     (n: number) => {
@@ -268,8 +272,12 @@ export function ReaderView({ startScene }: { startScene: number }) {
     },
     [goPage],
   )
-  const next = useCallback(() => void engine.current?.turn(1), [])
-  const prev = useCallback(() => void engine.current?.turn(-1), [])
+  const next = useCallback(() => {
+    if (!engine.current?.turn(1)) fromBar.current = false
+  }, [])
+  const prev = useCallback(() => {
+    if (!engine.current?.turn(-1)) fromBar.current = false
+  }, [])
   const close = useCallback(() => {
     setClosing(true)
     window.setTimeout(closeOverlay, 180)
@@ -300,6 +308,19 @@ export function ReaderView({ startScene }: { startScene: number }) {
     startSeen.current = startScene
     goScene(startScene)
   }, [startScene, goScene])
+
+  // Once, shortly after the book opens, the edge of the page lifts and settles: the paper can be taken.
+  const ready = !!pages
+  useEffect(() => {
+    if (!ready || hinted) return
+    const id = window.setTimeout(() => {
+      peeking.current = true
+      fromBar.current = true
+      if (!engine.current?.peek()) fromBar.current = false
+      peeking.current = false
+    }, 1500)
+    return () => window.clearTimeout(id)
+  }, [ready, hinted])
 
   /* ── Controls come and go ─────────────────────────────────────────────────── */
   useEffect(() => {
@@ -376,11 +397,17 @@ export function ReaderView({ startScene }: { startScene: number }) {
     el?.focus({ preventScroll: true })
     const onKey = (e: KeyboardEvent) => {
       if (e.defaultPrevented || e.metaKey || e.ctrlKey || e.altKey) return
+      if (e.key === 'Escape' && live.current.panel) {
+        // Escape closes what is on top first: the open panel, and only then the book.
+        e.stopImmediatePropagation()
+        setPanel(null)
+        return
+      }
       const tgt = e.target as HTMLElement | null
       const onControl = !!tgt?.closest?.('button, a, input, select, textarea')
       if (e.key === 'Tab') {
         setChrome(true)
-        const items = Array.from(el?.querySelectorAll<HTMLElement>('button:not([disabled]), a[href], input') ?? []).filter((n) => n.offsetParent !== null)
+        const items = Array.from(el?.querySelectorAll<HTMLElement>('button:not([disabled]), a[href], input') ?? []).filter((n) => n.offsetParent !== null && n.tabIndex >= 0)
         if (!items.length) return
         const i = items.indexOf(document.activeElement as HTMLElement)
         const to = e.shiftKey ? (i <= 0 ? items.length - 1 : i - 1) : i === -1 || i === items.length - 1 ? 0 : i + 1
@@ -420,9 +447,9 @@ export function ReaderView({ startScene }: { startScene: number }) {
       }
       e.preventDefault()
     }
-    window.addEventListener('keydown', onKey)
+    window.addEventListener('keydown', onKey, true)
     return () => {
-      window.removeEventListener('keydown', onKey)
+      window.removeEventListener('keydown', onKey, true)
       before?.focus?.({ preventScroll: true })
     }
   }, [next, prev, goPage, goScene])
@@ -452,8 +479,14 @@ export function ReaderView({ startScene }: { startScene: number }) {
     let fn = binders.current.get(page)
     if (!fn) {
       fn = (el) => {
-        if (el) videos.current.set(page, el)
-        else videos.current.delete(page)
+        if (el) {
+          // iOS only lets a film start by itself when it is muted in the markup, not just in script.
+          el.muted = true
+          el.defaultMuted = true
+          el.setAttribute('muted', '')
+          el.setAttribute('webkit-playsinline', '')
+          videos.current.set(page, el)
+        } else videos.current.delete(page)
       }
       binders.current.set(page, fn)
     }
@@ -532,10 +565,8 @@ export function ReaderView({ startScene }: { startScene: number }) {
   const canNext = !!pages && pos < positions - 1 && !gated
   const settled = !turning && !!pages
   const bookW = stage.spread ? stage.pageW * 2 : stage.pageW
-  const lockedBoxes = visible.filter((i) => i >= locked)
-  const gateStyle: CSSProperties | undefined = lockedBoxes.length
-    ? { left: Math.min(...lockedBoxes.map(boxLeft)), top: stage.top, width: stage.pageW * lockedBoxes.length, height: stage.pageH }
-    : undefined
+  // The paywall card is printed on the first locked page; the real button lies, unseen, exactly over the printed one.
+  const gate = pages && visible.includes(locked) ? gateLayout(geo) : null
   const endIndex = pages ? visible.find((i) => pages[i].kind === 'end') : undefined
   const PrevIcon = rtl ? ChevronRight : ChevronLeft
   const NextIcon = rtl ? ChevronLeft : ChevronRight
@@ -582,18 +613,14 @@ export function ReaderView({ startScene }: { startScene: number }) {
       <div ref={holder} className="rd-canvas" style={{ left: frame.x, top: frame.y, width: frame.w, height: frame.h }} />
       <div className="rd-surface" onPointerDown={onDown} onPointerMove={onMove} onPointerUp={onUp} onPointerCancel={onCancel} onWheel={onWheel} onContextMenu={(e) => e.preventDefault()} />
 
-      {gateStyle && (
-        <div className="rd-over" style={gateStyle} data-on={settled || undefined}>
-          <div key={nudge} className={cn('rd-gate glass-ink', nudge > 0 && 'is-nudged')}>
-            <span className="rd-gate-icon" aria-hidden>
-              <LockKeyhole size={22} />
-            </span>
-            <h3 className="rd-gate-title">{t.book.gateTitle}</h3>
-            <p className="rd-gate-sub">{t.book.gateSub}</p>
-            <Pill variant="solid" size="lg" onClick={unlock} data-testid="rd-gate-btn" tabIndex={settled ? 0 : -1}>
-              {t.book.gateBtn}
-            </Pill>
-          </div>
+      {gate && (
+        <div className="rd-over" style={{ left: boxLeft(locked), top: stage.top, width: stage.pageW, height: stage.pageH }} data-on={settled || undefined}>
+          <p className="sr-only">
+            {t.book.gateTitle}. {t.book.gateSub}
+          </p>
+          <button type="button" className="rd-gate-btn" style={{ left: gate.btn.x, top: gate.btn.y, width: gate.btn.w, height: gate.btn.h }} onClick={unlock} data-testid="rd-gate-btn" tabIndex={settled ? 0 : -1}>
+            <span className="sr-only">{t.book.gateBtn}</span>
+          </button>
         </div>
       )}
 
@@ -651,11 +678,17 @@ export function ReaderView({ startScene }: { startScene: number }) {
         canPrev={canPrev}
         canNext={canNext}
         arrows={stage.full}
-        onPrev={prev}
-        onNext={next}
+        onPrev={() => {
+          fromBar.current = true
+          prev()
+        }}
+        onNext={() => {
+          fromBar.current = true
+          next()
+        }}
         onSeek={(p) => {
-          const pg = live.current.pages
-          if (pg) goPage(stage.spread ? p * 2 : p)
+          fromBar.current = true
+          goPage(stage.spread ? p * 2 : p)
         }}
         labelFor={(p) => {
           const n = pages ? pagesAt(p, pages.length, stage.spread).map((i) => pages[i]).filter((x) => x.kind !== 'blank') : []

@@ -42,8 +42,14 @@ export function TopBar({
         <X size={21} aria-hidden />
       </button>
       <div className="rd-id">
-        <p className="rd-title">{title}</p>
-        <p className="rd-sub">{sub}</p>
+        {compact ? (
+          <p className="rd-title">{sub}</p>
+        ) : (
+          <>
+            <p className="rd-title">{title}</p>
+            <p className="rd-sub">{sub}</p>
+          </>
+        )}
       </div>
       <div className="rd-tools">
         <button type="button" className="rd-btn rd-watch" aria-label={t.book.watch} onClick={onWatch} tabIndex={tab}>

@@ -147,6 +147,8 @@ export interface PaintOptions {
   scale: number
   /** The page is behind the demo paywall: printed, then frosted. */
   locked: boolean
+  /** The first locked page also carries the paywall card (printed on it, so it turns with the paper). */
+  gate: boolean
   /** The child's name for the dedication, if one is set. */
   childName: string
   /** Called when a picture that was missing has arrived (the page should be painted again). */
@@ -236,13 +238,8 @@ function paintScene(ctx: CanvasRenderingContext2D, page: BookPage, g: PageGeomet
     ctx.fillStyle = 'rgba(26, 18, 11, 0.10)'
     ctx.fillRect(0, g.pictureH, w, 1 / o.scale)
   }
+  // Every page starts its text on the same grid of lines, so facing pages sit level.
   const top = page.picture ? g.textTop : g.plainTop
-  const room = g.textBottom - top
-  // A short text sits a little lower than the very top of its area, so the page does not look top-heavy.
-  // A page without a painting that holds only a little text carries it in its middle, under a small leaf.
-  const quiet = !page.picture && page.textHeight < room * 0.6
-  const drop = quiet ? (room - page.textHeight) * 0.42 : Math.max(0, Math.min((room - page.textHeight) * 0.3, g.lineHeight * 1.6))
-  if (quiet && page.lines.length) leaf(ctx, w / 2, top + drop - g.lineHeight * 0.9, 22, 0.5, 0.7)
   ctx.font = storyFont(g.fontSize)
   ctx.fillStyle = INK
   ctx.textAlign = 'start'
@@ -250,12 +247,14 @@ function paintScene(ctx: CanvasRenderingContext2D, page: BookPage, g: PageGeomet
   const x = rtl ? w - g.marginX : g.marginX
   // The baseline sits where a line box of this height would put it.
   const base = g.lineHeight / 2 + g.fontSize * (rtl ? 0.3 : 0.34)
-  for (const line of page.lines) ctx.fillText(line.text, x, top + drop + line.y + base)
-  if (!page.picture && page.lines.length === 0) leaf(ctx, w / 2, g.pageH / 2, 26, 0.5, 0.5)
+  for (const line of page.lines) ctx.fillText(line.text, x, top + line.y + base)
+  // Where a scene ends on a page of its own with paper to spare, a small leaf closes it, as a tailpiece does.
+  const end = top + page.textHeight
+  if (!page.picture && page.part === page.parts - 1 && g.textBottom - end > g.lineHeight * 2.6) leaf(ctx, w / 2, end + g.lineHeight * 1.25, Math.max(20, g.fontSize), 0.5, 0.75)
 }
 
 function folio(ctx: CanvasRenderingContext2D, page: BookPage, g: PageGeometry) {
-  ctx.font = uiFont(12.5, 500)
+  ctx.font = uiFont(g.folioSize, 500)
   ctx.fillStyle = MUTED
   ctx.textAlign = 'center'
   ctx.textBaseline = 'alphabetic'
@@ -281,6 +280,113 @@ function frost(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D) {
   ctx.restore()
 }
 
+export interface GateLayout {
+  x: number
+  y: number
+  w: number
+  h: number
+  title: string[]
+  sub: string[]
+  titleSize: number
+  /** The button, in page px: the real (invisible) button lies exactly over the printed one. */
+  btn: { x: number; y: number; w: number; h: number }
+}
+const GATE = { pad: 28, icon: 50, gap: 13, subSize: 15, subPitch: 25, btnH: 54 }
+
+/** Where the paywall card and its button sit on the page. */
+export function gateLayout(g: PageGeometry): GateLayout {
+  const w = Math.round(Math.min(g.pageW * 0.86, 400))
+  const inner = w - 2 * GATE.pad
+  const titleSize = Math.min(24, Math.max(19.5, g.pageW * 0.052))
+  const title = wrapBalanced(t.book.gateTitle, inner, measurer(uiFont(titleSize, 800)), 2)
+  const sub = wrapBalanced(t.book.gateSub, Math.min(inner, 290), measurer(uiFont(GATE.subSize, 400)), 3)
+  const titlePitch = Math.round(titleSize * 1.36)
+  const btnW = Math.round(Math.min(inner, measurer(uiFont(16, 600))(t.book.gateBtn) + 68))
+  const h = GATE.pad + GATE.icon + GATE.gap + title.length * titlePitch + 6 + sub.length * GATE.subPitch + GATE.gap + 8 + GATE.btnH + GATE.pad
+  const x = Math.round((g.pageW - w) / 2)
+  const y = Math.round((g.pageH - h) / 2)
+  return { x, y, w, h, title, sub, titleSize, btn: { x: Math.round((g.pageW - btnW) / 2), y: y + h - GATE.pad - GATE.btnH, w: btnW, h: GATE.btnH } }
+}
+
+function roundRect(ctx: CanvasRenderingContext2D, x: number, y: number, w: number, h: number, r: number) {
+  ctx.beginPath()
+  ctx.moveTo(x + r, y)
+  ctx.arcTo(x + w, y, x + w, y + h, r)
+  ctx.arcTo(x + w, y + h, x, y + h, r)
+  ctx.arcTo(x, y + h, x, y, r)
+  ctx.arcTo(x, y, x + w, y, r)
+  ctx.closePath()
+}
+
+/** The paywall card, printed on the frosted page: dark glass, a lock, two lines and the button. */
+function paintGate(ctx: CanvasRenderingContext2D, g: PageGeometry) {
+  const c = gateLayout(g)
+  const cx = g.pageW / 2
+  ctx.save()
+  ctx.shadowColor = 'rgba(0, 0, 0, 0.3)'
+  ctx.shadowBlur = 34
+  ctx.shadowOffsetY = 10
+  const glass = ctx.createLinearGradient(0, c.y, 0, c.y + c.h)
+  glass.addColorStop(0, 'rgba(26, 18, 11, 0.74)')
+  glass.addColorStop(1, 'rgba(26, 18, 11, 0.62)')
+  ctx.fillStyle = glass
+  roundRect(ctx, c.x, c.y, c.w, c.h, 28)
+  ctx.fill()
+  ctx.restore()
+  ctx.strokeStyle = 'rgba(255, 255, 255, 0.1)'
+  ctx.lineWidth = 1
+  roundRect(ctx, c.x + 0.5, c.y + 0.5, c.w - 1, c.h - 1, 27.5)
+  ctx.stroke()
+
+  // the lock
+  let y = c.y + GATE.pad + GATE.icon / 2
+  ctx.fillStyle = 'rgba(255, 255, 255, 0.14)'
+  ctx.beginPath()
+  ctx.arc(cx, y, GATE.icon / 2, 0, Math.PI * 2)
+  ctx.fill()
+  ctx.strokeStyle = '#f4a35e'
+  ctx.lineWidth = 2
+  ctx.lineJoin = 'round'
+  ctx.lineCap = 'round'
+  roundRect(ctx, cx - 8, y - 2, 16, 12, 3)
+  ctx.stroke()
+  ctx.beginPath()
+  ctx.moveTo(cx - 4.5, y - 2)
+  ctx.lineTo(cx - 4.5, y - 5.5)
+  ctx.arc(cx, y - 5.5, 4.5, Math.PI, 0)
+  ctx.lineTo(cx + 4.5, y - 2)
+  ctx.stroke()
+  ctx.fillStyle = '#f4a35e'
+  ctx.beginPath()
+  ctx.arc(cx, y + 4, 1.4, 0, Math.PI * 2)
+  ctx.fill()
+
+  ctx.textAlign = 'center'
+  ctx.textBaseline = 'alphabetic'
+  y = c.y + GATE.pad + GATE.icon + GATE.gap
+  const titlePitch = Math.round(c.titleSize * 1.36)
+  ctx.font = uiFont(c.titleSize, 800)
+  ctx.fillStyle = '#ffffff'
+  for (const line of c.title) {
+    y += titlePitch
+    ctx.fillText(line, cx, y - titlePitch * 0.24)
+  }
+  y += 6
+  ctx.font = uiFont(GATE.subSize, 400)
+  ctx.fillStyle = 'rgba(255, 255, 255, 0.82)'
+  for (const line of c.sub) {
+    y += GATE.subPitch
+    ctx.fillText(line, cx, y - GATE.subPitch * 0.28)
+  }
+  // the button
+  ctx.fillStyle = '#f6f0e4'
+  roundRect(ctx, c.btn.x, c.btn.y, c.btn.w, c.btn.h, c.btn.h / 2)
+  ctx.fill()
+  ctx.font = uiFont(16, 600)
+  ctx.fillStyle = '#1a120b'
+  ctx.fillText(t.book.gateBtn, cx, c.btn.y + c.btn.h / 2 + 5.5)
+}
+
 /** One reusable sheet: the engine copies it to the GPU straight away, so a page never needs its own canvas. */
 let sheet: HTMLCanvasElement | null = null
 
@@ -303,6 +409,7 @@ export function paintPage(page: BookPage, g: PageGeometry, pxW: number, pxH: num
     folio(ctx, page, g)
   } else leaf(ctx, g.pageW / 2, g.pageH / 2, 26, 0.5, 0.5)
   if (o.locked) frost(sheet, ctx)
+  if (o.gate) paintGate(ctx, g)
   return sheet
 }
 

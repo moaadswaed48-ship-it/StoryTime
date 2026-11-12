@@ -8,7 +8,7 @@
  * and hears back when a leaf lifts, when the position changes and when the paper is at rest again.
  * Nothing is drawn while nothing moves.
  */
-import { FLAT, baseRadius, constrain, follow, gripY, progressOf, solve, type Cylinder, type Vec } from './geometry'
+import { FLAT, baseRadius, constrain, follow, gripY, progressOf, solve, travelFor, type Cylinder, type Vec } from './geometry'
 import { FRAG, VERT } from './shader'
 
 export interface CurlLayout {
@@ -57,8 +57,17 @@ export interface CurlStats {
 }
 
 interface Turn {
+  /** The two positions the leaf lies between (lo < hi). */
   lo: number
   hi: number
+  /**
+   * Open book, turning back: the leaf is taken by its edge on the far page and curls from there, so the
+   * whole picture is the forward turn mirrored (unturned = `hi`, turned = `lo`).
+   */
+  mirror: boolean
+  /** Where the hand took the page (x in the turn's frame, px), and whether the leaf started out turned. */
+  gx: number
+  startTurned: boolean
   /** Which point of the free edge is being carried (y, leaf px). */
   ay: number
   p: Vec
@@ -75,6 +84,8 @@ interface Turn {
   dur: number
   arc: number
   toHi: boolean
+  /** How far (px) a peek lifts the edge; 0 for a real turn. */
+  peek: number
 }
 
 interface Tex {
@@ -115,6 +126,8 @@ export class CurlEngine {
   private st = { frames: 0, cpu: 0, cpuMax: 0, gap: 0, gapMax: 0, gaps: 0 }
   private chained = false
   private timeScale = 1
+  private hurry = 1
+  private lastDir: 1 | -1 = 1
 
   constructor(
     private canvas: HTMLCanvasElement,
@@ -363,13 +376,15 @@ export class CurlEngine {
     if (this.warmTimer || this.dead) return
     const step = () => {
       this.warmTimer = 0
-      if (this.dead || !this.layout || this.lost) return
+      const l = this.layout
+      if (this.dead || !l || this.lost) return
       if (this.turnState) {
         // Never upload in the middle of a turn; come back when the paper is down.
         this.warmTimer = window.setTimeout(step, 140)
         return
       }
-      const want = this.around(this.pos, 2)
+      // One page: two turns either way are kept ready. Open book: one turn either way, and the spread after that in the direction of reading.
+      const want = l.spread ? [...this.around(this.pos, 1), ...this.pagesAt(this.pos + 2 * this.lastDir).filter((i) => i >= 0)] : this.around(this.pos, 2)
       const next = want.find((i) => !this.texs.get(i) || this.texs.get(i)!.dirty)
       if (next === undefined) {
         // Keep the neighbourhood, let go of pages far behind.
@@ -401,8 +416,9 @@ export class CurlEngine {
   /** Finger (or mouse) down at canvas CSS px. */
   press(x: number, y: number, time = performance.now()) {
     if (!this.layout) return
-    if (this.turnState?.mode === 'auto') this.finish()
-    if (this.turnState) return
+    // A page still on its way down is hurried along rather than snapped: a second flick never sees a jump.
+    if (this.turnState?.mode === 'auto') this.hurry = this.turnState.peek ? 6 : 3.2
+    else if (this.turnState) return
     this.down = { x, y, t: time, moved: false }
     this.finger = this.toLeaf(x, y)
     this.trail = []
@@ -425,6 +441,7 @@ export class CurlEngine {
         return false
       }
       d.moved = true
+      if (this.turnState?.mode === 'auto') this.finish()
       const forward = dx * (l.rtl ? -1 : 1) < 0
       if (!this.begin(forward ? 1 : -1, this.toLeaf(d.x, d.y), 'drag')) {
         this.down = null
@@ -444,11 +461,13 @@ export class CurlEngine {
   release(time = performance.now()): 'tap' | 'drag' | 'none' {
     const d = this.down
     this.down = null
+    this.hurry = 1
     if (!d) return 'none'
     const t = this.turnState
     if (!d.moved || !t || t.mode !== 'drag') return d.moved ? 'none' : 'tap'
-    const w = this.px(this.layout!.pageW)
-    // Finger speed over the last moments decides a flick; otherwise the middle of the turn does.
+    const l = this.layout!
+    const w = this.px(l.pageW)
+    // Finger speed over the last moments decides a flick; otherwise where the page is, and that the hand really carried it there.
     const recent = this.trail.filter((s) => time - s.t < 110)
     let vx = 0
     let pv: Vec = { x: 0, y: 0 }
@@ -456,13 +475,21 @@ export class CurlEngine {
       const a = recent[0]
       const b = recent[recent.length - 1]
       const dt = Math.max(0.016, (b.t - a.t) / 1000)
-      vx = (b.x - a.x) / dt / this.layout!.scale
+      vx = ((b.x - a.x) / dt / l.scale) * (t.mirror ? -1 : 1)
       pv = { x: (b.px - a.px) / dt, y: (b.py - a.py) / dt }
     }
     // "Past the middle" is where the reader sees the page: on one page the roll under the finger has crossed
     // the middle of the page; on a spread the leaf's edge has crossed the spine.
-    const half = this.layout!.spread ? 0.5 : 0.5 - (Math.PI * baseRadius(this.layout!.pageW)) / (2 * this.layout!.pageW)
-    const toHi = t.resist ? false : vx < -FLICK ? true : vx > FLICK ? false : progressOf(t.p, w) > half
+    const half = l.spread ? 0.5 : travelFor(l.pageW / 2, true, baseRadius(l.pageW)) / (2 * l.pageW)
+    const past = progressOf(t.p, w) > half
+    // The page comes to the finger wherever it lands, so position alone is not a decision: the hand must also have moved it.
+    const carried = (this.fingerIn(t).x - t.gx) / l.scale
+    const need = l.pageW * 0.1
+    let toHi: boolean
+    if (t.resist) toHi = false
+    else if (vx < -FLICK) toHi = true
+    else if (vx > FLICK) toHi = false
+    else toHi = t.startTurned ? !(!past && carried > need) : past && carried < -need
     this.settle(toHi, pv)
     return 'drag'
   }
@@ -495,14 +522,20 @@ export class CurlEngine {
     }
     const lo = dir > 0 ? this.pos : target
     const hi = dir > 0 ? (resist ? this.pos + 1 : target) : this.pos
+    const mirror = l.spread && dir < 0
     const ay = gripY(grip.y, h)
-    const start: Vec = dir > 0 ? { x: w, y: ay } : { x: -w, y: ay }
+    // Forward, and back on an open book, the leaf starts flat under the hand; back on one page it comes from beyond the binding.
+    const startTurned = dir < 0 && !mirror
+    const start: Vec = startTurned ? { x: -w, y: ay } : { x: w, y: ay }
     this.events.onLift?.()
     // The pages this turn shows are normally waiting already; if not, paint them now rather than show a blank.
-    for (const i of [this.front(lo), this.back(hi), this.under(hi), this.far(lo)]) if (!resist || i === this.front(lo) || i === this.far(lo)) this.ensure(i)
+    for (const i of Object.values(this.roles(lo, hi, mirror))) this.ensure(i)
     this.turnState = {
       lo,
       hi,
+      mirror,
+      gx: mirror ? -grip.x : grip.x,
+      startTurned,
       ay,
       p: start,
       mode,
@@ -514,7 +547,8 @@ export class CurlEngine {
       t: 0,
       dur: 0,
       arc: 0,
-      toHi: dir > 0,
+      toHi: !startTurned,
+      peek: 0,
     }
     if (mode === 'drag') {
       const goal = this.goal(this.turnState)
@@ -530,13 +564,26 @@ export class CurlEngine {
     const w = this.px(l.pageW)
     const h = this.px(l.pageH)
     const radius = this.px(baseRadius(l.pageW))
+    const f = this.fingerIn(t)
     if (t.resist) {
       // A page that cannot leave only gives a little.
-      const dx = Math.min(0, this.finger.x - w)
+      const dx = Math.min(0, f.x - w)
       const give = -w * 0.16 * (1 - Math.exp(dx / (w * 0.5)))
-      return constrain({ x: w + give, y: t.ay + (this.finger.y - t.ay) * 0.12 }, t.ay, w, h, radius)
+      return constrain({ x: w + give, y: t.ay + (f.y - t.ay) * 0.12 }, t.ay, w, h, radius)
     }
-    return follow(this.finger, t.ay, w, h, !l.spread, radius)
+    return follow(f, t.ay, w, h, !l.spread, radius)
+  }
+
+  /** The finger in the turn's own frame (mirrored for a backward turn on an open book). */
+  private fingerIn(t: Turn): Vec {
+    return t.mirror ? { x: -this.finger.x, y: this.finger.y } : this.finger
+  }
+
+  /** Which page plays which part: the leaf's two sides, the page it uncovers, and the page on the other side of the spine. */
+  private roles(lo: number, hi: number, mirror: boolean) {
+    return mirror
+      ? { front: this.back(hi), back: this.front(lo), under: this.far(lo), far: this.under(hi) }
+      : { front: this.front(lo), back: this.back(hi), under: this.under(hi), far: this.far(lo) }
   }
 
   /** Lets go of the leaf: it carries on with the hand's speed and lands turned (`toHi`) or back where it was. */
@@ -597,8 +644,32 @@ export class CurlEngine {
     // An unseen hand takes the page low on its edge, so the corner leads and the curl straightens as it lands.
     if (!this.begin(dir, { x: w, y: h * 0.7 }, 'auto', target)) return false
     const t = this.turnState!
-    t.p = dir > 0 ? { x: w, y: t.ay } : { x: -w, y: t.ay }
-    this.settle(dir > 0, { x: 0, y: 0 }, -0.26 * w, l.spread ? 0.82 : 0.66)
+    // On an open book the sheet crosses the whole spread, so it rises less: it must not leave the book.
+    this.settle(!t.startTurned, { x: 0, y: 0 }, (l.spread ? -0.14 : -0.26) * w, l.spread ? 0.82 : 0.66)
+    return true
+  }
+
+  /**
+   * Lifts the edge of the page a little and lets it fall back: shows, once, that the paper can be taken.
+   * Does nothing if a turn is under way or the finger is down.
+   */
+  peek(): boolean {
+    const l = this.layout
+    if (!l || this.turnState || this.down) return false
+    const w = this.px(l.pageW)
+    const h = this.px(l.pageH)
+    if (!this.canGo(1) || !this.begin(1, { x: w, y: h * 0.7 }, 'auto')) return false
+    const t = this.turnState!
+    t.resist = true // it never leaves the page, and nothing underneath needs to be ready
+    t.peek = w * 0.085
+    t.toHi = false
+    t.from = { ...t.p }
+    t.to = { ...t.p }
+    t.vel = { x: 0, y: 0 }
+    t.dur = 1.25
+    t.t = 0
+    this.last = 0
+    this.run()
     return true
   }
 
@@ -618,8 +689,10 @@ export class CurlEngine {
     const t = this.turnState
     if (!t) return
     this.turnState = null
-    const next = t.resist ? this.pos : toHi ? t.hi : t.lo
+    const next = t.resist ? this.pos : toHi !== t.mirror ? t.hi : t.lo
     const changed = next !== this.pos
+    if (changed) this.lastDir = next > this.pos ? 1 : -1
+    this.hurry = 1
     this.pos = next
     this.draw()
     if (changed) this.events.onChange?.(next)
@@ -694,7 +767,7 @@ export class CurlEngine {
       }
       again = far
     } else if (t?.mode === 'auto') {
-      t.t += dt
+      t.t += dt * this.hurry
       const s = Math.min(1, t.t / t.dur)
       // Cubic Hermite: leaves with the hand's velocity, arrives at rest.
       const s2 = s * s
@@ -705,8 +778,10 @@ export class CurlEngine {
       const l = this.layout
       // The hand's rise is tied to how far the page has travelled, not to the clock, so the corner leads from the first frame.
       const lift = t.arc * Math.sin(Math.PI * h01)
+      // A peek goes out and comes back: the edge lifts a little, as if a breath had caught it.
+      const out = t.peek ? t.peek * Math.pow(Math.sin(Math.PI * s), 2) : 0
       t.p = constrain(
-        { x: h00 * t.from.x + h10 * t.dur * t.vel.x + h01 * t.to.x, y: h00 * t.from.y + h10 * t.dur * t.vel.y + h01 * t.to.y + lift },
+        { x: h00 * t.from.x + h10 * t.dur * t.vel.x + h01 * t.to.x - out, y: h00 * t.from.y + h10 * t.dur * t.vel.y + h01 * t.to.y + lift - out * 0.35 },
         t.ay,
         this.px(l.pageW),
         this.px(l.pageH),
@@ -783,13 +858,13 @@ export class CurlEngine {
     gl.clear(gl.COLOR_BUFFER_BIT)
     gl.useProgram(this.prog)
 
-    const lo = t ? t.lo : this.pos
-    const hi = t ? t.hi : this.pos
-    const frontI = this.front(lo)
-    const farI = this.far(lo)
+    const role = this.roles(t ? t.lo : this.pos, t ? t.hi : this.pos, !!t?.mirror)
+    const frontI = role.front
+    const farI = role.far
     const hasFront = this.bind(0, frontI)
-    const hasBack = t && !t.resist ? this.bind(1, l.spread ? this.back(hi) : frontI) : this.bind(1, l.spread ? -1 : frontI)
-    const hasUnder = t && !t.resist ? this.bind(2, this.under(hi)) : this.bind(2, -1)
+    // One page: the back of the leaf is its own front seen through the paper.
+    const hasBack = this.bind(1, l.spread ? (t ? role.back : -1) : frontI)
+    const hasUnder = this.bind(2, t ? role.under : -1)
     const hasFar = this.bind(3, farI)
 
     let cyl: Cylinder = FLAT
@@ -799,7 +874,7 @@ export class CurlEngine {
     gl.uniform2f(u.uRes, this.canvas.width, this.canvas.height)
     gl.uniform2f(u.uPage, Math.round(w), Math.round(h))
     gl.uniform2f(u.uSpine, Math.round(l.spineX * l.scale), Math.round(l.top * l.scale))
-    gl.uniform1f(u.uFlip, l.rtl ? -1 : 1)
+    gl.uniform1f(u.uFlip, (l.rtl ? -1 : 1) * (t?.mirror ? -1 : 1))
     gl.uniform1f(u.uSpread, l.spread ? 1 : 0)
     gl.uniform1f(u.uOn, on)
     gl.uniform3f(u.uCyl, cyl.ox, cyl.oy, cyl.r)

@@ -30,7 +30,10 @@ export interface Cylinder {
 export const FLAT: Cylinder = { ox: 1e6, oy: 0, nx: 1, ny: 0, r: 0 }
 
 /** Radius the curl would like to have for a page of this width (px). */
-export const baseRadius = (w: number) => Math.min(84, Math.max(26, w * 0.105))
+export const baseRadius = (w: number) => Math.min(150, Math.max(40, w * 0.18))
+
+/** The roll may be this fraction of the clearance between the fold and the spine: it closes as the leaf comes down. */
+const ROLL_PER_ROOM = 0.42
 
 const smooth = (a: number, b: number, v: number) => {
   const t = Math.min(1, Math.max(0, (v - a) / (b - a)))
@@ -38,7 +41,7 @@ const smooth = (a: number, b: number, v: number) => {
 }
 
 /** The radius the roll wants when the edge point is `dist` away from where it started: small as the page lifts, full once it is over. */
-const wishRadius = (radius: number, dist: number) => radius * (0.5 + 0.5 * smooth(0, radius * 2.4, dist))
+const wishRadius = (radius: number, dist: number) => radius * (0.42 + 0.58 * smooth(0, radius * 2.2, dist))
 
 /**
  * Bound paper cannot stretch: the image of A stays within its own distance from both ends of the spine
@@ -55,8 +58,9 @@ export function constrain(p: Vec, ay: number, w: number, h: number, radius = 0):
   const progress = Math.min(1, Math.max(0, (w - x) / (2 * w)))
   for (let i = 0; i < 5; i++) {
     const dist = Math.hypot(w - x, ay - y)
-    // room ≥ ρ  ⇔  |S − P|² ≤ |S − A|² − 2ρ·|A − P|   (ρ: a quarter-turn of the roll, tapering to nothing at the end)
-    const rho = radius > 0 ? (Math.PI / 2) * wishRadius(radius, dist) * 0.92 * Math.min(1, (1 - progress) / 0.22) : 0
+    // room ≥ ρ  ⇔  |S − P|² ≤ |S − A|² − 2ρ·|A − P|
+    // (ρ: the clearance a full roll needs; from the middle of the turn on, no more than a straight fold would have.)
+    const rho = radius > 0 ? Math.min((wishRadius(radius, dist) * 0.9) / ROLL_PER_ROOM, 0.86 * w * (1 - progress)) : 0
     const rTop = Math.sqrt(Math.max(0, top2 - 2 * rho * dist))
     const rBot = Math.sqrt(Math.max(0, bot2 - 2 * rho * dist))
     const dTop = Math.hypot(x, y)
@@ -104,10 +108,10 @@ export function solve(p: Vec, ay: number, w: number, h: number, radius = baseRad
   const my = (ay + p.y) / 2
   const mTop = (0 - mx) * nx + (0 - my) * ny
   const mBot = (0 - mx) * nx + (h - my) * ny
-  // The axis sits πr/2 before the mirror line and must not reach the spine, so the roll tightens as the leaf lands.
+  // The axis sits πr/2 before the mirror line and must stay clear of the spine, so the roll closes as the leaf lands.
   const room = Math.max(0, -Math.max(mTop, mBot))
   const wish = wishRadius(radius, dist)
-  const r = Math.max(0.01, Math.min(wish, (2 / Math.PI) * room))
+  const r = Math.max(0.01, Math.min(wish, ROLL_PER_ROOM * room))
   const reach = dist >= Math.PI * r ? (dist + Math.PI * r) / 2 : r * edgeAngle(dist / r)
   return { ox: w - nx * reach, oy: ay - ny * reach, nx, ny, r }
 }
@@ -135,6 +139,9 @@ export function gripY(fingerY: number, h: number): number {
   return Math.min(h, Math.max(0, fingerY + pull * 0.2 * h))
 }
 
+/** How far the edge point has travelled when the finger is `u` away from where the edge started. */
+export const travelFor = (u: number, single: boolean, radius: number) => (single ? u + Math.max(0, u - Math.PI * radius * 0.8) : u)
+
 /**
  * Where the edge point should be for a finger at F.
  *  - two pages: the edge itself stays under the finger, right across the spread;
@@ -146,8 +153,7 @@ export function follow(f: Vec, ay: number, w: number, h: number, single: boolean
   const dy = f.y - ay
   const u = Math.hypot(dx, dy)
   if (u < 1e-3) return { x: w, y: ay }
-  const travel = single ? u + Math.max(0, u - Math.PI * radius * 0.82) : u
-  const k = travel / u
+  const k = travelFor(u, single, radius) / u
   return constrain({ x: w + dx * k, y: ay + dy * k }, ay, w, h, radius)
 }
 

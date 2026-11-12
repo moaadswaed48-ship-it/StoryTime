@@ -24,7 +24,8 @@ export function stageFor(w: number, h: number): Stage {
   const spread = w >= 600 && w / h >= 1.15
   if (spread) {
     const padX = Math.round(Math.min(88, Math.max(56, w * 0.05)))
-    const padY = Math.round(Math.min(30, Math.max(12, h * 0.03)))
+    // Air above and below: a lifted corner has somewhere to go without leaving the window.
+    const padY = Math.round(Math.min(38, Math.max(12, h * 0.036)))
     let pageH = Math.min(940, h - 2 * padY)
     // A phone on its side is short: its pages may be as wide as they are tall, so the text keeps some room.
     let pageW = Math.floor(Math.min((w - 2 * padX) / 2, pageH * (pageH < 520 ? 1 : 0.8)))
@@ -56,8 +57,9 @@ export interface PageGeometry {
   fontSize: number
   lineHeight: number
   paraGap: number
-  /** Baseline of the page number. */
+  /** Baseline and size of the page number. */
   folioY: number
+  folioSize: number
 }
 
 /** Text sizes the reader offers, as multiples of the page's natural size. */
@@ -78,7 +80,8 @@ export interface TypeOptions {
 /** Margins, type size and text areas for a page of `pageW × pageH`. */
 export function geometryFor(pageW: number, pageH: number, o: TypeOptions): PageGeometry {
   const step = SIZE_STEPS[Math.min(SIZE_STEPS.length - 1, Math.max(0, o.size))]
-  const natural = o.arabic ? Math.min(25, Math.max(19.5, pageW * 0.054)) : Math.min(23, Math.max(17, pageW * 0.046))
+  // The type follows the page's width, but a short page gets smaller type so a scene still fits beside its painting.
+  const natural = o.arabic ? Math.min(25, Math.max(19.5, Math.min(pageW * 0.054, pageH / 35))) : Math.min(23, Math.max(17, Math.min(pageW * 0.046, pageH / 40)))
   const fontSize = Math.round(natural * step * (o.classroom ? 1.3 : 1) * 2) / 2
   // Arabic carries marks above and below the line and needs air; Latin serif is happy tighter.
   const lineHeight = Math.round(fontSize * (o.arabic ? 1.86 : 1.56))
@@ -90,24 +93,45 @@ export function geometryFor(pageW: number, pageH: number, o: TypeOptions): PageG
   const insetTop = o.insetTop ?? 0
   const insetBottom = o.insetBottom ?? 0
   const folio = Math.round(Math.max(40, pageH * 0.062)) + insetBottom
+  const textTop = pictureH + Math.round(lineHeight * 0.62)
+  // Pages without a painting start near the top, on the same grid of lines as the pages with one,
+  // so the lines of two facing pages sit level with each other.
+  const highest = Math.round(Math.max(54, pageH * 0.09)) + insetTop
+  const plainTop = textTop - Math.max(0, Math.floor((textTop - highest) / lineHeight)) * lineHeight
   return {
     pageW,
     pageH,
     marginX,
     pictureH,
-    textTop: pictureH + Math.round(lineHeight * 0.62),
-    plainTop: Math.round(Math.max(54, pageH * 0.09)) + insetTop,
+    textTop,
+    plainTop,
     textBottom: pageH - folio,
     fontSize,
     lineHeight,
     paraGap,
     folioY: pageH - insetBottom - Math.round(folio - insetBottom) * 0.42,
+    folioSize: Math.min(15, Math.max(12.5, pageW * 0.023)),
   }
+}
+
+/** A dash that opens a line of dialogue stays with the word it introduces (never alone at the end of a line). */
+function units(text: string): string[] {
+  const out: string[] = []
+  let lead = ''
+  for (const word of text.split(/\s+/).filter(Boolean)) {
+    if (/^[-–—]$/.test(word)) lead += `${word} `
+    else {
+      out.push(lead + word)
+      lead = ''
+    }
+  }
+  if (lead) out.push(lead.trimEnd())
+  return out
 }
 
 /** Breaks one paragraph into lines no wider than `maxW`. Words are kept whole; nothing is added or removed. */
 export function wrap(text: string, maxW: number, measure: Measure): string[] {
-  const words = text.split(/\s+/).filter(Boolean)
+  const words = units(text)
   const lines: string[] = []
   let line = ''
   for (const word of words) {

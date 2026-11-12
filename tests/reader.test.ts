@@ -38,6 +38,15 @@ describe('wrap', () => {
     const lines = wrap('aa bbbbbbbbbbbbbbbbbbbbbbbb cc', 100, mono())
     expect(lines).toEqual(['aa', 'bbbbbbbbbbbbbbbbbbbbbbbb', 'cc'])
   })
+  it('keeps the dash of a line of dialogue with the words it introduces', () => {
+    const text = 'ابتسمت المعلّمة وقالت: - "شكرًا لكما'
+    for (let w = 60; w <= 400; w += 10) {
+      const lines = wrap(text, w, mono())
+      expect(lines.join(' ')).toBe(text)
+      for (const l of lines) expect(l.endsWith('-')).toBe(false)
+    }
+    expect(wrap('- واو', 1000, mono())).toEqual(['- واو'])
+  })
   it('balances a title so no word is left alone', () => {
     const title = story.title.ar
     const lines = wrapBalanced(title, 200, mono(), 2)
@@ -115,8 +124,17 @@ describe('page geometry', () => {
   it('makes room for a notch and a home indicator', () => {
     const plain = geometryFor(390, 844, { size: 1, arabic: true })
     const safe = geometryFor(390, 844, { size: 1, arabic: true, insetTop: 47, insetBottom: 34 })
-    expect(safe.plainTop).toBe(plain.plainTop + 47)
+    expect(safe.plainTop).toBeGreaterThanOrEqual(Math.round(844 * 0.09) + 47)
+    expect(plain.plainTop).toBeLessThan(safe.plainTop)
     expect(safe.textBottom).toBe(plain.textBottom - 34)
+  })
+  it('sets pages with and without a painting on one grid of lines', () => {
+    for (const size of [0, 1, 2, 3, 4]) {
+      const g = geometryFor(648, 846, { size, arabic: true })
+      expect((g.textTop - g.plainTop) % g.lineHeight).toBe(0)
+      expect(g.plainTop).toBeGreaterThanOrEqual(54)
+      expect(g.plainTop).toBeLessThan(54 + 846 * 0.09 + g.lineHeight)
+    }
   })
 })
 
@@ -292,10 +310,13 @@ describe('curl geometry', () => {
     expect(two.x).toBeCloseTo(120, 3)
     const one = follow(finger, 400, w, h, true, R)
     const c = solve(one, 400, w, h, R)
-    // the roll's crest (its axis) is within a radius of the finger
-    expect(Math.abs(c.ox - finger.x)).toBeLessThan(R)
-    // and a finger at the bound edge has (nearly) turned the page
-    expect(progressOf(follow({ x: 0, y: 400 }, 400, w, h, true, R), w)).toBeGreaterThan(0.8)
+    // the finger is on the roll: between its axis and its rim
+    expect(finger.x).toBeGreaterThan(c.ox - c.r * 0.5)
+    expect(finger.x).toBeLessThan(c.ox + c.r * 1.2)
+    // and a finger at the bound edge has rolled the page up against the binding
+    const end = solve(follow({ x: 0, y: 400 }, 400, w, h, true, R), 400, w, h, R)
+    expect(end.ox + end.r).toBeLessThan(w * 0.3)
+    expect(progressOf(follow({ x: 0, y: 400 }, 400, w, h, true, R), w)).toBeGreaterThan(0.65)
   })
   it('takes the page by its corner when it is held low or high, and straight in the middle', () => {
     expect(gripY(400, h)).toBe(400)
