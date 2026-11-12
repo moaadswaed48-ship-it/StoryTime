@@ -37,7 +37,7 @@ const imagesAsPictures = (loader: { register: (cb: (parser: { textureLoader: THR
 /** Sari's loaded model (suspends until it is ready). Use this instead of calling `useGLTF` directly. */
 export function useSari() {
   if (B64) use(modelBytes())
-  return B64 ? useGLTF(URL, true, true, imagesAsPictures as never) : useGLTF(URL)
+  return B64 ? useGLTF(URL, false, false, imagesAsPictures as never) : useGLTF(URL)
 }
 
 /** Extra bone rotations (Euler XYZ, radians) layered on the bind pose. Found by test renders of this rig. */
@@ -142,5 +142,5 @@ export function SariModel({ action = 'idle', speed = 1, ...props }: { action?: S
     </group>
   )
 }
-if (B64) void modelBytes().then(() => useGLTF.preload(URL, true, true, imagesAsPictures as never))
+if (B64) void modelBytes().then(() => useGLTF.preload(URL, false, false, imagesAsPictures as never))
 else useGLTF.preload(URL)
