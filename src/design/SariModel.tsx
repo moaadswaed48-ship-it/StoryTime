@@ -53,17 +53,19 @@ export function SariModel({ action = 'idle', speed = 1, ...props }: { action?: S
   const mixer = useMemo(() => new THREE.AnimationMixer(scene), [scene])
   const run = useMemo(() => {
     const clip = gltf.animations.find((a) => a.name === 'run') ?? gltf.animations[0]
-    const a = mixer.clipAction(clip)
-    a.play()
-    a.setEffectiveWeight(0)
-    return a
+    return mixer.clipAction(clip)
   }, [gltf.animations, mixer])
   const w = useRef({ run: 0, wave: 0, t: Math.random() * 10 })
   const actionRef = useRef(action)
   actionRef.current = action
   const speedRef = useRef(speed)
   speedRef.current = speed
-  useEffect(() => () => void mixer.stopAllAction(), [mixer])
+  // started in an effect (not in useMemo) so it survives React's development effect replay
+  useEffect(() => {
+    run.reset().play()
+    run.setEffectiveWeight(0)
+    return () => void mixer.stopAllAction()
+  }, [mixer, run])
 
   useFrame((_, delta) => {
     const dt = Math.min(delta, 1 / 30)
