@@ -97,7 +97,8 @@ function PaperItem({ index, name }: { index: number; name: string }) {
     mats.ring.opacity = (0.6 + pulse * 0.3) * (1 - k) * close * close
     marker.current.position.y = (tall ? 2.05 : 1.7) - lay * 0.35 + Math.sin(st.t * 3) * 0.09
     marker.current.scale.setScalar(0.42 * big)
-    mats.marker.opacity = (1 - k) * close * close
+    // the arrow belongs to a standing paper; over one lying at Sari's feet it would float in front of his face
+    mats.marker.opacity = (1 - k) * close * close * (1 - lay)
   })
 
   return (
@@ -115,7 +116,7 @@ function PaperItem({ index, name }: { index: number; name: string }) {
 export function Papers() {
   const papers = useGame((g) => g.papers)
   const reduced = useSiteStore((s) => s.tier === 'reduced')
-  const s = useRef({ next: 5.5, rnd: mulberry32(99), targets: [] as (Point | null)[], hidden: [] as { i: number; px: number; py: number; d: number }[] })
+  const s = useRef({ next: 5.5, rnd: mulberry32(99), targets: [] as (Point | null)[], hidden: [] as { i: number; px: number; py: number; d: number }[], shown: [] as number[] })
 
   useFrame((state, delta) => {
     const dt = Math.min(delta, 0.1)
@@ -147,7 +148,9 @@ export function Papers() {
     const { width, height } = state.size
     const playing = game.phase === 'playing'
     const hidden = st.hidden
+    const shown = st.shown // screen places (x, y pairs) of the papers in view: a chip never sits on one of them
     hidden.length = 0
+    shown.length = 0
     for (let i = 0; i < rt.arrows.length; i++) {
       const el = rt.arrows[i]
       if (!el) continue
@@ -172,6 +175,7 @@ export function Papers() {
       if (underLens) py = height * 2
       if (seen) {
         el.style.opacity = '0'
+        shown.push(px, py)
         continue
       }
       hidden.push({ i, px, py, d: Math.hypot(p.x - rt.sari.x, p.z - rt.sari.z) })
@@ -185,8 +189,16 @@ export function Papers() {
         return
       }
       const side = 40
+      const top = 118
+      const bottom = height - (width < 640 ? 196 : 96)
       const cx = THREE.MathUtils.clamp(px, side, width - side)
-      const cy = THREE.MathUtils.clamp(py, 118, height - (width < 640 ? 196 : 96))
+      let cy = THREE.MathUtils.clamp(py, top, bottom)
+      for (let n = 0; n < shown.length; n += 2) {
+        if (Math.abs(shown[n] - cx) < 96 && Math.abs(shown[n + 1] - 30 - cy) < 110) {
+          const up = shown[n + 1] - 150
+          cy = up > top ? up : Math.min(bottom, shown[n + 1] + 90)
+        }
+      }
       el.style.opacity = '1'
       el.style.transform = `translate3d(${cx.toFixed(1)}px, ${cy.toFixed(1)}px, 0)`
       el.style.setProperty('--a', `${Math.atan2(py - cy, px - cx).toFixed(3)}rad`)
