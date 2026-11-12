@@ -1519,6 +1519,8 @@ html[lang='en'] .bk-end-note {
     min-height: 0;
     align-content: safe center;
     padding: 12px 0 0;
+    overflow-y: auto;
+    overscroll-behavior: contain;
   }
   .bk-gate-card {
     width: 100%;
@@ -1605,6 +1607,40 @@ html[lang='en'] .bk-end-note {
   }
   .bk[data-phase='opening'] .bk-top .bk-fade {
     animation-delay: 1.1s;
+  }
+}
+
+/* Shorter phones (a browser's bars take part of the screen): a 3:2 card leaves the text more room. */
+@media (max-width: 900px) and (orientation: portrait) and (max-height: 760px) {
+  .bk {
+    --sh: calc(var(--sw) * 0.6667);
+    --ca: 0.75;
+  }
+  .bk-ghost {
+    aspect-ratio: 3 / 4;
+  }
+  .bk-cap {
+    margin-top: 4px;
+  }
+  .bk-gate-card {
+    padding: 18px 18px 20px;
+  }
+  .bk-gate-icon {
+    display: none;
+  }
+  .bk-gate-title {
+    font-size: 1.15rem;
+  }
+  .bk-gate-sub {
+    margin: 6px 0 14px;
+    font-size: 14px;
+    line-height: 1.55;
+  }
+  .bk-out-end .bk-end-actions {
+    gap: 10px;
+  }
+  .bk-end-note {
+    margin-top: 12px;
   }
 }
 
