@@ -17,7 +17,6 @@ import { exposeQA } from '@/lib/qa'
 import { useSiteStore } from '@/store/useSiteStore'
 import { DRAG, WAVE_MS, createRuntime, wrapAngle } from './runtime'
 import { FOV, Scene } from './Scene'
-import { TUNE } from './Acting'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -304,7 +303,6 @@ export function Stage() {
           poke()
         },
         yaw: () => wrapAngle(rt.yaw),
-        tune: (o: object) => void Object.assign(TUNE, o),
         state: () => ({ ...snap.current, webgl: !snap.current.flat, yaw: wrapAngle(rt.yaw), shown: rt.shown, run: rt.run, stride: rt.stride, scroll: rt.scroll, calls: rt.calls, frames: rt.frames }),
       },
     })

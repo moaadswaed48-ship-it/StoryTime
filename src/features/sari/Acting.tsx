@@ -31,9 +31,6 @@ interface Channel {
   move: boolean
 }
 
-/** QA only (while the pose is being tuned): extra turns per bone, and whole-pose overrides. */
-export const TUNE: { hang?: typeof HANG; hello?: typeof HELLO; freeze?: number; phase?: number } = {}
-
 /**
  * Sari's acting, layered on <SariModel> (which draws him and breathes). Runs after it in the frame and adds:
  *  - a relaxed stand: arms hanging with the palms toward the legs, one a little further out, a slow sway of his
@@ -113,12 +110,10 @@ export function Acting({ rt, turntable }: { rt: Runtime; turntable: React.RefObj
     const add = (name: string, x: number, y: number, z: number) => bones[name]?.quaternion.multiply(_q.setFromEuler(_e.set(x, y, z, 'XYZ')))
 
     v.t += dt
-    if (TUNE.freeze !== undefined) v.t = TUNE.freeze
     const waving = rt.action === 'wave'
     if (waving && v.was !== 'wave') v.waveT = 0 // every hello opens the same way
     v.was = rt.action
     v.waveT += dt
-    if (TUNE.phase !== undefined) v.waveT = TUNE.phase
     v.wave += ((waving ? 1 : 0) - v.wave) * damp(waving ? 10 : 7, dt)
     v.run += ((rt.action === 'run' ? 1 : 0) - v.run) * damp(9, dt)
     if (v.run < 0.002 && rt.action !== 'run') v.run = 0
@@ -131,8 +126,6 @@ export function Acting({ rt, turntable }: { rt: Runtime; turntable: React.RefObj
     // the stand: breath and a slow shift of weight from one leg to the other
     const breath = Math.sin(v.t * 1.7)
     const shift = Math.sin(v.t * 0.55)
-    const hang = TUNE.hang ?? HANG
-    const hello = TUNE.hello ?? HELLO
     // the hello: the forearm swings from the elbow, the hand follows a beat behind
     const beat = Math.sin(v.waveT * 8.6 - 0.6)
     const lag = Math.sin(v.waveT * 8.6 - 1.5)
@@ -140,8 +133,8 @@ export function Acting({ rt, turntable }: { rt: Runtime; turntable: React.RefObj
       const m = side === 'Right' ? 1 : -1
       const up = side === WAVER ? w : 0
       for (const j of JOINTS) {
-        const a = hang[j]
-        const b = hello[j]
+        const a = HANG[j]
+        const b = HELLO[j]
         // the elbow folds before the arm has finished rising and unfolds last on the way down: the hand leads, as a child's does
         const k = j === 'Arm' ? up : 1 - (1 - up) ** 2
         let x = a[0] + (b[0] - a[0]) * k
