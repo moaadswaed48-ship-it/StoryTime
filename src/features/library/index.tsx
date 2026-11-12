@@ -1,10 +1,10 @@
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState, type CSSProperties } from 'react'
-import { ArrowLeft, ArrowRight, BookOpen, Gamepad2, Play } from 'lucide-react'
+import { ArrowLeft, ArrowRight, ArrowUpLeft, ArrowUpRight, BookOpen, Gamepad2, Play } from 'lucide-react'
 import { prefersReducedNow } from '@/app/useMotionTier'
 import { library } from '@/content/library'
 import { BlurWords, Container, Pill, SectionHead, useOnScreen } from '@/design/ui'
 import { t } from '@/i18n/copy'
-import { locale, num, rtl } from '@/i18n/locale'
+import { dirSign, locale, num, rtl } from '@/i18n/locale'
 import { cn } from '@/lib/cn'
 import { exposeQA } from '@/lib/qa'
 import { useSiteStore } from '@/store/useSiteStore'
@@ -20,9 +20,11 @@ const COUNTS = Object.fromEntries(FILTERS.map((f) => [f, library.filter((b) => f
 function guessMetrics(): Metrics {
   const w = typeof window === 'undefined' ? 1440 : window.innerWidth
   const h = typeof window === 'undefined' ? 900 : window.innerHeight
-  const stageH = w < 640 ? Math.min(460, Math.max(410, h * 0.52)) : Math.min(640, Math.max(460, h * 0.64))
+  const stageH = w < 640 ? Math.min(430, Math.max(380, h * 0.48)) : Math.min(640, Math.max(460, h * 0.64))
   return computeMetrics(w, Math.round(stageH), h)
 }
+
+const OpenIcon = rtl ? ArrowUpLeft : ArrowUpRight
 
 /** Arrow that points toward the previous / next book whatever the reading direction. */
 function Arrow({ next }: { next?: boolean }) {
@@ -41,6 +43,7 @@ export function Library() {
   const sceneRef = useRef<HTMLDivElement>(null)
   const plankRef = useRef<HTMLDivElement>(null)
   const lipRef = useRef<HTMLDivElement>(null)
+  const wallRef = useRef<HTMLDivElement>(null)
   const slotRef = useRef<HTMLDivElement>(null)
   const panelRef = useRef<HTMLDivElement>(null)
   const backRef = useRef<HTMLButtonElement>(null)
@@ -66,7 +69,7 @@ export function Library() {
         setDetail(i)
         if (i !== null) setShown((s) => ({ i, seq: s.seq + 1 }))
       },
-      onLanded: () => setWaiting(false),
+      onLanded: (landed) => setWaiting(!landed),
       onFilter: setFilter,
       onCover: (i) => library[i].ready && useSiteStore.getState().openBook(0),
     })
@@ -85,6 +88,7 @@ export function Library() {
       scene: sceneRef.current!,
       plank: plankRef.current!,
       lip: lipRef.current!,
+      wall: wallRef.current!,
       slot: slotRef.current!,
       panel: panelRef.current!,
       books: bookEls.current,
@@ -114,6 +118,11 @@ export function Library() {
     shelf.setMetrics(metrics, geoms)
     shelf.renderNow()
   }, [shelf, metrics, geoms])
+
+  // The detail panel is centred, so its slot moves when its text changes: re-read it after every such render.
+  useLayoutEffect(() => {
+    if (detail !== null) shelf.measureSlot()
+  }, [shelf, detail, shown])
 
   useEffect(() => shelf.setReduced(reduced), [shelf, reduced])
   useEffect(() => shelf.setOnScreen(onScreen), [shelf, onScreen])
@@ -201,44 +210,57 @@ export function Library() {
         </div>
       </Container>
 
-      <div
-        ref={stageRef}
-        className="lib-stage mt-2 lg:mt-0"
-        role="listbox"
-        aria-orientation="horizontal"
-        aria-label={t.library.title}
-        aria-activedescendant={`lib-book-${book.id}`}
-        tabIndex={detail === null ? 0 : -1}
-        style={{ perspective: `${m.persp}px`, perspectiveOrigin: `50% ${m.eyeY}px` }}
-      >
-        <div className="lib-wall" aria-hidden />
-        <div ref={sceneRef} className="lib-scene" role="presentation" style={{ transformOrigin: `50% ${m.floorY}px` }}>
-          <div
-            ref={plankRef}
-            className="lib-plank"
-            aria-hidden
-            style={{ top: m.floorY, width: m.plankW, height: m.plankFront + m.plankBack, marginLeft: -m.plankW / 2, transform: `translateZ(${-m.plankBack}px) rotateX(90deg)` }}
-          >
+      <div className="lib-stagewrap mt-2 lg:mt-0">
+        <div
+          ref={stageRef}
+          className="lib-stage"
+          role="listbox"
+          aria-orientation="horizontal"
+          aria-label={t.library.title}
+          aria-activedescendant={`lib-book-${book.id}`}
+          tabIndex={detail === null ? 0 : -1}
+          style={{ perspective: `${m.persp}px`, perspectiveOrigin: `50% ${m.eyeY}px` }}
+        >
+          <div className="lib-wall" aria-hidden />
+          <div ref={wallRef} className="lib-wallshadow" aria-hidden style={{ top: m.floorY - m.S * 0.8, height: m.S * 0.8 }} />
+          <div ref={sceneRef} className="lib-scene" role="presentation" style={{ transformOrigin: `50% ${m.floorY}px` }}>
+            <div
+              ref={plankRef}
+              className="lib-plank"
+              aria-hidden
+              style={{ top: m.floorY, width: m.plankW, height: m.plankFront + m.plankBack, marginLeft: -m.plankW / 2, transform: `translateZ(${-m.plankBack}px) rotateX(90deg)` }}
+            >
+              {library.map((b, i) => (
+                <div
+                  key={b.id}
+                  ref={(el) => {
+                    shadowEls.current[i] = el
+                  }}
+                  className="lib-shadow"
+                  style={{ width: geoms[i].W, height: geoms[i].T }}
+                />
+              ))}
+            </div>
+            <div ref={lipRef} className="lib-lip" aria-hidden style={{ top: m.floorY, width: m.plankW, height: m.lip, marginLeft: -m.plankW / 2, transform: `translateZ(${m.plankFront}px)` }} />
             {library.map((b, i) => (
-              <div
-                key={b.id}
-                ref={(el) => {
-                  shadowEls.current[i] = el
-                }}
-                className="lib-shadow"
-                style={{ width: geoms[i].W, height: geoms[i].T }}
-              />
+              <Book key={b.id} book={b} g={geoms[i]} m={m} i={i} selected={i === sel} setRef={setBookRef} />
             ))}
           </div>
-          <div ref={lipRef} className="lib-lip" aria-hidden style={{ top: m.floorY, width: m.plankW, height: m.lip, marginLeft: -m.plankW / 2, transform: `translateZ(${m.plankFront}px)` }} />
-          {library.map((b, i) => (
-            <Book key={b.id} book={b} g={geoms[i]} m={m} i={i} selected={i === sel} setRef={setBookRef} />
-          ))}
         </div>
+        <button
+          type="button"
+          className="lib-open"
+          aria-label={book.title[locale]}
+          tabIndex={detail === null ? 0 : -1}
+          style={{ left: `calc(50% + ${Math.round(dirSign * geoms[READY].W * 0.52)}px)`, top: m.floorY + Math.round(m.S * 0.075), '--dir': dirSign } as CSSProperties}
+          onClick={() => shelf.open()}
+        >
+          <OpenIcon size={22} strokeWidth={2.2} aria-hidden />
+        </button>
       </div>
 
       <Container className="lib-chrome pb-20 lg:pb-28">
-        <div className="lib-caption">
+        <div className="lib-caption pt-5 lg:pt-7">
           <div className="mx-auto grid max-w-[44rem] grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-3 sm:gap-8">
             <button type="button" className="lib-arrow" aria-label={t.library.prev} disabled={pos <= 0} onClick={() => shelf.step(-1)}>
               <Arrow />
@@ -316,11 +338,11 @@ export function Library() {
                       <BookOpen size={19} aria-hidden />
                       {t.library.read}
                     </Pill>
-                    <Pill variant="outline" size="lg" className="px-5" data-act="watch" onClick={() => useSiteStore.getState().openFilm(0)}>
+                    <Pill variant="outline" size="lg" className="whitespace-nowrap px-4 max-sm:gap-2 max-sm:text-[15px] sm:px-6" data-act="watch" onClick={() => useSiteStore.getState().openFilm(0)}>
                       <Play size={17} fill="currentColor" aria-hidden />
                       {t.library.watch}
                     </Pill>
-                    <Pill variant="outline" size="lg" className="px-5" data-act="play" onClick={playGame}>
+                    <Pill variant="outline" size="lg" className="whitespace-nowrap px-4 max-sm:gap-2 max-sm:text-[15px] sm:px-6" data-act="play" onClick={playGame}>
                       <Gamepad2 size={19} aria-hidden />
                       {t.library.play}
                     </Pill>

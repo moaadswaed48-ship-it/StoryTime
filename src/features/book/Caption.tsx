@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useRef, useState, type CSSProperties, type RefObject } from 'react'
+import { useEffect, useLayoutEffect, useRef, useState, type RefObject } from 'react'
 import { story } from '@/content/story'
 import { locale } from '@/i18n/locale'
 import { cn } from '@/lib/cn'
@@ -16,14 +16,12 @@ function useEntered() {
 }
 
 /** The soft dark band behind the text on the wide spread. It stretches to the height of the paragraph. */
-function Grad({ delay, out, gref }: { delay: number; out?: boolean; gref?: RefObject<HTMLDivElement | null> }) {
-  const [d] = useState(delay)
+function Grad({ go, out, gref }: { go: boolean; out?: boolean; gref?: RefObject<HTMLDivElement | null> }) {
   const inn = useEntered()
-  return <div ref={gref} className={cn('bk-cap-grad', inn && !out && 'is-in', out && 'is-out')} style={{ '--d': `${d}s` } as CSSProperties} aria-hidden />
+  return <div ref={gref} className={cn('bk-cap-grad', inn && go && !out && 'is-in', out && 'is-out')} aria-hidden />
 }
 
-function Item({ scene, step, delay, out, stack, grad }: { scene: number; step: number; delay: number; out?: boolean; stack: boolean; grad?: RefObject<HTMLDivElement | null> }) {
-  const [d] = useState(delay)
+function Item({ scene, step, go, out, stack, grad }: { scene: number; step: number; go: boolean; out?: boolean; stack: boolean; grad?: RefObject<HTMLDivElement | null> }) {
   const inn = useEntered()
   const item = useRef<HTMLDivElement>(null)
   const scroller = useRef<HTMLDivElement>(null)
@@ -65,7 +63,7 @@ function Item({ scene, step, delay, out, stack, grad }: { scene: number; step: n
   }, [text, stack, out, grad])
 
   return (
-    <div ref={item} className={cn('bk-cap-item', inn && !out && 'is-in', out && 'is-out')} style={{ '--d': `${d}s` } as CSSProperties} aria-hidden={out || undefined}>
+    <div ref={item} className={cn('bk-cap-item', inn && go && !out && 'is-in', out && 'is-out')} aria-hidden={out || undefined}>
       <div className="bk-cap-meta">
         <span className="bk-cap-title">{story.scenes[scene].title[locale]}</span>
         {all.length > 1 && (
@@ -85,8 +83,11 @@ function Item({ scene, step, delay, out, stack, grad }: { scene: number; step: n
   )
 }
 
-/** One paragraph of the author's text at a time; paragraphs cross-fade, and the band behind them follows. */
-export function Caption({ scene, step, delay, stack, hide }: { scene: number; step: number; delay: number; stack: boolean; hide?: boolean }) {
+/**
+ * One paragraph of the author's text at a time; paragraphs cross-fade, and the band behind them follows.
+ * `go` is false while a leaf is still in the air: the new text waits until the page has landed.
+ */
+export function Caption({ scene, step, go, stack, hide }: { scene: number; step: number; go: boolean; stack: boolean; hide?: boolean }) {
   const lag = useLagged({ scene, step }, `${scene}-${step}`, 260)
   const gradLag = useLagged(scene, `g${scene}`, 260)
   const grad = useRef<HTMLDivElement>(null)
@@ -96,10 +97,10 @@ export function Caption({ scene, step, delay, stack, hide }: { scene: number; st
   }, [scene, step])
   return (
     <div className="bk-cap" ref={cap} aria-live="polite" data-hide={hide || undefined}>
-      {gradLag.prev && <Grad key={gradLag.prev.k} delay={0} out />}
-      <Grad key={gradLag.cur.k} delay={delay} gref={grad} />
-      {lag.prev && <Item key={lag.prev.k} scene={lag.prev.v.scene} step={lag.prev.v.step} delay={0} out stack={stack} />}
-      <Item key={lag.cur.k} scene={scene} step={step} delay={delay} stack={stack} grad={grad} />
+      {gradLag.prev && <Grad key={gradLag.prev.k} go={false} out />}
+      <Grad key={gradLag.cur.k} go={go} gref={grad} />
+      {lag.prev && <Item key={lag.prev.k} scene={lag.prev.v.scene} step={lag.prev.v.step} go={false} out stack={stack} />}
+      <Item key={lag.cur.k} scene={scene} step={step} go={go} stack={stack} grad={grad} />
     </div>
   )
 }

@@ -16,10 +16,12 @@ export interface StripHandle {
   playing: (i: number) => boolean
 }
 
+type CardApi = { hover: () => void; leave: () => void; playing: () => boolean }
+
 const canHover = () => typeof window !== 'undefined' && window.matchMedia('(hover: hover) and (pointer: fine)').matches
 
 /** One 16:9 scene card. With a mouse, the scene's real clip plays inside the card while it is hovered or focused. */
-function SceneCard({ index, order, live, clash, reduced, register }: { index: number; order: number; live: boolean; clash: boolean; reduced: boolean; register: (order: number, api: { hover: () => void; leave: () => void; playing: () => boolean } | null) => void }) {
+function SceneCard({ index, order, live, clash, reduced, register }: { index: number; order: number; live: boolean; clash: boolean; reduced: boolean; register: (order: number, api: CardApi | null) => void }) {
   const scene = story.scenes[index]
   const openFilm = useSiteStore((s) => s.openFilm)
   const video = useRef<HTMLVideoElement>(null)
@@ -107,10 +109,10 @@ function SceneCard({ index, order, live, clash, reduced, register }: { index: nu
 export const SceneStrip = forwardRef<StripHandle, { reduced: boolean; clash: number[] }>(function SceneStrip({ reduced, clash }, ref) {
   const el = useRef<HTMLDivElement>(null)
   const openBook = useSiteStore((s) => s.openBook)
-  const cards = useRef<Array<{ hover: () => void; leave: () => void; playing: () => boolean } | null>>([])
+  const cards = useRef<Array<CardApi | null>>([])
   const [live, setLive] = useState(false)
   useEffect(() => setLive(canHover()), [])
-  const register = useCallback((order: number, api: { hover: () => void; leave: () => void; playing: () => boolean } | null) => {
+  const register = useCallback((order: number, api: CardApi | null) => {
     cards.current[order] = api
   }, [])
 
@@ -125,19 +127,21 @@ export const SceneStrip = forwardRef<StripHandle, { reduced: boolean; clash: num
 
   return (
     <div ref={el} className="hero-strip">
-      <div className="hero-strip__head hero-rise" style={{ '--d': '820ms' } as CSSProperties} data-hero-ui="strip">
-        <p className="hero-strip__label">{t.hero.scenes}</p>
-        <button type="button" className="hero-strip__all" onClick={() => openBook(0)}>
-          {t.hero.all}
-          <span className="hero-strip__arrow">
-            <ChevronRight size={16} strokeWidth={2.2} className="flip-rtl" aria-hidden />
-          </span>
-        </button>
-      </div>
-      <div className="hero-strip__rail">
-        {HERO_SCENES.map((index, order) => (
-          <SceneCard key={index} index={index} order={order} live={live} clash={clash.includes(order)} reduced={reduced} register={register} />
-        ))}
+      <div className="hero-strip__in">
+        <div className="hero-strip__head hero-rise" style={{ '--d': '820ms' } as CSSProperties} data-hero-ui="strip">
+          <p className="hero-strip__label">{t.hero.scenes}</p>
+          <button type="button" className="hero-strip__all" onClick={() => openBook(0)}>
+            {t.hero.all}
+            <span className="hero-strip__arrow">
+              <ChevronRight size={16} strokeWidth={2.2} className="flip-rtl" aria-hidden />
+            </span>
+          </button>
+        </div>
+        <div className="hero-strip__rail">
+          {HERO_SCENES.map((index, order) => (
+            <SceneCard key={index} index={index} order={order} live={live} clash={clash.includes(order)} reduced={reduced} register={register} />
+          ))}
+        </div>
       </div>
     </div>
   )

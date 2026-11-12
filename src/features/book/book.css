@@ -44,9 +44,11 @@ html[lang='en'] .bk {
 }
 .bk-amb {
   position: absolute;
-  inset: -8%;
-  width: 116%;
-  height: 116%;
+  left: 50%;
+  top: 50%;
+  width: max(118vw, 118vh * 16 / 9);
+  height: max(118vh, 118vw * 9 / 16);
+  transform: translate(-50%, -50%);
   opacity: 0;
   transition: opacity 1.2s var(--ease-state, ease);
 }
@@ -375,13 +377,11 @@ html[lang='en'] .bk {
 }
 .bk-floor {
   position: absolute;
-  inset: 8% 1.5% -2.5%;
-  border-radius: 40px;
+  inset: auto -2% -9.5%;
+  height: 21%;
   opacity: var(--floor);
-  transform: scaleX(calc(0.62 + 0.38 * var(--floor)));
-  box-shadow:
-    0 60px 90px -30px rgba(0, 0, 0, 0.85),
-    0 24px 44px -16px rgba(0, 0, 0, 0.65);
+  transform: scaleX(calc(0.56 + 0.44 * var(--floor)));
+  background: radial-gradient(closest-side, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.3) 55%, transparent);
 }
 .bk-board,
 .bk-edges-s,
@@ -860,7 +860,7 @@ html[lang='en'] .bk-dedication {
   );
   opacity: 0;
   transition:
-    opacity 0.6s var(--ease-state, ease) var(--d, 0s),
+    opacity 0.6s var(--ease-state, ease) 0.06s,
     transform 0.7s var(--ease-out, ease);
 }
 .bk-cap-grad.is-in {
@@ -878,8 +878,8 @@ html[lang='en'] .bk-dedication {
   opacity: 0;
   transform: translateY(12px);
   transition:
-    opacity 0.7s var(--ease-out, ease) var(--d, 0s),
-    transform 0.85s var(--ease-out, ease) var(--d, 0s);
+    opacity 0.7s var(--ease-out, ease) 0.06s,
+    transform 0.85s var(--ease-out, ease) 0.06s;
 }
 .bk-cap-item.is-in {
   opacity: 1;

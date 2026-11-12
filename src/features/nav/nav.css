@@ -4,6 +4,7 @@
    stays legible on the paper sections). Each pill carries both skins and cross-fades.
    ───────────────────────────────────────────────────────────────────────────── */
 .st-nav {
+  --svh: 1vh;
   position: fixed;
   inset-inline: 0;
   top: 0;
@@ -47,6 +48,12 @@
 }
 .st-nav__side--end {
   justify-content: flex-end;
+}
+
+@supports (height: 1svh) {
+  .st-nav {
+    --svh: 1svh;
+  }
 }
 
 /* A pill with two skins */
@@ -269,7 +276,7 @@
   gap: 14px;
   width: 100%;
   min-height: 56px;
-  padding-block: clamp(6px, 1.7svh, 16px);
+  padding-block: clamp(6px, calc(1.7 * var(--svh)), 16px);
   border-bottom: 1px solid rgb(255 255 255 / 0.1);
   font-size: clamp(26px, 8.4vw, 38px);
   font-weight: 800;

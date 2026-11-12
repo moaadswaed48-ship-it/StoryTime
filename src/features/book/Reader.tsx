@@ -19,7 +19,6 @@ import { preloadScene } from './pictures'
 import { NO_CLIP, idleHooks } from './qa'
 import { Caption } from './Caption'
 import { Ambient } from './Ambient'
-import { turnSeconds } from './turn'
 
 interface Actions {
   next(): void
@@ -154,8 +153,6 @@ export function Reader({ startScene }: { startScene: number }) {
   const gateShown = gated && !turning
   const clipOn = phase === 'open' && !turning && !gated && !atEnd && !reduced
   const hasClip = !atEnd && !!story.scenes[pos.scene].clip
-  const leavesInTurn = turn ? Math.max(1, Math.min(3, Math.abs(turn.to - turn.from))) : 0
-  const afterTurn = reduced ? 0 : turn ? (turn.manual ? 0.4 : turnSeconds(leavesInTurn) - 0.14) : 0.1
   // While a page is held by the finger (and not yet let go), its text steps aside.
   const lifted = !!turn?.manual && turn.from === pos.scene
   const scene = pos.scene
@@ -493,7 +490,7 @@ export function Reader({ startScene }: { startScene: number }) {
           <div className="bk-wrap">
             <Spread ref={spread} phase={phase} scene={scene} step={pos.step} turn={turn} blurred={gateShown} clipOn={clipOn} reduced={reduced} ghost={ghost} onOpen={openStable} onOpened={onOpened} onTurnEnd={onTurnEnd} onClip={onClip} endPage={endPage} />
 
-            {isOpen && !atEnd && !gated && <Caption scene={scene} step={pos.step} delay={afterTurn} stack={stack} hide={lifted} />}
+            {isOpen && !atEnd && !gated && <Caption scene={scene} step={pos.step} go={!turning} stack={stack} hide={lifted} />}
 
             {gateShown && (
               <div className="bk-gate">

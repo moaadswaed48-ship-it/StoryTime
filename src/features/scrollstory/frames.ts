@@ -42,7 +42,7 @@ const SMEARED: ReadonlyArray<readonly [number, number]> = [
   [10, 15],
   [27, 31],
   [45, 48],
-  [61, 68],
+  [61, 69],
   [83, 86],
   [93, 94],
   [101, 103],

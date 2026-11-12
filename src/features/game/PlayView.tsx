@@ -37,6 +37,7 @@ export function PlayView({ from, touch }: { from: DOMRect | null; touch: boolean
   const ready = useGame((g) => g.ready)
   const current = useGame((g) => g.current)
   const setMode = useGame((g) => g.setMode)
+  const lowTier = useSiteStore((s) => s.tier === 'low')
   const root = useRef<HTMLDivElement>(null)
   const curtain = useRef<HTMLDivElement>(null)
   const leaves = useRef<LeavesHandle>(null)
@@ -45,10 +46,13 @@ export function PlayView({ from, touch }: { from: DOMRect | null; touch: boolean
   const [leaving, setLeaving] = useState(false)
   const [stick, setStick] = useState(touch)
 
+  const leaveTimer = useRef(0)
   const exit = useCallback(() => {
     setLeaving(true)
-    window.setTimeout(() => useGame.getState().exit(), reducedNow() ? 0 : 300)
+    window.clearTimeout(leaveTimer.current)
+    leaveTimer.current = window.setTimeout(() => useGame.getState().exit(), reducedNow() ? 0 : 300)
   }, [])
+  useEffect(() => () => window.clearTimeout(leaveTimer.current), [])
   useOverlayLock(true, exit)
 
   // a modal layer: focus comes in, stays in, and goes back to where it was (the start button) afterwards
@@ -170,7 +174,7 @@ export function PlayView({ from, touch }: { from: DOMRect | null; touch: boolean
               <World onFail={() => setMode('cards')} />
             </Suspense>
             {/* film finish: low sun from the tree's side, darker corners, grain */}
-            <div className="game-light grain pointer-events-none absolute inset-0" aria-hidden />
+            <div className={cn('game-light pointer-events-none absolute inset-0', !lowTier && 'grain')} aria-hidden />
           </>
         ) : (
           <CardsYard />
@@ -188,7 +192,10 @@ export function PlayView({ from, touch }: { from: DOMRect | null; touch: boolean
         )}
       </div>
 
-      <Leaves ref={leaves} density={mode === 'cards' ? 14 : 0} className="pointer-events-none absolute inset-0 z-40 h-full w-full" />
+      {/* 2D leaves: ambient over the still picture; over the 3D yard only for the bursts of a right answer and the finale */}
+      {(mode === 'cards' || phase === 'right' || phase === 'done') && (
+        <Leaves ref={leaves} density={mode === 'cards' ? 14 : 0} className="pointer-events-none absolute inset-0 z-40 h-full w-full" />
+      )}
 
       {mode === '3d' && <Arrows />}
       <Hud slots={slots} waiting={!grown} onExit={exit} />

@@ -8,24 +8,14 @@ export interface Beat {
   /** Pill label (existing copy: the same verbs the hero and the game use). */
   cta: string
   Icon: LucideIcon
-  /** The action stays on this page (scrolls down) instead of opening an overlay. */
-  down?: boolean
   run: () => void
 }
 
-function toGame() {
-  const el = document.querySelector('#game')
-  if (!el) return
-  const lenis = useSiteStore.getState().lenis
-  if (lenis) lenis.scrollTo('#game', { offset: -80 })
-  else el.scrollIntoView()
-}
-
-/** Read · watch · play — one story, three ways. */
+/** Read · watch · play — one story, three ways. Each beat opens its full-screen experience (SPEC 5.0). */
 export const beats: Beat[] = [
   { ...t.scroll.beats[0], cta: t.hero.read, Icon: BookOpen, run: () => useSiteStore.getState().openBook() },
   { ...t.scroll.beats[1], cta: t.hero.watch, Icon: Play, run: () => useSiteStore.getState().openFilm() },
-  { ...t.scroll.beats[2], cta: t.game.start, Icon: Gamepad2, down: true, run: toGame },
+  { ...t.scroll.beats[2], cta: t.game.start, Icon: Gamepad2, run: () => useSiteStore.getState().openGame() },
 ]
 
 /** Tiny blurred first frame (56×31 WebP, 506 bytes) shown under the canvas until the real frame has loaded. */

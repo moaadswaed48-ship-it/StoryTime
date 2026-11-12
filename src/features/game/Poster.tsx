@@ -15,7 +15,7 @@ const LIFT = [0, 14, -6, 10, -2]
  * and the five name papers lying on it as if the wind had just dropped them.
  * Phones get the picture on top (re-cropped so both boys stay in) and the words below it.
  */
-export function Poster({ onStart, pictureRef, touch }: { onStart: () => void; pictureRef: RefObject<HTMLDivElement | null>; touch: boolean }) {
+export function Poster({ onStart, pictureRef, sectionRef, touch }: { onStart: () => void; pictureRef: RefObject<HTMLDivElement | null>; sectionRef: RefObject<HTMLElement | null>; touch: boolean }) {
   const tags = useRef<HTMLUListElement>(null)
   const seen = useInView(tags)
   const [armed, setArmed] = useState(false)
@@ -26,7 +26,7 @@ export function Poster({ onStart, pictureRef, touch }: { onStart: () => void; pi
   const Hint = touch ? Gamepad2 : Keyboard
 
   return (
-    <section id="game" className="relative overflow-clip bg-night py-14 sm:py-24 lg:py-28" aria-label={t.game.title}>
+    <section ref={sectionRef} id="game" className="relative overflow-clip bg-night py-14 sm:py-24 lg:py-28" aria-label={t.game.title}>
       <div aria-hidden className="pointer-events-none absolute inset-x-0 top-0 h-[70%] bg-[radial-gradient(ellipse_at_top,rgba(244,163,94,0.08),transparent_70%)]" />
       <Container className="relative">
         <Reveal>
@@ -54,7 +54,7 @@ export function Poster({ onStart, pictureRef, touch }: { onStart: () => void; pi
                 <Reveal>
                   <Eyebrow>{t.game.eyebrow}</Eyebrow>
                 </Reveal>
-                <BlurWords as="h2" text={t.game.title} className="game-title display-on-film mt-3 block text-paper" />
+                <BlurWords as="h2" text={t.game.title} className="game-title display-on-film mt-3 block text-paper lg:whitespace-nowrap" />
                 <Reveal delay={160}>
                   <p className="t-lede text-on-film mt-4 max-w-[32rem] text-paper/85">{t.game.text}</p>
                 </Reveal>

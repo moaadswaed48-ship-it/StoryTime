@@ -11,12 +11,21 @@
    frame is on the left in both languages. Text inside them still follows the language.
    ───────────────────────────────────────────────────────────────────────────── */
 .hero {
+  --svh: 1vh; /* small-viewport unit with a fallback for browsers that lack svh */
+  height: 100vh;
+  height: 100svh;
+  min-height: 640px;
   --pad: 20px;
   --hero-vw: 15.2; /* Arabic title is narrower, so it can be larger */
   --card: clamp(148px, 44vw, 236px);
 }
 html[lang='en'] .hero {
   --hero-vw: 12.4;
+}
+@supports (height: 1svh) {
+  .hero {
+    --svh: 1svh;
+  }
 }
 @media (min-width: 640px) {
   .hero {
@@ -113,7 +122,7 @@ html[lang='en'] .hero {
   background: linear-gradient(to bottom, rgb(112 30 4 / 0.54) 0%, rgb(118 36 6 / 0.42) 22%, rgb(124 42 8 / 0.2) 44%, rgb(124 42 8 / 0) 62%);
 }
 .hero-grade--halo {
-  background: radial-gradient(58% 40% at 50% 30%, rgb(40 16 4 / 0.36), rgb(40 16 4 / 0) 72%);
+  background: radial-gradient(56% 40% at 50% 33%, rgb(40 16 4 / 0.42), rgb(40 16 4 / 0) 72%);
 }
 .hero-grade--floor {
   background: linear-gradient(
@@ -149,13 +158,13 @@ html[lang='en'] .hero {
   flex-direction: column;
   align-items: center;
   text-align: center;
-  padding: clamp(70px, 9.4svh, 104px) var(--pad) 0;
+  padding: clamp(70px, calc(9.4 * var(--svh)), 104px) var(--pad) 0;
 }
 .hero-chip {
   display: inline-flex;
   align-items: center;
   gap: 9px;
-  height: clamp(28px, 3.6svh, 34px);
+  height: clamp(28px, calc(3.6 * var(--svh)), 34px);
   padding-inline: 14px;
   border-radius: 999px;
   font-size: 12px;
@@ -174,9 +183,9 @@ html[lang='ar'] .hero-chip {
   background: var(--color-maple-soft, #f4a35e);
 }
 .hero-title {
-  margin-top: clamp(6px, 1.1svh, 12px);
+  margin-top: clamp(6px, calc(1.1 * var(--svh)), 12px);
   font-weight: 900;
-  font-size: clamp(2.75rem, min(var(--hero-vw) * 1vw, 12svh), 8rem);
+  font-size: clamp(2.75rem, min(var(--hero-vw) * 1vw, calc(12 * var(--svh))), 8rem);
   line-height: 0.86; /* very tight pitch: the two lines read as one block */
   letter-spacing: -0.035em;
   color: #fffaf1;
@@ -207,21 +216,21 @@ html[lang='ar'] .hero-title__b {
   line-height: 1.2;
 }
 .hero-sub {
-  margin-top: clamp(8px, 1.4svh, 14px);
+  margin-top: clamp(8px, calc(1.4 * var(--svh)), 14px);
   max-width: 36rem;
-  font-size: clamp(15px, 1.9svh, 17.5px);
+  font-size: clamp(15px, calc(1.9 * var(--svh)), 17.5px);
   line-height: 1.6;
   color: rgb(255 255 255 / 0.88);
   text-wrap: balance;
   text-shadow:
-    0 1px 2px rgb(50 18 2 / 0.5),
-    0 2px 18px rgb(30 10 0 / 0.5);
+    0 1px 2px rgb(50 18 2 / 0.6),
+    0 2px 18px rgb(30 10 0 / 0.56);
 }
 html[lang='ar'] .hero-sub {
   line-height: 1.7;
 }
 .hero-actions {
-  margin-top: clamp(14px, 2.2svh, 22px);
+  margin-top: clamp(14px, calc(2.2 * var(--svh)), 22px);
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -233,7 +242,7 @@ html[lang='ar'] .hero-sub {
     scale 0.2s ease,
     background-color 0.2s ease,
     filter 0.2s ease;
-  height: clamp(46px, 5.8svh, 54px);
+  height: clamp(46px, calc(5.8 * var(--svh)), 54px);
   padding-inline: clamp(16px, 4.4vw, 32px);
   gap: clamp(8px, 2.2vw, 10px);
   font-size: clamp(14.5px, 3.9vw, 16px);
@@ -264,6 +273,12 @@ html[lang='ar'] .hero-sub {
   bottom: 0;
   z-index: 3;
   padding-bottom: calc(max(14px, env(safe-area-inset-bottom)) + 16px);
+}
+/* hugs the row when it fits (tablets: centred, title aligned with the cards), full width when it scrolls (phones) */
+.hero-strip__in {
+  width: fit-content;
+  max-width: 100%;
+  margin-inline: auto;
 }
 .hero-strip__head {
   display: flex;
@@ -312,13 +327,6 @@ html[lang='ar'] .hero-strip__label {
 }
 .hero-strip__rail::-webkit-scrollbar {
   display: none;
-}
-/* centred when the row fits, start-aligned (and scrollable) when it does not */
-.hero-strip__rail > :first-child {
-  margin-inline-start: auto;
-}
-.hero-strip__rail > :last-child {
-  margin-inline-end: auto;
 }
 .hero-card {
   position: relative;
@@ -495,14 +503,17 @@ html[lang='ar'] .hero-strip__label {
 @media (min-width: 1024px) and (min-aspect-ratio: 6/5) {
   .hero {
     --pad: 56px;
-    --card: clamp(128px, min(12.6vw, 20svh), 204px);
+    --card: clamp(128px, min(12.6vw, calc(20 * var(--svh))), 204px);
   }
   .hero-strip {
     inset-inline: auto;
     left: var(--pad);
     right: auto;
-    bottom: clamp(22px, 4.4svh, 44px);
+    bottom: clamp(22px, calc(4.4 * var(--svh)), 44px);
     padding-bottom: 0;
+  }
+  .hero-strip__in {
+    margin-inline: 0;
   }
   .hero-strip__head {
     padding-inline: 2px;
@@ -513,14 +524,10 @@ html[lang='ar'] .hero-strip__label {
     padding: 0;
     overflow: visible;
   }
-  .hero-strip__rail > :first-child,
-  .hero-strip__rail > :last-child {
-    margin-inline: 0;
-  }
   .hero-cue {
     left: auto;
     right: var(--pad);
-    bottom: clamp(22px, 4.4svh, 44px);
+    bottom: clamp(22px, calc(4.4 * var(--svh)), 44px);
     translate: none;
   }
   html[dir='rtl'] .hero-cue__in {

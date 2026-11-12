@@ -89,9 +89,9 @@ function cast(el: HTMLElement, dir: string, reach: number, alpha: number, height
     el.style.background = 'none'
     return
   }
-  const p1 = Math.min(100, reach * 100)
-  const p2 = Math.min(100, (reach + 0.1 + 0.42 * height) * 100)
-  el.style.background = `linear-gradient(${dir}, rgba(18,9,3,${(alpha * 0.82).toFixed(3)}) 0%, rgba(18,9,3,${alpha.toFixed(3)}) ${p1.toFixed(1)}%, rgba(18,9,3,0) ${p2.toFixed(1)}%)`
+  const p1 = Math.min(100, reach * 100 + 3)
+  const p2 = Math.min(100, p1 + 14 + 46 * height)
+  el.style.background = `linear-gradient(${dir}, rgba(18,9,3,${(alpha * 0.85).toFixed(3)}) 0%, rgba(18,9,3,${alpha.toFixed(3)}) ${p1.toFixed(1)}%, rgba(18,9,3,${(alpha * 0.4).toFixed(3)}) ${((p1 + p2) / 2).toFixed(1)}%, rgba(18,9,3,0) ${p2.toFixed(1)}%)`
 }
 
 export function runTurn(o: TurnOpts): TurnHandle {
@@ -105,9 +105,10 @@ export function runTurn(o: TurnOpts): TurnHandle {
   const ky = pages[0].height / H
   const ease = gsap.parseEase('power3.inOut')
   const total = turnSeconds(m)
+  const persp = W * 2.1 // keep in step with `.bk-scene { perspective }`
   const nodes: HTMLElement[] = []
   const r = `${radius}px`
-  const OV = 0.5 // faces overlap by half a pixel so no seam shows between strips
+  const OV = 1.5 // faces overlap their neighbours a little, so no seam shows between the strips
   const outer = (onRight: boolean) => (onRight ? { borderTopRightRadius: r, borderBottomRightRadius: r } : { borderTopLeftRadius: r, borderBottomLeftRadius: r })
   const half = (onRight: boolean, z: string, tag?: 'canvas') => {
     const css = { left: onRight ? `${c}px` : '0', width: `${c}px`, height: `${H}px`, transform: `translateZ(${z})` }
@@ -215,10 +216,11 @@ export function runTurn(o: TurnOpts): TurnHandle {
         else s.bShade.style.background = shade(bDir, a0, a1)
       }
       // Shadow of this leaf: it falls on the side the free edge is over, and stretches as the leaf rises.
+      // The reach is taken where the raised edge appears on screen (perspective pushes it outwards).
       const zn = z / c
-      const xn = x / c
+      const xn = (x / c) * (persp / Math.max(1, persp - z))
       const over = smooth((xn + 0.3) / 0.6)
-      const a = 0.5 * Math.min(1, zn * 2.2)
+      const a = 0.56 * Math.min(1, zn * 2.2)
       if (a * over > liftA) {
         liftA = a * over
         liftE = Math.max(0, xn)

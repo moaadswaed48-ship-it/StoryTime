@@ -79,9 +79,13 @@
 }
 
 /* ── Stage ───────────────────────────────────────────────────────────────────── */
+/* The stage sits above the heading: for one second the landing books fall in front of the type. */
+.lib-stagewrap {
+  position: relative;
+  z-index: 3;
+}
 .lib-stage {
   position: relative;
-  z-index: 1;
   height: clamp(460px, 64svh, 640px);
   touch-action: pan-y;
   user-select: none;
@@ -92,7 +96,7 @@
 }
 @media (max-width: 639px) {
   .lib-stage {
-    height: clamp(410px, 52svh, 460px);
+    height: clamp(380px, 48svh, 430px);
   }
 }
 .lib-stage.is-drag {
@@ -107,6 +111,18 @@
   inset: -12% 0 0;
   pointer-events: none;
   background: radial-gradient(58% 62% at 50% 56%, rgba(255, 253, 247, 0.95), rgba(255, 253, 247, 0) 72%);
+}
+.lib-wallshadow {
+  position: absolute;
+  left: 50%;
+  width: 1000px;
+  margin-left: -500px;
+  border-radius: 24px;
+  background: rgba(70, 44, 18, 0.34);
+  filter: blur(30px);
+  opacity: 0;
+  pointer-events: none;
+  will-change: transform, opacity;
 }
 .lib-scene {
   position: absolute;
@@ -159,8 +175,8 @@
   position: absolute;
   inset-inline: 0;
   top: 100%;
-  height: 96px;
-  background: linear-gradient(180deg, rgba(26, 18, 11, 0.3), rgba(26, 18, 11, 0.1) 30%, rgba(26, 18, 11, 0.03) 62%, rgba(26, 18, 11, 0));
+  height: 54px;
+  background: linear-gradient(180deg, rgba(26, 18, 11, 0.3), rgba(26, 18, 11, 0.09) 34%, rgba(26, 18, 11, 0.02) 70%, rgba(26, 18, 11, 0));
 }
 /* Contact shadow: one per book, living in the plane of the ledge, turning with the book. */
 .lib-shadow {
@@ -168,10 +184,10 @@
   left: 0;
   top: 0;
   border-radius: 8px;
-  background: rgba(40, 22, 8, 0.62);
+  background: rgba(40, 22, 8, 0.7);
   box-shadow:
-    0 0 24px 12px rgba(40, 22, 8, 0.55),
-    0 0 90px 48px rgba(40, 22, 8, 0.28);
+    0 0 26px 16px rgba(40, 22, 8, 0.62),
+    0 0 100px 60px rgba(40, 22, 8, 0.3);
   will-change: transform, opacity;
 }
 
@@ -624,7 +640,7 @@ html[lang='en'] .lib-rtitle .is-b {
   pointer-events: none;
   background: linear-gradient(90deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.95) 50%, rgba(255, 255, 255, 0));
   mix-blend-mode: soft-light;
-  opacity: 0.5;
+  opacity: calc(0.5 * var(--fx, 1));
   transform: translateX(var(--sx, 0px)) skewX(-14deg);
   will-change: transform;
 }
@@ -637,7 +653,7 @@ html[lang='en'] .lib-rtitle .is-b {
   pointer-events: none;
   background: #000;
   mix-blend-mode: screen;
-  opacity: var(--glint, 0.9);
+  opacity: calc(var(--glint, 0.9) * var(--fx, 1));
 }
 .lib-glint-bar {
   position: absolute;
@@ -652,6 +668,54 @@ html[lang='en'] .lib-rtitle .is-b {
 }
 .lib-glint-bar.is-b {
   transform: translateX(calc(var(--sx, 0px) + var(--sp, 0px))) skewX(-14deg);
+}
+
+/* "Open" disc on the corner of the centred cover: the visible invitation to click it (and a real button for keys). */
+.lib-open {
+  position: absolute;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  width: 52px;
+  height: 52px;
+  margin: -26px;
+  border-radius: 50%;
+  background: var(--lib-ink);
+  color: var(--lib-paper);
+  box-shadow:
+    0 1px 2px rgba(26, 18, 11, 0.2),
+    0 8px 20px rgba(26, 18, 11, 0.28);
+  transition:
+    opacity 0.35s ease,
+    transform 0.45s var(--lib-ease),
+    background-color 0.2s ease;
+}
+.lib-open:hover {
+  transform: scale(1.08);
+  background: var(--lib-maple);
+}
+.lib-open:active {
+  transform: scale(0.96);
+}
+.lib-open svg {
+  transition: transform 0.3s var(--lib-ease);
+}
+.lib-open:hover svg {
+  transform: translate(calc(var(--dir, 1) * 1.5px), -1.5px);
+}
+.lib.is-waiting .lib-open,
+.lib.is-detail .lib-open,
+.lib-stage.is-drag + .lib-open {
+  opacity: 0;
+  transform: scale(0.6);
+  pointer-events: none;
+}
+@media (max-width: 639px) {
+  .lib-open {
+    width: 46px;
+    height: 46px;
+    margin: -23px;
+  }
 }
 
 /* Keyboard focus lands on the centred book, not on a page-wide box. */
@@ -713,7 +777,7 @@ html[lang='en'] .lib-rtitle .is-b {
 .lib-detail {
   position: absolute;
   inset: 0;
-  z-index: 3;
+  z-index: 4;
   display: grid;
   align-items: center;
   pointer-events: none;
@@ -873,7 +937,8 @@ html[lang='ar'] .lib-detail-title {
     align-items: center;
     justify-items: stretch;
     gap: 48px;
-    padding-block: 0;
+    /* Room for the shadow and for the near edge of the turned book, which perspective draws a little lower. */
+    padding-bottom: 48px;
   }
   .lib-detail-slotwrap {
     order: 2;

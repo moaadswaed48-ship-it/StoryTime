@@ -213,12 +213,12 @@ function branchGeometry(from: THREE.Vector3, to: THREE.Vector3, r0: number, r1: 
   return paint(g, (_x, _y, _z, out) => out.set('#a5744a'))
 }
 function canopyGeometry() {
-  const under = new THREE.Color('#c9651d')
-  const mid = new THREE.Color('#ee952d')
-  const top = new THREE.Color('#ffcf63')
+  const under = new THREE.Color('#cf6c20')
+  const mid = new THREE.Color('#ee9a31')
+  const top = new THREE.Color('#ffd067')
   return merge(
     BLOBS.map(([cx, cy, cz, r], i) => {
-      const g = new THREE.IcosahedronGeometry(1, 2)
+      const g = new THREE.IcosahedronGeometry(1, 3)
       const pos = g.attributes.position
       const col = new Float32Array(pos.count * 3)
       for (let v = 0; v < pos.count; v++) {
@@ -233,7 +233,7 @@ function canopyGeometry() {
         const h = THREE.MathUtils.clamp((wy - 3.9) / 3.6, 0, 1)
         if (h < 0.5) _c.copy(under).lerp(mid, h * 2)
         else _c.copy(mid).lerp(top, (h - 0.5) * 2)
-        _c.multiplyScalar(0.84 + 0.16 * (y * 0.5 + 0.5) + lump * 0.5)
+        _c.multiplyScalar(0.92 + 0.08 * (y * 0.5 + 0.5) + lump * 0.45)
         col[v * 3] = _c.r
         col[v * 3 + 1] = _c.g
         col[v * 3 + 2] = _c.b
@@ -258,10 +258,10 @@ export function Tree() {
     const bark = barkTexture()
     return new THREE.Mesh(geo, new THREE.MeshLambertMaterial({ vertexColors: true, map: bark }))
   })
-  const crown = useDisposable(() => new THREE.Mesh(canopyGeometry(), new THREE.MeshLambertMaterial({ vertexColors: true, emissive: '#6e2f0d' })))
+  const crown = useDisposable(() => new THREE.Mesh(canopyGeometry(), new THREE.MeshBasicMaterial({ vertexColors: true })))
   const leaves = useDisposable(() => {
     const rnd = mulberry32(17)
-    const total = 1900
+    const total = 2600
     const sum = BLOBS.reduce((n, b) => n + b[3] * b[3], 0)
     const geo = new THREE.PlaneGeometry(1, 1)
     const mat = new THREE.MeshBasicMaterial({ map: leafTexture(), alphaTest: 0.4, side: THREE.DoubleSide })
@@ -272,15 +272,15 @@ export function Tree() {
     BLOBS.forEach(([cx, cy, cz, r], bi) => {
       const n = bi === BLOBS.length - 1 ? total - k : Math.round((total * r * r) / sum)
       for (let i = 0; i < n && k < total; i++, k++) {
-        const u = rnd() * 1.75 - 1 // more of them underneath and on the sides, where the camera looks
+        const u = rnd() * 1.8 - 1 // more of them underneath and on the sides, where the camera looks
         const a = rnd() * Math.PI * 2
         const s = Math.sqrt(1 - u * u)
         dir.set(Math.cos(a) * s, u, Math.sin(a) * s)
-        const out = r * (0.97 + rnd() * 0.2)
+        const out = r * (0.96 + rnd() * 0.3)
         _p.set(cx + dir.x * out, cy + dir.y * out * SQUASH, cz + dir.z * out)
         _q.setFromUnitVectors(z, dir)
         _q.multiply(new THREE.Quaternion().setFromEuler(_e.set((rnd() - 0.5) * 1.1, (rnd() - 0.5) * 1.1, rnd() * Math.PI * 2)))
-        const size = 0.28 + rnd() * 0.3
+        const size = 0.3 + rnd() * 0.3
         mesh.setMatrixAt(k, _m.compose(_p, _q, _s.setScalar(size)))
         const light = 0.8 + 0.3 * (dir.y * 0.5 + 0.5) + rnd() * 0.14
         mesh.setColorAt(k, _c.set(CROWN_COLORS[Math.floor(rnd() * CROWN_COLORS.length)]).multiplyScalar(light))

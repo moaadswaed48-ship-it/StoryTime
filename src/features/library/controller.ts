@@ -21,6 +21,8 @@ export interface ShelfEls {
   scene: HTMLElement
   plank: HTMLElement
   lip: HTMLElement
+  /** Soft shadow the row throws on the wall behind it. */
+  wall: HTMLElement
   /** Where the opened book comes to rest, and the block that must be on screen when it does. */
   slot: HTMLElement
   panel: HTMLElement
@@ -30,7 +32,8 @@ export interface ShelfEls {
 export interface ShelfEvents {
   onSel: (i: number) => void
   onDetail: (i: number | null) => void
-  onLanded: () => void
+  /** false when the row is hidden above the ledge waiting to drop, true once it has landed. */
+  onLanded: (landed: boolean) => void
   onFilter: (f: Filter) => void
   /** The opened cover was clicked. */
   onCover: (i: number) => void
@@ -53,6 +56,7 @@ interface Written {
   s: number
   e: number
   sx: number
+  fx: number
   vis: boolean
   so: number
   st: string
@@ -85,7 +89,7 @@ export class Shelf {
   private poses: Pose[] = library.map(newPose)
   private rk: number[] = []
   private kTilt: number[] = library.map(() => 0)
-  private wrote: Written[] = library.map(() => ({ t: '', o: -1, f: -1, s: -1, e: -1, sx: 1e9, vis: true, so: -1, st: '' }))
+  private wrote: Written[] = library.map(() => ({ t: '', o: -1, f: -1, s: -1, e: -1, sx: 1e9, fx: -1, vis: true, so: -1, st: '' }))
   private slot = { x: 0, y: 0, s: 1 }
   /** Pointer parallax of the whole scene (deg) and tilt of the opened book (−1…1). */
   private px = 0
@@ -293,7 +297,8 @@ export class Shelf {
   }
 
   /* ── detail ────────────────────────────────────────────────────────────── */
-  private measureSlot() {
+  /** Reads where the opened book must come to rest (call again whenever the detail panel's layout changes). */
+  measureSlot() {
     const els = this.els
     if (!els || this.detail < 0) return
     const sr = els.stage.getBoundingClientRect()
@@ -301,6 +306,7 @@ export class Shelf {
     this.slot.x = r.left + r.width / 2 - (sr.left + sr.width / 2)
     this.slot.y = r.bottom - sr.top - this.m.floorY
     this.slot.s = r.height / this.geoms[this.detail].H
+    this.wake()
   }
   private markOpen(i: number) {
     this.els?.books.forEach((b, j) => b?.classList.toggle('is-open', j === i))
@@ -384,6 +390,7 @@ export class Shelf {
       l.dropY = -this.geoms[i].dropFrom
       l.tilt = this.geoms[i].dropTilt
     })
+    this.ev.onLanded(false)
     this.wake(4)
   }
   private build() {
@@ -411,7 +418,7 @@ export class Shelf {
     // Shuffle: the loose, crooked row slides together and straightens, then the centre book steps out.
     tl.fromTo(this, { spread: 1 }, { spread: 0, duration: 0.75, ease: 'power3.inOut' }, last - 0.08)
     tl.fromTo(this, { focusGain: 0 }, { focusGain: 1, duration: 1, ease: 'power3.inOut' }, last + 0.06)
-    tl.call(() => this.ev.onLanded(), undefined, last + 0.5)
+    tl.call(() => this.ev.onLanded(true), undefined, last + 0.5)
     const total = tl.duration()
     tl.fromTo(this, { clock: 0 }, { clock: total, duration: total, ease: 'none' }, 0)
     this.order = order
@@ -454,7 +461,7 @@ export class Shelf {
     })
     this.tl?.kill()
     this.tl = null
-    this.ev.onLanded()
+    this.ev.onLanded(true)
     this.wake(4)
   }
   play() {
@@ -477,6 +484,7 @@ export class Shelf {
       this.build()
     }
     this.landed = false
+    this.ev.onLanded(false)
     this.tl!.pause().progress(clamp(p, 0, 0.999))
     this.renderNow()
   }
@@ -616,6 +624,8 @@ export class Shelf {
     const ledge = (this.plank * (1 - clamp(e * 1.5, 0, 1))).toFixed(3)
     els.plank.style.opacity = ledge
     els.lip.style.opacity = ledge
+    let lo = Infinity
+    let hi = -Infinity
 
     for (let i = 0; i < N; i++) {
       const el = els.books[i]
@@ -647,6 +657,11 @@ export class Shelf {
           y += ee * m.S * 0.04
         }
       }
+      if (o > 0.4 && i !== this.detail) {
+        const hw = lerp(g.T, g.W, p.f) / 2
+        lo = Math.min(lo, x - hw)
+        hi = Math.max(hi, x + hw)
+      }
       const vis = o > 0.004
       if (vis !== w.vis) {
         el.style.visibility = vis ? 'visible' : 'hidden'
@@ -672,6 +687,9 @@ export class Shelf {
         if (Math.abs(shS - w.s) > 0.004) el.style.setProperty('--sh-s', (w.s = shS).toFixed(3))
         if (Math.abs(shE - w.e) > 0.004) el.style.setProperty('--sh-e', (w.e = shE).toFixed(3))
         if (Math.abs(sx - w.sx) > 0.25) el.style.setProperty('--sx', `${(w.sx = sx).toFixed(1)}px`)
+        // The light layers (blend groups) are only composited for books whose cover can be seen.
+        const fx = p.f > 0.004 || i === this.detail ? 1 : 0
+        if (fx !== w.fx) el.style.setProperty('--fx', String((w.fx = fx)))
       }
       if (sd) {
         // The shadow fades as the book leaves the ledge (dropping in, sinking out, or flying to the detail view).
@@ -686,6 +704,9 @@ export class Shelf {
         }
       }
     }
+    // The row's shadow on the wall follows its extent (it widens as the books settle, narrows under a filter).
+    if (hi > lo) els.wall.style.transform = `translate(${((lo + hi) / 2 + m.S * 0.05).toFixed(1)}px,0) scaleX(${((hi - lo) / 1000).toFixed(4)})`
+    els.wall.style.opacity = (this.plank * (1 - this.spread * 0.7) * (1 - clamp(e * 1.5, 0, 1)) * (hi > lo ? 1 : 0)).toFixed(3)
     if (moving) this.wake(2)
   }
 }

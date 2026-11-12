@@ -4,7 +4,7 @@ import { useFrame } from '@react-three/fiber'
 import { SariModel, type SariAction } from '@/design/SariModel'
 import { useSiteStore } from '@/store/useSiteStore'
 import { sfx } from '@/audio/synth'
-import { REACH, START, angleDelta, headingOf, stepWalker, touching } from '../logic'
+import { REACH, SPEED, START, angleDelta, headingOf, stepWalker, touching } from '../logic'
 import { rt } from '../runtime'
 import { useGame, type Phase } from '../store'
 import { ringTexture } from './textures'
@@ -33,7 +33,7 @@ export function Player() {
   const mark = useRef<THREE.Mesh>(null!)
   const [action, setAction] = useState<SariAction>('wave')
   const s = useRef({ action: 'wave' as SariAction, hello: 1.9, look: new THREE.Vector3(START.x, 1.2, START.z), first: true, fov: 50, markA: 0 })
-  const shadowMat = useMemo(() => shadowMaterial(0.5), [])
+  const shadowMat = useMemo(() => shadowMaterial(0.58), [])
   const markMat = useMemo(() => new THREE.MeshBasicMaterial({ map: ringTexture(), color: '#fff3e0', transparent: true, opacity: 0, depthWrite: false, fog: false }), [])
   useEffect(
     () => () => {
@@ -80,7 +80,7 @@ export function Player() {
       }
     } else rt.target = null
     const len = Math.hypot(dx, dz)
-    const moving = len > 0.14
+    let moving = len > 0.14
     if (moving) {
       const before = { x: me.x, z: me.z }
       const next = stepWalker(before, { x: dx, z: dz }, dt)
@@ -89,8 +89,11 @@ export function Player() {
       me.heading += angleDelta(me.heading, headingOf({ x: dx, z: dz })) * (1 - Math.exp(-13 * dt))
       if (st.hello > 0) st.hello = 0
       game.setMoved()
-      // blocked by the fence while walking to a tapped spot: stop there
-      if (rt.target && Math.hypot(next.x - before.x, next.z - before.z) < 0.2 * dt) rt.target = null
+      // pushed against the fence or the tree: stand, do not run on the spot (and give up a tapped spot he cannot reach)
+      if (Math.hypot(next.x - before.x, next.z - before.z) < SPEED * dt * Math.min(1, len) * 0.2) {
+        moving = false
+        rt.target = null
+      }
     } else if (phase === 'done' || st.hello > 0) {
       me.heading += angleDelta(me.heading, 0) * (1 - Math.exp(-6 * dt)) // face the camera
     }
@@ -159,7 +162,7 @@ export function Player() {
           <Ready />
         </Suspense>
       </group>
-      <mesh ref={shadow} rotation-x={-Math.PI / 2} scale={[1.25, 0.95, 1]} material={shadowMat} renderOrder={4}>
+      <mesh ref={shadow} rotation-x={-Math.PI / 2} scale={[1.15, 0.86, 1]} material={shadowMat} renderOrder={4}>
         <planeGeometry args={[1, 1]} />
       </mesh>
       <mesh ref={mark} rotation-x={-Math.PI / 2} material={markMat} renderOrder={5} visible={false}>

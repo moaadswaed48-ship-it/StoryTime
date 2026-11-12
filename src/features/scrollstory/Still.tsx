@@ -1,4 +1,4 @@
-import { ArrowDown, ArrowUpRight } from 'lucide-react'
+import { ArrowUpRight } from 'lucide-react'
 import { Container, Eyebrow, Pill } from '@/design/ui'
 import { story } from '@/content/story'
 import { t } from '@/i18n/copy'
@@ -32,7 +32,7 @@ export function StillStory() {
                 <Pill variant={i === 0 ? 'solid' : 'glass'} size="md" onClick={b.run}>
                   <b.Icon size={18} strokeWidth={2.2} aria-hidden />
                   {b.cta}
-                  {b.down ? <ArrowDown size={16} strokeWidth={2.2} aria-hidden /> : <ArrowUpRight size={16} strokeWidth={2.2} className="flip-rtl" aria-hidden />}
+                  <ArrowUpRight size={16} strokeWidth={2.2} className="flip-rtl" aria-hidden />
                 </Pill>
               </li>
             ))}

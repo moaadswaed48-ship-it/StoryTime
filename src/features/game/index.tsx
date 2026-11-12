@@ -27,7 +27,7 @@ function webglSupported(): boolean {
 export function Game() {
   const playing = useGame((g) => g.phase !== 'poster')
   const picture = useRef<HTMLDivElement>(null)
-  const section = useRef<HTMLDivElement>(null)
+  const section = useRef<HTMLElement>(null)
   const near = useOnScreen(section, '500px 0px')
   const [from, setFrom] = useState<DOMRect | null>(null)
   const [touch, setTouch] = useState(false)
@@ -96,6 +96,13 @@ export function Game() {
           flush()
           return useGame.getState().phase === 'playing' && place(i, Math.max(gap, REACH + 0.4))
         },
+        /** Puts Sari somewhere in the yard (screenshots of the heap of leaves, the fence, the tree). */
+        teleport: (x: number, z: number) => {
+          rt.target = null
+          rt.snap = true
+          rt.sari.x = x
+          rt.sari.z = z
+        },
         /** The same as tapping paper i: Sari walks to it through the real frame loop and picks it up on arrival. */
         tap: (i: number) => {
           const p = rt.papers[i]
@@ -113,9 +120,9 @@ export function Game() {
   }, [start])
 
   return (
-    <div ref={section}>
-      <Poster onStart={start} pictureRef={picture} touch={touch} />
+    <>
+      <Poster onStart={start} pictureRef={picture} sectionRef={section} touch={touch} />
       {playing && createPortal(<PlayView from={from} touch={touch} />, document.body)}
-    </div>
+    </>
   )
 }

@@ -192,7 +192,7 @@ export function Hero() {
     <section
       id="top"
       ref={section}
-      className="hero relative isolate h-[100svh] min-h-[640px] overflow-hidden bg-night text-white"
+      className="hero relative isolate overflow-hidden bg-night text-white"
       data-layout={frame?.mode ?? 'tall'}
       data-phase={phase}
       data-film={[filmState.ready && 'ready', (filmState.settled || reduced) && 'settled'].filter(Boolean).join(' ')}
