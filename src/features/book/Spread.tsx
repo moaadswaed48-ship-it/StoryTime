@@ -169,7 +169,6 @@ export const Spread = forwardRef<SpreadHandle, Props>(function Spread({ phase, s
   const book = useRef<HTMLDivElement>(null)
   const cover = useRef<HTMLDivElement>(null)
   const block = useRef<HTMLDivElement>(null)
-  const dress = useRef<HTMLDivElement>(null)
   const fx = useRef<HTMLDivElement>(null)
   const inside = useRef<HTMLCanvasElement>(null)
   const frontShade = useRef<HTMLDivElement>(null)
@@ -532,7 +531,7 @@ export const Spread = forwardRef<SpreadHandle, Props>(function Spread({ phase, s
   return (
     <div className="bk-scene" ref={sceneEl}>
       <div className="bk-book" ref={book} data-phase={phase} data-rtl={rtl ? '1' : '0'}>
-        <div className="bk-dress" ref={dress} aria-hidden>
+        <div className="bk-dress" aria-hidden>
           <div className="bk-floor" />
           <div className="bk-board" />
           <div className="bk-edges-s" />

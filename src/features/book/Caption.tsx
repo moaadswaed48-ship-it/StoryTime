@@ -86,7 +86,7 @@ function Item({ scene, step, delay, out, stack, grad }: { scene: number; step: n
 }
 
 /** One paragraph of the author's text at a time; paragraphs cross-fade, and the band behind them follows. */
-export function Caption({ scene, step, delay, stack }: { scene: number; step: number; delay: number; stack: boolean }) {
+export function Caption({ scene, step, delay, stack, hide }: { scene: number; step: number; delay: number; stack: boolean; hide?: boolean }) {
   const lag = useLagged({ scene, step }, `${scene}-${step}`, 260)
   const gradLag = useLagged(scene, `g${scene}`, 260)
   const grad = useRef<HTMLDivElement>(null)
@@ -95,7 +95,7 @@ export function Caption({ scene, step, delay, stack }: { scene: number; step: nu
     if (cap.current) cap.current.scrollTop = 0
   }, [scene, step])
   return (
-    <div className="bk-cap" ref={cap} aria-live="polite">
+    <div className="bk-cap" ref={cap} aria-live="polite" data-hide={hide || undefined}>
       {gradLag.prev && <Grad key={gradLag.prev.k} delay={0} out />}
       <Grad key={gradLag.cur.k} delay={delay} gref={grad} />
       {lag.prev && <Item key={lag.prev.k} scene={lag.prev.v.scene} step={lag.prev.v.step} delay={0} out stack={stack} />}

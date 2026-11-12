@@ -46,6 +46,7 @@ export function Reader({ startScene }: { startScene: number }) {
   const [closing, setClosing] = useState(false)
   const [nudge, setNudge] = useState(0)
   const [moved, setMoved] = useState(false)
+  const [dragging, setDragging] = useState(false)
 
   // The logical state lives in refs too, so keys, gestures and test hooks always read (and change) the latest value.
   const phaseRef = useRef(phase)
@@ -154,7 +155,9 @@ export function Reader({ startScene }: { startScene: number }) {
   const clipOn = phase === 'open' && !turning && !gated && !atEnd && !reduced
   const hasClip = !atEnd && !!story.scenes[pos.scene].clip
   const leavesInTurn = turn ? Math.max(1, Math.min(3, Math.abs(turn.to - turn.from))) : 0
-  const afterTurn = reduced ? 0 : turn ? turnSeconds(leavesInTurn) - 0.14 : 0.1
+  const afterTurn = reduced ? 0 : turn ? (turn.manual ? 0.4 : turnSeconds(leavesInTurn) - 0.14) : 0.1
+  // While a page is held by the finger (and not yet let go), its text steps aside.
+  const lifted = !!turn?.manual && turn.from === pos.scene
   const scene = pos.scene
 
   /* ── Test hooks ───────────────────────────────────────────────────────────── */
@@ -264,6 +267,12 @@ export function Reader({ startScene }: { startScene: number }) {
     act.current.goScene(startScene)
   }, [startScene])
 
+  // Tell the rest of the site where the reader is (for "continue reading" and the finished-story reward).
+  useEffect(() => {
+    if (phase !== 'open') return
+    window.dispatchEvent(new CustomEvent('storytime:book', { detail: scene >= END ? { story: story.id, type: 'finished' } : { story: story.id, type: 'scene', scene } }))
+  }, [phase, scene])
+
   // The end of the story: a shower of leaves once the last leaf has landed.
   useEffect(() => {
     if (!atEnd || turning) return
@@ -275,27 +284,88 @@ export function Reader({ startScene }: { startScene: number }) {
     return () => ids.forEach((id) => window.clearTimeout(id))
   }, [atEnd, turning, reduced])
 
-  /* ── Swipe (by reading direction) and tap on the picture ─────────────────── */
-  const press = useRef<{ x: number; y: number; onPic: boolean } | null>(null)
+  /* ── Drag the page (it follows the finger), swipe, or tap the picture ─────── */
+  const press = useRef<{ x: number; y: number; t: number; onPic: boolean; mode: 'none' | 'swipe' | 'drag'; forward: boolean; target: Pos | null; q: number } | null>(null)
+  /** How far a dragged leaf is turned: the grabbed point of the page follows the finger across the spine. */
+  const dragProgress = (s: { x: number; forward: boolean }, x: number) => {
+    const r = spread.current?.rect()
+    if (!r || !r.width) return 0
+    const half = r.width / 2
+    const mid = r.left + half
+    const lift = s.forward ? dirSign : -dirSign // +1: the leaf lifts from the right-hand page
+    const u0 = ((s.x - mid) * lift) / half
+    const u = ((x - mid) * lift) / half
+    if (u0 > 0.2) return Math.acos(Math.max(-1, Math.min(1, u / Math.min(1, u0)))) / Math.PI
+    return Math.max(0, Math.min(1, (Math.abs(x - s.x) - 14) / (half * 1.3)))
+  }
   const onPointerDown = (e: ReactPointerEvent) => {
     if (e.button) return
     const tgt = e.target as HTMLElement
     if (tgt.closest('button, a')) return
-    press.current = { x: e.clientX, y: e.clientY, onPic: !!tgt.closest('.bk-scene, .bk-cap-grad, .bk-cap-item') && !tgt.closest('[data-scroll="1"]') }
+    press.current = { x: e.clientX, y: e.clientY, t: performance.now(), onPic: !!tgt.closest('.bk-scene') && !tgt.closest('[data-scroll="1"]'), mode: 'none', forward: true, target: null, q: 0 }
   }
-  const onPointerUp = (e: ReactPointerEvent) => {
+  const onPointerMove = (e: ReactPointerEvent) => {
+    const s = press.current
+    if (!s) return
+    const dx = e.clientX - s.x
+    const dy = e.clientY - s.y
+    if (s.mode === 'none') {
+      if (Math.abs(dx) < 14 || Math.abs(dx) < Math.abs(dy) * 1.2) return
+      s.mode = 'swipe'
+      // The page is dragged the way it turns: towards the start of the line for "next".
+      s.forward = dx * dirSign < 0
+      const p = posRef.current
+      if (phaseRef.current === 'open' && !reducedRef.current && !turnRef.current) {
+        const gatedNow = isGated(p)
+        const target = s.forward ? (p.scene >= END || gatedNow ? p : nextPos(p)) : prevPos(p, gatedNow)
+        const snapshot = target.scene !== p.scene ? spread.current?.capture() : null
+        if (snapshot) {
+          // A real page turn is next: the leaf lifts under the finger. (A further paragraph is just a swipe.)
+          const req: TurnReq = { id: ++turnNo.current, from: p.scene, to: target.scene, step: target.step, forward: s.forward, snapshot, manual: true }
+          turnRef.current = req
+          setTurn(req)
+          setDragging(true)
+          s.mode = 'drag'
+          s.target = target
+          try {
+            e.currentTarget.setPointerCapture(e.pointerId)
+          } catch {
+            /* the pointer is already gone */
+          }
+        }
+      }
+    }
+    if (s.mode === 'drag') {
+      s.q = dragProgress(s, e.clientX)
+      spread.current?.dragTo(s.q)
+    }
+  }
+  const endPress = (e: ReactPointerEvent, cancelled: boolean) => {
     const s = press.current
     press.current = null
     if (!s) return
     const dx = e.clientX - s.x
     const dy = e.clientY - s.y
+    if (s.mode === 'drag') {
+      // Past a third of the way the page goes over; a quick flick counts too. Otherwise it falls back.
+      const flick = performance.now() - s.t < 320 && Math.abs(dx) > 36 && dx * dirSign < 0 === s.forward
+      const land = !cancelled && !!s.target && (s.q > 0.3 || flick)
+      if (land && s.target) {
+        posRef.current = s.target
+        setPosState(s.target)
+        setMoved(true)
+      }
+      setDragging(false)
+      spread.current?.release(land)
+      return
+    }
+    if (cancelled) return
     if (Math.abs(dx) > 44 && Math.abs(dx) > Math.abs(dy) * 1.3) {
-      // The page is dragged the way it turns: towards the start of the line for "next".
       if (dx * dirSign < 0) act.current.next()
       else act.current.prev()
       return
     }
-    if (Math.abs(dx) < 10 && Math.abs(dy) < 10 && s.onPic && !(stack && (e.target as HTMLElement).closest('.bk-cap'))) act.current.tap(e.clientX, e.clientY)
+    if (Math.abs(dx) < 10 && Math.abs(dy) < 10 && s.onPic) act.current.tap(e.clientX, e.clientY)
   }
 
   const watch = () => openFilm(Math.min(scene, SCENES - 1))
@@ -364,9 +434,11 @@ export function Reader({ startScene }: { startScene: number }) {
           className="bk-dot"
           aria-label={`${t.book.page} ${num(i + 1)}`}
           aria-current={i === scene ? 'step' : undefined}
-          data-state={i === scene ? 'on' : i < scene ? 'seen' : i >= FREE_SCENES && !loggedIn ? 'locked' : 'off'}
+          data-state={i === scene ? 'on' : i >= FREE_SCENES && !loggedIn ? 'locked' : i < scene || atEnd ? 'seen' : 'off'}
           onClick={() => goScene(i)}
-        />
+        >
+          <span style={{ backgroundImage: `url(${asset(story.scenes[i].thumb)})` }} />
+        </button>
       ))}
     </div>
   )
@@ -382,6 +454,7 @@ export function Reader({ startScene }: { startScene: number }) {
       tabIndex={-1}
       data-phase={qaPhase}
       data-turning={turning || undefined}
+      data-dragging={dragging || undefined}
     >
       <div className="bk-bg" aria-hidden>
         <Ambient src={asset(phase !== 'open' || atEnd ? story.coverThumb : story.scenes[scene].thumb)} />
@@ -416,11 +489,11 @@ export function Reader({ startScene }: { startScene: number }) {
           </div>
         </header>
 
-        <div className="bk-main" onPointerDown={onPointerDown} onPointerUp={onPointerUp} onPointerCancel={() => (press.current = null)}>
+        <div className="bk-main" onPointerDown={onPointerDown} onPointerMove={onPointerMove} onPointerUp={(e) => endPress(e, false)} onPointerCancel={(e) => endPress(e, true)}>
           <div className="bk-wrap">
             <Spread ref={spread} phase={phase} scene={scene} step={pos.step} turn={turn} blurred={gateShown} clipOn={clipOn} reduced={reduced} ghost={ghost} onOpen={openStable} onOpened={onOpened} onTurnEnd={onTurnEnd} onClip={onClip} endPage={endPage} />
 
-            {isOpen && !atEnd && !gated && <Caption scene={scene} step={pos.step} delay={afterTurn} stack={stack} />}
+            {isOpen && !atEnd && !gated && <Caption scene={scene} step={pos.step} delay={afterTurn} stack={stack} hide={lifted} />}
 
             {gateShown && (
               <div className="bk-gate">

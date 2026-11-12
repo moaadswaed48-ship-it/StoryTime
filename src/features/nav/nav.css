@@ -19,7 +19,7 @@
   justify-content: space-between;
   gap: 10px;
   padding: max(12px, env(safe-area-inset-top)) 16px 0;
-  animation: st-nav-in 0.9s var(--ease-out, cubic-bezier(0.22, 1, 0.36, 1)) both;
+  animation: st-nav-in 0.9s var(--ease-out, cubic-bezier(0.22, 1, 0.36, 1)) backwards;
   transition:
     opacity 0.35s ease,
     transform 0.5s var(--ease-out, ease),
@@ -149,18 +149,17 @@
   box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.2);
 }
 
-/* Actions */
+/* Actions (on phones the language button fills its pill: a 48px tap target) */
 .st-actions {
   gap: 2px;
-  padding: 4px;
 }
 .st-ghost {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 7px;
-  height: 40px;
-  padding-inline: 13px;
+  height: 48px;
+  padding-inline: 16px;
   border-radius: 999px;
   font-size: 14px;
   font-weight: 500;
@@ -335,6 +334,13 @@
   }
   .st-links {
     display: inline-flex;
+  }
+  .st-actions {
+    padding: 4px;
+  }
+  .st-ghost {
+    height: 40px;
+    padding-inline: 13px;
   }
   .st-only-wide {
     display: inline-flex;

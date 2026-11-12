@@ -371,7 +371,11 @@ html[lang='en'] .ss-word {
     font-size: clamp(3.75rem, min(26vw, 15svh), 10rem);
   }
   .ss-line {
+    gap: 12px;
     max-width: 22rem;
+  }
+  .ss-idx::after {
+    display: none;
   }
   .ss-rail {
     --ss-rail-h: 132px;

@@ -39,11 +39,12 @@ const PARALLEL = 4
  * never comes to rest inside these ranges. Checked by eye against the 121-frame build of the wind scene.
  */
 const SMEARED: ReadonlyArray<readonly [number, number]> = [
-  [11, 15],
-  [28, 31],
+  [10, 15],
+  [27, 31],
   [45, 48],
-  [61, 67],
+  [61, 68],
   [83, 86],
+  [93, 94],
   [101, 103],
   [117, 119],
 ]
