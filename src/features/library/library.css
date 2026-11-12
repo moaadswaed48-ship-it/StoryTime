@@ -936,13 +936,16 @@ html[data-reduce-motion] .lib-cap-out {
   justify-items: center;
   gap: 22px;
 }
+.lib-detail {
+  --slot-h: min(31svh, 280px);
+}
 .lib-detail-slot {
-  height: min(31svh, 280px);
+  height: var(--slot-h);
   aspect-ratio: 0.753;
 }
 @media (min-width: 640px) and (max-width: 899px) {
-  .lib-detail-slot {
-    height: min(40svh, 440px);
+  .lib-detail {
+    --slot-h: min(40svh, 440px);
   }
 }
 .lib-detail-slotwrap {
@@ -995,7 +998,7 @@ html[data-reduce-motion] .lib-cap-out {
   pointer-events: none;
 }
 .lib-detail.is-open .lib-ghost {
-  opacity: 0.055;
+  opacity: 0.05;
   scale: 1;
   transition:
     opacity 1.2s var(--lib-ease) 0.35s,
@@ -1108,8 +1111,8 @@ html[lang='en'] .lib-detail-titleb {
     align-items: start;
     padding-top: 84px;
   }
-  .lib-detail.is-soon .lib-detail-slot {
-    height: min(42svh, 92vw);
+  .lib-detail.is-soon {
+    --slot-h: min(38svh, 86vw);
   }
 }
 .lib-return {
@@ -1129,7 +1132,7 @@ html[lang='en'] .lib-detail-titleb {
   .lib-return {
     position: absolute;
     inset-inline-start: 0;
-    top: 0;
+    top: calc(-1 * (var(--slot-h) + 22px));
     padding: 0;
   }
   .lib-return span {
@@ -1199,8 +1202,8 @@ html[lang='en'] .lib-detail-titleb {
     order: 2;
     justify-self: center;
   }
-  .lib-detail-slot {
-    height: min(66svh, 600px);
+  .lib-detail {
+    --slot-h: min(66svh, 600px);
   }
   .lib-detail-shadow {
     height: 54px;

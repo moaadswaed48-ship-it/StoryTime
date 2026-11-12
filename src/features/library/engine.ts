@@ -57,7 +57,7 @@ export function computeMetrics(stageW: number, stageH: number, viewH = stageH / 
   const floorY = Math.round(stageH * 0.855)
   // Height of the largest detail slot (same numbers as library.css → .lib-detail-slot; on phones a coming-soon
   // book is shown larger than the ready one, which shares its screen with the actions).
-  const slotH = stageW >= 900 ? Math.min(viewH * 0.66, 600) : phone ? Math.min(viewH * 0.42, stageW * 0.92) : Math.min(viewH * 0.4, 440)
+  const slotH = stageW >= 900 ? Math.min(viewH * 0.66, 600) : phone ? Math.min(viewH * 0.38, stageW * 0.86) : Math.min(viewH * 0.4, 440)
   return {
     K: Math.round(clamp((slotH / S) * 1.02, 1, 1.5) * 100) / 100,
     stageW,
