@@ -48,6 +48,7 @@ const MUSIC = `${SRC}/music.wav`
 const WORK = 'qa/out/film-build' // git-ignored; removed at the end
 
 const RATE = '144/7' // 24 fps × 6/7 speed
+const TB = '7/144' // one frame, as a time base
 const FPS = 144 / 7
 const W = 1280
 const H = 720
@@ -108,7 +109,8 @@ function qa() {
   // cadence: no picture may be shown twice, and nothing may stand still
   const dup = spawnSync('ffmpeg', ['-hide_banner', '-i', OUT, '-an', '-vf', 'mpdecimate=hi=64*4:lo=64*2:frac=0.2', '-loglevel', 'debug', '-f', 'null', '-']).stderr.toString()
   const frozen = spawnSync('ffmpeg', ['-hide_banner', '-i', OUT, '-an', '-vf', 'freezedetect=n=0.003:d=0.2', '-f', 'null', '-']).stderr.toString()
-  console.log(`cadence ${(dup.match(/ drop /g) ?? []).length} repeated frames of ${v.nb_frames} · frozen spans ≥ 0.2 s: ${(frozen.match(/freeze_start/g) ?? []).length}`)
+  const repeats = [...dup.matchAll(/ drop .*?pts_time:([\d.]+)/g)].map((m) => Number(m[1]).toFixed(2))
+  console.log(`cadence ${repeats.length} repeated frames of ${v.nb_frames}${repeats.length ? ` (at ${repeats.join(' ')} s)` : ''} · frozen spans ≥ 0.2 s: ${(frozen.match(/freeze_start/g) ?? []).length}`)
   console.log('checks written to qa/out/film-frame-*.jpg, film-open.jpg, film-xfade-*.jpg, film-push-*.jpg, film-spectrum.png')
 }
 if (arg['qa-only']) {
@@ -175,7 +177,7 @@ if (arg['opening-only']) {
 /* ── 3. one filter graph: opening → six clips → dissolves → fade ──────────── */
 const inputs = ['-i', `${WORK}/opening.png`]
 const graph = [
-  `[0:v]scale=${W * 4}:${H * 4}:flags=lanczos,zoompan=z='1+${OPEN_ZOOM}*on/${OPEN_FRAMES}':x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':d=${OPEN_FRAMES}:s=${W}x${H}:fps=${RATE},trim=end_frame=${OPEN_FRAMES},setpts=PTS-STARTPTS,format=yuv420p,settb=1/${RATE}[s0]`,
+  `[0:v]scale=${W * 4}:${H * 4}:flags=lanczos,zoompan=z='1+${OPEN_ZOOM}*on/${OPEN_FRAMES}':x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':d=${OPEN_FRAMES}:s=${W}x${H}:fps=${RATE},trim=end_frame=${OPEN_FRAMES},settb=${TB},setpts=N,format=yuv420p[s0]`,
 ]
 SCENES.forEach((n, k) => {
   inputs.push('-i', `${SRC}/v${pad(n)}.mp4`)
@@ -184,7 +186,8 @@ SCENES.forEach((n, k) => {
   const picture = push
     ? `scale=${W * 3}:${H * 3}:force_original_aspect_ratio=increase:flags=lanczos,crop=${W * 3}:${H * 3},zoompan=z='pow(${push[0]},on/${CLIP_FRAMES - 1})':x='(iw-iw/zoom)*${push[1]}':y='(ih-ih/zoom)*${push[2]}':d=1:s=${W}x${H}:fps=24`
     : `scale=${W}:${H}:force_original_aspect_ratio=increase:flags=lanczos,crop=${W}:${H}`
-  graph.push(`[${k + 1}:v]${picture},setsar=1,setpts=(PTS-STARTPTS)*7/6,fps=${RATE},trim=end_frame=${CLIP_FRAMES},setpts=PTS-STARTPTS,format=yuv420p,settb=1/${RATE}[s${k + 1}]`)
+  // Re-timing by frame number: picture n is shown at n × 7/144 s, whatever time base the source came in.
+  graph.push(`[${k + 1}:v]${picture},setsar=1,settb=${TB},setpts=N,fps=${RATE},trim=end_frame=${CLIP_FRAMES},format=yuv420p,settb=${TB}[s${k + 1}]`)
 })
 SCENES.forEach((_, k) => {
   // a hair before the frame's own time stamp, so rounding can never push the dissolve one frame late

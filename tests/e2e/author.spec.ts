@@ -31,6 +31,10 @@ test.describe('author', () => {
     // the paragraph is whole in the page, whatever its words are doing
     const words = await section.locator('.aut-w').count()
     expect(words).toBeGreaterThan(10)
+    // the invitation keeps every word of its title, one sentence to a line
+    const lines = await section.locator('.aut-cta__title span').allInnerTexts()
+    expect(lines.length).toBeGreaterThanOrEqual(1)
+    expect(lines.every((l) => l.trim().length > 0)).toBe(true)
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth + 1)).toBe(true)
     con.assertClean()
   })
@@ -47,6 +51,17 @@ test.describe('author', () => {
     await expect.poll(async () => Math.abs((await state(page)).book.pose!.ry - rest.ry), { timeout: 20_000 }).toBeGreaterThan(2)
     await page.evaluate(() => window.__st!.author.point(0, 0))
     await expect.poll(async () => Math.abs((await state(page)).book.pose!.ry - rest.ry), { timeout: 20_000 }).toBeLessThan(0.6)
+  })
+
+  test('the words about her are fully lit once the paragraph is in the upper part of the screen', async ({ page }) => {
+    // put the paragraph's top at 60% of the screen: a common resting place, not the end of the scroll
+    const y = await page.evaluate(() => {
+      const p = document.querySelector('#author .aut-text')!
+      return p.getBoundingClientRect().top + window.scrollY - window.innerHeight * 0.6
+    })
+    await scrollToY(page, Math.max(0, y))
+    await expect.poll(async () => (await state(page)).lit, { timeout: 20_000 }).toBe(1)
+    await expect(page.locator('#author .aut-w').last()).toHaveCSS('opacity', '1')
   })
 
   test('the paragraph lights up as it is read and the signature is drawn', async ({ page }) => {

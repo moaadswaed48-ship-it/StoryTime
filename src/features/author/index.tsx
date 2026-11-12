@@ -67,7 +67,7 @@ export function Author() {
     const tick = () => {
       const r = p.getBoundingClientRect()
       const vh = window.innerHeight
-      const k = clamp((vh * 0.94 - r.top) / (vh * 0.3), 0, 1)
+      const k = clamp((vh * 0.96 - r.top) / (vh * 0.28), 0, 1)
       if (Math.abs(k - last) < 0.002) return
       last = k
       paint(k)
