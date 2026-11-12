@@ -104,7 +104,7 @@ function mistGeometry() {
 export function Ground({ onTap }: { onTap: (e: ThreeEvent<PointerEvent>) => void }) {
   const paving = useMemo(() => {
     const tex = pavingTexture()
-    tex.repeat.set(26, 26)
+    tex.repeat.set(33, 33)
     return tex
   }, [])
   const mist = useDisposable(() => {
@@ -227,7 +227,7 @@ function canopyGeometry() {
         const z = pos.getZ(v)
         // lumpy, like clumps of foliage; the hollows are a little darker
         const lump = 0.17 * Math.sin(x * 4.1 + i) * Math.sin(y * 3.7 + i * 1.3) + 0.1 * Math.sin(z * 6.3 + i * 2)
-        const d = 1 + lump
+        const d = (1 + lump) * 0.94
         const wy = cy + y * r * d * SQUASH
         pos.setXYZ(v, cx + x * r * d, wy, cz + z * r * d)
         const h = THREE.MathUtils.clamp((wy - 3.9) / 3.6, 0, 1)
@@ -261,7 +261,7 @@ export function Tree() {
   const crown = useDisposable(() => new THREE.Mesh(canopyGeometry(), new THREE.MeshBasicMaterial({ vertexColors: true })))
   const leaves = useDisposable(() => {
     const rnd = mulberry32(17)
-    const total = 2600
+    const total = 3000
     const sum = BLOBS.reduce((n, b) => n + b[3] * b[3], 0)
     const geo = new THREE.PlaneGeometry(1, 1)
     const mat = new THREE.MeshBasicMaterial({ map: leafTexture(), alphaTest: 0.4, side: THREE.DoubleSide })
@@ -276,7 +276,7 @@ export function Tree() {
         const a = rnd() * Math.PI * 2
         const s = Math.sqrt(1 - u * u)
         dir.set(Math.cos(a) * s, u, Math.sin(a) * s)
-        const out = r * (0.96 + rnd() * 0.3)
+        const out = r * (0.98 + rnd() * 0.34)
         _p.set(cx + dir.x * out, cy + dir.y * out * SQUASH, cz + dir.z * out)
         _q.setFromUnitVectors(z, dir)
         _q.multiply(new THREE.Quaternion().setFromEuler(_e.set((rnd() - 0.5) * 1.1, (rnd() - 0.5) * 1.1, rnd() * Math.PI * 2)))
