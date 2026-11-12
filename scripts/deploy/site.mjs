@@ -11,7 +11,8 @@ const out = resolve((process.argv.find((a) => a.startsWith('--out=')) ?? '').sli
 const url = (process.argv.find((a) => a.startsWith('--url=')) ?? '').slice(6) || 'https://moaadswaed48-ship-it.github.io/StoryTime/'
 execFileSync('npx', ['vite', 'build'], { stdio: 'inherit', env: { ...process.env, VITE_BASE: './', VITE_SITE_URL: url } })
 mkdirSync(out, { recursive: true })
-for (const f of readdirSync(out)) if (f !== '.git') rmSync(resolve(out, f), { recursive: true, force: true })
+// `b/` holds the comparison build (version B) when one is published beside the main site: leave it in place
+for (const f of readdirSync(out)) if (f !== '.git' && f !== 'b') rmSync(resolve(out, f), { recursive: true, force: true })
 cpSync('dist', out, { recursive: true, filter: (src) => !/film[\\/]trailer-/.test(src) })
 writeFileSync(resolve(out, '.nojekyll'), '') // serve the files as they are
 const size = (p) => (statSync(p).isDirectory() ? readdirSync(p).reduce((a, f) => a + size(resolve(p, f)), 0) : statSync(p).size)
