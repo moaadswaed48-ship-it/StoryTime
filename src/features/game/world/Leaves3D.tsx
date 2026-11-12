@@ -14,6 +14,13 @@ const _e = new THREE.Euler()
 const _p = new THREE.Vector3()
 const _s = new THREE.Vector3()
 const _c = new THREE.Color()
+/** A leaf close to the lens would cover half the screen: it shrinks to nothing before it gets there. */
+const NEAR0 = 1.7
+const NEAR1 = 3.4
+function away(cam: THREE.Vector3, x: number, y: number, z: number) {
+  const t = Math.min(1, Math.max(0, (Math.hypot(x - cam.x, y - cam.y, z - cam.z) - NEAR0) / (NEAR1 - NEAR0)))
+  return t * t * (3 - 2 * t)
+}
 
 function leafMesh(count: number) {
   const mesh = new THREE.InstancedMesh(new THREE.PlaneGeometry(1, 1), new THREE.MeshBasicMaterial({ map: leafTexture(), alphaTest: 0.4, side: THREE.DoubleSide, fog: false }), count)
@@ -58,8 +65,9 @@ export function FallingLeaves({ count = 64 }: { count?: number }) {
     }
   }, [mesh, leaves])
   const clock = useRef(0)
-  useFrame((_, delta) => {
+  useFrame((state, delta) => {
     const dt = reduced ? 0 : Math.min(delta, 0.1)
+    const cam = state.camera.position
     clock.current += dt
     const t = clock.current
     const wind = rt.wind.power
@@ -74,7 +82,7 @@ export function FallingLeaves({ count = 64 }: { count?: number }) {
         l.z = l.homeZ
       }
       _e.set(t * l.spin * 0.7 + l.ph, t * l.spin + l.ph * 2, Math.sin(t * 1.3 + l.ph) * 0.8)
-      mesh.setMatrixAt(i, _m.compose(_p.set(l.x, l.y, l.z), _q.setFromEuler(_e), _s.setScalar(l.size)))
+      mesh.setMatrixAt(i, _m.compose(_p.set(l.x, l.y, l.z), _q.setFromEuler(_e), _s.setScalar(l.size * away(cam, l.x, l.y, l.z))))
     }
     mesh.instanceMatrix.needsUpdate = true
   })
@@ -117,8 +125,9 @@ export function KickedLeaves({ count = 72 }: { count?: number }) {
     }
   }, [mesh, count])
 
-  useFrame((_, delta) => {
+  useFrame((state, delta) => {
     const dt = Math.min(delta, 0.1)
+    const cam = state.camera.position
     const st = s.current
     const rnd = st.rnd
     const emit = (n: number, x: number, z: number, spread: number, up: number, push: number, dirX = 0, dirZ = 0) => {
@@ -177,7 +186,7 @@ export function KickedLeaves({ count = 72 }: { count?: number }) {
       }
       const fade = Math.min(1, k.life / 0.35)
       _e.set(k.ph, k.ph * 0.7, k.ph * 1.3)
-      mesh.setMatrixAt(i, k.life <= 0 ? _m.makeScale(0, 0, 0) : _m.compose(_p.set(k.x, k.y, k.z), _q.setFromEuler(_e), _s.setScalar(k.size * fade)))
+      mesh.setMatrixAt(i, k.life <= 0 ? _m.makeScale(0, 0, 0) : _m.compose(_p.set(k.x, k.y, k.z), _q.setFromEuler(_e), _s.setScalar(k.size * fade * away(cam, k.x, k.y, k.z))))
     }
     mesh.instanceMatrix.needsUpdate = true
   })

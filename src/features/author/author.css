@@ -602,7 +602,7 @@ html[lang='en'] .aut-lockup__b {
   --qf-focus: 50% 64%;
 }
 /* wide screens: the picture is set a touch larger from its left edge, so the boys stand clear of the glass */
-@media (min-width: 900px) {
+@media (min-width: 1024px) {
   .aut-cta__zoom .qf {
     inset: 0 -5% 0 0;
   }
@@ -796,7 +796,8 @@ html[dir='rtl'] .aut-cta__studio span::after {
     margin-top: 64px;
   }
 }
-@media (max-width: 899px) {
+/* Phones, tablets and narrow windows: the card is stacked. */
+@media (max-width: 1023px) {
   /* The whole scene stands on top — the tree, the leaves, both boys down to their shoes — and a sheet of dark glass
      rises over its foot. Under the glass the picture carries on, turned over like a reflection and out of focus,
      so the glass has something real to be glass over. */
@@ -818,7 +819,7 @@ html[dir='rtl'] .aut-cta__studio span::after {
     background: linear-gradient(0deg, rgba(18, 12, 8, 0.22), rgba(18, 12, 8, 0) 26%);
   }
   .aut-cta__zoom .qf {
-    --qf-focus: 88% 50%;
+    --qf-focus: 88% 86%; /* (where the frame is wider than the picture: keep the boys' shoes) */
   }
   .aut-cta__amb {
     --bleed: 28px;
@@ -884,7 +885,7 @@ html[dir='rtl'] .aut-cta__studio span::after {
   }
 }
 /* tablets: the sheet is wide, so the words and the ways in sit side by side */
-@media (min-width: 600px) and (max-width: 899px) {
+@media (min-width: 600px) and (max-width: 1023px) {
   .aut-cta__panel {
     display: grid;
     grid-template-columns: minmax(0, 1fr) auto;

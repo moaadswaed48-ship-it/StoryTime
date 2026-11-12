@@ -151,8 +151,8 @@
   display: none;
   overflow: hidden;
   pointer-events: none;
-  -webkit-mask-image: radial-gradient(125% 62% at 50% 44%, #000 26%, transparent 80%);
-  mask-image: radial-gradient(125% 62% at 50% 44%, #000 26%, transparent 80%);
+  -webkit-mask-image: radial-gradient(120% 56% at 50% 43%, #000 18%, rgba(0, 0, 0, 0.45) 52%, transparent 84%);
+  mask-image: radial-gradient(120% 56% at 50% 43%, #000 18%, rgba(0, 0, 0, 0.45) 52%, transparent 84%);
 }
 .film-room .film-ambient {
   z-index: 0;
@@ -161,8 +161,8 @@
   width: 25%;
   height: 25%;
   transform: scale(4.5);
-  filter: blur(15px) saturate(1.5);
-  opacity: 0.42;
+  filter: blur(15px) saturate(1.8);
+  opacity: 0.58;
 }
 
 /* Soft directional shades: only where words or controls sit, only while they are there. */
@@ -619,8 +619,8 @@ html[dir='rtl'] .film-scrub__fill {
     transform 0.2s ease-out;
 }
 .film-chip img {
-  width: 46px;
-  height: 30px;
+  width: 50px;
+  height: 32px;
   border-radius: 9999px;
   object-fit: cover;
 }
@@ -639,7 +639,7 @@ html[dir='rtl'] .film-scrub__fill {
 .film-chip[aria-current='true']::after {
   content: '';
   position: absolute;
-  inset-inline: 63px 16px;
+  inset-inline: 67px 16px;
   bottom: 6px;
   height: 2px;
   border-radius: 2px;
@@ -771,13 +771,15 @@ html[dir='rtl'] .film-chip[aria-current='true']::after {
   z-index: 1;
   inset: 0;
   background:
-    radial-gradient(78% 108% at 0% 100%, rgba(12, 8, 5, 0.88), rgba(12, 8, 5, 0.52) 46%, rgba(12, 8, 5, 0) 76%),
-    linear-gradient(to top, rgba(12, 8, 5, 0.62), rgba(12, 8, 5, 0) 34%);
+    radial-gradient(92% 128% at 0% 100%, rgba(12, 8, 5, 0.94), rgba(12, 8, 5, 0.7) 40%, rgba(12, 8, 5, 0) 78%),
+    linear-gradient(to top, rgba(12, 8, 5, 0.66), rgba(12, 8, 5, 0) 34%),
+    linear-gradient(to bottom, rgba(12, 8, 5, 0.5), rgba(12, 8, 5, 0) 22%);
 }
 html[dir='rtl'] .film-end__back::before {
   background:
-    radial-gradient(78% 108% at 100% 100%, rgba(12, 8, 5, 0.88), rgba(12, 8, 5, 0.52) 46%, rgba(12, 8, 5, 0) 76%),
-    linear-gradient(to top, rgba(12, 8, 5, 0.62), rgba(12, 8, 5, 0) 34%);
+    radial-gradient(92% 128% at 100% 100%, rgba(12, 8, 5, 0.94), rgba(12, 8, 5, 0.7) 40%, rgba(12, 8, 5, 0) 78%),
+    linear-gradient(to top, rgba(12, 8, 5, 0.66), rgba(12, 8, 5, 0) 34%),
+    linear-gradient(to bottom, rgba(12, 8, 5, 0.5), rgba(12, 8, 5, 0) 22%);
 }
 .film-end__word {
   font-weight: 900;
@@ -835,16 +837,16 @@ html[lang='ar'] .film-end__word {
   }
   .film-chip {
     gap: 9px;
-    padding-inline: 6px 15px;
+    padding-inline: 5px 15px;
     font-size: 13px;
   }
   .film-chip img {
-    width: 42px;
-    height: 28px;
+    width: 46px;
+    height: 30px;
   }
   .film-chip[aria-current='true']::before,
   .film-chip[aria-current='true']::after {
-    inset-inline: 57px 15px;
+    inset-inline: 60px 15px;
     bottom: 5px;
   }
 }

@@ -2,7 +2,8 @@ import { useEffect } from 'react'
 import * as THREE from 'three'
 import { useFrame, type ThreeEvent } from '@react-three/fiber'
 import { LazyCanvas } from '@/design/LazyCanvas'
-import { clampToYard, pushOut } from '../logic'
+import { useSiteStore } from '@/store/useSiteStore'
+import { START, clampToYard, pushOut } from '../logic'
 import { rt } from '../runtime'
 import { useGame } from '../store'
 import { FallingLeaves, KickedLeaves } from './Leaves3D'
@@ -16,7 +17,7 @@ const _p = new THREE.Vector3()
 /** Tap or click the ground and Sari walks there; tapping a paper sends him to it. */
 function onTap(e: ThreeEvent<PointerEvent>) {
   const game = useGame.getState()
-  if (game.phase !== 'playing') return
+  if (game.phase !== 'playing' || !game.ready) return
   e.stopPropagation()
   let spot = { x: e.point.x, z: e.point.z }
   for (let i = 0; i < rt.papers.length; i++) {
@@ -46,9 +47,19 @@ function Fail({ onFail }: { onFail: () => void }) {
  * No tone mapping: the canvas-painted colours and the film still are shown exactly as authored.
  */
 export default function World({ onFail, paused = false }: { onFail: () => void; paused?: boolean }) {
+  // the game is the whole screen and full of thin things (pickets, leaf edges, names on paper): it gets antialiasing
+  // and up to 2× pixels even on phones; weak devices keep the lighter defaults
+  const low = useSiteStore((s) => s.tier === 'low')
   return (
     // the play view always fills the screen, so the loop only stops while the view is fading out
-    <LazyCanvas flat frameloop={paused ? 'never' : 'always'} camera={{ fov: 50, near: 0.1, far: 140, position: [0, 2.35, 8.6] }} fallback={<Fail onFail={onFail} />}>
+    <LazyCanvas
+      flat
+      dpr={low ? [1, 1.5] : [1, 2]}
+      gl={{ antialias: !low, powerPreference: 'high-performance', alpha: true }}
+      frameloop={paused ? 'never' : 'always'}
+      camera={{ fov: 50, near: 0.1, far: 140, position: [START.x, 2.35, START.z + 5.5] }}
+      fallback={<Fail onFail={onFail} />}
+    >
       <color attach="background" args={['#f3cdb6']} />
       <fog attach="fog" args={[HAZE, 15, 54]} />
       <hemisphereLight args={['#fff0d8', '#a8683a', 2.1]} />

@@ -147,44 +147,90 @@ const LEAF_HALF: [number, number][] = [
   [0.08, -0.3],
   [0.05, -0.6],
 ]
-/** A white maple leaf with soft veins; instances tint it. */
+/** A pale maple leaf with fine veins and a little shading (lighter along the midrib, darker toward the tips); instances tint it. */
 export const leafTexture = () =>
   once('leaf', () => {
-    const S = 128
+    const S = 256
     const [c, g] = board(S, S)
     const R = S * 0.47
     const px = (x: number) => S / 2 + x * R
     const py = (y: number) => S / 2 - (y - 0.16) * R
-    g.beginPath()
-    LEAF_HALF.forEach(([x, y], i) => (i ? g.lineTo(px(x), py(y)) : g.moveTo(px(x), py(y))))
-    for (let i = LEAF_HALF.length - 1; i >= 0; i--) g.lineTo(px(-LEAF_HALF[i][0]), py(LEAF_HALF[i][1]))
-    g.closePath()
-    g.fillStyle = '#fff'
+    const outline = () => {
+      g.beginPath()
+      LEAF_HALF.forEach(([x, y], i) => (i ? g.lineTo(px(x), py(y)) : g.moveTo(px(x), py(y))))
+      for (let i = LEAF_HALF.length - 1; i >= 0; i--) g.lineTo(px(-LEAF_HALF[i][0]), py(LEAF_HALF[i][1]))
+      g.closePath()
+    }
+    outline()
     g.lineJoin = 'round'
-    g.lineWidth = 5
-    g.strokeStyle = '#fff'
+    g.lineWidth = 9
+    g.strokeStyle = '#dcdcdc'
     g.stroke()
+    const body = g.createRadialGradient(px(0), py(0.05), R * 0.08, px(0), py(0.05), R * 1.05)
+    body.addColorStop(0, '#ffffff')
+    body.addColorStop(0.55, '#f1f1f1')
+    body.addColorStop(1, '#cfcfcf')
+    g.fillStyle = body
     g.fill()
-    // stem and veins, a little darker
-    g.strokeStyle = 'rgba(70,28,0,.3)'
-    g.lineWidth = 3
+    // one half a touch darker: the leaf is slightly folded along its midrib
+    g.save()
+    outline()
+    g.clip()
+    g.fillStyle = 'rgba(60,24,0,.09)'
+    g.fillRect(0, 0, S / 2, S)
+    // midrib, main veins, side veins
     g.lineCap = 'round'
-    g.beginPath()
-    g.moveTo(px(0), py(0.8))
-    g.lineTo(px(0), py(-0.78))
-    for (const [x, y] of [
+    const hub: [number, number] = [0, -0.12]
+    const veins: [number, number][] = [
       [0.7, 0.26],
       [0.46, 0.52],
       [0.56, -0.12],
-    ]) {
-      g.moveTo(px(0), py(-0.12))
-      g.lineTo(px(x), py(y))
-      g.moveTo(px(0), py(-0.12))
-      g.lineTo(px(-x), py(y))
-    }
+    ]
+    g.strokeStyle = 'rgba(70,28,0,.34)'
+    g.lineWidth = 3.2
+    g.beginPath()
+    g.moveTo(px(0), py(0.84))
+    g.lineTo(px(0), py(-0.52))
+    g.stroke()
+    g.lineWidth = 2.2
+    g.strokeStyle = 'rgba(70,28,0,.26)'
+    g.beginPath()
+    for (const [x, y] of veins)
+      for (const sx of [1, -1]) {
+        g.moveTo(px(hub[0]), py(hub[1]))
+        g.quadraticCurveTo(px(sx * x * 0.5), py(hub[1] + (y - hub[1]) * 0.42), px(sx * x), py(y))
+      }
+    g.stroke()
+    g.lineWidth = 1.2
+    g.strokeStyle = 'rgba(70,28,0,.16)'
+    g.beginPath()
+    for (const [x, y] of veins)
+      for (const sx of [1, -1])
+        for (const f of [0.38, 0.62]) {
+          const bx = sx * x * f
+          const by = hub[1] + (y - hub[1]) * f
+          g.moveTo(px(bx), py(by))
+          g.lineTo(px(bx + sx * 0.1), py(by + 0.16))
+          g.moveTo(px(bx), py(by))
+          g.lineTo(px(bx + sx * 0.14), py(by - 0.1))
+        }
+    for (const yy of [0.5, 0.3, 0.1])
+      for (const sx of [1, -1]) {
+        g.moveTo(px(0), py(yy))
+        g.lineTo(px(sx * 0.14), py(yy + 0.13))
+      }
+    g.stroke()
+    g.restore()
+    // the stalk
+    g.strokeStyle = '#c9c9c9'
+    g.lineWidth = 4
+    g.lineCap = 'round'
+    g.beginPath()
+    g.moveTo(px(0), py(-0.5))
+    g.lineTo(px(0.03), py(-0.8))
     g.stroke()
     const tex = srgb(c)
-    tex.anisotropy = 2
+    tex.anisotropy = 4
     return tex
   })
 
@@ -276,10 +322,10 @@ export const barkTexture = () =>
     return srgb(c, true)
   })
 
-/** A name paper: off-white sheet, the name written large on a ruled line. */
+/** A name paper: off-white sheet, the name written large on a ruled line (drawn at 512×672 so it stays sharp close up). */
 export function paperTexture(name: string): THREE.CanvasTexture {
-  const W = 256
-  const H = 336
+  const W = 512
+  const H = 672
   const [c, g] = board(W, H)
   const tex = srgb(c)
   const draw = () => {
@@ -289,28 +335,30 @@ export function paperTexture(name: string): THREE.CanvasTexture {
     g.fillStyle = grad
     g.fillRect(0, 0, W, H)
     g.strokeStyle = 'rgba(26,18,11,.12)'
-    g.lineWidth = 3
-    g.strokeRect(1.5, 1.5, W - 3, H - 3)
+    g.lineWidth = 6
+    g.strokeRect(3, 3, W - 6, H - 6)
     // ruled lines, like a kindergarten name sheet
-    g.strokeStyle = 'rgba(217,84,30,.4)'
-    g.lineWidth = 3
-    for (const y of [204, 252, 292]) {
+    g.strokeStyle = 'rgba(217,84,30,.44)'
+    g.lineWidth = 6
+    for (const y of [408, 504, 584]) {
       g.beginPath()
-      g.moveTo(34, y)
-      g.lineTo(W - 34, y)
+      g.moveTo(68, y)
+      g.lineTo(W - 68, y)
       g.stroke()
       g.strokeStyle = 'rgba(26,18,11,.14)'
+      g.lineWidth = 5
     }
     g.fillStyle = '#1a120b'
     g.textAlign = 'center'
     g.textBaseline = 'alphabetic'
-    g.direction = rtl ? 'rtl' : 'ltr'
-    let size = 96
+    // the child's own name may be in the other alphabet
+    g.direction = /\p{Script=Arabic}/u.test(name) ? 'rtl' : /\p{Script=Latin}/u.test(name) ? 'ltr' : rtl ? 'rtl' : 'ltr'
+    let size = 200
     do {
       g.font = `800 ${size}px "Rubik Variable", "Rubik", system-ui, sans-serif`
-      size -= 4
-    } while (g.measureText(name).width > W - 56 && size > 28)
-    g.fillText(name, W / 2, 180)
+      size -= 6
+    } while (g.measureText(name).width > W - 96 && size > 44)
+    g.fillText(name, W / 2, 360)
     tex.needsUpdate = true
   }
   draw()
@@ -346,13 +394,45 @@ export const backdropTexture = () =>
       const [soft, sg] = board(452, 496)
       sg.imageSmoothingQuality = 'high'
       sg.drawImage(img, 0, 0, 565 * k, 620 * k, 0, 0, soft.width, soft.height)
+      // the mirrored half gets a tree where the playground tower stands, so the same tower never shows twice side by side
+      const [twin, tg] = board(soft.width, soft.height)
+      tg.drawImage(soft, 0, 0)
+      const [patch, pg] = board(230, 210)
+      pg.translate(patch.width, 0)
+      pg.scale(-1, 1)
+      pg.drawImage(soft, 140, 282, 200, 210, 0, 0, patch.width, patch.height)
+      pg.setTransform(1, 0, 0, 1, 0, 0)
+      pg.globalCompositeOperation = 'destination-in'
+      const feather = pg.createRadialGradient(patch.width / 2, patch.height * 0.53, 30, patch.width / 2, patch.height * 0.53, patch.width * 0.5)
+      feather.addColorStop(0, 'rgba(0,0,0,1)')
+      feather.addColorStop(0.7, 'rgba(0,0,0,.9)')
+      feather.addColorStop(1, 'rgba(0,0,0,0)')
+      pg.fillStyle = feather
+      pg.fillRect(0, 0, patch.width, patch.height)
+      tg.drawImage(patch, 0, 290) // fades to nothing at x = 0, where the two halves must match
       g.imageSmoothingQuality = 'high'
       g.save()
       g.translate(TW, 0)
       g.scale(-1, 1)
-      g.drawImage(soft, 0, 0, TW, TH)
+      g.drawImage(twin, 0, 0, TW, TH)
       g.restore()
       g.drawImage(soft, TW, 0, TW, TH)
+      // the painted sun rays would meet in a point above the school once mirrored: the upper sky is repainted plain
+      const [skyC, sk] = board(8, TH)
+      const plain = sk.createLinearGradient(0, 0, 0, TH)
+      plain.addColorStop(0, '#f3cdb6')
+      plain.addColorStop(0.3, '#f7d3b0')
+      plain.addColorStop(0.5, '#f8d2a2')
+      sk.fillStyle = plain
+      sk.fillRect(0, 0, 8, TH)
+      sk.globalCompositeOperation = 'destination-in'
+      const veil = sk.createLinearGradient(0, 0, 0, TH)
+      veil.addColorStop(0, 'rgba(0,0,0,1)')
+      veil.addColorStop(0.2, 'rgba(0,0,0,.96)')
+      veil.addColorStop(0.44, 'rgba(0,0,0,0)')
+      sk.fillStyle = veil
+      sk.fillRect(0, 0, 8, TH)
+      g.drawImage(skyC, 0, 0, TW * 2, TH)
       // a breath of mist over everything, thick at the base where the 3D ground arrives
       g.fillStyle = 'rgba(236,171,118,.1)'
       g.fillRect(0, 0, TW * 2, TH)

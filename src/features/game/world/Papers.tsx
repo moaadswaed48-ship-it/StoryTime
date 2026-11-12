@@ -40,7 +40,7 @@ function PaperItem({ index, name }: { index: number; name: string }) {
     [mats],
   )
   useEffect(() => () => geo.dispose(), [geo])
-  const s = useRef({ t: index * 1.7, fly: 0, clear: 1 })
+  const s = useRef({ t: index * 1.7, fly: 0, lay: 0 })
 
   useFrame((state, delta) => {
     const dt = Math.min(delta, 0.1)
@@ -57,35 +57,47 @@ function PaperItem({ index, name }: { index: number; name: string }) {
     st.fly = picked ? Math.min(1, st.fly + dt / 0.5) : 0
     const k = smooth(0, 1, st.fly)
     const gust = rt.wind.power
-    root.current.visible = st.fly < 1
     root.current.position.set(p.x, 0, p.z)
+    // a phone held upright sees the yard from further away: bigger sheets, so the names can still be read
+    const tall = state.size.width / state.size.height < 0.9
+    const big = tall ? 1.3 : 1
+
+    // a paper standing between the camera and Sari would hide him: there it lies down on the ground instead,
+    // face up (the name can still be read from above) and stands up again once he has passed
+    const inFront = !picked && p.z > rt.sari.z + 0.45 && Math.abs(p.x - rt.sari.x) < 1.25
+    st.lay += ((inFront ? 1 : 0) - st.lay) * (1 - Math.exp(-8 * dt))
+    const lay = st.lay
 
     // the sheet: hovering, rocking; when picked it flies up toward the camera, turning once
     const m = sheet.current
-    const hover = 0.66 + Math.sin(st.t * 1.9) * 0.06
+    const hover = THREE.MathUtils.lerp((tall ? 0.76 : 0.66) + Math.sin(st.t * 1.9) * 0.06, 0.2 * big + Math.sin(st.t * 1.9) * 0.015, lay)
     _v.copy(state.camera.position).sub(root.current.position)
     m.position.set(_v.x * 0.5 * k, hover + (_v.y - 0.5 - hover) * k, _v.z * 0.5 * k)
-    m.rotation.set(-0.3 + Math.sin(st.t * 1.6) * 0.12 * (1 + gust), Math.sin(st.t * 0.8) * 0.55 * (1 - k) + k * Math.PI * 2, Math.sin(st.t * 2.2) * 0.15 * (1 + gust * 2) * (1 - k))
-    m.scale.setScalar(1 + k * 1.3)
-    // a paper right under the lens would fill the screen: let it fade as the camera passes over it
-    // …and a paper standing between the camera and Sari turns glassy, so it never hides him
-    const inFront = !picked && p.z > rt.sari.z + 0.45 && Math.abs(p.x - rt.sari.x) < 1.25
-    st.clear += ((inFront ? 0.38 : 1) - st.clear) * (1 - Math.exp(-8 * dt))
-    const close = picked ? 1 : smooth(1.7, 3.0, Math.hypot(_v.x, _v.y - 1.1, _v.z)) * st.clear
+    m.rotation.set(
+      THREE.MathUtils.lerp(-0.3 + Math.sin(st.t * 1.6) * 0.12 * (1 + gust), -1.25, lay * (1 - k)),
+      Math.sin(st.t * 0.8) * 0.55 * (1 - k) * (1 - lay * 0.75) + k * Math.PI * 2,
+      Math.sin(st.t * 2.2) * 0.15 * (1 + gust * 2) * (1 - k) * (1 - lay * 0.6),
+    )
+    m.scale.setScalar(big * (1 - k) + k * 2.3)
+    // a paper right under the lens would fill the screen: it fades (with its ring and marker) as the camera passes over it
+    const close = picked ? 1 : smooth(1.7, 3.0, Math.hypot(_v.x, _v.y - 1.1, _v.z))
+    root.current.visible = st.fly < 1 && close > 0.05
     mats.sheet.opacity = (1 - smooth(0.62, 1, st.fly)) * close
-    // a travelling wave makes it flutter
+    // a travelling wave makes it flutter (calmer when it lies on the ground)
     const arr = geo.attributes.position.array as Float32Array
+    const wave = 1 - lay * 0.7
     for (let i = 0; i < arr.length; i += 3) {
       const x = rest[i]
-      arr[i + 2] = Math.sin(x * 8 + st.t * (5 + gust * 7)) * (0.022 + gust * 0.05) * (0.3 + Math.abs(x) * 3.2)
+      arr[i + 2] = Math.sin(x * 8 + st.t * (5 + gust * 7)) * (0.022 + gust * 0.05) * (0.3 + Math.abs(x) * 3.2) * wave
     }
     geo.attributes.position.needsUpdate = true
 
     const pulse = 0.5 + 0.5 * Math.sin(st.t * 2.4)
-    ring.current.scale.setScalar(1.45 + pulse * 0.2)
-    mats.ring.opacity = (0.6 + pulse * 0.3) * (1 - k) * close
-    marker.current.position.y = 1.7 + Math.sin(st.t * 3) * 0.09
-    mats.marker.opacity = (1 - k) * close
+    ring.current.scale.setScalar((1.45 + pulse * 0.2) * (tall ? 1.2 : 1))
+    mats.ring.opacity = (0.6 + pulse * 0.3) * (1 - k) * close * close
+    marker.current.position.y = (tall ? 2.05 : 1.7) - lay * 0.35 + Math.sin(st.t * 3) * 0.09
+    marker.current.scale.setScalar(0.42 * big)
+    mats.marker.opacity = (1 - k) * close * close
   })
 
   return (
@@ -155,7 +167,8 @@ export function Papers() {
       }
       const cam = state.camera.position
       const underLens = Math.hypot(p.x - cam.x, cam.y, p.z - cam.z) < 2.6 // faded out there, see PaperItem
-      const seen = !behind && !underLens && px > 18 && px < width - 18 && py > 70 && py < height - 28
+      // a paper half inside the picture is seen well enough: no chip on top of it
+      const seen = !behind && !underLens && px > -24 && px < width + 24 && py > 56 && py < height + 10
       if (underLens) py = height * 2
       if (seen) {
         el.style.opacity = '0'

@@ -156,7 +156,7 @@ const BLOBS: [number, number, number, number][] = (() => {
   for (let i = 0; i < n; i++) {
     const a = i * 2.39996 + 0.4
     const rad = 0.9 + 3.4 * Math.sqrt((i + 0.6) / n)
-    out.push([Math.cos(a) * rad * 1.24 + 0.8, 4.55 + (1 - (rad / 4.5) ** 2) * 1.9 + (rnd() - 0.5) * 0.5, Math.sin(a) * rad * 0.82 + 0.1, 1.5 - rad * 0.15 + rnd() * 0.35])
+    out.push([Math.cos(a) * rad * 1.02 + 0.35, 4.55 + (1 - (rad / 4.5) ** 2) * 1.9 + (rnd() - 0.5) * 0.5, Math.sin(a) * rad * 0.82 + 0.1, 1.5 - rad * 0.15 + rnd() * 0.35])
   }
   return out
 })()
@@ -213,9 +213,10 @@ function branchGeometry(from: THREE.Vector3, to: THREE.Vector3, r0: number, r1: 
   return paint(g, (_x, _y, _z, out) => out.set('#a5744a'))
 }
 function canopyGeometry() {
-  const under = new THREE.Color('#cf6c20')
-  const mid = new THREE.Color('#ee9a31')
-  const top = new THREE.Color('#ffd067')
+  // the inside of the crown: darker than the leaves around it, so a gap between leaves reads as depth, not as a bright ball
+  const under = new THREE.Color('#9c4716')
+  const mid = new THREE.Color('#c26a1d')
+  const top = new THREE.Color('#e39636')
   return merge(
     BLOBS.map(([cx, cy, cz, r], i) => {
       const g = new THREE.IcosahedronGeometry(1, 2)
@@ -227,7 +228,7 @@ function canopyGeometry() {
         const z = pos.getZ(v)
         // lumpy, like clumps of foliage; the hollows are a little darker
         const lump = 0.17 * Math.sin(x * 4.1 + i) * Math.sin(y * 3.7 + i * 1.3) + 0.1 * Math.sin(z * 6.3 + i * 2)
-        const d = (1 + lump) * 0.94
+        const d = (1 + lump) * 0.84
         const wy = cy + y * r * d * SQUASH
         pos.setXYZ(v, cx + x * r * d, wy, cz + z * r * d)
         const h = THREE.MathUtils.clamp((wy - 3.9) / 3.6, 0, 1)
@@ -249,11 +250,11 @@ export function Tree() {
     const top = new THREE.Vector3(0.1, 4.2, 0)
     const geo = merge([
       trunkGeometry(),
-      branchGeometry(top, new THREE.Vector3(3.2, 5.3, 1.0), 0.36, 0.14),
+      branchGeometry(top, new THREE.Vector3(2.8, 5.3, 1.0), 0.36, 0.14),
       branchGeometry(top, new THREE.Vector3(-2.4, 5.3, 0.5), 0.34, 0.14),
       branchGeometry(top, new THREE.Vector3(0.7, 5.4, -1.9), 0.32, 0.14),
       branchGeometry(top, new THREE.Vector3(1.2, 6.2, 0.2), 0.34, 0.16),
-      branchGeometry(new THREE.Vector3(2.9, 5.2, 0.9), new THREE.Vector3(5.4, 5.0, 0.6), 0.17, 0.08),
+      branchGeometry(new THREE.Vector3(2.5, 5.2, 0.9), new THREE.Vector3(4.1, 5.05, 0.6), 0.17, 0.08),
     ])
     const bark = barkTexture()
     return new THREE.Mesh(geo, new THREE.MeshLambertMaterial({ vertexColors: true, map: bark }))
@@ -261,7 +262,7 @@ export function Tree() {
   const crown = useDisposable(() => new THREE.Mesh(canopyGeometry(), new THREE.MeshBasicMaterial({ vertexColors: true })))
   const leaves = useDisposable(() => {
     const rnd = mulberry32(17)
-    const total = 3000
+    const total = 4400
     const sum = BLOBS.reduce((n, b) => n + b[3] * b[3], 0)
     const geo = new THREE.PlaneGeometry(1, 1)
     const mat = new THREE.MeshBasicMaterial({ map: leafTexture(), alphaTest: 0.4, side: THREE.DoubleSide })
@@ -276,13 +277,13 @@ export function Tree() {
         const a = rnd() * Math.PI * 2
         const s = Math.sqrt(1 - u * u)
         dir.set(Math.cos(a) * s, u, Math.sin(a) * s)
-        const out = r * (0.98 + rnd() * 0.34)
+        const out = r * (0.88 + rnd() * 0.54) // a loose shell: some leaves sit deep, some hang out past the outline
         _p.set(cx + dir.x * out, cy + dir.y * out * SQUASH, cz + dir.z * out)
         _q.setFromUnitVectors(z, dir)
         _q.multiply(new THREE.Quaternion().setFromEuler(_e.set((rnd() - 0.5) * 1.1, (rnd() - 0.5) * 1.1, rnd() * Math.PI * 2)))
-        const size = 0.3 + rnd() * 0.3
+        const size = 0.42 + rnd() * 0.36
         mesh.setMatrixAt(k, _m.compose(_p, _q, _s.setScalar(size)))
-        const light = 0.8 + 0.3 * (dir.y * 0.5 + 0.5) + rnd() * 0.14
+        const light = 0.74 + 0.36 * (dir.y * 0.5 + 0.5) + rnd() * 0.16 - (out < r ? 0.1 : 0)
         mesh.setColorAt(k, _c.set(CROWN_COLORS[Math.floor(rnd() * CROWN_COLORS.length)]).multiplyScalar(light))
       }
     })
@@ -323,7 +324,7 @@ export function Woodwork() {
       for (const x of [-FENCE_X - 0.05, FENCE_X + 0.05]) list.push({ p: [x, y, (FENCE_Z + 8) / 2], s: [0.04, 0.08, 8 - FENCE_Z], c: WOOD[0] })
     }
     // bench against the back fence
-    const bx = 3.3
+    const bx = 3.7
     const bz = -5.25
     for (let i = 0; i < 3; i++) list.push({ p: [bx, 0.44, bz - 0.17 + i * 0.19], s: [2.3, 0.05, 0.16], c: WOOD[i % 2 ? 2 : 0] })
     for (let i = 0; i < 2; i++) list.push({ p: [bx, 0.7 + i * 0.2, bz - 0.33 - i * 0.03], s: [2.3, 0.15, 0.045], r: [-0.14, 0, 0], c: WOOD[i ? 0 : 2] })
@@ -349,8 +350,9 @@ export function Woodwork() {
 }
 
 const PLANTERS: [number, number, number][] = [
-  [6.3, -5.45, 1.5],
-  [-1.7, -5.45, 1.5],
+  [6.7, -5.45, 1.5],
+  [0.6, -5.45, 1.5],
+  [-6.4, -5.45, 1.5],
   [-7.6, 2.4, 0.7],
 ]
 const FLOWERS = ['#f1b23a', '#e9792b', '#d9541e', '#f6d16a', '#e2603a']
@@ -362,16 +364,17 @@ export function Softwork() {
     const rnd = mulberry32(31)
     const list: { p: [number, number, number]; s: [number, number, number]; c: string }[] = []
     for (const [x, z, w] of PLANTERS) {
+      // a low cushion of green, thick with small flowers (two sizes)
       const bushes = Math.max(2, Math.round(w * 2.4))
       for (let i = 0; i < bushes; i++) {
         const bx = x - w / 2 + ((i + 0.5) / bushes) * w
-        const br = (w / bushes) * 0.62
-        list.push({ p: [bx, 0.52, z], s: [br, 0.24 + rnd() * 0.08, 0.3], c: GREENS[i % GREENS.length] })
-        for (let k = 0; k < 9; k++) {
+        const br = (w / bushes) * 0.66
+        list.push({ p: [bx, 0.5, z], s: [br, 0.17 + rnd() * 0.05, 0.3], c: GREENS[i % GREENS.length] })
+        for (let k = 0; k < 14; k++) {
           const a = rnd() * Math.PI * 2
-          const d = Math.sqrt(rnd()) * br * 0.9
-          const r = 0.07 + rnd() * 0.055
-          list.push({ p: [bx + Math.cos(a) * d, 0.7 + rnd() * 0.12 - d * 0.18, z + Math.sin(a) * d * 0.7], s: [r, r * 0.8, r], c: FLOWERS[Math.floor(rnd() * FLOWERS.length)] })
+          const d = Math.sqrt(rnd()) * br * 0.92
+          const r = k % 3 === 0 ? 0.085 + rnd() * 0.03 : 0.045 + rnd() * 0.02
+          list.push({ p: [bx + Math.cos(a) * d, 0.64 + rnd() * 0.07 - d * 0.12, z + Math.sin(a) * d * 0.72], s: [r, r * 0.7, r], c: FLOWERS[Math.floor(rnd() * FLOWERS.length)] })
         }
       }
     }
@@ -393,12 +396,11 @@ export function Softwork() {
 
 const SHADOWS: [number, number, number, number, number][] = [
   // x, z, width, depth, turn
-  [TREE.x + 1.6, TREE.z + 1.5, 9.5, 6.4, -0.6],
-  [TREE.x + 0.2, TREE.z + 0.2, 3.4, 3.0, 0],
-  [3.5, -5.0, 3.4, 1.5, 0],
-  [6.5, -5.2, 2.4, 1.4, 0],
-  [-1.5, -5.2, 2.4, 1.4, 0],
-  [-7.3, 2.6, 1.6, 1.6, 0],
+  [TREE.x + 1.5, TREE.z + 1.6, 9.5, 6.6, -0.6],
+  [TREE.x + 0.2, TREE.z + 0.2, 4.6, 4.0, 0],
+  [TREE.x + 0.05, TREE.z + 0.1, 2.7, 2.3, 0],
+  [3.9, -5.0, 3.4, 1.5, 0],
+  ...PLANTERS.map(([x, z, w]): [number, number, number, number, number] => [x + 0.2, z + 0.25, w + 0.9, 1.4, 0]),
   [PILE.x + 0.25, PILE.z + 0.3, 3.3, 2.5, -0.5],
   [0, FENCE_Z + 0.3, 19, 1.3, 0],
   [-FENCE_X + 0.35, 1, 1.3, 15, 0],
@@ -422,7 +424,7 @@ export const shadowMaterial = (opacity: number) => new THREE.MeshBasicMaterial({
 export function LeafCarpet() {
   const mesh = useDisposable(() => {
     const rnd = mulberry32(44)
-    const max = 1600
+    const max = 2200
     const geo = new THREE.PlaneGeometry(1, 1)
     geo.rotateX(-Math.PI / 2)
     const m = new THREE.InstancedMesh(geo, new THREE.MeshBasicMaterial({ map: leafTexture(), alphaTest: 0.4, side: THREE.DoubleSide }), max)
@@ -440,13 +442,19 @@ export function LeafCarpet() {
       const h = Math.max(0, 0.41 * (1 - (d / (PILE.r * 1.0)) ** 2))
       put(PILE.x + Math.cos(a) * d, 0.05 + h, PILE.z + Math.sin(a) * d * 0.9, 0.3 + rnd() * 0.22, 1.3)
     }
+    // leaves drifted up against the foot of the tree: they bury the line where the trunk meets the ground
+    for (let i = 0; i < 170; i++) {
+      const a = rnd() * Math.PI * 2
+      const d = 0.92 + rnd() * 0.75
+      put(TREE.x + Math.sin(a) * d + 0.05, 0.05 + rnd() * 0.17 * (1 - (d - 0.92) / 0.75), TREE.z + Math.cos(a) * d, 0.28 + rnd() * 0.22, 0.9)
+    }
     // then the yard: thick along the fence and under the tree, thinner where Sari runs
     for (let tries = 0; k < max && tries < 20000; tries++) {
       const x = (rnd() * 2 - 1) * 11
       const z = -7.4 + rnd() * 19
       const dTree = Math.hypot(x - TREE.x, z - TREE.z)
       if (dTree < 0.95) continue
-      let density = 0.27
+      let density = 0.33
       if (Math.abs(x) > 6.6 || z < -4.4) density += 0.45
       if (dTree < 3.6) density += 0.55 * (1 - dTree / 3.6)
       if (Math.abs(x) > FENCE_X || z < FENCE_Z) density = 0.5

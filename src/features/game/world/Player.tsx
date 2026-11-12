@@ -4,17 +4,27 @@ import { useFrame } from '@react-three/fiber'
 import { SariModel, type SariAction } from '@/design/SariModel'
 import { useSiteStore } from '@/store/useSiteStore'
 import { sfx } from '@/audio/synth'
+import { dirSign } from '@/i18n/locale'
 import { REACH, SPEED, START, angleDelta, headingOf, stepWalker, touching } from '../logic'
 import { rt } from '../runtime'
 import { useGame, type Phase } from '../store'
 import { ringTexture } from './textures'
 import { PILE, shadowMaterial } from './Yard'
 
-/** Where the camera sits relative to Sari, and what it looks at. Portrait phones get a higher, wider view. */
-function rig(aspect: number, phase: Phase) {
+/**
+ * Where the camera sits relative to Sari, and what it looks at.
+ * Portrait phones come closer and tilt up: Sari stands at about two thirds of the height (above the stick),
+ * the tree's crown and the painted school fill the top third.
+ */
+function rig(aspect: number, phase: Phase, height: number) {
   const portrait = aspect < 0.9
-  if (phase === 'done') return portrait ? { ox: 0, oy: 1.55, oz: 4.9, ly: 1.02, lz: 0, fov: 50 } : { ox: 0, oy: 1.3, oz: 3.8, ly: 0.95, lz: 0, fov: 42 }
-  if (portrait) return { ox: 0, oy: 3.1, oz: 6.3, ly: 1.25, lz: -0.6, fov: 64 }
+  if (phase === 'done') {
+    if (portrait) return { ox: 0, oy: 1.55, oz: 4.9, ly: 1.02, lz: 0, fov: 50 }
+    // a phone held sideways: the words take the reading side, Sari waves on the other
+    if (height < 540) return { ox: -dirSign * 1.15, oy: 1.25, oz: 3.6, ly: 0.74, lz: 0, fov: 42 }
+    return { ox: 0, oy: 1.3, oz: 3.8, ly: 0.95, lz: 0, fov: 42 }
+  }
+  if (portrait) return { ox: 0, oy: 2.4, oz: 5.0, ly: 1.19, lz: -1.4, fov: 60 }
   return { ox: 0, oy: 2.15, oz: 4.9, ly: 1.15, lz: -0.4, fov: 50 }
 }
 
@@ -59,7 +69,8 @@ export function Player() {
     // ── input → direction on the ground (x right, z toward the camera)
     let dx = 0
     let dz = 0
-    if (phase === 'playing') {
+    // nothing moves before the yard is on screen (the film still is still growing)
+    if (phase === 'playing' && game.ready) {
       dx = rt.keys.x + rt.stick.x
       dz = -(rt.keys.y + rt.stick.y)
       const pushed = Math.hypot(dx, dz)
@@ -134,9 +145,9 @@ export function Player() {
 
     // ── camera: behind and above, a little late
     const cam = state.camera as THREE.PerspectiveCamera
-    const r = rig(state.size.width / state.size.height, phase)
+    const r = rig(state.size.width / state.size.height, phase, state.size.height)
     _pos.set(me.x + r.ox, r.oy, me.z + r.oz)
-    _look.set(me.x, r.ly, me.z + r.lz)
+    _look.set(me.x + r.ox, r.ly, me.z + r.lz)
     const far = cam.position.distanceTo(_pos) > 9
     if (st.first || reduced || far || rt.snap) {
       rt.snap = false
