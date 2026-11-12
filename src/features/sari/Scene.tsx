@@ -95,9 +95,9 @@ function Director({ rt, turntable }: { rt: Runtime; turntable: React.RefObject<T
     const { camera, size } = state
     const aspect = size.width / Math.max(1, size.height)
     const tall = aspect < 0.95
-    const dist = Math.max(TALL / (tall ? 0.8 : 0.74) / (2 * TAN), (tall ? 1.12 : 1.42) / (2 * TAN * aspect))
+    const dist = Math.max(TALL / (tall ? 0.8 : 0.72) / (2 * TAN), (tall ? 1.12 : 1.42) / (2 * TAN * aspect))
     const viewH = 2 * dist * TAN
-    const cy = viewH * (0.5 - (tall ? 0.15 : 0.185))
+    const cy = viewH * (0.5 - (tall ? 0.15 : 0.205))
     camera.position.set(v.px * 0.16, cy + 0.42 - v.py * 0.06, dist)
     camera.lookAt(v.px * 0.02, cy, 0)
 

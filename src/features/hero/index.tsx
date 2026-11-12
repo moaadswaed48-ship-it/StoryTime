@@ -45,6 +45,8 @@ export function Hero() {
   const strip = useRef<StripHandle>(null)
   const wind = useRef<WindHandle>(null)
   const frameRef = useRef<Frame | null>(null)
+  /** The hero size the current frame was solved for (tests wait for it after a resize). */
+  const solvedFor = useRef({ w: 0, h: 0 })
 
   const openBook = useSiteStore((s) => s.openBook)
   const openFilm = useSiteStore((s) => s.openFilm)
@@ -119,6 +121,7 @@ export function Hero() {
       }
     }
     frameRef.current = f
+    solvedFor.current = { w: W, h: H }
     setFrame((prev) => (sameFrame(prev, f) ? prev : f))
     setClash((prev) => (prev.join() === hit.join() ? prev : hit))
   }, [boxOf, uiBoxes])
@@ -222,7 +225,7 @@ export function Hero() {
       hero: {
         scenes: [...HERO_SCENES],
         /** Layout chosen by the solver, the film frame and the two face boxes (hero coordinates, CSS px). */
-        frame: () => frameRef.current && { mode: frameRef.current.mode, scale: frameRef.current.s, x: frameRef.current.x, y: frameRef.current.y, w: frameRef.current.w, h: frameRef.current.h, heads: frameRef.current.heads },
+        frame: () => frameRef.current && { mode: frameRef.current.mode, scale: frameRef.current.s, x: frameRef.current.x, y: frameRef.current.y, w: frameRef.current.w, h: frameRef.current.h, heads: frameRef.current.heads, for: solvedFor.current },
         /** Every text block, pill and card of the hero (hero coordinates). */
         ui: () => uiBoxes(),
         /** True when nothing in `ui()` touches a face. */

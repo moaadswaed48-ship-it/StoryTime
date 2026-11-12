@@ -37,7 +37,7 @@ export function go(view: View, opts: { replace?: boolean } = {}) {
 
 /** The landing page's "enter the library" action: ask who is reading the first time, then open the app. */
 export function enterApp(target: View = 'home') {
-  if (!useProfileStore.getState().profile) useSiteStore.getState().setPicking(true)
+  if (!useProfileStore.getState().profile) useSiteStore.getState().setPicking(true, target)
   else go(target)
 }
 

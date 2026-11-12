@@ -17,6 +17,8 @@ interface SiteState {
   view: View
   /** True while the "who is reading today?" step is open on the way into the app. */
   picking: boolean
+  /** Where "who is reading?" leads once a reader is chosen. */
+  enterTarget: View
   overlay: Overlay
   /** Scene (0-based) the book or the film should open at. */
   startScene: number
@@ -32,7 +34,7 @@ interface SiteState {
   openGame: () => void
   closeOverlay: () => void
   setView: (view: View) => void
-  setPicking: (on: boolean) => void
+  setPicking: (on: boolean, target?: View) => void
   setLoggedIn: (v: boolean) => void
   setLoginOpen: (v: boolean) => void
   setSoundOn: (v: boolean) => void
@@ -45,6 +47,7 @@ export const useSiteStore = create<SiteState>()((set) => ({
   lenis: null,
   view: 'landing',
   picking: false,
+  enterTarget: 'home',
   overlay: null,
   startScene: 0,
   loggedIn: false,
@@ -59,7 +62,7 @@ export const useSiteStore = create<SiteState>()((set) => ({
   openGame: () => set({ overlay: 'game' }),
   closeOverlay: () => set({ overlay: null }),
   setView: (view) => set({ view }),
-  setPicking: (picking) => set({ picking }),
+  setPicking: (picking, target) => set(target ? { picking, enterTarget: target } : { picking }),
   setLoggedIn: (loggedIn) => set({ loggedIn }),
   setLoginOpen: (loginOpen) => set({ loginOpen }),
   setSoundOn: (sound) => set({ sound }),

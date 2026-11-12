@@ -6,6 +6,7 @@ import { AppShell } from '@/pages/AppShell'
 import { Enter } from '@/features/enter'
 import { BookReader } from '@/features/book'
 import { FilmPlayer } from '@/features/film'
+import { GameOverlay } from '@/features/game'
 import { AuthModal } from '@/features/auth'
 
 function Views() {
@@ -26,6 +27,7 @@ export default function App() {
         <Enter />
         <BookReader />
         <FilmPlayer />
+        <GameOverlay />
         <AuthModal />
       </div>
     </Providers>

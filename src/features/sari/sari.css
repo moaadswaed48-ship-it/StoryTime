@@ -353,8 +353,8 @@ html[lang='ar'] .sari-title {
 .sari-portrait__arch {
   position: absolute;
   left: 50%;
-  bottom: 7%;
-  height: 86%;
+  bottom: 8.5%;
+  height: 82%;
   aspect-ratio: 0.66;
   max-width: 88%;
   border-radius: 999px 999px 44px 44px;
@@ -461,7 +461,8 @@ html[lang='ar'] .sari-title {
   .sari-controls {
     position: absolute;
     inset-inline: 0;
-    bottom: clamp(26px, 4.6svh, 50px);
+    /* 44px of the stage hang below the screen when the sheet's top is at the top: keep the dock inside the view */
+    bottom: calc(44px + clamp(18px, 3.4svh, 36px));
     margin: 0;
     pointer-events: none;
   }
