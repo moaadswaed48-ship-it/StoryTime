@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useId, useRef, useState, type FormEvent, type KeyboardEvent } from 'react'
-import { ArrowRight, Check, LibraryBig, Eye, EyeOff, LockKeyhole, Mail, ShieldCheck, X } from 'lucide-react'
+import { ArrowRight, Check, LibraryBig, Eye, EyeOff, LockKeyhole, Mail, ShieldCheck, UserRound, X } from 'lucide-react'
 import { enterApp } from '@/app/router'
 import { sfx } from '@/audio/synth'
 import { Leaves, type LeavesHandle } from '@/design/Leaves'
@@ -14,8 +14,8 @@ import { useSiteStore } from '@/store/useSiteStore'
 import { s } from './strings'
 import './auth.css'
 
-/** The demo account. The fields are read-only and the form never leaves the page. */
-const DEMO = { email: 'demo@storytime.example', pass: '123456' }
+/** What the empty fields suggest. Anything typed is accepted (also nothing at all): the form never leaves the page. */
+const DEMO = { email: 'name@example.com', pass: '••••••' }
 /** Time the sheet takes to leave (matches auth.css). */
 const EXIT = 280
 const FOCUSABLE = 'a[href], button:not([disabled]), input:not([disabled]), select, textarea, [tabindex]:not([tabindex="-1"])'
@@ -30,8 +30,8 @@ if (typeof window !== 'undefined') {
 const focusables = (root: HTMLElement | null) => Array.from(root?.querySelectorAll<HTMLElement>(FOCUSABLE) ?? []).filter((el) => el.getClientRects().length > 0)
 
 /**
- * The sign-in sheet (shown while `loginOpen`). A demo: both fields are prefilled and read-only, and submitting
- * only flips `loggedIn` in the store — nothing is sent anywhere. Desktop: a paper card with the cover beside the form.
+ * The sign-in / sign-up sheet (shown while `loginOpen`). A demo to try: type anything (or nothing) and submit;
+ * it only flips `loggedIn` in the store — nothing is checked and nothing is sent anywhere. Desktop: a paper card with the cover beside the form.
  * Phones: a bottom sheet. Esc or the backdrop closes it; focus stays inside and returns to where it came from.
  */
 export function AuthModal() {
@@ -44,6 +44,8 @@ export function AuthModal() {
   const [show, setShow] = useState(false)
   const [height, setHeight] = useState(0)
   const [fx, setFx] = useState(false)
+  const [mode, setMode] = useState<'in' | 'up'>('in')
+  const [form, setForm] = useState({ name: '', email: '', pass: '' })
   const root = useRef<HTMLDivElement>(null)
   const card = useRef<HTMLDivElement>(null)
   const pane = useRef<HTMLFormElement>(null)
@@ -64,6 +66,8 @@ export function AuthModal() {
       handOver.current = false
       setDone(useSiteStore.getState().loggedIn)
       setShow(false)
+      setMode('in')
+      setForm({ name: '', email: '', pass: '' })
       setHeight(0)
       setFx(false)
       setMounted(true)
@@ -201,18 +205,29 @@ export function AuthModal() {
           ) : (
             <form ref={pane} className="au__form" onSubmit={submit} noValidate autoComplete="off">
               <h2 id={titleId} className="au__title">
-                {t.auth.title}
+                {mode === 'up' ? t.auth.titleUp : t.auth.title}
               </h2>
               <p id={noteId} className="au__demo">
                 <ShieldCheck size={16} strokeWidth={2} aria-hidden />
                 <span>{t.auth.demo}</span>
               </p>
 
+              {mode === 'up' && (
+                <label className="au__field">
+                  <span className="au__label">{t.auth.name}</span>
+                  <span className="au__input">
+                    <UserRound size={18} strokeWidth={1.9} aria-hidden />
+                    <input type="text" value={form.name} onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))} placeholder={t.auth.namePh} autoComplete="off" spellCheck={false} data-auth="name" />
+                  </span>
+                </label>
+              )}
+
               <label className="au__field">
                 <span className="au__label">{t.auth.email}</span>
                 <span className="au__input">
                   <Mail size={18} strokeWidth={1.9} aria-hidden />
-                  <input type="email" dir="ltr" value={DEMO.email} readOnly autoComplete="off" spellCheck={false} data-auth="email" />
+                  {/* plain text on purpose: anything typed is accepted, so nothing is validated */}
+                  <input type="text" inputMode="email" dir="ltr" value={form.email} onChange={(e) => setForm((f) => ({ ...f, email: e.target.value }))} placeholder={DEMO.email} autoComplete="off" autoCapitalize="none" autoCorrect="off" spellCheck={false} data-auth="email" />
                 </span>
               </label>
 
@@ -222,7 +237,7 @@ export function AuthModal() {
                 </label>
                 <span className="au__input">
                   <LockKeyhole size={18} strokeWidth={1.9} aria-hidden />
-                  <input id={passId} type={show ? 'text' : 'password'} dir="ltr" value={DEMO.pass} readOnly autoComplete="off" spellCheck={false} data-auth="pass" />
+                  <input id={passId} type={show ? 'text' : 'password'} dir="ltr" value={form.pass} onChange={(e) => setForm((f) => ({ ...f, pass: e.target.value }))} placeholder={DEMO.pass} autoComplete="off" autoCapitalize="none" autoCorrect="off" spellCheck={false} data-auth="pass" />
                   <button type="button" className="au__eye" onClick={() => setShow((v) => !v)} aria-label={show ? s.hide : s.show} aria-pressed={show} data-auth="eye">
                     {show ? <EyeOff size={19} strokeWidth={1.9} aria-hidden /> : <Eye size={19} strokeWidth={1.9} aria-hidden />}
                   </button>
@@ -230,11 +245,14 @@ export function AuthModal() {
               </div>
 
               <Pill type="submit" variant="ink" size="lg" className="au__submit" data-autofocus data-auth="submit">
-                <span>{t.auth.submit}</span>
+                <span>{mode === 'up' ? t.auth.submitUp : t.auth.submit}</span>
                 <span className="au__chip" aria-hidden>
                   <ArrowRight size={18} strokeWidth={2.2} className="flip-rtl" />
                 </span>
               </Pill>
+              <button type="button" className="au__switch" onClick={() => setMode((m) => (m === 'in' ? 'up' : 'in'))} data-auth="switch">
+                {mode === 'in' ? t.auth.toUp : t.auth.toIn}
+              </button>
             </form>
           )}
         </div>

@@ -44,7 +44,6 @@ export function Reader({ startScene }: { startScene: number }) {
   const closeOverlay = useSiteStore((s) => s.closeOverlay)
   const openFilm = useSiteStore((s) => s.openFilm)
   const loggedIn = useSiteStore((s) => s.loggedIn)
-  const setLoggedIn = useSiteStore((s) => s.setLoggedIn)
   const openGame = useSiteStore((s) => s.openGame)
   const childName = useProfileStore((s) => s.profile?.name?.trim() ?? '')
   const classroom = useProfileStore((s) => s.classroom)
@@ -411,9 +410,10 @@ export function Reader({ startScene }: { startScene: number }) {
   }
 
   const watch = () => openFilm(Math.min(scene, SCENES - 1))
+  /** The gate leads to the demo checkout; paying there (with any text) opens the rest of the book. */
   const pass = () => {
     sfx.pop()
-    setLoggedIn(true)
+    useSiteStore.getState().openCheckout()
   }
   const again = () => act.current.goScene(0)
   // The game is a full-screen experience of its own: opening it takes the book's place.

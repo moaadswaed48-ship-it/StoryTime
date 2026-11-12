@@ -27,15 +27,23 @@ test.describe('auth', () => {
 
     const email = page.locator('[data-auth="email"]')
     const pass = page.locator('[data-auth="pass"]')
-    await expect(email).toHaveValue('demo@storytime.example')
-    await expect(pass).toHaveValue('123456')
+    // a demo to try: the fields start empty and take anything, even text that is not an address
+    await expect(email).toHaveValue('')
+    await expect(pass).toHaveValue('')
     for (const field of [email, pass]) {
-      await expect(field).toHaveAttribute('readonly', '')
+      await expect(field).not.toHaveAttribute('readonly', '')
       await expect(field).toHaveAttribute('dir', 'ltr')
     }
-    await email.focus()
-    await page.keyboard.type('x')
-    await expect(email).toHaveValue('demo@storytime.example')
+    await email.fill('asdf qwer !!')
+    await pass.fill('zx')
+    await expect(email).toHaveValue('asdf qwer !!')
+
+    // sign in ⇄ sign up
+    await page.locator('[data-auth="switch"]').click()
+    await expect(page.locator('[data-auth="name"]')).toBeVisible()
+    await page.locator('[data-auth="switch"]').click()
+    await expect(page.locator('[data-auth="name"]')).toHaveCount(0)
+    await expect(email).toHaveValue('asdf qwer !!')
 
     // show / hide the password
     await expect(pass).toHaveAttribute('type', 'password')
@@ -46,7 +54,7 @@ test.describe('auth', () => {
     // submitting stays on the page and makes no request of its own
     const sent: string[] = []
     page.on('request', (r) => {
-      if (r.method() !== 'GET' || r.isNavigationRequest() || /demo@storytime|123456/.test(r.url())) sent.push(`${r.method()} ${r.url()}`)
+      if (r.method() !== 'GET' || r.isNavigationRequest() || /asdf|qwer/.test(r.url())) sent.push(`${r.method()} ${r.url()}`)
     })
     const url = page.url()
     await page.locator('[data-auth="submit"]').click()

@@ -151,6 +151,13 @@ test('the fifth scene waits behind the demo log-in; the end earns the reading le
   expect(await rd<number>(page, 'page()')).toBe(before)
 
   await page.getByTestId('rd-gate-btn').click()
+  // the gate leads to the demo checkout (its own feature); here the payment is finished through the store
+  await expect.poll(() => page.evaluate(() => !!window.__st!.store.getState().checkout)).toBe(true)
+  await page.evaluate(() => {
+    const st = window.__st!.store.getState()
+    st.setLoggedIn(true)
+    st.closeCheckout()
+  })
   await page.waitForFunction(() => window.__st!.reader.phase() === 'open' && window.__st!.reader.ready())
   expect(await page.evaluate(() => window.__st!.store.getState().loggedIn)).toBe(true)
 

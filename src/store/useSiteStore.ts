@@ -24,6 +24,8 @@ interface SiteState {
   startScene: number
   loggedIn: boolean
   loginOpen: boolean
+  /** The demo checkout (subscribe → pay → receipt). Nothing is sent or charged. */
+  checkout: null | { plan: string; yearly: boolean }
   sound: boolean
   setTier: (tier: MotionTier) => void
   setReduceToggle: (on: boolean) => void
@@ -37,6 +39,8 @@ interface SiteState {
   setPicking: (on: boolean, target?: View) => void
   setLoggedIn: (v: boolean) => void
   setLoginOpen: (v: boolean) => void
+  openCheckout: (plan?: string, yearly?: boolean) => void
+  closeCheckout: () => void
   setSoundOn: (v: boolean) => void
 }
 
@@ -52,6 +56,7 @@ export const useSiteStore = create<SiteState>()((set) => ({
   startScene: 0,
   loggedIn: false,
   loginOpen: false,
+  checkout: null,
   sound: false,
   setTier: (tier) => set({ tier }),
   setReduceToggle: (on) => set({ reduceToggle: on }),
@@ -65,6 +70,8 @@ export const useSiteStore = create<SiteState>()((set) => ({
   setPicking: (picking, target) => set(target ? { picking, enterTarget: target } : { picking }),
   setLoggedIn: (loggedIn) => set({ loggedIn }),
   setLoginOpen: (loginOpen) => set({ loginOpen }),
+  openCheckout: (plan = 'family', yearly = false) => set({ checkout: { plan, yearly } }),
+  closeCheckout: () => set({ checkout: null }),
   setSoundOn: (sound) => set({ sound }),
 }))
 

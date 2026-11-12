@@ -699,3 +699,11 @@ html[data-reduce-motion] .hero-cue__line::after {
   animation: none;
   transform: translateY(60%);
 }
+
+/* A phone held sideways: the screen is too short for the scene strip under the buttons; the title and the two
+   buttons keep the room, and the strip's scenes are one scroll away in the story section. */
+@media (orientation: landscape) and (max-height: 520px) {
+  .hero-strip {
+    display: none;
+  }
+}

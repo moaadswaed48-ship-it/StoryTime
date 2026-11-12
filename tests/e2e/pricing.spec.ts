@@ -68,10 +68,16 @@ test.describe('pricing', () => {
     expect((await state(page)).per).toBe('month')
   })
 
-  test('choosing a plan opens the sign-in sheet', async ({ page }) => {
+  test('the family plan opens the demo checkout; the school plan opens the sign-in sheet', async ({ page }) => {
+    const checkout = () => page.evaluate(() => window.__st!.store.getState().checkout as { plan: string; yearly: boolean } | null)
     await scrollToY(page, '#pricing [data-cta="family"]')
-    expect(await loginOpen(page)).toBe(false)
+    expect(await checkout()).toBe(null)
     await page.locator('#pricing [data-cta="family"]').click()
+    await expect.poll(checkout).toEqual({ plan: 'family', yearly: false })
+    await page.evaluate(() => window.__st!.store.getState().closeCheckout())
+
+    expect(await loginOpen(page)).toBe(false)
+    await page.locator('#pricing [data-cta="school"]').click()
     await expect.poll(() => loginOpen(page)).toBe(true)
     await page.evaluate(() => window.__st!.store.getState().setLoginOpen(false))
     await expect.poll(() => loginOpen(page)).toBe(false)

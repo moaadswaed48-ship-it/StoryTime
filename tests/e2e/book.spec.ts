@@ -97,6 +97,13 @@ test('scenes 1–4 are free; the fifth shows the demo paywall, and the demo log-
   await call(page, 'next', 2) // blocked while the card is up
   expect(await where(page)).toEqual({ scene: 4, step: 0 })
   await page.getByTestId('bk-gate-btn').click()
+  // the gate leads to the demo checkout (its own feature); here the payment is finished through the store
+  await expect.poll(() => page.evaluate(() => !!window.__st!.store.getState().checkout)).toBe(true)
+  await page.evaluate(() => {
+    const st = window.__st!.store.getState()
+    st.setLoggedIn(true)
+    st.closeCheckout()
+  })
   await expect.poll(() => phase(page), SLOW).toBe('open')
   expect(await page.evaluate(() => window.__st!.store.getState().loggedIn)).toBe(true)
   await expect(text(page)).toHaveText((await lines(page, 4))[0], SLOW)

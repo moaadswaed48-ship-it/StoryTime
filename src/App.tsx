@@ -9,6 +9,7 @@ import { Reader, canCurl } from '@/features/reader'
 import { FilmPlayer } from '@/features/film'
 import { GameOverlay } from '@/features/game'
 import { AuthModal } from '@/features/auth'
+import { Checkout } from '@/features/checkout'
 
 /** The page-curl reader where the device can run it; the DOM book otherwise (no WebGL, reduced motion). */
 function Book() {
@@ -36,6 +37,7 @@ export default function App() {
         <FilmPlayer />
         <GameOverlay />
         <AuthModal />
+        <Checkout />
       </div>
     </Providers>
   )

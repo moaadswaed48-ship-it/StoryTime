@@ -1,0 +1,415 @@
+/* ──────────────────────────────────────────────────────────────────────────
+   The demo checkout: a paper sheet (bottom sheet on phones, a card on wide screens),
+   then a little printer that feeds the receipt out line by line. One accent (maple).
+   ────────────────────────────────────────────────────────────────────────── */
+.pay {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: end center;
+}
+.pay__backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(18, 12, 8, 0.62);
+  -webkit-backdrop-filter: blur(18px) saturate(150%);
+  backdrop-filter: blur(18px) saturate(150%);
+  animation: pay-fade 0.4s ease both;
+}
+.pay__card {
+  position: relative;
+  width: min(100%, 460px);
+  max-height: 94vh;
+  max-height: 94svh;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 26px 22px calc(22px + env(safe-area-inset-bottom, 0px));
+  border-radius: 28px 28px 0 0;
+  background: var(--color-paper);
+  color: var(--color-ink);
+  box-shadow: 0 -24px 80px rgba(0, 0, 0, 0.35);
+  outline: 0;
+  animation: pay-rise 0.5s var(--ease-out) both;
+}
+@media (min-width: 760px) {
+  .pay {
+    place-items: center;
+  }
+  .pay__card {
+    max-height: min(92svh, 880px);
+    padding: 30px 30px 28px;
+    border-radius: 28px;
+    box-shadow: 0 40px 120px rgba(0, 0, 0, 0.45);
+  }
+}
+.pay__close {
+  position: absolute;
+  top: 14px;
+  inset-inline-end: 14px;
+  z-index: 3;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--color-paper-2);
+  color: var(--color-ink-2);
+}
+
+/* ── the form ── */
+.pay__form {
+  display: grid;
+  gap: 14px;
+}
+.pay__title {
+  padding-inline-end: 52px;
+  font-size: 28px;
+  font-weight: 800;
+  line-height: 1.25;
+}
+.pay__demo {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 9px 12px;
+  border-radius: 14px;
+  background: rgba(217, 84, 30, 0.1);
+  color: #9a3a12;
+  font-size: 13.5px;
+  font-weight: 600;
+  line-height: 1.55;
+}
+.pay__demo svg {
+  flex: none;
+  margin-top: 2px;
+}
+.pay__plan {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 16px;
+  border: 1px solid rgba(26, 18, 11, 0.12);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.55);
+}
+.pay__plan-name {
+  font-size: 17px;
+  font-weight: 700;
+}
+.pay__plan-period {
+  font-weight: 500;
+  color: var(--color-muted);
+}
+.pay__plan-price {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.pay__plan-price b {
+  font-size: 22px;
+  font-weight: 800;
+}
+.pay__sample {
+  padding: 2px 9px;
+  border: 1px dashed rgba(26, 18, 11, 0.3);
+  border-radius: 999px;
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--color-ink-2);
+  white-space: nowrap;
+}
+.pay__plastic {
+  position: relative;
+  display: grid;
+  align-content: space-between;
+  aspect-ratio: 2.15 / 1;
+  padding: 16px 18px;
+  border-radius: 18px;
+  background:
+    radial-gradient(120% 140% at 100% 0%, rgba(217, 84, 30, 0.55), transparent 55%),
+    linear-gradient(135deg, #3a2a1d, #120c08 70%);
+  color: var(--color-paper);
+  box-shadow: 0 14px 30px rgba(26, 18, 11, 0.28);
+  overflow: hidden;
+}
+.pay__plastic-brand {
+  font-size: 14px;
+  font-weight: 800;
+  opacity: 0.9;
+}
+.pay__plastic-chip {
+  position: absolute;
+  top: 16px;
+  inset-inline-end: 18px;
+  width: 38px;
+  height: 28px;
+  border-radius: 7px;
+  background: linear-gradient(135deg, #f4c56a, #c98a2b);
+  opacity: 0.9;
+}
+.pay__plastic-no {
+  font-size: clamp(17px, 5.2vw, 21px);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  text-align: start;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+[dir='rtl'] .pay__plastic-no {
+  text-align: end; /* the number reads left to right; keep it on the card's own left */
+}
+.pay__plastic-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 13px;
+  font-weight: 500;
+  opacity: 0.85;
+}
+.pay__plastic-row span:first-child {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+@media (max-height: 720px) {
+  .pay__plastic {
+    display: none; /* short screens: the fields matter more than the picture of a card */
+  }
+}
+.pay__field {
+  display: grid;
+  gap: 6px;
+  min-width: 0;
+}
+.pay__label {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--color-ink-2);
+}
+.pay__input {
+  width: 100%;
+  min-width: 0;
+  height: 52px;
+  padding: 0 14px;
+  border: 1px solid rgba(26, 18, 11, 0.16);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.7);
+  color: var(--color-ink);
+  font: inherit;
+  font-size: 16px; /* 16px or more: an iPhone does not zoom the page on focus */
+  font-weight: 500;
+  caret-color: var(--color-maple);
+  outline: 0;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+.pay__input::placeholder {
+  color: rgba(26, 18, 11, 0.36);
+  opacity: 1;
+}
+.pay__input:focus {
+  border-color: var(--color-maple);
+  box-shadow: 0 0 0 4px rgba(217, 84, 30, 0.16);
+}
+[dir='rtl'] .pay__input[dir='ltr'] {
+  text-align: right;
+}
+.pay__two {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+.pay__submit {
+  width: 100%;
+  margin-top: 4px;
+  justify-content: space-between;
+}
+.pay__submit:disabled {
+  justify-content: center;
+  gap: 10px;
+  opacity: 0.85;
+}
+.pay__chip {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  margin-inline-end: -14px;
+  border-radius: 50%;
+  background: var(--color-maple);
+  color: #fff;
+}
+.pay__spin {
+  width: 18px;
+  height: 18px;
+  border: 2.5px solid rgba(246, 240, 228, 0.35);
+  border-top-color: var(--color-paper);
+  border-radius: 50%;
+  animation: pay-spin 0.7s linear infinite;
+}
+
+/* ── the receipt ── */
+.pay__done {
+  display: grid;
+  justify-items: center;
+  padding-top: 26px;
+}
+.pay__printer {
+  position: relative;
+  z-index: 2;
+  width: min(100%, 328px);
+  height: 30px;
+  border-radius: 15px;
+  background: linear-gradient(#3a2a1d, #120c08);
+  box-shadow:
+    0 8px 18px rgba(26, 18, 11, 0.28),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12);
+}
+.pay__slot {
+  position: absolute;
+  inset-inline: 16px;
+  bottom: 8px;
+  height: 5px;
+  border-radius: 3px;
+  background: #000;
+  box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.08);
+}
+.pay__roll {
+  width: min(100% - 44px, 284px);
+  margin-top: -11px; /* the paper comes out of the slot */
+  overflow: hidden;
+}
+.pay__paper {
+  --z: 8px;
+  position: relative;
+  padding: 22px 18px 30px;
+  background: #fffdf7;
+  color: var(--color-ink);
+  font-size: 14px;
+  line-height: 1.6;
+  -webkit-mask: conic-gradient(from -45deg at bottom, #0000, #000 1deg 89deg, #0000 90deg) 50% / calc(2 * var(--z)) 100%;
+  mask: conic-gradient(from -45deg at bottom, #0000, #000 1deg 89deg, #0000 90deg) 50% / calc(2 * var(--z)) 100%;
+  animation: pay-print 2.6s steps(24, end) both; /* in steps: a printer feeds line by line */
+}
+.pay__r-brand {
+  font-size: 18px;
+  font-weight: 800;
+  text-align: center;
+}
+.pay__r-kind {
+  margin-bottom: 10px;
+  font-size: 13px;
+  color: var(--color-muted);
+  text-align: center;
+}
+.pay__r-meta {
+  display: grid;
+  gap: 2px;
+  font-size: 13px;
+}
+.pay__r-meta > div,
+.pay__r-line {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+.pay__r-meta dt,
+.pay__r-muted {
+  color: var(--color-muted);
+}
+.pay__paper hr {
+  margin: 12px 0;
+  border: 0;
+  border-top: 1.5px dashed rgba(26, 18, 11, 0.28);
+}
+.pay__r-line {
+  padding: 2px 0;
+}
+.pay__r-muted {
+  font-size: 13px;
+}
+.pay__r-total {
+  font-size: 17px;
+  font-weight: 800;
+}
+.pay__r-bars {
+  display: block;
+  height: 34px;
+  margin-top: 16px;
+  opacity: 0.86;
+  background: repeating-linear-gradient(90deg, var(--color-ink) 0 2px, transparent 2px 4px, var(--color-ink) 4px 7px, transparent 7px 9px, var(--color-ink) 9px 10px, transparent 10px 14px, var(--color-ink) 14px 18px, transparent 18px 20px);
+}
+.pay__stamp {
+  position: absolute;
+  inset-inline-end: 12px;
+  top: 44%;
+  padding: 3px 10px;
+  border: 2px solid var(--color-maple);
+  border-radius: 8px;
+  color: var(--color-maple);
+  background: rgba(255, 253, 247, 0.82);
+  font-size: 12.5px;
+  font-weight: 800;
+  rotate: -8deg;
+  animation: pay-stamp 0.4s var(--ease-spring) 2.75s both;
+}
+.pay__thanks {
+  margin-top: 18px;
+  font-size: 16.5px;
+  font-weight: 700;
+  text-align: center;
+  animation: pay-in 0.6s var(--ease-out) 2.9s both;
+}
+.pay__go {
+  width: 100%;
+  margin-top: 14px;
+  animation: pay-in 0.6s var(--ease-out) 3.05s both;
+}
+
+@keyframes pay-fade {
+  from {
+    opacity: 0;
+  }
+}
+@keyframes pay-rise {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 40px, 0);
+  }
+}
+@keyframes pay-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes pay-print {
+  from {
+    transform: translate3d(0, -101%, 0);
+  }
+}
+@keyframes pay-stamp {
+  from {
+    opacity: 0;
+    scale: 1.7;
+  }
+}
+@keyframes pay-in {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 10px, 0);
+  }
+}
+/* Rest state: everything in place at once. */
+html[data-reduce-motion] .pay *,
+html[data-reduce-motion] .pay__card {
+  animation: none !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  .pay *,
+  .pay__card {
+    animation: none !important;
+  }
+}

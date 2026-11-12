@@ -45,7 +45,6 @@ export function ReaderView({ startScene }: { startScene: number }) {
   const openFilm = useSiteStore((st) => st.openFilm)
   const openGame = useSiteStore((st) => st.openGame)
   const loggedIn = useSiteStore((st) => st.loggedIn)
-  const setLoggedIn = useSiteStore((st) => st.setLoggedIn)
   const low = useSiteStore((st) => st.tier === 'low')
   const sound = useSiteStore((st) => st.sound)
   const setSoundOn = useSiteStore((st) => st.setSoundOn)
@@ -298,9 +297,10 @@ export function ReaderView({ startScene }: { startScene: number }) {
     setSound(!sound)
     setSoundOn(!sound)
   }
+  /** The gate leads to the demo checkout; paying there (with any text) opens the rest of the book. */
   const unlock = () => {
     sfx.pop()
-    setLoggedIn(true)
+    useSiteStore.getState().openCheckout()
   }
 
   // The book was asked to open at another scene while it is already open.

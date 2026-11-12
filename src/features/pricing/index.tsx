@@ -3,6 +3,7 @@ import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { useGSAP } from '@gsap/react'
 import { Info } from 'lucide-react'
+import { enterApp } from '@/app/router'
 import { prefersReducedNow } from '@/app/useMotionTier'
 import { Leaves, type LeavesHandle } from '@/design/Leaves'
 import { Container, Reveal, SectionHead, useInView } from '@/design/ui'
@@ -40,6 +41,7 @@ export function Pricing() {
   const seen = useInView(grid, '0px 0px -8% 0px')
   const reduced = useSiteStore((s) => s.tier === 'reduced')
   const setLoginOpen = useSiteStore((s) => s.setLoginOpen)
+  const openCheckout = useSiteStore((st) => st.openCheckout)
 
   useEffect(() => {
     if (!prefersReducedNow()) setArmed(true)
@@ -249,7 +251,7 @@ export function Pricing() {
           </div>
           <div ref={grid} className={cn('pl-grid', armed && 'is-armed', armed && seen && 'is-in')}>
             {order.map((i, pos) => (
-              <PlanCard key={tiers[i].id} tier={tiers[i]} featured={i === FEATURED} yearly={yearly} order={pos} sweep={i === FEATURED ? sweep : 0} onChoose={() => setLoginOpen(true)} />
+              <PlanCard key={tiers[i].id} tier={tiers[i]} featured={i === FEATURED} yearly={yearly} order={pos} sweep={i === FEATURED ? sweep : 0} onChoose={() => (tiers[i].id === 'family' ? openCheckout('family', yearly) : tiers[i].id === 'start' ? enterApp() : setLoginOpen(true))} />
             ))}
           </div>
         </div>
