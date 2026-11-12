@@ -135,14 +135,15 @@ export function Stage() {
     return () => mq.removeEventListener('change', sync)
   }, [rt])
 
-  // first time on screen with him ready: the entrance turn starts, then he waves hello
+  // first time on screen with him ready: the entrance turn starts, then he waves hello (once)
   useEffect(() => {
     if (!live || waved) return
     rt.introAt = performance.now()
     const id = window.setTimeout(
       () => {
         setWaved(true)
-        if (!flat) wave()
+        // with reduced motion nothing moves by itself: he waves when asked
+        if (!flat && !reduced) wave()
       },
       reduced || flat ? 0 : 700,
     )
