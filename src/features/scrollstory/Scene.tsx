@@ -1,4 +1,4 @@
-import { memo, useEffect, useMemo, type RefObject } from 'react'
+import { memo, useEffect, useMemo, useRef, type RefObject } from 'react'
 import * as THREE from 'three'
 import { useFrame, useThree } from '@react-three/fiber'
 import { MAPLE, MAPLE_VEINS } from '@/features/tree/art'
@@ -51,6 +51,7 @@ uniform float uRadius;
 uniform float uOpacity;
 uniform float uDim;
 uniform float uSheen;
+uniform float uBlur;
 uniform vec3 uFog;
 uniform vec3 uPaper;
 varying vec2 vUv;
@@ -63,7 +64,7 @@ void main() {
   float a = 1.0 - smoothstep(-aa * 1.5, 0.0, outer);
   if (a < 0.004) discard;
   vec2 uv = p / uPic + 0.5;
-  vec3 pic = mix(uPaper * 0.82, texture2D(uMap, uv).rgb, uHas);
+  vec3 pic = mix(uPaper * 0.82, texture2D(uMap, uv, uBlur).rgb, uHas);
   // a breath of light across the painting that follows the finger
   float band = uv.x * 0.8 + (1.0 - uv.y) * 0.45 - uSheen;
   pic += vec3(1.0, 0.93, 0.82) * 0.055 * exp(-band * band * 14.0);
@@ -136,7 +137,7 @@ void main() {
   float near = max(z, 0.0) / max(uZ.y, 1.0);
   vAlpha = edge * depth * (1.0 - 0.45 * near);
   vBlur = near * 3.2 + max(-z, 0.0) / max(-uZ.x, 1.0) * 0.6;
-  vFog = clamp(-z / max(-uZ.x, 1.0), 0.0, 1.0) * 0.82;
+  vFog = clamp(-z / max(-uZ.x, 1.0), 0.0, 1.0) * 0.6;
   gl_Position = projectionMatrix * viewMatrix * vec4(c + q, 1.0);
 }
 `
@@ -155,7 +156,7 @@ void main() {
   if (a < 0.01) discard;
   vec3 N = normalize(vN);
   float facing = abs(N.z);
-  float lit = 0.5 + 0.5 * abs(dot(N, normalize(vec3(-0.35, 0.62, 0.7))));
+  float lit = 0.72 + 0.4 * abs(dot(N, normalize(vec3(-0.35, 0.62, 0.7))));
   vec3 col = vTint * tx.rgb * lit;
   // light through the blade when it turns edge-on
   col += vTint * vTint * 0.35 * (1.0 - facing);
@@ -227,6 +228,7 @@ function build(count: number) {
         uOpacity: { value: 1 },
         uDim: { value: 0 },
         uSheen: { value: 0 },
+        uBlur: { value: 0 },
         uFog: { value: fog },
         uPaper: { value: new THREE.Color('#f6ecdc') },
       },
@@ -311,14 +313,22 @@ export const Scene = memo(function Scene({ rig }: { rig: RefObject<Rig> }) {
   const size = useThree((s) => s.size)
   const camera = useThree((s) => s.camera) as THREE.PerspectiveCamera
   const small = size.width < 768 || window.matchMedia('(pointer: coarse)').matches
-  const count = rig.current.low ? 24 : small ? 44 : 72
+  const count = rig.current.low ? 24 : small ? 56 : 84
   const world = useMemo(() => build(count), [count])
-  const paintings = useMemo(() => new Paintings(gl), [gl])
+  const store = useRef<Paintings | null>(null)
   const L = useMemo<Layout>(() => layout(size.width, size.height, dirSign), [size.width, size.height])
   const fast = useMemo(() => ({ t: 0, px: 0, py: 0, sway: 0, ready: false, p: {} as Pose, look: new THREE.Vector3() }), [])
 
   useEffect(() => () => world.dispose(), [world])
-  useEffect(() => () => paintings.dispose(), [paintings])
+  useEffect(() => {
+    // In an effect, not in render: a render React throws away must not leave textures behind.
+    const paintings = new Paintings(gl)
+    store.current = paintings
+    return () => {
+      store.current = null
+      paintings.dispose()
+    }
+  }, [gl])
   useEffect(() => {
     rig.current.stats.leaves = count
   }, [rig, count])
@@ -346,14 +356,16 @@ export const Scene = memo(function Scene({ rig }: { rig: RefObject<Rig> }) {
     const m = world.leafMat.uniforms
     m.uD.value = L.D
     m.uHalf.value.set(L.w / 2, L.h / 2)
-    m.uZ.value.set(-3.1 * L.gap, 0.8 * L.gap)
-    m.uLeaf.value = clamp(0.08 * L.w, 28, 46)
+    m.uZ.value.set(-2.2 * L.gap, 0.55 * L.gap)
+    m.uLeaf.value = clamp(0.1 * L.w, 36, 54)
   }, [L, camera, world])
 
   useFrame((state, delta) => {
     const r = rig.current
     const dt = Math.min(delta, 0.05)
     fast.t += dt
+    const paintings = store.current
+    if (!paintings) return
     paintings.focus(r.card)
 
     // The finger: a few degrees of camera, eased.
@@ -362,7 +374,7 @@ export const Scene = memo(function Scene({ rig }: { rig: RefObject<Rig> }) {
     fast.py += (r.ty - fast.py) * k
     fast.sway += (clamp(r.vel, -4, 4) - fast.sway) * (1 - Math.exp(-dt * 6))
     camera.position.set(fast.px * L.D * 0.055, -fast.py * L.D * 0.035, L.D)
-    camera.lookAt(fast.look.set(0, 0, -L.gap * 0.7))
+    camera.lookAt(fast.look.set(0, 0, -L.gap * 0.5))
 
     const at = r.pos - r.intro * 0.85
     for (let i = 0; i < CARDS; i++) {
@@ -388,6 +400,7 @@ export const Scene = memo(function Scene({ rig }: { rig: RefObject<Rig> }) {
       }
       u.uOpacity.value = p.alpha
       u.uDim.value = p.dim
+      u.uBlur.value = p.blur
       u.uSheen.value = 0.62 + fast.px * 0.5 - d * 0.7
       // A card that is fading must not hide the leaves behind it.
       card.mat.depthWrite = p.alpha > 0.96

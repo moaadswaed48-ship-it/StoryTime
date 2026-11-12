@@ -1,9 +1,10 @@
 /* ─────────────────────────────────────────────────────────────────────────────
-   ScrollStory: the wind scene scrubbed by scroll under three giant words.
-   Everything here is scoped under .ss. The engine (Scrub.tsx) writes a few custom
-   properties on .ss-stage every frame; their defaults are the rest state.
-     --ss-out   0 → 1   the next sheet is sliding over the pinned film
-     --ss-fill  0 → 1   progress shown on the rail
+   ScrollStory: the story's paintings as cards in depth, one per scroll step, under
+   three giant words. Everything here is scoped under .ss. The engine (Depth.tsx)
+   writes a few custom properties on .ss-stage; their defaults are the rest state.
+     --ss-out     0 → 1   the next sheet is sliding over the pinned stage
+     --ss-fill    0 → 1   progress shown on the rail
+     --ss-card-*          where the front card stands (the DOM painting sits there too)
    ───────────────────────────────────────────────────────────────────────────── */
 .ss {
   --ss-pad: clamp(20px, 3.9vw, 56px);
@@ -12,68 +13,92 @@
   position: relative;
   isolation: isolate;
   background: var(--color-night);
-  height: 380vh;
-  height: 380svh;
+  height: 360vh;
+  height: 360svh;
 }
 html[dir='rtl'] .ss {
   --ss-dir: -1;
 }
-/* When the next section is a sheet it slides over the pinned film for one more screen. */
+/* When the next section is a sheet it slides over the pinned stage for one more screen. */
 .ss.is-covered {
-  height: 480vh;
-  height: 480svh;
+  height: 460vh;
+  height: 460svh;
   margin-bottom: -100vh;
   margin-bottom: -100svh;
 }
 
 .ss-stage {
+  --ss-card-w: min(86vw, 720px);
+  --ss-card-x: 50%;
+  --ss-card-y: 36%;
+  --ss-card-b: 4px;
+  --ss-card-r: 16px;
   position: sticky;
   top: 0;
   height: 100vh;
   height: 100svh;
   overflow: hidden;
+  /* Sideways movement of a finger leans the scene; up and down stays the page's scroll. */
+  touch-action: pan-y;
 }
 
-/* ── The film plate ─────────────────────────────────────────────────────────── */
+/* ── The plate: a warm night with a lamp-lit clearing where the front card hangs ── */
 .ss-plate {
   position: absolute;
   inset: 0;
   overflow: hidden;
-  background: var(--color-night-2);
+  background: var(--color-night);
   transform: scale(calc(1 - var(--ss-out, 0) * 0.06));
   transform-origin: 50% 38%;
   border-radius: calc(var(--ss-out, 0) * 40px);
 }
-.ss-film {
+.ss-glow {
   position: absolute;
   inset: 0;
-  overflow: hidden;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse calc(var(--ss-card-w) * 0.95) calc(var(--ss-card-w) * 0.62) at var(--ss-card-x) var(--ss-card-y), rgb(217 84 30 / 0.3) 0%, rgb(190 86 34 / 0.17) 42%, rgb(120 60 26 / 0) 100%),
+    radial-gradient(ellipse calc(var(--ss-card-w) * 1.7) calc(var(--ss-card-w) * 1.25) at var(--ss-card-x) calc(var(--ss-card-y) - var(--ss-card-w) * 0.22), #54301c 0%, #3a2114 34%, rgb(42 24 15 / 0.55) 62%, rgb(18 12 8 / 0) 100%);
 }
-.ss-film > canvas {
+.ss-scene {
   position: absolute;
   inset: 0;
-  display: block;
-  width: 100%;
-  height: 100%;
+}
+.ss-canvas {
+  position: absolute;
+  inset: 0;
   opacity: 0;
-  transition: opacity 0.6s var(--ease-state);
+  transition: opacity 0.7s var(--ease-state);
 }
-.ss-stage.has-film .ss-film > canvas {
+.ss-stage.has-scene .ss-canvas {
   opacity: 1;
 }
-/* Blurred first frame under the canvas: the stage is never blank while the real frame loads. */
-.ss-lqip {
+/* The first painting as plain DOM where the front card will be: the stage is never blank while the scene
+   loads, and without WebGL this is the picture (it follows the scroll card by card). */
+.ss-poster {
   position: absolute;
-  inset: -5%;
-  background-size: cover;
-  background-position: 100% 50%;
-  filter: blur(18px);
+  left: var(--ss-card-x);
+  top: var(--ss-card-y);
+  width: var(--ss-card-w);
+  height: auto;
+  box-sizing: content-box;
+  border: var(--ss-card-b) solid #f6ecdc;
+  border-radius: var(--ss-card-r);
+  background: #f6ecdc;
+  box-shadow: 0 calc(var(--ss-card-w) * 0.05) calc(var(--ss-card-w) * 0.11) rgb(9 5 2 / 0.5);
+  transform: translate(-50%, -50%);
+  transition: opacity 0.7s var(--ease-state);
+  animation: ss-poster-in 0.45s var(--ease-out) both;
+  -webkit-user-select: none;
+  user-select: none;
 }
-html[dir='ltr'] .ss-lqip {
-  transform: scaleX(-1);
+.ss-stage.has-scene .ss-poster {
+  opacity: 0;
 }
-.ss-stage.film-set .ss-lqip {
-  display: none;
+@keyframes ss-poster-in {
+  from {
+    opacity: 0;
+  }
 }
 
 /* Protection for type: light from the top (nav), a soft pool in the copy corner, a hint on the rail side. */
@@ -418,20 +443,16 @@ html[lang='en'] .ss-detail {
   white-space: nowrap;
 }
 
-/* ── Portrait screens: the film sits in the upper part with both children in frame,
-      its ground melts into shadow and the copy stands on it. ───────────────────── */
+/* ── Portrait screens: the cards own the upper part, the ground below them melts
+      into the night and the copy stands on it. ─────────────────────────────────── */
 @media (max-aspect-ratio: 5/4) {
   .ss {
-    --ss-band: min(60svh, 126vw);
+    height: 340vh;
+    height: 340svh;
   }
-  .ss-plate {
-    background: linear-gradient(to bottom, #7d5039 0, #7d5039 calc(var(--ss-band) * 0.7), #54341f var(--ss-band), #2a1a11 calc(var(--ss-band) + 15svh), var(--color-night) 100%);
-  }
-  .ss-film {
-    bottom: auto;
-    height: var(--ss-band);
-    -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 60%, rgb(0 0 0 / 0.6) 80%, transparent 100%);
-    mask-image: linear-gradient(to bottom, #000 0%, #000 60%, rgb(0 0 0 / 0.6) 80%, transparent 100%);
+  .ss.is-covered {
+    height: 440vh;
+    height: 440svh;
   }
   .ss-scrim {
     background:

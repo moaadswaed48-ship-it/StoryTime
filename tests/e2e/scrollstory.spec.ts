@@ -2,126 +2,136 @@ import { expect, test, type Page } from '@playwright/test'
 import { pageUrl } from './_url'
 import { scrollToY, waitForHook, watchConsole } from './helpers'
 
-/** The scroll-scrubbed film: hooks are `window.__st.scrollstory = { frame(), beat(), loaded(), total(), progress(), y(p), goTo(i), rest(n), sharp() }`. */
+/**
+ * The paintings in depth: hooks are `window.__st.scrollstory = { mode(), state() → { beat, card, cards, ready },
+ * progress(), y(p), goTo(beat), goToCard(card), stats() }`.
+ */
+interface State {
+  beat: number
+  card: number
+  cards: number
+  ready: boolean
+}
 const hook = <T>(page: Page, expr: string) => page.evaluate(`window.__st.scrollstory.${expr}`) as Promise<T>
-const frame = (page: Page) => hook<number>(page, 'frame()')
-const beat = (page: Page) => hook<number>(page, 'beat()')
+const state = (page: Page) => hook<State>(page, 'state()')
+const card = async (page: Page) => (await state(page)).card
+const beat = async (page: Page) => (await state(page)).beat
 
-/** Scrolls to a point on the scrub runway (0 = the stage has just locked, 1 = the last frame). */
+/** Scrolls to a point on the runway (0 = the stage has just locked on the first card, 1 = the last card). */
 async function scrub(page: Page, p: number) {
   await scrollToY(page, await hook<number>(page, `y(${p})`))
 }
 
-async function open(page: Page) {
-  await page.goto(pageUrl('scrollstory'))
+async function open(page: Page, extra = '') {
+  await page.goto(pageUrl('scrollstory', extra))
   await waitForHook(page, 'scrollstory')
   await scrollToY(page, '#ways')
-  await expect.poll(() => hook<number>(page, 'loaded()'), { timeout: 45_000 }).toBeGreaterThan(0)
 }
 
 test.describe('scrollstory', () => {
-  // The dev machine is shared and slow at times; the film itself needs 121 pictures.
+  // The dev machine is shared and WebGL is drawn in software here: slow, a few frames a second.
   test.describe.configure({ timeout: 180_000 })
 
-  test('the film plays forward and back under the scroll, and the three words swap', async ({ page }) => {
+  test('one card per scroll step, forward and back, and the three words swap', async ({ page }) => {
     const con = watchConsole(page)
     await open(page)
-    const total = await hook<number>(page, 'total()')
-    expect(total).toBeGreaterThan(60)
+    const { cards } = await state(page)
+    expect(cards).toBeGreaterThanOrEqual(8)
+    const last = cards - 1
 
     await scrub(page, 0)
-    await expect.poll(() => frame(page)).toBe(1)
+    await expect.poll(() => card(page)).toBe(0)
     expect(await beat(page)).toBe(0)
     await expect(page.locator('#ways [data-beat="0"]')).toHaveAttribute('data-state', 'on')
 
+    // Every step of the runway brings the next card to the front, in story order.
+    const seen: number[] = []
+    for (let i = 0; i <= last; i++) {
+      await scrub(page, i / last)
+      await expect.poll(() => card(page)).toBe(i)
+      const s = await state(page)
+      seen.push(s.card)
+      expect(s.beat).toBe(Math.min(2, Math.floor(i / Math.ceil(cards / 3))))
+      await expect(page.locator(`#ways [data-beat="${s.beat}"]`)).toHaveAttribute('data-state', 'on')
+    }
+    expect(new Set(seen).size).toBe(cards)
+    await expect(page.locator('#ways [data-beat="0"]')).toHaveAttribute('data-state', 'past')
+    await expect(page.locator('#ways [data-beat="1"]')).toHaveAttribute('data-state', 'past')
+
+    // The middle of the runway is the second word.
     await scrub(page, 0.5)
-    await expect.poll(() => frame(page)).toBeGreaterThan(total * 0.4)
-    await expect.poll(() => frame(page)).toBeLessThan(total * 0.6)
     await expect.poll(() => beat(page)).toBe(1)
     await expect(page.locator('#ways [data-beat="1"]')).toHaveAttribute('data-state', 'on')
-    await expect(page.locator('#ways [data-beat="0"]')).toHaveAttribute('data-state', 'past')
 
-    await scrub(page, 1)
-    await expect.poll(() => frame(page)).toBe(total)
-    await expect.poll(() => beat(page)).toBe(2)
-    await expect(page.locator('#ways [data-beat="2"]')).toHaveAttribute('data-state', 'on')
-
-    // …and scrolling back rewinds it.
+    // …and scrolling back brings the first card home.
     await scrub(page, 0)
-    await expect.poll(() => frame(page)).toBe(1)
+    await expect.poll(() => card(page)).toBe(0)
     await expect.poll(() => beat(page)).toBe(0)
     await expect(page.locator('#ways [data-beat="0"]')).toHaveAttribute('data-state', 'on')
     con.assertClean()
   })
 
-  test('every frame loads and the canvas is painted at each stop', async ({ page }) => {
-    test.setTimeout(300_000)
+  test('the scene draws the paintings itself: sharp pictures, no film frames', async ({ page }) => {
     const con = watchConsole(page)
+    const asked: string[] = []
+    page.on('request', (r) => asked.push(r.url()))
     await open(page)
-    const total = await hook<number>(page, 'total()')
-    await expect.poll(() => hook<number>(page, 'loaded()'), { timeout: 240_000 }).toBe(total)
+    await expect.poll(async () => (await state(page)).ready, { timeout: 90_000 }).toBe(true)
+    await expect(page.locator('#ways canvas')).toHaveCount(1)
+    await expect(page.locator('#ways .ss-stage')).toHaveClass(/has-scene/)
 
-    const seen = new Set<number>()
-    for (const p of [0.05, 0.28, 0.52, 0.76, 0.97]) {
-      await scrub(page, p)
-      // A resting playhead sits on a real frame near where the scroll is (never a blank or a half-blend).
-      await expect.poll(() => frame(page)).toBeGreaterThan(p * total - 6)
-      await expect.poll(() => frame(page)).toBeLessThan(p * total + 6)
-      seen.add(await frame(page))
-      const alpha = await page.evaluate(() => {
-        const cv = document.querySelector<HTMLCanvasElement>('#ways canvas')!
-        const ctx = cv.getContext('2d')!
-        return [0.25, 0.5, 0.75].map((x) => ctx.getImageData(Math.floor(cv.width * x), Math.floor(cv.height * 0.5), 1, 1).data[3])
+    // The card in front gets its full-size painting; only a handful are held at a time.
+    await hook(page, 'goToCard(6)')
+    await expect.poll(() => card(page)).toBe(6)
+    await expect.poll(() => asked.some((u) => /story\/k07\.webp/.test(u)), { timeout: 60_000 }).toBe(true)
+    const stats = await hook<{ calls: number; full: number; small: number; leaves: number }>(page, 'stats()')
+    expect(stats.full).toBeLessThanOrEqual(8)
+    expect(stats.leaves).toBeGreaterThan(0)
+    expect(stats.leaves).toBeLessThanOrEqual(90)
+    expect(stats.calls).toBeLessThanOrEqual(16)
+
+    // The canvas has something on it where the front card hangs.
+    const painted = await page.evaluate(async () => {
+      const cv = document.querySelector<HTMLCanvasElement>('#ways canvas')!
+      const stage = document.querySelector<HTMLElement>('#ways .ss-stage')!
+      const x = parseFloat(getComputedStyle(stage).getPropertyValue('--ss-card-x')) / stage.clientWidth
+      const y = parseFloat(getComputedStyle(stage).getPropertyValue('--ss-card-y')) / stage.clientHeight
+      // WebGL clears its buffer after presenting: read it in the same task as a frame.
+      return new Promise<number>((resolve) => {
+        const probe = () => {
+          const copy = document.createElement('canvas')
+          copy.width = 8
+          copy.height = 8
+          const ctx = copy.getContext('2d')!
+          ctx.drawImage(cv, cv.width * x - 4, cv.height * y - 4, 8, 8, 0, 0, 8, 8)
+          const a = ctx.getImageData(4, 4, 1, 1).data[3]
+          if (a > 0) resolve(a)
+          else requestAnimationFrame(probe)
+        }
+        requestAnimationFrame(probe)
       })
-      expect(alpha).toEqual([255, 255, 255])
-    }
-    expect(seen.size).toBe(5)
+    })
+    expect(painted).toBeGreaterThan(200)
 
-    // Wherever the scroll stops, the playhead settles on a clean frame: never on one where the film smears a face.
-    const rests = await page.evaluate((n) => Array.from({ length: n }, (_, i) => window.__st!.scrollstory.rest(i + 1) as number), total)
-    const smeared = rests.map((r, i) => (r === i + 1 ? 0 : i + 1)).filter(Boolean)
-    expect(smeared.length).toBeGreaterThan(0)
-    for (const n of smeared) {
-      expect(smeared).not.toContain(rests[n - 1])
-      expect(Math.abs(rests[n - 1] - n)).toBeLessThan(8)
-    }
-    const mid = smeared[Math.floor(smeared.length / 2)]
-    await scrub(page, (mid - 1) / (total - 1))
-    await expect.poll(() => frame(page), { timeout: 15_000 }).toBe(rests[mid - 1])
+    // The old scrubbed film is gone: not one of its frames is requested.
+    expect(asked.filter((u) => /film\/scrub\//.test(u))).toEqual([])
     con.assertClean()
   })
 
-  test('the stage is never blank while the frames are still on their way', async ({ page }) => {
+  test('the stage is never blank: a painting stands in until the scene is ready, and for good without WebGL', async ({ page }) => {
     const con = watchConsole(page)
-    let let_through = () => {}
-    const gate = new Promise<void>((resolve) => (let_through = resolve))
-    await page.route('**/film/scrub/**/*.webp', async (route) => {
-      await gate
-      await route.continue()
-    })
-    await page.goto(pageUrl('scrollstory'))
-    await waitForHook(page, 'scrollstory')
-    await scrollToY(page, '#ways')
+    await open(page, '&nowebgl')
+    await expect(page.locator('#ways canvas')).toHaveCount(0)
+    await expect(page.locator('#ways .ss-poster')).toBeVisible()
+    await expect(page.locator('#ways .ss-poster')).toHaveAttribute('src', /story\/k01\.webp/)
+    expect((await state(page)).ready).toBe(false)
+    // It follows the scroll card by card, and the copy works as ever.
     await scrub(page, 0.5)
-    // Nothing has arrived: the blurred placeholder fills the stage and the copy is already readable.
     await expect.poll(() => beat(page)).toBe(1)
-    expect(await hook<number>(page, 'loaded()')).toBe(0)
-    await expect(page.locator('#ways .ss-lqip')).toBeVisible()
+    const at = await card(page)
+    await expect(page.locator('#ways .ss-poster')).toHaveAttribute('src', new RegExp(`story/k${String(at + 1).padStart(2, '0')}\\.webp`))
     await expect(page.locator('#ways [data-beat="1"]')).toHaveAttribute('data-state', 'on')
     await expect(page.locator('#ways [data-beat="1"] button')).toBeVisible()
-
-    let_through()
-    await expect.poll(() => hook<number>(page, 'loaded()'), { timeout: 60_000 }).toBeGreaterThan(0)
-    // The nearest frame that has arrived is on the canvas, opaque, and the canvas has faded in.
-    await expect
-      .poll(() =>
-        page.evaluate(() => {
-          const cv = document.querySelector<HTMLCanvasElement>('#ways canvas')!
-          return cv.getContext('2d')!.getImageData(Math.floor(cv.width / 2), Math.floor(cv.height / 2), 1, 1).data[3] === 255 && getComputedStyle(cv).opacity === '1'
-        }),
-      )
-      .toBe(true)
-    await expect.poll(() => frame(page)).toBeGreaterThan(0)
     con.assertClean()
   })
 
@@ -165,7 +175,7 @@ test.describe('scrollstory', () => {
     await expect(page.locator('#ways img')).toBeVisible()
     await expect(page.locator('#ways [data-beat]')).toHaveCount(3)
     for (const i of [0, 1, 2]) await expect(page.locator(`#ways [data-beat="${i}"] button`)).toBeVisible()
-    // Not a tall scrubbed runway: the section is an ordinary block.
+    // Not a tall runway: the section is an ordinary block.
     const ratio = await page.evaluate(() => document.querySelector('#ways')!.getBoundingClientRect().height / window.innerHeight)
     expect(ratio).toBeLessThan(2)
     con.assertClean()

@@ -3,13 +3,13 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { prefersReducedNow } from '@/app/useMotionTier'
 import { useSiteStore } from '@/store/useSiteStore'
 import { exposeQA } from '@/lib/qa'
-import { ScrubStory } from './Scrub'
+import { DepthStory } from './Depth'
 import { StillStory } from './Still'
 import './scrollstory.css'
 
 /**
- * "One story, three ways": the wind scene plays forward under the visitor's thumb while three giant
- * words swap — read, watch, play. With reduced motion it is one still and a plain list.
+ * "One story, three ways": the story's paintings come forward one by one as cards in depth under the
+ * visitor's thumb while three giant words swap — read, watch, play. With reduced motion it is one still and a plain list.
  */
 export function ScrollStory() {
   const tier = useSiteStore((s) => s.tier)
@@ -20,7 +20,7 @@ export function ScrollStory() {
   const mounted = useRef(false)
 
   useEffect(() => {
-    if (reduced) exposeQA({ scrollstory: { mode: () => 'still', frame: () => 1, beat: () => 0, loaded: () => 1, total: () => 1, sharp: () => 0, rest: (n: number) => n, progress: () => 0, y: () => 0, goTo: () => {} } })
+    if (reduced) exposeQA({ scrollstory: { mode: () => 'still', state: () => ({ beat: 0, card: 0, cards: 1, ready: true }), beat: () => 0, card: () => 0, progress: () => 0, y: () => 0, goTo: () => {}, goToCard: () => {}, stats: () => ({}) } })
     if (!mounted.current) {
       mounted.current = true
       return
@@ -30,5 +30,5 @@ export function ScrollStory() {
     return () => cancelAnimationFrame(id)
   }, [reduced])
 
-  return reduced ? <StillStory /> : <ScrubStory />
+  return reduced ? <StillStory /> : <DepthStory />
 }
