@@ -19,7 +19,6 @@ interface CompDef {
 }
 
 const COMPS: Record<string, () => Promise<CompDef>> = {
-  lab: async () => (await import('./comps/lab')).default,
   'trailer-16x9': async () => (await import('./comps/trailer')).wide,
   'trailer-9x16': async () => (await import('./comps/trailer')).tall,
   'trailer-poster': async () => (await import('./comps/trailer')).poster,
@@ -34,10 +33,8 @@ declare global {
 
 async function boot() {
   const params = new URLSearchParams(location.search)
-  const id = params.get('comp') ?? 'lab'
-  console.log('boot', Math.round(performance.now()))
+  const id = params.get('comp') ?? 'trailer-16x9'
   const def = await COMPS[id]()
-  console.log('imported', Math.round(performance.now()))
   // every face used anywhere must be decoded before the first frame
   await Promise.all([
     document.fonts.load('400 40px "Rubik Variable"', 'أوراق الخريف Story'),
@@ -50,7 +47,6 @@ async function boot() {
     document.fonts.load('700 40px "Noto Naskh Arabic"', 'أوراق الخريف'),
   ])
   await document.fonts.ready
-  console.log('fonts', Math.round(performance.now()))
   const stage = createStage(def.W, def.H, def.fps)
   const film = await def.build(stage, params)
   const comp = createCompositor(stage)

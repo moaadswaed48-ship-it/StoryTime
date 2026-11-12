@@ -42,7 +42,7 @@ const opt = Object.fromEntries(
     }),
 )
 if (!comp) {
-  console.error('usage: node scripts/render.mjs <trailer-16x9|trailer-9x16|trailer-poster|story|lab> [options]')
+  console.error('usage: node scripts/render.mjs <trailer-16x9|trailer-9x16|trailer-poster|story> [options]')
   process.exit(1)
 }
 
@@ -52,7 +52,6 @@ const TARGETS = {
   'trailer-9x16': { out: `${SITE_FILM}/trailer-9x16.mp4`, maxMB: 12, music: 'trailer', crf: 18 },
   'trailer-poster': { out: `${SITE_FILM}/trailer-poster.jpg`, still: true },
   story: { out: `${SITE_FILM}/story.mp4`, maxMB: 14, music: 'story', crf: 19, json: `${SITE_FILM}/story.json` },
-  lab: { out: `${ROOT}/out/lab.mp4`, maxMB: 50, crf: 20 },
 }
 const target = TARGETS[comp]
 if (!target) throw new Error(`unknown composition ${comp}`)
