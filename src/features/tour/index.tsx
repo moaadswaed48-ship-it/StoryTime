@@ -5,7 +5,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { useGSAP } from '@gsap/react'
 import { enterApp } from '@/app/router'
 import { prefersReducedNow } from '@/app/useMotionTier'
-import { Container, Pill, Reveal, SectionHead } from '@/design/ui'
+import { Container, Pill, SectionHead } from '@/design/ui'
 import { t } from '@/i18n/copy'
 import { dirSign, locale, num, rtl } from '@/i18n/locale'
 import { asset } from '@/lib/asset'
@@ -211,9 +211,9 @@ export function Tour() {
                   </li>
                 ))}
               </ol>
-              <Reveal className="tour-side__enter">
+              <div className="tour-side__enter">
                 <Enter />
-              </Reveal>
+              </div>
             </div>
             <div className="tour-deck-wrap">
               <div ref={deck} className="tour-deck">

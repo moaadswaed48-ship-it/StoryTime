@@ -202,11 +202,14 @@ html[dir='rtl'] .tour-enter__pill {
 
 /* ── Scrub mode: phones (≤1023px) ───────────────────────────────────────────── */
 .tour-intro {
-  padding-top: 88px;
+  position: relative;
+  z-index: 1;
+  padding-top: 76px;
 }
 .tour-track {
   position: relative;
   height: calc(100svh + 3 * 72svh);
+  margin-top: -84px; /* the stage keeps room for the nav; let the first phone sit closer to the heading */
 }
 .tour-stage {
   position: sticky;
@@ -313,6 +316,7 @@ html[dir='rtl'] .tour-deck {
   }
   .tour-track {
     height: calc(100svh + 3 * 80svh);
+    margin-top: 0;
   }
   .tour-stage__inner {
     display: grid;
@@ -355,14 +359,11 @@ html[dir='rtl'] .tour-deck {
   .tour-caps .tour-cap[data-active] {
     opacity: 1;
   }
-  .tour-caps .tour-cap .tour-cap__s {
-    display: block;
-  }
   .tour-deck {
-    --anchor: 40%;
+    --anchor: 36%;
   }
   html[dir='rtl'] .tour-deck {
-    --anchor: 60%;
+    --anchor: 64%;
   }
 }
 @media (min-width: 1024px) and (hover: hover) {

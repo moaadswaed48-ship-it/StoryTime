@@ -495,7 +495,7 @@ const en: typeof ar = {
     steps: [
       { t: "The child's library", s: "Today's story on one big card, and a button that carries on from where the child stopped." },
       { t: 'The story page', s: 'Three doors to the same story: read, watch and play.' },
-      { t: 'The book', s: "The author's text exactly as she wrote it, on a page turned with a finger." },
+      { t: 'The book', s: 'Her story on pages turned with a finger. In Arabic, exactly as she wrote it.' },
       { t: 'My tree', s: "Every reading, film or game adds a leaf to the child's tree." },
     ],
   },
