@@ -38,7 +38,7 @@ const ar = {
     kicker: 'حكاية واحدة · ثلاث طرق',
     beats: [
       { word: 'اقرأ', line: 'كتاب يُفتح بين يديك، وصوره تتحرّك.' },
-      { word: 'شاهد', line: 'الحكاية نفسها فيلمًا قصيرًا، بالوجوه نفسها.' },
+      { word: 'شاهد', line: 'الحكاية نفسها فيلمًا قصيرًا، بالشخصيات نفسها.' },
       { word: 'العب', line: 'اركض مع ساري واجمع أوراق الأسماء.' },
     ],
   },
@@ -322,7 +322,7 @@ const en: typeof ar = {
     kicker: 'One story · three ways',
     beats: [
       { word: 'Read', line: 'A book that opens in your hands, with pictures that move.' },
-      { word: 'Watch', line: 'The same story as a short film, with the same faces.' },
+      { word: 'Watch', line: 'The same story as a short film, with the same characters.' },
       { word: 'Play', line: 'Run with Sari and collect the name papers.' },
     ],
   },

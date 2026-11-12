@@ -7,7 +7,7 @@ export interface FilmScene {
   start: number
   end: number
 }
-/** `public/film/watch.json`, written by `scripts/film/build-film.mjs`. */
+/** `public/film/story.json`, written by the film studio (`video/`). */
 export interface Timeline {
   duration: number
   /** Length of the cover opening: the first scene is fully on screen from here. */
@@ -23,7 +23,7 @@ let cache: Promise<Timeline | null> | null = null
 
 /** Loads the scene timings once. Resolves to `null` if they are missing: the film still plays, without chips or captions. */
 export function loadTimeline(): Promise<Timeline | null> {
-  cache ??= fetch(asset('film/watch.json'))
+  cache ??= fetch(asset('film/story.json'))
     .then((r) => (r.ok ? r.json() : null))
     .then((j: Partial<Timeline> | null) => {
       if (!j || typeof j.duration !== 'number' || !Array.isArray(j.scenes) || !j.scenes.length) return null

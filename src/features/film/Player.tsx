@@ -559,7 +559,7 @@ export function Player() {
           <video
             ref={video}
             className={cn('film-video', ready && armed && 'is-ready')}
-            src={asset('film/watch.mp4')}
+            src={asset('film/story.mp4')}
             preload="auto"
             playsInline
             aria-label={`${t.film.title} · ${story.title[locale]}`}
