@@ -592,7 +592,7 @@ export function Reader({ startScene }: { startScene: number }) {
                     <HandArrow size={24} flip={!rtl} />
                   </button>
                   {counter}
-                  <Pill variant="solid" size="lg" className="bk-next-pill" disabled={!canNext} onClick={next}>
+                  <Pill variant="solid" size="lg" className="bk-next-pill" disabled={!canNext} onClick={next} data-end={atEnd || undefined} aria-hidden={atEnd || undefined} tabIndex={atEnd ? -1 : undefined}>
                     {t.book.next}
                     <HandArrow size={20} flip={rtl} />
                   </Pill>

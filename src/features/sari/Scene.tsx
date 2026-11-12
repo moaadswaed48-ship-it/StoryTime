@@ -104,7 +104,7 @@ function Director({ rt, turntable }: { rt: Runtime; turntable: React.RefObject<T
     const { camera, size } = state
     const aspect = size.width / Math.max(1, size.height)
     // (short laptops keep more air above his curls, so they never touch the nav)
-    const fill = rt.docked ? THREE.MathUtils.clamp((size.height - (size.height < 520 ? 126 : size.height < 760 ? 304 : 268)) / size.height, 0.56, 0.79) : 0.8
+    const fill = rt.docked ? THREE.MathUtils.clamp((size.height - (size.height < 520 ? 126 : size.height < 760 ? 280 : 244)) / size.height, 0.56, 0.79) : 0.8
     const feet = rt.docked ? feetPx(size.height) / size.height : 0.15
     const dist = Math.max(TALL / fill / (2 * TAN), (size.width < 560 ? 1.04 : rt.docked ? 1.25 : 1.42) / (2 * TAN * aspect))
     const viewH = 2 * dist * TAN

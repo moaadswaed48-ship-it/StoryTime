@@ -1508,6 +1508,10 @@ html[lang='en'] .bk-end-note {
     min-width: 132px;
     padding-inline: 22px;
   }
+  /* At the end page the story has no "next": the buttons above take over. */
+  .bk .bk-next-pill[data-end] {
+    visibility: hidden;
+  }
 
   .bk-gate {
     position: static;
