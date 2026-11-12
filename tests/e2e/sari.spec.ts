@@ -47,8 +47,9 @@ test('the dock makes him run and stand, and a wave passes', async ({ page }) => 
   await page.locator('#sari [data-action="run"]').click()
   expect(await action(page)).toBe('run')
   await expect(page.locator('#sari [data-action="run"]')).toHaveAttribute('aria-pressed', 'true')
-  // the world starts rushing past him
+  // the world starts rushing past him, and his legs really run (a foot leaves the ground)
   await expect.poll(async () => (await sari<{ run: number }>(page, 'state()')).run, SLOW).toBeGreaterThan(0.5)
+  await expect.poll(async () => (await sari<{ stride: number }>(page, 'state()')).stride, SLOW).toBeGreaterThan(0.3)
 
   // waving interrupts the run for a moment, then he runs on
   await page.locator('#sari [data-action="wave"]').click()

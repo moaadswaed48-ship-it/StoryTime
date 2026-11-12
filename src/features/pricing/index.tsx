@@ -195,8 +195,8 @@ export function Pricing() {
       if (reduced || !ghost.current || !stage.current) return
       gsap.fromTo(
         ghost.current,
-        { yPercent: 22 },
-        { yPercent: -22, ease: 'none', scrollTrigger: { trigger: stage.current, start: 'top bottom', end: 'bottom top', scrub: true } },
+        { yPercent: 12 },
+        { yPercent: -12, ease: 'none', scrollTrigger: { trigger: stage.current, start: 'top bottom', end: 'bottom top', scrub: true } },
       )
     },
     { dependencies: [reduced], scope: stage, revertOnUpdate: true },
