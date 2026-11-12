@@ -1,24 +1,30 @@
 import { useCallback, useEffect, useRef, useState, type CSSProperties, type MouseEvent, type ReactNode } from 'react'
-import { BookOpen, Globe, LogIn, LogOut, Play } from 'lucide-react'
+import { ArrowRight, Globe, LogIn, LogOut, Play } from 'lucide-react'
+import { enterApp } from '@/app/router'
+import { story } from '@/content/story'
 import { Pill } from '@/design/ui'
 import { useOverlayLock } from '@/design/overlay'
 import { t } from '@/i18n/copy'
 import { locale, num, switchLocale } from '@/i18n/locale'
+import { asset } from '@/lib/asset'
 import { exposeQA } from '@/lib/qa'
 import { useSiteStore } from '@/store/useSiteStore'
 import './nav.css'
 
-/** Sections the bar links to, in page order. `film` opens the player instead of scrolling. */
+/** What the bar links to, in page order. `film` opens the player instead of scrolling. */
 const LINKS = [
   { id: 'library', label: t.nav.library },
   { id: 'film', label: t.nav.film },
-  { id: 'sari', label: t.nav.sari },
-  { id: 'game', label: t.nav.game },
   { id: 'parents', label: t.nav.parents },
   { id: 'pricing', label: t.nav.pricing },
 ] as const
 const SECTIONS = LINKS.filter((l) => l.id !== 'film').map((l) => l.id)
 const otherLang = locale === 'ar' ? 'en' : 'ar'
+/** The picture on the phone menu's film card: the migrating birds at sunset (scene 12). */
+const FILM_SCENE = story.scenes[11]
+
+/** Tells the rest of the page that the phone menu covers it (the hero pauses its film and leaves). */
+const announceMenu = (open: boolean) => window.dispatchEvent(new CustomEvent('st:menu', { detail: { open } }))
 
 /** Smooth-scrolls to a section (Lenis), leaving room for the floating bar. */
 function scrollToSection(id: string) {
@@ -49,13 +55,13 @@ function LeafMark({ size = 20 }: { size?: number }) {
 }
 
 /**
- * Floating navigation. Wordmark at the start, section links in the centre (from 1024px), language · log-in · "open the book" at the end.
- * Phones get wordmark + language + a menu button that opens a full-screen glass sheet. Hidden while the book or the film is open.
+ * Floating navigation of the landing page. Wordmark at the start, four links in the centre (from 1024px),
+ * language · log-in · "enter the library" at the end. Phones get wordmark + language + a menu button that opens
+ * a full-screen sheet of dark glass. Hidden while the book, the film or the game is open.
  */
 export function Nav() {
   const overlay = useSiteStore((s) => s.overlay)
   const loggedIn = useSiteStore((s) => s.loggedIn)
-  const openBook = useSiteStore((s) => s.openBook)
   const openFilm = useSiteStore((s) => s.openFilm)
   const setLoggedIn = useSiteStore((s) => s.setLoggedIn)
   const setLoginOpen = useSiteStore((s) => s.setLoginOpen)
@@ -107,15 +113,19 @@ export function Nav() {
     return () => mq.removeEventListener('change', onChange)
   }, [])
 
-  // While the sheet is open: focus moves into it and Tab stays inside the navigation.
+  // While the sheet is open: the page under it rests, focus moves into the sheet and Tab stays inside the navigation.
   const wasOpen = useRef(false)
   useEffect(() => {
     if (!menu) {
-      if (wasOpen.current && root.current?.contains(document.activeElement)) burger.current?.focus({ preventScroll: true })
+      if (wasOpen.current) {
+        announceMenu(false)
+        if (root.current?.contains(document.activeElement)) burger.current?.focus({ preventScroll: true })
+      }
       wasOpen.current = false
       return
     }
     wasOpen.current = true
+    announceMenu(true)
     sheet.current?.focus({ preventScroll: true })
     const onKey = (e: KeyboardEvent) => {
       if (e.key !== 'Tab' || !root.current) return
@@ -129,6 +139,7 @@ export function Nav() {
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
   }, [menu])
+  useEffect(() => () => void (wasOpen.current && announceMenu(false)), [])
 
   useEffect(() => {
     exposeQA({
@@ -154,6 +165,11 @@ export function Nav() {
     setMenu(false)
     if (loggedIn) setLoggedIn(false)
     else setLoginOpen(true)
+  }
+  /** The way into the app ("who is reading today?" the first time). */
+  const enter = () => {
+    setMenu(false)
+    enterApp()
   }
   const AccountIcon = loggedIn ? LogOut : LogIn
   const accountLabel = loggedIn ? t.nav.logout : t.nav.login
@@ -208,8 +224,9 @@ export function Nav() {
               <AccountIcon size={16} strokeWidth={1.9} className="flip-rtl" aria-hidden />
               <span className="st-ghost__label--optional">{accountLabel}</span>
             </button>
-            <Pill variant="solid" size="sm" className="st-cta st-only-wide" onClick={() => openBook()}>
-              {t.nav.cta}
+            <Pill variant="solid" size="sm" className="st-cta st-only-wide" onClick={enter}>
+              {t.app.enter}
+              <ArrowRight size={15} strokeWidth={2.4} className="st-cta__arrow flip-rtl" aria-hidden />
             </Pill>
           </div>
           <button ref={burger} type="button" className="st-pill st-burger st-only-narrow" aria-expanded={menu} aria-controls="st-menu" aria-label={menu ? t.nav.close : t.nav.menu} onClick={() => setMenu((v) => !v)}>
@@ -220,7 +237,8 @@ export function Nav() {
         </div>
       </div>
 
-      <div ref={sheet} id="st-menu" className="st-sheet" role="dialog" aria-modal="true" aria-label={t.nav.menu} tabIndex={-1} data-open={menu ? '' : undefined} inert={!menu} data-lenis-prevent>
+      {/* Not aria-modal: the button that closes it lives in the bar above, outside this element. */}
+      <div ref={sheet} id="st-menu" className="st-sheet" role="dialog" aria-label={t.nav.menu} tabIndex={-1} data-open={menu ? '' : undefined} inert={!menu} data-lenis-prevent>
         <nav className="st-sheet__links" aria-label={t.nav.menu}>
           {LINKS.map((l, i) =>
             link(
@@ -231,29 +249,37 @@ export function Nav() {
                   {locale === 'en' && '0'}
                   {num(i + 1)}
                 </span>
-                {l.label}
+                <span className="st-sheet__text">{l.label}</span>
               </>,
               { '--i': i } as CSSProperties,
             ),
           )}
         </nav>
+
+        {/* The film, one tap away: a picture from the story instead of an empty half screen. */}
+        <button type="button" className="st-sheet__film st-stagger" style={{ '--i': LINKS.length } as CSSProperties} onClick={follow('film')}>
+          <img src={asset(FILM_SCENE.thumb)} alt="" width={640} height={358} loading="lazy" decoding="async" draggable={false} />
+          <span className="st-sheet__film-shade" aria-hidden />
+          <span className="st-sheet__film-meta">
+            <span className="st-sheet__film-disc" aria-hidden>
+              <Play size={13} fill="currentColor" strokeWidth={0} />
+            </span>
+            <span className="st-sheet__film-text">
+              <span className="st-sheet__film-kicker">{story.kicker[locale]}</span>
+              <span className="st-sheet__film-title">{t.hero.watch}</span>
+            </span>
+          </span>
+        </button>
+
         <div className="st-sheet__foot st-stagger" style={{ '--i': LINKS.length + 1 } as CSSProperties}>
           <div className="st-sheet__row">
             <Pill variant="glass" size="lg" className="px-6" onClick={account}>
               <AccountIcon size={17} strokeWidth={1.9} className="flip-rtl shrink-0" aria-hidden />
               {accountLabel}
             </Pill>
-            <Pill
-              variant="solid"
-              size="lg"
-              className="w-full whitespace-nowrap px-4"
-              onClick={() => {
-                setMenu(false)
-                openBook()
-              }}
-            >
-              <BookOpen size={18} strokeWidth={2.2} className="shrink-0" aria-hidden />
-              {t.nav.cta}
+            <Pill variant="solid" size="lg" className="st-sheet__enter w-full whitespace-nowrap px-4" onClick={enter}>
+              {t.app.enter}
+              <ArrowRight size={18} strokeWidth={2.4} className="flip-rtl shrink-0" aria-hidden />
             </Pill>
           </div>
           <p className="st-sheet__note">{t.footer.legal}</p>

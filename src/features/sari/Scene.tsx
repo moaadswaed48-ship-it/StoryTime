@@ -234,6 +234,7 @@ interface Leaf {
   ph: number
   spin: number
   size: number
+  placed: boolean
 }
 
 /**
@@ -261,11 +262,13 @@ function LeafField({ rt, count, soft = false }: { rt: Runtime; count: number; so
       ph: rnd() * 6.283,
       spin: (rnd() - 0.5) * 1.1,
       size: soft ? 0.12 + rnd() * 0.07 : 0.085 + rnd() * 0.065,
+      placed: false,
     }))
   }, [count, soft])
   useEffect(() => {
     const rnd = mulberry32(soft ? 98 : 42)
-    leaves.forEach((_, i) => mesh.setColorAt(i, _c.set(LEAF_COLORS[Math.floor(rnd() * LEAF_COLORS.length)]).multiplyScalar(soft ? 0.85 : 1)))
+    // the out-of-focus ones stay in the oranges: a blurred yellow reads as a stain, not a leaf
+    leaves.forEach((_, i) => mesh.setColorAt(i, _c.set(LEAF_COLORS[Math.floor(rnd() * (soft ? 3 : LEAF_COLORS.length))]).multiplyScalar(soft ? 0.9 : 1)))
     if (mesh.instanceColor) mesh.instanceColor.needsUpdate = true
     return () => {
       mesh.geometry.dispose()
@@ -286,9 +289,16 @@ function LeafField({ rt, count, soft = false }: { rt: Runtime; count: number; so
       // the slice of the view at this leaf's depth (a little wider than the frame, so leaves enter and leave off screen)
       const halfH = (camera.position.z - l.z) * TAN
       const halfW = halfH * aspect + l.size
+      // where the floor cuts this slice: a leaf that lands shrinks away and a new one starts at the top
+      const centre = camera.position.y - 0.42 * (1 - l.z / camera.position.z)
+      const floor = THREE.MathUtils.clamp((0.02 - (centre - halfH)) / (halfH * 2), -0.08, 0.9)
+      if (!l.placed) {
+        l.v = floor + l.v * (1.05 - floor)
+        l.placed = true
+      }
       l.v -= (l.fall * (1 - rt.run * 0.5) * dt) / halfH
       l.u += ((Math.sin(t * l.sway + l.ph) * 0.03 + wind * (0.6 + l.sway * 0.7)) * dt) / halfW
-      if (l.v < -0.08) {
+      if (l.v < floor) {
         l.v = 1.08
         l.u = Math.sin(l.ph * 7.3 + t * 1.7) // somewhere new across the frame
       }
@@ -298,11 +308,12 @@ function LeafField({ rt, count, soft = false }: { rt: Runtime; count: number; so
       // nothing falls across his face or chest: leaves on the near side slip past at his sides
       const near = THREE.MathUtils.smoothstep(l.z, -0.5, 0.1) * (1 - rt.run)
       if (near > 0 && Math.abs(x) < 0.72) x = THREE.MathUtils.lerp(x, (x < 0 ? -1 : 1) * (0.46 + Math.abs(x) * 0.361), near)
-      const y = camera.position.y - 0.42 * (1 - l.z / camera.position.z) - halfH + l.v * halfH * 2
+      const y = centre - halfH + l.v * halfH * 2
+      const landing = floor > -0.08 ? THREE.MathUtils.smoothstep((l.v - floor) * halfH * 2, 0, 0.16) : 1
       // they tumble but never turn edge-on for long, so each one reads as a leaf
       const a = t * l.spin + l.ph
       _e.set(Math.sin(a * 1.3) * 0.95 + rt.run * 0.5, Math.sin(a * 0.8 + 1.7) * 0.95, a * 0.6 + wind * 0.25)
-      _m.compose(_v.set(x, y, l.z), _q.setFromEuler(_e), _s.setScalar(l.size))
+      _m.compose(_v.set(x, y, l.z), _q.setFromEuler(_e), _s.setScalar(l.size * landing))
       mesh.setMatrixAt(i, _m)
     }
     mesh.instanceMatrix.needsUpdate = true

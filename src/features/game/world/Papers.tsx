@@ -71,7 +71,7 @@ function PaperItem({ index, name }: { index: number; name: string }) {
     // …and a paper standing between the camera and Sari turns glassy, so it never hides him
     const inFront = !picked && p.z > rt.sari.z + 0.45 && Math.abs(p.x - rt.sari.x) < 1.25
     st.clear += ((inFront ? 0.38 : 1) - st.clear) * (1 - Math.exp(-8 * dt))
-    const close = picked ? 1 : smooth(1.9, 3.1, _v.length()) * st.clear
+    const close = picked ? 1 : smooth(1.7, 3.0, Math.hypot(_v.x, _v.y - 1.1, _v.z)) * st.clear
     mats.sheet.opacity = (1 - smooth(0.62, 1, st.fly)) * close
     // a travelling wave makes it flutter
     const arr = geo.attributes.position.array as Float32Array
