@@ -189,6 +189,19 @@ const ar = {
     motion: 'تخفيف الحركة',
     top: 'إلى الأعلى',
   },
+  /** "Inside StoryTime" on the landing page: real screens of the app. */
+  tour: {
+    eyebrow: 'داخل وقت الحكاية',
+    title: 'هكذا تبدو الحكاية في يد الطفل',
+    lede: 'لقطات حقيقية من التطبيق كما يعمل اليوم على الهاتف.',
+    shot: 'لقطة من التطبيق',
+    steps: [
+      { t: 'مكتبة الطفل', s: 'حكاية اليوم في بطاقة كبيرة، وزرّ يكمل القراءة من حيث توقّف.' },
+      { t: 'صفحة الحكاية', s: 'ثلاثة أبواب للحكاية نفسها: اقرأ، وشاهد، والعب.' },
+      { t: 'الكتاب', s: 'نصّ المؤلفة كما كتبته، على صفحة تُقلَب بالإصبع.' },
+      { t: 'شجرتي', s: 'كل قراءة أو مشاهدة أو لعبة تضيف ورقة إلى شجرة الطفل.' },
+    ],
+  },
   /** The app itself (everything behind "enter the library"). */
   app: {
     enter: 'ادخل المكتبة',
@@ -472,6 +485,19 @@ const en: typeof ar = {
     note: "The text is the author's. Pictures, film and character are first prototypes.",
     motion: 'Reduce motion',
     top: 'Back to top',
+  },
+  /** "Inside StoryTime" on the landing page: real screens of the app. */
+  tour: {
+    eyebrow: 'Inside StoryTime',
+    title: "This is the story in a child's hands",
+    lede: 'Real screens from the app, as it works today on a phone.',
+    shot: 'Screen from the app',
+    steps: [
+      { t: "The child's library", s: "Today's story on one big card, and a button that carries on from where the child stopped." },
+      { t: 'The story page', s: 'Three doors to the same story: read, watch and play.' },
+      { t: 'The book', s: "The author's text exactly as she wrote it, on a page turned with a finger." },
+      { t: 'My tree', s: "Every reading, film or game adds a leaf to the child's tree." },
+    ],
   },
   /** The app itself (everything behind "enter the library"). */
   app: {

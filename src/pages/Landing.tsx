@@ -4,6 +4,7 @@ import { ScrollStory } from '@/features/scrollstory'
 import { Library } from '@/features/library'
 import { MeetSari } from '@/features/sari'
 import { Game } from '@/features/game'
+import { Tour } from '@/features/tour'
 import { Parents } from '@/features/parents'
 import { Pricing } from '@/features/pricing'
 import { Author } from '@/features/author'
@@ -20,6 +21,7 @@ export function Landing() {
         <Library />
         <MeetSari />
         <Game />
+        <Tour />
         <Parents />
         <Pricing />
         <Author />
