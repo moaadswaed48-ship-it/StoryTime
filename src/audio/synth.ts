@@ -40,6 +40,12 @@ export const sfx = {
     tone(780, 0.16, 'sine', 0.2, 0.05)
   },
   chime: () => [880, 1108, 1318].forEach((f, i) => tone(f, 0.5, 'triangle', 0.16, i * 0.07)),
+  /** A little receipt printer: one soft tick per line fed out, then the thump of the stamp. */
+  print: (lines = 24, seconds = 2.6) => {
+    for (let i = 0; i < lines; i++) tone(1500 + (i % 3) * 190, 0.03, 'square', 0.045, (i * seconds) / lines)
+    tone(150, 0.2, 'sine', 0.4, seconds + 0.2)
+    tone(96, 0.24, 'sine', 0.3, seconds + 0.2)
+  },
   win: () => [659, 784, 988, 1318].forEach((f, i) => tone(f, 0.45, 'triangle', 0.2, i * 0.11)),
   flip: () => {
     const c = ensure()

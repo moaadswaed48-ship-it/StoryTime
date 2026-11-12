@@ -62,7 +62,9 @@ export function Checkout() {
         })
         setLoggedIn(true)
         setPhase('receipt')
-        sfx.chime()
+        // the printer is heard only when the site's sound is on and the receipt really prints (not in the rest state)
+        if (useSiteStore.getState().tier === 'reduced') sfx.chime()
+        else sfx.print()
       }, THINK)
     },
     [phase, setLoggedIn],
