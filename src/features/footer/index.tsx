@@ -28,9 +28,10 @@ const LINKS = [
   { id: 'pricing', label: t.nav.pricing },
 ] as const
 
-/** Tallest the wordmark's type may be, as a share of the screen's height (landscape screens only). Arabic stands
- *  taller on its line (dots above, tails below), so it stops a little earlier; on very short screens both stop sooner. */
-const MAX_WORD = locale === 'ar' ? 0.27 : 0.3
+/** Tallest the wordmark's type may be, as a share of the screen's height (landscape screens only); on very short
+ *  screens it stops sooner. IBM Plex Sans Arabic sets the brand narrower than Rubik did, so the Arabic word needs the
+ *  same room as the English one to reach both gutters on a 1440 × 900 laptop. */
+const MAX_WORD = 0.3
 const MAX_WORD_SHORT = 0.2
 /** The film rests this long on its last frame — the open sky, where the line of text stands clear — before it dips to
  *  the night and starts again. Short: the picture is moving for most of every cycle. */
