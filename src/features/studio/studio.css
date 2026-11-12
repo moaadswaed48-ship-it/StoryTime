@@ -115,13 +115,12 @@
     0 2px 4px rgba(26, 18, 11, 0.06),
     0 14px 30px rgba(26, 18, 11, 0.12);
 }
-.st-sheet::after {
-  content: '';
-  position: absolute;
-  inset-inline: 0;
-  bottom: 0;
-  height: 46%;
-  background: linear-gradient(to bottom, rgba(255, 253, 248, 0), #fffdf8 88%);
+/* whole lines only, ending on the browser's ellipsis: no line is ever cut through its dots */
+.st-clamp {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 4;
+  overflow: hidden;
 }
 .st-print {
   position: absolute;
@@ -187,9 +186,10 @@
 .st-head { grid-area: head; }
 .st-text {
   grid-area: text;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2; /* the browser shortens the text; her words are never edited */
   overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis; /* the browser shortens the line; her words are never edited */
 }
 .st-pic { grid-area: pic; }
 .st-filmcell { grid-area: film; }

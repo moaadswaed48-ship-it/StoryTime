@@ -9,6 +9,7 @@ import { story } from '@/content/story'
 import { locale, num } from '@/i18n/locale'
 import { t } from '@/i18n/copy'
 import { useSiteStore } from '@/store/useSiteStore'
+import { strings } from './strings'
 import './studio.css'
 
 const reducedNow = () => document.documentElement.hasAttribute('data-reduce-motion') || window.matchMedia('(prefers-reduced-motion: reduce)').matches
@@ -57,7 +58,7 @@ function Visual({ step }: { step: number }) {
     return (
       <div className="st-vis">
         <div className="st-sheet">
-          <Hers className="block text-[14.5px] leading-[2.05] text-ink">{first.ar[0]}</Hers>
+          <Hers className="st-clamp block text-[14.5px] leading-[2.05] text-ink">{first.ar.join(' ')}</Hers>
         </div>
       </div>
     )
@@ -75,9 +76,9 @@ function Visual({ step }: { step: number }) {
         <Clip src="film/c08.mp4" poster={story.scenes[7].thumb} />
       </div>
     )
-  // the game in the story is the names game: a name on a paper, and the letter it starts with
-  const name = t.game.names[0]
-  const letters = [t.game.letters[0], t.game.letters[4], t.game.letters[5]]
+  // the game in the story is the names game: her hero's name on a paper, the letter it starts with, and two that it does not contain
+  const name = t.game.names[2]
+  const letters = [t.game.letters[2], t.game.letters[4], t.game.letters[5]]
   return (
     <div className="st-vis">
       <span className="st-name">{name}</span>
@@ -164,9 +165,9 @@ export function Studio() {
                 <Hers className="st-text text-[16px] leading-[1.9] text-ink-2">{s.ar.join(' ')}</Hers>
                 <img src={asset(s.thumb)} alt="" loading="lazy" className="st-pic aspect-video w-full rounded-[10px] object-cover" draggable={false} />
                 <span className="st-filmcell">
-                  <span className={cn('inline-flex h-7 items-center gap-1.5 rounded-full px-2.5 text-[12.5px] font-semibold', s.clip ? 'bg-maple/12 text-maple' : 'bg-ink/6 text-muted')}>
+                  <span className="inline-flex h-7 items-center gap-1.5 rounded-full bg-ink/6 px-2.5 text-[12.5px] font-semibold text-ink-2">
                     {s.clip ? <Clapperboard className="h-3.5 w-3.5" aria-hidden /> : <ImageIcon className="h-3.5 w-3.5" aria-hidden />}
-                    {s.clip ? t.app.studio.ready : t.app.studio.still}
+                    {s.clip ? strings.clip : t.app.studio.still}
                   </span>
                 </span>
                 <ArrowLeft className="hidden h-[18px] w-[18px] text-muted opacity-0 transition-[opacity,transform] duration-200 group-hover:opacity-100 ltr:rotate-180 min-[900px]:block" style={{ gridArea: 'go' }} aria-hidden />
@@ -194,7 +195,7 @@ export function Studio() {
           <ul className="mt-7 grid grid-cols-2 gap-x-4 gap-y-6 sm:grid-cols-3 lg:grid-cols-4 lg:gap-x-6" data-st-next>
             {upcoming.map((b, i) => (
               <Reveal as="li" key={b.id} delay={Math.min(i, 7) * 50}>
-                <div className="st-folder flex min-h-[132px] flex-col" style={{ '--cloth': b.palette.cloth } as CSSProperties} data-st-folder={b.id}>
+                <div className="st-folder flex min-h-[132px] flex-col" style={{ '--cloth': b.palette.cloth === '#e9e1d1' ? b.palette.ink : b.palette.cloth } as CSSProperties} data-st-folder={b.id}>
                   <span className="text-[12.5px] font-semibold text-muted">{t.library.filters[b.season]}</span>
                   <span className="mt-1 text-[18px] font-bold leading-snug">{b.title[locale]}</span>
                   <span className="mt-auto flex flex-wrap gap-1.5 pt-4">

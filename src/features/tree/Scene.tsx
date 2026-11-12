@@ -220,7 +220,7 @@ export const Scene = forwardRef<HTMLDivElement, Props>(function Scene({ earned, 
         </div>
         {party && <Flock paused={!onScreen} />}
         {party && (
-          <div ref={sariRef} className="tree-sari absolute bottom-[2.5%] end-[-7%] h-[58%] w-[48%] sm:end-[-3%] sm:w-[42%] lg:bottom-[3%]" data-tree-sari>
+          <div ref={sariRef} className="tree-sari absolute bottom-[2.5%] end-[-1%] h-[58%] w-[48%] sm:end-[-3%] sm:w-[42%] lg:bottom-[3%]" data-tree-sari>
             <div className="absolute bottom-[10.5%] start-1/2 h-[6%] w-[48%] -translate-x-1/2 rounded-[50%] bg-[#2a1006]/60 blur-[7px] rtl:translate-x-1/2" aria-hidden />
             <Crowned onMode={onSari} />
           </div>

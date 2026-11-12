@@ -192,7 +192,7 @@ export function MyTree() {
                 </div>
               </div>
               {party && (
-                <p className="text-on-film view-in absolute bottom-3 end-4 text-[13.5px] font-semibold text-white/90 sm:bottom-4 sm:end-5" data-tree-crown>
+                <p className="glass view-in absolute bottom-3 end-3 z-10 rounded-full px-3.5 py-1.5 text-[13.5px] font-semibold text-white sm:bottom-4 sm:end-4" data-tree-crown>
                   {t.app.tree.crown}
                 </p>
               )}
