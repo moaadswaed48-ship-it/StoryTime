@@ -136,19 +136,37 @@ html[dir='rtl'] .ss-scrim {
   pointer-events: none;
 }
 .ss-word {
-  margin: 0;
+  /* The word's window: each word rolls through it like a digit on a film counter. The window is a little
+     larger than the line (Arabic marks, descenders, the soft shadow) and its top and bottom edges are soft. */
+  --ss-win: 0.2em;
+  margin: calc(var(--ss-win) * -1) -0.4em;
+  padding: var(--ss-win) 0.4em;
   color: #fff;
   /* Sized so the widest word still clears the children: the calm third of the frame is ~35vw wide. */
-  font-size: clamp(4.25rem, min(13vw, 25svh), 13.5rem);
+  font-size: clamp(4.25rem, min(12vw, 24svh), 13rem);
   white-space: nowrap;
-  transform-origin: 0% 62%;
-  will-change: transform, opacity, filter;
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 0.14em, #000 calc(100% - 0.14em), transparent 100%);
+  mask-image: linear-gradient(to bottom, transparent 0, #000 0.14em, #000 calc(100% - 0.14em), transparent 100%);
 }
-html[dir='rtl'] .ss-word {
-  transform-origin: 100% 62%;
+.ss:not(.is-live) .ss-word {
+  -webkit-mask-image: none;
+  mask-image: none;
+}
+.ss-word-in {
+  display: block;
+  will-change: transform;
 }
 html[lang='en'] .ss-word {
-  font-size: clamp(4rem, min(11vw, 23svh), 12rem);
+  font-size: clamp(4rem, min(10vw, 21svh), 11.5rem);
+}
+/* Squarer landscape screens (4:3 tablets): less calm wall beside the children, so a smaller word. */
+@media (min-aspect-ratio: 5/4) and (max-aspect-ratio: 3/2) {
+  .ss-word {
+    font-size: clamp(4rem, min(10vw, 21svh), 10rem);
+  }
+  html[lang='en'] .ss-word {
+    font-size: clamp(3.75rem, min(8.8vw, 19svh), 9rem);
+  }
 }
 .ss-detail {
   display: flex;
@@ -157,6 +175,10 @@ html[lang='en'] .ss-word {
   align-items: flex-start;
   gap: clamp(14px, 2.4svh, 24px);
   margin-top: clamp(6px, 1.3svh, 14px);
+}
+/* Latin descenders (the y of Play) need air above the line. */
+html[lang='en'] .ss-detail {
+  margin-top: clamp(14px, 2.4svh, 26px);
 }
 .ss-line {
   display: flex;
@@ -224,8 +246,8 @@ html[lang='en'] .ss-word {
   opacity: 0;
   transform: translate3d(0, 18px, 0);
   transition:
-    opacity 0.3s var(--ease-state),
-    transform 0.3s var(--ease-state);
+    opacity 0.18s var(--ease-state),
+    transform 0.18s var(--ease-state);
 }
 .ss.is-live .ss-beat[data-state='past'] .ss-detail > * {
   transform: translate3d(0, -14px, 0);
@@ -236,7 +258,7 @@ html[lang='en'] .ss-word {
   transition:
     opacity 0.7s var(--ease-out),
     transform 0.7s var(--ease-out);
-  transition-delay: calc(160ms + var(--i, 0) * 90ms);
+  transition-delay: calc(220ms + var(--i, 0) * 90ms);
 }
 .ss-beat[data-state='on'] .ss-cta {
   pointer-events: auto;
@@ -245,13 +267,26 @@ html[lang='en'] .ss-word {
   pointer-events: auto;
 }
 
-/* ── Progress rail (inline-end): three ticks, a filling line, a frame counter ── */
+/* ── Progress rail (inline-end): three ticks, a filling line, a frame counter, on dark glass ── */
 .ss-rail {
-  --ss-rail-h: clamp(186px, 33svh, 282px);
+  --ss-rail-h: clamp(168px, 29svh, 252px);
   position: absolute;
   pointer-events: auto;
   inset-inline-end: var(--ss-pad);
   top: clamp(96px, 13.5svh, 132px);
+  display: flex;
+  flex-direction: column;
+  padding: 12px 14px 0;
+  padding-inline-start: 6px;
+}
+.ss-rail-glass {
+  position: absolute;
+  inset: 0;
+  border-radius: 24px;
+  pointer-events: none;
+}
+.ss-rail-ticks {
+  position: relative;
   display: grid;
   grid-template-rows: repeat(3, 1fr);
   height: var(--ss-rail-h);
@@ -285,11 +320,24 @@ html[lang='en'] .ss-word {
   padding-inline-start: 14px;
   border: 0;
   background: none;
-  color: rgb(255 255 255 / 0.62);
+  color: rgb(255 255 255 / 0.86);
   font: inherit;
-  font-size: 13.5px;
+  font-size: 14px;
   font-weight: 600;
+  cursor: pointer;
   transition: color 0.3s var(--ease-state);
+}
+.ss-tick:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+  border-radius: 12px;
+}
+.ss-tick-label {
+  opacity: 0.8;
+  transition: opacity 0.3s var(--ease-state);
+}
+.ss-tick[data-on='1'] .ss-tick-label {
+  opacity: 1;
 }
 .ss-tick-dot {
   flex: none;
@@ -321,26 +369,32 @@ html[lang='en'] .ss-word {
   .ss-tick:hover {
     color: #fff;
   }
+  .ss-tick:hover .ss-tick-label {
+    opacity: 1;
+  }
   .ss-tick:hover .ss-tick-dot {
     transform: scale(1.18);
   }
 }
 .ss-count {
-  position: absolute;
-  top: calc(100% + 14px);
-  inset-inline-end: 0;
-  color: rgb(255 255 255 / 0.72);
+  position: relative;
+  margin-top: 8px;
+  margin-inline: 8px -6px;
+  padding: 10px 0 12px;
+  border-top: 1px solid rgb(255 255 255 / 0.14);
+  color: rgb(255 255 255 / 0.9);
   font-size: 12px;
   font-weight: 500;
   font-variant-numeric: tabular-nums;
+  text-align: center;
   white-space: nowrap;
 }
 
 /* ── Portrait screens: the film sits in the upper part with both children in frame,
       its ground melts into shadow and the copy stands on it. ───────────────────── */
-@media (max-aspect-ratio: 1/1) {
+@media (max-aspect-ratio: 5/4) {
   .ss {
-    --ss-band: min(57svh, 120vw);
+    --ss-band: min(60svh, 126vw);
   }
   .ss-plate {
     background: linear-gradient(to bottom, #7d5039 0, #7d5039 calc(var(--ss-band) * 0.7), #54341f var(--ss-band), #2a1a11 calc(var(--ss-band) + 15svh), var(--color-night) 100%);
@@ -348,8 +402,8 @@ html[lang='en'] .ss-word {
   .ss-film {
     bottom: auto;
     height: var(--ss-band);
-    -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 68%, rgb(0 0 0 / 0.62) 84%, transparent 100%);
-    mask-image: linear-gradient(to bottom, #000 0%, #000 68%, rgb(0 0 0 / 0.62) 84%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 60%, rgb(0 0 0 / 0.6) 80%, transparent 100%);
+    mask-image: linear-gradient(to bottom, #000 0%, #000 60%, rgb(0 0 0 / 0.6) 80%, transparent 100%);
   }
   .ss-scrim {
     background:
@@ -379,6 +433,10 @@ html[lang='en'] .ss-word {
     top: auto;
     bottom: var(--ss-foot);
     inset-inline-end: calc(var(--ss-pad) - 6px);
+    padding: 0;
+  }
+  .ss-rail-glass {
+    display: none;
   }
   .ss-tick {
     padding-inline-start: 26px;
@@ -397,9 +455,10 @@ html[lang='en'] .ss-word {
 }
 
 /* Short landscape screens (phones on their side): keep the block compact. */
-@media (min-aspect-ratio: 1/1) and (max-height: 520px) {
+@media (min-aspect-ratio: 5/4) and (max-height: 520px) {
   .ss-rail {
     --ss-rail-h: 150px;
+    padding-bottom: 10px;
   }
   .ss-count {
     display: none;
