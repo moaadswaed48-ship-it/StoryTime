@@ -21,7 +21,7 @@ function rig(aspect: number, phase: Phase, height: number) {
   if (phase === 'done') {
     if (portrait) return { ox: 0, oy: 1.55, oz: 4.9, ly: 1.02, lz: 0, fov: 50 }
     // a phone held sideways: the words take the reading side, Sari waves on the other
-    if (height < 540) return { ox: -dirSign * 1.15, oy: 1.25, oz: 3.6, ly: 0.74, lz: 0, fov: 42 }
+    if (height < 540) return { ox: -dirSign * 1.0, oy: 1.15, oz: 3.1, ly: 0.7, lz: 0, fov: 42 }
     return { ox: 0, oy: 1.3, oz: 3.8, ly: 0.95, lz: 0, fov: 42 }
   }
   if (portrait) return { ox: 0, oy: 2.4, oz: 5.0, ly: 1.19, lz: -1.4, fov: 60 }

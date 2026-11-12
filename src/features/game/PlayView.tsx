@@ -233,7 +233,7 @@ export function PlayView({ from, touch }: { from: DOMRect | null; touch: boolean
       {mode === '3d' && <Arrows />}
       <Hud slots={slots} waiting={!grown} onExit={exit} />
       {/* the controls arrive with the yard, never over the growing film still */}
-      {mode === '3d' && phase === 'playing' && stick && veil && <Stick />}
+      {mode === '3d' && phase !== 'done' && stick && veil && <Stick off={phase !== 'playing'} />}
       {phase === 'playing' && veil && <Hint touch={stick} cards={mode === 'cards'} />}
       {asking && <QuestionCard key={`${useGame.getState().round}:${current}`} slots={slots} burst={burst} />}
       {phase === 'done' && <Done cards={mode === 'cards'} />}
@@ -306,7 +306,7 @@ function Hud({ slots, waiting, onExit }: { slots: RefObject<(HTMLLIElement | nul
 
 /* ── Stick: one thumb, bottom corner on the reading-start side ──────────────── */
 
-function Stick() {
+function Stick({ off }: { off: boolean }) {
   const base = useRef<HTMLDivElement>(null)
   const knob = useRef<HTMLDivElement>(null)
   useEffect(() => {
@@ -367,8 +367,11 @@ function Stick() {
     }
   }, [])
   return (
-    <div ref={base} className="game-stick game-rise glass-ink z-[44]" data-game-stick aria-hidden>
-      <div ref={knob} className="game-stick-knob" />
+    // it rises in once with the yard; during a question it only steps aside
+    <div className="game-stick-wrap game-rise z-[44]" style={{ '--d': '250ms' } as CSSProperties} aria-hidden>
+      <div ref={base} className={cn('game-stick glass-ink', off && 'is-off')} data-game-stick>
+        <div ref={knob} className="game-stick-knob" />
+      </div>
     </div>
   )
 }

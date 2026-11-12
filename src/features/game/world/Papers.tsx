@@ -192,7 +192,7 @@ export function Papers() {
       }
       const side = 40
       const top = 118
-      const bottom = height - (width < 640 ? 196 : 96)
+      const bottom = height - (width < 640 || height < 540 ? 196 : 96) // above the stick and the hint
       const cx = THREE.MathUtils.clamp(px, side, width - side)
       let cy = THREE.MathUtils.clamp(py, top, bottom)
       for (let n = 0; n < shown.length; n += 2) {

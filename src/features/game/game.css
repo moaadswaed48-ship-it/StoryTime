@@ -290,16 +290,26 @@ html[dir='ltr'] .game-poster-scrim {
 }
 
 /* stick */
-.game-stick {
+.game-stick-wrap {
   position: absolute;
   inset-inline-start: 20px;
   bottom: max(26px, env(safe-area-inset-bottom));
-  display: grid;
-  place-items: center;
   width: 140px;
   height: 140px;
+}
+.game-stick {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
   border-radius: 9999px;
   touch-action: none;
+  transition: opacity 0.3s var(--ease-state, ease);
+}
+.game-stick.is-off {
+  opacity: 0;
+  pointer-events: none;
 }
 .game-stick::before {
   content: '';
@@ -565,10 +575,10 @@ html[dir='ltr'] .game-poster-scrim {
     gap: 10px;
   }
   .game-done:not(.is-cards) .game-done-shade {
-    background: linear-gradient(to left, rgb(18 12 8 / 0.74), rgb(18 12 8 / 0.42) 38%, transparent 62%), linear-gradient(to bottom, rgb(18 12 8 / 0.5), transparent 30%);
+    background: linear-gradient(to left, rgb(18 12 8 / 0.84), rgb(18 12 8 / 0.56) 36%, transparent 62%), linear-gradient(to bottom, rgb(18 12 8 / 0.5), transparent 30%);
   }
   html[dir='ltr'] .game-done:not(.is-cards) .game-done-shade {
-    background: linear-gradient(to right, rgb(18 12 8 / 0.74), rgb(18 12 8 / 0.42) 38%, transparent 62%), linear-gradient(to bottom, rgb(18 12 8 / 0.5), transparent 30%);
+    background: linear-gradient(to right, rgb(18 12 8 / 0.84), rgb(18 12 8 / 0.56) 36%, transparent 62%), linear-gradient(to bottom, rgb(18 12 8 / 0.5), transparent 30%);
   }
 }
 .game-done-shade {
