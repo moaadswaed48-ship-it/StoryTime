@@ -33,6 +33,11 @@ html[lang='en'] .hero {
   html[lang='en'] .hero {
     --hero-vw: 11.6; /* 320px screens: the first line must stay inside the margins */
   }
+  html[lang='en'] .hero .hero-strip__label {
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    white-space: nowrap;
+  }
 }
 @media (min-width: 640px) {
   .hero {

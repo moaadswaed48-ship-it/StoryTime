@@ -179,12 +179,33 @@ interface Rect {
   w: number
   h: number
 }
-
 /**
- * `host` is the hero section (pointer events are read from it). `faces` are the boys' face boxes in hero coordinates:
- * a leaf fades out as it reaches one, so nothing — not even a leaf — ever sits on a face.
+ * What the leaves leave alone (hero coordinates). A leaf thins out as it reaches one of these boxes and comes back
+ * on the far side, as if it had passed behind:
+ *   faces — the boys' faces: nothing, not even a leaf, ever sits on them;
+ *   text  — the sub-copy and the pills: small type stays readable;
+ *   title — the headline: only the big soft leaves keep off it, the small ones cross in front (that is the depth).
+ * Leaves scattered by a touch ignore `text` and `title`: for that moment the wind is the visitor's.
  */
-export const Wind = forwardRef<WindHandle, { host: RefObject<HTMLElement | null>; faces: RefObject<Rect[]>; active: boolean }>(function Wind({ host, faces, active }, ref) {
+export interface WindKeepOut {
+  faces: Rect[]
+  text: Rect[]
+  title: Rect[]
+}
+/** How much of a leaf is left at this point: 0 inside a box, back to 1 over `ramp` pixels. */
+function clearOf(boxes: Rect[], x: number, y: number, radius: number, ramp: number) {
+  let keep = 1
+  for (const r of boxes) {
+    const ox = Math.max(r.x - x, 0, x - r.x - r.w)
+    const oy = Math.max(r.y - y, 0, y - r.y - r.h)
+    const gap = Math.hypot(ox, oy) - radius
+    if (gap < ramp) keep *= gap <= 0 ? 0 : (gap / ramp) ** 2
+  }
+  return keep
+}
+
+/** `host` is the hero section (pointer events are read from it). */
+export const Wind = forwardRef<WindHandle, { host: RefObject<HTMLElement | null>; keepOut: RefObject<WindKeepOut>; active: boolean }>(function Wind({ host, keepOut, active }, ref) {
   const canvas = useRef<HTMLCanvasElement>(null)
   const api = useRef<{ start: () => void; stop: () => void; burst: WindHandle['burst']; count: () => number; running: () => boolean } | null>(null)
 
@@ -247,8 +268,8 @@ export const Wind = forwardRef<WindHandle, { host: RefObject<HTMLElement | null>
 
     /** Keeps the number of falling leaves right for the size of the hero. */
     const populate = () => {
-      const wantNear = small ? 2 : W >= 1600 ? 4 : 3
-      const wantMid = Math.max(4, Math.min(9, Math.round((W * H) / 165000)))
+      const wantNear = small ? 0 : W >= 1600 ? 4 : 3 // none on phones: there the headline is smaller than a big leaf
+      const wantMid = Math.max(small ? 6 : 5, Math.min(10, Math.round((W * H) / 150000)))
       for (const near of [true, false]) {
         const have = leaves.filter((l) => l.life === Infinity && l.near === near)
         const want = near ? wantNear : wantMid
@@ -304,7 +325,7 @@ export const Wind = forwardRef<WindHandle, { host: RefObject<HTMLElement | null>
       const drag = Math.exp(-dt * 1.7)
       const reach = small ? 120 : 170
 
-      const heads = faces.current ?? []
+      const keep = keepOut.current
 
       ctx.setTransform(1, 0, 0, 1, 0, 0)
       ctx.clearRect(0, 0, cv.width, cv.height)
@@ -327,13 +348,10 @@ export const Wind = forwardRef<WindHandle, { host: RefObject<HTMLElement | null>
         l.flip += l.flipV * dt
 
         const m = l.size
-        let alpha = l.near ? 0.95 : 0.97
-        // keep the faces clear: the leaf thins out over the last 40px before a face box
-        for (const r of heads) {
-          const ox = Math.max(r.x - l.x, 0, l.x - r.x - r.w)
-          const oy = Math.max(r.y - l.y, 0, l.y - r.y - r.h)
-          const gap = Math.hypot(ox, oy) - m * 0.46
-          if (gap < 40) alpha *= gap <= 0 ? 0 : (gap / 40) ** 2
+        let alpha = (l.near ? 0.95 : 0.97) * clearOf(keep.faces, l.x, l.y, m * 0.46, 40)
+        if (l.life === Infinity) {
+          alpha *= clearOf(keep.text, l.x, l.y, m * 0.4, 30)
+          if (l.near) alpha *= clearOf(keep.title, l.x, l.y, m * 0.3, 36)
         }
         if (l.life !== Infinity) {
           l.life -= dt
@@ -440,7 +458,7 @@ export const Wind = forwardRef<WindHandle, { host: RefObject<HTMLElement | null>
       el.removeEventListener('pointermove', onMove)
       el.removeEventListener('pointerleave', onLeave)
     }
-  }, [host, faces])
+  }, [host, keepOut])
 
   // Fall only while the hero can be seen.
   useEffect(() => {

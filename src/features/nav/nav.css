@@ -335,7 +335,7 @@ html[data-low-tier] .st-sheet {
   border-top: 1px solid rgb(255 255 255 / 0.12);
 }
 html[lang='en'] .st-sheet__link {
-  font-size: clamp(25px, 7.1vw, 38px);
+  font-size: clamp(22px, 6.3vw, 36px); /* "Parents & educators" stays on one line at 390px */
 }
 html[lang='ar'] .st-sheet__link {
   line-height: 1.35;

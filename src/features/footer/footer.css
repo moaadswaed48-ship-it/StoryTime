@@ -308,23 +308,25 @@ html[dir='rtl'] .ft-switch[data-on] .ft-switch__thumb {
 }
 /* Arabic keeps its dots: only the tails of the deepest letters leave the page. */
 html[lang='ar'] .ft-word {
-  --sink: 1.1em;
+  --sink: 1.205em;
   font-size: 18vw;
 }
 .ft-word span {
   display: inline-block;
-  margin-top: -0.085em;
-  padding-bottom: 0.3em; /* room for the gradient to cover the descenders */
+  /* the gradient is clipped to the glyphs, so the box must reach above and below the line to cover marks and tails */
+  margin-top: -0.185em;
+  padding: 0.1em 0 0.3em;
   letter-spacing: -0.045em;
   color: var(--color-paper);
-  background: linear-gradient(180deg, #fbf3e4 6%, #f6c08a 38%, var(--color-maple-soft) 56%, rgb(217 84 30 / 0.7) 76%, rgb(217 84 30 / 0.28) 100%);
+  background: linear-gradient(180deg, #fbf3e4 12%, #f6c08a 40%, var(--color-maple-soft) 56%, rgb(217 84 30 / 0.7) 76%, rgb(217 84 30 / 0.3) 100%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
   will-change: transform;
 }
 html[lang='ar'] .ft-word span {
-  margin-top: 0.035em;
+  margin-top: -0.125em; /* the dots of ق stand above the line box */
+  padding-top: 0.25em;
 }
 /* rises out of the bottom edge (a mask slide, no fade) */
 .ft-word.is-armed span {

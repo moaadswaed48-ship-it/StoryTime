@@ -348,6 +348,23 @@ html[lang='en'] .au-ghost {
   background: linear-gradient(to left, #f3ead8, #e2d6bd);
 }
 
+/* the lifted cover keeps the leaf in its shade */
+.au-leaf::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to right, rgba(36, 20, 8, 0.1), rgba(36, 20, 8, 0.34));
+  opacity: 0.25;
+  transition: opacity 0.6s var(--ease-out);
+}
+.au-scene[data-fore='right'] .au-leaf::after {
+  background: linear-gradient(to left, rgba(36, 20, 8, 0.1), rgba(36, 20, 8, 0.34));
+}
+.au-book:hover .au-leaf::after,
+.au-book:has(.au-open:focus-visible) .au-leaf::after {
+  opacity: 1;
+}
+
 /* Front board, hinged on the spine. */
 .au-cover {
   --open: 0deg;

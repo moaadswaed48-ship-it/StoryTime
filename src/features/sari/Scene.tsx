@@ -323,6 +323,27 @@ function LeafField({ rt, count, soft = false }: { rt: Runtime; count: number; so
   return <primitive object={mesh} />
 }
 
+// TEMP DEBUG (removed after the experiment)
+const _stop = THREE.AnimationMixer.prototype.stopAllAction
+let _t0 = performance.now()
+THREE.AnimationMixer.prototype.stopAllAction = function (this: THREE.AnimationMixer) {
+  console.log('SARI stopAllAction at ' + Math.round(performance.now() - _t0))
+  return _stop.call(this)
+}
+const _play = THREE.AnimationAction.prototype.play
+THREE.AnimationAction.prototype.play = function (this: THREE.AnimationAction) {
+  console.log('SARI play at ' + Math.round(performance.now() - _t0))
+  return _play.call(this)
+}
+function Dbg() {
+  console.log('SARI Dbg render at ' + Math.round(performance.now() - _t0))
+  useEffect(() => {
+    console.log('SARI Dbg effect at ' + Math.round(performance.now() - _t0))
+    return () => console.log('SARI Dbg cleanup at ' + Math.round(performance.now() - _t0))
+  }, [])
+  return null
+}
+
 /** Everything inside the canvas. */
 export function Scene({ rt, action, onReady }: { rt: Runtime; action: SariAction; onReady: () => void }) {
   const turntable = useRef<THREE.Group>(null)
@@ -338,6 +359,7 @@ export function Scene({ rt, action, onReady }: { rt: Runtime; action: SariAction
           <SariModel action={action} speed={1.05} />
           <HeadLook rt={rt} turntable={turntable} />
           <Ready onReady={onReady} />
+          <Dbg />
         </Suspense>
       </group>
     </>

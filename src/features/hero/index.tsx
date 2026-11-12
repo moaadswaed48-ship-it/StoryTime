@@ -11,7 +11,7 @@ import { exposeQA } from '@/lib/qa'
 import { useSiteStore } from '@/store/useSiteStore'
 import { Film, type FilmHandle } from './Film'
 import { HERO_SCENES, SceneStrip, type StripHandle } from './SceneStrip'
-import { Wind, type WindHandle } from './Wind'
+import { Wind, type WindHandle, type WindKeepOut } from './Wind'
 import { FILM, frameTall, frameWide, overlaps, type Box, type Frame } from './framing'
 import './hero.css'
 
@@ -47,8 +47,8 @@ export function Hero() {
   const strip = useRef<StripHandle>(null)
   const wind = useRef<WindHandle>(null)
   const frameRef = useRef<Frame | null>(null)
-  /** The boys' face boxes for the leaf layer (it keeps them clear). */
-  const faces = useRef<Box[]>([])
+  /** What the leaf layer keeps clear: the faces, the small type, and (for its big leaves) the headline. */
+  const keepOut = useRef<WindKeepOut>({ faces: [], text: [], title: [] })
   /** The hero size the current frame was solved for (tests wait for it after a resize). */
   const solvedFor = useRef({ w: 0, h: 0 })
 
@@ -126,7 +126,8 @@ export function Hero() {
       return
     }
     frameRef.current = f
-    faces.current = f.heads
+    const boxes = (sel: string) => Array.from(el.querySelectorAll<HTMLElement>(sel)).map(boxOf)
+    keepOut.current = { faces: f.heads, text: boxes('.hero-sub, .hero-pill'), title: boxes('.hero-title__a, .hero-title__b') }
     solvedFor.current = { w: W, h: H }
     setFrame((prev) => (sameFrame(prev, f) ? prev : f))
     setClash((prev) => (prev.join() === hit.join() ? prev : hit))
@@ -314,7 +315,7 @@ export function Hero() {
         </div>
       </div>
 
-      {!reduced && tier !== 'low' && <Wind ref={wind} host={section} faces={faces} active={live} />}
+      {!reduced && tier !== 'low' && <Wind ref={wind} host={section} keepOut={keepOut} active={live} />}
 
       <div ref={veil} className="hero-veil" aria-hidden />
     </section>
