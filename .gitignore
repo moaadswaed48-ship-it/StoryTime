@@ -8,14 +8,16 @@ playwright-report
 .DS_Store
 .env
 .env.*
-assets-src/story/*.png
 
 # third-party skill: only its MIT-licensed design references are kept in the repository (examples and media are not)
 .claude/skills/motionsites-web-builder/*
 !.claude/skills/motionsites-web-builder/references/
 !.claude/skills/motionsites-web-builder/LICENSE
-# generated originals (large) — only the full-quality master clips are kept in the repository
+# originals: the paintings, the character sheets, the model sources and the master clips are kept in the repository
+# (the working copies of the clips and the generated music are not)
 assets-src/film/*
 !assets-src/film/master/
+!assets-src/film/model/
+!assets-src/film/*.png
 qa/out/
 .claude/worktrees/
