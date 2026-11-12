@@ -50,7 +50,7 @@ export function Author() {
   useEffect(() => {
     const p = para.current
     if (!p) return
-    const words = Array.from(p.querySelectorAll<HTMLElement>('.au-w'))
+    const words = Array.from(p.querySelectorAll<HTMLElement>('.aut-w'))
     const paint = (k: number) => {
       lit.current = k
       const head = k * (words.length + SPREAD)
@@ -91,48 +91,48 @@ export function Author() {
   }, [])
 
   return (
-    <section id="author" className="au sheet bg-paper text-ink">
-      <span className="au-paper" aria-hidden />
-      <Container className="au-wrap">
-        <div className="au-grid">
-          <div className="au-copy">
+    <section id="author" className="aut sheet bg-paper text-ink">
+      <span className="aut-paper" aria-hidden />
+      <Container className="aut-wrap">
+        <div className="aut-grid">
+          <div className="aut-copy">
             <Reveal>
               <Eyebrow tone="light">{t.author.eyebrow}</Eyebrow>
             </Reveal>
-            <h2 className="au-title">
-              <BlurWords text={LINE_A} className="au-title__a" />
-              <BlurWords text={LINE_B} className="au-title__b" delay={200} />
+            <h2 className="aut-title">
+              <BlurWords text={LINE_A} className="aut-title__a" />
+              <BlurWords text={LINE_B} className="aut-title__b" delay={200} />
             </h2>
-            <p ref={para} className="au-text">
+            <p ref={para} className="aut-text">
               {WORDS.map((w, i) => (
                 <span key={i}>
-                  <span className="au-w">{w}</span>{' '}
+                  <span className="aut-w">{w}</span>{' '}
                 </span>
               ))}
             </p>
-            <div ref={sign} className={cn('au-sign', armed && 'is-armed', armed && signSeen && 'is-in')}>
-              <span className="au-sign__swash" aria-hidden>
+            <div ref={sign} className={cn('aut-sign', armed && 'is-armed', armed && signSeen && 'is-in')}>
+              <span className="aut-sign__swash" aria-hidden>
                 <span>
                   <svg viewBox="0 0 132 30" fill="none" className="flip-rtl">
                     <path d="M3 21c9-11 19-17 24-13 5 5-9 17-12 12-3-6 14-14 30-11 14 3 20 9 36 8 15-1 26-8 48-9" stroke="currentColor" strokeWidth="2.1" strokeLinecap="round" strokeLinejoin="round" />
                   </svg>
                 </span>
               </span>
-              <span className="au-sign__by">{t.author.sign}</span>
+              <span className="aut-sign__by">{t.author.sign}</span>
             </div>
           </div>
 
-          <div className="au-stage">
-            <span className="au-ghost" aria-hidden>
+          <div className="aut-stage">
+            <span className="aut-ghost" aria-hidden>
               {t.author.eyebrow}
             </span>
             <LyingBook ref={book} />
-            <Reveal className="au-caption" delay={500}>
-              <span className="au-caption__k">
+            <Reveal className="aut-caption" delay={500}>
+              <span className="aut-caption__k">
                 <i aria-hidden />
                 {story.kicker[locale]}
               </span>
-              <span className="au-caption__m">{t.library.meta}</span>
+              <span className="aut-caption__m">{t.library.meta}</span>
             </Reveal>
           </div>
         </div>

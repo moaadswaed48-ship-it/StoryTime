@@ -3,23 +3,23 @@
    The sheet is rounded above and below: it slides over the night (pricing) and
    later lifts off the last film of the page (footer).
    ───────────────────────────────────────────────────────────────────────────── */
-.au.sheet {
+.aut.sheet {
   border-radius: 44px;
 }
-.au {
+.aut {
   overflow: clip;
   padding-block: clamp(96px, 11vw, 164px) clamp(64px, 7.4vw, 108px);
   /* the lifted sheet shades the picture under it */
   box-shadow: 0 30px 70px -14px rgba(8, 5, 3, 0.62);
 }
 @media (max-width: 640px) {
-  .au.sheet {
+  .aut.sheet {
     border-radius: 28px;
   }
 }
 
 /* Paper: a lamp over the book's side of the sheet, a little warmth toward the foot, and fibre. */
-.au-paper {
+.aut-paper {
   --lx: 27%;
   position: absolute;
   inset: 0;
@@ -29,10 +29,10 @@
     radial-gradient(58% 34% at var(--lx) 17%, rgba(255, 253, 246, 0.95), rgba(255, 253, 246, 0) 72%),
     linear-gradient(180deg, rgba(236, 226, 208, 0) 48%, rgba(236, 226, 208, 0.8) 100%);
 }
-html[dir='ltr'] .au-paper {
+html[dir='ltr'] .aut-paper {
   --lx: 73%;
 }
-.au-paper::after {
+.aut-paper::after {
   content: '';
   position: absolute;
   inset: 0;
@@ -41,104 +41,104 @@ html[dir='ltr'] .au-paper {
   mix-blend-mode: multiply;
   background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='260' height='260'><filter id='f'><feTurbulence type='fractalNoise' baseFrequency='.82' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .44  0 0 0 0 .33  0 0 0 0 .2  0 0 0 .62 -.2'/></filter><rect width='100%' height='100%' filter='url(%23f)'/></svg>");
 }
-.au-wrap {
+.aut-wrap {
   position: relative;
   z-index: 1;
 }
 
 /* ── Words ──────────────────────────────────────────────────────────────────── */
-.au-grid {
+.aut-grid {
   display: grid;
   grid-template-columns: minmax(0, 1.04fr) minmax(0, 1fr);
   align-items: center;
   gap: clamp(28px, 5vw, 84px);
 }
-.au-copy {
+.aut-copy {
   max-width: 38rem;
 }
-.au-title {
+.aut-title {
   margin-top: clamp(16px, 1.8vw, 26px);
   font-weight: 800;
   font-size: clamp(2.75rem, 6.3vw, 5.7rem);
   line-height: 1;
   letter-spacing: -0.035em;
 }
-html[lang='ar'] .au-title {
+html[lang='ar'] .aut-title {
   line-height: 1.24;
 }
-html[lang='en'] .au-title {
+html[lang='en'] .aut-title {
   font-size: clamp(2.6rem, 4.75vw, 4.4rem);
 }
-.au-title .blur-words {
+.aut-title .blur-words {
   display: block;
   white-space: nowrap;
 }
 /* two-tone: the second line is the same ink, quieter.
    (Opacity on the line, not alpha in the colour: joined Arabic letters overlap, and a see-through colour shows the seams.) */
-.au-title__b {
+.aut-title__b {
   opacity: 0.38;
 }
-.au-text {
+.aut-text {
   max-width: 33.5rem;
   margin-top: clamp(22px, 2.6vw, 38px);
   font-size: clamp(1.1rem, 1.52vw, 1.38rem);
   line-height: 1.62;
   color: var(--color-ink-2);
 }
-html[lang='ar'] .au-text {
+html[lang='ar'] .aut-text {
   line-height: 2;
 }
-.au-w {
+.aut-w {
   transition: opacity 0.22s linear;
 }
 
 /* Signature: one pen stroke, then the words. The stroke is wiped in with transforms only
    (the window slides in while its content slides back by the same amount). */
-.au-sign {
+.aut-sign {
   --sx: 1;
   display: flex;
   align-items: center;
   gap: 14px;
   margin-top: clamp(24px, 2.8vw, 40px);
 }
-html[dir='rtl'] .au-sign {
+html[dir='rtl'] .aut-sign {
   --sx: -1;
 }
-.au-sign__swash {
+.aut-sign__swash {
   display: block;
   flex: none;
   width: 124px;
   overflow: hidden;
   color: var(--color-maple);
 }
-.au-sign__swash > span,
-.au-sign__swash svg {
+.aut-sign__swash > span,
+.aut-sign__swash svg {
   display: block;
   width: 124px;
   height: 28px;
 }
-.au-sign__by {
+.aut-sign__by {
   font-size: 15.5px;
   font-weight: 600;
   line-height: 1.5;
   color: var(--color-ink);
 }
-.au-sign.is-armed .au-sign__swash {
+.aut-sign.is-armed .aut-sign__swash {
   transform: translateX(calc(var(--sx) * -100%));
 }
-.au-sign.is-armed .au-sign__swash > span {
+.aut-sign.is-armed .aut-sign__swash > span {
   transform: translateX(calc(var(--sx) * 100%));
 }
-.au-sign.is-armed .au-sign__by {
+.aut-sign.is-armed .aut-sign__by {
   opacity: 0;
   transform: translateY(8px);
 }
-.au-sign.is-in .au-sign__swash,
-.au-sign.is-in .au-sign__swash > span {
+.aut-sign.is-in .aut-sign__swash,
+.aut-sign.is-in .aut-sign__swash > span {
   transform: none;
   transition: transform 1.15s cubic-bezier(0.65, 0, 0.35, 1) 0.15s;
 }
-.au-sign.is-in .au-sign__by {
+.aut-sign.is-in .aut-sign__by {
   opacity: 1;
   transform: none;
   transition:
@@ -147,7 +147,7 @@ html[dir='rtl'] .au-sign {
 }
 
 /* ── The book ───────────────────────────────────────────────────────────────── */
-.au-stage {
+.aut-stage {
   position: relative;
   display: flex;
   flex-direction: column;
@@ -155,7 +155,7 @@ html[dir='rtl'] .au-sign {
   padding-top: clamp(40px, 5.6vw, 92px);
 }
 /* a word as architecture: it stands behind the book */
-.au-ghost {
+.aut-ghost {
   position: absolute;
   top: 0;
   left: 50%;
@@ -172,11 +172,11 @@ html[dir='rtl'] .au-sign {
   /* it drifts a little against the page, so the book stands in front of it */
   translate: 0 calc((var(--sp, 0.5) - 0.5) * -56px);
 }
-html[lang='en'] .au-ghost {
+html[lang='en'] .aut-ghost {
   font-size: clamp(3.6rem, 9vw, 8.8rem);
   top: clamp(6px, 2.2vw, 40px);
 }
-.au-scene {
+.aut-scene {
   --w: clamp(290px, 29.5vw, 430px);
   --h: calc(var(--w) * 4 / 3);
   --t: calc(var(--w) * 0.104); /* thickness of the whole book */
@@ -189,29 +189,29 @@ html[lang='en'] .au-ghost {
   perspective: 1400px;
   perspective-origin: 50% 42%;
 }
-.au-book,
-.au-ground {
+.aut-book,
+.aut-ground {
   position: absolute;
   inset: 0;
   /* rest pose — the script writes the same numbers plus pointer and scroll */
   transform: rotateX(24deg) rotateY(calc(var(--d) * 19deg)) rotateZ(calc(var(--d) * 5deg));
   will-change: transform;
 }
-.au-book {
+.aut-book {
   transform-style: preserve-3d;
 }
 /* the paper's plane is flat: its shadows are painted as ordinary soft shadows, then the plane is turned */
-.au-ground {
+.aut-ground {
   pointer-events: none;
 }
-.au-face {
+.aut-face {
   position: absolute;
   display: block;
 }
 
 /* Three layers of shadow on the paper: contact, body, air. They fall away from the lamp.
    Each is a dark sheet whose edges are feathered by two crossed masks (a true soft rectangle, no blur filter). */
-.au-sh {
+.aut-sh {
   --f: 20%; /* feather, as a share of the sheet */
   position: absolute;
   background: rgb(36 20 8);
@@ -220,26 +220,26 @@ html[lang='en'] .au-ghost {
   -webkit-mask-composite: source-in;
   mask-composite: intersect;
 }
-.au-sh--contact {
+.aut-sh--contact {
   --f: 4.5%;
   inset: -3.2%;
   opacity: 0.62;
   transform: translate(calc(var(--d) * -1.4%), 1.8%);
 }
-.au-sh--mid {
+.aut-sh--mid {
   --f: 15%;
   inset: -11%;
   opacity: 0.3;
   transform: translate(calc(var(--d) * -4.5%), 5.5%);
 }
-.au-sh--wide {
+.aut-sh--wide {
   --f: 30%;
   inset: -38%;
   opacity: 0.2;
   transform: translate(calc(var(--d) * -9%), 11%);
 }
 /* The ribbon marker slips out from under the foot of the book. */
-.au-ribbon {
+.aut-ribbon {
   position: absolute;
   top: 97%;
   width: 3.5%;
@@ -248,13 +248,13 @@ html[lang='en'] .au-ghost {
   transform: rotate(calc(var(--d) * -7deg));
   filter: drop-shadow(calc(var(--d) * -1px) 2px 2px rgba(36, 20, 8, 0.36));
 }
-.au-scene[data-fore='left'] .au-ribbon {
+.aut-scene[data-fore='left'] .aut-ribbon {
   right: 21%;
 }
-.au-scene[data-fore='right'] .au-ribbon {
+.aut-scene[data-fore='right'] .aut-ribbon {
   left: 21%;
 }
-.au-ribbon i {
+.aut-ribbon i {
   display: block;
   width: 100%;
   height: 100%;
@@ -263,7 +263,7 @@ html[lang='en'] .au-ghost {
 }
 
 /* Back board: its inside shows as a narrow ledge round the page block. */
-.au-end {
+.aut-end {
   inset: 0;
   transform: translateZ(var(--b));
   border-radius: 3px;
@@ -271,36 +271,36 @@ html[lang='en'] .au-ghost {
   box-shadow: inset 0 0 0 1px rgba(60, 36, 14, 0.3);
 }
 /* Edges that stand up from a plane: along the fore-edge and along the foot. */
-.au-strip--fore {
+.aut-strip--fore {
   top: 0;
   width: var(--b);
   height: 100%;
 }
-.au-scene[data-fore='left'] .au-strip--fore {
+.aut-scene[data-fore='left'] .aut-strip--fore {
   left: 0;
   transform-origin: 0 50%;
   transform: rotateY(-90deg);
 }
-.au-scene[data-fore='right'] .au-strip--fore {
+.aut-scene[data-fore='right'] .aut-strip--fore {
   right: 0;
   transform-origin: 100% 50%;
   transform: rotateY(90deg);
 }
-.au-strip--tail {
+.aut-strip--tail {
   inset: auto 0 0 0;
   height: var(--b);
   transform-origin: 50% 100%;
   transform: rotateX(-90deg);
 }
 /* cloth-wrapped board, seen edge-on (both sides are turned away from the lamp) */
-.au-board.au-strip--fore {
+.aut-board.aut-strip--fore {
   background: linear-gradient(180deg, #7c3214, #6a290f);
 }
-.au-board.au-strip--tail {
+.aut-board.aut-strip--tail {
   background: #5d240d;
 }
 /* the page block: hundreds of sheets, darker where the boards overhang */
-.au-pages.au-strip--fore {
+.aut-pages.aut-strip--fore {
   top: var(--o);
   width: var(--p);
   height: calc(100% - 2 * var(--o));
@@ -308,18 +308,18 @@ html[lang='en'] .au-ghost {
     linear-gradient(to right, rgba(58, 34, 12, 0.5), rgba(58, 34, 12, 0.06) 24%, rgba(58, 34, 12, 0.02) 70%, rgba(58, 34, 12, 0.42)),
     repeating-linear-gradient(to right, #e4d9c1 0 1.1px, #c9bb9c 1.1px 2.1px);
 }
-.au-scene[data-fore='left'] .au-pages.au-strip--fore {
+.aut-scene[data-fore='left'] .aut-pages.aut-strip--fore {
   left: var(--o);
   transform: translateZ(var(--b)) rotateY(-90deg);
 }
-.au-scene[data-fore='right'] .au-pages.au-strip--fore {
+.aut-scene[data-fore='right'] .aut-pages.aut-strip--fore {
   right: var(--o);
   transform: translateZ(var(--b)) rotateY(90deg);
   background:
     linear-gradient(to left, rgba(58, 34, 12, 0.5), rgba(58, 34, 12, 0.06) 24%, rgba(58, 34, 12, 0.02) 70%, rgba(58, 34, 12, 0.42)),
     repeating-linear-gradient(to right, #e4d9c1 0 1.1px, #c9bb9c 1.1px 2.1px);
 }
-.au-pages.au-strip--tail {
+.aut-pages.aut-strip--tail {
   bottom: var(--o);
   height: var(--p);
   transform: translateZ(var(--b)) rotateX(-90deg);
@@ -327,33 +327,33 @@ html[lang='en'] .au-ghost {
     linear-gradient(to top, rgba(58, 34, 12, 0.56), rgba(58, 34, 12, 0.12) 24%, rgba(58, 34, 12, 0.08) 70%, rgba(58, 34, 12, 0.5)),
     repeating-linear-gradient(to top, #d8ccb2 0 1.1px, #bcad8d 1.1px 2.1px);
 }
-.au-scene[data-fore='left'] .au-pages.au-strip--tail {
+.aut-scene[data-fore='left'] .aut-pages.aut-strip--tail {
   left: var(--o);
   right: 0;
 }
-.au-scene[data-fore='right'] .au-pages.au-strip--tail {
+.aut-scene[data-fore='right'] .aut-pages.aut-strip--tail {
   left: 0;
   right: var(--o);
 }
 /* the first leaf, seen only while the cover is lifted */
-.au-leaf {
+.aut-leaf {
   top: var(--o);
   bottom: var(--o);
   transform: translateZ(calc(var(--b) + var(--p)));
   background: linear-gradient(to right, #f3ead8, #e2d6bd);
 }
-.au-scene[data-fore='left'] .au-leaf {
+.aut-scene[data-fore='left'] .aut-leaf {
   left: var(--o);
   right: 0;
 }
-.au-scene[data-fore='right'] .au-leaf {
+.aut-scene[data-fore='right'] .aut-leaf {
   left: 0;
   right: var(--o);
   background: linear-gradient(to left, #f3ead8, #e2d6bd);
 }
 
 /* the lifted cover keeps the leaf in its shade */
-.au-leaf::after {
+.aut-leaf::after {
   content: '';
   position: absolute;
   inset: 0;
@@ -361,16 +361,16 @@ html[lang='en'] .au-ghost {
   opacity: 0.25;
   transition: opacity 0.6s var(--ease-out);
 }
-.au-scene[data-fore='right'] .au-leaf::after {
+.aut-scene[data-fore='right'] .aut-leaf::after {
   background: linear-gradient(to left, rgba(36, 20, 8, 0.1), rgba(36, 20, 8, 0.34));
 }
-.au-book:hover .au-leaf::after,
-.au-book:has(.au-open:focus-visible) .au-leaf::after {
+.aut-book:hover .aut-leaf::after,
+.aut-book:has(.aut-open:focus-visible) .aut-leaf::after {
   opacity: 1;
 }
 
 /* Front board, hinged on the spine. */
-.au-cover {
+.aut-cover {
   --open: 0deg;
   position: absolute;
   inset: 0;
@@ -378,40 +378,40 @@ html[lang='en'] .au-ghost {
   transform: translateZ(calc(var(--b) + var(--p))) rotateY(calc(var(--d) * var(--open)));
   transition: transform 0.6s var(--ease-out);
 }
-.au-scene[data-fore='left'] .au-cover {
+.aut-scene[data-fore='left'] .aut-cover {
   transform-origin: 100% 50%;
 }
-.au-scene[data-fore='right'] .au-cover {
+.aut-scene[data-fore='right'] .aut-cover {
   transform-origin: 0 50%;
 }
 @media (hover: hover) and (pointer: fine) {
-  .au-book:hover .au-cover {
+  .aut-book:hover .aut-cover {
     --open: 12deg;
   }
 }
-.au-book:has(.au-open:focus-visible) .au-cover {
+.aut-book:has(.aut-open:focus-visible) .aut-cover {
   --open: 12deg;
 }
-.au-book:has(.au-open:active) .au-cover {
+.aut-book:has(.aut-open:active) .aut-cover {
   --open: 5deg;
   transition-duration: 0.18s;
 }
-.au-front {
+.aut-front {
   inset: 0;
   overflow: hidden;
   transform: translateZ(var(--b));
   border-radius: 2px;
   background: #efc2a1;
 }
-.au-scene[data-fore='left'] .au-front {
+.aut-scene[data-fore='left'] .aut-front {
   border-top-left-radius: 5px;
   border-bottom-left-radius: 5px;
 }
-.au-scene[data-fore='right'] .au-front {
+.aut-scene[data-fore='right'] .aut-front {
   border-top-right-radius: 5px;
   border-bottom-right-radius: 5px;
 }
-.au-front img {
+.aut-front img {
   position: absolute;
   inset: 0;
   width: 100%;
@@ -421,7 +421,7 @@ html[lang='en'] .au-ghost {
   user-select: none;
 }
 /* print: a little weight at the foot for the imprint, and the board's lit rim */
-.au-front::after {
+.aut-front::after {
   content: '';
   position: absolute;
   inset: 0;
@@ -434,7 +434,7 @@ html[lang='en'] .au-ghost {
     inset 0 1px 0 rgba(255, 240, 220, 0.35);
 }
 /* Lettering sits in the open sky of the cover art (placed by the picture, not by the reading direction). */
-.au-lockup {
+.aut-lockup {
   position: absolute;
   top: 16.5%;
   right: 6.5%;
@@ -446,26 +446,26 @@ html[lang='en'] .au-ghost {
   color: #4a210d;
   text-shadow: 0 1px 0 rgba(255, 240, 222, 0.5);
 }
-.au-lockup__a {
+.aut-lockup__a {
   font-size: calc(var(--h) * 0.088);
   font-weight: 900;
   line-height: 1.22;
 }
-.au-lockup__b {
+.aut-lockup__b {
   font-size: calc(var(--h) * 0.05);
   font-weight: 800;
   line-height: 1.3;
 }
-html[lang='en'] .au-lockup__a {
+html[lang='en'] .aut-lockup__a {
   font-size: calc(var(--h) * 0.063);
   line-height: 1.1;
   letter-spacing: -0.03em;
 }
-html[lang='en'] .au-lockup__b {
+html[lang='en'] .aut-lockup__b {
   margin-top: 0.3em;
   font-size: calc(var(--h) * 0.033);
 }
-.au-mark {
+.aut-mark {
   position: absolute;
   bottom: 4%;
   left: 50%;
@@ -482,7 +482,7 @@ html[lang='en'] .au-lockup__b {
   box-shadow: 0 2px 8px rgba(40, 16, 4, 0.25);
 }
 /* the pressed groove of a hard cover, beside the spine */
-.au-joint {
+.aut-joint {
   position: absolute;
   top: 0;
   bottom: 0;
@@ -491,13 +491,13 @@ html[lang='en'] .au-lockup__b {
   width: 5.2%;
   background: linear-gradient(to right, rgba(70, 24, 6, 0.24), rgba(70, 24, 6, 0.08) 62%, rgba(40, 12, 2, 0.3) 78%, rgba(255, 236, 214, 0.26) 92%, transparent);
 }
-.au-scene[data-fore='left'] .au-joint {
+.aut-scene[data-fore='left'] .aut-joint {
   left: auto;
   right: 0;
   transform: scaleX(-1);
 }
 /* gloss of the printed board: one soft band that slides with the angle of view */
-.au-gloss {
+.aut-gloss {
   position: absolute;
   inset: 0;
   z-index: 4;
@@ -505,7 +505,7 @@ html[lang='en'] .au-lockup__b {
   pointer-events: none;
   mix-blend-mode: soft-light;
 }
-.au-gloss span {
+.aut-gloss span {
   position: absolute;
   top: -12%;
   bottom: -12%;
@@ -516,20 +516,20 @@ html[lang='en'] .au-lockup__b {
   transform: skewX(-16deg);
   will-change: transform;
 }
-.au-open {
+.aut-open {
   position: absolute;
   inset: 0;
   z-index: 5;
   border-radius: inherit;
   background: transparent;
 }
-.au-open:focus-visible {
+.aut-open:focus-visible {
   outline: 3px solid var(--color-maple);
   outline-offset: 5px;
 }
 
 /* A label for the object, like the card beside a book in a shop window. */
-.au-caption {
+.aut-caption {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -539,25 +539,25 @@ html[lang='en'] .au-lockup__b {
   font-size: 13.5px;
   line-height: 1.6;
 }
-.au-caption__k {
+.aut-caption__k {
   display: inline-flex;
   align-items: center;
   gap: 10px;
   font-weight: 600;
   color: var(--color-ink);
 }
-.au-caption__k i {
+.aut-caption__k i {
   width: 6px;
   height: 6px;
   border-radius: 50%;
   background: var(--color-maple);
 }
-.au-caption__m {
+.aut-caption__m {
   color: var(--color-muted);
 }
 
 /* ── The invitation ─────────────────────────────────────────────────────────── */
-.au-cta {
+.aut-cta {
   position: relative;
   isolation: isolate;
   height: clamp(430px, 39vw, 540px);
@@ -571,25 +571,25 @@ html[lang='en'] .au-lockup__b {
     0 10px 24px rgba(26, 18, 11, 0.12),
     0 36px 72px rgba(26, 18, 11, 0.2);
 }
-.au-cta__film {
+.aut-cta__film {
   position: absolute;
   inset: 0;
 }
-.au-cta__zoom {
+.aut-cta__zoom {
   position: absolute;
   inset: 0;
   transition: transform 1.4s var(--ease-out);
 }
-.au-cta__zoom .qf {
+.aut-cta__zoom .qf {
   --qf-focus: 50% 64%;
 }
 @media (hover: hover) {
-  .au-cta:hover .au-cta__zoom {
+  .aut-cta:hover .aut-cta__zoom {
     transform: scale(1.035);
   }
 }
 /* soft directional shade on the panel's side only */
-.au-cta__film::before {
+.aut-cta__film::before {
   content: '';
   position: absolute;
   inset: 0;
@@ -599,10 +599,10 @@ html[lang='en'] .au-lockup__b {
     linear-gradient(90deg, rgba(18, 12, 8, 0.16), rgba(18, 12, 8, 0) 46%),
     linear-gradient(0deg, rgba(18, 12, 8, 0.3), rgba(18, 12, 8, 0) 40%);
 }
-.au-cta__film.grain::after {
+.aut-cta__film.grain::after {
   z-index: 2;
 }
-.au-cta__panel {
+.aut-cta__panel {
   position: absolute;
   left: clamp(14px, 2vw, 26px);
   bottom: clamp(14px, 2vw, 26px);
@@ -611,7 +611,7 @@ html[lang='en'] .au-lockup__b {
   padding: clamp(24px, 2.5vw, 36px) clamp(22px, 2.5vw, 36px) clamp(12px, 1.4vw, 18px);
   border-radius: 26px;
 }
-.au-cta__title {
+.aut-cta__title {
   display: flex;
   flex-direction: column;
   font-weight: 800;
@@ -619,31 +619,31 @@ html[lang='en'] .au-lockup__b {
   line-height: 1.1;
   letter-spacing: -0.03em;
 }
-html[lang='ar'] .au-cta__title {
+html[lang='ar'] .aut-cta__title {
   line-height: 1.34;
 }
-.au-cta__title span {
+.aut-cta__title span {
   opacity: 0.62;
 }
-.au-cta__title .is-ask {
+.aut-cta__title .is-ask {
   opacity: 1;
 }
-.au-cta__pills {
+.aut-cta__pills {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
   margin-top: clamp(18px, 2.2vw, 28px);
 }
-.au-cta__pill svg {
+.aut-cta__pill svg {
   flex: none;
 }
 @media (hover: hover) {
-  .au-cta__pill:hover {
+  .aut-cta__pill:hover {
     transform: translateY(-2px);
   }
 }
 /* the quiet third way: the author's desk */
-.au-cta__studio {
+.aut-cta__studio {
   display: flex;
   align-items: center;
   gap: 8px;
@@ -656,73 +656,73 @@ html[lang='ar'] .au-cta__title {
   color: rgb(246 240 228 / 0.72);
   transition: color 0.2s ease-out;
 }
-.au-cta__studio svg {
+.aut-cta__studio svg {
   transition: translate 0.25s var(--ease-out);
 }
 @media (hover: hover) {
-  .au-cta__studio:hover {
+  .aut-cta__studio:hover {
     color: var(--color-paper);
   }
-  .au-cta__studio:hover svg {
+  .aut-cta__studio:hover svg {
     translate: 2px -2px;
   }
-  html[dir='rtl'] .au-cta__studio:hover svg {
+  html[dir='rtl'] .aut-cta__studio:hover svg {
     translate: -2px -2px;
   }
 }
 
 /* ── Tablets and phones ─────────────────────────────────────────────────────── */
 @media (max-width: 899px) {
-  .au-grid {
+  .aut-grid {
     grid-template-columns: minmax(0, 1fr);
     gap: 0;
   }
   /* headline → the book → the words about her → signature */
-  .au-copy {
+  .aut-copy {
     display: contents;
   }
-  .au-copy > :nth-child(1) {
+  .aut-copy > :nth-child(1) {
     order: 1;
   }
-  .au-title {
+  .aut-title {
     order: 2;
     font-size: clamp(2.9rem, 12.4vw, 5rem);
   }
-  html[lang='en'] .au-title {
+  html[lang='en'] .aut-title {
     font-size: clamp(2.2rem, 10.6vw, 4.4rem);
   }
-  .au-stage {
+  .aut-stage {
     order: 3;
     margin-top: 18px;
     padding-top: clamp(64px, 17vw, 120px);
   }
-  .au-text {
+  .aut-text {
     order: 4;
     margin-top: 34px;
     font-size: 1.12rem;
   }
-  .au-sign {
+  .aut-sign {
     order: 5;
   }
-  .au-scene {
+  .aut-scene {
     --w: clamp(228px, 60vw, 300px);
   }
-  .au-ghost {
+  .aut-ghost {
     font-size: clamp(6.5rem, 34vw, 13rem);
   }
-  html[lang='en'] .au-ghost {
+  html[lang='en'] .aut-ghost {
     font-size: clamp(3.6rem, 19.5vw, 8rem);
     top: clamp(10px, 5vw, 40px);
   }
-  .au-caption {
+  .aut-caption {
     margin-top: 50px;
   }
 }
 @media (max-width: 767px) {
-  .au {
+  .aut {
     padding-block: 84px 56px;
   }
-  .au-cta {
+  .aut-cta {
     display: flex;
     flex-direction: column;
     height: auto;
@@ -730,21 +730,21 @@ html[lang='ar'] .au-cta__title {
     border-radius: 28px;
   }
   /* the film on top, melting into the card; the glass overlaps its foot */
-  .au-cta__film {
+  .aut-cta__film {
     position: relative;
     inset: auto;
     height: clamp(250px, 78vw, 340px);
     -webkit-mask-image: linear-gradient(to bottom, #000 58%, rgba(0, 0, 0, 0.5) 80%, transparent);
     mask-image: linear-gradient(to bottom, #000 58%, rgba(0, 0, 0, 0.5) 80%, transparent);
   }
-  .au-cta__film::before {
+  .aut-cta__film::before {
     background: none;
   }
-  .au-cta__zoom .qf {
+  .aut-cta__zoom .qf {
     --qf-focus: 76% 50%;
     background: transparent;
   }
-  .au-cta__panel {
+  .aut-cta__panel {
     position: relative;
     left: auto;
     bottom: auto;
@@ -753,32 +753,32 @@ html[lang='ar'] .au-cta__title {
     padding: 22px 20px 8px;
     border-radius: 22px;
   }
-  .au-cta__title {
+  .aut-cta__title {
     font-size: clamp(1.9rem, 8.6vw, 2.4rem);
   }
-  .au-cta__pills {
+  .aut-cta__pills {
     flex-direction: column;
   }
-  .au-cta__pill {
+  .aut-cta__pill {
     width: 100%;
   }
 }
 
 /* ── Reduced motion: everything in its place ────────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
-  .au-sign.is-armed .au-sign__swash,
-  .au-sign.is-armed .au-sign__swash > span,
-  .au-sign.is-armed .au-sign__by {
+  .aut-sign.is-armed .aut-sign__swash,
+  .aut-sign.is-armed .aut-sign__swash > span,
+  .aut-sign.is-armed .aut-sign__by {
     opacity: 1;
     transform: none;
   }
-  .au-cover {
+  .aut-cover {
     transition: none;
   }
 }
-html[data-reduce-motion] .au-sign.is-armed .au-sign__swash,
-html[data-reduce-motion] .au-sign.is-armed .au-sign__swash > span,
-html[data-reduce-motion] .au-sign.is-armed .au-sign__by {
+html[data-reduce-motion] .aut-sign.is-armed .aut-sign__swash,
+html[data-reduce-motion] .aut-sign.is-armed .aut-sign__swash > span,
+html[data-reduce-motion] .aut-sign.is-armed .aut-sign__by {
   opacity: 1;
   transform: none;
 }

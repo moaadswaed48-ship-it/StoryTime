@@ -11,7 +11,7 @@ import { useSiteStore } from '@/store/useSiteStore'
 
 /** +1 for an Arabic book (spine on the right, pages on the left), −1 for a left-bound one. Mirrors every turn. */
 const D = rtl ? 1 : -1
-/** How the book lies when nothing moves it (degrees). Keep in step with `.au-book` in author.css. */
+/** How the book lies when nothing moves it (degrees). Keep in step with `.aut-book` in author.css. */
 const REST = { rx: 24, ry: 19, rz: 5 }
 
 /** The story's title, broken the way the copy already breaks it; any other title falls back to one line. */
@@ -139,42 +139,42 @@ export const LyingBook = forwardRef<BookHandle>(function LyingBook(_, ref) {
   }))
 
   return (
-    <div ref={scene} className="au-scene" data-fore={rtl ? 'left' : 'right'} style={{ '--d': D } as CSSProperties}>
+    <div ref={scene} className="aut-scene" data-fore={rtl ? 'left' : 'right'} style={{ '--d': D } as CSSProperties}>
       {/* the paper's plane: shadows and the ribbon lie on it */}
-      <div ref={ground} className="au-ground" aria-hidden>
-        <span className="au-sh au-sh--wide" />
-        <span className="au-sh au-sh--mid" />
-        <span className="au-sh au-sh--contact" />
-        <span className="au-ribbon">
+      <div ref={ground} className="aut-ground" aria-hidden>
+        <span className="aut-sh aut-sh--wide" />
+        <span className="aut-sh aut-sh--mid" />
+        <span className="aut-sh aut-sh--contact" />
+        <span className="aut-ribbon">
           <i />
         </span>
       </div>
 
-      <div ref={book} className="au-book">
+      <div ref={book} className="aut-book">
         {/* back board, the page block set back from it, then the hinged front board */}
-        <span className="au-face au-end" aria-hidden />
-        <span className="au-face au-strip au-strip--fore au-board" aria-hidden />
-        <span className="au-face au-strip au-strip--tail au-board" aria-hidden />
-        <span className="au-face au-strip au-strip--fore au-pages" aria-hidden />
-        <span className="au-face au-strip au-strip--tail au-pages" aria-hidden />
-        <span className="au-face au-leaf" aria-hidden />
-        <div className="au-cover">
-          <span className="au-face au-strip au-strip--fore au-board" aria-hidden />
-          <span className="au-face au-strip au-strip--tail au-board" aria-hidden />
-          <div className="au-face au-front">
+        <span className="aut-face aut-end" aria-hidden />
+        <span className="aut-face aut-strip aut-strip--fore aut-board" aria-hidden />
+        <span className="aut-face aut-strip aut-strip--tail aut-board" aria-hidden />
+        <span className="aut-face aut-strip aut-strip--fore aut-pages" aria-hidden />
+        <span className="aut-face aut-strip aut-strip--tail aut-pages" aria-hidden />
+        <span className="aut-face aut-leaf" aria-hidden />
+        <div className="aut-cover">
+          <span className="aut-face aut-strip aut-strip--fore aut-board" aria-hidden />
+          <span className="aut-face aut-strip aut-strip--tail aut-board" aria-hidden />
+          <div className="aut-face aut-front">
             <img src={asset(story.cover)} srcSet={`${asset(story.coverThumb)} 450w, ${asset(story.cover)} 900w`} sizes="(min-width: 1024px) 400px, 62vw" alt="" width={900} height={1200} decoding="async" draggable={false} />
-            <div className="au-lockup" aria-hidden>
-              <span className="au-lockup__a">{LINES[0]}</span>
-              {LINES[1] && <span className="au-lockup__b">{LINES[1]}</span>}
+            <div className="aut-lockup" aria-hidden>
+              <span className="aut-lockup__a">{LINES[0]}</span>
+              {LINES[1] && <span className="aut-lockup__b">{LINES[1]}</span>}
             </div>
-            <span className="au-mark" aria-hidden>
+            <span className="aut-mark" aria-hidden>
               {t.brand}
             </span>
-            <span className="au-joint" aria-hidden />
-            <span className="au-gloss" aria-hidden>
+            <span className="aut-joint" aria-hidden />
+            <span className="aut-gloss" aria-hidden>
               <span ref={sheen} />
             </span>
-            <button type="button" className="au-open" onClick={() => openBook(0)} aria-label={`${t.author.ctaRead} — ${TITLE}`} />
+            <button type="button" className="aut-open" onClick={() => openBook(0)} aria-label={`${t.author.ctaRead} — ${TITLE}`} />
           </div>
         </div>
       </div>

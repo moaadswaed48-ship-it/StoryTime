@@ -1,4 +1,4 @@
-import { Suspense, useEffect, useMemo, useRef } from 'react'
+import { Suspense, useEffect, useMemo, useRef, useState } from 'react'
 import * as THREE from 'three'
 import { useFrame } from '@react-three/fiber'
 import { Environment, Lightformer } from '@react-three/drei'
@@ -133,9 +133,10 @@ function Director({ rt, turntable }: { rt: Runtime; turntable: React.RefObject<T
  * He looks at the pointer. Runs after <SariModel> (which restores the head bone every frame), so this only adds
  * a turn of the head on top of its breathing; it never accumulates and it fades out when his back is to us.
  */
-function HeadLook({ rt, turntable }: { rt: Runtime; turntable: React.RefObject<THREE.Group | null> }) {
+function HeadLook({ rt, turntable, take }: { rt: Runtime; turntable: React.RefObject<THREE.Group | null>; take: number }) {
   const head = useRef<THREE.Object3D | null>(null)
   const look = useRef({ yaw: 0, pitch: 0 })
+  useEffect(() => void (head.current = null), [take]) // a fresh Sari has fresh bones
   useFrame((_, delta) => {
     const dt = Math.min(delta, 1 / 20)
     if (!head.current) head.current = turntable.current?.getObjectByName('Head') ?? null
@@ -161,10 +162,24 @@ function Ready({ onReady }: { onReady: () => void }) {
 }
 
 /**
+ * Development only. React's StrictMode replays the effects of a newly mounted tree (mount → unmount → mount), and
+ * <SariModel> stops its run clip in that replay without starting it again: a replayed Sari can stand and wave but
+ * his legs never run. This sits next to him, notices the replay (its own effect runs a second time) and asks for a
+ * fresh Sari. In a production build effects run once, so this never fires.
+ */
+function Replayed({ onReplay }: { onReplay: () => void }) {
+  const runs = useRef(0)
+  useEffect(() => {
+    if (++runs.current === 2) onReplay()
+  }, [onReplay])
+  return null
+}
+
+/**
  * What he stands on: a round pool of warm light, a fine turntable ring that turns with him (and spins under his
  * feet while he runs), a soft body shadow and a tight contact shadow under each shoe that fades as the foot lifts.
  */
-function Floor({ rt, turntable }: { rt: Runtime; turntable: React.RefObject<THREE.Group | null> }) {
+function Floor({ rt, turntable, take }: { rt: Runtime; turntable: React.RefObject<THREE.Group | null>; take: number }) {
   const tex = useMemo(
     () => ({
       pool: softDisc([[0, 0.95], [0.18, 0.62], [0.45, 0.24], [0.75, 0.06], [1, 0]]),
@@ -180,6 +195,7 @@ function Floor({ rt, turntable }: { rt: Runtime; turntable: React.RefObject<THRE
   const bones = useRef<Array<THREE.Object3D | null>>([null, null])
   const ground = useRef([Infinity, Infinity])
   const spin = useRef(0)
+  useEffect(() => void (bones.current = [null, null]), [take]) // a fresh Sari has fresh bones
   useFrame((_, delta) => {
     const dt = Math.min(delta, 1 / 20)
     // the ground runs back under a runner
@@ -325,41 +341,30 @@ function LeafField({ rt, count, soft = false }: { rt: Runtime; count: number; so
 
 // TEMP DEBUG (removed after the experiment)
 const _stop = THREE.AnimationMixer.prototype.stopAllAction
-let _t0 = performance.now()
 THREE.AnimationMixer.prototype.stopAllAction = function (this: THREE.AnimationMixer) {
-  console.log('SARI stopAllAction at ' + Math.round(performance.now() - _t0))
+  console.log('SARI stopAllAction')
   return _stop.call(this)
-}
-const _play = THREE.AnimationAction.prototype.play
-THREE.AnimationAction.prototype.play = function (this: THREE.AnimationAction) {
-  console.log('SARI play at ' + Math.round(performance.now() - _t0))
-  return _play.call(this)
-}
-function Dbg() {
-  console.log('SARI Dbg render at ' + Math.round(performance.now() - _t0))
-  useEffect(() => {
-    console.log('SARI Dbg effect at ' + Math.round(performance.now() - _t0))
-    return () => console.log('SARI Dbg cleanup at ' + Math.round(performance.now() - _t0))
-  }, [])
-  return null
 }
 
 /** Everything inside the canvas. */
 export function Scene({ rt, action, onReady }: { rt: Runtime; action: SariAction; onReady: () => void }) {
   const turntable = useRef<THREE.Group>(null)
+  /** Which Sari is on stage: a new number mounts a fresh one (see <Replayed>). */
+  const [take, setTake] = useState(0)
+  const retake = useRef(() => setTake((n) => (console.log('SARI retake ' + (n + 1)), n < 3 ? n + 1 : n))).current
   return (
     <>
       <Lights />
       <Director rt={rt} turntable={turntable} />
-      <Floor rt={rt} turntable={turntable} />
+      <Floor rt={rt} turntable={turntable} take={take} />
       <LeafField rt={rt} count={26} />
       <LeafField rt={rt} count={6} soft />
       <group ref={turntable} rotation-y={REST_YAW}>
         <Suspense fallback={null}>
-          <SariModel action={action} speed={1.05} />
-          <HeadLook rt={rt} turntable={turntable} />
+          <SariModel key={take} action={action} speed={1.05} />
+          <Replayed key={`r${take}`} onReplay={retake} />
+          <HeadLook rt={rt} turntable={turntable} take={take} />
           <Ready onReady={onReady} />
-          <Dbg />
         </Suspense>
       </group>
     </>

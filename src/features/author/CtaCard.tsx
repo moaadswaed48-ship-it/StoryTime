@@ -20,31 +20,31 @@ export const CtaCard = forwardRef<QuietFilmHandle>(function CtaCard(_, ref) {
   const openBook = useSiteStore((s) => s.openBook)
   const openFilm = useSiteStore((s) => s.openFilm)
   return (
-    <Reveal className="au-cta">
-      <div className="au-cta__film grain" aria-hidden>
-        <div className="au-cta__zoom">
+    <Reveal className="aut-cta">
+      <div className="aut-cta__film grain" aria-hidden>
+        <div className="aut-cta__zoom">
           <QuietFilm ref={ref} clip={SCENE.clip!} poster={SCENE.img} posterSm={SCENE.thumb} sizes="(min-width: 1320px) 1208px, 94vw" />
         </div>
       </div>
-      <div className="au-cta__panel glass-ink">
-        <h3 className="au-cta__title">
+      <div className="aut-cta__panel glass-ink">
+        <h3 className="aut-cta__title">
           {LINES.map((line, i) => (
             <span key={i} className={i === LINES.length - 1 ? 'is-ask' : undefined}>
               {line}
             </span>
           ))}
         </h3>
-        <div className="au-cta__pills">
-          <Pill variant="solid" size="md" className="au-cta__pill" data-act="read" onClick={() => openBook(0)}>
+        <div className="aut-cta__pills">
+          <Pill variant="solid" size="md" className="aut-cta__pill" data-act="read" onClick={() => openBook(0)}>
             <BookOpen size={18} strokeWidth={2.1} aria-hidden />
             {t.author.ctaRead}
           </Pill>
-          <Pill variant="glass" size="md" className="au-cta__pill" data-act="watch" onClick={() => openFilm(0)}>
+          <Pill variant="glass" size="md" className="aut-cta__pill" data-act="watch" onClick={() => openFilm(0)}>
             <Play size={14} fill="currentColor" strokeWidth={0} aria-hidden />
             {t.author.ctaWatch}
           </Pill>
         </div>
-        <button type="button" className="au-cta__studio" data-act="studio" onClick={() => go('studio')}>
+        <button type="button" className="aut-cta__studio" data-act="studio" onClick={() => go('studio')}>
           <span>{t.app.grown.studio}</span>
           <ArrowUpRight size={15} strokeWidth={2.2} className="flip-rtl" aria-hidden />
         </button>
