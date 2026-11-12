@@ -359,6 +359,9 @@ html[lang='ar'] .sari-title {
   max-width: 88%;
   border-radius: 999px 999px 44px 44px;
   transform: translateX(-50%);
+  /* he is blended onto this wall only: the arch is its own group, so nothing behind it can leak a grey box */
+  isolation: isolate;
+  overflow: hidden;
   background:
     radial-gradient(ellipse 72% 46% at 50% 32%, #fdf4e3 0%, rgb(253 244 227 / 0) 100%),
     linear-gradient(180deg, #f4e4c9 0%, #f0d3a8 60%, #e6b174 100%);
@@ -372,8 +375,8 @@ html[lang='ar'] .sari-title {
 .sari-portrait img {
   position: absolute;
   left: 50%;
-  bottom: 7.4%;
-  height: 83%;
+  bottom: 0.4%;
+  height: 96.5%;
   width: auto;
   max-width: none;
   transform: translateX(-50%);

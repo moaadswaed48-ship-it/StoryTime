@@ -41,8 +41,9 @@ function Portrait({ onShown }: { onShown: () => void }) {
   useEffect(() => onShown(), [onShown])
   return (
     <div className="sari-portrait">
-      <div className="sari-portrait__arch" aria-hidden />
-      <img src={asset('story/sari.webp')} alt={t.sari.title} width={700} height={929} decoding="async" draggable={false} />
+      <div className="sari-portrait__arch">
+        <img src={asset('story/sari.webp')} alt={t.sari.title} width={700} height={929} decoding="async" draggable={false} />
+      </div>
     </div>
   )
 }
