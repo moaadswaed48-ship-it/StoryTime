@@ -10,6 +10,16 @@ export interface FilmHandle {
   parallax: HTMLDivElement | null
 }
 
+/**
+ * Portrait phones do not get the film at all: a 16:9 frame shows them its middle 40 %, stretched two to three times.
+ * They get the cover painting — the same moment, painted tall — as one sharp still (2× the original, see
+ * scripts/assets/upscale.py). The lead's index.html preloads the same file for the same media query.
+ */
+export const PHONE_STILL = '(max-width: 760px) and (orientation: portrait)'
+export const COVER_STILL = { src: 'story/hero-phone.webp', w: 1760, h: 2336 }
+/** The cover at 16 × 21 pixels, inline: what the picture's place shows until the file has arrived, and the soft sky behind it. */
+const COVER_TINY = 'data:image/webp;base64,UklGRrgAAABXRUJQVlA4IKwAAACQBACdASoQABUAPrVInkmnJCKhMAgA4BaJbACdMoR4GdBNBvSXiwHImBgcnoAA/uqB5Lw8DKLuhxN/qyReEVv/6Xs5h4wKVV1rhgITNpcvJwPeG6oUBm189aoNi/4j6J4+AgasM5vq9LtgsL38CVVUB33bbAEKoKgVGqAWBD/JbidfQP6+7wUXLFkbtAErZ5EqfCJ9EPE2dPclRgAuE7e5FWA3+/LlT9anAP4A'
+
 /** Phones get a lighter poster (it only shows until the film arrives); index.html preloads the same file per screen. */
 const POSTER = typeof window !== 'undefined' && window.matchMedia('(max-width: 760px)').matches ? 'film/hero-poster-1280.jpg' : 'film/hero-poster.jpg'
 
@@ -65,10 +75,10 @@ function paintBackdrop(cv: HTMLCanvasElement, img: HTMLImageElement) {
 
 /**
  * The film plane: poster → looping film (fades in on `loadeddata`, settles from a slight zoom),
- * placed by the framing solver. On tall screens a blurred copy of the poster fills the rest.
+ * placed by the framing solver. With `cover` (portrait phones) it is the cover painting instead, and no film is fetched. On tall screens a blurred copy of the poster fills the rest.
  * `play` is false when the hero is off-screen, something covers it, or motion is reduced.
  */
-export const Film = forwardRef<FilmHandle, { frame: Frame | null; play: boolean; still: boolean; onState: (s: { ready: boolean; settled: boolean }) => void }>(function Film({ frame, play, still, onState }, ref) {
+export const Film = forwardRef<FilmHandle, { frame: Frame | null; play: boolean; still: boolean; /** Portrait phones: the cover painting, no <video> at all. */ cover: boolean; onState: (s: { ready: boolean; settled: boolean }) => void }>(function Film({ frame, play, still, cover, onState }, ref) {
   const video = useRef<HTMLVideoElement>(null)
   const plate = useRef<HTMLDivElement>(null)
   const par = useRef<HTMLDivElement>(null)
@@ -104,23 +114,40 @@ export const Film = forwardRef<FilmHandle, { frame: Frame | null; play: boolean;
     p.style.setProperty('mask-image', mask)
     // Same horizontal placement as the film so colours line up; stretched over the full height (it is only blur).
     Object.assign(b.style, { left: `${frame.x}px`, width: `${frame.w}px` })
-  }, [frame])
+  }, [frame, cover])
 
   // The backdrop is painted from the poster as soon as the poster has arrived.
   useEffect(() => {
     const img = poster.current
     const cv = backdrop.current
     if (!img || !cv) return
+    if (cover) {
+      // the cover's backdrop is its own tiny copy, stretched by CSS: nothing to paint (and nothing left from the film)
+      cv.getContext('2d')?.clearRect(0, 0, cv.width, cv.height)
+      return
+    }
     const paint = () => paintBackdrop(cv, img)
     if (img.complete && img.naturalWidth) paint()
     else img.addEventListener('load', paint, { once: true })
     return () => img.removeEventListener('load', paint)
-  }, [])
+  }, [cover])
 
   // Fade the film in once it has a frame; settle the zoom then (or after a moment if it never loads).
   useEffect(() => {
     const v = video.current
-    if (!v) return
+    if (!v) {
+      // the still: it settles from its slight zoom once it is on screen (or after a moment if it is slow)
+      setReady(false)
+      const img = poster.current
+      const done = () => setSettled(true)
+      if (img?.complete && img.naturalWidth) done()
+      else img?.addEventListener('load', done, { once: true })
+      const t = window.setTimeout(done, 2200)
+      return () => {
+        img?.removeEventListener('load', done)
+        window.clearTimeout(t)
+      }
+    }
     v.muted = true
     v.defaultMuted = true
     const onData = () => {
@@ -134,7 +161,7 @@ export const Film = forwardRef<FilmHandle, { frame: Frame | null; play: boolean;
       v.removeEventListener('loadeddata', onData)
       window.clearTimeout(t)
     }
-  }, [])
+  }, [cover])
 
   useEffect(() => onState({ ready, settled }), [ready, settled, onState])
 
@@ -144,16 +171,22 @@ export const Film = forwardRef<FilmHandle, { frame: Frame | null; play: boolean;
     if (!v) return
     if (play) playQuietly(v)
     else pauseQuietly(v)
-  }, [play, ready])
+  }, [play, ready, cover])
 
   return (
     <div className="hero-media grain" aria-hidden>
-      <canvas ref={backdrop} className="hero-backdrop" width={128} height={72} />
-      <div ref={plate} className="hero-plate">
+      <canvas ref={backdrop} className="hero-backdrop" width={128} height={72} style={cover ? { backgroundImage: `url(${COVER_TINY})` } : undefined} />
+      <div ref={plate} className="hero-plate" style={cover ? { backgroundImage: `url(${COVER_TINY})` } : undefined}>
         <div ref={par} className="hero-plate__par">
           <div className="hero-plate__zoom">
-            <img ref={poster} src={asset(POSTER)} alt="" decoding="async" fetchPriority="high" />
-            <video ref={video} src={src} poster={asset(POSTER)} muted playsInline loop autoPlay={!still} preload="auto" disablePictureInPicture tabIndex={-1} />
+            {cover ? (
+              <img key="cover" ref={poster} className="hero-still" src={asset(COVER_STILL.src)} width={COVER_STILL.w} height={COVER_STILL.h} alt="" decoding="async" fetchPriority="high" draggable={false} />
+            ) : (
+              <>
+                <img key="poster" ref={poster} src={asset(POSTER)} alt="" decoding="async" fetchPriority="high" />
+                <video ref={video} src={src} poster={asset(POSTER)} muted playsInline loop autoPlay={!still} preload="auto" disablePictureInPicture tabIndex={-1} />
+              </>
+            )}
           </div>
         </div>
       </div>

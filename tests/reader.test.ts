@@ -17,6 +17,7 @@ import {
   type Measure,
 } from '@/features/reader/layout'
 import { baseRadius, carry, constrain, edgeAngle, follow, gripY, progressOf, solve } from '@/features/reader/curl/geometry'
+import { clipsFor, pageMarks } from '@/features/reader/narration'
 
 /** A stand-in for the browser's text measurement: every character is `em` wide. */
 const mono =
@@ -334,5 +335,44 @@ describe('curl geometry', () => {
     expect(gripY(760, h)).toBeGreaterThan(760)
     expect(gripY(40, h)).toBeLessThan(40)
     expect(gripY(790, h)).toBeLessThanOrEqual(h)
+  })
+})
+
+describe('narration timing', () => {
+  const g = geometryFor(390, 844, { size: 3, arabic: true })
+  const measure: Measure = (s) => s.length * g.fontSize * 0.5
+  const scenes = story.scenes.map((sc) => sc.ar)
+  const pages = buildBook(scenes, g, measure, false)
+
+  it('uses the scene file when the table matches the story, the paragraph files otherwise', () => {
+    const paras = scenes[0].map((_, k) => ({ start: k * 10, end: k * 10 + 9 }))
+    const index = { ar: { 's01-p01': 9, 's01-p02': 9, 's02-p01': 5 }, scenes: { ar: [{ file: 'ar/s01.mp3', dur: 100, paras }] } }
+    const one = clipsFor(index, 'ar', 0, scenes[0].length)
+    expect(one).toHaveLength(1)
+    expect(one[0].url).toMatch(/audio\/story\/ar\/s01\.mp3$/)
+    expect(one[0].paras.map((p) => p.para)).toEqual(scenes[0].map((_, k) => k))
+    // scene 2 has no entry in the table: whichever of its paragraphs have a file are read one by one
+    const each = clipsFor(index, 'ar', 1, scenes[1].length)
+    expect(each.map((c) => c.url)).toEqual([expect.stringMatching(/ar\/s02-p01\.mp3$/)])
+    expect(clipsFor(null, 'ar', 0, 2)).toEqual([])
+    expect(clipsFor({ scenes: { ar: [{ file: 'ar/s01.mp3', dur: 9, paras: [{ start: 0, end: 9 }] }] } }, 'ar', 0, scenes[0].length + 1)).toEqual([])
+  })
+
+  it('gives every page of a scene the moment the voice reaches its first word, in order', () => {
+    const long = story.scenes.findIndex((_, i) => pages.filter((p) => p.kind === 'scene' && p.scene === i).length > 1)
+    expect(long).toBeGreaterThanOrEqual(0)
+    const paras = scenes[long].map((_, k) => ({ para: k, start: k * 20, end: k * 20 + 19 }))
+    const marks = pageMarks(pages, { scene: long, url: 'x', paras })
+    const own = pages.map((p, i) => (p.kind === 'scene' && p.scene === long ? i : -1)).filter((i) => i >= 0)
+    expect(marks.map((m) => m.page)).toEqual(own)
+    expect(marks[0].t).toBe(0)
+    for (let i = 1; i < marks.length; i++) {
+      expect(marks[i].t).toBeGreaterThan(marks[i - 1].t)
+      // a page that opens with a new paragraph starts exactly where that paragraph does
+      const first = pages[marks[i].page].lines[0]
+      if (first.opens) expect(marks[i].t).toBe(paras[first.para].start)
+      else expect(marks[i].t).toBeLessThan(paras[first.para].end)
+    }
+    expect(marks[marks.length - 1].t).toBeLessThan(paras[paras.length - 1].end)
   })
 })

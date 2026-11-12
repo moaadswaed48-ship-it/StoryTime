@@ -727,3 +727,114 @@ html[lang='ar'] .pl-foot {
     display: none;
   }
 }
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   Paper variant — the same toggle and cards inside the app's grown-ups area (a light ground, a narrow column).
+   The highlighted plan stays the paper card with the maple glow; the quiet plans are white cards with ink type.
+   ───────────────────────────────────────────────────────────────────────────── */
+.pl.pl--paper {
+  padding-block: 0;
+  overflow: visible;
+}
+.pl--paper .pl-switch {
+  justify-content: flex-start;
+  margin-top: 22px;
+  padding-inline-start: 6px;
+}
+.pl--paper .pl-toggle {
+  transform: none;
+}
+.pl-toggle--paper {
+  background: var(--color-paper-2, #ece3d2);
+  box-shadow: inset 0 0 0 1px rgb(26 18 11 / 0.05);
+}
+.pl-toggle--paper .pl-toggle__thumb {
+  background: #fff;
+  box-shadow:
+    0 1px 2px rgb(26 18 11 / 0.1),
+    0 6px 14px rgb(26 18 11 / 0.08);
+}
+.pl-toggle--paper .pl-toggle__opt {
+  min-width: 104px;
+  color: var(--color-ink-2, #43362a);
+}
+.pl-toggle--paper .pl-toggle__save {
+  background: #fff;
+  color: #b9450f;
+  box-shadow:
+    inset 0 0 0 1px rgb(217 84 30 / 0.35),
+    0 4px 10px rgb(26 18 11 / 0.1);
+}
+.pl.pl--paper .pl-grid {
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: none;
+  gap: 14px;
+  max-width: none;
+  margin: 30px 0 0;
+}
+.pl.pl--paper .pl-grid > .pl-card {
+  grid-column: auto;
+  grid-row: auto;
+  padding: 24px 20px 20px;
+  border-radius: 28px;
+}
+.pl.pl--paper .pl-grid > .pl-card--featured {
+  padding-top: 36px;
+  box-shadow:
+    inset 0 0 0 1.5px rgb(217 84 30 / 0.5),
+    0 26px 50px -30px rgb(217 84 30 / 0.6),
+    0 10px 24px -14px rgb(26 18 11 / 0.22);
+}
+@media (min-width: 640px) {
+  /* the highlighted plan across the top, the two quiet ones side by side under it */
+  .pl.pl--paper .pl-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .pl.pl--paper .pl-grid > .pl-card--featured {
+    grid-column: 1 / -1;
+  }
+}
+.pl-card--quiet {
+  color: var(--color-ink, #1a120b);
+  background: rgb(255 255 255 / 0.72);
+  box-shadow:
+    0 0 0 1px rgb(26 18 11 / 0.05),
+    0 4px 16px rgb(26 18 11 / 0.06);
+}
+.pl-card--quiet .pl-desc {
+  color: rgb(67 54 42 / 0.82);
+}
+.pl-card--quiet .pl-sample {
+  border-color: rgb(26 18 11 / 0.42);
+  color: var(--color-ink-2, #43362a);
+}
+.pl-card--quiet .pl-per {
+  color: rgb(67 54 42 / 0.86);
+}
+.pl-card--quiet .pl-feats li {
+  border-top-color: rgb(26 18 11 / 0.1);
+  color: var(--color-ink, #1a120b);
+}
+.pl-card--quiet .pl-check {
+  background: rgb(217 84 30 / 0.12);
+  color: #b9450f;
+}
+.pl-card--quiet .pl-cta__chip {
+  background: rgb(26 18 11 / 0.07);
+}
+@media (hover: hover) and (pointer: fine) {
+  .pl-card.pl-card--quiet .pl-cta:hover .pl-cta__chip {
+    background: var(--color-ink, #1a120b);
+    color: var(--color-paper, #f6f0e4);
+  }
+}
+.pl--paper .pl-card__ring,
+.pl--paper .pl-card__spot {
+  display: none; /* no pointer light on paper */
+}
+.pl--paper .pl-foot {
+  margin: 18px 0 0;
+  padding-inline: 6px;
+  text-align: start;
+  color: var(--color-muted, #7a6a58);
+}

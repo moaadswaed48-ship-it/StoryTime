@@ -108,13 +108,38 @@ test('classroom mode and the settings are real switches; clearing progress asks 
   log.assertClean()
 })
 
-test('the plan tab is honest about the demo and leads to the plans and to the author\'s desk', async ({ page }) => {
+test('the plan tab is honest about the demo, shows the three sample plans and leads to the author\'s desk', async ({ page }) => {
   const log = await open(page)
   const area = page.locator('#grownups')
   await page.evaluate(() => window.__st!.grownups.unlock())
   await area.locator('[data-gu-tab="plan"]').click()
   await expect(area.locator('[data-gu-plan]')).toBeVisible()
-  await expect(area.locator('[data-gu-plans]')).toBeVisible()
+  // the plans live here now: three cards, the highlighted one first, every price tagged as a sample
+  const plans = area.locator('[data-gu-plans]')
+  await expect(plans).toBeVisible()
+  expect(await plans.locator('[data-tier]').evaluateAll((els) => els.map((e) => e.getAttribute('data-tier')))).toEqual(['family', 'start', 'school'])
+  await expect(plans.locator('.pl-foot')).not.toBeEmpty()
+  const prices = await plans.locator('[data-price]').count()
+  expect(prices).toBeGreaterThan(0)
+  await expect(plans.locator('[data-sample]')).toHaveCount(prices)
+  // nothing is white on paper: the quiet cards carry ink type
+  const quiet = await plans.locator('[data-tier="start"] .pl-name').evaluate((el) => getComputedStyle(el).color)
+  expect(quiet).not.toBe('rgb(255, 255, 255)')
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth + 1)).toBe(true)
+
+  // monthly → yearly changes the amount
+  const monthly = await plans.locator('[data-tier="family"] [data-price]').textContent()
+  await plans.locator('[role="radio"][data-value="yearly"]').click()
+  await expect(plans.locator('[data-tier="family"] [data-per]')).toHaveAttribute('data-per', 'year')
+  await expect.poll(() => plans.locator('[data-tier="family"] [data-price]').textContent(), { timeout: 10_000 }).not.toBe(monthly)
+
+  // family → the demo checkout (yearly, as chosen); school → the sign-in sheet; start → the library
+  await plans.locator('[data-cta="family"]').click()
+  expect(await page.evaluate(() => { const c = window.__st!.store.getState().checkout as { plan?: string; yearly?: boolean } | null; return c && { plan: c.plan, yearly: c.yearly } })).toEqual({ plan: 'family', yearly: true })
+  await page.evaluate(() => window.__st!.store.getState().closeCheckout())
+  await plans.locator('[data-cta="school"]').click()
+  expect(await page.evaluate(() => window.__st!.store.getState().loginOpen)).toBe(true)
+  await page.evaluate(() => window.__st!.store.getState().setLoginOpen(false))
   await area.locator('[data-gu-studio]').click()
   expect(await page.evaluate(() => window.__st!.store.getState().view)).toBe('studio')
   log.assertClean()

@@ -28,12 +28,22 @@ const FACES = [
   { name: 'Amir', x0: 985, y0: 495, x1: 1160, y1: 640 },
   { name: 'Sari', x0: 1370, y0: 422, x1: 1585, y1: 598 },
 ]
+/** The same two faces on the cover painting (880 × 1168) that portrait phones get instead of the film — measured by hand as well. */
+const COVER_FACES = [
+  { name: 'Amir', x0: 168, y0: 606, x1: 318, y1: 742 },
+  { name: 'Sari', x0: 444, y0: 634, x1: 588, y1: 750 },
+]
+/** Portrait phones (≤ 760px wide) show the cover painting; everything else shows the film. */
+const wantsCover = (size: { width: number; height: number }) => size.width <= 760 && size.height >= size.width
 const coveredFaces = (page: Page) =>
-  page.evaluate((faces) => {
+  page.evaluate(({ film, cover }) => {
     const hero = document.querySelector<HTMLElement>('#top')!
-    const v = hero.querySelector('.hero-plate video')!.getBoundingClientRect()
+    const still = hero.querySelector('.hero-still')
+    const faces = still ? cover : film
+    const [pw, ph] = still ? [880, 1168] : [1920, 1080]
+    const v = (still ?? hero.querySelector('.hero-plate video')!).getBoundingClientRect()
     const h = hero.getBoundingClientRect()
-    const boxes = faces.map((f) => ({ name: f.name, l: v.left + (f.x0 / 1920) * v.width, r: v.left + (f.x1 / 1920) * v.width, t: v.top + (f.y0 / 1080) * v.height, b: v.top + (f.y1 / 1080) * v.height }))
+    const boxes = faces.map((f) => ({ name: f.name, l: v.left + (f.x0 / pw) * v.width, r: v.left + (f.x1 / pw) * v.width, t: v.top + (f.y0 / ph) * v.height, b: v.top + (f.y1 / ph) * v.height }))
     const hits: string[] = []
     for (const el of hero.querySelectorAll<HTMLElement>('[data-hero-ui]')) {
       const r = el.getBoundingClientRect()
@@ -41,8 +51,8 @@ const coveredFaces = (page: Page) =>
       for (const f of boxes) if (r.left < f.r && r.right > f.l && r.top < f.b && r.bottom > f.t) hits.push(`${(el.textContent ?? '').trim().slice(0, 30)} on ${f.name}`)
     }
     const inView = boxes.every((f) => f.l >= h.left && f.r <= h.right && f.t >= h.top && f.b <= h.bottom)
-    return { hits, inView, layout: hero.dataset.layout ?? '', cards: [...hero.querySelectorAll('.hero-card')].filter((c) => getComputedStyle(c).visibility !== 'hidden').length }
-  }, FACES)
+    return { hits, inView, cover: !!still, video: !!hero.querySelector('video'), layout: hero.dataset.layout ?? '', cards: [...hero.querySelectorAll('.hero-card')].filter((c) => getComputedStyle(c).visibility !== 'hidden').length }
+  }, { film: FACES, cover: COVER_FACES })
 
 /** Runs the face check at each size. */
 async function checkSizes(page: Page, sizes: Array<{ width: number; height: number }>) {
@@ -55,7 +65,10 @@ async function checkSizes(page: Page, sizes: Array<{ width: number; height: numb
     const at = `${size.width}×${size.height} (${res.layout})`
     expect(res.hits, at).toEqual([])
     expect(res.inView, `both faces in view at ${at}`).toBe(true)
-    expect(res.cards, `scene cards shown at ${at}`).toBe(3)
+    // portrait phones: the cover painting, no film element and no scene strip; everything else: the film and three cards
+    expect(res.cover, `cover painting at ${at}`).toBe(wantsCover(size))
+    expect(res.video, `film element at ${at}`).toBe(!wantsCover(size))
+    expect(res.cards, `scene cards shown at ${at}`).toBe(wantsCover(size) ? 0 : 3)
   }
 }
 
@@ -66,7 +79,7 @@ test.describe('hero', () => {
     await scrollToY(page, '#top')
   })
 
-  test('fills the first screen, shows the title and plays the film', async ({ page }) => {
+  test('fills the first screen, shows the title and plays the film (portrait phones: the sharp cover, no film)', async ({ page }) => {
     const con = watchConsole(page)
     const hero = page.locator('#top')
     await settled(page)
@@ -78,7 +91,23 @@ test.describe('hero', () => {
     expect(box.width).toBeCloseTo(size.width, 0)
     expect(box.height).toBeGreaterThanOrEqual(Math.min(size.height, 640) - 1)
     expect(box.height).toBeLessThanOrEqual(Math.max(size.height, 640) + 1)
-    await page.waitForFunction(() => { const f = window.__st!.hero.film(); return !!f && f.ready && f.playing && f.time > 0.15 }, null, { timeout: 45_000 })
+    if (wantsCover(size)) {
+      // a still, not the film: one picture with twice the pixels it is drawn at, fetched first, and no film download
+      await page.waitForFunction(() => window.__st!.hero.picture().loaded === true, null, { timeout: 45_000 })
+      const pic = await page.evaluate(() => window.__st!.hero.picture())
+      expect(pic.kind).toBe('cover')
+      expect(pic.natural).toBe(pic.expect)
+      expect(pic.natural / pic.width).toBeGreaterThanOrEqual(2)
+      const img = hero.locator('.hero-still')
+      await expect(img).toHaveAttribute('fetchpriority', 'high')
+      await expect(img).toHaveAttribute('width', /\d+/)
+      await expect(img).toHaveAttribute('height', /\d+/)
+      await expect(hero.locator('video')).toHaveCount(0)
+      await page.waitForTimeout(1200)
+      expect(await page.evaluate(() => performance.getEntriesByType('resource').map((r) => r.name).filter((n) => /hero-(720|1080)\.mp4/.test(n)))).toEqual([])
+    } else {
+      await page.waitForFunction(() => { const f = window.__st!.hero.film(); return !!f && f.ready && f.playing && f.time > 0.15 }, null, { timeout: 45_000 })
+    }
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth + 1)).toBe(true)
     con.assertClean()
   })
@@ -106,6 +135,7 @@ test.describe('hero', () => {
     await closeOverlay(page)
     const scenes: number[] = await page.evaluate(() => window.__st!.hero.scenes)
     expect(scenes).toEqual([3, 5, 10])
+    if (wantsCover(page.viewportSize()!)) return void (await expect(hero.locator('.hero-card')).toHaveCount(0)) // phones: no strip
     await expect(hero.locator('.hero-card')).toHaveCount(3)
     await hero.locator('.hero-card').nth(1).click()
     expect(await store(page)).toEqual({ overlay: 'film', scene: 5 })
@@ -170,9 +200,11 @@ test.describe('hero', () => {
     const hero = page.locator('#top')
     await expect(hero.locator('h1')).toBeVisible()
     await expect(hero.locator('.hero-sub')).toHaveCSS('opacity', '1')
-    await expect(hero.locator('.hero-card').first()).toHaveCSS('opacity', '1')
+    const cover = wantsCover(page.viewportSize()!)
+    if (cover) await expect(hero.locator('.hero-still')).toBeVisible()
+    else await expect(hero.locator('.hero-card').first()).toHaveCSS('opacity', '1')
     await page.waitForTimeout(800)
-    expect(await page.evaluate(() => window.__st!.hero.film().playing)).toBe(false)
+    expect(await page.evaluate(() => window.__st!.hero.film()?.playing ?? false)).toBe(false)
     expect(await page.evaluate(() => window.__st!.hero.wind())).toBeNull() // no leaf layer at all
   })
 })

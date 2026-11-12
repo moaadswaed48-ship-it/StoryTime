@@ -13,13 +13,13 @@ export type Tier = (typeof t.pricing.tiers)[number]
  * A price is shown only for a real amount (> 0) and always carries the "sample" tag;
  * 0 and −1 show the plan's own words instead (`priceLabel`). Nothing here invents a number.
  */
-export function PlanCard({ tier, featured, yearly, order, sweep = 0, onChoose }: { tier: Tier; featured: boolean; yearly: boolean; order: number; sweep?: number; onChoose: () => void }) {
+export function PlanCard({ tier, featured, yearly, order, sweep = 0, tone = 'night', onChoose }: { tier: Tier; featured: boolean; yearly: boolean; order: number; sweep?: number; /** `paper`: the quiet cards are white instead of dark glass (the grown-ups' area in the app). */ tone?: 'night' | 'paper'; onChoose: () => void }) {
   const amount = yearly ? tier.yearly : tier.monthly
   const priced = amount > 0
   const shown = useCount(priced ? amount : 0)
 
   return (
-    <article className={cn('pl-card', featured ? 'pl-card--featured' : 'glass-ink')} data-tier={tier.id} data-featured={featured ? '' : undefined} style={{ '--o': order } as CSSProperties}>
+    <article className={cn('pl-card', featured ? 'pl-card--featured' : tone === 'paper' ? 'pl-card--quiet' : 'glass-ink')} data-tier={tier.id} data-featured={featured ? '' : undefined} style={{ '--o': order } as CSSProperties}>
       <span className="pl-card__spot" aria-hidden />
       <span className="pl-card__ring" aria-hidden />
       {featured && (
@@ -80,7 +80,7 @@ export function PlanCard({ tier, featured, yearly, order, sweep = 0, onChoose }:
         ))}
       </ul>
 
-      <Pill variant={featured ? 'ink' : 'glass'} size="lg" className="pl-cta" onClick={onChoose} data-cta={tier.id}>
+      <Pill variant={featured ? 'ink' : tone === 'paper' ? 'outline' : 'glass'} size="lg" className="pl-cta" onClick={onChoose} data-cta={tier.id}>
         <span>{tier.cta}</span>
         <span className="pl-cta__chip" aria-hidden>
           <span className="pl-cta__arrow">

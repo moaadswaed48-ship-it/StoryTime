@@ -174,3 +174,104 @@ test('the fifth scene waits behind the demo log-in; the end earns the reading le
   expect(await page.evaluate(() => window.__st!.store.getState().overlay)).toBe(null)
   log.assertClean()
 })
+
+/** A short silent WAV, served in place of the recorded voice so the test does not wait through a real scene. */
+function silence(seconds: number): Buffer {
+  const rate = 8000
+  const n = Math.round(rate * seconds)
+  const b = Buffer.alloc(44 + n, 128)
+  b.write('RIFF', 0)
+  b.writeUInt32LE(36 + n, 4)
+  b.write('WAVEfmt ', 8)
+  b.writeUInt32LE(16, 16)
+  b.writeUInt16LE(1, 20)
+  b.writeUInt16LE(1, 22)
+  b.writeUInt32LE(rate, 24)
+  b.writeUInt32LE(rate, 28)
+  b.writeUInt16LE(1, 32)
+  b.writeUInt16LE(8, 34)
+  b.write('data', 36)
+  b.writeUInt32LE(n, 40)
+  return b
+}
+
+for (const lang of ['ar', 'en'] as const) {
+  test(`${lang}: the listen button reads the page aloud, turns the pages itself, and stops when a page is turned by hand`, async ({ page }) => {
+    test.setTimeout(300_000) // several page turns, software-rendered
+    const log = watchConsole(page)
+    const dur = 2.4
+    // The same shape as public/audio/story/index.json: one file per scene and where each paragraph lies in it.
+    const scenes = story.scenes.map((sc, i) => {
+      const n = sc[lang].length
+      return { file: `${lang}/s${String(i + 1).padStart(2, '0')}.mp3`, dur, paras: Array.from({ length: n }, (_, k) => ({ start: (dur * k) / n, end: (dur * (k + 1)) / n - 0.05 })) }
+    })
+    const asked: string[] = []
+    await page.route('**/audio/story/index.json', (route) => route.fulfill({ json: { [lang]: {}, scenes: { [lang]: scenes } } }))
+    await page.route('**/audio/story/**/*.mp3', (route) => {
+      asked.push(new URL(route.request().url()).pathname)
+      return route.fulfill({ body: silence(dur), contentType: 'audio/wav' })
+    })
+    await openReader(page, lang)
+    expect(await rd<boolean>(page, 'narrating()')).toBe(false)
+
+    // a real tap on the real button (a voice may only start from one)
+    const listen = page.getByTestId('rd-listen')
+    await expect(listen).toHaveAttribute('aria-pressed', 'false')
+    await expect(listen).toHaveAccessibleName(lang === 'ar' ? 'استمع إلى الحكاية' : 'Listen to the story')
+    await expect(async () => {
+      await rd(page, 'chrome(true)') // (the bars put themselves away after a few seconds)
+      await listen.click({ timeout: 3000 })
+    }).toPass({ timeout: 60_000 })
+    expect(await rd<boolean>(page, 'narrating()')).toBe(true)
+    await expect(listen).toHaveAttribute('aria-pressed', 'true')
+    await expect(listen).toHaveAccessibleName(lang === 'ar' ? 'أوقف الصوت' : 'Stop the voice')
+
+    // the first scene is what is read (from the title page the book turns to it first), with one audio element
+    await page.waitForFunction(() => !window.__st!.reader.voice().paused && window.__st!.reader.voice().time > 0, null, { timeout: 120_000 })
+    expect(await rd<string>(page, 'voice().src')).toContain(`/audio/story/${lang}/s01.mp3`)
+    expect(await rd<number>(page, 'scene()')).toBe(0)
+    expect(await rd<string[]>(page, 'lines()')).not.toHaveLength(0)
+
+    // when the page's words have been read the book turns by itself and the next scene's file is read
+    const at = await rd<number>(page, 'position()')
+    await page.waitForFunction((p) => window.__st!.reader.position() > p && window.__st!.reader.narrating(), at, { timeout: 120_000 })
+    await page.waitForFunction(() => /s0[2-9]\.mp3$/.test(window.__st!.reader.voice().src), null, { timeout: 120_000 })
+    expect(asked.some((u) => u.endsWith(`/${lang}/s02.mp3`))).toBe(true)
+    expect(await rd<boolean>(page, 'narrating()')).toBe(true)
+
+    // turning a page by hand ends the reading
+    const back = lang === 'ar' ? 'ArrowRight' : 'ArrowLeft'
+    await expect
+      .poll(
+        async () => {
+          await page.keyboard.press(back)
+          return rd<boolean>(page, 'narrating()')
+        },
+        { timeout: 60_000 },
+      )
+      .toBe(false)
+    expect(await rd<boolean>(page, 'voice().paused')).toBe(true)
+    await atRest(page)
+    const rest = await rd<number>(page, 'position()')
+    await page.waitForTimeout(dur * 1000 + 1200)
+    expect(await rd<number>(page, 'position()')).toBe(rest) // and the book no longer turns by itself
+    log.assertClean()
+  })
+}
+
+test('the recorded narration on disk matches the story, scene by scene', async ({ request }) => {
+  const res = await request.get('audio/story/index.json')
+  test.skip(!res.ok(), 'the narration has not been generated yet')
+  const index = (await res.json()) as { scenes?: Record<string, { file: string; dur: number; paras: { start: number; end: number }[] }[]> }
+  test.skip(!index.scenes, 'the scene table has not been written yet')
+  for (const lang of ['ar', 'en'] as const) {
+    const table = index.scenes![lang]
+    if (!table) continue
+    expect(table).toHaveLength(story.scenes.length)
+    table.forEach((tr, i) => {
+      expect(tr.paras, `${lang} scene ${i + 1}`).toHaveLength(story.scenes[i][lang].length)
+      expect(tr.paras[tr.paras.length - 1].end).toBeLessThanOrEqual(tr.dur + 0.5)
+    })
+    expect((await request.head(`audio/story/${table[0].file}`)).ok()).toBe(true)
+  }
+})

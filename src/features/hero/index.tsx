@@ -9,10 +9,10 @@ import { t } from '@/i18n/copy'
 import { dirSign } from '@/i18n/locale'
 import { exposeQA } from '@/lib/qa'
 import { useSiteStore } from '@/store/useSiteStore'
-import { Film, type FilmHandle } from './Film'
+import { COVER_STILL, Film, PHONE_STILL, type FilmHandle } from './Film'
 import { HERO_SCENES, SceneStrip, type StripHandle } from './SceneStrip'
 import { Wind, type WindHandle, type WindKeepOut } from './Wind'
-import { FILM, frameTall, frameWide, overlaps, type Box, type Frame } from './framing'
+import { FILM, frameCover, frameTall, frameWide, overlaps, type Box, type Frame } from './framing'
 import './hero.css'
 
 gsap.registerPlugin(ScrollTrigger, useGSAP)
@@ -27,6 +27,7 @@ type Layout = 'wide' | 'tall'
 /** How far beyond plain cover the wide layout may enlarge the film before the boys are cropped too tightly. */
 const MAX_ZOOM = 1.32
 const sameFrame = (a: Frame | null, b: Frame) => !!a && a.mode === b.mode && Math.abs(a.s - b.s) < 0.0005 && Math.abs(a.x - b.x) < 0.5 && Math.abs(a.y - b.y) < 0.5 && Math.abs(a.w - b.w) < 0.5
+const wantsCover = () => typeof window !== 'undefined' && window.matchMedia(PHONE_STILL).matches
 const wantsWide = () => typeof window !== 'undefined' && window.matchMedia(WIDE).matches
 /** The sub-copy ends with who the story is for; that part gets its own line instead of a dash stranded at a line start. */
 const [SUB_LEAD, SUB_FOR] = t.hero.sub.split(' — ')
@@ -35,6 +36,8 @@ const [SUB_LEAD, SUB_FOR] = t.hero.sub.split(' — ')
  * The first screen: the hero film full-bleed, the story's title in heavy type, two pills and three living scene cards,
  * with the story's wind — falling leaves that answer a touch — in front of it all.
  * The film is framed by a small solver (framing.ts) so that type, pills and cards never sit on the boys' faces.
+ * Portrait phones get the cover painting as one sharp still instead of the film (`data-picture="cover"`), framed by
+ * the same solver, and no scene strip.
  */
 export function Hero() {
   const section = useRef<HTMLElement>(null)
@@ -65,6 +68,15 @@ export function Hero() {
 
   const [layout, setLayout] = useState<Layout>(() => (wantsWide() ? 'wide' : 'tall'))
   const layoutRef = useRef(layout)
+  /** Portrait phones: the cover painting instead of the film, and no scene strip (the scenes are one scroll away). */
+  const [cover, setCover] = useState(wantsCover)
+  useEffect(() => {
+    const mq = window.matchMedia(PHONE_STILL)
+    const sync = () => setCover(mq.matches)
+    sync()
+    mq.addEventListener('change', sync)
+    return () => mq.removeEventListener('change', sync)
+  }, [])
   /** Screen size at which the wide layout could not keep the strip off a face (it then stays tall for that size). */
   const forcedTall = useRef('')
   const [frame, setFrame] = useState<Frame | null>(null)
@@ -110,7 +122,7 @@ export function Hero() {
     }
     const stackBoxes = uiBoxes('stack')
     const stripTop = strip.current?.el?.offsetTop ?? H
-    const f = want === 'wide' ? frameWide(W, H, stackBoxes) : frameTall(W, H, Math.max(0, ...stackBoxes.map((b) => b.y + b.h)), stripTop)
+    const f = cover ? frameCover(W, H, Math.max(0, ...stackBoxes.map((b) => b.y + b.h))) : want === 'wide' ? frameWide(W, H, stackBoxes) : frameTall(W, H, Math.max(0, ...stackBoxes.map((b) => b.y + b.h)), stripTop)
     const onFace = (b: Box) => f.heads.some((h) => overlaps(b, h, 10))
     const cards = Array.from(el.querySelectorAll<HTMLElement>('.hero-card')).map(boxOf)
     const hit = cards.map((c, i) => (onFace(c) ? i : -1)).filter((i) => i >= 0)
@@ -132,7 +144,7 @@ export function Hero() {
     setFrame((prev) => (sameFrame(prev, f) ? prev : f))
     setClash((prev) => (prev.join() === hit.join() ? prev : hit))
     setHideAll(!!all && onFace(boxOf(all)))
-  }, [boxOf, uiBoxes])
+  }, [boxOf, uiBoxes, cover])
 
   useLayoutEffect(() => {
     solve()
@@ -150,7 +162,7 @@ export function Hero() {
       ro.disconnect()
       window.removeEventListener('resize', queue)
     }
-  }, [solve, layout])
+  }, [solve, layout, cover])
 
   /* ── Entrance: hidden before the first paint, released two frames later, cleaned up when it is over ── */
   useLayoutEffect(() => {
@@ -172,7 +184,7 @@ export function Hero() {
   useGSAP(
     () => {
       if (reduced || !section.current) return
-      gsap
+      const tl = gsap
         .timeline({
           defaults: { ease: 'none' },
           scrollTrigger: { trigger: section.current, start: 'top top', end: 'bottom top', scrub: true, onUpdate: (self) => self.progress > 0.004 && setPhase(undefined) },
@@ -180,10 +192,10 @@ export function Hero() {
         .to(media.current, { yPercent: 12, duration: 1 }, 0)
         .to(veil.current, { opacity: 0.62, duration: 1 }, 0)
         .to(stack.current, { yPercent: -14, '--exit': 1, duration: 0.5 }, 0)
-        .to(strip.current?.el ?? null, { y: -28, opacity: 0, duration: 0.42 }, 0)
         .to(cue.current, { opacity: 0, duration: 0.18 }, 0)
+      if (strip.current?.el) tl.to(strip.current.el, { y: -28, opacity: 0, duration: 0.42 }, 0)
     },
-    { scope: section, dependencies: [reduced], revertOnUpdate: true },
+    { scope: section, dependencies: [reduced, cover], revertOnUpdate: true },
   )
 
   /* ── Pointer depth (mouse only): film and type slide a few pixels against each other ── */
@@ -242,6 +254,12 @@ export function Hero() {
           const v = film.current?.video
           return v ? { src: v.currentSrc, ready: v.readyState >= 2, playing: !v.paused && !v.ended, time: v.currentTime } : null
         },
+        /** What fills the hero: the film, or the cover painting on portrait phones (with the width it is drawn at, CSS px). */
+        picture: () => {
+          const img = section.current?.querySelector<HTMLImageElement>('.hero-still')
+          const r = img?.getBoundingClientRect()
+          return img && r ? { kind: 'cover', src: img.currentSrc, loaded: img.complete && img.naturalWidth > 0, natural: img.naturalWidth, width: r.width, expect: COVER_STILL.w } : { kind: 'film' }
+        },
         hoverCard: (i: number) => strip.current?.hover(i),
         leaveCard: (i: number) => strip.current?.leave(i),
         cardPlaying: (i: number) => !!strip.current?.playing(i),
@@ -250,7 +268,7 @@ export function Hero() {
         gust: (x: number, y: number) => wind.current?.burst(x, y),
       },
     })
-  }, [uiBoxes])
+  }, [uiBoxes, cover])
 
   const d = (ms: number, rise?: number) => ({ '--d': `${ms}ms`, ...(rise === undefined ? null : { '--rise': `${rise}px` }) }) as CSSProperties
 
@@ -260,12 +278,13 @@ export function Hero() {
       ref={section}
       className="hero relative isolate overflow-hidden bg-night text-white"
       data-layout={layout}
+      data-picture={cover ? 'cover' : 'film'}
       data-phase={phase}
       data-film={[filmState.ready && 'ready', (filmState.settled || reduced) && 'settled'].filter(Boolean).join(' ')}
       style={{ '--dir': dirSign } as CSSProperties}
     >
       <div ref={media} className="absolute inset-0 will-change-transform">
-        <Film ref={film} frame={frame} play={live} still={reduced} onState={setFilmState} />
+        <Film ref={film} frame={frame} play={live} still={reduced} cover={cover} onState={setFilmState} />
       </div>
 
       <div ref={stack} className="hero-stack">
@@ -306,7 +325,7 @@ export function Hero() {
         </div>
       </div>
 
-      <SceneStrip ref={strip} reduced={reduced} clash={clash} hideAll={hideAll} />
+      {!cover && <SceneStrip ref={strip} reduced={reduced} clash={clash} hideAll={hideAll} />}
 
       <div ref={cue} className="hero-cue" data-hero-ui="cue">
         <div className="hero-cue__in hero-rise" style={d(700, 0)}>

@@ -9,6 +9,7 @@ const tile = async (page: Page, scene: number) => (await state(page)).tiles.find
 const site = (page: Page) => page.evaluate(() => { const s = window.__st!.store.getState(); return { overlay: s.overlay as string | null, startScene: s.startScene as number } })
 
 test.describe('parents', () => {
+  test.skip(!process.env.ST_DEV, 'this section is no longer on the landing page: it is tested on its demo page (ST_DEV=1)')
   test.beforeEach(async ({ page }) => {
     await page.goto(pageUrl('parents'))
     await waitForHook(page, 'parents')

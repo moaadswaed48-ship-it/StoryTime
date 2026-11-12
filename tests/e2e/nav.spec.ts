@@ -18,9 +18,9 @@ const makeScrollable = (page: Page) =>
       pad.style.height = '160vh'
       document.getElementById('page')?.appendChild(pad)
     }
-    if (!document.getElementById('pricing')) {
+    if (!document.getElementById('sari')) {
       const target = document.createElement('section')
-      target.id = 'pricing'
+      target.id = 'sari'
       target.style.height = '100vh'
       document.getElementById('page')?.appendChild(target)
     }
@@ -83,14 +83,14 @@ test.describe('nav', () => {
     await expect.poll(async () => (await nav(page)).hidden).toBe(false)
   })
 
-  test('desktop bar: four links scroll, the film link and log-in work', async ({ page }) => {
+  test('desktop bar: three links scroll, the film link and log-in work', async ({ page }) => {
     test.skip(!isWide(page), 'the full bar exists from 1024px')
     const bar = page.locator('.st-nav__bar')
-    await expect(bar.locator('.st-links [data-link]')).toHaveCount(4)
-    expect(await bar.locator('.st-links [data-link]').evaluateAll((els) => els.map((e) => e.getAttribute('data-link')))).toEqual(['library', 'film', 'parents', 'pricing'])
+    await expect(bar.locator('.st-links [data-link]')).toHaveCount(3)
+    expect(await bar.locator('.st-links [data-link]').evaluateAll((els) => els.map((e) => e.getAttribute('data-link')))).toEqual(['library', 'sari', 'film'])
 
-    await bar.locator('[data-link="pricing"]').click()
-    const target = await page.evaluate(() => document.getElementById('pricing')!.getBoundingClientRect().top + window.scrollY - 80)
+    await bar.locator('[data-link="sari"]').click()
+    const target = await page.evaluate(() => document.getElementById('sari')!.getBoundingClientRect().top + window.scrollY - 80)
     await expect.poll(() => page.evaluate(() => window.scrollY), { timeout: 20_000 }).toBeGreaterThan(Math.min(target, 200) - 4)
     await expect.poll(async () => (await nav(page)).tone).toBe('ink')
     await scrollToY(page, 0)
@@ -132,7 +132,7 @@ test.describe('nav', () => {
     await burger.click()
     await expect.poll(async () => (await nav(page)).menu).toBe(true)
     await expect(burger).toHaveAttribute('aria-expanded', 'true')
-    await expect(sheet.locator('.st-sheet__link')).toHaveCount(4)
+    await expect(sheet.locator('.st-sheet__link')).toHaveCount(3)
     await expect(sheet.locator('.st-sheet__link').first()).toBeVisible()
     await expect(sheet.locator('.st-sheet__enter')).toBeVisible()
     expect(await page.evaluate(() => document.documentElement.style.overflow)).toBe('hidden')

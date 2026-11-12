@@ -716,3 +716,23 @@ html[data-reduce-motion] .hero-cue__line::after {
     display: none;
   }
 }
+
+/* ── Portrait phones: the cover painting, sharp, instead of the film (Film.tsx, framing.ts `frameCover`) ──
+   The frame has the painting's own proportions, so the picture is never cropped by `object-fit`; until the file
+   arrives its place shows a 16 × 21 copy of itself, and the same copy, stretched, is the sky behind it. */
+.hero[data-picture='cover'] .hero-plate,
+.hero[data-picture='cover'] .hero-backdrop {
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+}
+.hero[data-picture='cover'] .hero-plate img {
+  object-fit: cover;
+  object-position: 50% 100%;
+}
+/* the painting's sky is paler than the film's: a touch more depth behind the type, far less over the boys' legs */
+.hero[data-picture='cover'] .hero-grade--sky {
+  background: linear-gradient(to bottom, rgb(96 26 4 / 0.5) 0%, rgb(104 32 6 / 0.36) 24%, rgb(112 38 8 / 0.14) 44%, rgb(112 38 8 / 0) 56%);
+}
+.hero[data-picture='cover'] .hero-grade--floor {
+  background: linear-gradient(to top, var(--color-night, #120c08) 0%, rgb(18 12 8 / 0.7) 5%, rgb(18 12 8 / 0.3) 11%, rgb(18 12 8 / 0) 19%);
+}

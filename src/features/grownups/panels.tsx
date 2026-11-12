@@ -1,5 +1,5 @@
 import { useState, type ReactNode } from 'react'
-import { ArrowUpRight, Check, ChevronLeft, Languages, PenLine, Presentation, Trash2, Volume2, Wind } from 'lucide-react'
+import { Check, ChevronLeft, Info, Languages, PenLine, Presentation, Trash2, Volume2, Wind } from 'lucide-react'
 import { Pill } from '@/design/ui'
 import { asset } from '@/lib/asset'
 import { cn } from '@/lib/cn'
@@ -13,6 +13,9 @@ import { useSiteStore } from '@/store/useSiteStore'
 import { leavesOf, useProfileStore, type Activity } from '@/store/useProfileStore'
 import { Maple } from '@/features/tree/Maple'
 import { forgetSeen } from '@/features/tree/seen'
+import { PlanCard } from '@/features/pricing/PlanCard'
+import { BillingToggle } from '@/features/pricing/Toggle'
+import '@/features/pricing/pricing.css'
 import { strings } from './strings'
 
 const KINDS: Activity[] = ['read', 'watched', 'played']
@@ -216,48 +219,49 @@ export function SettingsPanel() {
   )
 }
 
-/**
- * Back to the front door, then down to the plans. The landing page loads its sections as it goes, so the plans
- * move down while it settles: keep them in place for a few seconds, and let go the moment the visitor scrolls.
- */
-function seePlans() {
-  go('landing')
-  const started = performance.now()
-  let stopped = false
-  const stop = () => void (stopped = true)
-  const events = ['wheel', 'touchstart', 'keydown', 'pointerdown'] as const
-  events.forEach((e) => window.addEventListener(e, stop, { once: true, passive: true }))
-  const seek = () => {
-    if (stopped || useSiteStore.getState().view !== 'landing') return events.forEach((e) => window.removeEventListener(e, stop))
-    const el = document.querySelector<HTMLElement>('#pricing')
-    if (el && Math.abs(el.getBoundingClientRect().top - 80) > 8) {
-      const lenis = useSiteStore.getState().lenis
-      lenis?.resize() // the page has grown since the last measure
-      if (lenis) lenis.scrollTo(el, { offset: -80, immediate: true, force: true })
-      else window.scrollTo(0, window.scrollY + el.getBoundingClientRect().top - 80)
-    }
-    if (performance.now() - started < 5000) setTimeout(seek, 180)
-    else events.forEach((e) => window.removeEventListener(e, stop))
-  }
-  setTimeout(seek, 80)
-}
+/** The highlighted plan first, as in the stacked layout of the old landing section. */
+const PLAN_ORDER = [1, 0, 2]
 
+/**
+ * The plan tab: what this account is (a demo), then the three plans with the monthly / yearly switch — the same cards
+ * as everywhere else, in their paper tone. Every price is a sample; "family" opens the demo checkout.
+ */
 export function PlanPanel() {
+  const [yearly, setYearly] = useState(false)
+  const tiers = t.pricing.tiers
+  const choose = (id: string) => {
+    const site = useSiteStore.getState()
+    if (id === 'family') site.openCheckout('family', yearly)
+    else if (id === 'start') go('home')
+    else site.setLoginOpen(true)
+  }
   return (
     <div className="grid gap-4" data-gu-plan>
-      <div className="gu-card flex flex-wrap items-center justify-between gap-x-6 gap-y-5 p-5 sm:p-7">
-        <div>
-          <p className="text-[13.5px] font-semibold text-muted">{t.app.grown.planNow}</p>
-          <p className="mt-2 flex items-center gap-3 text-[26px] font-bold leading-tight sm:text-[30px]">
-            <span className="h-2.5 w-2.5 shrink-0 rounded-full bg-maple" aria-hidden />
-            {t.app.grown.planDemo}
-          </p>
-        </div>
-        <Pill variant="ink" size="lg" className="w-full sm:w-auto" onClick={seePlans} data-gu-plans>
-          {t.app.grown.planSee}
-          <ArrowUpRight className="flip-rtl h-[18px] w-[18px]" aria-hidden />
-        </Pill>
+      <div className="gu-card p-5 sm:p-7">
+        <p className="text-[13.5px] font-semibold text-muted">{t.app.grown.planNow}</p>
+        <p className="mt-2 flex items-center gap-3 text-[26px] font-bold leading-tight sm:text-[30px]">
+          <span className="h-2.5 w-2.5 shrink-0 rounded-full bg-maple" aria-hidden />
+          {t.app.grown.planDemo}
+        </p>
       </div>
+
+      <div className="pl pl--paper" data-gu-plans data-yearly={yearly}>
+        <div className="pl-switch">
+          <div className="pl-switch__in">
+            <BillingToggle tone="paper" yearly={yearly} onChange={setYearly} />
+          </div>
+        </div>
+        <div className="pl-grid">
+          {PLAN_ORDER.map((i, pos) => (
+            <PlanCard key={tiers[i].id} tone="paper" tier={tiers[i]} featured={i === 1} yearly={yearly} order={pos} onChoose={() => choose(tiers[i].id)} />
+          ))}
+        </div>
+        <p className="pl-foot">
+          <Info size={15} strokeWidth={2} aria-hidden />
+          <span>{t.pricing.footnote}</span>
+        </p>
+      </div>
+
       <button type="button" onClick={() => go('studio')} className="gu-card group flex min-h-[84px] w-full items-center gap-4 px-5 text-start transition-[background-color,scale] duration-200 ease-out hover:bg-white active:scale-[0.985] sm:px-7" data-gu-studio>
         <span className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-ink text-paper">
           <PenLine className="h-5 w-5" aria-hidden />

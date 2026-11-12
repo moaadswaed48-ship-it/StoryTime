@@ -104,3 +104,35 @@ export function frameTall(W: number, H: number, stackBottom: number, stripTop: n
   const fadeBottom: [number, number] | null = y + h < H + 1 ? [Math.min(SUBJECT.feet * s + 4, h - 24), h] : null
   return { mode: 'tall', s, x, y, w: FILM.w * s, h, heads: project(s, x, y, ZOOM.tall), fadeTop, fadeBottom }
 }
+
+/* ── Phones (portrait): the cover painting instead of the film ───────────────────────────────────────────
+   A 16:9 film shows a phone only its middle 40 %, stretched two to three times. The portrait cover is the same
+   moment painted tall: sky above (room for the title), the two boys in the lower half, leaves on the ground. */
+export const COVER = { w: 880, h: 1168 }
+/** Head boxes on the cover, in cover pixels (hair to chin, with a little air). */
+const COVER_HEADS = [
+  { x0: 160, y0: 596, x1: 326, y1: 750 }, // Amir
+  { x0: 436, y0: 626, x1: 594, y1: 756 }, // Sari
+]
+/** Both boys on the cover: fingertip to fingertip, hair to shoes. */
+const COVER_SUBJECT = { cx: 397, top: 596 }
+
+/**
+ * Portrait phones: the cover fills the screen, anchored to the bottom edge. When the title stack reaches lower
+ * than the boys' hair, the picture is made smaller (never narrower than the screen) and slides down until the hair
+ * is clear; what opens above it is sky, which dissolves into a soft copy of the same sky.
+ */
+export function frameCover(W: number, H: number, stackBottom: number): Frame {
+  const cover = Math.max(W / COVER.w, H / COVER.h)
+  const need = stackBottom + Math.max(14, H * 0.02)
+  let s = cover
+  let y = H - COVER.h * s
+  if (COVER_SUBJECT.top * s + y < need) {
+    s = clamp((H - need) / (COVER.h - COVER_SUBJECT.top), W / COVER.w, cover)
+    y = Math.max(H - COVER.h * s, need - COVER_SUBJECT.top * s) // short screens: the grass may leave, the faces may not
+  }
+  const x = clamp(W / 2 - COVER_SUBJECT.cx * s, W - COVER.w * s, 0)
+  const heads = COVER_HEADS.map((h) => ({ x: x + h.x0 * s, y: y + h.y0 * s, w: (h.x1 - h.x0) * s, h: (h.y1 - h.y0) * s }))
+  const fadeTop: [number, number] | null = y > 0.5 ? [0, Math.min(COVER_SUBJECT.top * s - 14, Math.max(96, H * 0.18))] : null
+  return { mode: 'tall', s, x, y, w: COVER.w * s, h: COVER.h * s, heads, fadeTop, fadeBottom: null }
+}

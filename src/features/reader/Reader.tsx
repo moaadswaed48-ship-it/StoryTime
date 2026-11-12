@@ -123,6 +123,8 @@ export function ReaderView({ startScene }: { startScene: number }) {
       locked: () => live.current.locked,
       turning: () => !!engine.current?.turning(),
       turn: () => {
+        // (never on top of a leaf that is already in the air, such as the hint that lifts the first page's corner)
+        if (!engine.current || engine.current.turning()) return false
         autoTurn.current = true
         fromBar.current = true // the controls stay as they are: the reader did not touch the page
         const ok = !!engine.current?.turn(1)

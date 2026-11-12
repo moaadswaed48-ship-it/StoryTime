@@ -21,7 +21,8 @@ test.describe('footer', () => {
     const con = watchConsole(page)
     const footer = page.locator('#footer')
     await expect(footer.locator('.ft-line')).not.toBeEmpty()
-    await expect(footer.locator('.ft-links [data-link]')).toHaveCount(4)
+    await expect(footer.locator('.ft-links [data-link]')).toHaveCount(3)
+    expect(await footer.locator('.ft-links [data-link]').evaluateAll((els) => els.map((e) => e.getAttribute('data-link')))).toEqual(['library', 'sari', 'film'])
     await expect(footer.locator('.ft-legal')).not.toBeEmpty()
     await expect(footer.locator('.ft-note')).not.toBeEmpty()
     await expect(footer.locator('.ft-enter')).not.toBeEmpty()
@@ -107,9 +108,9 @@ test.describe('footer', () => {
     await page.evaluate(() => window.__st!.store.getState().setPicking(false))
 
     // a section link travels up the page (only where that section is mounted)
-    if (await page.locator('#pricing').count()) {
+    if (await page.locator('#sari').count()) {
       const before = await page.evaluate(() => window.scrollY)
-      await footer.locator('[data-link="pricing"]').click()
+      await footer.locator('[data-link="sari"]').click()
       await expect.poll(async () => page.evaluate(() => window.scrollY), { timeout: 20_000 }).toBeLessThan(before - 200)
     }
   })

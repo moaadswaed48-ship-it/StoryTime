@@ -146,3 +146,56 @@ test('dragging the shelf moves it and it snaps onto a book', async ({ page, isMo
   expect(after.settled).toBe(true)
   con.assertClean()
 })
+
+test('inside the app an opened book lands in its slot, on screen, and the page does not jump', async ({ page }) => {
+  const con = watchConsole(page)
+  await page.goto(pageUrl('home'))
+  await waitForHook(page, 'store')
+  await page.evaluate(() => {
+    const pr = window.__st!.profile.getState()
+    pr.reset()
+    pr.setProfile({ name: 'لينا', avatar: 'sari' })
+    window.__st!.store.getState().setView('home')
+  })
+  await waitForHook(page, 'library')
+  // Stand where a reader would: the shelf in the middle of the screen.
+  await page.evaluate(() => {
+    const r = document.querySelector('#library .lib-stage')!.getBoundingClientRect()
+    const y = Math.max(0, r.top + window.scrollY - (window.innerHeight - r.height) / 2)
+    const lenis = window.__st?.lenis
+    if (lenis) lenis.scrollTo(y, { immediate: true, force: true })
+    else window.scrollTo(0, y)
+  })
+  await page.waitForFunction(() => window.__st!.library.state().landed === true, undefined, { timeout: 30_000 })
+
+  for (const rank of [null, 0]) {
+    if (rank !== null) {
+      await lib(page, `select(${rank})`)
+      await settled(page)
+    }
+    const y0 = await page.evaluate(() => window.scrollY)
+    await lib(page, 'open()')
+    await page.waitForTimeout(1500) // the flight (1.05 s); `settled` is also true in the instant before it starts
+    await settled(page)
+    const m = await page.evaluate(() => {
+      const box = (q: string) => {
+        const r = document.querySelector(q)!.getBoundingClientRect()
+        return { cx: r.left + r.width / 2, cy: r.top + r.height / 2, top: r.top, bottom: r.bottom, h: r.height }
+      }
+      return { y: window.scrollY, vh: window.innerHeight, slot: box('#library .lib-detail-slot'), book: box('#library .lib-book.is-open .lib-front'), sec: box('#library'), panel: box('#library .lib-detail-grid') }
+    })
+    // The cover is where its slot is (perspective draws it a few pixels larger), and both are on screen.
+    expect(Math.abs(m.book.cx - m.slot.cx)).toBeLessThan(m.slot.h * 0.15)
+    expect(Math.abs(m.book.cy - m.slot.cy)).toBeLessThan(m.slot.h * 0.15)
+    expect(m.slot.top).toBeGreaterThanOrEqual(0)
+    expect(m.slot.bottom).toBeLessThanOrEqual(m.vh)
+    // The words stay inside the shelf's own section (never over the hero above it or whatever follows).
+    expect(m.panel.top).toBeGreaterThanOrEqual(m.sec.top - 1)
+    expect(m.panel.bottom).toBeLessThanOrEqual(m.sec.bottom + 1)
+    // It was already in view, so the page stayed where it was.
+    expect(Math.abs(m.y - y0)).toBeLessThan(4)
+    await lib(page, 'close()')
+    await settled(page)
+  }
+  con.assertClean()
+})

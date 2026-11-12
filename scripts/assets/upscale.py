@@ -11,7 +11,7 @@ result is reduced to 2x), but x2plus keeps the knit and leaf texture of these re
 
 Reads   assets-src/film/cover.png, k01.png … k12.png
 Writes  public/story/cover@2x.webp          1760 x 2336, the whole cover
-        public/story/hero-phone.webp        1320 x 1752, the phone hero still (kept under ~250 KB)
+        public/story/hero-phone.webp        1760 x 2336, the phone hero still (quality lowered until it is under 250 KB)
         public/story/kNN@2x.webp            2688 x 1504
 Faces are never redrawn: this is a plain super-resolution pass over the committed paintings (hard rule 9).
 """
@@ -91,9 +91,8 @@ def main() -> int:
             continue
         save_webp(big, OUT / f"{name}@2x.webp", 80)
         if name == "cover":
-            # the phone hero: 3 device pixels per CSS pixel on a 440px-wide screen, light enough for the first paint
-            phone = big.resize((1320, round(big.height * 1320 / big.width)), Image.LANCZOS)
-            save_webp(phone, OUT / "hero-phone.webp", 80, 250 * 1024)
+            # the phone hero (src/features/hero): the same pixels, light enough for the first paint
+            save_webp(big, OUT / "hero-phone.webp", 76, 250 * 1024)
     return 0
 
 

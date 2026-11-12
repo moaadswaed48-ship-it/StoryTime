@@ -23,6 +23,10 @@ const worldReady = (page: Page) => page.waitForFunction(() => window.__st!.game.
 const phaseIs = (page: Page, phase: string) => page.waitForFunction((p) => window.__st!.game.state().phase === p, phase, { timeout: 60_000 })
 const overlay = (page: Page) => page.evaluate(() => window.__st!.store.getState().overlay)
 
+// The poster section (#game) is no longer on the landing page: the game is opened from the app and the scroll story.
+// These tests start from the poster, so they run on the demo page (ST_DEV=1).
+test.skip(!process.env.ST_DEV, 'the game poster is tested on its demo page (ST_DEV=1)')
+
 test('the poster starts the game, the page is locked while playing, Escape brings it back', async ({ page }) => {
   const log = await open(page)
   const section = page.locator('#game')

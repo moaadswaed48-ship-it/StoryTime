@@ -313,7 +313,6 @@ export class Shelf {
       }
       return gsap.to(l, { p, duration: 0.75, ease: 'power3.inOut', onUpdate: this.wake })
     })
-    const changed = target !== this.sel
     this.sel = target
     this.delta = this.reduced ? 0 : uNow - this.rk[target]
     this.snap?.kill()
@@ -417,11 +416,19 @@ export class Shelf {
     const top = 72
     const ds = els.detail.style
     if (stacked) {
-      const dr = els.detail.getBoundingClientRect()
+      let dr = els.detail.getBoundingClientRect()
       const ph = els.panel.offsetHeight
+      const air = 14
+      // Inside the app the section is short (no heading of its own): make sure the panel fits inside it, so the
+      // words never run over whatever follows the shelf. Set once and kept, so nothing shifts on the way back.
+      const sec = els.detail.parentElement
+      if (sec && dr.height < ph + air * 3) {
+        sec.style.minHeight = `${Math.ceil(ph + air * 3)}px`
+        dr = els.detail.getBoundingClientRect()
+      }
       // In the viewport: centred when the whole panel fits under the top bar, otherwise from the top.
       const want = Math.max(top, (vh - ph) / 2)
-      const dy = Math.round(clamp(want - dr.top, 0, Math.max(0, dr.height - ph)))
+      const dy = Math.round(clamp(want - dr.top, air, Math.max(air, dr.height - ph - air)))
       ds.alignItems = 'start'
       ds.paddingTop = `${dy}px`
     } else if (ds.paddingTop || ds.alignItems) ds.alignItems = ds.paddingTop = ''

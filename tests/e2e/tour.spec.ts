@@ -14,6 +14,7 @@ async function open(page: Page, extra = '') {
 }
 
 test.describe('tour — inside StoryTime', () => {
+  test.skip(!process.env.ST_DEV, 'this section is no longer on the landing page: it is tested on its demo page (ST_DEV=1)')
   for (const lang of ['ar', 'en'] as const) {
     test(`shows the real app screens in ${lang}`, async ({ page }) => {
       const con = watchConsole(page)

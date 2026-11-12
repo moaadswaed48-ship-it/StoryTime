@@ -407,10 +407,13 @@ export class Narration {
     const scene = clip.scene + 1
     if (scene >= h.scenes()) {
       // The last words are read: the book turns to its end page and the voice rests.
-      return later(GAP_SCENE, () => {
+      const close = () => {
         this.pending = () => this.stop()
-        if (!h.turn()) this.stop()
-      })
+        if (h.turn()) return
+        if (h.turning()) this.pending = close // the paper is in the air: once it has landed
+        else this.stop()
+      }
+      return later(GAP_SCENE, close)
     }
     const nextScene = clipsFor(indexNow, this.lang, scene, h.paragraphs(scene))[0]
     if (!nextScene) return this.stop()

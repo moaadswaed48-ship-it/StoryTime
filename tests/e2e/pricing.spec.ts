@@ -11,6 +11,7 @@ const MONTH = /^(29|٢٩)$/
 const YEAR = /^(290|٢٩٠)$/
 
 test.describe('pricing', () => {
+  test.skip(!process.env.ST_DEV, 'this section is no longer on the landing page: it is tested on its demo page (ST_DEV=1)')
   test.beforeEach(async ({ page }) => {
     await page.goto(pageUrl('pricing'))
     await waitForHook(page, 'pricing')
