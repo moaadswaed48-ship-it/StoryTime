@@ -118,8 +118,9 @@
 }
 .au__brand {
   position: absolute;
-  inset-inline-start: 16px;
-  /* top corner: the grip is centred, and the boys stand in the lower half of the strip */
+  /* Placed against the picture, not the text: the picture is never mirrored and the boys stand at its
+     right, lower half, so the chip takes the top-left corner in both languages (the grip is centred). */
+  left: 16px;
   top: 20px;
   display: inline-flex;
   align-items: center;
@@ -456,6 +457,7 @@ html[lang='ar'] .au__welcome {
   .au__brand {
     top: 22px;
     bottom: auto;
+    left: auto;
     inset-inline-start: 22px;
     height: 40px;
     font-size: 17px;

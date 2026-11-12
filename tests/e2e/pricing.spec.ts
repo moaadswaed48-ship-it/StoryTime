@@ -2,7 +2,7 @@ import { expect, test, type Page } from '@playwright/test'
 import { pageUrl } from './_url'
 import { scrollToY, waitForHook, watchConsole } from './helpers'
 
-type State = { yearly: boolean; price: string; per: string; samples: number; numbers: number; order: string[]; glow: boolean }
+type State = { yearly: boolean; price: string; per: string; samples: number; numbers: number; order: string[]; glow: boolean; sweeps: number }
 const state = (page: Page) => page.evaluate(() => window.__st!.pricing.state() as State)
 const loginOpen = (page: Page) => page.evaluate(() => window.__st!.store.getState().loginOpen as boolean)
 const isWide = (page: Page) => (page.viewportSize()?.width ?? 0) >= 900
@@ -88,7 +88,33 @@ test.describe('pricing', () => {
     await expect.poll(async () => (await state(page)).glow).toBe(true)
     await expect.poll(() => card.evaluate((el) => (el as HTMLElement).style.getPropertyValue('--mx'))).toMatch(/px$/)
     await expect(card.locator('.pl-card__ring')).toHaveCSS('opacity', '1')
+    // the page scrolls under a still mouse: the light keeps tracking the pointer
+    const my = () => card.evaluate((el) => parseFloat((el as HTMLElement).style.getPropertyValue('--my')))
+    const before = await my()
+    await page.mouse.wheel(0, -120) // up: on the demo page the section may already sit at the end of the page
+    await expect.poll(async () => Math.abs((await my()) - before), { timeout: 5_000 }).toBeGreaterThan(20)
     await page.mouse.move(5, 5)
     await expect.poll(async () => (await state(page)).glow).toBe(false)
+  })
+
+  test('phones: the light glides across the cards as they scroll by', async ({ page }) => {
+    test.skip(await page.evaluate(() => window.matchMedia('(hover: hover) and (pointer: fine)').matches), 'touch only')
+    await scrollToY(page, '#pricing .pl-grid')
+    const card = page.locator('#pricing .pl-card[data-featured]')
+    await expect.poll(async () => (await state(page)).glow).toBe(true)
+    const mx = () => card.evaluate((el) => parseFloat((el as HTMLElement).style.getPropertyValue('--my')))
+    const before = await mx()
+    await page.evaluate(() => window.scrollBy(0, -160))
+    await expect.poll(async () => Math.abs((await mx()) - before)).toBeGreaterThan(20)
+  })
+
+  test('a light sweeps the highlighted card once it lands, and again on every switch', async ({ page }) => {
+    test.skip(await page.evaluate(() => window.__st!.store.getState().tier === 'reduced'), 'motion reduced')
+    await scrollToY(page, '#pricing .pl-grid')
+    await expect.poll(async () => (await state(page)).sweeps).toBe(1)
+    await expect(page.locator('#pricing .pl-card[data-featured] .pl-card__sweep')).toHaveCount(1)
+    await page.evaluate(() => window.__st!.pricing.setYearly(true))
+    await expect.poll(async () => (await state(page)).sweeps).toBe(2)
+    await expect(page.locator('#pricing .pl-card__sweep')).toHaveCount(1)
   })
 })

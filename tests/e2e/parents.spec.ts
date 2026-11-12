@@ -65,7 +65,9 @@ test.describe('parents', () => {
     const ok = await page.evaluate(() =>
       Array.from(document.querySelectorAll('#parents .pr-stat')).every((li) => {
         const want = (li.querySelector('.sr-only')?.textContent ?? '').replace(/[^0-9٠-٩]/g, '')
-        const got = Array.from(li.querySelectorAll('.pr-odo__strip')).map((s) => s.lastElementChild?.textContent ?? '').join('')
+        // a lone Arabic «٠» is drawn as one larger glyph instead of a rolling strip
+        const zero = li.querySelector('.pr-odo__zero > span')?.textContent ?? ''
+        const got = zero || Array.from(li.querySelectorAll('.pr-odo__strip')).map((s) => s.lastElementChild?.textContent ?? '').join('')
         return want.length > 0 && want === got
       }),
     )
