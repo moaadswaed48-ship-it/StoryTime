@@ -20,6 +20,12 @@ export function Grownups({ open, onToggle }: { open: boolean; onToggle: () => vo
           </span>
           <span className="grown__draft">{t.app.story.draft}</span>
         </span>
+        {/* what is inside, before opening: the three real headings */}
+        <span className="grown__peek" aria-hidden>
+          <span>{t.app.story.goals}</span>
+          <span>{t.app.story.talk}</span>
+          <span>{t.app.story.activity}</span>
+        </span>
         <span className="grown__chev" aria-hidden>
           <ChevronDown size={20} strokeWidth={2.2} />
         </span>

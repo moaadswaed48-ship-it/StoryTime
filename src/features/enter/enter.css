@@ -32,6 +32,12 @@
   backdrop-filter: blur(28px) saturate(150%);
   animation: enter-fade 0.4s ease both;
 }
+/* inside the app there is only paper behind: the ground is then its own warm night, not a grey wash */
+.enter[data-over='app'] .enter__backdrop {
+  background:
+    radial-gradient(120% 70% at 50% 0%, rgb(244 163 94 / 0.22), transparent 62%),
+    linear-gradient(180deg, rgb(52 28 12 / 0.95), rgb(18 12 8 / 0.98));
+}
 @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
   .enter__backdrop {
     background: linear-gradient(180deg, #2b1f15, #120c08);
@@ -89,6 +95,9 @@
 }
 html[lang='ar'] .enter__title {
   line-height: 1.22;
+}
+html[lang='en'] .enter__title {
+  letter-spacing: -0.015em;
 }
 .enter__sub {
   margin-top: 10px;
@@ -162,9 +171,8 @@ html[lang='ar'] .enter__title {
   transform: none;
 }
 .enter__pick:focus-visible .enter__face {
-  box-shadow:
-    0 0 0 3px #fff,
-    0 18px 36px rgb(0 0 0 / 0.4);
+  outline: 3px dashed var(--color-maple-soft);
+  outline-offset: 13px;
 }
 .enter__pick:active .enter__face {
   transform: scale(0.96);
@@ -382,19 +390,26 @@ html[dir='rtl'] .enter__paper {
 }
 .enter__hello {
   position: absolute;
-  inset-inline: 16px;
-  top: calc(50% + clamp(120px, 20svh, 168px) / 2 + 26px);
+  inset-inline: 0;
+  top: calc(50% + clamp(120px, 20svh, 168px) / 2 + 24px);
   z-index: 4;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
   gap: 4px 12px;
+  width: fit-content;
+  max-width: calc(100% - 32px);
+  margin-inline: auto;
+  padding: 8px 20px 10px;
+  border-radius: 999px;
+  background: rgb(24 13 6 / 0.6);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
   font-weight: 900;
   font-size: clamp(1.7rem, 4.6vw + 0.7rem, 2.75rem);
   line-height: 1.3;
   color: #fff;
-  text-shadow: 0 3px 18px rgb(60 20 0 / 0.6);
   opacity: 0;
   pointer-events: none;
 }
@@ -404,7 +419,7 @@ html[dir='rtl'] .enter__paper {
   border-radius: 7px;
   background: linear-gradient(180deg, #fffefa, #fbf6ea);
   color: var(--color-ink);
-  text-shadow: none;
+  letter-spacing: 0;
   box-shadow:
     0 2px 5px rgb(0 0 0 / 0.2),
     0 14px 30px rgb(0 0 0 / 0.3);
@@ -414,16 +429,16 @@ html[dir='rtl'] .enter__hello-name {
   transform: rotate(2deg);
 }
 .enter[data-phase='covering'] .enter__hello {
-  animation: enter-hello-in 0.4s 0.26s var(--ease-out) both;
+  animation: enter-hello-in 0.28s 0.1s var(--ease-out) both;
 }
 .enter[data-phase='parting'] .enter__hello {
-  animation: enter-medal-out 0.4s 0.1s var(--ease-state) both;
+  animation: enter-medal-out 0.34s 0.22s var(--ease-state) both;
 }
 .enter[data-phase='covering'] .enter__medal {
   animation: enter-medal-in 0.42s 0.16s var(--ease-spring) both;
 }
 .enter[data-phase='parting'] .enter__medal {
-  animation: enter-medal-out 0.4s 0.06s var(--ease-state) both;
+  animation: enter-medal-out 0.36s 0.2s var(--ease-state) both;
 }
 
 @keyframes enter-fade {

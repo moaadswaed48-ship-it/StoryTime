@@ -140,6 +140,7 @@ html[lang='ar'] .home__greet {
 /* the child's name on a name paper, like the papers of the story */
 .home__name {
   display: inline-block;
+  letter-spacing: 0;
   max-width: 100%;
   padding: 0.02em 0.42em 0.06em;
   border-radius: 7px;
@@ -267,6 +268,9 @@ html[dir='rtl'] .home__name {
 }
 html[lang='ar'] .home__title {
   line-height: 1.24;
+}
+html[lang='en'] .home__title {
+  letter-spacing: -0.015em;
 }
 .home__acts {
   display: flex;
@@ -415,7 +419,7 @@ html[dir='rtl'] .home__leaves {
   display: flex;
   justify-content: space-around;
   margin-inline: -20px -16px;
-  padding: 18px 26px 0;
+  padding: 22px 22px 0;
 }
 html[dir='rtl'] .home__leaves-row {
   margin-inline: -16px -20px;
@@ -423,10 +427,10 @@ html[dir='rtl'] .home__leaves-row {
 .home__twig {
   position: absolute;
   inset-inline: 14px 0;
-  top: 0;
+  top: 2px;
   width: calc(100% - 14px);
-  height: 30px;
-  fill: rgb(67 54 42 / 0.55);
+  height: 34px;
+  fill: #6b4a2b;
 }
 html[dir='rtl'] .home__twig {
   transform: scaleX(-1);
@@ -434,8 +438,8 @@ html[dir='rtl'] .home__twig {
 .home__leaf {
   position: relative;
   display: block;
-  width: 58px;
-  height: 58px;
+  width: 68px;
+  height: 68px;
   transform: rotate(180deg); /* hanging: stalk up, on the branch */
 }
 .home__leaf:nth-of-type(1) {
@@ -457,7 +461,7 @@ html[dir='rtl'] .home__twig {
   inset: 0;
   display: grid;
   place-items: center;
-  padding-bottom: 9px;
+  padding-top: 13px; /* on the blade, below the stalk */
   color: rgb(67 54 42 / 0.68);
   transform: rotate(180deg); /* the leaf hangs upside down; its sign stays upright */
 }
@@ -505,8 +509,8 @@ html[dir='rtl'] .home__twig {
     grid-template-columns: minmax(220px, 0.9fr) minmax(0, 1.6fr) auto;
     grid-template-areas: 'text row go';
     gap: 28px;
-    padding: 6px 30px 14px;
-    min-height: 124px;
+    padding: 6px 30px 16px;
+    min-height: 156px;
   }
   .home__leaves-title {
     font-size: 24px;
@@ -518,20 +522,24 @@ html[dir='rtl'] .home__twig {
   html[dir='rtl'] .home__leaves-row {
     align-self: start;
     margin: 0;
-    padding: 20px 40px 0;
+    padding: 40px 40px 0;
   }
   .home__twig {
     inset-inline: 0 -400px;
+    top: 12px;
     width: calc(100% + 400px);
-    height: 34px;
+    height: 46px;
   }
   .home__leaf {
-    width: 76px;
-    height: 76px;
+    width: 96px;
+    height: 96px;
+  }
+  .home__leaf-how {
+    padding-top: 18px;
   }
   .home__leaf-how svg {
-    width: 22px;
-    height: 22px;
+    width: 26px;
+    height: 26px;
   }
   .home__leaves-go {
     font-size: 17px;

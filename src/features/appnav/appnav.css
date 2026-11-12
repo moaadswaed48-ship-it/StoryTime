@@ -37,22 +37,32 @@
 .appnav__top {
   top: 0;
   padding: max(12px, env(safe-area-inset-top)) 16px 0;
-  animation: appnav-drop 0.8s 0.1s var(--ease-out) both;
+  animation: appnav-drop 0.8s 0.1s var(--ease-out) backwards; /* not `both`: a finished fill would keep a transform on the bar and stop its glass from blurring the page */
 }
 .appnav__dock {
   bottom: 0;
   padding: 0 16px max(14px, env(safe-area-inset-bottom));
-  animation: appnav-rise 0.8s 0.2s var(--ease-out) both;
+  animation: appnav-rise 0.8s 0.2s var(--ease-out) backwards;
 }
 .appnav__top > *,
 .appnav__dock > * {
   pointer-events: auto;
 }
-.appnav[data-hidden] .appnav__top,
-.appnav[data-tucked] .appnav__top {
+.appnav[data-hidden] .appnav__top {
   transform: translate3d(0, -130%, 0);
   opacity: 0;
   pointer-events: none;
+}
+/* only the phone's top bar steps aside on the way down; the desktop pill is the only navigation there and stays */
+@media (max-width: 959.98px) {
+  .appnav[data-tucked] .appnav__top {
+    transform: translate3d(0, -130%, 0);
+    opacity: 0;
+    pointer-events: none;
+  }
+  .appnav[data-tucked] .appnav__top > * {
+    pointer-events: none;
+  }
 }
 .appnav[data-hidden] .appnav__dock {
   transform: translate3d(0, 130%, 0);
@@ -60,7 +70,6 @@
   pointer-events: none;
 }
 .appnav[data-hidden] .appnav__top > *,
-.appnav[data-tucked] .appnav__top > *,
 .appnav[data-hidden] .appnav__dock > * {
   pointer-events: none;
 }
@@ -76,6 +85,7 @@
 /* The dark glass */
 .appnav__brand,
 .appnav__reader,
+.appnav__lang,
 .appnav__tabs--dock {
   position: relative;
   isolation: isolate;
@@ -89,6 +99,7 @@
 }
 .appnav__brand::before,
 .appnav__reader::before,
+.appnav__lang::before,
 .appnav__tabs--dock::before,
 .appnav__bar::before {
   content: '';
@@ -103,7 +114,7 @@
 }
 /* the tab bar floats over moving content: a deeper tint keeps its labels clean */
 .appnav__tabs--dock::before {
-  background: rgb(18 12 8 / 0.82);
+  background: rgb(18 12 8 / 0.93);
 }
 
 /* Wordmark */
@@ -164,6 +175,7 @@
   box-shadow: 0 0 0 2px rgb(255 255 255 / 0.85);
 }
 .appnav__name {
+  letter-spacing: 0;
   max-width: 9.5ch;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -172,8 +184,29 @@
   font-weight: 700;
   line-height: 1.5;
 }
-.appnav__lang,
+/* language: a round globe button on phones, a labelled one in the desktop pill */
+.appnav__lang {
+  display: grid;
+  order: -1;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 999px;
+  color: rgb(255 255 255 / 0.9);
+  transition: transform 0.2s ease;
+}
+.appnav__lang:active {
+  transform: scale(0.95);
+}
+.appnav__lang svg {
+  width: 20px;
+  height: 20px;
+}
+.appnav__lang span {
+  display: none;
+}
 .appnav__rule,
+.appnav__badge.appnav__badge--inline,
 .appnav__tabs.appnav__tabs--bar {
   display: none;
 }
@@ -302,14 +335,16 @@ html[dir='rtl'] .appnav__thumb {
     display: block;
   }
   .appnav__brand,
-  .appnav__reader {
+  .appnav__reader,
+  .appnav__lang {
     background: none;
     -webkit-backdrop-filter: none;
     backdrop-filter: none;
     box-shadow: none;
   }
   .appnav__brand::before,
-  .appnav__reader::before {
+  .appnav__reader::before,
+  .appnav__lang::before {
     display: none;
   }
   .appnav__brand {
@@ -341,12 +376,18 @@ html[dir='rtl'] .appnav__thumb {
     width: 19px;
     height: 19px;
   }
-  .appnav__tabs--bar .appnav__badge {
-    top: -9px;
-    inset-inline: -13px auto;
-    min-width: 17px;
-    height: 17px;
-    font-size: 11px;
+  /* in the pill the count follows the tab's own label, so it cannot be read as the neighbour's */
+  .appnav__tabs--bar .appnav__tab-pic .appnav__badge {
+    display: none;
+  }
+  .appnav__tabs--bar .appnav__badge.appnav__badge--inline {
+    position: static;
+    display: grid;
+    min-width: 20px;
+    height: 20px;
+    margin-inline-start: -2px;
+    font-size: 12px;
+    box-shadow: none;
   }
   .appnav__reader {
     padding-inline-start: 8px;
@@ -356,8 +397,10 @@ html[dir='rtl'] .appnav__thumb {
   }
   .appnav__lang {
     display: inline-flex;
+    order: 0;
     align-items: center;
     gap: 8px;
+    width: auto;
     height: 48px;
     padding-inline: 14px 18px;
     border-radius: 999px;
@@ -367,6 +410,13 @@ html[dir='rtl'] .appnav__thumb {
     transition:
       background-color 0.2s ease,
       color 0.2s ease;
+  }
+  .appnav__lang svg {
+    width: 16px;
+    height: 16px;
+  }
+  .appnav__lang span {
+    display: inline;
   }
   .appnav__lang:hover {
     background: rgb(255 255 255 / 0.1);

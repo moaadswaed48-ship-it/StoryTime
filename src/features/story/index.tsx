@@ -122,7 +122,7 @@ export function StoryPage() {
                       <svg viewBox="0 0 24 24" aria-hidden>
                         <path d={MAPLE} />
                       </svg>
-                      {t.app.story.done}
+                      <span className="door__done-word">{t.app.story.done}</span>
                     </span>
                   )}
                   <span className="door__label">

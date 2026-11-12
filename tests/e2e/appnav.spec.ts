@@ -39,6 +39,15 @@ test.describe('appnav — the app navigation', () => {
     // every tab is a comfortable target for a small finger
     const box = await tab(page, 'home').boundingBox()
     expect(box!.height).toBeGreaterThanOrEqual(44)
+
+    // the navigation stays reachable while reading down a long screen (desktop pill, phone tab bar)
+    await page.evaluate(() => {
+      const spacer = document.createElement('div')
+      spacer.style.height = '3000px'
+      document.body.appendChild(spacer)
+      window.scrollTo(0, 1500)
+    })
+    await expect(tab(page, 'home')).toBeInViewport()
     con.assertClean()
   })
 
@@ -64,7 +73,8 @@ test.describe('appnav — the app navigation', () => {
     // leaves earned so far ride on the tree tab
     await expect(page.locator('.appnav__badge:visible')).toHaveCount(0)
     await page.evaluate(() => window.__st!.profile.getState().mark('autumn-leaves', 'read'))
-    await expect(page.locator('.appnav__badge:visible')).toHaveAttribute('data-leaves', '1')
+    await expect(page.locator('.appnav__badge:visible')).toHaveCount(1)
+    await expect(page.locator('.appnav__badge:visible')).toHaveText(/^[1١]$/)
 
     await page.evaluate(() => window.__st!.profile.getState().setClassroom(true))
     await expect(page.locator('[data-tab]:visible')).toHaveCount(2)

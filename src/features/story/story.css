@@ -9,10 +9,11 @@
   overflow-x: clip;
 }
 .story__wrap {
+  --gutter: 20px;
   width: 100%;
   max-width: 1320px;
   margin-inline: auto;
-  padding-inline: 20px;
+  padding-inline: var(--gutter);
 }
 
 /* Top: a living picture with her title */
@@ -99,17 +100,18 @@ html[lang='ar'] .story__title {
   line-height: 1.2;
 }
 html[lang='en'] .story__title {
+  letter-spacing: -0.015em;
   max-width: 14ch;
   font-size: clamp(2.3rem, 4vw + 1.15rem, 4.4rem);
 }
 @media (min-width: 640px) {
   .story__wrap {
-    padding-inline: 32px;
+    --gutter: 32px;
   }
 }
 @media (min-width: 1024px) {
   .story__wrap {
-    padding-inline: 56px;
+    --gutter: 56px;
   }
 }
 @media (min-width: 960px) {
@@ -242,6 +244,10 @@ html[lang='en'] .story__title {
   color: var(--color-ink-2);
   text-wrap: balance;
 }
+html[lang='en'] .door__s {
+  max-width: 16ch;
+  font-size: 13px;
+}
 /* a leaf pinned at the top of the arch once this door has been walked through */
 .door__done {
   position: absolute;
@@ -264,9 +270,26 @@ html[lang='en'] .story__title {
   animation: story-pop 0.6s 0.7s var(--ease-spring) both;
 }
 .door__done svg {
-  width: 15px;
-  height: 15px;
+  width: 17px;
+  height: 17px;
   fill: var(--color-maple);
+}
+/* phones: the leaf alone (the word stays for screen readers), so it does not cover a face */
+@media (max-width: 639.98px) {
+  .door__done {
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    padding: 0;
+  }
+  .door__done-word {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
 }
 @media (min-width: 640px) {
   .doors {
@@ -295,7 +318,8 @@ html[lang='en'] .story__title {
   .door__t {
     font-size: clamp(2.2rem, 3.6vw, 3.25rem);
   }
-  .door__s {
+  .door__s,
+  html[lang='en'] .door__s {
     max-width: 28ch;
     font-size: 16.5px;
   }
@@ -424,7 +448,7 @@ html[lang='en'] .story__title {
   display: flex;
   gap: 14px;
   /* the row runs to the edges of the screen; its first picture lines up with the page column */
-  --bleed: calc((100vw - 100%) / 2);
+  --bleed: max(var(--gutter), calc((100vw - 1320px) / 2 + var(--gutter))); /* in px, so snapping keeps the same gutter */
   margin: 14px calc(var(--bleed) * -1) 0;
   padding: 6px var(--bleed) 16px;
   overflow-x: auto;
@@ -626,25 +650,29 @@ html[dir='rtl'] .word.is-flipped .word__inner {
   transform: rotateY(180deg);
   justify-content: space-between;
   padding: 16px 14px 14px;
-  background: var(--color-paper-2);
+  background: linear-gradient(180deg, #fffefa, #fbf6ea);
   box-shadow:
-    inset 0 0 0 1px rgb(26 18 11 / 0.06),
+    inset 0 0 0 2px rgb(217 84 30 / 0.16),
     0 1px 2px rgb(26 18 11 / 0.08),
     0 10px 24px rgb(26 18 11 / 0.1);
+}
+/* the word, found inside her sentence */
+.word__hit {
+  color: #b8431a;
 }
 .word__again {
   font-size: 14.5px;
   font-weight: 800;
   line-height: 1.4;
-  color: var(--color-maple);
+  color: #b8431a;
 }
 /* her sentence, as in the book */
 .word__quote {
   display: block;
   margin-block: auto;
-  font-size: clamp(1.2rem, 5.1vw, 1.5rem);
+  font-size: clamp(1.25rem, 5.5vw, 1.6rem);
   font-weight: 500;
-  line-height: 1.7;
+  line-height: 1.62;
   color: var(--color-ink);
   text-wrap: balance;
 }
@@ -694,7 +722,7 @@ html[lang='en'] .word__quote {
     font-size: clamp(1.4rem, 2vw, 1.9rem);
   }
   .word__quote {
-    font-size: clamp(1.35rem, 2.05vw, 1.9rem);
+    font-size: clamp(1.5rem, 2.25vw, 2.1rem);
   }
   html[lang='en'] .word__quote {
     font-size: clamp(1.15rem, 1.7vw, 1.55rem);
@@ -747,6 +775,9 @@ html[lang='en'] .word__quote {
   font-size: 13.5px;
   line-height: 1.5;
   color: var(--color-muted);
+}
+.grown__peek {
+  display: none;
 }
 .grown__chev {
   display: grid;
@@ -827,7 +858,30 @@ html[lang='en'] .word__quote {
     margin-top: 88px;
   }
   .grown__head {
-    padding: 18px 26px;
+    padding: 20px 26px;
+  }
+  .grown__title {
+    font-size: 22px;
+  }
+  .grown__peek {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 8px;
+    max-width: 52%;
+  }
+  .grown__peek span {
+    padding: 7px 14px;
+    border-radius: 999px;
+    box-shadow: inset 0 0 0 1px rgb(26 18 11 / 0.14);
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.4;
+    color: var(--color-ink-2);
+    white-space: nowrap;
+  }
+  .grown[data-open] .grown__peek {
+    visibility: hidden;
   }
   .grown__cols {
     grid-template-columns: repeat(3, minmax(0, 1fr));

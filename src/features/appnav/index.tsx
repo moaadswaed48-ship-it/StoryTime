@@ -38,6 +38,11 @@ function Tabs({ tabs, active, className, leaves }: { tabs: typeof TABS; active: 
             )}
           </span>
           <span className="appnav__tab-label">{label}</span>
+          {id === 'tree' && leaves > 0 && (
+            <span className="appnav__badge appnav__badge--inline" aria-hidden>
+              {num(leaves)}
+            </span>
+          )}
         </button>
       ))}
     </nav>
@@ -120,7 +125,7 @@ export function AppNav() {
                 </span>
               )}
             </button>
-            <button type="button" className="appnav__lang" onClick={switchLocale}>
+            <button type="button" className="appnav__lang" onClick={switchLocale} aria-label={t.nav.lang}>
               <Globe size={16} strokeWidth={1.9} aria-hidden />
               <span lang={otherLang}>{t.nav.lang}</span>
             </button>

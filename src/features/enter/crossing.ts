@@ -9,9 +9,9 @@ import { MAPLE_BODY, MAPLE_STEM, MAPLE_VEINS } from './Avatar'
 export const CROSS_MS = 1150
 /** Moment (ms) at which the screen is fully covered and the view can change unseen. */
 export const COVER_MS = 520
-const HOLD_MS = 70
-const IN_MS = 320
-const OUT_MS = 400
+const HOLD_MS = 180 // long enough to read the greeting
+const IN_MS = 260
+const OUT_MS = 370
 
 const BRIGHT = ['#e2711d', '#f4a72c', '#c8421f', '#f2c14e', '#b9501c', '#d9902f']
 const DEEP = ['#3d1d0b', '#4f260f', '#32170a']

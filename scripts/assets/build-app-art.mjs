@@ -20,7 +20,7 @@ const JOBS = [
   { out: 'doors/play', scene: 2, rect: [300, 0, 501, 752], size: [560, 840], q: 80 },
   // words from the story
   { out: 'words/turn', scene: 3, rect: [600, 130, 480, 480], size: 320, q: 80 },
-  { out: 'words/wind', scene: 6, rect: [520, 0, 340, 340], size: 320, q: 80 },
+  { out: 'words/wind', scene: 6, rect: [520, 44, 340, 340], size: 320, q: 80 },
   { out: 'words/leaf', scene: 7, rect: [640, 20, 300, 300], size: 320, q: 80 },
   { out: 'words/rain', scene: 8, rect: [690, 170, 410, 410], size: 320, q: 80 },
   { out: 'words/crown', scene: 10, rect: [30, 240, 300, 300], size: 320, q: 80 },
