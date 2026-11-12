@@ -10,11 +10,15 @@ import { clamp, lerp } from '@/lib/clamp'
 import { cn } from '@/lib/cn'
 import { exposeQA } from '@/lib/qa'
 import { beats, LQIP } from './beats'
-import { frameStore, loadMeta, restFrame, type FrameStore } from './frames'
+import { frameStore, loadMeta, restFrame, SharpFrames, type FrameStore } from './frames'
 
 /** Where each beat rests on the scrub runway (0 → 1). */
 const REST = [1 / 6, 1 / 2, 5 / 6]
 const LERP = 0.12
+/** The scroll has to be still this long before the playhead settles on a clean frame and sharpens. */
+const REST_MS = 160
+/** How long the full-size frame takes to dissolve in over the light one. */
+const SHARPEN_MS = 180
 const easeOut = (x: number) => 1 - Math.pow(1 - x, 3)
 const smooth = (a: number, b: number, x: number) => {
   const v = clamp((x - a) / (b - a), 0, 1)
@@ -27,6 +31,7 @@ interface Hooks {
   beat: () => number
   loaded: () => number
   total: () => number
+  sharp: () => number
   progress: () => number
   y: (p: number) => number
   goTo: (i: number, immediate?: boolean) => void
@@ -50,6 +55,8 @@ export function ScrubStory() {
     dirty: true,
     settled: false,
     v: -1, // last scroll value seen
+    t: -1, // last runway target seen
+    idle: 0, // ms since the scroll last moved
     p: 0, // smoothed runway progress
     pos: 0, // smoothed frame position (float)
     reel: -1, // word reel position: -1 hidden below, 0…2 the beats
@@ -65,6 +72,9 @@ export function ScrubStory() {
     zoom: 0,
     pan: 0,
     shown: 1,
+    sharpAt: -1, // frame whose full-size twin is (being) shown
+    sharpMix: 0,
+    sharpDrawn: 0,
     warmed: -1,
     reelDrawn: NaN,
     counted: -1,
@@ -129,29 +139,36 @@ export function ScrubStory() {
 
       // Fast state survives a rebuild of this engine; only "what is on screen" is forgotten.
       const s = fast.current
-      Object.assign(s, { first: true, dirty: true, settled: false, v: -1, open: -1, out: -1, fill: -1, a: -1, b: -1, mix: -1, reelDrawn: NaN, counted: -1 })
+      Object.assign(s, { first: true, dirty: true, settled: false, v: -1, t: -1, idle: 0, open: -1, out: -1, fill: -1, a: -1, b: -1, mix: -1, sharpAt: -1, sharpMix: 0, sharpDrawn: 0, reelDrawn: NaN, counted: -1 })
 
       // ── frames ──
       let store: FrameStore | null = null
       let older: FrameStore | null = null
+      let sharp: SharpFrames | null = null
       let dead = false
       let wanted = false
+      let released = false
+      const saveData = !!(navigator as Navigator & { connection?: { saveData?: boolean } }).connection?.saveData
       const pick = () => {
         loadMeta().then((meta) => {
           if (dead) return
-          const next = frameStore(stg.clientWidth < 768 ? 'm' : 'd', meta)
+          // Small screens scrub the light set; the frame the visitor rests on is then swapped for its full-size twin.
+          const set = stg.clientWidth < 768 && meta.sets.m ? 'm' : 'd'
+          const next = frameStore(set, meta)
           if (next === store) return
           if (store) {
             store.onFrame = null
             older = store
           }
           store = next
+          sharp = set === 'm' && meta.sets.d && !saveData ? new SharpFrames(frameStore('d', meta)) : null
           store.onFrame = () => (s.dirty = true)
           store.start()
+          if (released) store.release()
           s.dirty = true
         })
       }
-      // Start fetching when the section is about two viewports away.
+      // The first frame is fetched when the section is about two viewports away…
       const near = new IntersectionObserver(
         ([entry]) => {
           if (!entry.isIntersecting) return
@@ -162,6 +179,30 @@ export function ScrubStory() {
         { rootMargin: '200% 0px 200% 0px' },
       )
       near.observe(sec)
+      // …and the rest of the film once the page itself has loaded and gone quiet (on the landing page it would
+      // otherwise compete with the hero film for the first seconds), or at once if the visitor is already here.
+      const release = () => {
+        if (released || dead) return
+        released = true
+        store?.release()
+      }
+      const here = new IntersectionObserver(
+        ([entry]) => {
+          if (!entry.isIntersecting) return
+          here.disconnect()
+          release()
+        },
+        { rootMargin: '15% 0px 15% 0px' },
+      )
+      here.observe(sec)
+      let idleId = 0
+      let idleTimer = 0
+      const whenQuiet = () => {
+        if (typeof window.requestIdleCallback === 'function') idleId = window.requestIdleCallback(release, { timeout: 1500 })
+        else idleTimer = window.setTimeout(release, 600)
+      }
+      if (document.readyState === 'complete') whenQuiet()
+      else window.addEventListener('load', whenQuiet, { once: true })
 
       // ── canvas ──
       let cw = 0
@@ -222,7 +263,8 @@ export function ScrubStory() {
         if (!s.first && s.settled && !s.dirty && proxy.v === s.v) return // at rest: do nothing at all
         s.v = proxy.v
         // Time-based smoothing: on a slow device the film still follows the thumb in real time.
-        const steps = Math.min(delta, 240) / 16.667
+        const dt = Math.min(delta, 240)
+        const steps = dt / 16.667
         const k = s.first ? 1 : 1 - Math.pow(1 - LERP, steps)
         const kReel = s.first ? 0 : 1 - Math.pow(1 - 0.14, steps)
         s.first = false
@@ -234,6 +276,13 @@ export function ScrubStory() {
         const enter = clamp(1 + px / m.view, 0, 1)
         const target = clamp(px / m.runway, 0, 1)
         const out = covered ? clamp((px - m.runway) / m.stage, 0, 1) : 0
+
+        // The film follows the scroll frame for frame; only once the scroll is still does it settle.
+        if (target !== s.t) {
+          s.t = target
+          s.idle = 0
+        } else s.idle += dt
+        const resting = s.idle > REST_MS
 
         s.p += (target - s.p) * k
         if (Math.abs(target - s.p) < 0.0002) s.p = target
@@ -272,11 +321,13 @@ export function ScrubStory() {
           setBeat(b)
         }
 
-        // The word reel: rolls to the current beat, and creeps a little with the scroll while it rests.
+        // The word reel: each word rolls through its own masked window like a digit on a film counter
+        // (no fade: at every moment a word is fully legible or cleanly out of the window).
+        const lowTier = useSiteStore.getState().tier === 'low'
         const reelTo = s.on ? s.beat : -1
         s.reel += (reelTo - s.reel) * kReel
         if (Math.abs(reelTo - s.reel) < 0.0015) s.reel = reelTo
-        const creep = (0.5 - clamp(third - s.beat, 0, 1)) * 0.06 // em: drifts up a touch as the beat plays
+        const creep = (0.5 - clamp(third - s.beat, 0, 1)) * 0.05 // em: drifts up a touch as the beat plays
         const reelKey = s.reel * 8 + creep
         if (reelKey !== s.reelDrawn) {
           s.reelDrawn = reelKey
@@ -285,24 +336,30 @@ export function ScrubStory() {
             if (!el) continue
             const d = i - s.reel
             const far = Math.abs(d)
-            const o = clamp(1 - far * 1.35, 0, 1)
-            el.style.opacity = o.toFixed(3)
-            el.style.transform = `translate3d(0, ${(d * 0.9 + creep).toFixed(4)}em, 0) scale(${(1 - Math.min(far, 1) * 0.05).toFixed(4)})`
-            el.style.filter = far > 0.01 && useSiteStore.getState().tier !== 'low' ? `blur(${(far * 16).toFixed(1)}px)` : 'none'
+            if (far >= 1) {
+              el.style.opacity = '0'
+              el.style.transform = `translate3d(0, ${d > 0 ? 1.6 : -1.6}em, 0)`
+              el.style.filter = 'none'
+              continue
+            }
+            el.style.opacity = '1'
+            el.style.transform = `translate3d(0, ${(d * 1.6 + creep * (1 - far)).toFixed(4)}em, 0)`
+            el.style.filter = far > 0.02 && !lowTier ? `blur(${(Math.sin(far * Math.PI) * 5).toFixed(1)}px)` : 'none'
           }
         }
 
         // The film.
-        const lowTier = useSiteStore.getState().tier === 'low'
         const src = store && store.loaded ? store : older && older.loaded ? older : store
-        let moving = Math.abs(target - s.p) > 0.0002 || s.reel !== reelTo
+        let moving = !resting || Math.abs(target - s.p) > 0.0002 || s.reel !== reelTo
         if (src) {
           const last = src.count - 1
-          // The playhead passes through motion-smeared frames but always comes to rest on a clean one.
-          const want = restFrame(Math.round(target * last), src.count)
+          // While the scroll moves the playhead is exactly where the thumb is, smeared frames included
+          // (that is what motion blur is for); at rest it eases, a little slower, onto the nearest clean frame.
+          const raw = Math.round(target * last)
+          const want = resting ? restFrame(raw, src.count) : raw
           src.playhead = want
           const goal = src.loaded ? src.nearest(want) : want
-          s.pos += (goal - s.pos) * k
+          s.pos += (goal - s.pos) * (resting && want !== raw ? k * 0.5 : k)
           if (Math.abs(goal - s.pos) < 0.004) s.pos = goal
           if (s.pos !== goal) moving = true
 
@@ -321,16 +378,38 @@ export function ScrubStory() {
             else if (mix >= 0.5) a = hi
             mix = bb < 0 ? 0 : Math.round(mix * 64) / 64
           }
-          const zoom = 1.05 - 0.05 * s.p + (1 - open) * 0.05
+          const zoom = 1.02 - 0.02 * s.p + (1 - open) * 0.05
           const pan = lerp(0.405, 0.452, smooth(0, 0.5, s.p))
           const imgA = a >= 0 ? src.images[a] : undefined
           const imgB = bb >= 0 ? src.images[bb] : undefined
-          if (imgA && cw > 0 && (a !== s.a || bb !== s.b || mix !== s.mix || Math.abs(zoom - s.zoom) > 0.0004 || Math.abs(pan - s.pan) > 0.0004)) {
-            paint(imgA, 1, zoom, pan)
+          // At rest on a small screen: fetch the full-size twin of this one frame and dissolve it in.
+          // It stays up for as long as that frame does, so a nudge of the scroll never makes it pop back.
+          let imgS: HTMLImageElement | undefined
+          if (sharp && src === store && imgA && bb < 0 && !lowTier && (a === s.sharpAt || (resting && s.pos === goal)) && Math.max(cw / imgA.naturalWidth, ch / imgA.naturalHeight) > 1.05) {
+            if (a !== s.sharpAt) {
+              s.sharpAt = a
+              s.sharpMix = 0
+            }
+            imgS = sharp.get(a)
+            if (!imgS) {
+              if (resting) sharp.request(a, () => (s.dirty = true))
+            } else if (s.sharpMix < 1) {
+              s.sharpMix = Math.min(1, s.sharpMix + dt / SHARPEN_MS)
+              if (s.sharpMix < 1) moving = true
+            }
+          } else {
+            s.sharpAt = -1
+            s.sharpMix = 0
+          }
+          const sharpMix = imgS ? Math.round(s.sharpMix * 32) / 32 : 0
+          if (imgA && cw > 0 && (a !== s.a || bb !== s.b || mix !== s.mix || sharpMix !== s.sharpDrawn || Math.abs(zoom - s.zoom) > 0.0004 || Math.abs(pan - s.pan) > 0.0004)) {
+            if (sharpMix < 1 || !imgS) paint(imgA, 1, zoom, pan)
             if (imgB) paint(imgB, mix, zoom, pan)
+            if (imgS && sharpMix > 0) paint(imgS, sharpMix, zoom, pan)
             s.a = a
             s.b = bb
             s.mix = mix
+            s.sharpDrawn = sharpMix
             s.zoom = zoom
             s.pan = pan
             s.shown = (imgB && mix >= 0.5 ? bb : a) + 1
@@ -364,6 +443,7 @@ export function ScrubStory() {
         beat: () => s.beat,
         loaded: () => store?.loaded ?? 0,
         total: () => store?.count ?? 0,
+        sharp: () => s.sharpDrawn,
         progress: () => s.p,
         y: (p) => m.top + m.runway * clamp(p, 0, 1),
         goTo: (i, immediate) => {
@@ -379,6 +459,10 @@ export function ScrubStory() {
         gsap.ticker.remove(tick)
         ro.disconnect()
         near.disconnect()
+        here.disconnect()
+        window.removeEventListener('load', whenQuiet)
+        if (idleId && typeof window.cancelIdleCallback === 'function') window.cancelIdleCallback(idleId)
+        window.clearTimeout(idleTimer)
         if (store) store.onFrame = null
         hooks.current = null
       }
@@ -394,6 +478,7 @@ export function ScrubStory() {
         beat: () => hooks.current?.beat() ?? 0,
         loaded: () => hooks.current?.loaded() ?? 0,
         total: () => hooks.current?.total() ?? 0,
+        sharp: () => hooks.current?.sharp() ?? 0,
         progress: () => hooks.current?.progress() ?? 0,
         y: (p: number) => hooks.current?.y(p) ?? 0,
         goTo: (i: number, immediate = true) => hooks.current?.goTo(i, immediate),
@@ -424,14 +509,16 @@ export function ScrubStory() {
             <ol className="ss-beats">
               {beats.map((b, i) => (
                 <li key={i} className="ss-beat" data-beat={i} data-state={on && i === beat ? 'on' : i < beat ? 'past' : 'next'}>
-                  <h3
-                    ref={(el) => {
-                      words.current[i] = el
-                    }}
-                    className="ss-word t-mega display-on-film"
-                    style={i === 0 ? undefined : { opacity: 0 }}
-                  >
-                    {b.word}
+                  <h3 className="ss-word t-mega">
+                    <span
+                      ref={(el) => {
+                        words.current[i] = el
+                      }}
+                      className="ss-word-in display-on-film"
+                      style={i === 0 ? undefined : { opacity: 0 }}
+                    >
+                      {b.word}
+                    </span>
                   </h3>
                   <div className="ss-detail">
                     <p className="ss-line t-lede text-on-film" style={{ '--i': 0 } as CSSProperties}>
@@ -456,14 +543,17 @@ export function ScrubStory() {
           </div>
 
           <nav className="ss-rail" aria-label={t.scroll.kicker}>
-            <span className="ss-rail-track" aria-hidden />
-            <span className="ss-rail-fill" aria-hidden />
-            {beats.map((b, i) => (
-              <button key={i} type="button" className="ss-tick" data-on={i === beat ? '1' : '0'} data-done={i < beat ? '1' : '0'} aria-current={i === beat ? 'step' : undefined} onClick={() => goTo(i)}>
-                <span className="ss-tick-label">{b.word}</span>
-                <span className="ss-tick-dot" aria-hidden />
-              </button>
-            ))}
+            <span className="ss-rail-glass glass-ink" aria-hidden />
+            <div className="ss-rail-ticks">
+              <span className="ss-rail-track" aria-hidden />
+              <span className="ss-rail-fill" aria-hidden />
+              {beats.map((b, i) => (
+                <button key={i} type="button" className="ss-tick" data-on={i === beat ? '1' : '0'} data-done={i < beat ? '1' : '0'} aria-current={i === beat ? 'step' : undefined} onClick={() => goTo(i)}>
+                  <span className="ss-tick-label">{b.word}</span>
+                  <span className="ss-tick-dot" aria-hidden />
+                </button>
+              ))}
+            </div>
             <span ref={counter} className="ss-count" aria-hidden />
           </nav>
         </div>

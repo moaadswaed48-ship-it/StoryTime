@@ -74,12 +74,20 @@ export function Stage() {
   const live = (ready || flat) && seen
 
   const timers = useRef<{ wave?: number; calm?: number; burst?: number }>({})
-  /** Reduced motion renders on demand; anything the visitor does wakes the loop for a moment. */
+  /**
+   * Reduced motion renders on demand. Anything the visitor does wakes the loop until the pose has settled:
+   * at least 1.8 s and at least 45 drawn frames, so a slow device is never left half-way through a blend.
+   */
   const poke = useCallback(() => {
     rt.lastInput = performance.now()
     setBusy(true)
+    const from = rt.frames
+    const settle = () => {
+      if (rt.frames - from >= 45 || rt.frames === from) setBusy(false)
+      else timers.current.calm = window.setTimeout(settle, 500)
+    }
     window.clearTimeout(timers.current.calm)
-    timers.current.calm = window.setTimeout(() => setBusy(false), 1800)
+    timers.current.calm = window.setTimeout(settle, 1800)
   }, [rt])
   const wave = useCallback(() => {
     setWaving(true)

@@ -99,16 +99,16 @@ function Director({ rt, turntable }: { rt: Runtime; turntable: React.RefObject<T
     const { camera, size } = state
     const aspect = size.width / Math.max(1, size.height)
     const tall = aspect < 0.95
-    const dist = Math.max(TALL / (tall ? 0.8 : 0.72) / (2 * TAN), (tall ? 1.12 : 1.42) / (2 * TAN * aspect))
+    const dist = Math.max(TALL / (tall ? 0.8 : 0.7) / (2 * TAN), (tall ? 1.12 : 1.42) / (2 * TAN * aspect))
     const viewH = 2 * dist * TAN
-    const cy = viewH * (0.5 - (tall ? 0.15 : 0.205))
+    const cy = viewH * (0.5 - (tall ? 0.15 : 0.195))
     camera.position.set(v.px * 0.16, cy + 0.42 - v.py * 0.06, dist)
     camera.lookAt(v.px * 0.02, cy, 0)
 
     // the giant word behind him: slides away from the pointer, drifts with the scroll, and rushes past while he runs
     const word = rt.word
     if (word) {
-      if (rt.run > 0) rt.slide += -SIDE * rt.run * Math.min(520, size.width * 0.42) * dt
+      if (rt.run > 0 && !calm) rt.slide += -SIDE * rt.run * Math.min(520, size.width * 0.42) * dt
       if (rt.pitch > 0) {
         if (rt.action !== 'run') {
           // coming to rest: glide to the nearest whole word so one copy is centred again
@@ -252,7 +252,7 @@ function Floor({ rt, turntable }: { rt: Runtime; turntable: React.RefObject<THRE
   useFrame((_, delta) => {
     const dt = Math.min(delta, 1 / 20)
     // the ground runs back under a runner
-    spin.current += rt.run * 2.6 * dt * SIDE
+    if (!rt.reduced) spin.current += rt.run * 2.6 * dt * SIDE
     if (ring.current) ring.current.rotation.z = rt.shown - RUN_YAW * rt.run + spin.current
     if (body.current) body.current.scale.setScalar(1 - rt.run * 0.12)
     const g = turntable.current

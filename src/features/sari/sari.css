@@ -462,7 +462,7 @@ html[lang='ar'] .sari-title {
     position: absolute;
     inset-inline: 0;
     /* 44px of the stage hang below the screen when the sheet's top is at the top: keep the dock inside the view */
-    bottom: calc(44px + clamp(18px, 3.4svh, 36px));
+    bottom: calc(44px + clamp(16px, 2.6svh, 28px));
     margin: 0;
     pointer-events: none;
   }
