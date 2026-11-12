@@ -1,19 +1,27 @@
 # StoryTime — project rules for Claude
 
-A cinematic, scroll-driven preview site for a children's storybook service (ages 3–6). Arabic (RTL) by default, English with `?lang=en`.
-**The full build spec is `docs/SPEC.md` — read it before changing anything.** Stack: Vite 8 · React 19 · TypeScript · Tailwind 4 · GSAP (ScrollTrigger) + Lenis · three / React-Three-Fiber / drei · zustand.
+A preview site for an **Arabic-first** children's story service, **ages 3–12** (the author's first story is for 3–6).
+Each story can be read (a living book), watched (a short film) and, beside it, there is a calm game.
+Arabic (RTL) by default; English with `?lang=en` exists but **Arabic comes first: English waits** (owner, 12 Nov 2026).
+Stack: Vite 8 · React 19 · TypeScript · Tailwind 4 · GSAP (ScrollTrigger) + Lenis · three / React-Three-Fiber / drei · zustand.
+
+**Read first:** `docs/HANDOFF.md` (current state), then `docs/AUDIT-2.md` (what is wrong and what the owner must decide).
+`docs/SPEC.md` is the build spec of the *first* version: its autumn art direction, maple accent, "hero is film" and
+"never pin" rules are **history**, not instructions. The owner rejected theming the site around one story.
 
 ## Hard rules
-1. **The author's Arabic story text in `src/content/story.ts` is hers.** Never edit, shorten, "fix" or re-vowel it. The English column is our draft translation and is labelled as such.
-2. **All visible words live in `src/i18n/copy.ts`** (both languages, same shape). No hard-coded UI text, no invented prices/reviews/credentials. Sign-in, sign-up and the checkout (`src/features/checkout`: subscribe → pay → printed receipt) are demos to try: any text is accepted, nothing is validated, nothing is sent or charged, and prices stay labelled as samples.
+1. **The author's Arabic story text in `src/content/story.ts` is hers.** Never edit, shorten, "fix" or re-vowel it. Never contact her. Our own stories (`src/content/stories/*.ts`) are labelled everywhere as StoryTime's, not hers.
+2. **All visible words live in `src/i18n/copy.ts`** (both languages, same shape). No invented prices, reviews, credentials, user counts or popularity claims. **A claim on the site must be true of the build as it is today** (the game, the screenshots, "coming soon" notes). Sign-in, sign-up and checkout are demos: nothing is validated, sent or charged; prices stay labelled as samples.
 3. **Arabic typography:** never split text into letters, never letter-space it, generous line-height, logical CSS (`start/end`, `ms/me`), `dirSign` for mirrored motion, `num()` for digits.
-4. **Design system:** tokens and the glass material are in `src/index.css`; primitives in `src/design/*` (`Pill`, `SectionHead`, `BlurWords`, `Reveal`, `LazyCanvas`, `SariModel`, `Leaves`). One accent colour (maple). The film carries the colour; UI stays quiet. Follow the MotionSites craft rules (`.claude/skills/motionsites-web-builder/references/craft.md`, local only).
-5. **Structure:** two worlds on one page — the landing page (`src/pages/Landing.tsx`, the front door) and the app (`src/pages/AppShell.tsx`: library home, story page, reward tree, grown-ups, author's desk). One folder per section or screen under `src/features/<name>/`. Change views only with `go()` / `enterApp()` from `src/app/router.ts`. Overlays (`book`, `film`, `game`) are driven by `useSiteStore().overlay`; the sign-in sheet by `loginOpen` and the checkout by `checkout`. A child's name and progress live in `useProfileStore` (this browser only).
-6. **Scroll:** Lenis runs on the GSAP ticker (`src/app/Providers.tsx`). Never use GSAP `pin:` — use CSS sticky. Fast values stay in refs; clamp `delta` in every `useFrame`.
-7. **3D:** each 3D feature owns one `<LazyCanvas>` (mounts near the viewport, pauses off-screen, DOM fallback). The hero is film, not WebGL. Sari is only used through `<SariModel>`.
-8. **Motion has a rest state:** everything visible with reduced motion, slow scripts or no WebGL; pause media and loops off-screen.
-9. **Media** is generated once and committed under `public/`: `scripts/assets/build-media.mjs` (pictures, clips, hero loop, scroll frames), `scripts/assets/build-model.mjs` (Sari GLB), `scripts/film/*` (the film). Originals live in `assets-src/film/` (not committed). Regenerate pictures only with the same character sheet so faces stay consistent.
+4. **No third-party AI for new pictures or films** (owner, 12 Nov 2026): new art and films are drawn and animated in code (`src/features/moonfilm` is the kit and the reference). The existing AI-made pictures of the first story and the landing hero (`public/landing/hero.webp`, made with Google's image model before the rule) stay until the owner decides.
+5. **Voice:** the narrator is ElevenLabs, voice "Alice" on `eleven_v4` (`scripts/audio/narrate_eleven.py`, key in `..\keys.txt`, never in the repo). The Google voice is removed for good. Current files were made on a **free** plan: not licensed for commercial use, attribution required (footer credit). Re-record on a paid plan before any paid launch.
+6. **Structure:** the landing page (`src/pages/Landing.tsx` + `src/features/landing/*`, its own light/green look scoped under `.lp`) and the app (`src/pages/AppShell.tsx`: library home with the shelf, story page, reward tree, grown-ups, author's desk). Change views only with `go()` / `enterApp()` from `src/app/router.ts`. Full-screen overlays (`book`, `film`, `game`, `moon`) are driven by `useSiteStore().overlay`. A child's name and progress live in `useProfileStore` (this browser only).
+7. **The game** is Friends Island: source in `game/friends-island/` (a remix of Wigglewild by Patch, MIT/CC0 — keep its licence files and credit line), build in `public/play/friends-island/`, opened by `src/features/island`. The older yard game stays reachable with `?game=yard`. Never publish anything to Patch.
+8. **Motion has a rest state:** everything visible with reduced motion, slow scripts or no WebGL; pause media and loops off-screen. Each 3D feature owns one `<LazyCanvas>`. Lenis runs on the GSAP ticker; prefer CSS sticky, use GSAP pin only where it clearly helps and test it on a phone.
+9. **Safari matters:** the owner and his audience use iPhones. Test with the `iphone-webkit` Playwright project (`--project=iphone-webkit`), not only Chromium.
 
 ## Commands
-`npm run dev` · `npm run build && npm run preview` · `npm run typecheck` · `npm test` · `npm run qa:e2e`
-Feature in isolation: `/demo.html?f=<name>&qa=1` · screenshots: `node scripts/qa/shot.mjs "<url>" qa/out/<name>` · drive it like a person (taps, typing, any screen size): `node scripts/qa/eyes.mjs` · publish: `node scripts/deploy/site.mjs --out=<folder>` then push that folder to the `gh-pages` branch (live at https://moaadswaed48-ship-it.github.io/StoryTime/)
+`npm run dev` · `npm run build && npm run preview` · `npm run typecheck` · `npm test` · `npm run qa:e2e` (add `--project=iphone-webkit` for Safari's engine)
+Feature in isolation: `/demo.html?f=<name>&qa=1` (dev only — not in the published build) · screenshots: `node scripts/qa/shot.mjs "<url>" qa/out/<name>` · drive it like a person: `node scripts/qa/eyes.mjs` · film (first story): `video/README.md`, timeline from narration: `node video/scripts/timeline.mjs`.
+**Publish:** `node scripts/deploy/site.mjs --out=../storytime-pages` (type-checks first; replaces the whole published folder), then commit and push that folder to `gh-pages`. Live: https://moaadswaed48-ship-it.github.io/StoryTime/
+This laptop has 8 GB of memory: one headless browser and one heavy job at a time.

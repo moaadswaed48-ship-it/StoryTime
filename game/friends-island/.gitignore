@@ -1,0 +1,19 @@
+# Secrets
+.env
+.env.*
+!.env.example
+*.pem
+
+# Builds and what they need. Builds go in a release, with pch publish, not in the repo.
+/dist/
+node_modules/
+
+# Screenshots and clips from the test scripts
+/shots/
+
+# Editors and systems
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+*.log

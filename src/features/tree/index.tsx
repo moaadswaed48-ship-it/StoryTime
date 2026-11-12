@@ -247,7 +247,8 @@ export function MyTree() {
               })}
             </ul>
 
-            <div className="mt-8 lg:mt-10" data-tree-letters>
+            {/* Only the yard game (?game=yard) teaches letters; Friends Island does not, so the panel shows only when there are some. */}
+            {letters.length > 0 && <div className="mt-8 lg:mt-10" data-tree-letters>
               <h2 className="t-h3">{t.app.tree.letters}</h2>
               {letters.length > 0 ? (
                 <div className="mt-4 flex flex-wrap items-center gap-3">
@@ -262,7 +263,7 @@ export function MyTree() {
                   {strings.lettersEmpty}
                 </p>
               )}
-            </div>
+            </div>}
           </div>
         </div>
       </Container>

@@ -1,0 +1,15 @@
+{
+  "project": "blendi/wigglewild",
+  "version": "0.4.3",
+  "channel": "public",
+  "files": "dist",
+  "recipe": {
+    "mode": "browser",
+    "launch": { "kind": "browser", "entry": "index.html", "component": "main" },
+    "components": [{ "id": "main", "file": "", "kind": "main", "label": "Main files" }],
+    "test": {
+      "checks": ["boot", "render", "hatch", "walk", "planted-feet", "drawn", "trample", "eat", "encounter", "combat", "dex", "audio"],
+      "minutes": 1
+    }
+  }
+}

@@ -39,7 +39,7 @@ const ar = {
     beats: [
       { word: "اقرأ", line: "كتاب يُفتح بين يديك، وصوره تتحرّك." },
       { word: "شاهد", line: "الحكاية نفسها فيلمًا قصيرًا، بالشخصيات نفسها." },
-      { word: "العب", line: "اركض مع ساري واجمع أوراق الأسماء." },
+      { word: "العب", line: "اصنع مخلوقك وصادق أهل الجزيرة." },
     ],
   },
   library: {
@@ -63,7 +63,7 @@ const ar = {
     back: "عودة إلى الرفّ",
     ready: "متاحة الآن",
     soon: "قريبًا",
-    soonNote: "فكرة منّا لحكاية قادمة، لم تُكتب بعد. ليست من نصوص المؤلفة.",
+    soonNote: "حكاية قادمة من كتابة «وقت الحكاية»، وليست من نصوص المؤلفة.",
     meta: "12 مشهدًا · 3–6 سنوات · كتاب وفيلم ولعبة",
     by: "بقلم المؤلفة",
   },
@@ -105,7 +105,7 @@ const ar = {
   sari: {
     eyebrow: "الشخصية",
     title: "هذا ساري",
-    text: "بطل الحكاية بثلاثة أبعاد. هو نفسه في الكتاب والفيلم واللعبة، فيعرفه الطفل أينما رآه.",
+    text: "بطل الحكاية بثلاثة أبعاد. هو نفسه في الكتاب والفيلم، فيعرفه الطفل أينما رآه.",
     hint: "اسحبه ليدور",
     wave: "لوِّح",
     run: "اركض",
@@ -146,7 +146,7 @@ const ar = {
       },
       {
         t: "شخصيات ثابتة",
-        s: "ساري وأمير والمعلمة ليلى هم أنفسهم في الكتاب والفيلم واللعبة.",
+        s: "ساري وأمير والمعلمة ليلى هم أنفسهم في الكتاب والفيلم.",
       },
       {
         t: "تعلّم باللعب",
@@ -255,7 +255,7 @@ const ar = {
   footer: {
     line: "ما أجمل الخريف!",
     legal: "وقت الحكاية · نموذج أوّلي للعرض",
-    note: "النصّ للمؤلفة. الصور والفيلم والشخصية نماذج أوّلية.",
+    note: "النصّ للمؤلفة. الصور والفيلم والشخصية نماذج أوّلية. صوت الراوية من ElevenLabs. لعبة «جزيرة الأصدقاء» مبنية على Wigglewild من Patch (MIT/CC0).",
     motion: "تخفيف الحركة",
     top: "إلى الأعلى",
   },
@@ -270,7 +270,7 @@ const ar = {
       kicker: "حكايات عربية للأطفال من 3 إلى 12 سنة",
       titleA: "عالم من الحكايات",
       titleB: "يبدأ من كتاب",
-      sub: "كل حكاية كتاب يُفتح، وفيلم قصير، ولعبة بالأبطال أنفسهم. وقت شاشة يشبه وقت القصة.",
+      sub: "كل حكاية كتاب يُفتح وفيلم قصير بالأبطال أنفسهم، ومعها لعبة هادئة. وقت شاشة يشبه وقت القصة.",
       enter: "ادخل إلى المكتبة",
       watch: "شاهد الفيلم",
       watchSub: "الحكاية الأولى",
@@ -286,14 +286,14 @@ const ar = {
       items: [
         { word: "اقرأ", tag: "كتاب", line: "كتاب يُفتح بين يديك، وصوره تتحرّك." },
         { word: "شاهد", tag: "فيلم", line: "الحكاية نفسها فيلمًا قصيرًا، بالشخصيات نفسها." },
-        { word: "العب", tag: "لعبة", line: "لعبة ببطل الحكاية نفسه: اركض معه والعب." },
+        { word: "العب", tag: "لعبة", line: "جزيرة الأصدقاء: اصنع مخلوقك وصادق أهلها." },
       ],
       note: "الصور من الحكاية الأولى",
     },
     cast: {
       eyebrow: "الشخصيات",
       title: "أبطال الحكاية الأولى",
-      lede: "الشخصيات نفسها في الكتاب والفيلم واللعبة، فيعرفها الطفل أينما رآها.",
+      lede: "الشخصيات نفسها في الكتاب والفيلم، فيعرفها الطفل أينما رآها.",
       tag3d: "ثلاثي الأبعاد",
       people: [
         { name: "ساري", role: "بطل الحكاية", line: "طفل مليء بالحيوية والنشاط." },
@@ -314,7 +314,7 @@ const ar = {
         {
           q: "هل هو وقت شاشة آخر؟",
           a: "حكاية لها بداية ونهاية",
-          s: "كتاب يُفتح، ثم فيلم قصير، ثم لعبة من الحكاية نفسها. لا مقاطع تتوالى بلا توقّف.",
+          s: "كتاب يُفتح، ثم فيلم قصير، ثم لعبة هادئة. لا مقاطع تتوالى بلا توقّف.",
         },
         {
           q: "وهل سيحبّ العربية؟",
@@ -364,7 +364,7 @@ const ar = {
         },
         {
           q: "كم حكاية متاحة الآن؟",
-          a: "حكاية واحدة كاملة اليوم: كتاب وفيلم ولعبة. الحكايات القادمة تظهر على الرفّ بعلامة «قريبًا»، وهي أفكار لم تُكتب بعد.",
+          a: "حكاية واحدة كاملة اليوم: كتاب وفيلم ولعبة. الحكايات القادمة تظهر على الرفّ بعلامة «قريبًا»، وهي من كتابتنا وليست من نصوص المؤلفة.",
         },
         {
           q: "على أيّ جهاز تعمل؟",
@@ -397,7 +397,7 @@ const ar = {
   tour: {
     eyebrow: "داخل وقت الحكاية",
     title: "هكذا تبدو الحكاية في يد الطفل",
-    lede: "لقطات حقيقية من التطبيق كما يعمل اليوم على الهاتف.",
+    lede: "لقطات من التطبيق على الهاتف.",
     shot: "لقطة من التطبيق",
     steps: [
       {
@@ -442,7 +442,7 @@ const ar = {
     story: {
       read: { t: "اقرأ", s: "12 مشهدًا، ستّة منها تتحرّك" },
       watch: { t: "شاهد", s: "فيلم قصير بالشخصيات نفسها" },
-      play: { t: "العب", s: "اجمع أوراق الأسماء مع ساري" },
+      play: { t: "العب", s: "جزيرة الأصدقاء" },
       done: "تمّ",
       scenes: "مشاهد الحكاية",
       words: "كلمات من الحكاية",
@@ -625,7 +625,7 @@ const en: typeof ar = {
         word: "Watch",
         line: "The same story as a short film, with the same characters.",
       },
-      { word: "Play", line: "Run with Sari and collect the name papers." },
+      { word: "Play", line: "Build your creature and befriend the island." },
     ],
   },
   library: {
@@ -649,7 +649,7 @@ const en: typeof ar = {
     back: "Back to the shelf",
     ready: "Available now",
     soon: "Coming soon",
-    soonNote: "An idea of ours for a future story, not written yet. It is not the author's text.",
+    soonNote: "A future story written by StoryTime. It is not the author's text.",
     meta: "12 scenes · ages 3–6 · book, film and game",
     by: "By the author",
   },
@@ -691,7 +691,7 @@ const en: typeof ar = {
   sari: {
     eyebrow: "The character",
     title: "This is Sari",
-    text: "The hero of the story, in 3D. He is the same in the book, the film and the game, so a child knows him wherever he appears.",
+    text: "The hero of the story, in 3D. He is the same in the book and the film, so a child knows him wherever he appears.",
     hint: "Drag to turn him",
     wave: "Wave",
     run: "Run",
@@ -732,7 +732,7 @@ const en: typeof ar = {
       },
       {
         t: "Consistent characters",
-        s: "Sari, Amir and Teacher Layla are the same in the book, the film and the game.",
+        s: "Sari, Amir and Teacher Layla are the same in the book and the film.",
       },
       {
         t: "Learning through play",
@@ -845,7 +845,7 @@ const en: typeof ar = {
   footer: {
     line: "How beautiful autumn is!",
     legal: "StoryTime · first prototype for preview",
-    note: "The text is the author's. Pictures, film and character are first prototypes.",
+    note: "The text is the author's. Pictures, film and character are first prototypes. Narrator voice by ElevenLabs. Friends Island is built on Wigglewild by Patch (MIT/CC0).",
     motion: "Reduce motion",
     top: "Back to top",
   },
@@ -858,7 +858,7 @@ const en: typeof ar = {
       kicker: "Arabic stories for ages 3 to 12",
       titleA: "A world of stories",
       titleB: "begins with a book",
-      sub: "Every story is a book that opens, a short film and a game with the same heroes. Screen time that feels like story time.",
+      sub: "Every story is a book that opens and a short film with the same heroes, with a calm game beside it. Screen time that feels like story time.",
       enter: "Enter the library",
       watch: "Watch the film",
       watchSub: "The first story",
@@ -881,7 +881,7 @@ const en: typeof ar = {
     cast: {
       eyebrow: "The characters",
       title: "The heroes of the first story",
-      lede: "The same characters in the book, the film and the game, so a child knows them wherever they appear.",
+      lede: "The same characters in the book and the film, so a child knows them wherever they appear.",
       tag3d: "In 3D",
       people: [
         { name: "Sari", role: "The hero", line: "A boy full of life and energy." },
@@ -900,7 +900,7 @@ const en: typeof ar = {
         {
           q: "Is it just more screen time?",
           a: "A story with a beginning and an end",
-          s: "A book that opens, then a short film, then a game from the same story. No clips that roll on without end.",
+          s: "A book that opens, then a short film, then a calm game. No clips that roll on without end.",
         },
         {
           q: "Will my child enjoy the Arabic?",
@@ -948,7 +948,7 @@ const en: typeof ar = {
         },
         {
           q: "How many stories are there now?",
-          a: "One complete story today: a book, a film and a game. The next ones appear on the shelf marked \u201cComing soon\u201d; they are ideas that are not written yet.",
+          a: "One complete story today: a book, a film and a game. The next ones appear on the shelf marked \u201cComing soon\u201d; they are written by StoryTime, not by the author.",
         },
         {
           q: "Which devices does it work on?",
@@ -981,7 +981,7 @@ const en: typeof ar = {
   tour: {
     eyebrow: "Inside StoryTime",
     title: "This is the story in a child's hands",
-    lede: "Real screens from the app, as it works today on a phone.",
+    lede: "Screens from the app on a phone.",
     shot: "Screen from the app",
     steps: [
       {
@@ -1032,7 +1032,7 @@ const en: typeof ar = {
     story: {
       read: { t: "Read", s: "12 scenes, six of them move" },
       watch: { t: "Watch", s: "A short film with the same characters" },
-      play: { t: "Play", s: "Collect the name papers with Sari" },
+      play: { t: "Play", s: "Friends Island" },
       done: "Done",
       scenes: "Scenes of the story",
       words: "Words from the story",

@@ -1,0 +1,29 @@
+{
+  "name": "friends-island",
+  "private": true,
+  "version": "0.4.3",
+  "type": "module",
+  "license": "MIT",
+  "scripts": {
+    "dev": "vite --port 5183 --strictPort",
+    "build": "vite build",
+    "typecheck": "tsc --noEmit",
+    "preview": "node scripts/preview.mjs dist 8080",
+    "mesh-test": "node --experimental-strip-types --no-warnings tests/mesh-test.ts 400",
+    "design-test": "node --experimental-strip-types --no-warnings tests/design-test.ts 200",
+    "mutation-test": "node --experimental-strip-types --no-warnings tests/mutation-test.ts 100"
+  },
+  "dependencies": {
+    "@dimforge/rapier3d-compat": "0.21.0",
+    "postprocessing": "6.39.5",
+    "three": "0.186.1",
+    "three.quarks": "0.17.1"
+  },
+  "devDependencies": {
+    "@types/three": "0.186.0",
+    "playwright": "1.64.1",
+    "typescript": "7.0.2",
+    "vite": "8.3.5"
+  },
+  "description": "Friends Island: the StoryTime game, a remix of Wigglewild by Patch (MIT code, CC0 art)"
+}

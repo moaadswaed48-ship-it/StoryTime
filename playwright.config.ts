@@ -18,5 +18,7 @@ export default defineConfig({
   projects: [
     { name: 'desktop', use: { viewport: { width: 1440, height: 900 } } },
     { name: 'mobile', use: { ...devices['iPhone 13'], defaultBrowserType: 'chromium', browserName: 'chromium', hasTouch: true } },
+    // Safari's engine: the owner shows the site on an iPhone. Run it on purpose (`--project=iphone-webkit`): it is the slowest.
+    { name: 'iphone-webkit', use: { ...devices['iPhone 14'], launchOptions: {} } },
   ],
 })
