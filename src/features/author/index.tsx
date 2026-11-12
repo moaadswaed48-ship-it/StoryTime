@@ -22,7 +22,7 @@ const LINE_B = TITLE.slice(CUT).join(' ')
 const WORDS = t.author.text.split(' ')
 /** How many words are "being read" at once while the paragraph lights up. */
 const SPREAD = 7
-const DIM = 0.24
+const DIM = 0.34
 
 /**
  * The author's page: her book lying on a sheet of paper, beside the few words about her (exactly the copy — nothing
@@ -45,7 +45,8 @@ export function Author() {
     if (!prefersReducedNow()) setArmed(true)
   }, [])
 
-  // The paragraph is read at scroll pace: words go from a whisper to full ink as it crosses the lower half of the screen.
+  // The paragraph is read at scroll pace: words go from a quiet grey to full ink as it comes up from the foot of the
+  // screen, and every word is lit well before the section comes to rest (these are the words about her).
   // Opacity only, computed from where the paragraph is right now (never from a cached position).
   useEffect(() => {
     const p = para.current
@@ -66,7 +67,7 @@ export function Author() {
     const tick = () => {
       const r = p.getBoundingClientRect()
       const vh = window.innerHeight
-      const k = clamp((vh * 0.9 - r.top) / (vh * 0.42), 0, 1)
+      const k = clamp((vh * 0.94 - r.top) / (vh * 0.3), 0, 1)
       if (Math.abs(k - last) < 0.002) return
       last = k
       paint(k)

@@ -210,13 +210,18 @@ html[lang='en'] .aut-ghost {
 }
 
 /* Three layers of shadow on the paper: contact, body, air. They fall away from the lamp.
-   Each is a dark sheet whose edges are feathered by two crossed masks (a true soft rectangle, no blur filter). */
+   Each is a dark sheet whose edges are feathered by two crossed masks (a true soft rectangle, no blur filter).
+   The feather is eased at both ends (smoothstep stops): a straight ramp leaves a visible line where it starts and stops. */
 .aut-sh {
   --f: 20%; /* feather, as a share of the sheet */
   position: absolute;
   background: rgb(36 20 8);
-  -webkit-mask-image: linear-gradient(to right, transparent, #000 var(--f), #000 calc(100% - var(--f)), transparent), linear-gradient(to bottom, transparent, #000 var(--f), #000 calc(100% - var(--f)), transparent);
-  mask-image: linear-gradient(to right, transparent, #000 var(--f), #000 calc(100% - var(--f)), transparent), linear-gradient(to bottom, transparent, #000 var(--f), #000 calc(100% - var(--f)), transparent);
+  -webkit-mask-image:
+    linear-gradient(to right, transparent 0, rgba(0, 0, 0, 0.06) calc(var(--f) * 0.15), rgba(0, 0, 0, 0.216) calc(var(--f) * 0.3), rgba(0, 0, 0, 0.5) calc(var(--f) * 0.5), rgba(0, 0, 0, 0.784) calc(var(--f) * 0.7), rgba(0, 0, 0, 0.94) calc(var(--f) * 0.85), #000 var(--f), #000 calc(100% - var(--f)), rgba(0, 0, 0, 0.94) calc(100% - var(--f) * 0.85), rgba(0, 0, 0, 0.784) calc(100% - var(--f) * 0.7), rgba(0, 0, 0, 0.5) calc(100% - var(--f) * 0.5), rgba(0, 0, 0, 0.216) calc(100% - var(--f) * 0.3), rgba(0, 0, 0, 0.06) calc(100% - var(--f) * 0.15), transparent 100%),
+    linear-gradient(to bottom, transparent 0, rgba(0, 0, 0, 0.06) calc(var(--f) * 0.15), rgba(0, 0, 0, 0.216) calc(var(--f) * 0.3), rgba(0, 0, 0, 0.5) calc(var(--f) * 0.5), rgba(0, 0, 0, 0.784) calc(var(--f) * 0.7), rgba(0, 0, 0, 0.94) calc(var(--f) * 0.85), #000 var(--f), #000 calc(100% - var(--f)), rgba(0, 0, 0, 0.94) calc(100% - var(--f) * 0.85), rgba(0, 0, 0, 0.784) calc(100% - var(--f) * 0.7), rgba(0, 0, 0, 0.5) calc(100% - var(--f) * 0.5), rgba(0, 0, 0, 0.216) calc(100% - var(--f) * 0.3), rgba(0, 0, 0, 0.06) calc(100% - var(--f) * 0.15), transparent 100%);
+  mask-image:
+    linear-gradient(to right, transparent 0, rgba(0, 0, 0, 0.06) calc(var(--f) * 0.15), rgba(0, 0, 0, 0.216) calc(var(--f) * 0.3), rgba(0, 0, 0, 0.5) calc(var(--f) * 0.5), rgba(0, 0, 0, 0.784) calc(var(--f) * 0.7), rgba(0, 0, 0, 0.94) calc(var(--f) * 0.85), #000 var(--f), #000 calc(100% - var(--f)), rgba(0, 0, 0, 0.94) calc(100% - var(--f) * 0.85), rgba(0, 0, 0, 0.784) calc(100% - var(--f) * 0.7), rgba(0, 0, 0, 0.5) calc(100% - var(--f) * 0.5), rgba(0, 0, 0, 0.216) calc(100% - var(--f) * 0.3), rgba(0, 0, 0, 0.06) calc(100% - var(--f) * 0.15), transparent 100%),
+    linear-gradient(to bottom, transparent 0, rgba(0, 0, 0, 0.06) calc(var(--f) * 0.15), rgba(0, 0, 0, 0.216) calc(var(--f) * 0.3), rgba(0, 0, 0, 0.5) calc(var(--f) * 0.5), rgba(0, 0, 0, 0.784) calc(var(--f) * 0.7), rgba(0, 0, 0, 0.94) calc(var(--f) * 0.85), #000 var(--f), #000 calc(100% - var(--f)), rgba(0, 0, 0, 0.94) calc(100% - var(--f) * 0.85), rgba(0, 0, 0, 0.784) calc(100% - var(--f) * 0.7), rgba(0, 0, 0, 0.5) calc(100% - var(--f) * 0.5), rgba(0, 0, 0, 0.216) calc(100% - var(--f) * 0.3), rgba(0, 0, 0, 0.06) calc(100% - var(--f) * 0.15), transparent 100%);
   -webkit-mask-composite: source-in;
   mask-composite: intersect;
 }
@@ -243,7 +248,7 @@ html[lang='en'] .aut-ghost {
   position: absolute;
   top: 97%;
   width: 3.5%;
-  height: 15.5%;
+  height: 12.5%;
   transform-origin: 50% 0;
   transform: rotate(calc(var(--d) * -7deg));
   filter: drop-shadow(calc(var(--d) * -1px) 2px 2px rgba(36, 20, 8, 0.36));
@@ -428,7 +433,7 @@ html[lang='en'] .aut-ghost {
   z-index: 1;
   border-radius: inherit;
   pointer-events: none;
-  background: linear-gradient(180deg, rgba(70, 24, 4, 0) 78%, rgba(70, 24, 4, 0.44) 100%);
+  background: linear-gradient(180deg, rgba(70, 24, 4, 0) 76%, rgba(70, 24, 4, 0.26) 90%, rgba(70, 24, 4, 0.52) 100%);
   box-shadow:
     inset 0 0 0 1px rgba(60, 24, 6, 0.2),
     inset 0 1px 0 rgba(255, 240, 220, 0.35);
@@ -466,20 +471,29 @@ html[lang='en'] .aut-lockup__b {
   font-size: calc(var(--h) * 0.033);
 }
 .aut-mark {
+  /* the imprint at the foot of the cover: foil type between two short rules, printed — not a chip stuck on */
   position: absolute;
-  bottom: 4%;
+  bottom: 3.7%;
   left: 50%;
   z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.7em;
   transform: translateX(-50%);
-  padding: 0.38em 1em;
-  border-radius: 999px;
-  background: rgba(246, 240, 228, 0.93);
-  color: var(--color-ink);
-  font-size: max(8px, calc(var(--h) * 0.0215));
-  font-weight: 700;
+  color: rgba(255, 244, 228, 0.94);
+  font-size: max(8.5px, calc(var(--h) * 0.0235));
+  font-weight: 800;
   line-height: 1.3;
   white-space: nowrap;
-  box-shadow: 0 2px 8px rgba(40, 16, 4, 0.25);
+  text-shadow: 0 1px 2px rgba(70, 24, 4, 0.55);
+}
+.aut-mark::before,
+.aut-mark::after {
+  content: '';
+  width: 1.5em;
+  height: 1px;
+  background: currentColor;
+  opacity: 0.6;
 }
 /* the pressed groove of a hard cover, beside the spine */
 .aut-joint {
@@ -534,7 +548,8 @@ html[lang='en'] .aut-lockup__b {
   flex-direction: column;
   align-items: center;
   gap: 5px;
-  margin-top: clamp(52px, 5.4vw, 80px);
+  /* clear of the ribbon's tail, which slips out from under the foot of the book */
+  margin-top: clamp(76px, 6.8vw, 104px);
   text-align: center;
   font-size: 13.5px;
   line-height: 1.6;
@@ -617,9 +632,14 @@ html[lang='en'] .aut-lockup__b {
   left: clamp(14px, 2vw, 26px);
   bottom: clamp(14px, 2vw, 26px);
   z-index: 3;
-  width: min(29.5rem, 47%);
+  /* wide enough for the three ways in to share one row */
+  width: min(34rem, 52%);
   padding: clamp(24px, 2.5vw, 36px) clamp(22px, 2.5vw, 34px);
   border-radius: 26px;
+}
+/* phones only: the picture carried on under the glass (see below) */
+.aut-cta__amb {
+  display: none;
 }
 .aut-cta__title {
   display: flex;
@@ -742,39 +762,65 @@ html[lang='ar'] .aut-cta__title {
   .aut {
     padding-block: 84px 56px;
   }
+  /* The whole scene stands on top — the tree, the leaves, both boys down to their shoes — and a sheet of dark glass
+     rises over its foot. Under the glass the picture carries on, turned over like a reflection and out of focus,
+     so the glass has something real to be glass over. */
   .aut-cta {
+    --film-h: clamp(288px, 92vw, 392px);
     display: flex;
     flex-direction: column;
     height: auto;
     margin-top: 64px;
     border-radius: 28px;
   }
-  /* the film on top, melting into the card; the glass overlaps its foot */
   .aut-cta__film {
     position: relative;
     inset: auto;
-    height: clamp(250px, 78vw, 340px);
-    -webkit-mask-image: linear-gradient(to bottom, #000 58%, rgba(0, 0, 0, 0.5) 80%, transparent);
-    mask-image: linear-gradient(to bottom, #000 58%, rgba(0, 0, 0, 0.5) 80%, transparent);
+    z-index: 1;
+    flex: none;
+    height: var(--film-h);
   }
   .aut-cta__film::before {
-    background: none;
+    background: linear-gradient(0deg, rgba(18, 12, 8, 0.22), rgba(18, 12, 8, 0) 26%);
   }
   .aut-cta__zoom .qf {
-    --qf-focus: 76% 50%;
-    background: transparent;
+    --qf-focus: 88% 50%;
+  }
+  .aut-cta__amb {
+    display: block;
+    position: absolute;
+    z-index: 0;
+    /* tucked a little under the film and past the card's sides, so its soft edges never show */
+    inset: calc(var(--film-h) - 36px) -28px auto -28px;
+    height: calc(var(--film-h) + 36px);
+    background-image: var(--amb);
+    background-size: cover;
+    background-position: 88% 50%;
+    transform: scaleY(-1);
+    filter: blur(22px) saturate(1.15);
   }
   .aut-cta__panel {
     position: relative;
     left: auto;
     bottom: auto;
     width: auto;
-    margin: -74px 12px 12px;
-    padding: 22px 18px 18px;
-    border-radius: 22px;
+    margin: -26px 0 0;
+    padding: 26px 20px 20px;
+    border-radius: 26px 26px 0 0;
+    /* lighter than the stock dark glass at the top, where the leaves shine through; deeper under the buttons */
+    background: linear-gradient(180deg, rgba(26, 18, 11, 0.34), rgba(26, 18, 11, 0.56) 46%, rgba(18, 12, 8, 0.74));
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.24),
+      inset 0 0 0 1px rgba(255, 255, 255, 0.07),
+      0 -14px 34px rgba(18, 12, 8, 0.28);
   }
   .aut-cta__title {
     font-size: clamp(1.9rem, 8.6vw, 2.4rem);
+    text-shadow: 0 1px 14px rgba(18, 12, 8, 0.35);
+  }
+  /* each sentence keeps its own line */
+  html[lang='en'] .aut-cta__title {
+    font-size: clamp(1.6rem, 7.3vw, 2.05rem);
   }
   .aut-cta__pills {
     flex-direction: column;

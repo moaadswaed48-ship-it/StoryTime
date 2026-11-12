@@ -1,26 +1,30 @@
-import { forwardRef } from 'react'
+import { forwardRef, type CSSProperties } from 'react'
 import { ArrowUpRight, BookOpen, Play } from 'lucide-react'
 import { go } from '@/app/router'
 import { story } from '@/content/story'
 import { Pill, Reveal } from '@/design/ui'
 import { QuietFilm, type QuietFilmHandle } from '@/features/footer/QuietFilm'
 import { t } from '@/i18n/copy'
+import { asset } from '@/lib/asset'
 import { useSiteStore } from '@/store/useSiteStore'
 
 /** Scene 8, "leaves like rain": the camera stands still and only the leaves move — a background that stays quiet. */
 const SCENE = story.scenes[7]
-/** The copy is two short sentences; each gets its own line. */
-const LINES = t.author.ctaTitle.split(/(?<=[.?!؟])\s+/)
+/** The copy is two short sentences; each gets its own line. (No look-behind: older Safari cannot parse it.) */
+const LINES = t.author.ctaTitle.match(/[^.?!؟]+[.?!؟]*/g)?.map((s) => s.trim()).filter(Boolean) ?? [t.author.ctaTitle]
 
 /**
  * The invitation that closes the section: the falling-leaves clip behind a panel of dark glass.
  * The panel sits where the picture is calm (the open sky and the yard, on the picture's left), in both languages.
+ * On phones the scene stands whole on top and the glass is a sheet rising over its foot.
  */
 export const CtaCard = forwardRef<QuietFilmHandle>(function CtaCard(_, ref) {
   const openBook = useSiteStore((s) => s.openBook)
   const openFilm = useSiteStore((s) => s.openFilm)
   return (
     <Reveal className="aut-cta">
+      {/* phones: the same picture, turned over and out of focus, carries on under the glass (the image is only asked for there) */}
+      <span className="aut-cta__amb" style={{ '--amb': `url("${asset(SCENE.thumb)}")` } as CSSProperties} aria-hidden />
       <div className="aut-cta__film grain" aria-hidden>
         <div className="aut-cta__zoom">
           <QuietFilm ref={ref} clip={SCENE.clip!} poster={SCENE.img} posterSm={SCENE.thumb} sizes="(min-width: 1320px) 1208px, 94vw" />
