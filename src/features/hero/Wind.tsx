@@ -40,16 +40,16 @@ const VEINS = [
   [89, 46],
   [75, 69],
 ] as const
-/** tip → middle → stem. Sunlit leaves in the middle distance; darker, backlit ones close to the lens. */
+/** tip → middle → stem. Sunlit leaves in the middle distance; deeper ones, glowing against the light, close to the lens. */
 const MID_TONES = [
   ['#ffe07a', '#f8ac2e', '#e27a17'],
   ['#ffbb52', '#f0731d', '#c4441a'],
   ['#ff9152', '#dc4519', '#a2260f'],
 ] as const
 const NEAR_TONES = [
-  ['#ee8f33', '#bd4616', '#7c1e08'],
-  ['#e06a26', '#a53412', '#6a1508'],
-  ['#f3ab42', '#c9621a', '#8c2c0c'],
+  ['#ffa23e', '#e2561a', '#a82a0e'],
+  ['#f8822e', '#cf3f16', '#8f1f0c'],
+  ['#ffb94a', '#e8741c', '#b03a10'],
 ] as const
 
 interface Sprite {
@@ -141,7 +141,7 @@ function defocus(src: HTMLCanvasElement, sigma: number): Sprite {
 }
 
 let sprites: { mid: Sprite[]; near: Sprite[] } | null = null
-const getSprites = () => (sprites ??= { mid: MID_TONES.map((t) => defocus(drawLeaf(104, t), 1.5)), near: NEAR_TONES.map((t) => defocus(drawLeaf(132, t), 6.5)) })
+const getSprites = () => (sprites ??= { mid: MID_TONES.map((t) => defocus(drawLeaf(104, t), 1.5)), near: NEAR_TONES.map((t) => defocus(drawLeaf(140, t), 3.4)) })
 
 /* ── Simulation ─────────────────────────────────────────────────────────────── */
 interface Leaf {
@@ -173,7 +173,18 @@ const rnd = (a: number, b: number) => a + Math.random() * (b - a)
 const pick = <T,>(list: readonly T[]) => list[Math.floor(Math.random() * list.length)]
 const MAX_LEAVES = 46
 
-export const Wind = forwardRef<WindHandle, { host: RefObject<HTMLElement | null>; active: boolean }>(function Wind({ host, active }, ref) {
+interface Rect {
+  x: number
+  y: number
+  w: number
+  h: number
+}
+
+/**
+ * `host` is the hero section (pointer events are read from it). `faces` are the boys' face boxes in hero coordinates:
+ * a leaf fades out as it reaches one, so nothing — not even a leaf — ever sits on a face.
+ */
+export const Wind = forwardRef<WindHandle, { host: RefObject<HTMLElement | null>; faces: RefObject<Rect[]>; active: boolean }>(function Wind({ host, faces, active }, ref) {
   const canvas = useRef<HTMLCanvasElement>(null)
   const api = useRef<{ start: () => void; stop: () => void; burst: WindHandle['burst']; count: () => number; running: () => boolean } | null>(null)
 
@@ -293,6 +304,8 @@ export const Wind = forwardRef<WindHandle, { host: RefObject<HTMLElement | null>
       const drag = Math.exp(-dt * 1.7)
       const reach = small ? 120 : 170
 
+      const heads = faces.current ?? []
+
       ctx.setTransform(1, 0, 0, 1, 0, 0)
       ctx.clearRect(0, 0, cv.width, cv.height)
       for (let i = leaves.length - 1; i >= 0; i--) {
@@ -314,7 +327,14 @@ export const Wind = forwardRef<WindHandle, { host: RefObject<HTMLElement | null>
         l.flip += l.flipV * dt
 
         const m = l.size
-        let alpha = l.near ? 0.94 : 0.97
+        let alpha = l.near ? 0.95 : 0.97
+        // keep the faces clear: the leaf thins out over the last 40px before a face box
+        for (const r of heads) {
+          const ox = Math.max(r.x - l.x, 0, l.x - r.x - r.w)
+          const oy = Math.max(r.y - l.y, 0, l.y - r.y - r.h)
+          const gap = Math.hypot(ox, oy) - m * 0.46
+          if (gap < 40) alpha *= gap <= 0 ? 0 : (gap / 40) ** 2
+        }
         if (l.life !== Infinity) {
           l.life -= dt
           if (l.life <= 0 || l.y > H + m) {
@@ -327,8 +347,11 @@ export const Wind = forwardRef<WindHandle, { host: RefObject<HTMLElement | null>
         } else if (l.x < -m) l.x = W + m
         else if (l.x > W + m * 1.2) l.x = -m
 
+        if (alpha < 0.01) continue
+        // never quite edge-on: a hairline would flicker, and a big soft leaf would read as a streak
+        const thin = l.near ? 0.34 : 0.16
         let f = Math.cos(l.flip)
-        if (Math.abs(f) < 0.14) f = f < 0 ? -0.14 : 0.14 // never quite edge-on: a hairline would flicker
+        if (Math.abs(f) < thin) f = f < 0 ? -thin : thin
         const c = Math.cos(l.rot) * dpr
         const s = Math.sin(l.rot) * dpr
         const b = l.size * l.sprite.box
@@ -417,7 +440,7 @@ export const Wind = forwardRef<WindHandle, { host: RefObject<HTMLElement | null>
       el.removeEventListener('pointermove', onMove)
       el.removeEventListener('pointerleave', onLeave)
     }
-  }, [host])
+  }, [host, faces])
 
   // Fall only while the hero can be seen.
   useEffect(() => {

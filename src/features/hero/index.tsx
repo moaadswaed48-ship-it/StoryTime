@@ -12,7 +12,7 @@ import { useSiteStore } from '@/store/useSiteStore'
 import { Film, type FilmHandle } from './Film'
 import { HERO_SCENES, SceneStrip, type StripHandle } from './SceneStrip'
 import { Wind, type WindHandle } from './Wind'
-import { frameTall, frameWide, overlaps, type Box, type Frame } from './framing'
+import { FILM, frameTall, frameWide, overlaps, type Box, type Frame } from './framing'
 import './hero.css'
 
 gsap.registerPlugin(ScrollTrigger, useGSAP)
@@ -24,6 +24,8 @@ gsap.registerPlugin(ScrollTrigger, useGSAP)
 const WIDE = '(min-width: 1024px) and (min-aspect-ratio: 3/2)'
 const FINE = '(hover: hover) and (pointer: fine)'
 type Layout = 'wide' | 'tall'
+/** How far beyond plain cover the wide layout may enlarge the film before the boys are cropped too tightly. */
+const MAX_ZOOM = 1.32
 const sameFrame = (a: Frame | null, b: Frame) => !!a && a.mode === b.mode && Math.abs(a.s - b.s) < 0.0005 && Math.abs(a.x - b.x) < 0.5 && Math.abs(a.y - b.y) < 0.5 && Math.abs(a.w - b.w) < 0.5
 const wantsWide = () => typeof window !== 'undefined' && window.matchMedia(WIDE).matches
 /** The sub-copy ends with who the story is for; that part gets its own line instead of a dash stranded at a line start. */
@@ -45,6 +47,8 @@ export function Hero() {
   const strip = useRef<StripHandle>(null)
   const wind = useRef<WindHandle>(null)
   const frameRef = useRef<Frame | null>(null)
+  /** The boys' face boxes for the leaf layer (it keeps them clear). */
+  const faces = useRef<Box[]>([])
   /** The hero size the current frame was solved for (tests wait for it after a resize). */
   const solvedFor = useRef({ w: 0, h: 0 })
 
@@ -112,15 +116,17 @@ export function Hero() {
     const hit = cards.map((c, i) => (onFace(c) ? i : -1)).filter((i) => i >= 0)
     const label = el.querySelector<HTMLElement>('.hero-strip__label')
     const all = el.querySelector<HTMLElement>('.hero-strip__all')
-    if (want === 'wide' && ((label && onFace(boxOf(label))) || hit.length === cards.length)) {
-      // A card or the "all scenes" link that would touch a face is simply left out. If the strip's own label would,
-      // or no card could stay, the screen is too small for this layout: use the tall one, where the strip sits under the boys.
+    if (want === 'wide' && (hit.length > 0 || (label && onFace(boxOf(label))) || f.s > Math.max(W / FILM.w, H / FILM.h) * MAX_ZOOM)) {
+      // The wide layout only counts when it is comfortable: every scene card clear of the faces and the boys not blown up
+      // to make room for the title. Otherwise the screen is too small for it: use the tall layout, where the strip sits
+      // under the boys. (The small "all scenes" link alone may be left out: see `hideAll`.)
       forcedTall.current = size
       layoutRef.current = 'tall'
       setLayout('tall')
       return
     }
     frameRef.current = f
+    faces.current = f.heads
     solvedFor.current = { w: W, h: H }
     setFrame((prev) => (sameFrame(prev, f) ? prev : f))
     setClash((prev) => (prev.join() === hit.join() ? prev : hit))
@@ -308,7 +314,7 @@ export function Hero() {
         </div>
       </div>
 
-      {!reduced && tier !== 'low' && <Wind ref={wind} host={section} active={live} />}
+      {!reduced && tier !== 'low' && <Wind ref={wind} host={section} faces={faces} active={live} />}
 
       <div ref={veil} className="hero-veil" aria-hidden />
     </section>

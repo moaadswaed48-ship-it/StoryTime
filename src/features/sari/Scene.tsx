@@ -188,6 +188,7 @@ function Floor({ rt, turntable }: { rt: Runtime; turntable: React.RefObject<THRE
     if (body.current) body.current.scale.setScalar(1 - rt.run * 0.12)
     const g = turntable.current
     if (!g) return
+    rt.stride *= Math.exp(-1.5 * dt)
     for (let i = 0; i < 2; i++) {
       const bone = (bones.current[i] ??= g.getObjectByName(i ? 'RightToeBase' : 'LeftToeBase') ?? g.getObjectByName(i ? 'RightFoot' : 'LeftFoot') ?? null)
       const blob = feet.current[i]
@@ -195,6 +196,7 @@ function Floor({ rt, turntable }: { rt: Runtime; turntable: React.RefObject<THRE
       bone.getWorldPosition(_v)
       ground.current[i] = Math.min(ground.current[i], _v.y)
       const lift = THREE.MathUtils.clamp((_v.y - ground.current[i]) / 0.24, 0, 1)
+      rt.stride = Math.max(rt.stride, lift)
       blob.position.set(_v.x, 0.004 + i * 0.0005, _v.z + 0.02)
       blob.scale.setScalar(1 + lift * 0.9)
       ;(blob.material as THREE.MeshBasicMaterial).opacity = 0.62 * (1 - lift) ** 1.5

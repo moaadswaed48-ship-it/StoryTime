@@ -66,8 +66,12 @@ html[dir='ltr'] .au-paper {
 html[lang='ar'] .au-title {
   line-height: 1.24;
 }
+html[lang='en'] .au-title {
+  font-size: clamp(2.6rem, 4.75vw, 4.4rem);
+}
 .au-title .blur-words {
   display: block;
+  white-space: nowrap;
 }
 /* two-tone: the second line is the same ink, quieter */
 .au-title__b {
@@ -201,27 +205,34 @@ html[lang='en'] .au-ghost {
   display: block;
 }
 
-/* Three layers of shadow on the paper: contact, body, air. They fall away from the lamp. */
+/* Three layers of shadow on the paper: contact, body, air. They fall away from the lamp.
+   Each is a dark sheet whose edges are feathered by two crossed masks (a true soft rectangle, no blur filter). */
 .au-sh {
+  --f: 20%; /* feather, as a share of the sheet */
   position: absolute;
-  inset: 0;
-  border-radius: 5px;
+  background: rgb(36 20 8);
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 var(--f), #000 calc(100% - var(--f)), transparent), linear-gradient(to bottom, transparent, #000 var(--f), #000 calc(100% - var(--f)), transparent);
+  mask-image: linear-gradient(to right, transparent, #000 var(--f), #000 calc(100% - var(--f)), transparent), linear-gradient(to bottom, transparent, #000 var(--f), #000 calc(100% - var(--f)), transparent);
+  -webkit-mask-composite: source-in;
+  mask-composite: intersect;
 }
 .au-sh--contact {
-  inset: 1.2%;
-  background: rgba(36, 20, 8, 0.52);
-  box-shadow: 0 0 9px 4px rgba(36, 20, 8, 0.52);
-  transform: translate(calc(var(--d) * -1.2%), 1.4%);
+  --f: 4.5%;
+  inset: -3.2%;
+  opacity: 0.62;
+  transform: translate(calc(var(--d) * -1.4%), 1.8%);
 }
 .au-sh--mid {
-  background: rgba(36, 20, 8, 0.25);
-  box-shadow: 0 0 36px 13px rgba(36, 20, 8, 0.25);
-  transform: translate(calc(var(--d) * -4.5%), 5%);
+  --f: 15%;
+  inset: -11%;
+  opacity: 0.3;
+  transform: translate(calc(var(--d) * -4.5%), 5.5%);
 }
 .au-sh--wide {
-  background: rgba(36, 20, 8, 0.12);
-  box-shadow: 0 0 110px 48px rgba(36, 20, 8, 0.12);
-  transform: translate(calc(var(--d) * -10%), 11%);
+  --f: 30%;
+  inset: -38%;
+  opacity: 0.2;
+  transform: translate(calc(var(--d) * -9%), 11%);
 }
 /* The ribbon marker slips out from under the foot of the book. */
 .au-ribbon {
@@ -564,7 +575,7 @@ html[lang='en'] .au-lockup__b {
   z-index: 1;
   pointer-events: none;
   background:
-    linear-gradient(90deg, rgba(18, 12, 8, 0.4), rgba(18, 12, 8, 0.12) 34%, rgba(18, 12, 8, 0) 56%),
+    linear-gradient(90deg, rgba(18, 12, 8, 0.16), rgba(18, 12, 8, 0) 46%),
     linear-gradient(0deg, rgba(18, 12, 8, 0.3), rgba(18, 12, 8, 0) 40%);
 }
 .au-cta__film.grain::after {
@@ -655,6 +666,9 @@ html[lang='ar'] .au-cta__title {
   .au-title {
     order: 2;
     font-size: clamp(2.9rem, 12.4vw, 5rem);
+  }
+  html[lang='en'] .au-title {
+    font-size: clamp(2.2rem, 10.6vw, 4.4rem);
   }
   .au-stage {
     order: 3;

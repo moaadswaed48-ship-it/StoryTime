@@ -261,7 +261,7 @@ export function Stage() {
           poke()
         },
         yaw: () => wrapAngle(rt.yaw),
-        state: () => ({ ...snap.current, webgl: !snap.current.flat, yaw: wrapAngle(rt.yaw), shown: rt.shown, run: rt.run, scroll: rt.scroll, calls: rt.calls, frames: rt.frames }),
+        state: () => ({ ...snap.current, webgl: !snap.current.flat, yaw: wrapAngle(rt.yaw), shown: rt.shown, run: rt.run, stride: rt.stride, scroll: rt.scroll, calls: rt.calls, frames: rt.frames }),
       },
     })
   }, [choose, wave, poke, rt])

@@ -54,6 +54,8 @@ export interface Runtime {
   pitch: number
   /** Marquee travel (px). */
   slide: number
+  /** How high a foot has just been lifted, 0 … 1 (decays): proof for QA that the run cycle is really playing. */
+  stride: number
   /** Draw calls of the last frame (QA: must stay small). */
   calls: number
   frames: number
@@ -76,6 +78,7 @@ export const createRuntime = (): Runtime => ({
   word: null,
   pitch: 0,
   slide: 0,
+  stride: 0,
   calls: 0,
   frames: 0,
 })

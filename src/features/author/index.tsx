@@ -14,10 +14,11 @@ import { LyingBook, type BookHandle } from './Book'
 import { CtaCard } from './CtaCard'
 import './author.css'
 
-/** The headline is broken by hand: its last two words make the second, quieter line. */
+/** The headline is broken by hand into two lines at its middle; the second line is the quieter one. */
 const TITLE = t.author.title.split(' ')
-const LINE_A = TITLE.slice(0, Math.max(1, TITLE.length - 2)).join(' ')
-const LINE_B = TITLE.slice(Math.max(1, TITLE.length - 2)).join(' ')
+const CUT = Math.max(1, Math.floor(TITLE.length / 2))
+const LINE_A = TITLE.slice(0, CUT).join(' ')
+const LINE_B = TITLE.slice(CUT).join(' ')
 const WORDS = t.author.text.split(' ')
 /** How many words are "being read" at once while the paragraph lights up. */
 const SPREAD = 7
