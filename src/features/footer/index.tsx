@@ -349,7 +349,7 @@ export function Footer() {
             {BRAND.length === 2 ? (
               <>
                 <span className="ft-word__l">{BRAND[0]}</span>
-                <span className="ft-word__sp"> </span>
+                {t.brand.includes(' ') && <span className="ft-word__sp"> </span>}
                 <span className="ft-word__l">{BRAND[1]}</span>
               </>
             ) : (

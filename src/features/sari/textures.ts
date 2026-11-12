@@ -43,7 +43,7 @@ export function ringTexture(): THREE.CanvasTexture {
       ctx.globalAlpha = long ? 0.95 : 0.5
       ctx.lineWidth = long ? 3.5 : 2
       const r0 = c * 0.84
-      const r1 = c * (long ? 0.95 : 0.89)
+      const r1 = c * (long ? 0.93 : 0.885)
       ctx.beginPath()
       ctx.moveTo(c + Math.cos(a) * r0, c + Math.sin(a) * r0)
       ctx.lineTo(c + Math.cos(a) * r1, c + Math.sin(a) * r1)
@@ -54,7 +54,7 @@ export function ringTexture(): THREE.CanvasTexture {
 
 /** One autumn leaf, drawn light so each instance can be tinted. `soft` = out of focus (for the leaves close to the lens). */
 export function leafTexture(soft = false): THREE.CanvasTexture {
-  return paint(128, (ctx, s) => {
+  return paint(256, (ctx, s) => {
     const leaf = () => {
       ctx.beginPath()
       ctx.moveTo(s * 0.5, s * 0.07)
@@ -65,13 +65,13 @@ export function leafTexture(soft = false): THREE.CanvasTexture {
     if (soft) {
       // cross-browser blur: paint the shape off-canvas and keep only its blurred shadow
       ctx.shadowColor = 'rgba(255,255,255,0.9)'
-      ctx.shadowBlur = s * 0.13
+      ctx.shadowBlur = s * 0.075
       ctx.shadowOffsetX = s * 2
       ctx.translate(-s * 2, 0)
       ctx.fillStyle = '#fff'
       ctx.save()
       ctx.translate(s * 0.5, s * 0.5)
-      ctx.scale(0.78, 0.78)
+      ctx.scale(0.84, 0.84)
       ctx.translate(-s * 0.5, -s * 0.5)
       leaf()
       ctx.fill()

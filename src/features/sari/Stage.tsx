@@ -31,6 +31,8 @@ const GL = { antialias: true, powerPreference: 'high-performance' as const, alph
 /** Up to 2 device pixels per CSS pixel, on phones too: his outline sits beside razor-sharp type, and the scene is nine draw calls. */
 const DPR: [number, number] = [1, 2]
 const CAMERA = { fov: FOV, near: 0.1, far: 40, position: [0, 0.95, 5] as [number, number, number] }
+/** Behind him, far out of focus: the courtyard of the film under its autumn tree. The film carries the colour. */
+const FILM: CSSProperties = { backgroundImage: `url(${asset('story/k08-sm.webp')})` }
 /** The giant word is repeated so it can rush past while he runs; at rest only the middle copy is on stage. */
 const COPIES = [0, 1, 2, 3, 4]
 
@@ -42,7 +44,7 @@ const COPIES = [0, 1, 2, 3, 4]
 function Portrait({ onShown }: { onShown: () => void }) {
   useEffect(() => onShown(), [onShown])
   return (
-    <div className="sari-portrait">
+    <div className="sari-portrait" data-sari-portrait>
       <div className="sari-portrait__arch">
         <img src={asset('story/sari.webp')} alt={t.sari.title} width={700} height={929} decoding="async" draggable={false} />
       </div>
@@ -118,7 +120,7 @@ export function Stage() {
   // the leaf layer only exists while leaves are in the air (or all the time behind the portrait)
   useEffect(() => {
     if (!burst) return
-    leaves.current?.burst(burst.x, burst.y, 10)
+    leaves.current?.burst(burst.x, burst.y, 16)
     window.clearTimeout(timers.current.burst)
     timers.current.burst = window.setTimeout(() => setBurst(null), 2400)
   }, [burst])
@@ -195,7 +197,12 @@ export function Stage() {
     rt.py = clamp(1 - ((e.clientY - r.top) / r.height) * 2, -1, 1)
   }
   const onDown = (e: PointerEvent<HTMLDivElement>) => {
-    if (flat || (e.pointerType === 'mouse' && e.button !== 0)) return
+    if (e.pointerType === 'mouse' && e.button !== 0) return
+    if (flat) {
+      // the portrait cannot turn, but a tap is still answered: leaves fly from the finger and the arch gives a little
+      drag.current = { id: e.pointerId, x: e.clientX, t: e.timeStamp, moved: 0, downAt: e.timeStamp }
+      return
+    }
     e.currentTarget.setPointerCapture(e.pointerId)
     drag.current = { id: e.pointerId, x: e.clientX, t: e.timeStamp, moved: 0, downAt: e.timeStamp }
     rt.dragging = true
@@ -211,6 +218,7 @@ export function Stage() {
       if (e.pointerType === 'mouse') look(e)
       return
     }
+    if (flat) return void (d.moved += Math.abs(e.clientX - d.x))
     const dx = e.clientX - d.x
     const dms = Math.max(1, e.timeStamp - d.t)
     d.x = e.clientX
@@ -229,8 +237,18 @@ export function Stage() {
     e.currentTarget.classList.remove('is-grabbing')
     if (e.pointerType !== 'mouse') rt.px = rt.py = 0
     const tap = e.type === 'pointerup' && d.moved < 8 && e.timeStamp - d.downAt < 500
+    if (flat) {
+      if (!tap) return
+      sfx.pop()
+      if (reduced) return
+      const r = e.currentTarget.getBoundingClientRect()
+      leaves.current?.burst(e.clientX - r.left, e.clientY - r.top, 14)
+      e.currentTarget.querySelector('[data-sari-portrait]')?.animate([{ transform: 'scale(1)' }, { transform: 'scale(1.03)' }, { transform: 'scale(1)' }], { duration: 420, easing: 'cubic-bezier(0.22, 1, 0.36, 1)' })
+      return
+    }
     if (tap) {
       rt.vel = 0
+      rt.pop = 1
       wave()
       sfx.pop()
       if (!reduced) {
@@ -255,8 +273,10 @@ export function Stage() {
       rt.hold = false
       rt.vel = clamp(rt.vel + (e.key === 'ArrowRight' ? 2.4 : -2.4), -9, 9)
       setUsed(true)
-    } else if (e.key === 'Enter' || e.key === ' ') wave()
-    else return
+    } else if (e.key === 'Enter' || e.key === ' ') {
+      rt.pop = 1
+      wave()
+    } else return
     e.preventDefault()
     poke()
   }
@@ -270,8 +290,8 @@ export function Stage() {
         action: () => snap.current.action,
         /** Holds an action (a held wave does not time out). */
         set: (a: SariAction) => choose(a, true),
-        /** The same as a tap on him: one passing wave. */
-        tap: () => wave(),
+        /** The same as a tap on him: a bob and one passing wave. */
+        tap: () => ((rt.pop = 1), wave()),
         /** Puts him at a turn (rad) and keeps him there. */
         turn: (rad: number) => {
           rt.yaw = rad
@@ -306,8 +326,10 @@ export function Stage() {
         onKeyDown={onKey}
       >
         <div className="sari-back" aria-hidden>
+          <div className="sari-back__film" style={FILM} />
           <div className="sari-back__glow" />
           <div className="sari-back__rays" />
+          <div className="sari-back__floor" />
         </div>
         <div className="sari-word" aria-hidden>
           <div ref={track} className="sari-word__track t-mega">

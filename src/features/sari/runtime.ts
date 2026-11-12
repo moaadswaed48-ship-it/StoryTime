@@ -8,8 +8,8 @@ import type { SariAction } from '@/design/SariModel'
  */
 export const SIDE = -dirSign
 
-/** Resting turn (rad): he looks slightly into the page, toward the words. */
-export const REST_YAW = 0.16 * SIDE
+/** Resting turn (rad): a three-quarter stand toward the words, his most flattering side; his head turns back to the visitor. */
+export const REST_YAW = 0.38 * SIDE
 /** While running he turns three-quarters toward the words, so the stride reads. */
 export const RUN_YAW = 0.62 * SIDE
 /** How far the stage turns him as it scrolls through the screen (rad at one screen away). */
@@ -58,6 +58,8 @@ export interface Runtime {
   slide: number
   /** How high a foot has just been lifted, 0 … 1 (decays): proof for QA that the run cycle is really playing. */
   stride: number
+  /** 1 at a tap, then fades: the instant answer to a touch (a small bob) before the wave has risen. */
+  pop: number
   /** Draw calls of the last frame (QA: must stay small). */
   calls: number
   frames: number
@@ -82,6 +84,7 @@ export const createRuntime = (): Runtime => ({
   pitch: 0,
   slide: 0,
   stride: 0,
+  pop: 0,
   calls: 0,
   frames: 0,
 })

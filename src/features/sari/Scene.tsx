@@ -13,6 +13,8 @@ export const FOV = 24
 const TAN = Math.tan(THREE.MathUtils.degToRad(FOV / 2))
 /** His height with the curls (units). */
 const TALL = 1.16
+/** Wide layout: how far above the stage's bottom edge he stands (px), clear of the dock. */
+const FEET = 172
 const easeOutExpo = (t: number) => (t >= 1 ? 1 : 1 - Math.pow(2, -10 * t))
 const damp = (rate: number, dt: number) => 1 - Math.exp(-rate * dt)
 
@@ -89,7 +91,10 @@ function Director({ rt, turntable }: { rt: Runtime; turntable: React.RefObject<T
     if (g) {
       rt.shown = REST_YAW + rt.yaw + v.run + v.scroll * SCROLL_YAW * -SIDE + (1 - intro) * -1.25 * SIDE
       g.rotation.y = rt.shown
-      g.scale.setScalar(0.93 + 0.07 * intro)
+      // a tap lands at once: he bobs up like a nudged toy while the wave is still rising
+      if (rt.pop > 0) rt.pop = rt.pop < 0.004 ? 0 : rt.pop * Math.exp(-6 * dt)
+      const size = 0.93 + 0.07 * intro
+      g.scale.set(size * (1 - 0.018 * rt.pop), size * (1 + 0.045 * rt.pop), size * (1 - 0.018 * rt.pop))
       // a runner leans into the run
       g.rotation.x = rt.run * 0.05
     }
@@ -98,8 +103,9 @@ function Director({ rt, turntable }: { rt: Runtime; turntable: React.RefObject<T
     // Stacked layout: he fills the stage, but a narrow stage never crops his arms.
     const { camera, size } = state
     const aspect = size.width / Math.max(1, size.height)
-    const fill = rt.docked ? THREE.MathUtils.clamp((size.height - 232) / size.height, 0.58, 0.79) : 0.8
-    const feet = rt.docked ? 152 / size.height : 0.15
+    // (short laptops keep more air above his curls, so they never touch the nav)
+    const fill = rt.docked ? THREE.MathUtils.clamp((size.height - (size.height < 760 ? 270 : 250)) / size.height, 0.58, 0.79) : 0.8
+    const feet = rt.docked ? FEET / size.height : 0.15
     const dist = Math.max(TALL / fill / (2 * TAN), (size.width < 560 ? 1.12 : rt.docked ? 1.25 : 1.42) / (2 * TAN * aspect))
     const viewH = 2 * dist * TAN
     const cy = viewH * (0.5 - feet)
@@ -154,14 +160,30 @@ function Floor({ rt, turntable }: { rt: Runtime; turntable: React.RefObject<THRE
     [],
   )
   useEffect(() => () => Object.values(tex).forEach((t) => t.dispose()), [tex])
+  // the ring dips out of sight before it reaches the dock, so no tick ever pokes out around the glass
+  const fade = useMemo(() => ({ value: new THREE.Vector2(-2, -1) }), [])
+  const ringMat = useMemo(() => {
+    const m = new THREE.MeshBasicMaterial({ map: tex.ring, color: '#ffd9ae', transparent: true, opacity: 0.3, depthWrite: false, toneMapped: false })
+    m.onBeforeCompile = (shader) => {
+      shader.uniforms.uFade = fade
+      shader.fragmentShader = shader.fragmentShader
+        .replace('void main() {', 'uniform vec2 uFade;\nvoid main() {')
+        .replace('#include <opaque_fragment>', '#include <opaque_fragment>\n\tgl_FragColor.a *= smoothstep( uFade.x, uFade.y, gl_FragCoord.y );')
+    }
+    return m
+  }, [tex, fade])
+  useEffect(() => () => ringMat.dispose(), [ringMat])
   const ring = useRef<THREE.Mesh>(null)
   const body = useRef<THREE.Mesh>(null)
   const feet = useRef<Array<THREE.Mesh | null>>([null, null])
   const bones = useRef<Array<THREE.Object3D | null>>([null, null])
   const ground = useRef([Infinity, Infinity])
   const spin = useRef(0)
-  useFrame((_, delta) => {
+  useFrame(({ viewport }, delta) => {
     const dt = Math.min(delta, 1 / 20)
+    // (device pixels from the canvas' bottom edge; the dock's top is 118px up)
+    if (rt.docked) fade.value.set(122 * viewport.dpr, 164 * viewport.dpr)
+    else fade.value.set(-2, -1)
     // the ground runs back under a runner
     if (!rt.reduced) spin.current += rt.run * 2.6 * dt * SIDE
     if (ring.current) ring.current.rotation.z = rt.shown - RUN_YAW * rt.run + spin.current
@@ -189,8 +211,8 @@ function Floor({ rt, turntable }: { rt: Runtime; turntable: React.RefObject<THRE
         <meshBasicMaterial map={tex.pool} color="#ffa552" transparent opacity={0.78} depthWrite={false} blending={THREE.AdditiveBlending} toneMapped={false} />
       </mesh>
       <mesh ref={ring} rotation-x={-Math.PI / 2} position-y={0.002} renderOrder={2}>
-        <planeGeometry args={[1.36, 1.36]} />
-        <meshBasicMaterial map={tex.ring} color="#ffd9ae" transparent opacity={0.3} depthWrite={false} toneMapped={false} />
+        <planeGeometry args={[1.26, 1.26]} />
+        <primitive object={ringMat} attach="material" />
       </mesh>
       <mesh ref={body} rotation-x={-Math.PI / 2} position={[-SIDE * 0.05, 0.003, -0.03]} renderOrder={3}>
         <planeGeometry args={[1.25, 0.95]} />
@@ -226,7 +248,7 @@ interface Leaf {
 function LeafField({ rt, count, soft = false }: { rt: Runtime; count: number; soft?: boolean }) {
   const mesh = useMemo(() => {
     const mat = soft
-      ? new THREE.MeshBasicMaterial({ map: leafTexture(true), transparent: true, opacity: 0.44, depthWrite: false, side: THREE.DoubleSide })
+      ? new THREE.MeshBasicMaterial({ map: leafTexture(true), transparent: true, opacity: 0.36, depthWrite: false, side: THREE.DoubleSide })
       : new THREE.MeshLambertMaterial({ map: leafTexture(), alphaTest: 0.5, alphaToCoverage: true, side: THREE.DoubleSide, emissive: '#8a3d10', emissiveIntensity: 0.55 })
     const m = new THREE.InstancedMesh(new THREE.PlaneGeometry(1, 1), mat, count)
     m.frustumCulled = false
@@ -243,7 +265,7 @@ function LeafField({ rt, count, soft = false }: { rt: Runtime; count: number; so
       sway: 0.35 + rnd() * 0.5,
       ph: rnd() * 6.283,
       spin: (rnd() - 0.5) * 1.1,
-      size: soft ? 0.12 + rnd() * 0.07 : 0.085 + rnd() * 0.065,
+      size: soft ? 0.17 + rnd() * 0.07 : 0.085 + rnd() * 0.065,
       placed: false,
     }))
   }, [count, soft])
@@ -287,15 +309,24 @@ function LeafField({ rt, count, soft = false }: { rt: Runtime; count: number; so
       if (l.u > 1) l.u -= 2
       else if (l.u < -1) l.u += 2
       let x = l.u * halfW
-      // nothing falls across his face or chest: leaves on the near side slip past at his sides
-      const near = THREE.MathUtils.smoothstep(l.z, -0.5, 0.1) * (1 - rt.run)
-      if (near > 0 && Math.abs(x) < 0.72) x = THREE.MathUtils.lerp(x, (x < 0 ? -1 : 1) * (0.46 + Math.abs(x) * 0.361), near)
+      let z = l.z
+      let size = l.size
+      // nothing crosses his face or lands on his shoes, standing or running
+      if (soft) {
+        // near the lens: at rest they keep to his sides; in the wind they thin out to nothing as they pass him
+        if (Math.abs(x) < 0.72) x = THREE.MathUtils.lerp(x, (x < 0 ? -1 : 1) * (0.46 + Math.abs(x) * 0.361), 1 - rt.run)
+        size *= 1 - rt.run * (1 - THREE.MathUtils.smoothstep(Math.abs(x), 0.22, 0.6))
+      } else {
+        // in his own depth: a leaf on the near side swoops round behind him as it comes to his body
+        const near = THREE.MathUtils.smoothstep(l.z, -0.6, -0.1) * (1 - THREE.MathUtils.smoothstep(Math.abs(x), 0.34, 0.66))
+        z = THREE.MathUtils.lerp(l.z, -0.62, near)
+      }
       const y = centre - halfH + l.v * halfH * 2
       const landing = floor > -0.08 ? THREE.MathUtils.smoothstep((l.v - floor) * halfH * 2, 0, 0.16) : 1
       // they tumble but never turn edge-on for long, so each one reads as a leaf
       const a = t * l.spin + l.ph
       _e.set(Math.sin(a * 1.3) * 0.95 + rt.run * 0.5, Math.sin(a * 0.8 + 1.7) * 0.95, a * 0.6 + wind * 0.25)
-      _m.compose(_v.set(x, y, l.z), _q.setFromEuler(_e), _s.setScalar(l.size * landing))
+      _m.compose(_v.set(x, y, z), _q.setFromEuler(_e), _s.setScalar(size * landing))
       mesh.setMatrixAt(i, _m)
     }
     mesh.instanceMatrix.needsUpdate = true
