@@ -20,7 +20,7 @@ function PaperItem({ index, name }: { index: number; name: string }) {
   const sheet = useRef<THREE.Mesh>(null!)
   const ring = useRef<THREE.Mesh>(null!)
   const marker = useRef<THREE.Sprite>(null!)
-  const geo = useMemo(() => new THREE.PlaneGeometry(0.56, 0.735, 6, 1), [])
+  const geo = useMemo(() => new THREE.PlaneGeometry(0.6, 0.79, 6, 1), [])
   const rest = useMemo(() => Float32Array.from(geo.attributes.position.array as Float32Array), [geo])
   const mats = useMemo(
     () => ({

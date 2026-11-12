@@ -27,6 +27,16 @@ html[lang='en'] .hero {
   .hero {
     --card: clamp(118px, 31vw, 160px); /* short phone screens (in-app browsers): a slimmer strip leaves the film more room */
   }
+  .hero .hero-card__meta {
+    inset-inline: 8px;
+    bottom: 7px;
+    gap: 6px;
+    font-size: 12px;
+  }
+  .hero .hero-card__play {
+    width: 20px;
+    height: 20px;
+  }
 }
 
 /* ── Film ───────────────────────────────────────────────────────────────────── */

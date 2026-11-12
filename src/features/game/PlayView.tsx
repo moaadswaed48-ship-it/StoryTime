@@ -37,6 +37,7 @@ export function PlayView({ from, touch }: { from: DOMRect | null; touch: boolean
   const ready = useGame((g) => g.ready)
   const current = useGame((g) => g.current)
   const setMode = useGame((g) => g.setMode)
+  const root = useRef<HTMLDivElement>(null)
   const curtain = useRef<HTMLDivElement>(null)
   const leaves = useRef<LeavesHandle>(null)
   const slots = useRef<(HTMLLIElement | null)[]>([])
@@ -49,6 +50,21 @@ export function PlayView({ from, touch }: { from: DOMRect | null; touch: boolean
     window.setTimeout(() => useGame.getState().exit(), reducedNow() ? 0 : 300)
   }, [])
   useOverlayLock(true, exit)
+
+  // a modal layer: focus comes in, stays in, and goes back to where it was (the start button) afterwards
+  useEffect(() => {
+    const el = root.current
+    const before = document.activeElement instanceof HTMLElement ? document.activeElement : null
+    el?.focus({ preventScroll: true })
+    const keep = (e: FocusEvent) => {
+      if (el && e.target instanceof Node && !el.contains(e.target)) el.focus({ preventScroll: true })
+    }
+    document.addEventListener('focusin', keep)
+    return () => {
+      document.removeEventListener('focusin', keep)
+      before?.focus({ preventScroll: true })
+    }
+  }, [])
 
   // the poster picture grows from where it sits on the page until it covers the screen (transform only)
   useLayoutEffect(() => {
@@ -138,7 +154,9 @@ export function PlayView({ from, touch }: { from: DOMRect | null; touch: boolean
 
   return (
     <div
-      className={cn('game-play fixed inset-0 z-[60] overflow-hidden text-paper', leaving && 'game-out')}
+      ref={root}
+      tabIndex={-1}
+      className={cn('game-play fixed inset-0 z-[60] overflow-hidden text-paper outline-none', leaving && 'game-out')}
       role="dialog"
       aria-modal="true"
       aria-label={t.game.title}
@@ -444,22 +462,22 @@ function QuestionCard({ slots, burst }: { slots: RefObject<(HTMLLIElement | null
   const total = papers.length
   const nth = right ? countCollected(collected) : countCollected(collected) + 1
   return (
-    <div className="absolute inset-0 z-[41] grid place-items-center px-4 py-24" style={{ perspective: '1400px' }} data-game-question>
+    <div className="absolute inset-0 z-[41] grid place-items-center px-4 py-[min(6rem,15vh)]" style={{ perspective: '1400px' }} data-game-question>
       <div className="game-veil absolute inset-0" aria-hidden />
       <div
         ref={card}
         tabIndex={-1}
         role="group"
         aria-labelledby="game-question"
-        className="game-card relative w-[min(92vw,35rem)] rounded-[32px] px-6 pb-5 pt-6 text-center text-ink outline-none sm:px-10 sm:pb-7 sm:pt-8"
+        className="game-card relative flex w-[min(92vw,35rem)] flex-col items-center rounded-[32px] px-6 pb-5 pt-6 text-center text-ink outline-none sm:px-10 sm:pb-7 sm:pt-8"
       >
         <p className="game-name" lang={locale} data-game-name>
           {paper.name}
         </p>
-        <h3 id="game-question" className="mt-5 text-[clamp(1.15rem,2.2vw,1.5rem)] font-semibold leading-snug text-ink-2 [text-wrap:balance]">
+        <h3 id="game-question" className="text-[clamp(1.15rem,2.2vw,1.5rem)] font-semibold leading-snug text-ink-2 [text-wrap:balance]">
           {t.game.question}
         </h3>
-        <div className="mt-6 grid grid-cols-3 gap-3 sm:gap-4">
+        <div className="grid w-full grid-cols-3 gap-3 sm:gap-4">
           {paper.options.map((letter) => {
             const isWrong = wrong.includes(letter)
             const isRight = right && letter === paper.letter
@@ -479,7 +497,7 @@ function QuestionCard({ slots, burst }: { slots: RefObject<(HTMLLIElement | null
           })}
         </div>
         {/* one quiet line under the buttons: which paper this is, then the word of encouragement */}
-        <p className={cn('mt-5 flex h-8 items-center justify-center gap-2 text-[1.15rem] font-bold', right ? 'text-ink' : 'text-maple')} role="status" aria-live="polite" data-game-feedback>
+        <p className={cn('flex h-8 items-center justify-center gap-2 text-[1.15rem] font-bold', right ? 'text-ink' : 'text-maple')} role="status" aria-live="polite" data-game-feedback>
           {right ? (
             <>
               <span className="grid h-7 w-7 place-items-center rounded-full bg-maple text-white">
@@ -511,7 +529,7 @@ function Done({ cards }: { cards: boolean }) {
     useSiteStore.getState().openBook(0)
   }
   return (
-    <div className="absolute inset-0 z-[41] flex flex-col items-center justify-between px-5 pb-[max(30px,env(safe-area-inset-bottom))] pt-[clamp(104px,15vh,150px)]" data-game-done>
+    <div className="absolute inset-0 z-[41] flex flex-col items-center justify-between px-5 pb-[max(30px,env(safe-area-inset-bottom))] pt-[clamp(76px,15vh,150px)]" data-game-done>
       <div className="game-done-shade pointer-events-none absolute inset-0" aria-hidden />
       <div className={cn('relative text-center', cards && 'my-auto')}>
         {cards && <SariFace className="game-rise mx-auto mb-6 h-28 w-28 shadow-[0_18px_40px_rgba(0,0,0,0.4)]" />}

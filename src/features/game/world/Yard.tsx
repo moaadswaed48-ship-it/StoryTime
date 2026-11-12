@@ -148,15 +148,18 @@ export function Backdrop() {
 
 /* ── The big tree ───────────────────────────────────────────────────────────── */
 
-const BLOBS: [number, number, number, number][] = [
-  [0.4, 6.1, 0.3, 2.6],
-  [3.2, 5.4, 1.0, 1.9],
-  [-2.4, 5.5, 0.6, 2.0],
-  [0.8, 5.4, -2.0, 2.0],
-  [1.9, 7.2, -0.3, 1.8],
-  [-0.9, 7.0, 1.2, 1.6],
-  [5.3, 5.1, 0.4, 1.4],
-]
+/** The crown: a dome of leafy clumps (x, y, z, radius), wider toward the yard, laid out on a golden-angle spiral. */
+const BLOBS: [number, number, number, number][] = (() => {
+  const rnd = mulberry32(12)
+  const out: [number, number, number, number][] = [[0.3, 6.0, 0.2, 2.0]]
+  const n = 18
+  for (let i = 0; i < n; i++) {
+    const a = i * 2.39996 + 0.4
+    const rad = 0.9 + 3.4 * Math.sqrt((i + 0.6) / n)
+    out.push([Math.cos(a) * rad * 1.24 + 0.8, 4.55 + (1 - (rad / 4.5) ** 2) * 1.9 + (rnd() - 0.5) * 0.5, Math.sin(a) * rad * 0.82 + 0.1, 1.5 - rad * 0.15 + rnd() * 0.35])
+  }
+  return out
+})()
 const SQUASH = 0.8
 /** Mostly gold and orange, a few reds: the crown is back-lit. */
 const CROWN_COLORS = ['#f4a72c', '#f4a72c', '#e2711d', '#f2c14e', '#f7d06a', '#d9902f', '#e98a2b', '#c8421f']
@@ -217,32 +220,40 @@ function canopyGeometry() {
     BLOBS.map(([cx, cy, cz, r], i) => {
       const g = new THREE.IcosahedronGeometry(1, 2)
       const pos = g.attributes.position
+      const col = new Float32Array(pos.count * 3)
       for (let v = 0; v < pos.count; v++) {
         const x = pos.getX(v)
         const y = pos.getY(v)
         const z = pos.getZ(v)
-        const d = 1 + 0.15 * Math.sin(x * 3.1 + i) * Math.sin(y * 2.7 + i * 1.3) + 0.08 * Math.sin(z * 5.3 + i * 2)
-        pos.setXYZ(v, cx + x * r * d, cy + y * r * d * SQUASH, cz + z * r * d)
+        // lumpy, like clumps of foliage; the hollows are a little darker
+        const lump = 0.17 * Math.sin(x * 4.1 + i) * Math.sin(y * 3.7 + i * 1.3) + 0.1 * Math.sin(z * 6.3 + i * 2)
+        const d = 1 + lump
+        const wy = cy + y * r * d * SQUASH
+        pos.setXYZ(v, cx + x * r * d, wy, cz + z * r * d)
+        const h = THREE.MathUtils.clamp((wy - 3.9) / 3.6, 0, 1)
+        if (h < 0.5) _c.copy(under).lerp(mid, h * 2)
+        else _c.copy(mid).lerp(top, (h - 0.5) * 2)
+        _c.multiplyScalar(0.84 + 0.16 * (y * 0.5 + 0.5) + lump * 0.5)
+        col[v * 3] = _c.r
+        col[v * 3 + 1] = _c.g
+        col[v * 3 + 2] = _c.b
       }
-      return paint(g, (_x, y, _z, out) => {
-        const h = THREE.MathUtils.clamp((y - 3.6) / 4.8, 0, 1)
-        if (h < 0.5) out.copy(under).lerp(mid, h * 2)
-        else out.copy(mid).lerp(top, (h - 0.5) * 2)
-      })
+      g.setAttribute('color', new THREE.BufferAttribute(col, 3))
+      return g
     }),
   )
 }
 
 export function Tree() {
   const trunk = useDisposable(() => {
-    const top = new THREE.Vector3(0.1, 4.3, 0)
+    const top = new THREE.Vector3(0.1, 4.2, 0)
     const geo = merge([
       trunkGeometry(),
-      branchGeometry(top, new THREE.Vector3(3.0, 5.6, 1.0), 0.36, 0.14),
-      branchGeometry(top, new THREE.Vector3(-2.2, 5.6, 0.5), 0.34, 0.14),
-      branchGeometry(top, new THREE.Vector3(0.7, 5.6, -1.8), 0.32, 0.14),
-      branchGeometry(top, new THREE.Vector3(1.4, 6.8, 0), 0.34, 0.16),
-      branchGeometry(new THREE.Vector3(2.7, 5.45, 0.9), new THREE.Vector3(5.1, 5.2, 0.5), 0.17, 0.08),
+      branchGeometry(top, new THREE.Vector3(3.2, 5.3, 1.0), 0.36, 0.14),
+      branchGeometry(top, new THREE.Vector3(-2.4, 5.3, 0.5), 0.34, 0.14),
+      branchGeometry(top, new THREE.Vector3(0.7, 5.4, -1.9), 0.32, 0.14),
+      branchGeometry(top, new THREE.Vector3(1.2, 6.2, 0.2), 0.34, 0.16),
+      branchGeometry(new THREE.Vector3(2.9, 5.2, 0.9), new THREE.Vector3(5.4, 5.0, 0.6), 0.17, 0.08),
     ])
     const bark = barkTexture()
     return new THREE.Mesh(geo, new THREE.MeshLambertMaterial({ vertexColors: true, map: bark }))
@@ -250,7 +261,7 @@ export function Tree() {
   const crown = useDisposable(() => new THREE.Mesh(canopyGeometry(), new THREE.MeshLambertMaterial({ vertexColors: true, emissive: '#6e2f0d' })))
   const leaves = useDisposable(() => {
     const rnd = mulberry32(17)
-    const total = 1600
+    const total = 1900
     const sum = BLOBS.reduce((n, b) => n + b[3] * b[3], 0)
     const geo = new THREE.PlaneGeometry(1, 1)
     const mat = new THREE.MeshBasicMaterial({ map: leafTexture(), alphaTest: 0.4, side: THREE.DoubleSide })
@@ -269,7 +280,7 @@ export function Tree() {
         _p.set(cx + dir.x * out, cy + dir.y * out * SQUASH, cz + dir.z * out)
         _q.setFromUnitVectors(z, dir)
         _q.multiply(new THREE.Quaternion().setFromEuler(_e.set((rnd() - 0.5) * 1.1, (rnd() - 0.5) * 1.1, rnd() * Math.PI * 2)))
-        const size = 0.3 + rnd() * 0.3
+        const size = 0.28 + rnd() * 0.3
         mesh.setMatrixAt(k, _m.compose(_p, _q, _s.setScalar(size)))
         const light = 0.8 + 0.3 * (dir.y * 0.5 + 0.5) + rnd() * 0.14
         mesh.setColorAt(k, _c.set(CROWN_COLORS[Math.floor(rnd() * CROWN_COLORS.length)]).multiplyScalar(light))

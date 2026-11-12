@@ -257,6 +257,7 @@ html[lang='ar'] .game-slot.is-full {
   animation: fade-in 0.45s var(--ease-out) both;
 }
 .game-card {
+  gap: 20px;
   background: linear-gradient(168deg, #ffffff 0%, #fffaf0 55%, #f6ecda 100%);
   box-shadow:
     0 2px 0 rgb(255 255 255 / 0.9) inset,
@@ -387,6 +388,27 @@ html[lang='ar'] .game-letter {
   }
   100% {
     transform: rotate(var(--r, 0deg)) scale(1);
+  }
+}
+
+/* a phone held sideways: the same card, tighter */
+@media (max-height: 540px) {
+  .game-card {
+    gap: 9px;
+    padding-top: 12px;
+    padding-bottom: 8px;
+  }
+  .game-name {
+    font-size: clamp(2.2rem, 15vh, 3.6rem);
+    border-bottom-width: 3px;
+  }
+  html[lang='ar'] .game-name {
+    line-height: 1.35;
+  }
+  .game-letter {
+    height: 68px;
+    border-radius: 22px;
+    font-size: 2.3rem;
   }
 }
 

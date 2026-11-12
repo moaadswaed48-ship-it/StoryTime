@@ -287,3 +287,8 @@ Where a parent or a teacher looks behind the curtain. Quiet, clear, trustworthy.
 
 ### 8.8 `tour` — export `Tour` (landing section `id="inside"`, built last)
 "Inside StoryTime": the landing page's proof that the app is real. Real screens of the app (captured with Playwright from the finished app into `public/app/shots/*.webp`, phone size, both languages) in device frames that move with scroll, three or four short captions, and one large `t.app.enter` pill → `enterApp()`. No fake UI drawn by hand.
+
+### 8.9 `reader` — export `Reader` and `canCurl()` (the immersive reader, built in its own session)
+The owner's reference is Apple Books: the book fills the screen, the controls hide while reading, and **the page curls under the finger**. Apple's curl exists only as a native iOS API (`UIPageViewController` with `.pageCurl`), so ours is a WebGL page whose mesh wraps around a cylinder that follows the pointer, with the text printed on the page so it curls too.
+- `Reader` handles `overlay === 'book'` whenever `canCurl()` is true (WebGL available, motion not reduced). The DOM reader in `src/features/book` stays as the fallback and must keep working on its own.
+- Same contract as the book: opens at `startScene`, `setScene` on every page change, `mark(story.id, 'read')` at the end, demo paywall after scene 4 while `!loggedIn`, end page, `t.book.*` words, QA hooks on `window.__st.reader`.
