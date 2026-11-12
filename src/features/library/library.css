@@ -11,6 +11,9 @@
   /* A tile of soft grey grain, laid over cloth, paper and wood with a blend mode. Set from noise.ts (a canvas-made
      PNG); without it the surfaces are simply smooth. */
   --lib-noise: none;
+  /* The detail view (position: absolute; inset: 0) must cover this section and nothing else. Inside the app the
+     section is not a `.sheet`, and without this the detail resolved against the whole page. No z-index here. */
+  position: relative;
   overflow-x: clip;
 }
 
@@ -128,10 +131,26 @@
     height: clamp(380px, 48svh, 430px);
   }
 }
-/* While the books are dropping in they enter through a soft top edge instead of crossing the heading and the chips. */
+/* While the books are dropping in they enter through a soft top edge instead of crossing the heading and the chips:
+   a strip of paper laid over the top of the stage, and a plain clip above it. (Not a mask: masking a 3D scene
+   makes the browser flatten and rebuild every book's layer, each frame of the landing.) */
+.lib-stage::after {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto;
+  z-index: 1;
+  height: 64px;
+  pointer-events: none;
+  background: linear-gradient(var(--lib-paper), color-mix(in srgb, var(--lib-paper) 0%, transparent));
+  opacity: 0;
+  transition: opacity 0.35s ease;
+}
+.lib.is-waiting .lib-stage::after {
+  opacity: 1;
+  transition: none;
+}
 .lib.is-waiting .lib-stage {
-  -webkit-mask-image: linear-gradient(transparent 0, #000 64px);
-  mask-image: linear-gradient(transparent 0, #000 64px);
+  clip-path: inset(0 -100vmax -100vmax -100vmax);
 }
 .lib-stage.is-drag {
   cursor: grabbing;
@@ -223,6 +242,19 @@
     0 0 26px 16px rgba(40, 22, 8, 0.62),
     0 0 100px 60px rgba(40, 22, 8, 0.3);
   will-change: transform, opacity;
+}
+
+/* Touch devices: one small contact shadow per book and a ready-blurred pool on the wall. The wide blurs above
+   are the most expensive things on the shelf to rasterise, and the wall's is re-filtered whenever it is rescaled. */
+@media (pointer: coarse) {
+  .lib-shadow {
+    box-shadow: 0 0 16px 9px rgba(40, 22, 8, 0.5);
+  }
+  .lib-wallshadow {
+    border-radius: 0;
+    background: radial-gradient(closest-side, rgba(70, 44, 18, 0.36), rgba(70, 44, 18, 0.22) 55%, rgba(70, 44, 18, 0));
+    filter: none;
+  }
 }
 
 /* ── A book ──────────────────────────────────────────────────────────────────── */
@@ -794,6 +826,26 @@ html[lang='en'] .lib-rtitle .is-b {
   transform: translateX(var(--sx, 0px)) skewX(-14deg);
 }
 
+/* Touch devices: the light stands still. No travelling veil, no band crossing the foil (the metal gradient stays),
+   and no filters on the stamped art — each of those repainted a cover on every frame the shelf moved. */
+@media (pointer: coarse) {
+  .lib-sheen {
+    display: none;
+  }
+  .lib-book .lib-foil,
+  .lib-book .lib-foilfill {
+    background-image: linear-gradient(112deg, var(--foil-lo) 0%, var(--foil) 18%, var(--foil-hi) 36%, var(--foil) 52%, var(--foil-lo) 70%, var(--foil) 84%, var(--foil-hi) 100%);
+    background-position: 0 0;
+  }
+  .lib-book .lib-art,
+  .lib-book .lib-spine-in,
+  .lib-book .lib-rtitle,
+  .lib-book.is-pigment .lib-spine-in,
+  .lib-book.is-pigment .lib-art {
+    filter: none;
+  }
+}
+
 /* "Open" disc on the corner of the centred cover: the visible invitation to click it (and a real button for keys). */
 .lib-open {
   position: absolute;
@@ -951,6 +1003,8 @@ html[data-reduce-motion] .lib-cap-out {
   pointer-events: none;
   visibility: hidden;
   transition: visibility 0s 0.4s;
+  /* Its own compositing layer, so the 3D books under it can never poke through the words (WebKit). */
+  transform: translateZ(0);
 }
 .lib-detail.is-open {
   visibility: visible;
@@ -1171,6 +1225,10 @@ html[lang='en'] .lib-detail-titleb {
   .lib-return span {
     width: 44px;
     height: 44px;
+  }
+  /* It appears once the cover has flown past it and is nearly in its slot. */
+  .lib-detail.is-open .lib-return[data-d] {
+    transition-delay: 0.7s;
   }
   .lib-return b {
     position: absolute;

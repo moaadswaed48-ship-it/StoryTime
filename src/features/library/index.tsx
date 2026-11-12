@@ -72,6 +72,7 @@ export function Library({ variant = 'landing' }: { variant?: 'landing' | 'app' }
   const wallRef = useRef<HTMLDivElement>(null)
   const slotRef = useRef<HTMLDivElement>(null)
   const panelRef = useRef<HTMLDivElement>(null)
+  const detailRef = useRef<HTMLDivElement>(null)
   const backRef = useRef<HTMLButtonElement>(null)
   const textRef = useRef<HTMLDivElement>(null)
   const openRef = useRef<HTMLButtonElement>(null)
@@ -123,6 +124,7 @@ export function Library({ variant = 'landing' }: { variant?: 'landing' | 'app' }
       wall: wallRef.current!,
       slot: slotRef.current!,
       panel: panelRef.current!,
+      detail: detailRef.current!,
       open: openRef.current,
       books: bookEls.current,
       shadows: shadowEls.current,
@@ -152,9 +154,10 @@ export function Library({ variant = 'landing' }: { variant?: 'landing' | 'app' }
     shelf.renderNow()
   }, [shelf, metrics, geoms])
 
-  // The detail panel is centred, so its slot moves when its text changes: re-read it after every such render.
+  // The panel's size depends on the book, so it is placed (and its slot read) only now that React has rendered
+  // it — before the browser paints, so the book flies to where its slot really is.
   useLayoutEffect(() => {
-    if (detail !== null) shelf.measureSlot()
+    if (detail !== null) shelf.place()
   }, [shelf, detail, shown])
 
   useEffect(() => shelf.setReduced(reduced), [shelf, reduced])
@@ -342,7 +345,7 @@ export function Library({ variant = 'landing' }: { variant?: 'landing' | 'app' }
         </div>
       </Container>
 
-      <div className={cn('lib-detail', detail !== null && 'is-open', !dBook.ready && 'is-soon')} aria-hidden={detail === null} inert={detail === null}>
+      <div ref={detailRef} className={cn('lib-detail', detail !== null && 'is-open', !dBook.ready && 'is-soon')} aria-hidden={detail === null} inert={detail === null}>
         <Container>
           <div ref={panelRef} className="lib-detail-grid">
             <div className="lib-detail-slotwrap">

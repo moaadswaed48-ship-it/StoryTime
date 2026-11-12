@@ -11,12 +11,19 @@ import TL from './story.timeline.json'
 
 /**
  * The whole story, twelve scenes in order, with nothing written on the picture (the site's player sets
- * her words as captions from story.json). Thirty-two bars of 3/4 at 72 bpm: a scene with footage is two
- * bars (the clip at its own speed), a scene without footage is three — the painting, alive, cut wide and
+ * her words as captions from story.json), and a storyteller reads each scene's line over it. Bars of 3/4 at 72 bpm:
+ * each scene lasts as many bars as its spoken line needs (story.timeline.json is generated from the voice files);
+ * a scene with footage plays the clip at its own speed and then rests on its painting, a scene without footage is — the painting, alive, cut wide and
  * close on the bar, and a short code-made close-up of what her text describes. Scenes dissolve into each other on the
  * bar line; inside a scene the cut is hard, on the bar.
  */
 const DEPTH: Record<string, DepthSpec> = {
+  // the paintings behind the six clips: a plain ground plane and one soft body is enough for the slow moves they get
+  k01: { horizon: 0.55, blobs: [{ x: 0.3, y: 0.55, rx: 0.16, ry: 0.36, d: 0.72 }, { x: 0.78, y: 0.5, rx: 0.14, ry: 0.4, d: 0.66 }] },
+  k04: { horizon: 0.55, blobs: [{ x: 0.5, y: 0.6, rx: 0.34, ry: 0.3, d: 0.72 }] },
+  k06: { horizon: 0.6, blobs: [{ x: 0.5, y: 0.55, rx: 0.34, ry: 0.36, d: 0.7 }] },
+  k08: { horizon: 0.66, blobs: [{ x: 0.52, y: 0.62, rx: 0.2, ry: 0.26, d: 0.7 }, { x: 0.9, y: 0.4, rx: 0.1, ry: 0.5, d: 0.5 }] },
+  k11: { horizon: 0.6, blobs: [{ x: 0.5, y: 0.62, rx: 0.3, ry: 0.28, d: 0.74 }] },
   k02: { horizon: 0.44, blobs: [{ x: 0.27, y: 0.45, rx: 0.14, ry: 0.3, d: 0.74 }, { x: 0.72, y: 0.45, rx: 0.14, ry: 0.28, d: 0.74 }, { x: 0.93, y: 0.3, rx: 0.08, ry: 0.36, d: 0.52 }] },
   k03: { horizon: 0.5, blobs: [{ x: 0.17, y: 0.56, rx: 0.14, ry: 0.3, d: 0.72 }, { x: 0.68, y: 0.62, rx: 0.17, ry: 0.25, d: 0.72 }] },
   k05: { horizon: 0.6, blobs: [{ x: 0.28, y: 0.46, rx: 0.15, ry: 0.4, d: 0.72 }, { x: 0.72, y: 0.46, rx: 0.11, ry: 0.38, d: 0.66 }] },
@@ -26,6 +33,11 @@ const DEPTH: Record<string, DepthSpec> = {
 }
 type Move = Pick<PlateShotOptions, 'from' | 'to' | 'travel' | 'leaves' | 'extra'>
 const MOVES: Record<string, Move> = {
+  k01: { from: { cx: 0.5, cy: 0.5, zoom: 1.03 }, to: { cx: 0.47, cy: 0.52, zoom: 1.12 }, travel: [0.012, 0.004] },
+  k04: { from: { cx: 0.5, cy: 0.52, zoom: 1.12 }, to: { cx: 0.5, cy: 0.5, zoom: 1.03 }, travel: [-0.012, 0.004], leaves: 18 },
+  k06: { from: { cx: 0.5, cy: 0.5, zoom: 1.03 }, to: { cx: 0.52, cy: 0.48, zoom: 1.12 }, travel: [0.014, -0.004], leaves: 40 },
+  k08: { from: { cx: 0.5, cy: 0.5, zoom: 1.1 }, to: { cx: 0.5, cy: 0.5, zoom: 1.02 }, travel: [-0.012, 0.003], leaves: 60 },
+  k11: { from: { cx: 0.5, cy: 0.52, zoom: 1.03 }, to: { cx: 0.5, cy: 0.5, zoom: 1.12 }, travel: [0.012, 0.004], leaves: 14 },
   k02: { from: { cx: 0.5, cy: 0.5, zoom: 1.02 }, to: { cx: 0.5, cy: 0.57, zoom: 1.13 }, travel: [0.012, 0.006] },
   k03: { from: { cx: 0.54, cy: 0.5, zoom: 1.05 }, to: { cx: 0.6, cy: 0.56, zoom: 1.16 }, travel: [0.014, 0.004] },
   k05: {

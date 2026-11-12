@@ -85,6 +85,8 @@ const ar = {
     draft: "",
     dedication: "إلى كل طفل يحبّ أن يسأل",
     forChild: "هذه النسخة لـ",
+    listen: "استمع إلى الحكاية",
+    stopListening: "أوقف الصوت",
   },
   film: {
     title: "الفيلم",
@@ -529,6 +531,8 @@ const en: typeof ar = {
     draft: "Draft translation — the original is Arabic",
     dedication: "For every child who loves to ask",
     forChild: "This copy belongs to",
+    listen: "Listen to the story",
+    stopListening: "Stop the voice",
   },
   film: {
     title: "The film",

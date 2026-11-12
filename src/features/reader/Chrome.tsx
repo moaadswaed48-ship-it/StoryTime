@@ -1,5 +1,5 @@
 import { useEffect, useState, type CSSProperties } from 'react'
-import { ALargeSmall, ChevronLeft, ChevronRight, List, LockKeyhole, Minus, Play, Plus, Volume2, VolumeX, X } from 'lucide-react'
+import { ALargeSmall, ChevronLeft, ChevronRight, Headphones, List, LockKeyhole, Minus, Play, Plus, Volume2, VolumeX, X } from 'lucide-react'
 import { story } from '@/content/story'
 import { t } from '@/i18n/copy'
 import { locale, num, rtl } from '@/i18n/locale'
@@ -17,10 +17,13 @@ export function TopBar({
   sub,
   panel,
   sound,
+  listening,
+  canListen,
   compact,
   onClose,
   onPanel,
   onSound,
+  onListen,
   onWatch,
 }: {
   shown: boolean
@@ -28,11 +31,15 @@ export function TopBar({
   sub: string
   panel: Panel
   sound: boolean
+  /** The story is being read aloud; `canListen` is false where there is nothing to read (paywall, end page). */
+  listening: boolean
+  canListen: boolean
   /** Phone: icons only. */
   compact: boolean
   onClose: () => void
   onPanel: (p: Exclude<Panel, null>) => void
   onSound: () => void
+  onListen: () => void
   onWatch: () => void
 }) {
   const tab = shown ? 0 : -1
@@ -55,6 +62,20 @@ export function TopBar({
         <button type="button" className="rd-btn rd-watch" aria-label={t.book.watch} onClick={onWatch} tabIndex={tab}>
           <Play size={17} aria-hidden />
           {!compact && <span>{t.book.watch}</span>}
+        </button>
+        <button
+          type="button"
+          className="rd-btn rd-listen"
+          aria-label={listening ? t.book.stopListening : t.book.listen}
+          title={listening ? t.book.stopListening : t.book.listen}
+          aria-pressed={listening}
+          data-active={listening || undefined}
+          disabled={!listening && !canListen}
+          onClick={onListen}
+          tabIndex={tab}
+          data-testid="rd-listen"
+        >
+          <Headphones size={20} aria-hidden />
         </button>
         <button type="button" className="rd-btn" aria-label={sound ? t.film.mute : t.film.unmute} aria-pressed={sound} onClick={onSound} tabIndex={tab}>
           {sound ? <Volume2 size={20} aria-hidden /> : <VolumeX size={20} aria-hidden />}

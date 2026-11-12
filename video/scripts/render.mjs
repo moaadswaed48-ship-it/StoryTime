@@ -51,7 +51,7 @@ const TARGETS = {
   'trailer-16x9': { out: `${SITE_FILM}/trailer-16x9.mp4`, maxMB: 12, music: 'trailer', crf: 18 },
   'trailer-9x16': { out: `${SITE_FILM}/trailer-9x16.mp4`, maxMB: 12, music: 'trailer', crf: 18 },
   'trailer-poster': { out: `${SITE_FILM}/trailer-poster.jpg`, still: true },
-  story: { out: `${SITE_FILM}/story.mp4`, maxMB: 14, music: 'story', crf: 19, json: `${SITE_FILM}/story.json` },
+  story: { out: `${SITE_FILM}/story.mp4`, maxMB: 24, music: 'story', crf: 19, json: `${SITE_FILM}/story.json` },
 }
 const target = TARGETS[comp]
 if (!target) throw new Error(`unknown composition ${comp}`)
@@ -169,6 +169,26 @@ async function main() {
     if (target.music && !opt['no-audio']) {
       music = resolve(ROOT, '.cache/music', `${target.music}.wav`)
       execFileSync('node', [resolve(HERE, 'music.mjs'), target.music, `--out=${music}`], { stdio: 'inherit' })
+    }
+
+    /* the storyteller (story film only): each scene's line starts half a second into its scene; the music dips under her */
+    const cues = resolve(ROOT, '../public/audio/story/cue/ar')
+    if (music && comp === 'story' && existsSync(resolve(cues, 's01.mp3'))) {
+      const tl = JSON.parse(readFileSync(resolve(ROOT, 'src/comps/story.timeline.json'), 'utf8'))
+      const lead = tl.voice?.lead ?? 0.5
+      const voiced = resolve(ROOT, '.cache/music', 'story-voiced.wav')
+      const ins = ['-i', music]
+      let graph = ''
+      tl.scenes.forEach((sc, i) => {
+        ins.push('-i', resolve(cues, `s${String(i + 1).padStart(2, '0')}.mp3`))
+        graph += `[${i + 1}:a]aresample=48000,adelay=${Math.round((sc.start + lead) * 1000)}:all=1[v${i}];`
+      })
+      graph += tl.scenes.map((_, i) => `[v${i}]`).join('') + `amix=inputs=${tl.scenes.length}:normalize=0,volume=1.5,asplit=2[voice][key];`
+      graph += `[0:a]volume=0.8[bed];[bed][key]sidechaincompress=threshold=0.02:ratio=10:attack=40:release=700:makeup=1[duck];`
+      graph += `[duck][voice]amix=inputs=2:normalize=0:duration=first,alimiter=limit=0.89[o]`
+      ff([...ins, '-filter_complex', graph, '-map', '[o]', '-ar', '48000', '-ac', '2', voiced])
+      music = voiced
+      console.log('voice mixed →', voiced)
     }
 
     /* encode */

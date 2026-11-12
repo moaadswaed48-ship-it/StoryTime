@@ -14,10 +14,11 @@ import { exposeQA } from '@/lib/qa'
 import { FREE_SCENES } from '@/features/book/logic'
 import { CurlEngine } from './curl/engine'
 import { DEFAULT_SIZE, SIZE_STEPS, buildBook, endPage, geometryFor, lockedFrom, pageOfScene, pagesAt, positionOf, relocate, stageFor, type BookPage } from './layout'
-import { PAPER_RGB, frameOf, gateLayout, loadFonts, measurer, paintPage, picture, pictureBox, storyFont, END_TEXT } from './paint'
+import { PAPER_RGB, fadeCss, frameOf, gateLayout, loadFonts, measurer, paintPage, picture, pictureBox, storyFont, END_TEXT } from './paint'
 import { BottomBar, ScenesPanel, SizePanel, TopBar, type Panel } from './Chrome'
 import { idleHooks, type ReaderHooks } from './qa'
 import { noCurl } from './support'
+import { useNarration } from './narration'
 import { s } from './strings'
 
 const SIZE_KEY = 'st:reader:size'
@@ -110,6 +111,45 @@ export function ReaderView({ startScene }: { startScene: number }) {
   /** Set by the bars' own buttons: a turn asked for from the controls does not put the controls away. */
   const fromBar = useRef(false)
 
+  /* ── The voice that reads the story ───────────────────────────────────────── */
+  /** Set while the narrator turns the page itself (any other turn is the reader's own, and stops the voice). */
+  const autoTurn = useRef(false)
+  const quieted = useRef(false)
+  const { on: listening, narration } = useNarration(
+    {
+      pages: () => live.current.pages,
+      position: () => engine.current?.position() ?? live.current.pos,
+      spread: () => live.current.stage.spread,
+      locked: () => live.current.locked,
+      turning: () => !!engine.current?.turning(),
+      turn: () => {
+        autoTurn.current = true
+        fromBar.current = true // the controls stay as they are: the reader did not touch the page
+        const ok = !!engine.current?.turn(1)
+        if (!ok) autoTurn.current = fromBar.current = false
+        return ok
+      },
+      scenes: () => SCENES,
+      paragraphs: (n) => sceneText(story.scenes[n], locale).length,
+    },
+    locale,
+    (on) => {
+      // The synth's music and effects make room for the voice, and come back when it is done.
+      const st = useSiteStore.getState()
+      if (on && st.sound) {
+        quieted.current = true
+        setSound(false)
+        st.setSoundOn(false)
+      } else if (!on && quieted.current) {
+        quieted.current = false
+        if (!st.sound) {
+          setSound(true)
+          st.setSoundOn(true)
+        }
+      }
+    },
+  )
+
   /* ── Screen size, safe areas, fonts ───────────────────────────────────────── */
   useLayoutEffect(() => {
     const el = root.current
@@ -149,11 +189,12 @@ export function ReaderView({ startScene }: { startScene: number }) {
         onLift: () => {
           // The film stops on the frame it is showing and that frame is printed onto the page, so the paper that lifts is the picture the reader was looking at.
           const { geo: g, frame: f } = live.current
+          if (!autoTurn.current && !peeking.current) narration.stop() // a page turned by hand ends the reading aloud
           const px = e.pagePixels()
           for (const [page, v] of videos.current) {
             v.pause()
             if (windows.current.has(page)) {
-              const img = frameOf(v, px.w, Math.ceil(g.pictureH * f.scale))
+              const img = frameOf(v, px.w, Math.ceil(g.pictureH * f.scale), g.pictureH * f.scale)
               if (img) {
                 e.patch(page, img, 0, 0)
                 frozen.current.add(page)
@@ -169,6 +210,7 @@ export function ReaderView({ startScene }: { startScene: number }) {
           if (!peeking.current) setHinted(true)
         },
         onChange: (p) => {
+          if (!autoTurn.current) narration.stop()
           sfx.flip()
           setPos(p)
         },
@@ -182,6 +224,8 @@ export function ReaderView({ startScene }: { startScene: number }) {
           }
           restPos.current = p
           setTurning(false)
+          autoTurn.current = false
+          narration.rested()
         },
       })
     } catch {
@@ -280,9 +324,10 @@ export function ReaderView({ startScene }: { startScene: number }) {
     if (!engine.current?.turn(-1)) fromBar.current = false
   }, [])
   const close = useCallback(() => {
+    narration.stop()
     setClosing(true)
     window.setTimeout(closeOverlay, 180)
-  }, [closeOverlay])
+  }, [closeOverlay, narration])
   useOverlayLock(true, close)
   const setSize = useCallback((n: number) => {
     const v = Math.min(SIZE_STEPS.length - 1, Math.max(0, Math.round(n)))
@@ -335,6 +380,9 @@ export function ReaderView({ startScene }: { startScene: number }) {
   useEffect(() => {
     if (!chrome) setPanel(null)
   }, [chrome])
+  useEffect(() => {
+    if (panel) narration.stop() // choosing a scene or a text size is not listening
+  }, [panel, narration])
 
   /* ── Gestures ─────────────────────────────────────────────────────────────── */
   // A sideways swipe on a trackpad turns one page per stroke.
@@ -531,6 +579,13 @@ export function ReaderView({ startScene }: { startScene: number }) {
     clips: () => clips.map((c) => ({ page: pages?.[c.page]?.number ?? 0, playing: !!videos.current.get(c.page) && !videos.current.get(c.page)!.paused, live: windows.current.has(c.page) })),
     rect: () => ({ x: stage.left, y: stage.top, w: stage.spread ? stage.pageW * 2 : stage.pageW, h: stage.pageH, pageW: stage.pageW, spread: stage.spread, rtl }),
     lines: () => visible.flatMap((i) => pages?.[i]?.lines.map((l) => l.text) ?? []),
+    narrating: () => narration.on,
+    listen: (on: boolean) => {
+      if (on) narration.start()
+      else narration.stop()
+      return narration.on
+    },
+    voice: () => narration.voice.state(),
   }
   useEffect(() => {
     const hooks = Object.fromEntries(Object.keys(idleHooks).map((k) => [k, (...a: unknown[]) => (api.current[k as keyof ReaderHooks] as (...x: unknown[]) => unknown)(...a)]))
@@ -596,7 +651,7 @@ export function ReaderView({ startScene }: { startScene: number }) {
 
       {clips.map((c) => (
         <video
-          key={c.page}
+          key={`v${c.page}`}
           ref={bindVideo(c.page)}
           className="rd-film"
           style={c.style}
@@ -611,6 +666,10 @@ export function ReaderView({ startScene }: { startScene: number }) {
           onTimeUpdate={(e) => onFilmFrame(c.page, e.currentTarget)}
           onPlaying={(e) => onFilmFrame(c.page, e.currentTarget)}
         />
+      ))}
+      {/* The veil over the playing film: the same fade into paper that is printed on the page around it. */}
+      {clips.map((c) => (
+        <div key={`f${c.page}`} className="rd-film-fade" aria-hidden style={{ ...c.style, backgroundImage: fadeCss }} />
       ))}
 
       <div ref={holder} className="rd-canvas" style={{ left: frame.x, top: frame.y, width: frame.w, height: frame.h }} />
@@ -663,6 +722,8 @@ export function ReaderView({ startScene }: { startScene: number }) {
         sub={sceneLabel}
         panel={panel}
         sound={sound}
+        listening={listening}
+        canListen={phase === 'open'}
         compact={stage.full}
         onClose={close}
         onPanel={(p) => {
@@ -670,6 +731,7 @@ export function ReaderView({ startScene }: { startScene: number }) {
           setPanel((cur) => (cur === p ? null : p))
         }}
         onSound={toggleSound}
+        onListen={() => narration.toggle()}
         onWatch={() => openFilm(scenesShown.length ? sceneLo : Math.min(scene, SCENES - 1))}
       />
       <BottomBar

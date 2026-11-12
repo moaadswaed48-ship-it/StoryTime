@@ -14,9 +14,8 @@ import './nav.css'
 /** What the bar links to, in page order. `film` opens the player instead of scrolling. */
 const LINKS = [
   { id: 'library', label: t.nav.library },
+  { id: 'sari', label: t.nav.sari },
   { id: 'film', label: t.nav.film },
-  { id: 'parents', label: t.nav.parents },
-  { id: 'pricing', label: t.nav.pricing },
 ] as const
 const SECTIONS = LINKS.filter((l) => l.id !== 'film').map((l) => l.id)
 const otherLang = locale === 'ar' ? 'en' : 'ar'
@@ -55,7 +54,7 @@ function LeafMark({ size = 20 }: { size?: number }) {
 }
 
 /**
- * Floating navigation of the landing page. Wordmark at the start, four links in the centre (from 1024px),
+ * Floating navigation of the landing page. Wordmark at the start, three links in the centre (from 1024px),
  * language · log-in · "enter the library" at the end. Phones get wordmark + language + a menu button that opens
  * a full-screen sheet of dark glass. Hidden while the book, the film or the game is open.
  */

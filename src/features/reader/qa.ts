@@ -48,5 +48,9 @@ export const idleHooks = {
   clips: () => [] as ReaderClip[],
   rect: () => null as ReaderRect | null,
   lines: () => [] as string[],
+  /** The story is being read aloud; `listen` starts or stops the voice (starting needs a tap in a real browser). */
+  narrating: () => false,
+  listen: (_on: boolean) => false,
+  voice: () => ({ src: '', paused: true, time: 0, muted: false }),
 }
 export type ReaderHooks = typeof idleHooks

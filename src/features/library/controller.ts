@@ -26,6 +26,8 @@ export interface ShelfEls {
   /** Where the opened book comes to rest, and the block that must be on screen when it does. */
   slot: HTMLElement
   panel: HTMLElement
+  /** The detail layer itself (covers the section); the panel is placed inside it. */
+  detail: HTMLElement
   /** The round "open" button that sits on the corner of the pulled-out cover. */
   open: HTMLElement | null
   books: (HTMLElement | null)[]
@@ -120,6 +122,15 @@ export class Shelf {
   private draggedAt = 0
   private wheelTimer = 0
   private fine = typeof window !== 'undefined' && window.matchMedia('(hover: hover) and (pointer: fine)').matches
+  /** Touch devices: the light stands still and shades move in steps, so covers are not repainted every frame. */
+  private coarse = typeof window !== 'undefined' && window.matchMedia('(pointer: coarse)').matches
+  /** The selection React last heard about (a drag moves `sel` silently and reports once, on release). */
+  private told = READY
+  /** Last values written to the scene, ledge and wall (so an unchanged frame writes nothing). */
+  private wroteScene = ''
+  private wroteLedge = ''
+  private wroteWall = ''
+  private wroteWallO = ''
 
   constructor(m: Metrics, ev: ShelfEvents) {
     this.m = m
@@ -168,6 +179,7 @@ export class Shelf {
     this.m = m
     this.geoms = geoms
     this.wrote.forEach((w) => (w.t = ''))
+    this.wroteWall = ''
     if (!this.landed && !this.tl) this.arm()
     if (this.detail >= 0) this.measureSlot()
     this.wake(4)
@@ -189,7 +201,10 @@ export class Shelf {
     if (this.awake < frames) this.awake = frames
   }
   private tick = () => {
-    if (!this.els || !this.onScreen || this.awake <= 0) return
+    if (!this.els || this.awake <= 0) return
+    // Off-screen the shelf sleeps — except while a book is flying to or from its detail view (the page may be
+    // scrolling the stage out of sight at that very moment, and the book must not freeze in the air).
+    if (!this.onScreen && this.detail < 0 && (this.dp <= 0 || this.dp >= 1)) return
     this.awake--
     this.render()
   }
@@ -231,10 +246,8 @@ export class Shelf {
     const changed = i !== this.sel
     this.sel = i
     this.delta = uNow - this.rk[i]
-    if (changed) {
-      this.ev.onSel(i)
-      sfx.flip()
-    }
+    if (changed) sfx.flip()
+    this.tell(i)
     this.snap?.kill()
     if (this.reduced) this.delta = 0
     else this.snap = gsap.to(this, { delta: 0, duration, ease: 'power3.out', onUpdate: this.wake })
@@ -254,7 +267,14 @@ export class Shelf {
     if (l.length) this.go(l[clamp(Math.round(rank), 0, l.length - 1)])
   }
   private settle() {
+    this.tell(this.sel)
     if (Math.abs(this.delta) > 0.001) this.go(this.sel, 0.5)
+  }
+  /** Tells React which book is selected (once per change; never while a finger is still dragging the row). */
+  private tell(i: number) {
+    if (i === this.told) return
+    this.told = i
+    this.ev.onSel(i)
   }
   /** Follow a free position (drag / wheel): the nearest book becomes the selection as it passes the centre. */
   private setU(u: number) {
@@ -263,7 +283,9 @@ export class Shelf {
     this.delta = u - this.rk[i]
     if (i !== this.sel) {
       this.sel = i
-      this.ev.onSel(i)
+      // React hears about it on release / settle: re-rendering the shelf and remounting the caption for every
+      // book a finger crosses is what made dragging stutter. The DOM still says which book is selected.
+      this.els?.books.forEach((b, j) => b?.setAttribute('aria-selected', j === i ? 'true' : 'false'))
     }
     this.wake()
   }
@@ -296,7 +318,7 @@ export class Shelf {
     this.delta = this.reduced ? 0 : uNow - this.rk[target]
     this.snap?.kill()
     if (!this.reduced) this.snap = gsap.to(this, { delta: 0, duration: 0.75, ease: 'power3.inOut', onUpdate: this.wake })
-    if (changed) this.ev.onSel(target)
+    this.tell(target)
     this.ev.onFilter(f)
     this.wake()
   }
@@ -338,7 +360,6 @@ export class Shelf {
     else this.fly = gsap.to(this, { dp: 1, duration: 1.05, ease: 'power3.inOut', onUpdate: this.wake })
     this.ev.onDetail(i)
     sfx.flip()
-    this.reveal()
     this.wake()
   }
   close() {
@@ -381,14 +402,36 @@ export class Shelf {
     } else this.fly = gsap.to(this, { dp: 0, duration: 0.6, ease: 'power3.inOut', onUpdate: this.wake, onComplete: next })
     this.wake()
   }
-  /** Brings the opened book's panel fully into the viewport (only if it is not already). */
-  private reveal() {
-    const panel = this.els?.panel
-    if (!panel) return
-    const r = panel.getBoundingClientRect()
-    const vh = window.innerHeight
-    if (r.top >= 64 && r.bottom <= vh - 12) return
-    const y = Math.max(0, window.scrollY + r.top - Math.max(76, (vh - r.height) / 2))
+  /**
+   * Puts the opened book's panel where the reader is looking. Called after React has rendered the panel (its
+   * size depends on the book), never before.
+   *  · Stacked layout (below 900px): the panel is placed inside the section at the height of the visible part
+   *    of the page, so the book flies to a slot that is already on screen and the page does not move.
+   *  · The page only scrolls for what is still outside the viewport after that (and never when it fits).
+   */
+  place() {
+    const els = this.els
+    if (!els || this.detail < 0 || this.closing) return
+    const vh = window.visualViewport?.height ?? window.innerHeight
+    const stacked = window.innerWidth < 900
+    const top = 72
+    const ds = els.detail.style
+    if (stacked) {
+      const dr = els.detail.getBoundingClientRect()
+      const ph = els.panel.offsetHeight
+      // In the viewport: centred when the whole panel fits under the top bar, otherwise from the top.
+      const want = Math.max(top, (vh - ph) / 2)
+      const dy = Math.round(clamp(want - dr.top, 0, Math.max(0, dr.height - ph)))
+      ds.alignItems = 'start'
+      ds.paddingTop = `${dy}px`
+    } else if (ds.paddingTop || ds.alignItems) ds.alignItems = ds.paddingTop = ''
+    this.measureSlot()
+    const pr = els.panel.getBoundingClientRect()
+    // Phones: the cover is what must be on screen (the words under it scroll); wider screens: the whole panel.
+    const r = stacked ? els.slot.getBoundingClientRect() : pr
+    if (r.top >= (stacked ? 56 : 64) && r.bottom <= vh - 12) return
+    const y = Math.max(0, window.scrollY + pr.top - Math.max(stacked ? top : 76, (vh - pr.height) / 2))
+    if (Math.abs(y - window.scrollY) < 2) return
     const lenis = useSiteStore.getState().lenis
     if (lenis) lenis.scrollTo(y, this.reduced ? { immediate: true } : { duration: 1.1 })
     else window.scrollTo(0, y)
@@ -666,12 +709,15 @@ export class Shelf {
     if (els.open && Math.abs(li.shift - this.wroteShift) > 0.2) els.open.style.translate = `${(this.wroteShift = li.shift).toFixed(1)}px 0`
 
     const e = this.dp
+    const coarse = this.coarse
     const yaw = this.px * (1 - e)
     const pitch = this.py * (1 - e)
-    els.scene.style.transform = `rotateX(${pitch.toFixed(3)}deg) rotateY(${yaw.toFixed(3)}deg)`
+    const sceneT = `rotateX(${pitch.toFixed(3)}deg) rotateY(${yaw.toFixed(3)}deg)`
+    if (sceneT !== this.wroteScene) els.scene.style.transform = this.wroteScene = sceneT
     const ledge = (this.plank * (1 - clamp(e * 1.5, 0, 1))).toFixed(3)
-    els.plank.style.opacity = ledge
-    els.lip.style.opacity = ledge
+    if (ledge !== this.wroteLedge) els.plank.style.opacity = els.lip.style.opacity = this.wroteLedge = ledge
+    // The opened book swoops toward the eye on its way; under the tight phone perspective a long swoop reads as a pop.
+    const swoop = m.S * (m.phone || coarse ? 0.1 : 0.26)
     let lo = Infinity
     let hi = -Infinity
 
@@ -698,7 +744,7 @@ export class Shelf {
         if (i === this.detail) {
           x = lerp(x, this.slot.x, e)
           y = lerp(y, this.slot.y, e)
-          z = lerp(z, 0, e) + Math.sin(Math.PI * e) * m.S * 0.26 // swoops toward the eye on the way
+          z = lerp(z, 0, e) + Math.sin(Math.PI * e) * swoop
           ry = lerp(ry, dirSign * DETAIL_DEG + this.tx * 10, e)
           rx = lerp(rx, -this.ty * 7, e)
           s = lerp(1, this.slot.s, e)
@@ -735,11 +781,24 @@ export class Shelf {
         const shS = 0.52 * Math.pow(clamp(1 - sn, 0, 1), 1.3)
         const shE = 0.08 + 0.3 * clamp(1 + sn, 0, 1)
         const sx = dirSign * g.W * m.K * 1.5 * light
-        if (Math.abs(o - w.o) > 0.003) el.style.setProperty('--o', (w.o = o).toFixed(3))
-        if (Math.abs(shF - w.f) > 0.004) el.style.setProperty('--sh-f', (w.f = shF).toFixed(3))
-        if (Math.abs(shS - w.s) > 0.004) el.style.setProperty('--sh-s', (w.s = shS).toFixed(3))
-        if (Math.abs(shE - w.e) > 0.004) el.style.setProperty('--sh-e', (w.e = shE).toFixed(3))
-        if (Math.abs(sx - w.sx) > 0.25) el.style.setProperty('--sx', `${(w.sx = sx).toFixed(1)}px`)
+        if (coarse) {
+          // Touch devices: every write below restyles (and the shades repaint) a cover, so values move in small
+          // steps and are written only when the step changes. The light itself stands still (library.css).
+          const qo = Math.round(o * 40) / 40
+          const qf = Math.round(shF * 24) / 24
+          const qs = Math.round(shS * 24) / 24
+          const qe = Math.round(shE * 24) / 24
+          if (qo !== w.o) el.style.setProperty('--o', String((w.o = qo)))
+          if (qf !== w.f) el.style.setProperty('--sh-f', (w.f = qf).toFixed(3))
+          if (qs !== w.s) el.style.setProperty('--sh-s', (w.s = qs).toFixed(3))
+          if (qe !== w.e) el.style.setProperty('--sh-e', (w.e = qe).toFixed(3))
+        } else {
+          if (Math.abs(o - w.o) > 0.003) el.style.setProperty('--o', (w.o = o).toFixed(3))
+          if (Math.abs(shF - w.f) > 0.004) el.style.setProperty('--sh-f', (w.f = shF).toFixed(3))
+          if (Math.abs(shS - w.s) > 0.004) el.style.setProperty('--sh-s', (w.s = shS).toFixed(3))
+          if (Math.abs(shE - w.e) > 0.004) el.style.setProperty('--sh-e', (w.e = shE).toFixed(3))
+          if (Math.abs(sx - w.sx) > 0.25) el.style.setProperty('--sx', `${(w.sx = sx).toFixed(1)}px`)
+        }
       }
       if (sd) {
         // The shadow fades as the book leaves the ledge (dropping in, sinking out, or flying to the detail view).
@@ -755,8 +814,12 @@ export class Shelf {
       }
     }
     // The row's shadow on the wall follows its extent (it widens as the books settle, narrows under a filter).
-    if (hi > lo) els.wall.style.transform = `translate(${((lo + hi) / 2 + m.S * 0.05).toFixed(1)}px,0) scaleX(${((hi - lo) / 1000).toFixed(4)})`
-    els.wall.style.opacity = (this.plank * (1 - this.spread * 0.7) * (1 - clamp(e * 1.5, 0, 1)) * (hi > lo ? 1 : 0)).toFixed(3)
+    if (hi > lo) {
+      const wt = `translate(${((lo + hi) / 2 + m.S * 0.05).toFixed(1)}px,0) scaleX(${((hi - lo) / 1000).toFixed(coarse ? 3 : 4)})`
+      if (wt !== this.wroteWall) els.wall.style.transform = this.wroteWall = wt
+    }
+    const wo = (this.plank * (1 - this.spread * 0.7) * (1 - clamp(e * 1.5, 0, 1)) * (hi > lo ? 1 : 0)).toFixed(coarse ? 2 : 3)
+    if (wo !== this.wroteWallO) els.wall.style.opacity = this.wroteWallO = wo
     if (moving) this.wake(2)
   }
 }

@@ -23,9 +23,8 @@ const LAST = story.scenes[11]
 /** Same destinations as the bar at the top of the page. `film` opens the player instead of scrolling. */
 const LINKS = [
   { id: 'library', label: t.nav.library },
+  { id: 'sari', label: t.nav.sari },
   { id: 'film', label: t.nav.film },
-  { id: 'parents', label: t.nav.parents },
-  { id: 'pricing', label: t.nav.pricing },
 ] as const
 
 /** Tallest the wordmark's type may be, as a share of the screen's height (landscape screens only); on very short

@@ -119,6 +119,39 @@ function cover(ctx: CanvasRenderingContext2D, im: HTMLImageElement, x: number, y
   return true
 }
 
+/**
+ * How a scene's painting melts into the paper: nothing down to `from` of its height (faces live in the upper
+ * two thirds), then paper comes up through it like a wash until only paper is left just above the first line.
+ * The same table prints the page, the film frame that is patched in when a turn starts, and the veil that
+ * lies over the playing film (`fadeCss`), so the three can never disagree.
+ */
+export const FADE = {
+  from: 0.64,
+  /** [where in the fade zone, how much paper] */
+  stops: [
+    [0, 0],
+    [0.16, 0.05],
+    [0.34, 0.2],
+    [0.52, 0.46],
+    [0.68, 0.72],
+    [0.82, 0.9],
+    [0.93, 0.985],
+    [1, 1],
+  ] as ReadonlyArray<readonly [number, number]>,
+}
+const paperA = (a: number) => `rgba(247, 241, 229, ${a})`
+
+/** Paints the fade over a picture that fills `0…h` (in the context's units) from the top of the canvas. */
+export function paintFade(ctx: CanvasRenderingContext2D, w: number, h: number) {
+  const y0 = h * FADE.from
+  const fade = ctx.createLinearGradient(0, y0, 0, h)
+  for (const [at, a] of FADE.stops) fade.addColorStop(at, paperA(a))
+  ctx.fillStyle = fade
+  ctx.fillRect(0, y0, w, h - y0)
+}
+/** The same fade as a CSS background for a box that lies exactly over the picture. */
+export const fadeCss = `linear-gradient(to bottom, ${FADE.stops.map(([at, a]) => `${paperA(a)} ${((FADE.from + (1 - FADE.from) * at) * 100).toFixed(2)}%`).join(', ')})`
+
 /** A small autumn leaf, the book's only ornament. */
 function leaf(ctx: CanvasRenderingContext2D, cx: number, cy: number, size: number, angle: number, alpha = 0.85) {
   ctx.save()
@@ -235,9 +268,8 @@ function paintScene(ctx: CanvasRenderingContext2D, page: BookPage, g: PageGeomet
   const { pageW: w } = g
   if (page.picture) {
     cover(ctx, picture(story.scenes[page.scene].img, o.onPicture), 0, 0, w, g.pictureH)
-    // A hairline where the painting meets the paper, as a printed plate has.
-    ctx.fillStyle = 'rgba(26, 18, 11, 0.10)'
-    ctx.fillRect(0, g.pictureH, w, 1 / o.scale)
+    // No frame and no rule: the painting dissolves into the sheet the words are printed on.
+    paintFade(ctx, w, g.pictureH)
   }
   // Every page starts its text on the same grid of lines, so facing pages sit level.
   const top = page.picture ? g.textTop : g.plainTop
@@ -414,9 +446,12 @@ export function paintPage(page: BookPage, g: PageGeometry, pxW: number, pxH: num
   return sheet
 }
 
-/** The film's current frame, cut to the painting's box, ready to be patched into the page on the GPU. */
+/**
+ * The film's current frame, cut to the painting's box and faded into the paper exactly as the print is, ready
+ * to be patched into the page on the GPU. `fadeH` is the painting's true height in px (`pxH` is it rounded up).
+ */
 let still: HTMLCanvasElement | null = null
-export function frameOf(video: HTMLVideoElement, pxW: number, pxH: number): HTMLCanvasElement | null {
+export function frameOf(video: HTMLVideoElement, pxW: number, pxH: number, fadeH = pxH): HTMLCanvasElement | null {
   if (!video.videoWidth || video.readyState < 2) return null
   still ??= document.createElement('canvas')
   if (still.width !== pxW || still.height !== pxH) {
@@ -431,6 +466,12 @@ export function frameOf(video: HTMLVideoElement, pxW: number, pxH: number): HTML
     ctx.drawImage(video, (video.videoWidth - sw) / 2, (video.videoHeight - sh) / 2, sw, sh, 0, 0, pxW, pxH)
   } catch {
     return null
+  }
+  paintFade(ctx, pxW, fadeH)
+  // (below the painting's true edge the extra row is paper, as on the page)
+  if (pxH > fadeH) {
+    ctx.fillStyle = PAPER
+    ctx.fillRect(0, fadeH, pxW, pxH - fadeH)
   }
   return still
 }

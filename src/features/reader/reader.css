@@ -68,6 +68,11 @@
   pointer-events: none;
   background: #e9dfcb;
 }
+.rd-film-fade {
+  position: absolute;
+  z-index: 2;
+  pointer-events: none;
+}
 .rd-canvas {
   position: absolute;
   z-index: 3;
@@ -226,6 +231,11 @@
 }
 .rd-btn[data-active] {
   background: rgba(255, 255, 255, 0.14);
+}
+/* The voice is reading: the one accent colour says so, quietly. */
+.rd-listen[aria-pressed='true'] {
+  color: #ffb27a;
+  background: rgba(217, 84, 30, 0.3);
 }
 @media (hover: hover) {
   .rd-btn:hover {
