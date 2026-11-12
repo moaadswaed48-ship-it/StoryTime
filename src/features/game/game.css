@@ -7,12 +7,13 @@ html[dir='ltr'] .game-flip {
 }
 .game-title {
   font-weight: 900;
-  font-size: clamp(2.6rem, 6.6vw, 6rem);
+  font-size: clamp(2.6rem, 6.6vw, 4.6rem);
   line-height: 0.98;
   letter-spacing: -0.035em;
 }
 html[lang='ar'] .game-title {
   line-height: 1.2;
+  letter-spacing: 0;
 }
 .game-poster-img {
   transition: transform 1.4s var(--ease-out, cubic-bezier(0.22, 1, 0.36, 1));
@@ -20,6 +21,32 @@ html[lang='ar'] .game-title {
 @media (hover: hover) {
   .game-poster:hover .game-poster-img {
     transform: scale(1.035);
+  }
+}
+/* Wide screens: the words lie over the picture, on the reading side. The picture is enlarged from that side,
+   so both boys move over to the other half and no word ever sits on a face, an arm or a jumper. */
+@media (min-width: 1280px) {
+  .game-title {
+    /* broken into two short lines, the way a title card is set */
+    max-width: 5.3em;
+    font-size: clamp(4.6rem, 6.3vw, 6.25rem);
+    line-height: 0.94;
+    text-wrap: balance;
+  }
+  html[lang='ar'] .game-title {
+    line-height: 1.12;
+  }
+  .game-poster-img {
+    transform: scale(1.16);
+    transform-origin: 100% 62%;
+  }
+  .game-poster:hover .game-poster-img {
+    transform: scale(1.195);
+  }
+  .game-tag {
+    min-width: 0;
+    padding: 0.5rem 0.8rem 0.58rem;
+    font-size: 1.06rem;
   }
 }
 /* the name papers: little white slips, as if the wind had just dropped them on the card */
@@ -88,6 +115,15 @@ html[lang='ar'] .game-title {
   background:
     radial-gradient(120% 92% at 50% 44%, transparent 56%, rgb(18 12 8 / 0.34) 100%), linear-gradient(118deg, rgb(255 216 156 / 0.24), transparent 44%);
 }
+/* a phone held upright: the ground under the thumb falls into warm shade, so the stick sits on something */
+@media (orientation: portrait) {
+  .game-light {
+    background:
+      linear-gradient(to top, rgb(18 12 8 / 0.5), rgb(18 12 8 / 0.16) 20%, transparent 36%),
+      radial-gradient(150% 80% at 50% 40%, transparent 58%, rgb(18 12 8 / 0.3) 100%),
+      linear-gradient(118deg, rgb(255 216 156 / 0.24), transparent 44%);
+  }
+}
 /* the film still the game grows out of */
 .game-curtain {
   position: absolute;
@@ -148,6 +184,27 @@ html[lang='ar'] .game-title {
   transform: translateY(-14px);
 }
 
+/* the HUD's glass chips: big on a desk, compact on a phone (also on a phone held sideways, where height is scarce) */
+.game-chip {
+  height: 48px;
+}
+.game-chip-round {
+  width: 48px;
+}
+@media (min-width: 640px) and (min-height: 541px) {
+  .game-chip {
+    height: 64px;
+  }
+  .game-chip-round {
+    width: 64px;
+  }
+}
+@media (max-height: 540px) {
+  .game-chip-label {
+    display: none;
+  }
+}
+
 /* collected row */
 .game-slot {
   display: grid;
@@ -161,7 +218,7 @@ html[lang='ar'] .game-title {
   font-size: 17px;
   line-height: 1;
 }
-@media (min-width: 640px) {
+@media (min-width: 640px) and (min-height: 541px) {
   .game-slot {
     width: 36px;
     height: 46px;
@@ -175,7 +232,7 @@ html[lang='ar'] .game-title {
   transform: rotate(var(--r, 0deg));
   animation: game-pop 0.55s var(--ease-spring, cubic-bezier(0.34, 1.56, 0.64, 1));
 }
-html[lang='ar'] .game-slot.is-full {
+.game-slot.is-full:lang(ar) {
   padding-bottom: 3px;
 }
 
@@ -252,6 +309,9 @@ html[lang='ar'] .game-slot.is-full {
 }
 
 /* ── The question card ──────────────────────────────────────────────────────── */
+.game-ask {
+  padding-block: min(6rem, 15vh);
+}
 .game-veil {
   background: radial-gradient(ellipse at 50% 46%, rgb(18 12 8 / 0.3), rgb(18 12 8 / 0.7));
   animation: fade-in 0.45s var(--ease-out) both;
@@ -279,6 +339,12 @@ html[lang='ar'] .game-slot.is-full {
     transform: rotate(-1.2deg);
   }
 }
+/* the name: one line, as large as the card allows (FitLine shrinks a long name until it fits) */
+.game-name-line {
+  width: 100%;
+  text-align: center;
+  white-space: nowrap;
+}
 .game-name {
   display: inline-block;
   padding: 0 0.35em 0.06em;
@@ -290,9 +356,10 @@ html[lang='ar'] .game-slot.is-full {
   /* the ruled line a child writes a name on */
   border-bottom: 4px solid rgb(217 84 30 / 0.46);
 }
-html[lang='ar'] .game-name {
+.game-name:lang(ar) {
   line-height: 1.5;
   padding-bottom: 0;
+  letter-spacing: 0;
 }
 .game-letter {
   display: grid;
@@ -313,7 +380,7 @@ html[lang='ar'] .game-name {
     box-shadow 0.18s var(--ease-state, ease),
     opacity 0.25s var(--ease-state, ease);
 }
-html[lang='ar'] .game-letter {
+.game-letter:lang(ar) {
   padding-bottom: 0.14em;
 }
 @media (hover: hover) {
@@ -395,17 +462,21 @@ html[lang='ar'] .game-letter {
 
 /* a phone held sideways: the same card, tighter */
 @media (max-height: 540px) {
+  /* clear of the HUD: the card is as wide as the gap between the chips */
+  .game-ask {
+    padding-block: 70px 10px;
+  }
   .game-card {
-    gap: 9px;
-    padding-top: 12px;
-    padding-bottom: 8px;
+    gap: 8px;
+    padding-top: 10px;
+    padding-bottom: 6px;
   }
   .game-name {
-    font-size: clamp(2.2rem, 15vh, 3.6rem);
+    font-size: clamp(2.2rem, 15vh, 3.5rem);
     border-bottom-width: 3px;
   }
-  html[lang='ar'] .game-name {
-    line-height: 1.35;
+  .game-name:lang(ar) {
+    line-height: 1.32;
   }
   .game-letter {
     height: 68px;
@@ -415,6 +486,38 @@ html[lang='ar'] .game-letter {
 }
 
 /* ── Done ───────────────────────────────────────────────────────────────────── */
+.game-done {
+  padding-top: clamp(76px, 15vh, 150px);
+  padding-bottom: max(30px, env(safe-area-inset-bottom));
+}
+/* a phone held sideways: words and pills stack on the reading side, Sari waves on the other half (see rig() in Player.tsx) */
+@media (max-height: 540px) and (orientation: landscape) {
+  .game-done:not(.is-cards) {
+    align-items: flex-start;
+    justify-content: center;
+    gap: 18px;
+    padding: 70px max(28px, env(safe-area-inset-right)) 18px max(28px, env(safe-area-inset-left));
+  }
+  .game-done:not(.is-cards) .game-done-words {
+    max-width: 46%;
+    text-align: start;
+  }
+  .game-done:not(.is-cards) .game-done-title {
+    font-size: clamp(1.9rem, 9.5vh, 2.6rem);
+  }
+  .game-done:not(.is-cards) .game-done-pills {
+    width: auto;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+  .game-done:not(.is-cards) .game-done-shade {
+    background: linear-gradient(to left, rgb(18 12 8 / 0.74), rgb(18 12 8 / 0.42) 38%, transparent 62%), linear-gradient(to bottom, rgb(18 12 8 / 0.5), transparent 30%);
+  }
+  html[dir='ltr'] .game-done:not(.is-cards) .game-done-shade {
+    background: linear-gradient(to right, rgb(18 12 8 / 0.74), rgb(18 12 8 / 0.42) 38%, transparent 62%), linear-gradient(to bottom, rgb(18 12 8 / 0.5), transparent 30%);
+  }
+}
 .game-done-shade {
   background:
     linear-gradient(to bottom, rgb(18 12 8 / 0.66), rgb(18 12 8 / 0.3) 28%, transparent 50%), linear-gradient(to top, rgb(18 12 8 / 0.52), transparent 24%);
@@ -472,11 +575,16 @@ html[lang='ar'] .game-done-title {
     transform: translate(-50%, -50%);
   }
 }
+.game-sheet-name {
+  display: inline-block;
+  white-space: nowrap;
+}
 .game-sheet-face {
   display: grid;
   place-items: center;
   width: 100%;
   height: 100%;
+  padding-inline: 9%;
   border-radius: 10px;
   background: linear-gradient(165deg, #ffffff, #f4ead8);
   color: var(--color-ink, #1a120b);

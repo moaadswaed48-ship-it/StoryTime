@@ -604,6 +604,13 @@ html[lang='en'] .aut-lockup__b {
 /* wide screens: the picture is set a touch larger from its left edge, so the boys stand clear of the glass */
 @media (min-width: 1024px) {
   .aut-cta__zoom .qf {
+    --qf-focus: 50% 78%; /* a larger picture in a shallow card: keep the boys' shoes */
+    inset: 0 -12% 0 0;
+  }
+}
+@media (min-width: 1280px) {
+  .aut-cta__zoom .qf {
+    --qf-focus: 50% 64%;
     inset: 0 -5% 0 0;
   }
 }

@@ -25,6 +25,37 @@ export const preloadWorld = () => void loadWorld().catch(() => undefined)
 const PICTURE = asset(story.scenes[5].img)
 const TILT = [-5, 4, -3, 6, -4]
 const reducedNow = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches || document.documentElement.hasAttribute('data-reduce-motion')
+/** A reader's own name may be written in the other alphabet than the page: it keeps its own language and direction. */
+const langOf = (name: string) => (/\p{Script=Arabic}/u.test(name) ? 'ar' : /\p{Script=Latin}/u.test(name) ? 'en' : locale)
+
+/**
+ * One line of text that always fits its box: a child's own name can be much longer than the five in the story
+ * ("عبدالرحمن", "Abdulrahman"), so the size it was designed at is only the upper limit.
+ */
+function FitLine({ text, className, min = 14, ...rest }: { text: string; className?: string; min?: number } & Record<`data-${string}`, string | number | boolean | undefined>) {
+  const ref = useRef<HTMLSpanElement>(null)
+  useLayoutEffect(() => {
+    const el = ref.current
+    const box = el?.parentElement
+    if (!el || !box) return
+    const fit = () => {
+      el.style.fontSize = ''
+      const cs = getComputedStyle(box)
+      const room = box.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight)
+      const wide = el.offsetWidth
+      if (room > 0 && wide > room) el.style.fontSize = `${Math.max(min, Math.floor((parseFloat(getComputedStyle(el).fontSize) * room) / wide))}px`
+    }
+    fit()
+    document.fonts?.ready.then(fit, () => undefined)
+    window.addEventListener('resize', fit)
+    return () => window.removeEventListener('resize', fit)
+  }, [text, min])
+  return (
+    <span ref={ref} className={className} lang={langOf(text)} dir="auto" {...rest}>
+      {text}
+    </span>
+  )
+}
 
 /**
  * The play view: a fixed layer over the page. The poster picture grows to fill the screen, then melts into the live yard.
@@ -199,17 +230,16 @@ export function PlayView({ from, touch }: { from: DOMRect | null; touch: boolean
         )}
       </div>
 
-      {/* 2D leaves: ambient over the still picture; over the 3D yard only for the bursts of a right answer and the finale */}
-      {(mode === 'cards' || phase === 'right' || phase === 'done') && (
-        <Leaves ref={leaves} density={mode === 'cards' ? 14 : 0} className="pointer-events-none absolute inset-0 z-40 h-full w-full" />
-      )}
-
       {mode === '3d' && <Arrows />}
       <Hud slots={slots} waiting={!grown} onExit={exit} />
-      {mode === '3d' && phase === 'playing' && stick && <Stick />}
-      {phase === 'playing' && grown && <Hint touch={stick} cards={mode === 'cards'} />}
+      {/* the controls arrive with the yard, never over the growing film still */}
+      {mode === '3d' && phase === 'playing' && stick && veil && <Stick />}
+      {phase === 'playing' && veil && <Hint touch={stick} cards={mode === 'cards'} />}
       {asking && <QuestionCard key={`${useGame.getState().round}:${current}`} slots={slots} burst={burst} />}
       {phase === 'done' && <Done cards={mode === 'cards'} />}
+
+      {/* the leaves of a right answer and of the finale fly over everything: card, veil and row (always mounted, so a burst is never lost) */}
+      <Leaves ref={leaves} density={0} className="pointer-events-none absolute inset-0 z-[46] h-full w-full" />
     </div>
   )
 }
@@ -218,49 +248,45 @@ export function PlayView({ from, touch }: { from: DOMRect | null; touch: boolean
 
 function Hud({ slots, waiting, onExit }: { slots: RefObject<(HTMLLIElement | null)[]>; waiting: boolean; onExit: () => void }) {
   const papers = useGame((g) => g.papers)
-  const collected = useGame((g) => g.collected)
+  const order = useGame((g) => g.order)
   const sound = useSiteStore((s) => s.sound)
   const setSoundOn = useSiteStore((s) => s.setSoundOn)
-  const count = countCollected(collected)
+  const count = order.length
   const toggleSound = () => {
     setSound(!sound)
     setSoundOn(!sound)
     if (!sound) sfx.pop()
   }
   return (
-    <div
-      className={cn('game-hud pointer-events-none absolute inset-x-0 top-0 z-[45] flex items-start justify-between gap-2 px-3 sm:gap-3 sm:px-6', waiting && 'is-waiting')}
-      style={{ paddingTop: 'max(16px, env(safe-area-inset-top))' }}
-    >
-      <div className="glass-ink pointer-events-auto flex h-12 items-center gap-2 rounded-full ps-2.5 pe-3 sm:h-16 sm:gap-4 sm:ps-5 sm:pe-5">
-        <span className="t-label hidden text-paper/70 sm:block">{t.game.papers}</span>
+    <div className={cn('game-hud pointer-events-none absolute inset-x-0 top-0 z-[45] flex items-start justify-between gap-2 px-3 sm:gap-3 sm:px-6', waiting && 'is-waiting')} style={{ paddingTop: 'max(16px, env(safe-area-inset-top))' }}>
+      <div className="game-chip glass-ink pointer-events-auto flex items-center gap-2 rounded-full ps-2.5 pe-3 sm:gap-4 sm:ps-5 sm:pe-5">
+        <span className="game-chip-label t-label hidden text-paper/70 sm:block">{t.game.papers}</span>
+        {/* the row fills in the order the names are won: the first paper a child collects takes the first place */}
         <ol className="flex gap-[5px] sm:gap-2" aria-label={`${t.game.papers} ${num(count)} / ${num(papers.length)}`} data-game-row>
-          {papers.map((p, i) => (
-            <li
-              key={p.id}
-              ref={(el) => {
-                slots.current[i] = el
-              }}
-              className={cn('game-slot', collected[i] && 'is-full')}
-              style={{ '--r': `${TILT[i % TILT.length]}deg` } as CSSProperties}
-              aria-label={collected[i] ? p.name : undefined}
-            >
-              {collected[i] ? p.letter : null}
-            </li>
-          ))}
+          {papers.map((p, k) => {
+            const got = k < order.length ? papers[order[k]] : null
+            return (
+              <li
+                key={p.id}
+                ref={(el) => {
+                  slots.current[k] = el
+                }}
+                className={cn('game-slot', got && 'is-full')}
+                style={{ '--r': `${TILT[k % TILT.length]}deg` } as CSSProperties}
+                aria-label={got ? got.name : undefined}
+                lang={got ? langOf(got.letter) : undefined}
+              >
+                {got ? got.letter : null}
+              </li>
+            )
+          })}
         </ol>
         <span className={cn('min-w-[2.3rem] text-center text-[14px] font-semibold tabular-nums text-paper/85 sm:min-w-[2.6rem] sm:text-[15px]', papers.length > 5 && 'max-[400px]:hidden')} dir="ltr">
           {num(count)} / {num(papers.length)}
         </span>
       </div>
       <div className="pointer-events-auto flex gap-1.5 sm:gap-2">
-        <button
-          type="button"
-          onClick={toggleSound}
-          aria-label={t.nav.sound}
-          aria-pressed={sound}
-          className="glass-ink grid h-12 w-12 place-items-center rounded-full text-paper transition-transform duration-200 active:scale-[0.95] sm:h-16 sm:w-16"
-        >
+        <button type="button" onClick={toggleSound} aria-label={t.nav.sound} aria-pressed={sound} className="game-chip game-chip-round glass-ink grid place-items-center rounded-full text-paper transition-transform duration-200 active:scale-[0.95]">
           {sound ? <Volume2 size={22} aria-hidden /> : <VolumeX size={22} aria-hidden />}
         </button>
         <button
@@ -268,7 +294,7 @@ function Hud({ slots, waiting, onExit }: { slots: RefObject<(HTMLLIElement | nul
           onClick={onExit}
           aria-label={t.game.exit}
           data-game-exit
-          className="glass-ink inline-flex h-12 min-w-12 items-center justify-center gap-2.5 rounded-full px-[13px] text-[15px] font-semibold text-paper transition-transform duration-200 active:scale-[0.95] sm:h-16 sm:px-6"
+          className="game-chip glass-ink inline-flex min-w-12 items-center justify-center gap-2.5 rounded-full px-[13px] text-[15px] font-semibold text-paper transition-transform duration-200 active:scale-[0.95] sm:px-6"
         >
           <X size={22} aria-hidden />
           <span className="hidden sm:inline">{t.game.exit}</span>
@@ -341,7 +367,7 @@ function Stick() {
     }
   }, [])
   return (
-    <div ref={base} className="game-stick glass-ink z-[44]" data-game-stick aria-hidden>
+    <div ref={base} className="game-stick game-rise glass-ink z-[44]" data-game-stick aria-hidden>
       <div ref={knob} className="game-stick-knob" />
     </div>
   )
@@ -435,39 +461,45 @@ function QuestionCard({ slots, burst }: { slots: RefObject<(HTMLLIElement | null
     return () => window.removeEventListener('keydown', key)
   }, [index])
 
-  // right: a cheer, leaves, then the paper flies up into its place in the row
+  // right: a cheer, leaves out of the key that was pressed, then the paper flies up into its place in the row
   useEffect(() => {
     if (!right) return
     sfx.win()
     rt.burst++
     const el = card.current
-    const r = el?.getBoundingClientRect()
+    const key = el?.querySelector<HTMLElement>('.game-letter.is-right')?.getBoundingClientRect()
+    const r = key ?? el?.getBoundingClientRect()
+    const timers: number[] = []
     if (r) {
-      burst(r.left + r.width * 0.5, r.top + r.height * 0.3, 24)
-      window.setTimeout(() => burst(r.left + r.width * (0.5 + dirSign * 0.3), r.top + r.height * 0.45, 16), 170)
+      burst(r.left + r.width / 2, r.top + r.height * 0.4, 24)
+      timers.push(window.setTimeout(() => burst(r.left + r.width / 2, r.top + r.height * 0.2, 14), 160))
     }
-    if (rt.hold) return
+    if (rt.hold) return () => timers.forEach(clearTimeout)
     const calm = reducedNow()
     let anim: Animation | undefined
-    const fly = window.setTimeout(
-      () => {
-        const slot = slots.current[index]?.getBoundingClientRect()
-        const now = el?.getBoundingClientRect()
-        if (!el || !slot || !now || calm) return
-        const dx = slot.left + slot.width / 2 - (now.left + now.width / 2)
-        const dy = slot.top + slot.height / 2 - (now.top + now.height / 2)
-        anim = el.animate([{ transform: 'rotate(-1.2deg)', opacity: 1 }, { transform: `translate(${dx}px, ${dy}px) scale(${(slot.width / now.width).toFixed(3)}) rotate(8deg)`, opacity: 0.5 }], {
-          duration: 520,
-          easing: 'cubic-bezier(0.5, 0, 0.3, 1)',
-          fill: 'forwards',
-        })
-      },
-      calm ? 900 : 1000,
+    const place = Math.max(0, useGame.getState().order.indexOf(index))
+    timers.push(
+      window.setTimeout(
+        () => {
+          const slot = slots.current[place]?.getBoundingClientRect()
+          const now = el?.getBoundingClientRect()
+          if (!el || !slot || !now || calm) return
+          const dx = slot.left + slot.width / 2 - (now.left + now.width / 2)
+          const dy = slot.top + slot.height / 2 - (now.top + now.height / 2)
+          anim = el.animate([{ transform: 'rotate(-1.2deg)', opacity: 1 }, { transform: `translate(${dx}px, ${dy}px) scale(${(slot.width / now.width).toFixed(3)}) rotate(8deg)`, opacity: 0.5 }], {
+            duration: 520,
+            easing: 'cubic-bezier(0.5, 0, 0.3, 1)',
+            fill: 'forwards',
+          })
+          // …and a few leaves where it lands
+          timers.push(window.setTimeout(() => burst(slot.left + slot.width / 2, slot.top + slot.height / 2, 12), 470))
+        },
+        calm ? 900 : 1000,
+      ),
     )
-    const done = window.setTimeout(() => useGame.getState().advance(), calm ? 1200 : 1500)
+    timers.push(window.setTimeout(() => useGame.getState().advance(), calm ? 1200 : 1500))
     return () => {
-      clearTimeout(fly)
-      clearTimeout(done)
+      timers.forEach(clearTimeout)
       anim?.cancel()
     }
   }, [right, index, slots, burst])
@@ -476,7 +508,7 @@ function QuestionCard({ slots, burst }: { slots: RefObject<(HTMLLIElement | null
   const total = papers.length
   const nth = right ? countCollected(collected) : countCollected(collected) + 1
   return (
-    <div className="absolute inset-0 z-[41] grid place-items-center px-4 py-[min(6rem,15vh)]" style={{ perspective: '1400px' }} data-game-question>
+    <div className="game-ask absolute inset-0 z-[41] grid place-items-center px-4" style={{ perspective: '1400px' }} data-game-question>
       <div className="game-veil absolute inset-0" aria-hidden />
       <div
         ref={card}
@@ -485,8 +517,8 @@ function QuestionCard({ slots, burst }: { slots: RefObject<(HTMLLIElement | null
         aria-labelledby="game-question"
         className="game-card relative flex w-[min(92vw,35rem)] flex-col items-center rounded-[32px] px-6 pb-5 pt-6 text-center text-ink outline-none sm:px-10 sm:pb-7 sm:pt-8"
       >
-        <p className="game-name" lang={locale} data-game-name>
-          {paper.name}
+        <p className="game-name-line">
+          <FitLine text={paper.name} className="game-name" min={22} data-game-name />
         </p>
         <h3 id="game-question" className="text-[clamp(1.15rem,2.2vw,1.5rem)] font-semibold leading-snug text-ink-2 [text-wrap:balance]">
           {t.game.question}
@@ -499,7 +531,7 @@ function QuestionCard({ slots, burst }: { slots: RefObject<(HTMLLIElement | null
               <button
                 key={`${letter}:${isWrong ? shakes : 0}`}
                 type="button"
-                lang={locale}
+                lang={langOf(letter)}
                 disabled={isWrong || right}
                 onClick={() => answer(letter)}
                 className={cn('game-letter', isWrong && 'is-wrong', isRight && 'is-right', right && !isRight && !isWrong && 'is-rest')}
@@ -541,16 +573,16 @@ function Done({ cards }: { cards: boolean }) {
   // the book takes the overlay's place; that closes the game
   const read = () => useSiteStore.getState().openBook(0)
   return (
-    <div className="absolute inset-0 z-[41] flex flex-col items-center justify-between px-5 pb-[max(30px,env(safe-area-inset-bottom))] pt-[clamp(76px,15vh,150px)]" data-game-done>
+    <div className={cn('game-done absolute inset-0 z-[41] flex flex-col items-center justify-between px-5', cards && 'is-cards')} data-game-done>
       <div className="game-done-shade pointer-events-none absolute inset-0" aria-hidden />
-      <div className={cn('relative text-center', cards && 'my-auto')}>
+      <div className={cn('game-done-words relative text-center', cards && 'my-auto')}>
         {cards && <SariFace className="game-rise mx-auto mb-6 h-28 w-28 shadow-[0_18px_40px_rgba(0,0,0,0.4)]" />}
         <BlurWords as="h3" text={t.game.done} immediate className="game-done-title display-on-film block text-paper" />
         <p className="game-rise t-lede text-on-film mt-3 text-paper/85" style={{ '--d': '500ms' } as CSSProperties}>
           {t.game.doneSub}
         </p>
       </div>
-      <div className="game-rise relative flex w-full flex-col gap-3 sm:w-auto sm:flex-row" style={{ '--d': '750ms' } as CSSProperties}>
+      <div className="game-done-pills game-rise relative flex w-full flex-col gap-3 sm:w-auto sm:flex-row" style={{ '--d': '750ms' } as CSSProperties}>
         <Pill size="lg" onClick={again} data-game-again>
           <RotateCcw size={18} aria-hidden />
           {t.game.again}
@@ -607,6 +639,7 @@ function CardsYard() {
         <img src={PICTURE} alt="" className="h-full w-full scale-[1.06] object-cover object-[27%_50%] blur-[3px] sm:object-center" />
       </span>
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_45%,rgba(18,12,8,0.2),rgba(18,12,8,0.62))]" aria-hidden />
+      <Leaves density={14} />
       {papers.map((p, i) => {
         const s = spots[i % spots.length]
         const gone = collected[i] || current === i
@@ -624,8 +657,8 @@ function CardsYard() {
             style={{ '--x': `${s.x}%`, '--y': `${s.y}%`, '--xm': `${s.xm}%`, '--ym': `${s.ym}%`, '--i': i, '--r': `${TILT[i % TILT.length] * 1.4}deg` } as CSSProperties}
             data-game-sheet={i}
           >
-            <span className="game-sheet-face relative" lang={locale}>
-              {p.name}
+            <span className="game-sheet-face relative">
+              <FitLine text={p.name} className="game-sheet-name" min={11} />
             </span>
           </button>
         )

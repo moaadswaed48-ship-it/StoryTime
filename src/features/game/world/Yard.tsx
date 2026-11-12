@@ -166,8 +166,8 @@ const CROWN_COLORS = ['#f4a72c', '#f4a72c', '#e2711d', '#f2c14e', '#f7d06a', '#d
 
 function trunkGeometry() {
   const H = 4.5
-  const seg = 16
-  const rings = 14
+  const seg = 28
+  const rings = 18
   const pos: number[] = []
   const nor: number[] = []
   const uv: number[] = []
@@ -445,8 +445,8 @@ export function LeafCarpet() {
     // leaves drifted up against the foot of the tree: they bury the line where the trunk meets the ground
     for (let i = 0; i < 170; i++) {
       const a = rnd() * Math.PI * 2
-      const d = 0.92 + rnd() * 0.75
-      put(TREE.x + Math.sin(a) * d + 0.05, 0.05 + rnd() * 0.17 * (1 - (d - 0.92) / 0.75), TREE.z + Math.cos(a) * d, 0.28 + rnd() * 0.22, 0.9)
+      const d = 1.0 + rnd() * 0.8
+      put(TREE.x + Math.sin(a) * d + 0.05, 0.05 + rnd() * 0.2 * (1 - (d - 1.0) / 0.8), TREE.z + Math.cos(a) * d, 0.28 + rnd() * 0.22, 0.9)
     }
     // then the yard: thick along the fence and under the tree, thinner where Sari runs
     for (let tries = 0; k < max && tries < 20000; tries++) {
