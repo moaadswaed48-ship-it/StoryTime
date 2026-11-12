@@ -1,0 +1,1313 @@
+diff --git a/playwright.config.ts b/playwright.config.ts
+index dd008f6..0d8412a 100644
+--- a/playwright.config.ts
++++ b/playwright.config.ts
+@@ -10,7 +10,7 @@ export default defineConfig({
+   workers: 1,
+   reporter: [['list']],
+   use: {
+-    baseURL: dev ? 'http://localhost:5173/' : 'http://localhost:4173/',
++    baseURL: dev ? `http://localhost:${process.env.PW_PORT ?? 5173}/` : 'http://localhost:4173/', // PW_PORT: a second dev server (another worktree) without touching the shared one
+     trace: 'off',
+     launchOptions: { args: ['--use-gl=angle', '--use-angle=swiftshader', '--enable-unsafe-swiftshader', '--ignore-gpu-blocklist', '--autoplay-policy=no-user-gesture-required'] },
+   },
+diff --git a/src/design/ui.tsx b/src/design/ui.tsx
+index 4a205ec..ffdd88c 100644
+--- a/src/design/ui.tsx
++++ b/src/design/ui.tsx
+@@ -7,6 +7,7 @@ export function Container({ className, children }: { className?: string; childre
+ }
+ 
+ /* ── Buttons are pills ──────────────────────────────────────────────────────── */
++// Tailwind 4 writes `scale` / `translate` as their own CSS properties, so the transition names them: the press eases instead of snapping.
+ const PILL = {
+   solid: 'bg-paper text-ink hover:bg-white', // primary on film / dark
+   ink: 'bg-ink text-paper hover:bg-ink-2', // primary on paper
+@@ -21,7 +22,7 @@ export function Pill({ variant = 'solid', size = 'md', className, children, ...r
+   return (
+     <button
+       type="button"
+-      className={cn('inline-flex shrink-0 items-center justify-center gap-2.5 rounded-full font-semibold transition-[transform,background-color,filter] duration-200 ease-out active:scale-[0.97] disabled:opacity-40', PILL[variant], SIZE[size], className)}
++      className={cn('inline-flex shrink-0 items-center justify-center gap-2.5 rounded-full font-semibold transition-[transform,scale,translate,background-color,filter,box-shadow] duration-[160ms] ease-[cubic-bezier(0.23,1,0.32,1)] enabled:active:scale-[0.97] disabled:opacity-40', PILL[variant], SIZE[size], className)}
+       {...rest}
+     >
+       {children}
+diff --git a/src/features/appnav/appnav.css b/src/features/appnav/appnav.css
+index f782f02..4b053fc 100644
+--- a/src/features/appnav/appnav.css
++++ b/src/features/appnav/appnav.css
+@@ -129,7 +129,7 @@
+   font-weight: 800;
+   letter-spacing: -0.02em;
+   white-space: nowrap;
+-  transition: transform 0.2s ease;
++  transition: transform 0.16s var(--ease-out);
+ }
+ .appnav__brand:active,
+ .appnav__reader:active {
+@@ -202,6 +202,12 @@
+   width: 20px;
+   height: 20px;
+ }
++.appnav__lang svg {
++  transition: rotate 0.45s var(--ease-out);
++}
++.appnav__lang:active svg {
++  rotate: 60deg;
++}
+ .appnav__lang span {
+   display: none;
+ }
+@@ -227,7 +233,7 @@
+   background: var(--color-paper);
+   box-shadow: 0 4px 14px rgb(0 0 0 / 0.25);
+   transform: translateX(calc(var(--i) * 100%));
+-  transition: transform 0.5s var(--ease-out);
++  transition: transform 0.38s var(--ease-out); /* seen on every visit: quick, and it lands before the new screen settles */
+ }
+ html[dir='rtl'] .appnav__thumb {
+   transform: translateX(calc(var(--i) * -100%));
+@@ -245,8 +251,8 @@ html[dir='rtl'] .appnav__thumb {
+   white-space: nowrap;
+   -webkit-tap-highlight-color: transparent;
+   transition:
+-    color 0.3s ease,
+-    transform 0.2s ease;
++    color 0.2s ease,
++    transform 0.16s var(--ease-out);
+ }
+ .appnav__tab:active {
+   transform: scale(0.95);
+@@ -257,6 +263,10 @@ html[dir='rtl'] .appnav__thumb {
+ .appnav__tab[aria-current='page'] .appnav__tab-icon {
+   color: var(--color-maple);
+ }
++/* the chosen tab's picture lands with a small pop, just after the thumb starts to move */
++.appnav__tab[aria-current='page'] .appnav__tab-icon {
++  animation: appnav-pop 0.45s 0.06s var(--ease-spring) backwards;
++}
+ @media (hover: hover) {
+   .appnav__tab:not([aria-current='page']):hover {
+     color: #fff;
+@@ -285,6 +295,10 @@ html[dir='rtl'] .appnav__thumb {
+   line-height: 1;
+   box-shadow: 0 0 0 2px rgb(30 21 14 / 0.9);
+ }
++/* a new leaf: the count pops (the badge is re-keyed by its number) */
++.appnav__badge {
++  animation: appnav-pop 0.5s 0.15s var(--ease-spring) backwards;
++}
+ .appnav__tab[aria-current='page'] .appnav__badge {
+   box-shadow: 0 0 0 2px var(--color-paper);
+ }
+@@ -392,8 +406,10 @@ html[dir='rtl'] .appnav__thumb {
+   .appnav__reader {
+     padding-inline-start: 8px;
+   }
+-  .appnav__reader:hover {
+-    background: rgb(255 255 255 / 0.1);
++  @media (hover: hover) {
++    .appnav__reader:hover {
++      background: rgb(255 255 255 / 0.1);
++    }
+   }
+   .appnav__lang {
+     display: inline-flex;
+@@ -418,9 +434,11 @@ html[dir='rtl'] .appnav__thumb {
+   .appnav__lang span {
+     display: inline;
+   }
+-  .appnav__lang:hover {
+-    background: rgb(255 255 255 / 0.1);
+-    color: #fff;
++  @media (hover: hover) {
++    .appnav__lang:hover {
++      background: rgb(255 255 255 / 0.1);
++      color: #fff;
++    }
+   }
+ }
+ 
+@@ -430,6 +448,11 @@ html[dir='rtl'] .appnav__thumb {
+     transform: translate3d(0, -110%, 0);
+   }
+ }
++@keyframes appnav-pop {
++  from {
++    transform: scale(0.78);
++  }
++}
+ @keyframes appnav-rise {
+   from {
+     opacity: 0;
+@@ -438,7 +461,9 @@ html[dir='rtl'] .appnav__thumb {
+ }
+ @media (prefers-reduced-motion: reduce) {
+   .appnav__top,
+-  .appnav__dock {
++  .appnav__dock,
++  .appnav__badge,
++  .appnav__tab[aria-current='page'] .appnav__tab-icon {
+     animation: none;
+   }
+ }
+diff --git a/src/features/appnav/index.tsx b/src/features/appnav/index.tsx
+index 53e3825..72b4509 100644
+--- a/src/features/appnav/index.tsx
++++ b/src/features/appnav/index.tsx
+@@ -32,14 +32,14 @@ function Tabs({ tabs, active, className, leaves }: { tabs: typeof TABS; active:
+             <Icon className="appnav__tab-icon" strokeWidth={active === id ? 2.3 : 1.9} aria-hidden />
+             {/* the leaves earned so far ride on the tree tab */}
+             {id === 'tree' && leaves > 0 && (
+-              <span className="appnav__badge" data-leaves={leaves} aria-hidden>
++              <span key={leaves} className="appnav__badge tnum" data-leaves={leaves} aria-hidden>
+                 {num(leaves)}
+               </span>
+             )}
+           </span>
+           <span className="appnav__tab-label">{label}</span>
+           {id === 'tree' && leaves > 0 && (
+-            <span className="appnav__badge appnav__badge--inline" aria-hidden>
++            <span key={leaves} className="appnav__badge appnav__badge--inline tnum" aria-hidden>
+               {num(leaves)}
+             </span>
+           )}
+diff --git a/src/features/auth/auth.css b/src/features/auth/auth.css
+index c5d47aa..d75af77 100644
+--- a/src/features/auth/auth.css
++++ b/src/features/auth/auth.css
+@@ -74,7 +74,7 @@
+   animation: au-fade-out 0.28s ease both;
+ }
+ .au[data-state='closing'] .au__card {
+-  animation: au-sheet-out 0.28s cubic-bezier(0.4, 0, 1, 1) both;
++  animation: au-sheet-out 0.24s cubic-bezier(0.4, 0, 0.6, 1) both;
+ }
+ 
+ /* ── Picture side ────────────────────────────────────────────────────────────── */
+@@ -318,6 +318,12 @@ html[lang='ar'] .au__label {
+     transform: translateX(-3px);
+   }
+ }
++.au__submit:active .au__chip {
++  transform: translateX(3px);
++}
++[dir='rtl'] .au__submit:active .au__chip {
++  transform: translateX(-3px);
++}
+ 
+ /* The form arrives piece by piece. */
+ .au__form > * {
+@@ -524,6 +530,19 @@ html[lang='ar'] .au__welcome {
+   text-decoration-color: color-mix(in oklab, var(--color-ink) 30%, transparent);
+   text-underline-offset: 4px;
+   border-radius: 12px;
++  transition:
++    color 0.2s ease,
++    text-decoration-color 0.2s ease,
++    opacity 0.12s ease;
++}
++.au__switch:active {
++  opacity: 0.6;
++}
++@media (hover: hover) and (pointer: fine) {
++  .au__switch:hover {
++    color: var(--color-ink);
++    text-decoration-color: currentColor;
++  }
+ }
+ 
+ .au__input input {
+diff --git a/src/features/author/author.css b/src/features/author/author.css
+index 79a524b..992ae94 100644
+--- a/src/features/author/author.css
++++ b/src/features/author/author.css
+@@ -374,10 +374,14 @@ html[lang='en'] .aut-ghost {
+ .aut-scene[data-fore='right'] .aut-leaf::after {
+   background: linear-gradient(to left, rgba(36, 20, 8, 0.1), rgba(36, 20, 8, 0.34));
+ }
+-.aut-book:hover .aut-leaf::after,
+ .aut-book:has(.aut-open:focus-visible) .aut-leaf::after {
+   opacity: 1;
+ }
++@media (hover: hover) {
++  .aut-book:hover .aut-leaf::after {
++    opacity: 1;
++  }
++}
+ 
+ /* Front board, hinged on the spine. */
+ .aut-cover {
+diff --git a/src/features/book/book.css b/src/features/book/book.css
+index b81bbcb..cb1507d 100644
+--- a/src/features/book/book.css
++++ b/src/features/book/book.css
+@@ -144,8 +144,10 @@ html[lang='en'] .bk[data-classroom] {
+   width: 56px;
+   height: 56px;
+ }
+-.bk-icon:hover {
+-  transform: scale(1.05);
++@media (hover: hover) {
++  .bk-icon:hover {
++    transform: scale(1.05);
++  }
+ }
+ .bk-icon:active {
+   transform: scale(0.97);
+@@ -274,12 +276,16 @@ html[lang='en'] .bk[data-classroom] {
+   opacity: 1;
+   transform: scale(1.45);
+ }
+-.bk-dot:hover > span {
+-  opacity: 1;
+-  transform: scale(1.3);
++@media (hover: hover) {
++  .bk-dot:hover > span {
++    opacity: 1;
++    transform: scale(1.3);
++  }
+ }
+-.bk-dot[data-state='on']:hover > span {
+-  transform: scale(1.45);
++@media (hover: hover) {
++  .bk-dot[data-state='on']:hover > span {
++    transform: scale(1.45);
++  }
+ }
+ .bk-dots-ind {
+   position: absolute;
+@@ -323,8 +329,10 @@ html[lang='en'] .bk[data-classroom] {
+     transform 0.2s var(--ease-out, ease),
+     opacity 0.25s;
+ }
+-.bk-arrow:hover {
+-  transform: scale(1.05);
++@media (hover: hover) {
++  .bk-arrow:hover {
++    transform: scale(1.05);
++  }
+ }
+ .bk-arrow:active {
+   transform: scale(0.97);
+@@ -369,8 +377,10 @@ html[lang='en'] .bk[data-classroom] {
+   color: #fff;
+   transition: transform 0.2s var(--ease-out, ease);
+ }
+-.bk-chip:hover {
+-  transform: scale(1.05);
++@media (hover: hover) {
++  .bk-chip:hover {
++    transform: scale(1.05);
++  }
+ }
+ .bk-chip:active {
+   transform: scale(0.97);
+diff --git a/src/features/checkout/checkout.css b/src/features/checkout/checkout.css
+index 943666c..4580599 100644
+--- a/src/features/checkout/checkout.css
++++ b/src/features/checkout/checkout.css
+@@ -54,6 +54,17 @@
+   border-radius: 50%;
+   background: var(--color-paper-2);
+   color: var(--color-ink-2);
++  transition:
++    scale 0.16s var(--ease-out),
++    background-color 0.2s ease;
++}
++.pay__close:active {
++  scale: 0.92;
++}
++@media (hover: hover) and (pointer: fine) {
++  .pay__close:hover {
++    background: #e3d7c1;
++  }
+ }
+ 
+ /* ── the form ── */
+@@ -119,6 +130,9 @@
+   color: var(--color-ink-2);
+   white-space: nowrap;
+ }
++html[lang='ar'] .pay__sample {
++  font-size: 12.5px;
++}
+ .pay__plastic {
+   position: relative;
+   display: grid;
+@@ -248,7 +262,7 @@
+   border: 2.5px solid rgba(246, 240, 228, 0.35);
+   border-top-color: var(--color-paper);
+   border-radius: 50%;
+-  animation: pay-spin 0.7s linear infinite;
++  animation: pay-spin 0.6s linear infinite;
+ }
+ 
+ /* ── the receipt ── */
+@@ -292,7 +306,7 @@
+   line-height: 1.6;
+   -webkit-mask: conic-gradient(from -45deg at bottom, #0000, #000 1deg 89deg, #0000 90deg) 50% / calc(2 * var(--z)) 100%;
+   mask: conic-gradient(from -45deg at bottom, #0000, #000 1deg 89deg, #0000 90deg) 50% / calc(2 * var(--z)) 100%;
+-  animation: pay-print 2.6s steps(24, end) both; /* in steps: a printer feeds line by line */
++  animation: pay-print 2s steps(24, end) both; /* in steps: a printer feeds line by line */
+ }
+ .pay__r-brand {
+   font-size: 18px;
+@@ -354,19 +368,19 @@
+   font-size: 12.5px;
+   font-weight: 800;
+   rotate: -8deg;
+-  animation: pay-stamp 0.4s var(--ease-spring) 2.75s both;
++  animation: pay-stamp 0.4s var(--ease-spring) 2.1s both;
+ }
+ .pay__thanks {
+   margin-top: 18px;
+   font-size: 16.5px;
+   font-weight: 700;
+   text-align: center;
+-  animation: pay-in 0.6s var(--ease-out) 2.9s both;
++  animation: pay-in 0.5s var(--ease-out) 2.2s both;
+ }
+ .pay__go {
+   width: 100%;
+   margin-top: 14px;
+-  animation: pay-in 0.6s var(--ease-out) 3.05s both;
++  animation: pay-in 0.5s var(--ease-out) 2.3s both; /* the way on is never kept waiting long */
+ }
+ 
+ @keyframes pay-fade {
+diff --git a/src/features/enter/enter.css b/src/features/enter/enter.css
+index 6b976b7..a5fbae1 100644
+--- a/src/features/enter/enter.css
++++ b/src/features/enter/enter.css
+@@ -304,6 +304,13 @@ html[dir='rtl'] .enter__paper {
+     transform: translateX(-3px);
+   }
+ }
++/* a finger gets the same answer as a pointer: the arrow leans the way you are going */
++.enter__go:active .enter__go-arrow {
++  transform: translateX(3px);
++}
++html[dir='rtl'] .enter__go:active .enter__go-arrow {
++  transform: translateX(-3px);
++}
+ .enter__guest {
+   min-height: 48px;
+   padding-inline: 22px;
+@@ -316,12 +323,20 @@ html[dir='rtl'] .enter__paper {
+   text-underline-offset: 6px;
+   transition:
+     color 0.2s ease,
+-    text-decoration-color 0.2s ease;
++    text-decoration-color 0.2s ease,
++    scale 0.16s var(--ease-out);
+   animation: enter-rise 0.8s 0.74s var(--ease-out) both;
+ }
+-.enter__guest:hover {
++@media (hover: hover) {
++  .enter__guest:hover {
++    color: #fff;
++    text-decoration-color: #fff;
++  }
++}
++.enter__guest:active {
+   color: #fff;
+   text-decoration-color: #fff;
++  scale: 0.97;
+ }
+ .enter__note {
+   display: inline-flex;
+diff --git a/src/features/film/film.css b/src/features/film/film.css
+index afbbe07..44d442e 100644
+--- a/src/features/film/film.css
++++ b/src/features/film/film.css
+@@ -462,11 +462,15 @@ html[dir='rtl'] .film-scrub {
+   background: rgba(255, 255, 255, 0.2);
+   transition: transform 0.2s ease-out;
+ }
+-.film-scrub:hover .film-scrub__track,
+ .film-scrub.is-dragging .film-scrub__track,
+ .film-scrub:focus-visible .film-scrub__track {
+   transform: scaleY(1.4);
+ }
++@media (hover: hover) {
++  .film-scrub:hover .film-scrub__track {
++    transform: scaleY(1.4);
++  }
++}
+ .film-scrub__fill {
+   position: absolute;
+   inset: 0;
+@@ -503,11 +507,15 @@ html[dir='rtl'] .film-scrub__fill {
+   scale: var(--thumb, 0.75);
+   transition: scale 0.2s ease-out;
+ }
+-.film-scrub:hover .film-scrub__thumb,
+ .film-scrub.is-dragging .film-scrub__thumb,
+ .film-scrub:focus-visible .film-scrub__thumb {
+   --thumb: 1;
+ }
++@media (hover: hover) {
++  .film-scrub:hover .film-scrub__thumb {
++    --thumb: 1;
++  }
++}
+ /* Hover preview: the scene under the pointer, standing clear above the bar. */
+ .film-peek {
+   position: absolute;
+diff --git a/src/features/footer/footer.css b/src/features/footer/footer.css
+index 92b0b5b..68dceb7 100644
+--- a/src/features/footer/footer.css
++++ b/src/features/footer/footer.css
+@@ -248,6 +248,7 @@ html[lang='en'] .ft-from {
+   display: inline-flex;
+   align-items: center;
+   gap: 8px;
++  min-width: 44px;
+   min-height: 44px;
+   font-size: 15px;
+   font-weight: 500;
+@@ -370,6 +371,12 @@ html[dir='rtl'] .ft-switch[data-on] .ft-switch__thumb {
+ .ft-top:active .ft-top__disc {
+   transform: scale(0.94);
+ }
++.ft-enter:active .ft-enter__arrow {
++  translate: 3px 0;
++}
++html[dir='rtl'] .ft-enter:active .ft-enter__arrow {
++  translate: -3px 0;
++}
+ .ft-enter__arrow {
+   transition: translate 0.2s var(--ease-out);
+ }
+diff --git a/src/features/grownups/grownups.css b/src/features/grownups/grownups.css
+index 56c4642..a082615 100644
+--- a/src/features/grownups/grownups.css
++++ b/src/features/grownups/grownups.css
+@@ -17,7 +17,9 @@
+   transform: scale(calc(1 - var(--p, 0) * 0.06));
+   transition: background-color 0.2s ease-out;
+ }
+-.gu-hold:hover .gu-hold-core { background: var(--color-ink-2); }
++@media (hover: hover) and (pointer: fine) {
++  .gu-hold:hover .gu-hold-core { background: var(--color-ink-2); }
++}
+ 
+ /* tabs: one thumb slides under the active tab (across on phones, down on desktop) */
+ .gu-tabs {
+@@ -39,7 +41,7 @@ html[dir='rtl'] .gu-tabs { --dir: -1; }
+   background: #fff;
+   box-shadow: 0 1px 2px rgba(26, 18, 11, 0.1), 0 6px 14px rgba(26, 18, 11, 0.08);
+   transform: translateX(calc(var(--i) * 100% * var(--dir)));
+-  transition: transform 0.45s var(--ease-out);
++  transition: transform 0.34s var(--ease-out);
+ }
+ .gu-tab {
+   position: relative;
+@@ -56,9 +58,21 @@ html[dir='rtl'] .gu-tabs { --dir: -1; }
+   line-height: 1.15;
+   text-align: center;
+   color: var(--color-muted);
+-  transition: color 0.2s ease-out;
++  transition:
++    color 0.2s ease-out,
++    scale 0.16s var(--ease-out);
++}
++.gu-tab:active { scale: 0.96; }
++@media (hover: hover) and (pointer: fine) {
++  .gu-tab:not([aria-selected='true']):hover { color: var(--color-ink-2); }
+ }
+ .gu-tab[aria-selected='true'] { color: var(--color-ink); }
++/* the chosen tab's picture lands with a small pop, as in the app's tab bar */
++.gu-tab[aria-selected='true'] svg { animation: gu-pop 0.42s 0.05s var(--ease-spring) backwards; }
++@keyframes gu-pop { from { transform: scale(0.8); } }
++@media (prefers-reduced-motion: reduce) {
++  .gu-tab[aria-selected='true'] svg { animation: none; }
++}
+ @media (min-width: 1024px) {
+   .gu-tabs {
+     grid-template-columns: 1fr;
+@@ -107,13 +121,18 @@ html[dir='rtl'] .gu-tabs { --dir: -1; }
+   border-radius: 999px;
+   background: #fff;
+   box-shadow: 0 1px 3px rgba(26, 18, 11, 0.3);
+-  transition: transform 0.3s var(--ease-out);
++  transition:
++    transform 0.26s var(--ease-out),
++    scale 0.16s var(--ease-out);
+ }
++/* the knob gives under the finger before it slides */
++button.gu-row:active .gu-switch::after { scale: 0.9; }
+ .gu-switch[data-on='true'] { background: var(--color-maple); }
+ .gu-switch[data-on='true']::after { transform: translateX(24px); }
+ html[dir='rtl'] .gu-switch[data-on='true']::after { transform: translateX(-24px); }
+ /* the whole row is the target, the switch is what moves */
+-.gu-row { min-height: 72px; }
++.gu-row { min-height: 72px; transition: background-color 0.2s ease-out; }
++button.gu-row:active { background-color: rgba(26, 18, 11, 0.035); }
+ .gu-row + .gu-row { border-top: 1px solid rgba(26, 18, 11, 0.08); }
+ 
+ .gu-letter {
+diff --git a/src/features/grownups/panels.tsx b/src/features/grownups/panels.tsx
+index bd2f7b1..db1123d 100644
+--- a/src/features/grownups/panels.tsx
++++ b/src/features/grownups/panels.tsx
+@@ -258,7 +258,7 @@ export function PlanPanel() {
+           <ArrowUpRight className="flip-rtl h-[18px] w-[18px]" aria-hidden />
+         </Pill>
+       </div>
+-      <button type="button" onClick={() => go('studio')} className="gu-card group flex min-h-[84px] w-full items-center gap-4 px-5 text-start transition-[background-color,transform] duration-200 hover:bg-white active:scale-[0.99] sm:px-7" data-gu-studio>
++      <button type="button" onClick={() => go('studio')} className="gu-card group flex min-h-[84px] w-full items-center gap-4 px-5 text-start transition-[background-color,scale] duration-200 ease-out hover:bg-white active:scale-[0.985] sm:px-7" data-gu-studio>
+         <span className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-ink text-paper">
+           <PenLine className="h-5 w-5" aria-hidden />
+         </span>
+diff --git a/src/features/hero/hero.css b/src/features/hero/hero.css
+index 029514c..34d679f 100644
+--- a/src/features/hero/hero.css
++++ b/src/features/hero/hero.css
+@@ -315,8 +315,10 @@ html[lang='ar'] .hero-sub {
+   background: linear-gradient(180deg, rgb(150 58 12 / 0.56), rgb(110 36 6 / 0.66));
+   text-shadow: 0 1px 2px rgb(70 26 4 / 0.5);
+ }
+-.hero-actions .hero-pill--watch:hover {
+-  background: linear-gradient(180deg, rgb(160 64 14 / 0.62), rgb(118 40 8 / 0.72));
++@media (hover: hover) {
++  .hero-actions .hero-pill--watch:hover {
++    background: linear-gradient(180deg, rgb(160 64 14 / 0.62), rgb(118 40 8 / 0.72));
++  }
+ }
+ .hero-pill__disc {
+   display: grid;
+@@ -461,6 +463,9 @@ html[lang='ar'] .hero-strip__label {
+   line-height: 1.3;
+   white-space: nowrap;
+ }
++html[lang='ar'] .hero-card__meta {
++  font-size: clamp(12.5px, calc(var(--card) * 0.075), 15px);
++}
+ .hero-card__title {
+   min-width: 0;
+   overflow: hidden;
+@@ -509,6 +514,10 @@ html[lang='ar'] .hero-strip__label {
+ }
+ .hero-card:active {
+   transform: scale(0.97);
++  transition-duration: 0.14s;
++}
++.hero-strip__all:active .hero-strip__arrow {
++  transform: translateX(calc(3px * var(--dir, 1)));
+ }
+ .hero-card[data-clash],
+ .hero-strip__all[data-clash] {
+diff --git a/src/features/home/home.css b/src/features/home/home.css
+index 0c9954a..5a1407a 100644
+--- a/src/features/home/home.css
++++ b/src/features/home/home.css
+@@ -119,6 +119,7 @@
+ }
+ .home__me:active {
+   transform: scale(0.94);
++  transition: transform 0.12s var(--ease-out);
+ }
+ .home__greet {
+   display: flex;
+@@ -192,6 +193,12 @@ html[dir='rtl'] .home__name {
+     0 10px 20px rgb(26 18 11 / 0.1),
+     0 30px 60px rgb(26 18 11 / 0.18);
+   animation: home-card 0.9s 0.15s var(--ease-out) both;
++  transition: scale 0.3s var(--ease-out);
++}
++/* the whole card is a button (its picture opens the story): it gives a little under the finger */
++.home__today:has(.home__today-hit:active) {
++  scale: 0.985;
++  transition-duration: 0.14s;
+ }
+ /* The picture keeps its people clear: it sits above the words (phones) or beside them (desktop) and melts into the card. */
+ .home__today-pic {
+@@ -453,7 +460,7 @@ html[dir='rtl'] .home__twig {
+ }
+ .home__leaf.is-on .leaf {
+   filter: drop-shadow(0 -5px 6px rgb(160 60 10 / 0.28));
+-  animation: home-leaf 0.8s calc(0.5s + var(--i) * 110ms) var(--ease-spring) both;
++  animation: home-leaf 0.8s calc(0.45s + var(--i) * 80ms) var(--ease-spring) both;
+ }
+ /* how each leaf is earned: a book, a film, a game */
+ .home__leaf-how {
+@@ -503,6 +510,12 @@ html[dir='rtl'] .home__twig {
+     transform: translateX(-3px);
+   }
+ }
++.home__leaves:active .home__leaves-arrow {
++  transform: translateX(3px);
++}
++html[dir='rtl'] .home__leaves:active .home__leaves-arrow {
++  transform: translateX(-3px);
++}
+ @media (min-width: 960px) {
+   .home__leaves,
+   html[dir='rtl'] .home__leaves {
+diff --git a/src/features/library/library.css b/src/features/library/library.css
+index f4cb16d..56ece2c 100644
+--- a/src/features/library/library.css
++++ b/src/features/library/library.css
+@@ -73,8 +73,10 @@
+     mask-image: linear-gradient(to left, #000 calc(100% - 56px), transparent);
+   }
+ }
+-.lib-chip:hover {
+-  background: color-mix(in oklab, var(--lib-ink) 6%, transparent);
++@media (hover: hover) {
++  .lib-chip:hover {
++    background: color-mix(in oklab, var(--lib-ink) 6%, transparent);
++  }
+ }
+ .lib-chip:active {
+   transform: scale(0.97);
+@@ -84,6 +86,20 @@
+   color: var(--lib-paper);
+   box-shadow: inset 0 0 0 1px var(--lib-ink);
+ }
++/* the chosen shelf: its chip settles in with a small pop (transform only; still under reduced motion) */
++.lib-chip.is-on {
++  animation: lib-chip-on 0.36s var(--ease-spring, ease-out) backwards;
++}
++@keyframes lib-chip-on {
++  from {
++    transform: scale(0.94);
++  }
++}
++@media (prefers-reduced-motion: reduce) {
++  .lib-chip.is-on {
++    animation: none;
++  }
++}
+ .lib-chip-n {
+   font-size: 12px;
+   font-weight: 500;
+@@ -798,9 +814,11 @@ html[lang='en'] .lib-rtitle .is-b {
+     transform 0.45s var(--lib-ease),
+     background-color 0.2s ease;
+ }
+-.lib-open:hover {
+-  transform: scale(1.08);
+-  background: var(--lib-maple);
++@media (hover: hover) {
++  .lib-open:hover {
++    transform: scale(1.08);
++    background: var(--lib-maple);
++  }
+ }
+ .lib-open:active {
+   transform: scale(0.96);
+@@ -808,8 +826,10 @@ html[lang='en'] .lib-rtitle .is-b {
+ .lib-open svg {
+   transition: transform 0.3s var(--lib-ease);
+ }
+-.lib-open:hover svg {
+-  transform: translate(calc(var(--dir, 1) * 1.5px), -1.5px);
++@media (hover: hover) {
++  .lib-open:hover svg {
++    transform: translate(calc(var(--dir, 1) * 1.5px), -1.5px);
++  }
+ }
+ .lib.is-waiting .lib-open,
+ .lib.is-detail .lib-open,
+@@ -848,10 +868,12 @@ html[lang='en'] .lib-rtitle .is-b {
+     color 0.2s ease,
+     opacity 0.2s ease;
+ }
+-.lib-arrow:hover:not(:disabled) {
+-  background: var(--lib-ink);
+-  color: var(--lib-paper);
+-  transform: scale(1.05);
++@media (hover: hover) {
++  .lib-arrow:hover:not(:disabled) {
++    background: var(--lib-ink);
++    color: var(--lib-paper);
++    transform: scale(1.05);
++  }
+ }
+ .lib-arrow:active:not(:disabled) {
+   transform: scale(0.95);
+@@ -1027,8 +1049,10 @@ html[data-reduce-motion] .lib-cap-out {
+     background-color 0.2s ease,
+     transform 0.2s ease;
+ }
+-.lib-mini:hover {
+-  background: color-mix(in oklab, var(--lib-ink) 10%, transparent);
++@media (hover: hover) {
++  .lib-mini:hover {
++    background: color-mix(in oklab, var(--lib-ink) 10%, transparent);
++  }
+ }
+ .lib-mini:active {
+   transform: scale(0.97);
+@@ -1048,8 +1072,10 @@ html[data-reduce-motion] .lib-cap-out {
+     0 4px 8px rgba(26, 18, 11, 0.14);
+   transition: transform 0.3s var(--lib-ease);
+ }
+-.lib-mini:hover .lib-mini-spine {
+-  transform: translateY(-3px) rotate(-3deg);
++@media (hover: hover) {
++  .lib-mini:hover .lib-mini-spine {
++    transform: translateY(-3px) rotate(-3deg);
++  }
+ }
+ .lib-mini-spine .lib-emb {
+   width: 18px;
+@@ -1066,8 +1092,10 @@ html[data-reduce-motion] .lib-cap-out {
+   background: color-mix(in oklab, var(--lib-ink) 5%, transparent);
+   color: var(--color-ink-2, #43362a);
+ }
+-.lib-quiet:hover {
+-  background: color-mix(in oklab, var(--lib-ink) 10%, transparent);
++@media (hover: hover) {
++  .lib-quiet:hover {
++    background: color-mix(in oklab, var(--lib-ink) 10%, transparent);
++  }
+ }
+ .lib-detail.is-open .lib-detail-text {
+   pointer-events: auto;
+@@ -1168,13 +1196,21 @@ html[lang='en'] .lib-detail-titleb {
+     color 0.2s ease,
+     transform 0.2s ease;
+ }
+-.lib-return:hover {
+-  color: var(--lib-ink);
++.lib-return:active:active span {
++  transform: scale(0.92);
++  transition-duration: 0.12s;
+ }
+-.lib-return:hover span {
+-  background: var(--lib-ink);
+-  color: var(--lib-paper);
+-  transform: scale(1.06);
++@media (hover: hover) {
++  .lib-return:hover {
++    color: var(--lib-ink);
++  }
++}
++@media (hover: hover) {
++  .lib-return:hover span {
++    background: var(--lib-ink);
++    color: var(--lib-paper);
++    transform: scale(1.06);
++  }
+ }
+ .lib-status {
+   display: inline-flex;
+diff --git a/src/features/nav/nav.css b/src/features/nav/nav.css
+index eb366ca..4f25d23 100644
+--- a/src/features/nav/nav.css
++++ b/src/features/nav/nav.css
+@@ -117,7 +117,7 @@
+   font-weight: 800;
+   letter-spacing: -0.02em;
+   white-space: nowrap;
+-  transition: transform 0.2s ease;
++  transition: transform 0.16s var(--ease-out, ease);
+ }
+ .st-brand:active {
+   transform: scale(0.97);
+@@ -195,6 +195,21 @@
+ .st-ghost:active {
+   transform: scale(0.97);
+ }
++/* the language button: the globe turns a little under the pointer and further under the finger, then the page turns */
++.st-ghost[lang] svg {
++  transition: rotate 0.45s var(--ease-out, ease);
++}
++.st-ghost[lang]:active svg {
++  rotate: 60deg;
++}
++@media (hover: hover) and (pointer: fine) {
++  .st-ghost[lang]:hover svg {
++    rotate: 25deg;
++  }
++  .st-ghost[lang]:hover:active svg {
++    rotate: 60deg;
++  }
++}
+ .st-actions .st-cta {
+   height: 40px;
+   margin-inline-start: 4px;
+diff --git a/src/features/pricing/pricing.css b/src/features/pricing/pricing.css
+index 98bddbc..5743eeb 100644
+--- a/src/features/pricing/pricing.css
++++ b/src/features/pricing/pricing.css
+@@ -70,7 +70,13 @@
+   box-shadow:
+     0 6px 18px rgb(0 0 0 / 0.3),
+     inset 0 1px 0 #fff;
+-  transition: transform 0.55s var(--pl-ease-2);
++  transition:
++    transform 0.4s var(--pl-ease-2),
++    scale 0.16s var(--pl-ease);
++}
++/* the thumb gives a little under the finger, wherever on the control it lands */
++.pl-toggle:active .pl-toggle__thumb {
++  scale: 0.96;
+ }
+ .pl-toggle[data-yearly] .pl-toggle__thumb {
+   transform: translateX(100%);
+@@ -90,7 +96,7 @@
+   line-height: 1;
+   white-space: nowrap;
+   color: rgb(246 240 228 / 0.8);
+-  transition: color 0.3s ease;
++  transition: color 0.2s ease;
+ }
+ .pl-toggle__opt[aria-checked='true'] {
+   color: var(--color-ink, #1a120b);
+@@ -467,7 +473,7 @@ html[lang='ar'] .pl-desc {
+   line-height: 0.9;
+   letter-spacing: -0.045em;
+   font-variant-numeric: tabular-nums;
+-  animation: pl-bump 0.7s var(--pl-ease) both;
++  animation: pl-bump 0.56s var(--pl-ease) both;
+ }
+ @keyframes pl-bump {
+   from {
+@@ -508,7 +514,7 @@ html[lang='ar'] .pl-desc {
+   color: var(--color-ink-2, #43362a);
+ }
+ html[lang='ar'] .pl-sample {
+-  font-size: 12px;
++  font-size: 12.5px;
+   height: 25px;
+ }
+ .pl-per {
+@@ -529,8 +535,8 @@ html[lang='ar'] .pl-per {
+   grid-area: 1 / 1;
+   white-space: nowrap;
+   transition:
+-    transform 0.55s var(--pl-ease-2),
+-    opacity 0.3s ease;
++    transform 0.45s var(--pl-ease-2),
++    opacity 0.25s ease;
+ }
+ /* Month leaves upward, year waits below: the swap always travels the same way. */
+ .pl-per > span[aria-hidden='true'] {
+@@ -644,6 +650,13 @@ html[lang='ar'] .pl-check {
+   }
+ }
+ 
++.pl-cta:active .pl-cta__arrow {
++  transform: translate(2px, -2px);
++}
++[dir='rtl'] .pl-cta:active .pl-cta__arrow {
++  transform: translate(-2px, -2px);
++}
++
+ .pl-foot {
+   max-width: 42rem;
+   margin: clamp(36px, 4vw, 56px) auto 0;
+diff --git a/src/features/pricing/useCount.ts b/src/features/pricing/useCount.ts
+index ebfd771..b703438 100644
+--- a/src/features/pricing/useCount.ts
++++ b/src/features/pricing/useCount.ts
+@@ -6,7 +6,7 @@ const reducedNow = () => document.documentElement.hasAttribute('data-reduce-moti
+  * A whole number that counts to its target whenever the target changes (ease-out cubic).
+  * It starts from whatever is on screen, so a quick second toggle never jumps. Reduced motion: the value is set at once.
+  */
+-export function useCount(target: number, ms = 720): number {
++export function useCount(target: number, ms = 560): number {
+   const [value, setValue] = useState(target)
+   const shown = useRef(target)
+ 
+diff --git a/src/features/reader/reader.css b/src/features/reader/reader.css
+index 0ec77f5..965f3cf 100644
+--- a/src/features/reader/reader.css
++++ b/src/features/reader/reader.css
+@@ -111,8 +111,10 @@
+   background: transparent;
+   transition: background-color 0.18s var(--ease-state);
+ }
+-.rd-over .rd-gate-btn:hover {
+-  background: rgba(255, 255, 255, 0.35);
++@media (hover: hover) {
++  .rd-over .rd-gate-btn:hover {
++    background: rgba(255, 255, 255, 0.35);
++  }
+ }
+ .rd-over .rd-gate-btn:active {
+   background: rgba(26, 18, 11, 0.08);
+@@ -151,9 +153,11 @@
+ .rd[data-chrome] .rd-arrow {
+   opacity: 0.85;
+ }
+-.rd-arrow:hover {
+-  opacity: 1;
+-  transform: scale(1.05);
++@media (hover: hover) {
++  .rd-arrow:hover {
++    opacity: 1;
++    transform: scale(1.05);
++  }
+ }
+ .rd-arrow:active {
+   transform: scale(0.97);
+@@ -220,10 +224,14 @@
+     background-color 0.18s var(--ease-state),
+     transform 0.18s var(--ease-out);
+ }
+-.rd-btn:hover,
+ .rd-btn[data-active] {
+   background: rgba(255, 255, 255, 0.14);
+ }
++@media (hover: hover) {
++  .rd-btn:hover {
++    background: rgba(255, 255, 255, 0.14);
++  }
++}
+ .rd-btn:active {
+   transform: scale(0.95);
+ }
+@@ -411,8 +419,10 @@
+     background-color 0.18s var(--ease-state),
+     transform 0.18s var(--ease-out);
+ }
+-.rd-scene:hover {
+-  background: rgba(255, 255, 255, 0.1);
++@media (hover: hover) {
++  .rd-scene:hover {
++    background: rgba(255, 255, 255, 0.1);
++  }
+ }
+ .rd-scene:active {
+   transform: scale(0.97);
+diff --git a/src/features/scrollstory/scrollstory.css b/src/features/scrollstory/scrollstory.css
+index 5b5aa7b..16713ea 100644
+--- a/src/features/scrollstory/scrollstory.css
++++ b/src/features/scrollstory/scrollstory.css
+@@ -245,6 +245,9 @@ html[lang='en'] .ss-detail {
+     transform: translate(calc(2px * var(--ss-dir)), -2px);
+   }
+ }
++.ss-pill:active .ss-pill-arrow {
++  transform: translate(calc(2px * var(--ss-dir)), -2px);
++}
+ 
+ /* Live (scripted) states. Without .is-live everything above is simply visible. */
+ .ss.is-live .ss-kicker,
+@@ -360,6 +363,9 @@ html[lang='en'] .ss-detail {
+ .ss-tick[data-on='1'] .ss-tick-label {
+   opacity: 1;
+ }
++.ss-tick:active .ss-tick-dot {
++  scale: 0.8;
++}
+ .ss-tick-dot {
+   flex: none;
+   width: 11.5px;
+@@ -369,6 +375,7 @@ html[lang='en'] .ss-detail {
+   box-shadow: inset 0 0 0 1.5px rgb(255 255 255 / 0.75);
+   transition:
+     transform 0.4s var(--ease-spring),
++    scale 0.16s var(--ease-out),
+     background-color 0.3s var(--ease-state),
+     box-shadow 0.3s var(--ease-state);
+ }
+diff --git a/src/features/story/story.css b/src/features/story/story.css
+index e3529c0..33e9aec 100644
+--- a/src/features/story/story.css
++++ b/src/features/story/story.css
+@@ -163,7 +163,7 @@ html[lang='en'] .story__title {
+   min-width: 0;
+   text-align: center;
+   -webkit-tap-highlight-color: transparent;
+-  animation: story-door 0.9s calc(0.25s + var(--i) * 110ms) var(--ease-out) both;
++  animation: story-door 0.75s calc(0.18s + var(--i) * 70ms) var(--ease-out) both;
+ }
+ .door__arch {
+   position: relative;
+@@ -182,8 +182,14 @@ html[lang='en'] .story__title {
+     transform 0.45s var(--ease-out),
+     box-shadow 0.45s var(--ease-out);
+ }
++/* down fast, back slower: the door answers the finger at once */
+ .door:active .door__arch {
+   transform: scale(0.97);
++  transition-duration: 0.14s;
++}
++.door:active .door__icon {
++  transform: scale(0.9);
++  transition-duration: 0.12s;
+ }
+ .door__pic {
+   position: absolute;
+@@ -377,6 +383,9 @@ html[lang='en'] .door__s {
+   .door:hover:active .door__arch {
+     transform: translateY(-8px) scale(0.98);
+   }
++  .door:hover:active .door__icon {
++    transform: scale(0.96);
++  }
+ }
+ 
+ /* Section blocks */
+@@ -426,8 +435,10 @@ html[lang='en'] .door__s {
+     background-color 0.2s ease,
+     transform 0.2s ease;
+ }
+-.story__arrow:hover {
+-  background: rgb(26 18 11 / 0.06);
++@media (hover: hover) {
++  .story__arrow:hover {
++    background: rgb(26 18 11 / 0.06);
++  }
+ }
+ .story__arrow:active {
+   transform: scale(0.94);
+@@ -512,6 +523,7 @@ html[lang='en'] .door__s {
+ }
+ .scene:active .scene__pic {
+   transform: scale(0.97);
++  transition-duration: 0.14s;
+ }
+ @media (hover: hover) {
+   .scene:hover .scene__pic {
+@@ -558,10 +570,13 @@ html[lang='en'] .door__s {
+ .words__cell:nth-child(4n) .word {
+   --tilt: 1.4deg;
+ }
+-.word.is-flipped,
+-.word:active {
++.word.is-flipped {
+   transform: none;
+ }
++.word:active {
++  transform: scale(0.97);
++  transition-duration: 0.14s;
++}
+ /* a hint that needs no reading: the first card lifts its corner once when the row comes into view */
+ .words.is-hinting .words__cell:first-child .word__inner {
+   animation: word-peek 1.5s 0.5s var(--ease-state) both;
+@@ -787,7 +802,18 @@ html[lang='en'] .word__quote {
+   height: 40px;
+   border-radius: 999px;
+   border: 1px solid rgb(26 18 11 / 0.16);
+-  transition: transform 0.4s var(--ease-out);
++  transition:
++    transform 0.3s var(--ease-out),
++    scale 0.16s var(--ease-out),
++    background-color 0.2s ease;
++}
++.grown__head:active .grown__chev {
++  scale: 0.9;
++}
++@media (hover: hover) and (pointer: fine) {
++  .grown__head:hover .grown__chev {
++    background-color: rgb(26 18 11 / 0.06);
++  }
+ }
+ .grown[data-open] .grown__chev {
+   transform: rotate(180deg);
+@@ -797,7 +823,7 @@ html[lang='en'] .word__quote {
+ }
+ .grown[data-open] .grown__body {
+   display: block;
+-  animation: story-grown 0.55s var(--ease-out) both;
++  animation: story-grown 0.4s var(--ease-out) both;
+ }
+ .grown__cols {
+   display: grid;
+@@ -904,7 +930,7 @@ html[lang='en'] .word__quote {
+ @keyframes story-pop {
+   from {
+     opacity: 0;
+-    transform: scale(0.5);
++    transform: scale(0.8);
+   }
+ }
+ @keyframes story-grown {
+diff --git a/src/features/studio/index.tsx b/src/features/studio/index.tsx
+index ac077c9..0d811de 100644
+--- a/src/features/studio/index.tsx
++++ b/src/features/studio/index.tsx
+@@ -200,8 +200,8 @@ export function Studio() {
+                   <span className="text-[12.5px] font-semibold text-muted">{t.library.filters[b.season]}</span>
+                   <span className="mt-1 text-[18px] font-bold leading-snug">{b.title[locale]}</span>
+                   <span className="mt-auto flex flex-wrap gap-1.5 pt-4">
+-                    <span className="inline-flex h-6 items-center rounded-full bg-white/70 px-2.5 text-[12px] font-semibold text-ink-2">{t.app.studio.working}</span>
+-                    <span className="inline-flex h-6 items-center rounded-full border border-dashed border-ink/25 px-2.5 text-[12px] font-semibold text-muted">{t.app.studio.waiting}</span>
++                    <span className="inline-flex h-6 items-center rounded-full bg-white/70 px-2.5 text-[12.5px] font-semibold text-ink-2">{t.app.studio.working}</span>
++                    <span className="inline-flex h-6 items-center rounded-full border border-dashed border-ink/25 px-2.5 text-[12.5px] font-semibold text-muted">{t.app.studio.waiting}</span>
+                   </span>
+                 </div>
+               </Reveal>
+diff --git a/src/features/studio/studio.css b/src/features/studio/studio.css
+index 4b545c0..09a16c0 100644
+--- a/src/features/studio/studio.css
++++ b/src/features/studio/studio.css
+@@ -180,7 +180,10 @@
+   transition: background-color 0.2s ease-out;
+ }
+ .st-row + .st-row { border-top: 1px solid rgba(26, 18, 11, 0.07); }
+-.st-row:hover { background: rgba(255, 255, 255, 0.9); }
++@media (hover: hover) and (pointer: fine) {
++  .st-row:hover { background: rgba(255, 255, 255, 0.9); }
++}
++.st-row:active { background: rgba(26, 18, 11, 0.04); transition-duration: 0.08s; }
+ .st-row:first-of-type { border-radius: 28px 28px 0 0; }
+ .st-row:last-of-type { border-radius: 0 0 28px 28px; }
+ .st-head { grid-area: head; }
+diff --git a/src/features/tour/tour.css b/src/features/tour/tour.css
+index 5f34ccd..50bd325 100644
+--- a/src/features/tour/tour.css
++++ b/src/features/tour/tour.css
+@@ -83,6 +83,9 @@
+   text-align: start;
+   color: inherit;
+ }
++.tour-cap:active .tour-cap__n {
++  scale: 0.9;
++}
+ .tour-cap__n {
+   display: grid;
+   flex: none;
+@@ -97,6 +100,7 @@
+   font-weight: 700;
+   font-variant-numeric: tabular-nums;
+   transition:
++    scale 0.16s var(--ease-out),
+     background-color 0.35s var(--ease-state),
+     border-color 0.35s var(--ease-state),
+     color 0.35s var(--ease-state);
+@@ -141,6 +145,9 @@ html[lang='ar'] .tour-cap__s {
+     transform: translateX(calc(3px * var(--dir, 1)));
+   }
+ }
++.tour-enter__pill:active .tour-enter__arrow {
++  transform: translateX(calc(3px * var(--dir, 1)));
++}
+ html[dir='rtl'] .tour-enter__pill {
+   --dir: -1;
+ }
+diff --git a/src/features/tree/index.tsx b/src/features/tree/index.tsx
+index dc52956..58a3a5d 100644
+--- a/src/features/tree/index.tsx
++++ b/src/features/tree/index.tsx
+@@ -212,7 +212,7 @@ export function MyTree() {
+                       data-row={k}
+                       data-on={on}
+                       className={cn(
+-                        'group flex min-h-[84px] w-full items-center gap-3.5 rounded-[26px] py-3 pe-3 ps-4 text-start transition-[transform,background-color,box-shadow] duration-200 ease-out active:scale-[0.985]',
++                        'group flex min-h-[84px] w-full items-center gap-3.5 rounded-[26px] py-3 pe-3 ps-4 text-start transition-[scale,background-color,box-shadow] duration-200 ease-out active:scale-[0.985]',
+                         on ? 'bg-white/75 shadow-soft hover:bg-white' : 'bg-white/40 shadow-[0_0_0_1px_rgba(26,18,11,.09)] hover:bg-white/70',
+                       )}
+                     >
+diff --git a/src/features/tree/tree.css b/src/features/tree/tree.css
+index 456ea52..253ab6c 100644
+--- a/src/features/tree/tree.css
++++ b/src/features/tree/tree.css
+@@ -54,8 +54,11 @@
+   overflow: visible;
+   transition: transform 0.25s var(--ease-out);
+ }
+-.tree-leaf:hover .tree-leaf-art { transform: scale(1.05) rotate(-3deg); }
+-.tree-leaf:active .tree-leaf-art { transform: scale(0.95); }
++/* hover only where there is a pointer: on a phone a tapped leaf must not stay tilted */
++@media (hover: hover) and (pointer: fine) {
++  .tree-leaf:hover .tree-leaf-art { transform: scale(1.05) rotate(-3deg); }
++}
++.tree-leaf:active .tree-leaf-art { transform: scale(0.94); transition-duration: 0.12s; }
+ .tree-leaf[data-on='true'] .tree-leaf-art { filter: drop-shadow(0 6px 10px rgba(60, 20, 0, 0.35)); }
+ /* a leaf on its way down carries its own light, so a child's eye follows it */
+ .tree-leaf.is-flying { z-index: 3; }
+@@ -112,7 +115,9 @@ html[data-reduce-motion] .tree-wing { animation: none; }
+     0 10px 22px rgba(26, 18, 11, 0.1);
+   transition: rotate 0.3s var(--ease-out), transform 0.3s var(--ease-out);
+ }
+-.tree-tile:hover { rotate: 0deg; transform: translateY(-3px); }
++@media (hover: hover) and (pointer: fine) {
++  .tree-tile:hover { rotate: 0deg; transform: translateY(-3px); }
++}
+ 
+ /* sizes: everything on the stage derives from one height */
+ .tree-stage { --h: clamp(420px, 60svh, 560px); height: var(--h); }
+diff --git a/src/index.css b/src/index.css
+index f7eb57e..b855ba0 100644
+--- a/src/index.css
++++ b/src/index.css
+@@ -98,10 +98,12 @@
+   font-weight: 700;
+   font-size: clamp(1.25rem, 2vw, 1.75rem);
+   line-height: 1.2;
++  text-wrap: balance;
+ }
+ .t-lede {
+   font-size: clamp(1rem, 1.35vw, 1.2rem);
+   line-height: 1.6;
++  text-wrap: pretty; /* no lone last word; browsers without it keep their normal wrap */
+ }
+ .t-label {
+   font-size: 12px;
+@@ -119,6 +121,9 @@ html[lang='ar'] .t-display {
+ html[lang='ar'] .t-h2 {
+   line-height: 1.22;
+ }
++html[lang='ar'] .t-h3 {
++  line-height: 1.4; /* IBM Plex Sans Arabic sits taller than Rubik: two-line sub-headings need the air */
++}
+ html[lang='ar'] .t-label {
+   font-size: 13.5px;
+ }
+@@ -201,30 +206,30 @@ html[lang='en'] .font-story {
+ }
+ .blur-words.is-armed .w {
+   opacity: 0;
+-  filter: blur(12px);
+-  transform: translateY(0.35em);
++  filter: blur(8px);
++  transform: translateY(0.3em);
+ }
+ .blur-words.is-in .w {
+   opacity: 1;
+   filter: blur(0);
+   transform: none;
+   transition:
+-    opacity 0.9s var(--ease-out),
+-    filter 0.9s var(--ease-out),
+-    transform 0.9s var(--ease-out);
+-  transition-delay: calc(var(--i) * 90ms + var(--d, 0ms));
++    opacity 0.7s var(--ease-out),
++    filter 0.7s var(--ease-out),
++    transform 0.7s var(--ease-out);
++  transition-delay: calc(var(--i) * 60ms + var(--d, 0ms));
+ }
+ /* In-view fade-up. */
+ .reveal.is-armed {
+   opacity: 0;
+-  transform: translateY(28px);
++  transform: translateY(20px);
+ }
+ .reveal.is-in {
+   opacity: 1;
+   transform: none;
+   transition:
+-    opacity 0.8s var(--ease-out),
+-    transform 0.8s var(--ease-out);
++    opacity 0.65s var(--ease-out),
++    transform 0.65s var(--ease-out);
+   transition-delay: var(--d, 0ms);
+ }
+ @keyframes overlay-in {
+@@ -301,3 +306,17 @@ html[data-reduce-motion] .view-in { animation: none; }
+ html[lang='en'] {
+   --font-sans: 'Rubik Variable', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+ }
++
++/* ── Finish: numbers and presses ────────────────────────────────────────────── */
++/* Digits that change or line up in columns keep one width, so a counter never shivers. */
++.tnum {
++  font-variant-numeric: tabular-nums;
++}
++/* A plain button that answers the finger: add `.press` (transform only, quick out, a touch slower back). */
++.press {
++  transition: scale 0.16s cubic-bezier(0.23, 1, 0.32, 1);
++}
++.press:active {
++  scale: 0.97;
++}
++
