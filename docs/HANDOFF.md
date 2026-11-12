@@ -34,16 +34,16 @@ Everything below typechecks and the 61 unit tests pass. **The full browser suite
 | Sign-in, checkout | Accept any text; gate and Family plan → pay sheet → printed receipt | e2e passed yesterday | — |
 | Book reader (`src/features/reader`) | Painting fades into the paper (no hairline); **listen** button reads the story and turns pages | screenshots; unit tests; narration e2e 3 of 4 | re-run `reader.spec` + `book.spec`; no listen button in the simple (reduced-motion) book; never tried on a real iPhone |
 | Narration audio (`public/audio/story`, `scripts/audio/narrate.py`) | Whole story in Arabic and English, one file per scene + per paragraph + per cue line; **Google's free voice** | durations only | **Owner has not approved the voice by ear.** Microsoft voices were unreachable from the cloud (WebSockets blocked); they should work from a laptop (`pip install edge-tts`). Per-paragraph files are probably unused now and can be dropped from the site |
-| Film (`video/`, `public/film/story.mp4`) | Re-timed to the storyteller: each scene lasts as long as its spoken line (about 1 min 57 s), voice over lowered music, paving shots replaced by her paintings | stills looked at | **Nobody has listened to it.** `tests/e2e/film.spec.ts` still expects 70–90 s: update to the new length. Check the committed file plays (see "Film file" below) |
+| Film (`video/`, `public/film/story.mp4`) | Re-timed to the storyteller: each scene lasts as long as its spoken line (1 min 57 s), voice over lowered music, paving shots replaced by her paintings | stills looked at; length and loudness measured | **Nobody has listened to it.** `tests/e2e/film.spec.ts` was updated for the new length but not re-run |
 | Shelf (`src/features/library`) | Fixed "glitches and elevates" (panel was positioned against the whole app page); phone performance work | library + home specs passed before the last test was added | the newly added in-app test fails on desktop under software rendering (see its report in the commit history); verify lag on a real iPhone |
 | Landing (`src/pages/Landing.tsx`) | Now Hero → 3D scroll scene → Shelf → Meet Sari → Author → Footer; plans moved into the app's grown-ups "plan" tab | screenshots | edited specs (hero, nav, footer, grownups, pricing…) never completed a run |
 | Scroll scene (`src/features/scrollstory`) | The owner's choice "pictures in 3D depth": 12 paintings as cards in depth, leaves, reacts to the finger; old video frames deleted | its spec passed 10/10 | real-phone smoothness unknown |
 | Hero | Phones (portrait) show a sharp still (cover upscaled 2× with Real-ESRGAN, `public/story/hero-phone.webp`); no video | screenshots at 4 phone sizes | k02–k12 not upscaled (`scripts/assets/upscale.py`) |
 
 ### Film file
-The render was finishing when the session stopped. If `public/film/story.mp4` is larger than ~25 MB or does not
-play, re-run: `cd video && npm ci && node scripts/prepare.mjs && node scripts/render.mjs story`
-(needs `ffmpeg` and Chromium; about 5 minutes on a laptop). `public/film/story.json` must say `"duration": 117.5`.
+`public/film/story.mp4` is the finished narrated cut: 117.5 s, 23 MB, voice over lowered music (checked by tool:
+length, loudness −17.7 dB mean; not listened to). To rebuild it: `cd video && npm ci && node scripts/prepare.mjs &&
+node scripts/render.mjs story` (needs `ffmpeg` and Chromium; a few minutes on a laptop).
 
 ## What the owner asked for today (his words, condensed) and where each stands
 1. Book pages: picture and text joined creatively, not a box and a line. → fade done; "words in the empty

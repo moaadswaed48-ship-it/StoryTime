@@ -183,7 +183,7 @@ async function main() {
         ins.push('-i', resolve(cues, `s${String(i + 1).padStart(2, '0')}.mp3`))
         graph += `[${i + 1}:a]aresample=48000,adelay=${Math.round((sc.start + lead) * 1000)}:all=1[v${i}];`
       })
-      graph += tl.scenes.map((_, i) => `[v${i}]`).join('') + `amix=inputs=${tl.scenes.length}:normalize=0,volume=1.5,asplit=2[voice][key];`
+      graph += tl.scenes.map((_, i) => `[v${i}]`).join('') + `amix=inputs=${tl.scenes.length}:normalize=0,volume=1.5,apad=whole_dur=${tl.duration},asplit=2[voice][key];`  // padded to the film's length, or the mix would end with her last word
       graph += `[0:a]volume=0.8[bed];[bed][key]sidechaincompress=threshold=0.02:ratio=10:attack=40:release=700:makeup=1[duck];`
       graph += `[duck][voice]amix=inputs=2:normalize=0:duration=first,alimiter=limit=0.89[o]`
       ff([...ins, '-filter_complex', graph, '-map', '[o]', '-ar', '48000', '-ac', '2', voiced])
