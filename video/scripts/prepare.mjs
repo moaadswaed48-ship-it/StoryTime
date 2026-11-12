@@ -15,6 +15,6 @@ for (const id of ['v01', 'v04', 'v06', 'v08', 'v11', 'v12']) {
     continue
   }
   mkdirSync(out, { recursive: true })
-  execFileSync('ffmpeg', ['-hide_banner', '-v', 'error', '-y', '-i', resolve(SRC, `${id}.mp4`), '-vsync', '0', '-q:v', '1', '-qmin', '1', '-pix_fmt', 'yuvj444p', resolve(out, '%04d.jpg')], { stdio: 'inherit' })
+  execFileSync('ffmpeg', ['-hide_banner', '-v', 'error', '-y', '-i', resolve(SRC, `${id}.mp4`), '-fps_mode', 'passthrough', '-q:v', '1', '-qmin', '1', '-pix_fmt', 'yuvj444p', resolve(out, '%04d.jpg')], { stdio: 'inherit' })
   console.log(id, readdirSync(out).length, 'frames')
 }

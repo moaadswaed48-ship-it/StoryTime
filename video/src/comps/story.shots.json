@@ -1,0 +1,17 @@
+{
+ "note": "Full-length shot lists, one line per scene, in the bars the Google-voice film used. scripts/timeline.mjs trims them to each scene's length.",
+ "scenes": [
+  [{"kind":"footage","clip":"v01","bars":2},{"kind":"plate","picture":"k01","bars":1}],
+  [{"kind":"plate","picture":"k02","bars":2},{"kind":"plate","picture":"k02","move":"k02b","bars":1},{"kind":"plate","picture":"k02","move":"k02c","bars":1}],
+  [{"kind":"plate","picture":"k03","bars":2},{"kind":"plate","picture":"k03","move":"k03b","bars":1},{"kind":"plate","picture":"k03","move":"k03c","bars":1}],
+  [{"kind":"footage","clip":"v04","bars":2},{"kind":"plate","picture":"k04","bars":3}],
+  [{"kind":"plate","picture":"k05","move":"k05b","bars":1},{"kind":"plate","picture":"k05","move":"k05c","bars":1},{"kind":"plate","picture":"k05","bars":2}],
+  [{"kind":"footage","clip":"v06","bars":2},{"kind":"plate","picture":"k06","bars":2}],
+  [{"kind":"plate","picture":"k07","move":"k07b","bars":2},{"kind":"plate","picture":"k07","move":"k07c","bars":1},{"kind":"plate","picture":"k07","bars":2}],
+  [{"kind":"footage","clip":"v08","bars":2},{"kind":"plate","picture":"k08","bars":1}],
+  [{"kind":"plate","picture":"k09","bars":1},{"kind":"plate","picture":"k09","move":"k09b","bars":1},{"kind":"plate","picture":"k09","move":"k09c","bars":1}],
+  [{"kind":"plate","picture":"k10","move":"k10c","bars":1},{"kind":"plate","picture":"k10","bars":1},{"kind":"plate","picture":"k10","move":"k10b","bars":1}],
+  [{"kind":"footage","clip":"v11","bars":2},{"kind":"plate","picture":"k11","bars":3}],
+  [{"kind":"footage","clip":"v12","bars":2},{"kind":"birds","bars":2}]
+ ]
+}

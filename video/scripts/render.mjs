@@ -185,7 +185,7 @@ async function main() {
       })
       graph += tl.scenes.map((_, i) => `[v${i}]`).join('') + `amix=inputs=${tl.scenes.length}:normalize=0,volume=1.5,apad=whole_dur=${tl.duration},asplit=2[voice][key];`  // padded to the film's length, or the mix would end with her last word
       graph += `[0:a]volume=0.8[bed];[bed][key]sidechaincompress=threshold=0.02:ratio=10:attack=40:release=700:makeup=1[duck];`
-      graph += `[duck][voice]amix=inputs=2:normalize=0:duration=first,alimiter=limit=0.89[o]`
+      graph += `[duck][voice]amix=inputs=2:normalize=0:duration=first,alimiter=limit=0.89,volume=-2.5dB[o]`
       ff([...ins, '-filter_complex', graph, '-map', '[o]', '-ar', '48000', '-ac', '2', voiced])
       music = voiced
       console.log('voice mixed →', voiced)
@@ -207,7 +207,7 @@ async function main() {
       const kbps = Math.floor(((target.maxMB * 0.965 * 8000) / secs - (music ? 160 : 0)) * 0.99)
       console.log(`  ${mb.toFixed(2)} MB at CRF is over ${target.maxMB} MB → two-pass at ${kbps} kbps`)
       const log = resolve(workDir, 'x264pass')
-      ff([...input, ...vcodec(['-b:v', `${kbps}k`, '-pass', '1', '-passlogfile', log]), '-an', '-f', 'null', '/dev/null'])
+      ff([...input, ...vcodec(['-b:v', `${kbps}k`, '-pass', '1', '-passlogfile', log]), '-an', '-f', 'null', process.platform === 'win32' ? 'NUL' : '/dev/null'])
       ff([...input, ...audioIn, ...vcodec(['-b:v', `${kbps}k`, '-pass', '2', '-passlogfile', log]), ...acodec, ...tail])
       mb = statSync(out).size / 1e6
     }
