@@ -13,7 +13,7 @@
   color: #f3ecdf;
 }
 .mf-stage {
-  --bar: 74px;
+  --bar: 78px;
   position: relative;
   flex: none;
   width: min(100vw, (100vh - var(--bar)) * 16 / 9);
@@ -39,28 +39,23 @@
   position: absolute;
   inset-inline: 0;
   bottom: 0;
+  padding: 6vw 6vw 3.6vw;
   padding: 6cqw 6cqw 3.6cqw;
   text-align: center;
   font-family: var(--font-story, 'Noto Naskh Arabic', serif);
   font-weight: 700;
+  font-size: clamp(15px, 3.25vw, 66px); /* browsers without container units */
   font-size: clamp(15px, 3.25cqw, 66px);
   line-height: 1.7;
   color: #fdf7ea;
   text-shadow: 0 0.06em 0.12em rgba(5, 7, 15, 0.9), 0 0 0.5em rgba(5, 7, 15, 0.75);
   background: linear-gradient(to top, rgba(8, 11, 28, 0.62), rgba(8, 11, 28, 0.3) 50%, rgba(8, 11, 28, 0));
+  /* how visible the line and each word are is set from the film's time (no CSS transitions: frames must be exact) */
   opacity: 0;
-  transition: opacity 0.35s ease-out;
   pointer-events: none;
 }
-.mf-caption[data-on] {
-  opacity: 1;
-}
-.mf-word {
+.mf-caption span {
   opacity: 0;
-  transition: opacity 0.28s ease-out;
-}
-.mf-word[data-on] {
-  opacity: 1;
 }
 .mf-start {
   position: absolute;
@@ -75,11 +70,12 @@
 .mf-start span {
   display: grid;
   place-items: center;
+  width: clamp(64px, 9vw, 120px);
   width: clamp(64px, 9cqw, 120px);
   aspect-ratio: 1;
   border-radius: 999px;
   background: #f3ecdf;
-  box-shadow: 0 0 0 0.9cqw rgba(243, 236, 223, 0.18);
+  box-shadow: 0 0 0 10px rgba(243, 236, 223, 0.18);
   transition: transform 0.18s ease-out;
 }
 .mf-start:active span {
@@ -93,8 +89,8 @@
 .mf-bar {
   display: flex;
   align-items: center;
-  gap: 10px;
-  width: min(100vw - 24px, 980px);
+  gap: 8px;
+  width: min(100vw - 20px, 980px);
   height: 50px;
 }
 .mf-btn {
@@ -128,6 +124,7 @@
   position: relative;
   flex: 1;
   height: 46px;
+  margin-inline: 10px;
   cursor: pointer;
   touch-action: none;
 }
@@ -171,7 +168,7 @@
 }
 .mf-time {
   flex: none;
-  min-width: 5.2em;
+  min-width: 5em;
   font: 500 13px/1 var(--font-sans, system-ui);
   font-variant-numeric: tabular-nums;
   text-align: center;
@@ -214,4 +211,57 @@
   width: min(100vw, 100vh * 16 / 9);
   aspect-ratio: 16 / 9;
   display: block;
+}
+
+/* inside the site: the same room, full-screen over everything, with a line saying what this is and the way back */
+.mf-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 70;
+  overflow: hidden;
+  background: #05070f;
+}
+.mf-screen .mf-room {
+  height: 100%;
+  min-height: 0;
+  gap: 10px;
+}
+.mf-room[data-note] .mf-stage {
+  --bar: 150px;
+}
+.mf-note {
+  width: min(100vw - 32px, 720px);
+  margin: 0;
+  font: 500 13px/1.7 var(--font-sans, system-ui);
+  text-align: center;
+  color: rgba(243, 236, 223, 0.72);
+  text-wrap: balance;
+}
+.mf-close {
+  position: absolute;
+  top: calc(10px + env(safe-area-inset-top, 0px));
+  inset-inline-end: calc(10px + env(safe-area-inset-right, 0px));
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  border: 0;
+  border-radius: 999px;
+  background: rgba(5, 7, 15, 0.62);
+  color: #f3ecdf;
+  box-shadow: inset 0 0 0 1px rgba(243, 236, 223, 0.28);
+  cursor: pointer;
+  transition: background 0.15s ease-out, transform 0.15s ease-out;
+}
+.mf-close:active {
+  transform: scale(0.94);
+}
+.mf-close:focus-visible {
+  outline: 2px solid #e9d58a;
+  outline-offset: 3px;
+}
+@media (hover: hover) {
+  .mf-close:hover {
+    background: rgba(243, 236, 223, 0.2);
+  }
 }

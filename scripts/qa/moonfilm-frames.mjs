@@ -52,7 +52,7 @@ if (opt.still) {
     for (let k = 0; k < 6; k++) {
       await page.waitForFunction(() => window.__st?.moonfilm)
       await page.evaluate((t) => window.__st.moonfilm.seek(t), t)
-      await page.waitForTimeout(mobile ? 450 : 380)
+      await page.waitForTimeout(mobile ? 200 : 90)
       const at = await page.evaluate(() => window.__st?.moonfilm?.time?.()).catch(() => null)
       if (at !== null && Math.abs(at - t) < 0.001) break
       await page.waitForTimeout(800)

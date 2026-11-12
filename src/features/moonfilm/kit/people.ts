@@ -61,6 +61,14 @@ export type Pose = {
   toe: number
   /** Swing of the things that hang (drawstrings, basket), radians. */
   swing: number
+  /**
+   * Which way each elbow and knee bends, 0…1 between the two IK solutions, or −1 to let the rig choose. A film sets
+   * these to the choice averaged over a few neighbouring moments, so a joint glides across instead of flipping.
+   */
+  bendA: number
+  bendB: number
+  kneeA: number
+  kneeB: number
 }
 
 type Build = {
@@ -104,6 +112,7 @@ export function rest(who: Who, x = 0, y = 0): Pose {
     aPoint: 0, bPoint: 0, aBack: 0, bBack: 0,
     fax: -23, fay: 0, fbx: 23, fby: 0, toe: 0,
     swing: 0,
+    bendA: -1, bendB: -1, kneeA: -1, kneeB: -1,
   }
 }
 
@@ -130,9 +139,11 @@ export type Skeleton = {
   hipH: number
   /** Local point → world. */
   world: (p: Pt) => Pt
+  /** The rig's own choice of bend for [elbow a, elbow b, knee a, knee b]. */
+  choice: [number, number, number, number]
 }
 
-function ik(sx: number, sy: number, tx: number, ty: number, l1: number, l2: number, pick: (jx: number, jy: number, mx: number, my: number) => number) {
+function ik(sx: number, sy: number, tx: number, ty: number, l1: number, l2: number, force: number, pick: (jx: number, jy: number, mx: number, my: number) => number) {
   let dx = tx - sx
   let dy = ty - sy
   let d = Math.hypot(dx, dy)
@@ -153,8 +164,10 @@ function ik(sx: number, sy: number, tx: number, ty: number, l1: number, l2: numb
   const my = sy + dy / 2
   const j1 = { x: sx + Math.cos(a + off) * l1, y: sy + Math.sin(a + off) * l1 }
   const j2 = { x: sx + Math.cos(a - off) * l1, y: sy + Math.sin(a - off) * l1 }
-  const j = pick(j1.x, j1.y, mx, my) >= pick(j2.x, j2.y, mx, my) ? j1 : j2
-  return { j, e: { x: sx + dx, y: sy + dy } }
+  // the joint bends to whichever side scores better; near a tie it slides across instead of flipping (no pops)
+  const own = Math.max(0, Math.min(1, 0.5 + (pick(j1.x, j1.y, mx, my) - pick(j2.x, j2.y, mx, my)) / 64))
+  const w = force >= 0 ? force : own
+  return { j: { x: j2.x + (j1.x - j2.x) * w, y: j2.y + (j1.y - j2.y) * w }, e: { x: sx + dx, y: sy + dy }, own }
 }
 
 export function skeleton(who: Who, p: Pose): Skeleton {
@@ -183,7 +196,7 @@ export function skeleton(who: Who, p: Pose): Skeleton {
     return { x: p.x + q.x * cr - y * sr, y: p.y - p.lift + hip.y + q.x * sr + y * cr }
   }
 
-  const arm = (sh: Pt, ox: number, oy: number, w: number, wx: number, wy: number, side: number) => {
+  const arm = (sh: Pt, ox: number, oy: number, w: number, wx: number, wy: number, side: number, force: number) => {
     let tx = sh.x + ox
     let ty = sh.y + oy
     if (w > 0) {
@@ -195,22 +208,24 @@ export function skeleton(who: Who, p: Pose): Skeleton {
     const ddy = Math.abs(ty - sh.y)
     const k = ddy / (ddx + ddy + 0.001)
     // hanging or raised arm: elbow out to its own side; arm reaching sideways: elbow low
-    return ik(sh.x, sh.y, tx, ty, b.armU, b.armL, (jx, jy, mx, my) => k * side * (jx - mx) + (1 - k) * (jy - my))
+    return ik(sh.x, sh.y, tx, ty, b.armU, b.armL, force, (jx, jy, mx, my) => k * side * (jx - mx) + (1 - k) * (jy - my))
   }
-  const A = arm(shA, p.ax, p.ay, p.aw, p.awx, p.awy, -1)
-  const B = arm(shB, p.bx, p.by, p.bw, p.bwx, p.bwy, 1)
+  const A = arm(shA, p.ax, p.ay, p.aw, p.awx, p.awy, -1, p.bendA)
+  const B = arm(shB, p.bx, p.by, p.bw, p.bwx, p.bwy, 1, p.bendB)
 
   const hjA = { x: hip.x - b.hipW, y: hip.y }
   const hjB = { x: hip.x + b.hipW, y: hip.y }
   const half = (b.leg / 2) * 1.04
-  const leg = (hj: Pt, fx: number, fy: number, side: number) => {
-    const dir = Math.abs(p.toe) > 0.2 ? Math.sign(p.toe) : side
-    return ik(hj.x, hj.y, fx, -fy - b.ankle, half, half, (jx, _jy, mx) => dir * (jx - mx))
+  const leg = (hj: Pt, fx: number, fy: number, side: number, force: number) => {
+    // knees point the way the shoes do; facing the camera, each knee goes out to its own side
+    const d = Math.max(-1, Math.min(1, p.toe * 3.3))
+    const dir = d + side * (1 - Math.abs(d))
+    return ik(hj.x, hj.y, fx, -fy - b.ankle, half, half, force, (jx, _jy, mx) => dir * (jx - mx))
   }
-  const LA = leg(hjA, p.fax, p.fay, -1)
-  const LB = leg(hjB, p.fbx, p.fby, 1)
+  const LA = leg(hjA, p.fax, p.fay, -1, p.kneeA)
+  const LB = leg(hjB, p.fbx, p.fby, 1, p.kneeB)
 
-  return { hip, neck, head, headAngle, shA, shB, elA: A.j, elB: B.j, haA: A.e, haB: B.e, hjA, hjB, knA: LA.j, knB: LB.j, ftA: LA.e, ftB: LB.e, hipH, world }
+  return { hip, neck, head, headAngle, shA, shB, elA: A.j, elB: B.j, haA: A.e, haB: B.e, hjA, hjB, knA: LA.j, knB: LB.j, ftA: LA.e, ftB: LB.e, hipH, world, choice: [A.own, B.own, LA.own, LB.own] }
 }
 
 /** Where a hand is in the world (to put something in it). */
@@ -254,6 +269,8 @@ export function drawPerson(P: Painter, who: Who, p: Pose, o: PersonOpts = {}) {
   const body = pass !== 'arms'
   const helmet = o.helmet ?? true
   const back = p.back >= 0.5
+  // a cast shadow only needs the outline: every inner detail is skipped
+  const sil = P.light === 'sil'
 
   c.save()
   c.translate(p.x, p.y - p.lift)
@@ -266,6 +283,10 @@ export function drawPerson(P: Painter, who: Who, p: Pose, o: PersonOpts = {}) {
   const drawArm = (sh: Pt, el: Pt, ha: Pt, point: number, side: number) => {
     // sleeve, cuff, then the hand
     P.limb([sh.x, sh.y, el.x, el.y, ha.x, ha.y], b.armW, k.top)
+    if (sil) {
+      P.flat(circle(ha.x, ha.y, b.hand + 2), C.skin)
+      return
+    }
     const dx = ha.x - el.x
     const dy = ha.y - el.y
     const d = Math.hypot(dx, dy) || 1
@@ -295,6 +316,11 @@ export function drawPerson(P: Painter, who: Who, p: Pose, o: PersonOpts = {}) {
       // toes hang when the foot is off the ground
       const droop = clamp01((p.lift + footLift) / 26) * 0.5
       c.rotate(d === 0 ? side * droop * 0.35 : d * droop)
+      if (sil) {
+        P.flat(rrect(-22, -26, 46, 27, 9), k.shoe)
+        c.restore()
+        return
+      }
       if (who === 'layla') {
         const dd = d === 0 ? side * 0.4 : d
         P.fill(blob([-15 + dd * 4, -15, 17 + dd * 8, -13, 22 + dd * 10, -1, -17 + dd * 2, 0]), k.shoe, 2)
@@ -332,11 +358,14 @@ export function drawPerson(P: Painter, who: Who, p: Pose, o: PersonOpts = {}) {
       P.fill(sk, C.skirt)
       // two quiet folds
       const f = new Path2D()
+      if (sil) f.moveTo(0, 0)
+      else {
       f.moveTo(s.hip.x - 10, wy + 40)
       f.quadraticCurveTo(s.hip.x - 16, wy + 100, lx + (rx - lx) * 0.3, hem + 5)
       f.moveTo(s.hip.x + 16, wy + 50)
       f.quadraticCurveTo(s.hip.x + 24, wy + 100, lx + (rx - lx) * 0.72, hem + 6)
       P.line(f, C.skirtDark, 4)
+      }
     } else {
       for (const [hj, kn, ft, side, fl] of [[s.hjA, s.knA, s.ftA, -1, p.fay], [s.hjB, s.knB, s.ftB, 1, p.fby]] as const) {
         P.limb([hj.x, hj.y, kn.x, kn.y, ft.x, ft.y - 2], b.legW, k.leg)
@@ -344,7 +373,7 @@ export function drawPerson(P: Painter, who: Who, p: Pose, o: PersonOpts = {}) {
         const dx = ft.x - kn.x
         const dy = ft.y - kn.y
         const d = Math.hypot(dx, dy) || 1
-        P.limb([ft.x - (dx / d) * 9, ft.y - (dy / d) * 9, ft.x, ft.y], b.legW + 4, k.cuff, 0)
+        if (!sil) P.limb([ft.x - (dx / d) * 9, ft.y - (dy / d) * 9, ft.x, ft.y], b.legW + 4, k.cuff, 0)
         foot(ft, side, fl)
       }
     }
@@ -374,11 +403,11 @@ export function drawPerson(P: Painter, who: Who, p: Pose, o: PersonOpts = {}) {
     top.lineTo(-w0 - 4, -T + 40)
     top.quadraticCurveTo(-w0 - 3, -T + 12, -w0 + 8, -T + 5)
     P.fill(top, k.top)
-    c.save()
-    c.clip(top)
     const fx = back ? 0 : p.turn * 7
-    if (who === 'sari') {
-      P.flat(rrect(-w1, hemY - 13, w1 * 2, 14, 0), C.hoodieDark)
+    if (sil) {
+      // outline only
+    } else if (who === 'sari') {
+      P.flat(rrect(-w1 + 1, hemY - 13, w1 * 2 - 2, 13, 6), C.hoodieDark)
       if (back) {
         P.flat(rrect(-40, -T + 20, 80, T * 0.72, 18), C.backpack)
         P.flat(rrect(-24, -T + 52, 48, 22, 8), '#84402c')
@@ -389,7 +418,7 @@ export function drawPerson(P: Painter, who: Who, p: Pose, o: PersonOpts = {}) {
         P.limb([31, -T + 2, 37, -T + 50], 8, C.backpack, 0)
       }
     } else if (who === 'amir') {
-      P.flat(rrect(-w1, hemY - 13, w1 * 2, 14, 0), C.jumperDark)
+      P.flat(rrect(-w1 + 1, hemY - 13, w1 * 2 - 2, 13, 6), C.jumperDark)
       // a few knitted stitches
       const st = new Path2D()
       for (let r = 0; r < 3; r++) for (let q = -3; q <= 3; q++) {
@@ -405,7 +434,7 @@ export function drawPerson(P: Painter, who: Who, p: Pose, o: PersonOpts = {}) {
         P.flat(poly([fx + 27, -T + 4, fx + 1, -T + 9, fx + 15, -T + 31]), C.collar)
       }
     } else {
-      P.flat(rrect(-w1, hemY - 11, w1 * 2, 12, 0), C.cardiganDark)
+      P.flat(rrect(-w1 + 1, hemY - 11, w1 * 2 - 2, 11, 5), C.cardiganDark)
       if (!back) {
         // cream blouse in the open front, collar, buttons, pockets
         P.flat(poly([fx - 12, -T, fx + 12, -T, fx + 17, hemY, fx - 17, hemY]), C.cream)
@@ -422,8 +451,7 @@ export function drawPerson(P: Painter, who: Who, p: Pose, o: PersonOpts = {}) {
         P.line(seam, C.cardiganDark, 2.2)
       }
     }
-    c.restore()
-    if (who === 'sari' && !back) {
+    if (who === 'sari' && !back && !sil) {
       // drawstrings hang, and swing only when he moves
       for (const side of [-1, 1]) {
         c.save()
@@ -437,8 +465,8 @@ export function drawPerson(P: Painter, who: Who, p: Pose, o: PersonOpts = {}) {
     // the helmet's collar ring sits on the shoulders
     if (helmet) {
       P.fill(ellipse(0, -T + 3, 51, 13), C.cream, 2)
-      P.flat(ellipse(0, -T + 1, 43, 8.5), C.dustNear)
-      if (P.light !== 'sil') {
+      if (!sil) {
+        P.flat(ellipse(0, -T + 1, 43, 8.5), C.dustNear)
         c.fillStyle = P.light === 'night' ? '#cdb46a' : C.gold
         c.fill(circle(back ? -38 : 38, -T + 5, 4.6))
       }
@@ -537,6 +565,11 @@ function drawHead(P: Painter, who: Who, p: Pose, R: number, back: boolean, glow:
   const sil = P.light === 'sil'
   const t = back ? 0 : p.turn
   const fx = t * R * 0.36
+  if (sil) {
+    // a cast shadow: one round head with its hair
+    P.flat(circle(0, who === 'sari' ? -6 : -2, R + (who === 'sari' ? 20 : 7)), C.ink)
+    return
+  }
 
   // hair that sits behind the head
   if (who === 'sari') {
@@ -720,10 +753,7 @@ function drawFace(P: Painter, who: Who, p: Pose, fx: number) {
       q.quadraticCurveTo(mx - w * 0.9, my + h * 1.25, mx - w, my - p.mCurve * 2.5)
     }
     P.flat(q, C.mouth)
-    c.save()
-    c.clip(q)
-    P.flat(ellipse(mx, my + h * 1.25, w * 0.62, h * 0.55), C.tongue)
-    c.restore()
+    if (p.mOpen > 0.3) P.flat(ellipse(mx, my + h * (p.mWide < 0.25 ? 0.62 : 0.86), w * 0.5, h * 0.3), C.tongue)
   }
 }
 

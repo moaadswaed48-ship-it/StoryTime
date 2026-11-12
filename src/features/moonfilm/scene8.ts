@@ -17,7 +17,7 @@
  */
 import { moon } from '@/content/stories/moon'
 import { E, Painter, STAGE_W, clamp01, ellipse, hopArc, lerp, paperGrain, ramp, track, type Cam, type Key, type Light } from './kit/core'
-import { drawPerson, rest, type Pose, type Who } from './kit/people'
+import { drawPerson, rest, skeleton, type Pose, type Who } from './kit/people'
 import { drawEyeHalo, drawRover, petalTip, roverEye, roverRest, type Rover } from './kit/wameed'
 import { dayRegion, drawBursts, drawEarth, drawGround, drawPrints, drawRock, drawSky, lineX, nightRegion, type Burst, type Ground, type Print, type Terminator } from './kit/world'
 
@@ -75,6 +75,7 @@ const roverTrack = track<Rover>({ ...roverRest, y: WY }, [
   [HOP + 1.5, 1.4, { rot: 0.14 }, 'soft'],
   [CATCH - 0.15, 0.4, { rot: 0 }, 'out'],
   [HOP, 0.3, { dust: 0.86 }],
+  [CATCH - 0.01, 0, { lift: 100 }],
   [CATCH, 0.25, { lift: 72, sq: 0.94, dust: 0.78 }, 'out'],
   [CATCH + 0.25, 0.6, { lift: 104, sq: 1 }, 'back'],
   // carried, with a little nose-up tilt on each bound
@@ -150,7 +151,7 @@ const sariTrack = track<Pose>(
     // 1 ─ the idea
     [1.25, 0.32, { turn: 0.85, lookX: 1, lookY: -0.35, wide: 1, brow: 1, mOpen: 0.55, mWide: 0.2, lean: 0.16, bw: 0, bx: 22, by: 46 }, 'back'],
     [1.95, 0.3, { crouch: 0.96, lean: 0.3 }],
-    [2.25, 0.3, { crouch: 0, lean: -0.08, bx: 68, by: -14, bPoint: 1, ax: -36, ay: 36, mOpen: 0.95, mWide: 1, wide: 0.5, tilt: -0.08, fax: -34, fay: 18, fbx: 22, fby: 6 }, 'back'],
+    [2.25, 0.38, { crouch: 0, lean: -0.08, bx: 68, by: -14, bPoint: 1, ax: -36, ay: 36, mOpen: 0.95, mWide: 1, wide: 0.5, tilt: -0.08, fax: -34, fay: 18, fbx: 22, fby: 6 }, 'back'],
     [3.3, 0.22, DOWNFEET],
     [3.75, 0.45, { turn: 0.6, lookX: 0.9, lookY: 0.1, mOpen: 0.6, wide: 0.1, brow: 0.5, tilt: 0, lean: 0 }],
     [4.3, 0.5, { bPoint: 0, bx: 34, by: 58, ax: -4, ay: 56, lookY: 0.7, crouch: 0.4, lean: 0.3, mOpen: 0.2 }],
@@ -164,13 +165,13 @@ const sariTrack = track<Pose>(
     [7.12, 0.2, { turn: 0.55, lookX: 0.3, lookY: 0.8, mOpen: 0, mWide: 0.4, brow: -0.5 }],
     [7.2, 0.3, { crouch: 0.9, lean: 0.34 }],
     [HOP - 0.08, 0.14, { crouch: 0, lean: 0.06 }, 'snap'],
-    [HOP + 0.08, 0.1, { aw: 0, bw: 0 }],
-    [HOP, 0.34, { ax: -12, ay: -68, bx: 30, by: -72 }, 'back'],
+    [HOP + 0.05, 0.36, { aw: 0, bw: 0 }, 'soft'],
+    [HOP + 0.04, 0.5, { ax: -12, ay: -68, bx: 30, by: -72 }, 'back'],
     [HOP + 0.1, 0.2, { wide: 1, brow: 1, mOpen: 0.75, mWide: 0.15, tilt: -0.24, lookY: -1, lookX: 0.5 }],
     // 3 ─ too light
     [8.9, 0.6, { ax: -34, ay: -18, bx: 46, by: -28, lean: 0 }],
     [9.9, 0.7, { ax: -14, ay: -62, bx: 34, by: -66, tilt: -0.2 }],
-    [CATCH - 0.3, 0.3, { aw: 1, bw: 1 }],
+    [CATCH - 0.6, 0.6, { aw: 1, bw: 1 }, 'soft'],
     [CATCH, 0.25, { crouch: 0.3, tilt: 0, lookY: 0.4, wide: 0.2 }, 'out'],
     [CATCH + 0.25, 0.55, { crouch: 0.04 }, 'back'],
     [CATCH + 0.4, 0.2, { happy: 1, mOpen: 0.95, mWide: 1, mCurve: 1, brow: 0.4, tilt: -0.1, wide: 0 }],
@@ -187,10 +188,10 @@ const sariTrack = track<Pose>(
     [B3 + 0.94, 0.12, { ...DOWNFEET, rot: 0 }],
     [B3 + 0.9, 0.3, { lean: 0.1, mOpen: 0.3 }],
     [DOWN, 0.42, { crouch: 0.62, lean: 0.46, lookY: 0.8, turn: 0.6, aw: 1 }],
-    [DOWN + 0.46, 0.12, { aw: 0, bw: 0 }],
-    [DOWN + 0.5, 0.3, { crouch: 0.1, lean: 0.05, ax: -9, ay: 70, bx: 9, by: 70 }],
+    [DOWN + 0.44, 0.34, { aw: 0, bw: 0 }, 'soft'],
+    [DOWN + 0.5, 0.36, { crouch: 0.1, lean: 0.05, ax: -9, ay: 70, bx: 9, by: 70 }],
     // 5, 6 ─ watching, hands on knees
-    [18.85, 0.45, { crouch: 0.44, lean: 0.3, ax: 4, ay: 60, bx: -4, by: 60, turn: 0.75, lookX: 0.9, lookY: 0.5, mOpen: 0, mCurve: 0.2, mWide: 0.3, brow: 0.5 }],
+    [19.2, 0.45, { crouch: 0.44, lean: 0.3, ax: 4, ay: 60, bx: -4, by: 60, turn: 0.75, lookX: 0.9, lookY: 0.5, mOpen: 0, mCurve: 0.2, mWide: 0.3, brow: 0.5 }],
     [WING + 0.5, 0.3, { brow: 1, wide: 0.6, mOpen: 0.45, mWide: 0.15 }],
     [22.0, 0.8, { lean: 0.38, crouch: 0.5 }],
     [BLINK1 + 0.1, 0.2, { wide: 1, tilt: -0.06 }, 'back'],
@@ -201,7 +202,7 @@ const sariTrack = track<Pose>(
     [BLINK3 + 2.2, 0.3, { happy: 0, lookX: 1, lookY: -0.4, tilt: -0.05 }],
     // 8 ─ he steps up to the line and points at the wing
     [30.3, 0.28, { crouch: 0.52, lean: 0.2 }],
-    [30.6, 0.4, { crouch: 0, lean: 0.1, bx: 70, by: 14, bPoint: 1, ax: -30, ay: 44, turn: 0.8, lookX: 1, lookY: 0.4, mOpen: 0.85, mWide: 0.9, brow: 0.7, fax: -30, fay: 10, fbx: 30, fby: 16 }, 'back'],
+    [30.6, 0.5, { crouch: 0, lean: 0.1, bx: 70, by: 14, bPoint: 1, ax: -30, ay: 44, turn: 0.8, lookX: 1, lookY: 0.4, mOpen: 0.85, mWide: 0.9, brow: 0.7, fax: -30, fay: 10, fbx: 30, fby: 16 }, 'back'],
     [31.25, 0.18, DOWNFEET],
     [32.5, 0.4, { lookY: -0.5, tilt: -0.1, turn: 0.88 }],
     [33.5, 0.35, { lookY: 0.35, tilt: 0, turn: 0.8, mOpen: 0.6 }],
@@ -212,7 +213,7 @@ const sariTrack = track<Pose>(
 const sariX = track({ x: -775 }, [
   [4.6, 0.4, { x: -780 }],
   [18.2, 0, { x: WX - 140 }],
-  [18.3, 0.62, { x: -250 }, 'lin'],
+  [18.3, 0.9, { x: -250 }, 'lin'],
   [30.6, 0.8, { x: -46 }, 'lin'],
 ])
 
@@ -235,13 +236,13 @@ const amirTrack = track<Pose>(
     [7.18, 0.2, { turn: -0.55, lookX: -0.3, lookY: 0.8, mOpen: 0, mWide: 0.4, brow: -0.5 }],
     [7.26, 0.3, { crouch: 0.87, lean: -0.34 }],
     [HOP - 0.06, 0.14, { crouch: 0, lean: -0.05 }, 'snap'],
-    [HOP + 0.1, 0.1, { aw: 0, bw: 0 }],
-    [HOP + 0.02, 0.34, { ax: -32, ay: -70, bx: 12, by: -64 }, 'back'],
+    [HOP + 0.07, 0.36, { aw: 0, bw: 0 }, 'soft'],
+    [HOP + 0.06, 0.5, { ax: -32, ay: -70, bx: 12, by: -64 }, 'back'],
     [HOP + 0.12, 0.2, { wide: 1, brow: 1, mOpen: 0.85, mWide: 0.15, tilt: 0.24, lookY: -1, lookX: -0.5 }],
     // 3
     [8.95, 0.6, { ax: -48, ay: -24, bx: 30, by: -14, lean: 0 }],
     [9.8, 0.6, { ax: -36, ay: -64, bx: 12, by: -60, tilt: 0.2 }],
-    [CATCH - 0.3, 0.3, { aw: 1, bw: 1 }],
+    [CATCH - 0.6, 0.6, { aw: 1, bw: 1 }, 'soft'],
     [CATCH + 0.02, 0.25, { crouch: 0.32, tilt: 0, lookY: 0.4, wide: 0.2 }, 'out'],
     [CATCH + 0.27, 0.55, { crouch: 0.05 }, 'back'],
     [CATCH + 0.5, 0.2, { happy: 1, mOpen: 1, mWide: 1, mCurve: 1, tilt: 0.12, wide: 0, brow: 0.4 }],
@@ -263,20 +264,20 @@ const amirTrack = track<Pose>(
     [B3 + 0.5, 0.4, { fax: -26, fay: 2, fbx: 56, fby: 8, rot: -0.04 }, 'soft'],
     [B3 + 0.98, 0.12, { ...DOWNFEET, rot: 0 }],
     [DOWN - 0.1, 0.45, { crouch: 0.6, lean: -0.3, turn: -0.55, lookX: -0.4, lookY: 0.8, toe: -1, bw: 1, mOpen: 0.3 }],
-    [DOWN + 0.46, 0.12, { aw: 0, bw: 0 }],
-    [DOWN + 0.52, 0.3, { crouch: 0.1, lean: -0.05, ax: -9, ay: 70, bx: 9, by: 70 }],
+    [DOWN + 0.44, 0.34, { aw: 0, bw: 0 }, 'soft'],
+    [DOWN + 0.52, 0.36, { crouch: 0.1, lean: -0.05, ax: -9, ay: 70, bx: 9, by: 70 }],
     // 5, 6
-    [18.9, 0.45, { crouch: 0.4, lean: -0.3, ax: 4, ay: 60, bx: -4, by: 60, turn: -0.75, lookX: -0.9, lookY: 0.5, mOpen: 0, mCurve: 0.2, mWide: 0.3, brow: 0.5 }],
+    [19.26, 0.45, { crouch: 0.4, lean: -0.3, ax: 4, ay: 60, bx: -4, by: 60, turn: -0.75, lookX: -0.9, lookY: 0.5, mOpen: 0, mCurve: 0.2, mWide: 0.3, brow: 0.5 }],
     [WING + 0.62, 0.3, { brow: 1, wide: 0.7, mOpen: 0.5, mWide: 0.15 }],
     [22.3, 0.8, { lean: -0.4 }],
     // 7 ─ hands on the glass, holding his breath… then joy
     [25.6, 0.5, { ax: 34, ay: -12, bx: -34, by: -12, wide: 0.8, brow: 1, mOpen: 0, mWide: 0.2, mCurve: 0, lean: -0.46 }],
-    [BLINK3 + 0.26, 0.3, { mOpen: 1, mWide: 1, mCurve: 1, wide: 1, ax: -26, ay: -40, bx: 26, by: -40, crouch: 0.2, lean: -0.18, tilt: 0.08 }, 'back'],
+    [BLINK3 + 0.26, 0.4, { mOpen: 1, mWide: 1, mCurve: 1, wide: 1, ax: -26, ay: -40, bx: 26, by: -40, crouch: 0.2, lean: -0.18, tilt: 0.08 }, 'back'],
     [BLINK3 + 1.2, 0.25, { happy: 1, wide: 0 }],
     [BLINK3 + 2.3, 0.3, { happy: 0, lookX: -1, lookY: 0.4, ax: -14, ay: 30, bx: 14, by: 30, crouch: 0.3 }],
     // 8 ─ the leap
     [LEAP - 0.3, 0.3, { crouch: 0.62, lean: -0.08, ax: -24, ay: 44, bx: 24, by: 44, tilt: 0 }],
-    [LEAP, 0.3, { crouch: 0, lean: 0, ax: -46, ay: -64, bx: 46, by: -64, turn: -0.3, tilt: -0.12, mOpen: 1, mWide: 1, mCurve: 1, happy: 1, fax: -40, fay: 26, fbx: 40, fby: 26, toe: 0 }, 'back'],
+    [LEAP, 0.46, { crouch: 0, lean: 0, ax: -46, ay: -64, bx: 46, by: -64, turn: -0.3, tilt: -0.12, mOpen: 1, mWide: 1, mCurve: 1, happy: 1, fax: -40, fay: 26, fbx: 40, fby: 26, toe: 0 }, 'back'],
     [LEAP + 0.3, 0.9, { rot: -0.12 }, 'soft'],
     [LEAP + 1.2, 0.8, { rot: 0.03, fax: -30, fay: 6, fbx: 30, fby: 6 }, 'soft'],
     [LEAP + 2.0, 0.2, { rot: 0, fax: -24, fay: 0, fbx: 24, fby: 0 }],
@@ -287,7 +288,7 @@ const amirTrack = track<Pose>(
 const amirX = track({ x: -505 }, [
   [4.6, 0.4, { x: -500 }],
   [18.2, 0, { x: WX + 140 }],
-  [18.36, 0.62, { x: 480 }, 'lin'],
+  [18.36, 0.9, { x: 480 }, 'lin'],
   [LEAP, 2.1, { x: 372 }, 'lin'],
 ])
 
@@ -316,13 +317,25 @@ const laylaTrack = track<Pose>(
   ],
 )
 const laylaX = track({ x: -960 }, [
-  [13.3, 0.9, { x: -838 }, 'soft'], [14.4, 0.9, { x: -700 }, 'soft'], [15.5, 0.9, { x: -590 }, 'soft'], [16.6, 0.9, { x: -474 }, 'soft'],
+  [13.3, 0.9, { x: -838 }, 'soft'], [14.4, 0.9, { x: -700 }, 'soft'], [15.5, 0.9, { x: -604 }, 'soft'], [16.6, 0.9, { x: -500 }, 'soft'],
 ])
 const laylaHop = (T: number) => [13.3, 14.4, 15.5, 16.6].reduce((a, t0) => a + hopArc(T, t0, 0.85, 24, 0.12).lift, 0)
 
 type Cast = { sari: Pose; amir: Pose; layla: Pose; rover: Rover }
 
-function cast(T: number): Cast {
+/** Eyes blink now and then, each child in their own rhythm (fixed times: the same on every run). */
+const BLINKS = {
+  sari: [0.7, 4.05, 6.1, 9.2, 12.9, 15.4, 19.6, 21.9, 23.6, 25.6, 29.2, 31.9, 33.2],
+  amir: [1.5, 5.2, 8.7, 11.2, 14.1, 17.6, 20.4, 22.8, 24.9, 29.4, 33.0],
+  layla: [1.9, 5.9, 9.9, 13.8, 19.0, 22.2, 26.1, 30.4, 33.8],
+}
+const blinkAt = (times: number[], T: number) => {
+  for (const t of times) if (T >= t && T < t + 0.15) return 1 - Math.abs(((T - t) / 0.15) * 2 - 1) > 0.3 ? 1 : 0.5
+  return 0
+}
+
+/** Everyone's pose at time T, before the bends of elbows and knees are smoothed (see `cast`). */
+function castRaw(T: number): Cast {
   const r = rover(T)
   const sari = sariTrack(T)
   const amir = amirTrack(T)
@@ -345,7 +358,7 @@ function cast(T: number): Cast {
   add(sari, hopArc(T, B1, 1.5, 86, 0.3))
   add(sari, hopArc(T, B2, 1.5, 86, 0.22))
   add(sari, hopArc(T, B3, 1.0, 40, 0.2))
-  add(sari, hopArc(T, 18.3, 0.62, 24, 0.12))
+  add(sari, hopArc(T, 18.3, 0.9, 34, 0.12))
   add(sari, hopArc(T, 30.6, 0.8, 30, 0.01))
   // Amir: never quite in step with Sari
   add(amir, hopArc(T, HOP + 0.03, 1.0, 38, 0.01))
@@ -353,9 +366,13 @@ function cast(T: number): Cast {
   add(amir, hopArc(T, B1 + 0.05, 1.5, 92, 0.3))
   add(amir, hopArc(T, B2 + 0.05, 1.5, 92, 0.22))
   add(amir, hopArc(T, B3 + 0.04, 1.0, 44, 0.2))
-  add(amir, hopArc(T, 18.36, 0.62, 26, 0.12))
+  add(amir, hopArc(T, 18.36, 0.9, 36, 0.12))
   add(amir, hopArc(T, LEAP, 2.1, 168, 0.01))
   layla.lift += laylaHop(T)
+
+  sari.blink = Math.max(sari.blink, blinkAt(BLINKS.sari, T))
+  amir.blink = Math.max(amir.blink, blinkAt(BLINKS.amir, T))
+  layla.blink = Math.max(layla.blink, blinkAt(BLINKS.layla, T))
 
   // laughter: the shoulders shake
   const laugh = (t0: number, t1: number, f: number) => ramp(T, t0, t0 + 0.2) * (1 - ramp(T, t1 - 0.3, t1)) * Math.sin((T - t0) * f)
@@ -388,12 +405,32 @@ function cast(T: number): Cast {
   return { sari, amir, layla, rover: r }
 }
 
+const NEAR = [-0.1, -0.05, 0, 0.05, 0.1]
+/**
+ * Everyone's pose at time T. Each elbow and knee takes the bend the rig would choose, averaged over a fifth of a
+ * second around T: when a moving arm makes the choice switch sides, the joint glides across instead of flipping.
+ */
+function cast(T: number): Cast {
+  const c = castRaw(T)
+  const near = NEAR.map((d) => (d === 0 ? c : castRaw(T + d)))
+  for (const who of ['sari', 'amir', 'layla'] as const) {
+    const sum = [0, 0, 0, 0]
+    for (const n of near) skeleton(who, n[who]).choice.forEach((v, i) => (sum[i] += v / near.length))
+    const p = c[who]
+    p.bendA = sum[0]
+    p.bendB = sum[1]
+    p.kneeA = sum[2]
+    p.kneeB = sum[3]
+  }
+  return c
+}
+
 // ── light ─────────────────────────────────────────────────────────────────────
 /** The lamp's circle of light in the night (centre and radii), or null once the lamp is lowered. */
 function lampPool(T: number, c: Cast): { x: number; y: number; rx: number; ry: number } {
   const follow = lerp(-640, rover(T - 0.3).x, ramp(T, B1 - 0.3, B1 + 0.6))
   const low = E.io(ramp(T, 17.2, 18.4))
-  return { x: lerp(follow, c.layla.x + 70, low), y: lerp(676, 786, low), rx: lerp(350, 132, low), ry: lerp(312, 44, low) }
+  return { x: lerp(follow, c.layla.x + 56, low), y: lerp(676, 786, low), rx: lerp(350, 104, low), ry: lerp(312, 38, low) }
 }
 
 // ── cameras ───────────────────────────────────────────────────────────────────
@@ -419,7 +456,7 @@ function camera(T: number): Cam {
     case 7:
       return { x: 112, y: 660, zoom: lerp(2.12, 2.22, u(26.2, 29.6)) }
     default:
-      return { x: lerp(60, 92, u(29.6, 34.6)), y: lerp(545, 584, u(29.6, 34.6)), zoom: lerp(1.2, 1.44, u(29.6, 34.6)) }
+      return { x: lerp(56, 84, u(29.6, 34.6)), y: lerp(545, 584, u(29.6, 34.6)), zoom: lerp(1.2, 1.42, u(29.6, 34.6)) }
   }
 }
 
@@ -438,7 +475,7 @@ const BURSTS: Burst[] = [
   { t: B3, x: -250, y: SY, seed: 29, n: 8, dir: -1 }, { t: B3 + 0.04, x: 6, y: AY, seed: 30, n: 9, dir: -1 },
   { t: B3 + 1.0, x: -44, y: SY, seed: 31, n: 9, dir: 1 }, { t: B3 + 1.04, x: 212, y: AY, seed: 32, n: 10, dir: 1 },
   { t: DOWN + 0.42, x: WX, y: WY, seed: 33, n: 10, power: 70, spread: 3 },
-  { t: 18.92, x: -250, y: SY, seed: 34, n: 6, power: 70 }, { t: 18.98, x: 480, y: AY, seed: 35, n: 7, power: 70 },
+  { t: 19.2, x: -250, y: SY, seed: 34, n: 6, power: 70 }, { t: 19.26, x: 480, y: AY, seed: 35, n: 7, power: 70 },
   { t: WING, x: WX - 50, y: WY - 96, seed: 40, n: 6, power: 60, spread: 2.4 },
   { t: WING + 0.4, x: WX - 80, y: WY - 100, seed: 41, n: 10, power: 95, spread: 2.6 },
   ...[1, 2, 3, 4, 5, 6].map((i): Burst => {
@@ -452,7 +489,7 @@ const PRINTS: Print[] = [
   { t: B2 + 1.56, x: -14, y: AY, who: 'amir' }, { t: B2 + 1.56, x: 20, y: AY + 3, who: 'amir' },
   { t: B3 + 1.05, x: 220, y: AY, who: 'amir' }, { t: B3 + 1.05, x: 256, y: AY + 3, who: 'amir' },
   { t: DOWN + 0.2, x: 250, y: AY + 2, who: 'amir' }, { t: DOWN + 0.2, x: 284, y: AY - 2, who: 'amir' },
-  { t: 19.0, x: 460, y: AY, who: 'amir' }, { t: 19.0, x: 502, y: AY + 3, who: 'amir' },
+  { t: 19.28, x: 460, y: AY, who: 'amir' }, { t: 19.28, x: 502, y: AY + 3, who: 'amir' },
   { t: LEAP + 2.14, x: 351, y: AY + 2, who: 'amir' }, { t: LEAP + 2.14, x: 393, y: AY - 1, who: 'amir' },
 ]
 
@@ -485,16 +522,37 @@ export function renderScene8(P: Painter, T: number) {
     const glow = who === 'layla' ? 0 : eyeR * (who === 'sari' ? 1 : 0.6) * clamp01(1.5 - Math.hypot(p.x - eye.x, 0) / 500)
     drawPerson(P, who, p, { pass, basket: who === 'layla', lamp: who === 'layla', lampAim: lamp, glow: P.light === 'night' ? 0 : glow })
   }
+  // warm pools inside the night: [centre x, y, radius x, y]
+  const lampPoolE: [number, number, number, number] = [lamp.x, lamp.y, lamp.rx, lamp.ry]
+  const reach = (T < SHOTS[7] ? 1 : 0.3) * Math.sqrt(eyeR)
+  const glowE: [number, number, number, number] = [eye.x - 40, eye.y + (T < SHOTS[7] ? -50 : 34), 540 * reach, (T < SHOTS[7] ? 300 : 330) * reach]
+  const touches = (e: number[], x: number, w: number, y0: number, y1: number) => {
+    const dx = Math.max(x - w - e[0], 0, e[0] - (x + w)) / e[2]
+    const dy = Math.max(y0 - e[1], 0, e[1] - y1) / e[3]
+    return dx * dx + dy * dy < 1
+  }
+  const within = (e: number[], x: number, w: number, y0: number, y1: number) => {
+    const dx = Math.max(Math.abs(x - w - e[0]), Math.abs(x + w - e[0])) / e[2]
+    const dy = Math.max(Math.abs(y0 - e[1]), Math.abs(y1 - e[1])) / e[3]
+    return dx * dx + dy * dy < 1
+  }
   const figures = (light: Light) => {
-    const ok = (x: number, w: number, y0: number, y1: number) => (light === 'day' ? inDay(x, w, y0, y1) : inNight(x, w, y0, y1))
+    const ok = (x: number, w: number, y0: number, y1: number) => {
+      if (light === 'day') return inDay(x, w, y0, y1)
+      if (!inNight(x, w, y0, y1)) return false
+      if (light === 'lamp') return touches(lampPoolE, x, w, y0, y1)
+      if (light === 'glow') return touches(glowE, x, w, y0, y1)
+      // plain night: not needed where a warm pool covers the whole figure
+      return !within(lampPoolE, x, w, y0, y1) && !(eyeR > 0.02 && within(glowE, x, w, y0, y1))
+    }
     for (const [who, p, h] of people) {
       if (who === 'amir') continue
-      if (!ok(p.x, 170, p.y - p.lift - h, p.y)) continue
+      if (!ok(p.x, 130, p.y - p.lift - h, p.y + 8)) continue
       drawOne(who, p, who === 'sari' ? 'body' : 'all')
     }
-    if (ok(r.x, 190, r.y - r.lift - 240, r.y)) drawRover(P, r)
-    if (ok(sari.x, 170, sari.y - sari.lift - 340, sari.y)) drawOne('sari', sari, 'arms')
-    if (ok(amir.x, 170, amir.y - amir.lift - 340, amir.y)) drawOne('amir', amir, 'all')
+    if (ok(r.x, 150, r.y - r.lift - 240, r.y + 8)) drawRover(P, r)
+    if (ok(sari.x, 130, sari.y - sari.lift - 340, sari.y + 8)) drawOne('sari', sari, 'arms')
+    if (ok(amir.x, 130, amir.y - amir.lift - 340, amir.y + 8)) drawOne('amir', amir, 'all')
   }
   const set = () => {
     drawGround(P, GROUND, x0, x1)
@@ -536,10 +594,9 @@ export function renderScene8(P: Painter, T: number) {
         front()
       })
       if (eyeR > 0.02) {
-        // his first light blooms wide, then settles to a small steady pool
-        const reach = (T < SHOTS[7] ? 1 : 0.36) * Math.sqrt(eyeR)
+        // his first light blooms wide, then (after the cut) settles to a small steady pool
         P.light = 'glow'
-        P.clip(ellipse(eye.x - 30, eye.y + 30, 440 * reach, 340 * reach), () => {
+        P.clip(ellipse(glowE[0], glowE[1], glowE[2], glowE[3]), () => {
           set()
           figures('glow')
           front()
@@ -554,18 +611,48 @@ export function renderScene8(P: Painter, T: number) {
 }
 
 // ── the words on screen ───────────────────────────────────────────────────────
-export type Caption = { id: string; words: string[]; shown: number }
+/** Words on screen at one moment: how visible the line is, and each of its words (0…1), all from the time alone. */
+export type Caption = { id: string; words: string[]; alpha: number; alphas: number[] }
 
 const scene = moon.scenes[7]
 /** The count, taken verbatim from the scene's own text: «واحد.. اثنان.. ثلاثة.. هوب!» */
 const COUNT = (scene.ar[2].match(/"([^"]+)"/)?.[1] ?? '').split(' ')
 /** The narrator's cue line, in its two sentences. */
-const CUE = scene.cue.ar.split(/(?<=!)\s+/)
+const CUE = (scene.cue.ar.match(/[^!]+!?/g) ?? [scene.cue.ar]).map((s) => s.trim())
 const COUNT_AT = [5.5, 6.35, 7.2, HOP - 0.05]
 const CUE_AT = [BLINK3 + 1.3, 32.7]
 
+const FADE = 0.3
+
 export function captionAt(T: number): Caption | null {
-  if (T >= COUNT_AT[0] && T < 8.9) return { id: 'count', words: COUNT, shown: COUNT_AT.filter((t) => T >= t).length }
-  if (T >= CUE_AT[0]) return { id: 'cue', words: CUE, shown: CUE_AT.filter((t) => T >= t).length }
+  if (T >= COUNT_AT[0] - 0.1 && T < 8.9) return { id: 'count', words: COUNT, alpha: ramp(T, COUNT_AT[0] - 0.1, COUNT_AT[0] + 0.15) * (1 - ramp(T, 8.6, 8.9)), alphas: COUNT_AT.map((t) => ramp(T, t, t + FADE)) }
+  if (T >= CUE_AT[0] - 0.1) return { id: 'cue', words: CUE, alpha: ramp(T, CUE_AT[0] - 0.1, CUE_AT[0] + 0.25), alphas: CUE_AT.map((t) => ramp(T, t, t + FADE)) }
   return null
+}
+
+// ── QA ────────────────────────────────────────────────────────────────────────
+/**
+ * Steps through the whole scene at `fps` and lists every moment a joint jumps further in one frame than anything
+ * should (a pop the eye would read as a glitch: an elbow flipping sides, a position that is not continuous).
+ */
+export function auditMotion(fps = 30, limit = 30) {
+  const out: { t: number; joint: string; jump: number }[] = []
+  let prev: Record<string, { x: number; y: number }> | null = null
+  for (let i = 0; i <= DURATION * fps; i++) {
+    const T = i / fps
+    const c = cast(T)
+    const now: Record<string, { x: number; y: number }> = { rover: { x: c.rover.x, y: c.rover.y - c.rover.lift }, 'rover.eye': roverEye(c.rover) }
+    for (const who of ['sari', 'amir', 'layla'] as const) {
+      const s = skeleton(who, c[who])
+      for (const j of ['head', 'elA', 'elB', 'haA', 'haB', 'knA', 'knB', 'ftA', 'ftB'] as const) now[`${who}.${j}`] = s.world(s[j])
+    }
+    if (prev) {
+      for (const k in now) {
+        const d = Math.hypot(now[k].x - prev[k].x, now[k].y - prev[k].y)
+        if (d > limit) out.push({ t: +T.toFixed(3), joint: k, jump: Math.round(d) })
+      }
+    }
+    prev = now
+  }
+  return out
 }

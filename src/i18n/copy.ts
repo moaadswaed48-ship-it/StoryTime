@@ -545,6 +545,11 @@ const ar = {
     skip: "انتقل إلى المحتوى",
     auth: { show: "إظهار كلمة المرور", hide: "إخفاء كلمة المرور" },
     film: { fullscreen: "ملء الشاشة", exitFullscreen: "إنهاء ملء الشاشة" },
+    /** The first scene of the Moon film (drawn in code), opened from the Moon book on the shelf. */
+    moon: {
+      watch: "شاهد مشهدًا من الفيلم",
+      note: "مشهد أوّل من فيلم قيد الصنع. الحكاية مسوّدة من «وقت الحكاية»، وليست من نصوص المؤلفة.",
+    },
     game: {
       /** Hint in the no-WebGL version of the game, where the papers are tapped instead of collected by running. */
       tapPaper: "اضغط على ورقة لتلتقطها",
@@ -1137,6 +1142,10 @@ const en: typeof ar = {
     skip: "Skip to content",
     auth: { show: "Show password", hide: "Hide password" },
     film: { fullscreen: "Full screen", exitFullscreen: "Exit full screen" },
+    moon: {
+      watch: "Watch a scene from the film",
+      note: "A first scene from a film in the making. The story is a StoryTime draft, not the author's text.",
+    },
     game: {
       tapPaper: "Tap a paper to pick it up",
     },

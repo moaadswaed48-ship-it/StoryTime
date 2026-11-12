@@ -1,20 +1,26 @@
 import { useCallback, useEffect, useRef, useState, type KeyboardEvent, type PointerEvent } from 'react'
-import { Pause, Play, RotateCcw } from 'lucide-react'
+import { Pause, Play, RotateCcw, Volume2, VolumeX } from 'lucide-react'
 import { t } from '@/i18n/copy'
 import { dirSign, rtl } from '@/i18n/locale'
 import { clamp } from '@/lib/clamp'
 import { exposeQA } from '@/lib/qa'
 import { Painter } from './kit/core'
-import { DURATION, SHOTS, captionAt, renderScene8, type Caption } from './scene8'
+import { DURATION, SHOTS, auditMotion, captionAt, renderScene8 } from './scene8'
+import { Sound } from './sound'
 
 const clock = (s: number) => `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, '0')}`
+/**
+ * Canvas size as a share of the full size, per step. While it plays, a device that cannot keep up gets a smaller
+ * canvas (never a simpler drawing); a paused frame is always drawn at full size. `&q=0` in the address locks it.
+ */
+const SCALE = [1, 0.8, 0.62]
 
 /**
  * Plays scene 8 of «نزهة على القمر», drawn live on a canvas. The picture is a pure function of the time, so it can
  * be scrubbed, restarted, or stepped frame by frame for capture (`window.__st.moonfilm.seek(t)`, or `&t=12.5` in the
  * address to open paused on a frame; `&bare=1` hides the controls so the stage fills the window).
  */
-export function Player({ startAt, bare }: { startAt: number | null; bare: boolean }) {
+export function Player({ startAt, bare, lockQuality, note, autoPlay }: { startAt: number | null; bare: boolean; lockQuality: boolean; note?: string; autoPlay?: boolean }) {
   const canvas = useRef<HTMLCanvasElement>(null)
   const stage = useRef<HTMLDivElement>(null)
   const scrub = useRef<HTMLDivElement>(null)
@@ -22,10 +28,13 @@ export function Player({ startAt, bare }: { startAt: number | null; bare: boolea
   const time = useRef(startAt ?? 0)
   const playing = useRef(false)
   const drag = useRef(false)
+  const quality = useRef(0)
+  const sound = useRef<Sound | null>(null)
   const [isPlaying, setPlaying] = useState(false)
   const [started, setStarted] = useState(startAt !== null || bare)
-  const [caption, setCaption] = useState<Caption | null>(null)
-  const capKey = useRef('')
+  // the score is a first draft nobody has listened to yet: it stays off until someone asks for it
+  const [muted, setMuted] = useState(true)
+  const capEl = useRef<HTMLParagraphElement>(null)
 
   const draw = useCallback(() => {
     const cv = canvas.current
@@ -36,58 +45,100 @@ export function Player({ startAt, bare }: { startAt: number | null; bare: boolea
     scrub.current?.style.setProperty('--p', String(T / DURATION))
     scrub.current?.setAttribute('aria-valuenow', String(Math.round(T)))
     if (clockEl.current) clockEl.current.textContent = `${clock(T)} / ${clock(DURATION)}`
-    const cap = captionAt(T)
-    const key = cap ? `${cap.id}:${cap.shown}` : ''
-    if (key !== capKey.current) {
-      capKey.current = key
-      setCaption(cap)
+    // the words: real right-to-left text in the page, their visibility set from the time in the same instant
+    const el = capEl.current
+    if (el) {
+      const cap = captionAt(T)
+      const id = cap?.id ?? ''
+      if (el.dataset.cap !== id) {
+        el.dataset.cap = id
+        el.replaceChildren(
+          ...(cap?.words ?? []).map((w) => {
+            const span = document.createElement('span')
+            span.textContent = `${w} `
+            return span
+          }),
+        )
+      }
+      el.style.opacity = String(cap?.alpha ?? 0)
+      cap?.alphas.forEach((a, i) => ((el.children[i] as HTMLElement).style.opacity = String(a)))
     }
   }, [])
+
+  // the canvas keeps the stage's size (sharp up to 1920 wide, at most 2× the CSS pixels: phones stay smooth)
+  const fit = useCallback(() => {
+    const el = stage.current
+    const cv = canvas.current
+    if (!el || !cv) return
+    const w = Math.round(Math.min(1920, el.clientWidth * Math.min(2, window.devicePixelRatio || 1)) * (playing.current ? SCALE[quality.current] : 1))
+    if (w > 0 && cv.width !== w) {
+      cv.width = w
+      cv.height = Math.round((w * 9) / 16)
+    }
+    draw()
+  }, [draw])
+
+  const setPlay = useCallback(
+    (on: boolean) => {
+      // pressing play on the last picture (where reduced motion opens) starts the scene from the top
+      if (on && time.current >= DURATION - 0.6) time.current = 0
+      playing.current = on
+      setPlaying(on)
+      if (on) {
+        setStarted(true)
+        if (!sound.current) {
+          sound.current = new Sound()
+          sound.current.muted = true
+        }
+        sound.current.play(time.current)
+      } else sound.current?.silence()
+      fit()
+    },
+    [fit],
+  )
 
   const seek = useCallback(
     (T: number) => {
       time.current = clamp(T, 0, DURATION)
+      if (playing.current && !drag.current) sound.current?.play(time.current)
       draw()
     },
     [draw],
   )
-  const setPlay = useCallback((on: boolean) => {
-    if (on && time.current >= DURATION - 0.05) time.current = 0
-    playing.current = on
-    setPlaying(on)
-    if (on) setStarted(true)
-  }, [])
 
-  // the canvas keeps the stage's size (sharp up to 1920 wide, at most 2× the CSS pixels: phones stay smooth)
   useEffect(() => {
     const el = stage.current
-    const cv = canvas.current
-    if (!el || !cv) return
-    const fit = () => {
-      const w = Math.min(1920, Math.round(el.clientWidth * Math.min(2, window.devicePixelRatio || 1)))
-      if (w > 0 && cv.width !== w) {
-        cv.width = w
-        cv.height = Math.round((w * 9) / 16)
-      }
-      draw()
-    }
+    if (!el) return
     fit()
     const ro = new ResizeObserver(fit)
     ro.observe(el)
     return () => ro.disconnect()
-  }, [draw])
+  }, [fit])
 
-  // the clock: real time while playing, nothing at all while paused
+  // the clock: the score's clock while it runs, otherwise real time; nothing at all while paused
   useEffect(() => {
     let raf = 0
     let last = 0
+    let pace = 16
+    let frames = 0
     const tick = (now: number) => {
       if (playing.current && !drag.current) {
-        const dt = last ? Math.min(0.1, (now - last) / 1000) : 0
-        time.current = Math.min(DURATION, time.current + dt)
-        draw()
-        if (time.current >= DURATION) setPlay(false)
-      }
+        const gap = last ? now - last : 16
+        const audio = sound.current?.clock() ?? null
+        if (audio !== 'wait') {
+          time.current = Math.min(DURATION, audio ?? time.current + Math.min(0.1, gap / 1000))
+          draw()
+          if (time.current >= DURATION) setPlay(false)
+        }
+        // a device that cannot keep up gets a smaller canvas, then a simpler picture (never the other way round)
+        pace += (gap - pace) * 0.06
+        if (!lockQuality && ++frames > 45 && pace > 42 && quality.current < SCALE.length - 1) {
+          quality.current++
+          frames = 0
+          pace = 16
+          fit()
+        }
+      } else frames = 0
       last = now
       raf = requestAnimationFrame(tick)
     }
@@ -97,8 +148,15 @@ export function Player({ startAt, bare }: { startAt: number | null; bare: boolea
     return () => {
       cancelAnimationFrame(raf)
       document.removeEventListener('visibilitychange', hide)
+      sound.current?.dispose()
+      sound.current = null
     }
-  }, [draw, setPlay])
+  }, [draw, fit, setPlay, lockQuality])
+
+  // opened by someone who asked to watch: it starts by itself (the score stays off until asked for)
+  useEffect(() => {
+    if (autoPlay) setPlay(true)
+  }, [autoPlay, setPlay])
 
   useEffect(() => {
     exposeQA({
@@ -113,6 +171,8 @@ export function Player({ startAt, bare }: { startAt: number | null; bare: boolea
         play: () => setPlay(true),
         pause: () => setPlay(false),
         time: () => time.current,
+        quality: () => quality.current,
+        audit: auditMotion,
       },
     })
   }, [seek, setPlay])
@@ -126,6 +186,7 @@ export function Player({ startAt, bare }: { startAt: number | null; bare: boolea
     if (e.pointerType === 'mouse' && e.button !== 0) return
     e.currentTarget.setPointerCapture(e.pointerId)
     drag.current = true
+    sound.current?.silence()
     setStarted(true)
     seek(timeAt(e.clientX))
   }
@@ -133,7 +194,9 @@ export function Player({ startAt, bare }: { startAt: number | null; bare: boolea
     if (drag.current) seek(timeAt(e.clientX))
   }
   const up = () => {
+    if (!drag.current) return
     drag.current = false
+    if (playing.current) sound.current?.play(time.current)
   }
   const key = (e: KeyboardEvent<HTMLDivElement>) => {
     const T = time.current
@@ -143,18 +206,21 @@ export function Player({ startAt, bare }: { startAt: number | null; bare: boolea
     if (to === -1) setPlay(!playing.current)
     else seek(to)
   }
+  const toggleMute = () => {
+    const m = !muted
+    setMuted(m)
+    if (!sound.current) {
+      sound.current = new Sound()
+      if (playing.current) sound.current.play(time.current)
+    }
+    sound.current.setMuted(m)
+  }
 
   return (
-    <div className="mf-room" data-bare={bare ? '' : undefined} data-moonfilm={isPlaying ? 'playing' : 'paused'}>
+    <div className="mf-room" data-bare={bare ? '' : undefined} data-note={note ? '' : undefined} data-moonfilm={isPlaying ? 'playing' : 'paused'}>
       <div className="mf-stage" ref={stage} data-moonfilm-stage onClick={() => started && setPlay(!playing.current)}>
         <canvas ref={canvas} width={1280} height={720} />
-        <p className="mf-caption" dir="rtl" lang="ar" data-on={caption ? '' : undefined}>
-          {caption?.words.map((w, i) => (
-            <span key={`${caption.id}${i}`} className="mf-word" data-on={i < caption.shown ? '' : undefined}>
-              {`${w} `}
-            </span>
-          ))}
-        </p>
+        <p className="mf-caption" dir="rtl" lang="ar" ref={capEl} />
         {!started && (
           <button type="button" className="mf-start" aria-label={t.film.play} onClick={() => setPlay(true)}>
             <span>
@@ -173,7 +239,7 @@ export function Player({ startAt, bare }: { startAt: number | null; bare: boolea
             className="mf-btn"
             aria-label={t.film.replay}
             onClick={() => {
-              seek(0)
+              time.current = 0
               setPlay(true)
             }}
           >
@@ -201,8 +267,12 @@ export function Player({ startAt, bare }: { startAt: number | null; bare: boolea
             <b />
           </div>
           <span className="mf-time" dir="ltr" ref={clockEl} />
+          <button type="button" className="mf-btn" aria-label={muted ? t.film.unmute : t.film.mute} aria-pressed={muted} onClick={toggleMute}>
+            {muted ? <VolumeX size={20} /> : <Volume2 size={20} />}
+          </button>
         </div>
       )}
+      {note && !bare && <p className="mf-note">{note}</p>}
     </div>
   )
 }

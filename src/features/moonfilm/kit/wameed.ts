@@ -115,12 +115,11 @@ export function drawRover(P: Painter, r: Rover) {
   P.fill(body, dusty(C.cream), 3)
   if (!sil) {
     c.save()
-    c.clip(body)
-    P.flat(rrect(-90, -50, 180, 20, 0), dusty(C.dustNear, 0.5))
+    P.flat(blob([-80, -36, -81, -52, 79, -52, 78, -36]), dusty(C.dustNear, 0.5))
     // dust lies on him in soft drifts until the Sun wakes him
     if (r.dust > 0.02) {
       c.globalAlpha = clamp01(r.dust * 1.2)
-      for (const [x, y, rx, ry] of [[-52, -88, 34, 9], [10, -90, 44, 8], [60, -82, 24, 8], [-70, -60, 14, 18]]) P.flat(ellipse(x, y, rx, ry), C.dustFar)
+      for (const [x, y, rx, ry] of [[-48, -85, 30, 7], [10, -87, 40, 6], [56, -80, 20, 6], [-66, -62, 10, 14]]) P.flat(ellipse(x, y, rx, ry), C.dustFar)
       c.globalAlpha = 1
     }
     c.restore()

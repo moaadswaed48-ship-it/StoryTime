@@ -4,7 +4,7 @@ import { exposeQA } from '@/lib/qa'
 
 export type MotionTier = 'full' | 'low' | 'reduced'
 /** Only one fullscreen experience is open at a time. */
-export type Overlay = null | 'book' | 'film' | 'game'
+export type Overlay = null | 'book' | 'film' | 'game' | 'moon'
 /** The landing page is the front door; every other view is a screen of the app itself. */
 export type View = 'landing' | 'home' | 'story' | 'tree' | 'grownups' | 'studio'
 
@@ -36,6 +36,8 @@ interface SiteState {
   openBook: (scene?: number) => void
   openFilm: (scene?: number) => void
   openGame: () => void
+  /** The first scene of the Moon film (code-drawn), from the Moon book's panel on the shelf. */
+  openMoon: () => void
   closeOverlay: () => void
   setView: (view: View) => void
   setPicking: (on: boolean, target?: View) => void
@@ -80,6 +82,7 @@ export const useSiteStore = create<SiteState>()((set) => ({
   openBook: (scene = 0) => set({ overlay: 'book', startScene: scene }),
   openFilm: (scene = 0) => set({ overlay: 'film', startScene: scene }),
   openGame: () => set({ overlay: 'game' }),
+  openMoon: () => set({ overlay: 'moon' }),
   closeOverlay: () => set({ overlay: null }),
   setView: (view) => set({ view }),
   setPicking: (picking, target) => set(target ? { picking, enterTarget: target } : { picking }),

@@ -11,6 +11,7 @@ import { Reader, canCurl } from '@/features/reader'
 import { FilmPlayer } from '@/features/film'
 import { GameOverlay } from '@/features/game'
 import { IslandOverlay } from '@/features/island'
+import { MoonOverlay } from '@/features/moonfilm/MoonOverlay'
 import { AuthModal } from '@/features/auth'
 import { Checkout } from '@/features/checkout'
 
@@ -46,6 +47,7 @@ export default function App() {
           <Book />
           <FilmPlayer />
           {YARD ? <GameOverlay /> : <IslandOverlay />}
+          <MoonOverlay />
           <AuthModal />
           <Checkout />
         </ErrorBoundary>

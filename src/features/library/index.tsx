@@ -431,6 +431,14 @@ export function Library({ variant = 'landing' }: { variant?: 'landing' | 'app' }
                   <p className="mt-3 max-w-[30rem] text-[14px] font-medium text-ink-2/75" data-d style={d(4)} data-idea>
                     {t.library.soonNote}
                   </p>
+                  {dBook.filmScene && (
+                    <p className="mt-5 lg:mt-7" data-d style={d(5)}>
+                      <Pill variant="ink" size="lg" className="max-sm:w-full" data-act="moon" onClick={() => useSiteStore.getState().openMoon()}>
+                        <Play size={17} fill="currentColor" className="shrink-0" aria-hidden />
+                        {t.ui.moon.watch}
+                      </Pill>
+                    </p>
+                  )}
                   {sameSeason.length > 0 && (
                     <div className="mt-7 border-t border-ink/10 pt-5 lg:mt-10 lg:pt-6" data-d style={d(5)}>
                       <p className="flex items-center gap-2.5 text-[13.5px] font-semibold text-ink-2">

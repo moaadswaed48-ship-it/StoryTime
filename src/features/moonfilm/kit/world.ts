@@ -101,7 +101,7 @@ export type Ground = {
 const TONES: Record<Exclude<Light, 'sil'>, { near: string; mid: string; far: string; shade: string; hi: string; pit: string }> = {
   day: { near: C.dustNear, mid: C.dustMid, far: C.dustFar, shade: C.navy, hi: C.cream, pit: '#c3beb2' },
   night: { near: C.navy, mid: C.nightMid, far: C.nightFar, shade: '#151b3b', hi: '#2c3668', pit: '#19203f' },
-  lamp: { near: '#d9c98f', mid: '#bdac77', far: '#978a62', shade: '#3b3552', hi: '#f6e9b6', pit: '#bfae7a' },
+  lamp: { near: '#c4b47c', mid: '#a99a69', far: '#877b57', shade: '#373150', hi: '#e3d59d', pit: '#aa9b6c' },
   glow: { near: '#8d8773', mid: '#7c7765', far: '#666354', shade: '#2b2c4c', hi: '#b3aa86', pit: '#7d7866' },
 }
 export const tones = (P: Painter) => TONES[P.light === 'sil' ? 'day' : P.light]
@@ -134,15 +134,12 @@ export function drawGround(P: Painter, g: Ground, x0: number, x1: number) {
     const e = ellipse(x, y, r, ry)
     c.fillStyle = T.pit
     c.fill(e)
-    c.save()
-    c.clip(e)
-    // the sunward rim shades its own inner wall
+    // the sunward rim shades its own inner wall: a crescent between the pit and the same oval slid left
     c.fillStyle = T.shade
     c.beginPath()
-    c.rect(x - r * 2, y - ry * 2, r * 4, ry * 4)
-    c.ellipse(x - r * 0.42, y - ry * 0.1, r, ry, 0, 0, TAU, true)
-    c.fill('evenodd')
-    c.restore()
+    c.ellipse(x, y, r, ry, 0, -1.78, 1.78)
+    c.ellipse(x - r * 0.42, y, r, ry, 0, 1.36, -1.36, true)
+    c.fill()
     c.strokeStyle = T.hi
     c.lineWidth = Math.max(2, r * 0.05)
     c.lineCap = 'round'

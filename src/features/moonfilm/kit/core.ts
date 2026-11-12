@@ -242,7 +242,7 @@ export class Painter {
     const key = L + hex
     let c = this.cache.get(key)
     if (!c) {
-      const lamp = mixHex(mixHex(hex, '#5a3f2e', 0.2), C.gold, 0.1)
+      const lamp = mixHex(mixHex(hex, '#4f3a30', 0.27), C.gold, 0.09)
       c = L === 'night' ? mixHex(hex, '#222b58', 0.74) : L === 'glow' ? mixHex(lamp, '#2a2f58', 0.2) : lamp
       this.cache.set(key, c)
     }
@@ -351,7 +351,7 @@ export function paperGrain(P: Painter) {
       const v = rnd()
       const light = v > 0.5
       img.data[i * 4] = img.data[i * 4 + 1] = img.data[i * 4 + 2] = light ? 255 : 0
-      img.data[i * 4 + 3] = Math.pow(Math.abs(v - 0.5) * 2, 3) * (light ? 16 : 24)
+      img.data[i * 4 + 3] = Math.pow(Math.abs(v - 0.5) * 2, 3) * (light ? 11 : 20)
     }
     g.putImageData(img, 0, 0)
   }

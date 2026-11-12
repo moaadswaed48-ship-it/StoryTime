@@ -21,6 +21,8 @@ export interface ShelfBook {
   /** Real artwork, when the book exists. */
   cover?: string
   blurb?: { ar: string; en: string }
+  /** A first scene of this book's film can already be watched (the Moon book). */
+  filmScene?: boolean
 }
 
 /**
@@ -38,7 +40,7 @@ export const library: ShelfBook[] = [
     palette: { cloth: '#1f5a66', ink: '#f3ecdf', foil: '#f2c9a0' },
   },
   {
-    id: 'a-picnic-on-the-moon', season: 'space', ready: false, emblem: 'rocket',
+    id: 'a-picnic-on-the-moon', season: 'space', ready: false, emblem: 'rocket', filmScene: true,
     title: { ar: 'نزهة على القمر', en: 'A Picnic on the Moon' },
     blurb: {
       ar: 'صاروخ الورق الذي صنعه الصفّ يطير حقًّا، والمعلّمة ليلى تحمل السلّة. لماذا يتغيّر شكل القمر كل ليلة؟',
