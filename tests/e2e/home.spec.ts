@@ -28,6 +28,7 @@ test.describe('home — the child’s library', () => {
     await expect(page.locator('.home__me [data-avatar="sari"]')).toBeVisible()
     await expect(page.locator('#home-today-title')).toHaveText(/أوراق الخريف والطيور المهاجرة|Autumn Leaves and the Migrating Birds/)
     await expect(page.locator('#home #library')).toHaveCount(1) // the shelf with every story
+    await expect(page.locator('#home .home__shelf h2:visible')).toHaveCount(1) // one heading for it, ours
     expect(await home(page)).toMatchObject({ name: 'لينا', avatar: 'sari', leaves: 0, cta: 'start' })
     con.assertClean()
   })
@@ -43,6 +44,13 @@ test.describe('home — the child’s library', () => {
     await page.locator('[data-home-read]').click()
     expect(await site(page)).toMatchObject({ overlay: 'book', scene: 5 })
     await page.evaluate(() => window.__st!.store.getState().closeOverlay())
+
+    // once the book has been read to the end, the button offers it again from the beginning
+    await page.evaluate((id) => window.__st!.profile.getState().mark(id, 'read'), STORY)
+    expect((await home(page)).cta).toBe('again')
+    await page.locator('[data-home-read]').click()
+    expect(await site(page)).toMatchObject({ overlay: 'book', scene: 0 })
+    await page.evaluate(() => window.__st!.store.getState().closeOverlay())
   })
 
   test('leaves follow what the child has finished and survive a reload', async ({ page }) => {
@@ -54,7 +62,7 @@ test.describe('home — the child’s library', () => {
     }, STORY)
     await expect(page.locator('[data-leaf].is-on')).toHaveCount(2)
     await expect(page.locator('[data-leaf="read"]')).toHaveClass(/is-on/)
-    await expect(page.locator('[data-seg].is-on')).toHaveCount(2)
+    await expect(page.locator('.home__marks [data-seg][data-on]')).toHaveCount(2)
 
     await page.reload()
     await waitForHook(page, 'store')
@@ -78,7 +86,7 @@ test.describe('home — the child’s library', () => {
       window.__st!.profile.getState().setClassroom(true)
     })
     await expect(page.locator('[data-home-leaves]')).toHaveCount(0)
-    await expect(page.locator('.home__ring')).toHaveCount(0)
+    await expect(page.locator('.home__marks')).toHaveCount(0)
     await page.evaluate(() => window.__st!.profile.getState().setClassroom(false))
   })
 })

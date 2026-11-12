@@ -7,6 +7,12 @@ import { cn } from '@/lib/cn'
 export const MAPLE =
   'M12 1.8c1.1 2.1 2.6 3 4.6 2.7-.5 1.7-.1 3.1 1.2 4.1 1.2-.6 2.4-.6 3.5 0-1 2-2.5 3.6-4.5 4.9.9.5 1.5 1.3 1.8 2.3-2 .4-3.8.2-5.5-.7l.3 6.8h-2.8l.3-6.8c-1.7.9-3.5 1.1-5.5.7.3-1 .9-1.8 1.8-2.3-2-1.3-3.5-2.9-4.5-4.9 1.1-.6 2.3-.6 3.5 0 1.3-1 1.7-2.4 1.2-4.1 2 .3 3.5-.6 4.6-2.7z'
 
+/** The same leaf drawn for larger sizes: the blade alone, and a thin curved stalk (the icon's stalk is too heavy above ~40px). */
+export const MAPLE_BODY =
+  'M12 1.8c1.1 2.1 2.6 3 4.6 2.7-.5 1.7-.1 3.1 1.2 4.1 1.2-.6 2.4-.6 3.5 0-1 2-2.5 3.6-4.5 4.9.9.5 1.5 1.3 1.8 2.3-2 .4-3.8.2-5.5-.7l-1.1 1.5-1.1-1.5c-1.7.9-3.5 1.1-5.5.7.3-1 .9-1.8 1.8-2.3-2-1.3-3.5-2.9-4.5-4.9 1.1-.6 2.3-.6 3.5 0 1.3-1 1.7-2.4 1.2-4.1 2 .3 3.5-.6 4.6-2.7z'
+export const MAPLE_STEM = 'M11.7 15.8c.05 2.25.3 4.4.97 6.35l.62-.22c-.63-1.9-.86-3.95-.88-6.13z'
+export const MAPLE_VEINS = 'M12 16.2V4.6M12 13.2 7.4 6.8M12 13.2l4.6-6.4M12 14.6 4.8 10M12 14.6l7.2-4.6M12 15.5l-4.9.5M12 15.5l4.9.5'
+
 export const AVATARS: Avatar[] = ['sari', 'amir', 'leaf', 'bird']
 
 /** A maple leaf on the film's golden light. Drawn, so it stays sharp at any size. */
@@ -27,13 +33,14 @@ function LeafArt() {
         </linearGradient>
       </defs>
       <rect width="100" height="100" fill={`url(#av-leaf-sky-${id})`} />
-      <ellipse cx="52" cy="84" rx="26" ry="5" fill="#b4541a" opacity="0.22" />
-      <g transform="translate(50 51) rotate(-14) scale(3.3) translate(-12 -12)">
-        <path d={MAPLE} fill="#7a2c0c" opacity="0.25" transform="translate(0.6 0.9)" />
-        <path d={MAPLE} fill={`url(#av-leaf-fill-${id})`} />
+      <ellipse cx="53" cy="86" rx="24" ry="4.5" fill="#b4541a" opacity="0.2" />
+      <g transform="translate(50 49) rotate(-14) scale(3.45) translate(-12 -12)">
+        <path d={MAPLE_BODY} fill="#7a2c0c" opacity="0.25" transform="translate(0.6 0.9)" />
+        <path d={MAPLE_STEM} fill="#8a3a12" />
+        <path d={MAPLE_BODY} fill={`url(#av-leaf-fill-${id})`} />
         {/* light from the upper left, as in the film */}
         <path d="M12 1.8c1.1 2.1 2.6 3 4.6 2.7-.5 1.7-.1 3.1 1.2 4.1L12 13z" fill="#fff0c2" opacity="0.2" />
-        <path d="M12 16V4.4M12 13 7.2 6.4M12 13l4.8-6.6M12 14.4 4.4 9.6M12 14.4l7.6-4.8M12 15.4l-5.2.5M12 15.4l5.2.5" fill="none" stroke="#fff3d6" strokeOpacity="0.5" strokeWidth="0.34" strokeLinecap="round" />
+        <path d={MAPLE_VEINS} fill="none" stroke="#fff3d6" strokeOpacity="0.5" strokeWidth="0.3" strokeLinecap="round" />
       </g>
     </svg>
   )

@@ -1,5 +1,5 @@
 import { mulberry32 } from '@/lib/seeded'
-import { MAPLE } from './Avatar'
+import { MAPLE_BODY, MAPLE_STEM, MAPLE_VEINS } from './Avatar'
 
 /**
  * The crossing into the library: autumn leaves blow in from both sides until they cover the screen,
@@ -36,27 +36,35 @@ const easeOut = (t: number) => 1 - Math.pow(1 - t, 3)
 const easeIn = (t: number) => t * t * t
 const clamp01 = (v: number) => Math.min(1, Math.max(0, v))
 
-/** Pre-draws one maple leaf (fill, soft shade, veins) so the loop only blits. */
-function sprite(color: string, px: number, veins: boolean): HTMLCanvasElement {
+/** Pre-draws one maple leaf (blade with light and shade, fine veins, a thin stalk) so the loop only blits. */
+function sprite(color: string, px: number, detail: boolean): HTMLCanvasElement {
   const c = document.createElement('canvas')
   c.width = c.height = px
   const g = c.getContext('2d')!
   const k = px / 24
   g.scale(k, k)
-  const path = new Path2D(MAPLE)
+  const blade = new Path2D(MAPLE_BODY)
+  if (detail) {
+    g.fillStyle = 'rgba(96,44,12,.9)'
+    g.fill(new Path2D(MAPLE_STEM))
+  }
   g.fillStyle = color
-  g.fill(path)
-  if (veins) {
-    const shade = g.createLinearGradient(4, 2, 20, 22)
-    shade.addColorStop(0, 'rgba(255,236,190,.32)')
-    shade.addColorStop(0.55, 'rgba(255,236,190,0)')
-    shade.addColorStop(1, 'rgba(70,20,0,.34)')
-    g.fillStyle = shade
-    g.fill(path)
-    g.strokeStyle = 'rgba(255,240,205,.34)'
-    g.lineWidth = 0.26
+  g.fill(blade)
+  if (detail) {
+    // warm light from the upper left, deeper colour toward the lobes' edges
+    const light = g.createRadialGradient(9.5, 7, 0.5, 12, 10.5, 11.5)
+    light.addColorStop(0, 'rgba(255,238,190,.42)')
+    light.addColorStop(0.5, 'rgba(255,238,190,.06)')
+    light.addColorStop(1, 'rgba(84,24,0,.36)')
+    g.fillStyle = light
+    g.fill(blade)
+    g.strokeStyle = 'rgba(255,242,210,.38)'
+    g.lineWidth = 0.2
     g.lineCap = 'round'
-    g.stroke(new Path2D('M12 16V4.4M12 13 7.2 6.4M12 13l4.8-6.6M12 14.4 4.4 9.6M12 14.4l7.6-4.8M12 15.4l-5.2.5M12 15.4l5.2.5'))
+    g.stroke(new Path2D(MAPLE_VEINS))
+    g.strokeStyle = 'rgba(70,22,0,.28)'
+    g.lineWidth = 0.16
+    g.stroke(blade)
   }
   return c
 }
@@ -72,7 +80,7 @@ export function runCrossing(canvas: HTMLCanvasElement, opts: { onCovered: () => 
   const S = Math.min(190, Math.max(104, Math.max(w, h) * 0.16))
   const step = S * 0.52
   const rnd = mulberry32(20261112)
-  const bright = BRIGHT.map((c) => sprite(c, 160, true))
+  const bright = BRIGHT.map((c) => sprite(c, 192, true))
   const deep = DEEP.map((c) => sprite(c, 96, false))
   const leaves: Leaf[] = []
   const half = w / 2

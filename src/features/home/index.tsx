@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useRef, useState, type ComponentType } from 'react'
+import { useEffect, type ComponentType } from 'react'
 import { BookOpen, ChevronLeft, ChevronRight } from 'lucide-react'
 import { go } from '@/app/router'
 import { story } from '@/content/story'
@@ -12,7 +12,7 @@ import { exposeQA } from '@/lib/qa'
 import { leavesOf, useProfileStore } from '@/store/useProfileStore'
 import { useSiteStore } from '@/store/useSiteStore'
 import { LivingPicture } from './Living'
-import { ACTIVITIES, earned, Leaf, LeafRing } from './leaves'
+import { ACTIVITIES, earned, Leaf, LeafMarks } from './leaves'
 import './home.css'
 
 /** The shelf takes `variant="app"` once the library supports it (then it renders without its own heading); until then the prop is ignored. */
@@ -29,11 +29,6 @@ export function AppHome() {
   const profile = useProfileStore((s) => s.profile)
   const progress = useProfileStore((s) => s.progress[story.id])
   const classroom = useProfileStore((s) => s.classroom)
-  const shelf = useRef<HTMLDivElement>(null)
-  /** True when the mounted shelf brings its own heading (the library without `variant="app"`): ours would only repeat it. */
-  const [shelfHasHead, setShelfHasHead] = useState(false)
-  useLayoutEffect(() => setShelfHasHead(!!shelf.current?.querySelector('h2')), [])
-
   const leaves = leavesOf(progress)
   const scene = Math.min(Math.max(progress?.scene ?? 0, 0), story.scenes.length - 1)
   const resume = scene > 0 && !progress?.read
@@ -52,7 +47,7 @@ export function AppHome() {
             name: pr.profile?.name ?? '',
             avatar: pr.profile?.avatar ?? null,
             leaves: leavesOf(p),
-            cta: sc > 0 && !p?.read ? 'continue' : 'start',
+            cta: sc > 0 && !p?.read ? 'continue' : p?.read ? 'again' : 'start',
             scene: sc,
             classroom: pr.classroom,
             living: !!document.querySelector('.home__today [data-live]'),
@@ -97,9 +92,7 @@ export function AppHome() {
                 {t.app.home.today}
               </p>
               {!classroom && (
-                <div className="home__ring">
-                  <LeafRing progress={progress} label={leafLabel} />
-                </div>
+                <LeafMarks progress={progress} label={leafLabel} className="home__marks" />
               )}
             </div>
 
@@ -111,7 +104,7 @@ export function AppHome() {
               <div className="home__acts">
                 <Pill variant="solid" size="lg" className="home__go" data-home-read onClick={read}>
                   <BookOpen size={21} strokeWidth={2.2} aria-hidden />
-                  {resume ? t.app.home.continue : t.app.home.start}
+                  {resume ? t.app.home.continue : progress?.read ? t.book.again : t.app.home.start}
                 </Pill>
                 <Pill variant="glass" size="lg" className="home__open" data-home-open onClick={() => go('story')}>
                   {t.app.home.open}
@@ -123,15 +116,24 @@ export function AppHome() {
 
           {!classroom && (
             <button type="button" className="home__leaves" data-home-leaves onClick={() => go('tree')} aria-label={`${leafLabel} — ${t.app.home.tree}`}>
-              <span className="home__leaves-head">
+              <span className="home__leaves-text">
                 <span className="home__leaves-title">{t.app.home.leaves}</span>
-                <span className="home__leaves-count" aria-hidden>
-                  <b>{num(leaves)}</b> {t.book.of} {num(3)}
+                <span className="home__leaves-note" aria-hidden>
+                  {leaves === 0 ? (
+                    t.app.tree.empty
+                  ) : leaves === 3 ? (
+                    t.app.tree.all
+                  ) : (
+                    <>
+                      <b>{num(leaves)}</b> {t.book.of} {num(3)}
+                    </>
+                  )}
                 </span>
               </span>
               <span className="home__leaves-row" aria-hidden>
-                <svg className="home__twig" viewBox="0 0 300 60" preserveAspectRatio="none">
-                  <path d="M2 34C60 14 120 46 176 26S262 22 298 30" />
+                {/* a branch of the child's tree reaches into the card: thick where it enters, a fine tip at its free end */}
+                <svg className="home__twig" viewBox="0 0 300 40" preserveAspectRatio="none">
+                  <path d="M300 12C226 4 152 25 82 16S22 18 0 21C22 21 58 22 82 21 152 31 226 11 300 20Z" />
                 </svg>
                 {ACTIVITIES.map(({ id, icon: Icon }, i) => (
                   <span key={id} className={cn('home__leaf', earned(progress, id) && 'is-on')} data-leaf={id} style={{ ['--i' as string]: i }}>
@@ -153,12 +155,11 @@ export function AppHome() {
         </div>
       </div>
 
-      <div ref={shelf} className="home__shelf">
-        {!shelfHasHead && (
-          <div className="home__wrap">
-            <h2 className="home__h2">{t.app.home.shelf}</h2>
-          </div>
-        )}
+      {/* The shelf. Until the library takes `variant="app"`, home.css hides its landing-page heading so only ours shows. */}
+      <div className="home__shelf">
+        <div className="home__wrap">
+          <h2 className="home__h2">{t.app.home.shelf}</h2>
+        </div>
         <Shelf variant="app" />
       </div>
     </section>

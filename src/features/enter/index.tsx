@@ -275,6 +275,19 @@ export function Enter() {
       <div className="enter__medal" aria-hidden>
         <ReaderAvatar avatar={avatar} className="h-full w-full" eager />
       </div>
+      {/* the greeting the library will repeat: the child's name on a name paper, as in the story */}
+      <p className="enter__hello" aria-hidden>
+        {name.trim() ? (
+          <>
+            <span>{t.app.home.hello}</span>
+            <span className="enter__hello-name" dir="auto">
+              {name.trim()}
+            </span>
+          </>
+        ) : (
+          <span>{t.app.home.helloGuest}</span>
+        )}
+      </p>
     </div>
   )
 }

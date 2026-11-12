@@ -96,14 +96,14 @@
   inset: 0;
   z-index: -1;
   border-radius: inherit;
-  background: rgb(18 12 8 / 0.52);
+  background: rgb(18 12 8 / 0.7);
 }
 .appnav__bar::before {
   display: none;
 }
 /* the tab bar floats over moving content: a deeper tint keeps its labels clean */
 .appnav__tabs--dock::before {
-  background: rgb(18 12 8 / 0.74);
+  background: rgb(18 12 8 / 0.82);
 }
 
 /* Wordmark */
@@ -135,6 +135,15 @@
   align-items: center;
   gap: 6px;
   min-width: 0;
+  margin-inline-start: auto;
+}
+/* Phones: one way to do each thing. On the library screen the greeting already carries the child's picture (tap it to
+   switch reader); on a story's page the page's own "back to the library" pill takes the wordmark's corner. */
+@media (max-width: 959.98px) {
+  .appnav[data-view='home'] .appnav__reader,
+  .appnav[data-view='story'] .appnav__brand {
+    display: none;
+  }
 }
 .appnav__reader {
   display: inline-flex;
@@ -221,6 +230,32 @@ html[dir='rtl'] .appnav__thumb {
   }
 }
 
+.appnav__tab-pic {
+  position: relative;
+  display: grid;
+  place-items: center;
+}
+.appnav__badge {
+  position: absolute;
+  top: -7px;
+  inset-inline-end: -13px;
+  display: grid;
+  place-items: center;
+  min-width: 19px;
+  height: 19px;
+  padding-inline: 5px;
+  border-radius: 999px;
+  background: var(--color-maple);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 800;
+  line-height: 1;
+  box-shadow: 0 0 0 2px rgb(30 21 14 / 0.9);
+}
+.appnav__tab[aria-current='page'] .appnav__badge {
+  box-shadow: 0 0 0 2px var(--color-paper);
+}
+
 /* Phone tab bar */
 .appnav__tabs--dock {
   width: min(100%, 420px);
@@ -305,6 +340,13 @@ html[dir='rtl'] .appnav__thumb {
   .appnav__tabs--bar .appnav__tab-icon {
     width: 19px;
     height: 19px;
+  }
+  .appnav__tabs--bar .appnav__badge {
+    top: -9px;
+    inset-inline: -13px auto;
+    min-width: 17px;
+    height: 17px;
+    font-size: 11px;
   }
   .appnav__reader {
     padding-inline-start: 8px;

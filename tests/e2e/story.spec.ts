@@ -74,11 +74,17 @@ test.describe('story — the story’s own page', () => {
     await expect(card).toHaveAttribute('aria-pressed', 'true')
     await expect(card).toHaveClass(/is-flipped/)
     expect((await state(page)).flipped).toEqual(['wind'])
-    const quote = (await card.locator('.word__quote').textContent())!.trim()
+    const quote = (await card.locator('.word__quote').textContent())!.replace(/…/g, '').trim()
     expect(['هبّت ريح مفاجئة، وأطاحت بكل الأوراق في الهواء.', 'A sudden wind blew and sent every paper into the air.']).toContain(quote)
 
     await page.evaluate(() => window.__st!.story.flip('wind'))
     await expect(card).toHaveAttribute('aria-pressed', 'false')
+
+    // an excerpt cut from a longer sentence of hers says so; her words themselves stay untouched
+    const boat = page.locator('[data-word="boat"]')
+    await expect(boat.locator('.word__cut')).toHaveCount(2)
+    expect(await boat.locator('.word__quote').textContent()).toMatch(/ابتكرا قاربًا ومجاذيف من الأوراق|They invented a boat and oars out of leaves/)
+    await expect(page.locator('[data-word="turn"] .word__cut')).toHaveCount(0)
     await expect(page.locator('[data-word]')).toHaveCount(8)
   })
 

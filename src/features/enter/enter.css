@@ -43,7 +43,7 @@
   width: 100%;
   height: 100%;
   pointer-events: none;
-  opacity: 0.5;
+  opacity: 0.32;
 }
 .enter__close {
   position: fixed;
@@ -100,11 +100,11 @@ html[lang='ar'] .enter__title {
 
 /* Four round pictures: 2 × 2 on a phone, one row from 640px. */
 .enter__avatars {
-  --av: clamp(86px, 13.2svh, 120px);
+  --av: clamp(80px, 12.6svh, 116px);
   display: grid;
   grid-template-columns: repeat(2, auto);
   justify-content: center;
-  gap: clamp(12px, 2svh, 20px) clamp(26px, 9vw, 44px);
+  gap: clamp(10px, 1.6svh, 18px) clamp(26px, 9vw, 44px);
 }
 @media (min-width: 640px) {
   .enter__avatars {
@@ -117,7 +117,7 @@ html[lang='ar'] .enter__title {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 8px;
+  gap: 15px;
   padding: 4px 6px;
   border-radius: 28px;
   color: rgb(255 255 255 / 0.78);
@@ -141,7 +141,8 @@ html[lang='ar'] .enter__title {
 .enter__face::after {
   content: '';
   position: absolute;
-  inset: -9px;
+  inset: -8px;
+  z-index: 0;
   border-radius: inherit;
   border: 4px solid var(--color-maple-soft);
   opacity: 0;
@@ -160,8 +161,10 @@ html[lang='ar'] .enter__title {
   opacity: 1;
   transform: none;
 }
-.enter__pick:focus-visible .enter__face::after {
-  border-color: #fff;
+.enter__pick:focus-visible .enter__face {
+  box-shadow:
+    0 0 0 3px #fff,
+    0 18px 36px rgb(0 0 0 / 0.4);
 }
 .enter__pick:active .enter__face {
   transform: scale(0.96);
@@ -173,8 +176,9 @@ html[lang='ar'] .enter__title {
 }
 .enter__tick {
   position: absolute;
-  inset-block-end: -2px;
-  inset-inline-end: -2px;
+  z-index: 2;
+  inset-block-end: -6px;
+  inset-inline-end: -6px;
   display: grid;
   place-items: center;
   width: 34px;
@@ -330,6 +334,24 @@ html[dir='rtl'] .enter__paper {
   .enter__sub {
     display: none;
   }
+  .enter__panel {
+    gap: 12px;
+  }
+  .enter__avatars {
+    --av: 76px;
+  }
+  .enter__pick {
+    gap: 12px;
+  }
+  .enter__form {
+    gap: 9px;
+  }
+  .enter__go {
+    height: 58px;
+  }
+  .enter__guest {
+    min-height: 44px;
+  }
 }
 
 /* The crossing */
@@ -357,6 +379,45 @@ html[dir='rtl'] .enter__paper {
   opacity: 0;
   transform: scale(0.4);
   pointer-events: none;
+}
+.enter__hello {
+  position: absolute;
+  inset-inline: 16px;
+  top: calc(50% + clamp(120px, 20svh, 168px) / 2 + 26px);
+  z-index: 4;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 4px 12px;
+  font-weight: 900;
+  font-size: clamp(1.7rem, 4.6vw + 0.7rem, 2.75rem);
+  line-height: 1.3;
+  color: #fff;
+  text-shadow: 0 3px 18px rgb(60 20 0 / 0.6);
+  opacity: 0;
+  pointer-events: none;
+}
+.enter__hello-name {
+  display: inline-block;
+  padding: 0.02em 0.45em 0.06em;
+  border-radius: 7px;
+  background: linear-gradient(180deg, #fffefa, #fbf6ea);
+  color: var(--color-ink);
+  text-shadow: none;
+  box-shadow:
+    0 2px 5px rgb(0 0 0 / 0.2),
+    0 14px 30px rgb(0 0 0 / 0.3);
+  transform: rotate(-2deg);
+}
+html[dir='rtl'] .enter__hello-name {
+  transform: rotate(2deg);
+}
+.enter[data-phase='covering'] .enter__hello {
+  animation: enter-hello-in 0.4s 0.26s var(--ease-out) both;
+}
+.enter[data-phase='parting'] .enter__hello {
+  animation: enter-medal-out 0.4s 0.1s var(--ease-state) both;
 }
 .enter[data-phase='covering'] .enter__medal {
   animation: enter-medal-in 0.42s 0.16s var(--ease-spring) both;
@@ -392,6 +453,16 @@ html[dir='rtl'] .enter__paper {
   from {
     opacity: 0;
     transform: scale(0.4);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes enter-hello-in {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 16px, 0);
   }
   to {
     opacity: 1;

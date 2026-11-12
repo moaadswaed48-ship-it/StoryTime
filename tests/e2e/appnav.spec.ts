@@ -11,8 +11,8 @@ async function openApp(page: Page) {
   await page.goto(pageUrl('appnav'))
   await waitForHook(page, 'store')
   await page.evaluate(() => {
+    window.__st!.profile.getState().reset()
     window.__st!.profile.getState().setProfile({ name: 'لينا', avatar: 'amir' })
-    window.__st!.profile.getState().setClassroom(false)
     window.__st!.store.getState().setView('home')
   })
   await waitForHook(page, 'appnav')
@@ -44,6 +44,8 @@ test.describe('appnav — the app navigation', () => {
 
   test('shows who is reading and opens "who is reading?" from the reader chip', async ({ page }) => {
     await openApp(page)
+    // (on phones the library screen shows the reader in its greeting instead, so look from another screen)
+    await page.evaluate(() => window.__st!.store.getState().setView('tree'))
     const chip = page.locator('[data-reader]')
     await expect(chip).toContainText('لينا')
     await expect(chip.locator('[data-avatar="amir"]')).toBeVisible()
@@ -58,6 +60,11 @@ test.describe('appnav — the app navigation', () => {
     await expect(page.locator('.appnav')).toHaveAttribute('data-hidden', '')
     await page.evaluate(() => window.__st!.store.getState().closeOverlay())
     await expect(page.locator('.appnav')).not.toHaveAttribute('data-hidden', '')
+
+    // leaves earned so far ride on the tree tab
+    await expect(page.locator('.appnav__badge:visible')).toHaveCount(0)
+    await page.evaluate(() => window.__st!.profile.getState().mark('autumn-leaves', 'read'))
+    await expect(page.locator('.appnav__badge:visible')).toHaveAttribute('data-leaves', '1')
 
     await page.evaluate(() => window.__st!.profile.getState().setClassroom(true))
     await expect(page.locator('[data-tab]:visible')).toHaveCount(2)

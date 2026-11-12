@@ -94,7 +94,7 @@ export function StoryPage() {
   return (
     <section id="story" className="story bg-paper text-ink">
       <header className="story__top grain">
-        <LivingPicture still={TOP.img} clip={TOP.clip} position="var(--story-pos, 46% 30%)" rate={0.75} eager />
+        <LivingPicture still={TOP.img} clip={TOP.clip} position="var(--story-pos, 70% 20%)" rate={0.75} eager />
         <div className="story__top-shade" aria-hidden />
         <div className="story__top-inner">
           <button type="button" className="story__back glass" data-story-back onClick={() => go('home')}>
@@ -171,6 +171,7 @@ export function StoryPage() {
               {t.app.story.words}
             </h2>
             <p className="story__sub">{t.app.story.wordsSub}</p>
+            {t.book.draft && <p className="story__draft">{t.book.draft}</p>}
           </Reveal>
           <Words flipped={flipped} onFlip={flip} />
         </section>

@@ -2,10 +2,11 @@ import { useEffect, useRef, useState, type CSSProperties } from 'react'
 import { Globe, LibraryBig, TreeDeciduous, UsersRound, type LucideIcon } from 'lucide-react'
 import { go } from '@/app/router'
 import { t } from '@/i18n/copy'
-import { locale, switchLocale } from '@/i18n/locale'
+import { locale, num, switchLocale } from '@/i18n/locale'
 import { cn } from '@/lib/cn'
 import { exposeQA } from '@/lib/qa'
-import { useProfileStore } from '@/store/useProfileStore'
+import { story } from '@/content/story'
+import { leavesOf, useProfileStore } from '@/store/useProfileStore'
 import { useSiteStore, type View } from '@/store/useSiteStore'
 import { MAPLE, ReaderAvatar } from '@/features/enter/Avatar'
 import './appnav.css'
@@ -20,14 +21,22 @@ const TABS: { id: TabId; icon: LucideIcon; label: string }[] = [
 const HOME_OF: Record<View, TabId | null> = { landing: null, home: 'home', story: 'home', tree: 'tree', grownups: 'grownups', studio: 'grownups' }
 const otherLang = locale === 'ar' ? 'en' : 'ar'
 
-function Tabs({ tabs, active, className }: { tabs: typeof TABS; active: TabId | null; className: string }) {
+function Tabs({ tabs, active, className, leaves }: { tabs: typeof TABS; active: TabId | null; className: string; leaves: number }) {
   const index = tabs.findIndex((x) => x.id === active)
   return (
     <nav className={cn('appnav__tabs', className)} aria-label={t.nav.menu} style={{ '--n': tabs.length, '--i': Math.max(0, index) } as CSSProperties}>
       <span className="appnav__thumb" data-none={index < 0 ? '' : undefined} aria-hidden />
       {tabs.map(({ id, icon: Icon, label }) => (
         <button key={id} type="button" className="appnav__tab" data-tab={id} aria-current={active === id ? 'page' : undefined} onClick={() => go(id)}>
-          <Icon className="appnav__tab-icon" strokeWidth={active === id ? 2.3 : 1.9} aria-hidden />
+          <span className="appnav__tab-pic">
+            <Icon className="appnav__tab-icon" strokeWidth={active === id ? 2.3 : 1.9} aria-hidden />
+            {/* the leaves earned so far ride on the tree tab */}
+            {id === 'tree' && leaves > 0 && (
+              <span className="appnav__badge" data-leaves={leaves} aria-hidden>
+                {num(leaves)}
+              </span>
+            )}
+          </span>
           <span className="appnav__tab-label">{label}</span>
         </button>
       ))}
@@ -45,6 +54,7 @@ export function AppNav() {
   const overlay = useSiteStore((s) => s.overlay)
   const profile = useProfileStore((s) => s.profile)
   const classroom = useProfileStore((s) => s.classroom)
+  const leaves = useProfileStore((s) => leavesOf(s.progress[story.id]))
   const [tucked, setTucked] = useState(false)
   const root = useRef<HTMLElement>(null)
 
@@ -87,7 +97,7 @@ export function AppNav() {
   const who = () => useSiteStore.getState().setPicking(true)
 
   return (
-    <header ref={root} className="appnav" data-hidden={hidden ? '' : undefined} data-tucked={tucked ? '' : undefined}>
+    <header ref={root} className="appnav" data-view={view} data-hidden={hidden ? '' : undefined} data-tucked={tucked ? '' : undefined}>
       <div className="appnav__top" inert={hidden}>
         <div className="appnav__bar">
           <button type="button" className="appnav__brand" onClick={() => go('landing')} aria-label={`${t.brand} — ${t.app.back}`}>
@@ -98,7 +108,7 @@ export function AppNav() {
           </button>
 
           <span className="appnav__rule" aria-hidden />
-          <Tabs tabs={tabs} active={active} className="appnav__tabs--bar" />
+          <Tabs tabs={tabs} active={active} leaves={leaves} className="appnav__tabs--bar" />
           <span className="appnav__rule" aria-hidden />
 
           <div className="appnav__end">
@@ -119,7 +129,7 @@ export function AppNav() {
       </div>
 
       <div className="appnav__dock" inert={hidden}>
-        <Tabs tabs={tabs} active={active} className="appnav__tabs--dock" />
+        <Tabs tabs={tabs} active={active} leaves={leaves} className="appnav__tabs--dock" />
       </div>
     </header>
   )
