@@ -75,12 +75,20 @@ test.describe('footer', () => {
     await expect.poll(async () => (await state(page)).film.playing, { timeout: 40_000 }).toBe(true)
     // the picture at rest is the clip's last frame (open sky), not its first
     await expect(page.locator('#footer .qf__still')).toHaveAttribute('src', /k12-end/)
-    await page.evaluate(() => { const v = document.querySelector<HTMLVideoElement>('#footer video')!; v.currentTime = Math.max(0, v.duration - 0.3) })
+    // record every change of the picture from here on: did the night come down, and was the clip ever off show?
+    await page.evaluate(() => {
+      const qf = document.querySelector('#footer .qf')!
+      const log = ((window as unknown as { __ftLog: string[] }).__ftLog = [])
+      new MutationObserver(() => log.push(`${qf.hasAttribute('data-dip') ? 'dip' : 'clear'}/${qf.hasAttribute('data-live') ? 'live' : 'still'}`)).observe(qf, { attributes: true })
+      const v = document.querySelector<HTMLVideoElement>('#footer video')!
+      v.currentTime = Math.max(0, v.duration - 0.3)
+    })
     await expect.poll(async () => (await state(page)).film.loops, { timeout: 20_000 }).toBeGreaterThan(0)
-    // the moving picture stays on show the whole time (no still crossfading over it); the night comes down and lifts
-    await expect.poll(async () => page.locator('#footer .qf').getAttribute('data-dip'), { timeout: 20_000 }).toBe('')
-    expect((await state(page)).film.live).toBe(true)
-    await expect.poll(async () => page.locator('#footer .qf').getAttribute('data-dip'), { timeout: 20_000 }).toBe(null)
+    const log = () => page.evaluate(() => (window as unknown as { __ftLog: string[] }).__ftLog)
+    await expect.poll(async () => (await log()).includes('dip/live'), { timeout: 20_000 }).toBe(true)
+    await expect.poll(async () => (await log()).at(-1), { timeout: 20_000 }).toBe('clear/live')
+    // the moving picture stayed on show the whole time (no still crossfading over it)
+    expect((await log()).some((e) => e.endsWith('/still'))).toBe(false)
     await expect.poll(async () => page.evaluate(() => document.querySelector<HTMLVideoElement>('#footer video')!.currentTime), { timeout: 20_000 }).toBeLessThan(2)
     await expect(page.locator('#footer .qf__still')).toHaveCSS('opacity', '0')
   })
