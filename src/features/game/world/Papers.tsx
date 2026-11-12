@@ -80,7 +80,9 @@ function PaperItem({ index, name }: { index: number; name: string }) {
     )
     m.scale.setScalar(big * (1 - k) + k * 2.3)
     // a paper right under the lens would fill the screen: it fades (with its ring and marker) as the camera passes over it
-    const close = picked ? 1 : smooth(1.7, 3.0, Math.hypot(_v.x, _v.y - 1.1, _v.z))
+    const lens = Math.hypot(_v.x, _v.y - 1.1, _v.z)
+    const close = picked ? 1 : smooth(1.9, 3.4, lens)
+    const high = picked ? 1 : smooth(2.6, 4.6, lens) // the marker floats at eye level: it leaves earlier
     root.current.visible = st.fly < 1 && close > 0.05
     mats.sheet.opacity = (1 - smooth(0.62, 1, st.fly)) * close
     // a travelling wave makes it flutter (calmer when it lies on the ground)
@@ -98,7 +100,7 @@ function PaperItem({ index, name }: { index: number; name: string }) {
     marker.current.position.y = (tall ? 2.05 : 1.7) - lay * 0.35 + Math.sin(st.t * 3) * 0.09
     marker.current.scale.setScalar(0.42 * big)
     // the arrow belongs to a standing paper; over one lying at Sari's feet it would float in front of his face
-    mats.marker.opacity = (1 - k) * close * close * (1 - lay)
+    mats.marker.opacity = (1 - k) * high * (1 - lay)
   })
 
   return (

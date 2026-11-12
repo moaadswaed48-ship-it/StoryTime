@@ -471,8 +471,9 @@ function QuestionCard({ slots, burst }: { slots: RefObject<(HTMLLIElement | null
     const r = key ?? el?.getBoundingClientRect()
     const timers: number[] = []
     if (r) {
-      burst(r.left + r.width / 2, r.top + r.height * 0.4, 24)
-      timers.push(window.setTimeout(() => burst(r.left + r.width / 2, r.top + r.height * 0.2, 14), 160))
+      // from the top edge of the key, so the letter itself stays in view
+      burst(r.left + r.width / 2, r.top + 4, 24)
+      timers.push(window.setTimeout(() => burst(r.left + r.width / 2, r.top - 6, 14), 160))
     }
     if (rt.hold) return () => timers.forEach(clearTimeout)
     const calm = reducedNow()

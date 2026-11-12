@@ -139,11 +139,17 @@ test("openGame() from anywhere starts it; the reader's own name is a sixth paper
   for (const l of own.options) expect(l).toMatch(/^[A-Z]$/)
   await expect(page.locator('[data-game-row] li')).toHaveCount(6)
 
-  for (let i = 0; i < list.length; i++) {
+  // collected backwards: the row fills in the order the names are won, so the child's own name takes the first place
+  for (let i = list.length - 1; i >= 0; i--) {
     await page.evaluate((k) => window.__st!.game.walkTo(k), i)
     await page.evaluate((l) => window.__st!.game.answer(l), list[i].letter)
+    if (i === list.length - 1) {
+      await expect(page.locator('[data-game-row] li').first()).toHaveAttribute('aria-label', 'Lina')
+      await expect(page.locator('[data-game-row] li.is-full')).toHaveCount(1)
+    }
   }
   await phaseIs(page, 'done')
+  await expect(page.locator('[data-game-row] li').last()).toHaveAttribute('aria-label', list[0].name)
   // the child's tree gets its "played" leaf and the letters answered
   const progress = await page.evaluate(() => Object.values(window.__st!.profile.getState().progress)[0] as { played: boolean; letters: string[] })
   expect(progress.played).toBe(true)
@@ -178,5 +184,46 @@ test('without WebGL the same quiz is played by tapping the papers', async ({ pag
   await expect(page.locator('[data-game-done]')).toBeVisible()
   expect((await state(page)).phase).toBe('done')
   await page.evaluate(() => window.__st!.game.exit())
+  log.assertClean()
+})
+
+test("a long name still fits: on its paper and on the question card, at a phone's width", async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 })
+  const log = await open(page, '&nowebgl')
+  for (const name of ['Abdulrahman', 'عبدالرحمن']) {
+    await page.evaluate((n) => window.__st!.profile.getState().setProfile({ name: n, avatar: 'leaf' }), name)
+    await page.evaluate(() => window.__st!.store.getState().openGame())
+    await phaseIs(page, 'playing')
+    const list = await papers(page)
+    expect(list).toHaveLength(6)
+    expect(list[5]).toMatchObject({ name, own: true })
+
+    // on its paper in the yard
+    await expect(page.locator('[data-game-sheet="5"]')).toBeVisible()
+    const sheet = await page.evaluate(() => {
+      const face = document.querySelector<HTMLElement>('[data-game-sheet="5"] .game-sheet-face')!
+      return { face: face.clientWidth, name: face.querySelector<HTMLElement>('.game-sheet-name')!.offsetWidth }
+    })
+    expect(sheet.name).toBeLessThanOrEqual(sheet.face)
+
+    // on the question card: once the card has landed, the name's box lies inside the card's box and inside the screen
+    await page.locator('[data-game-sheet="5"]').click()
+    await expect(page.locator('[data-game-name]')).toHaveText(name)
+    await page.waitForFunction(() => document.querySelector('.game-card')!.getAnimations().every((a) => a.playState === 'finished'), null, { timeout: 20_000 })
+    const box = await page.evaluate(() => {
+      const rect = (sel: string) => document.querySelector(sel)!.getBoundingClientRect()
+      const n = rect('[data-game-name]')
+      const c = rect('.game-card')
+      return { name: [n.left, n.right], card: [c.left, c.right], screen: window.innerWidth }
+    })
+    expect(box.card[0]).toBeGreaterThanOrEqual(0)
+    expect(box.card[1]).toBeLessThanOrEqual(box.screen)
+    expect(box.name[0]).toBeGreaterThanOrEqual(box.card[0])
+    expect(box.name[1]).toBeLessThanOrEqual(box.card[1])
+
+    await page.evaluate(() => window.__st!.game.exit())
+    await phaseIs(page, 'poster')
+  }
+  await page.evaluate(() => window.__st!.profile.getState().reset())
   log.assertClean()
 })

@@ -457,6 +457,19 @@ export const backdropTexture = () =>
       sd.fillStyle = across
       sd.fillRect(0, 0, 256, 256)
       g.drawImage(sideC, 0, 0, TW * 2, TH)
+      // a soft evening glow right behind the school hides what is left of the mirrored cloud wedge
+      for (const ax of [0, TW * 2]) {
+        g.save()
+        g.translate(ax, TH * 0.545)
+        g.scale(1.12, 1)
+        const glow = g.createRadialGradient(0, 0, 0, 0, 0, TH * 0.19)
+        glow.addColorStop(0, 'rgba(251,218,170,.9)')
+        glow.addColorStop(0.55, 'rgba(251,216,168,.72)')
+        glow.addColorStop(1, 'rgba(251,214,166,0)')
+        g.fillStyle = glow
+        g.fillRect(-TH * 0.22, -TH * 0.2, TH * 0.44, TH * 0.4)
+        g.restore()
+      }
       // a breath of mist over everything, thick at the base where the 3D ground arrives
       g.fillStyle = 'rgba(236,171,118,.1)'
       g.fillRect(0, 0, TW * 2, TH)
