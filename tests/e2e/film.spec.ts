@@ -37,8 +37,8 @@ test('opens as a cinema, plays with sound, shows the title and then her words', 
   await expect(page.locator('[data-film-title]')).toHaveAttribute('data-film-title', 'on')
   // the film really runs, with sound: the title holds over the cover and into scene 1, then her words come in
   await freezeWhen(page, 'f.playing() && !f.muted() && f.time() > 3.9')
-  expect(await film<number>(page, 'duration()')).toBeGreaterThan(30)
-  expect(await film<number>(page, 'duration()')).toBeLessThan(40)
+  expect(await film<number>(page, 'duration()')).toBeGreaterThan(70)
+  expect(await film<number>(page, 'duration()')).toBeLessThan(90)
   expect(await film(page, 'scene()')).toBe(0)
   await expect(page.locator('[data-film-title]')).toHaveAttribute('data-film-title', 'off')
   await expect(caption(page)).toHaveText(cue(0))
@@ -67,24 +67,24 @@ test('when sound is not allowed it starts muted and offers a clear unmute pill',
 
 test('opens at the nearest film scene; chips and seek() move through the scenes', async ({ page }) => {
   const log = watchConsole(page)
-  await openFilm(page, 6) // scene 7 has no clip: the film starts at scene 6 (the wind), not at the title
+  await openFilm(page, 6) // the whole-story film has every scene: it starts at scene 7 (index 6), not at the title
   await freezeWhen(page, 'f.playing()')
-  expect(await film(page, 'scene()')).toBe(5)
+  expect(await film(page, 'scene()')).toBe(6)
   await expect(page.locator('[data-film-title]')).toHaveAttribute('data-film-title', 'off')
   const scenes = await film<{ scene: number; start: number; end: number }[]>(page, 'scenes()')
-  expect(scenes.map((s) => s.scene)).toEqual([0, 3, 5, 7, 10, 11])
+  expect(scenes.map((s) => s.scene)).toEqual([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11])
 
   await page.locator('[data-film-chip="10"]').click() // a chip seeks and plays
   await freezeWhen(page, 'f.playing() && f.scene() === 10')
   const at = await film<number>(page, 'time()')
-  expect(at).toBeGreaterThanOrEqual(scenes[4].start)
-  expect(at).toBeLessThan(scenes[4].end)
+  expect(at).toBeGreaterThanOrEqual(scenes[10].start)
+  expect(at).toBeLessThan(scenes[10].end)
   await expect(page.locator('[data-film-chip="10"]')).toHaveAttribute('aria-current', 'true')
   await expect(caption(page)).toHaveText(cue(10))
 
   await film(page, 'seek(9)')
-  await expect.poll(() => film(page, 'scene()')).toBe(3)
-  await expect(caption(page)).toHaveText(cue(3))
+  await expect.poll(() => film(page, 'scene()')).toBe(1)
+  await expect(caption(page)).toHaveText(cue(1))
   log.assertClean()
 })
 
