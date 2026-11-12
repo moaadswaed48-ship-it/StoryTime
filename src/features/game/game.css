@@ -23,6 +23,11 @@ html[lang='ar'] .game-title {
     transform: scale(1.035);
   }
 }
+@media (min-width: 1280px) and (hover: hover) {
+  .game-poster:hover .game-poster-img {
+    transform: scale(1.195);
+  }
+}
 /* Wide screens: the words lie over the picture, on the reading side. The picture is enlarged from that side,
    so both boys move over to the other half and no word ever sits on a face, an arm or a jumper. */
 @media (min-width: 1280px) {
@@ -40,14 +45,54 @@ html[lang='ar'] .game-title {
     transform: scale(1.16);
     transform-origin: 100% 62%;
   }
-  .game-poster:hover .game-poster-img {
-    transform: scale(1.195);
-  }
   .game-tag {
     min-width: 0;
     padding: 0.5rem 0.8rem 0.58rem;
     font-size: 1.06rem;
   }
+}
+/* words, slips and button: stacked on a phone, two columns on a tablet, one bottom-anchored column over the picture on wide screens */
+.game-poster-body {
+  display: grid;
+  grid-template-areas: 'tags' 'text' 'cta';
+  row-gap: 1.75rem;
+}
+.game-poster-text {
+  grid-area: text;
+}
+.game-tags {
+  grid-area: tags;
+}
+.game-poster-cta {
+  grid-area: cta;
+}
+@media (min-width: 768px) and (max-width: 1279.98px) {
+  .game-poster-body {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 19rem);
+    grid-template-areas: 'text tags' 'cta tags';
+    column-gap: 3rem;
+  }
+  .game-tags {
+    align-self: center;
+    justify-content: flex-end;
+  }
+}
+@media (min-width: 1280px) {
+  .game-poster-body {
+    grid-template-areas: 'text' 'tags' 'cta';
+    align-content: end;
+    row-gap: 1.6rem;
+  }
+}
+.game-poster-scrim {
+  background:
+    linear-gradient(to left, rgb(18 12 8 / 0.8) 0%, rgb(18 12 8 / 0.5) 26%, rgb(18 12 8 / 0.14) 46%, transparent 58%),
+    linear-gradient(to top, rgb(18 12 8 / 0.6) 0%, rgb(18 12 8 / 0.16) 22%, transparent 40%);
+}
+html[dir='ltr'] .game-poster-scrim {
+  background:
+    linear-gradient(to right, rgb(18 12 8 / 0.8) 0%, rgb(18 12 8 / 0.5) 26%, rgb(18 12 8 / 0.14) 46%, transparent 58%),
+    linear-gradient(to top, rgb(18 12 8 / 0.6) 0%, rgb(18 12 8 / 0.16) 22%, transparent 40%);
 }
 /* the name papers: little white slips, as if the wind had just dropped them on the card */
 .game-tag {
@@ -64,6 +109,7 @@ html[lang='ar'] .game-title {
   box-shadow:
     0 1px 0 rgb(255 255 255 / 0.8) inset,
     0 10px 24px rgb(18 12 8 / 0.34);
+  margin-top: var(--lift, 0px);
   transform: rotate(var(--r, 0deg));
 }
 .game-tags.is-armed .game-tag {

@@ -34,14 +34,18 @@ test('opens as a cinema, plays with sound, shows the title and then her words', 
   await openFilm(page)
   await expect(page.getByRole('dialog')).toHaveAttribute('aria-modal', 'true')
   await expect(page.locator('[data-film-title]')).toContainText(story.title.ar.split(' ')[0])
-  // the film really runs, with sound: let it pass the cover opening, then hold it in the first scene
-  await freezeWhen(page, 'f.playing() && !f.muted() && f.time() > 2.6')
+  await expect(page.locator('[data-film-title]')).toHaveAttribute('data-film-title', 'on')
+  // the film really runs, with sound: the title holds over the cover and into scene 1, then her words come in
+  await freezeWhen(page, 'f.playing() && !f.muted() && f.time() > 3.9')
   expect(await film<number>(page, 'duration()')).toBeGreaterThan(30)
   expect(await film<number>(page, 'duration()')).toBeLessThan(40)
   expect(await film(page, 'scene()')).toBe(0)
   await expect(page.locator('[data-film-title]')).toHaveAttribute('data-film-title', 'off')
   await expect(caption(page)).toHaveText(cue(0))
   await expect(page.locator('[data-film-chip="0"]')).toHaveAttribute('aria-current', 'true')
+  // held mid-film: the scene row is there, and no big play button sits on her words
+  await expect(page.locator('[data-film-chip="0"]')).toBeVisible()
+  await expect(page.locator('[data-film-bigplay]')).toHaveCount(0)
   log.assertClean()
 })
 
@@ -126,11 +130,17 @@ test('controls leave while it plays and come back; keys drive it', async ({ page
 test('the end card offers to watch again and to read the book', async ({ page }) => {
   const log = watchConsole(page)
   await openFilm(page, 11)
+  await waitForHook(page, 'profile')
+  const watched = () => page.evaluate((id) => !!window.__st!.profile.getState().progress[id]?.watched, story.id)
+  await page.evaluate(() => window.__st!.profile.getState().reset())
   await freezeWhen(page, 'f.playing()')
+  expect(await watched()).toBe(false)
   await film(page, 'seek(window.__st.film.duration() - 0.6)')
   await film(page, 'play()')
   await expect.poll(() => film(page, 'ended()'), { timeout: 30_000 }).toBe(true)
   await expect(page.locator('[data-film-end]')).toBeVisible()
+  expect(await watched()).toBe(true) // reaching the end earns the "watched" leaf
+  await expect(page.locator('[data-film-chip]')).toHaveCount(0)
   await page.locator('[data-film-replay]').click()
   await freezeWhen(page, 'f.playing()')
   expect(await film<number>(page, 'time()')).toBeLessThan(5)
