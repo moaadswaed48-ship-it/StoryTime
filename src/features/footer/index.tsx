@@ -24,8 +24,12 @@ const LINKS = [
   { id: 'pricing', label: t.nav.pricing },
 ] as const
 
-/** Tallest the wordmark's type may be, as a share of the screen's height (wide screens only). */
-const MAX_WORD = 0.3
+/** Tallest the wordmark's type may be, as a share of the screen's height (landscape screens only). Arabic stands
+ *  taller on its line (dots above, tails below), so it stops a little earlier; on very short screens both stop sooner. */
+const MAX_WORD = locale === 'ar' ? 0.27 : 0.3
+const MAX_WORD_SHORT = 0.2
+/** The film rests this long on its last frame — the open sky, where the line of text stands clear — before it starts again. */
+const HOLD = 9
 /** While the paper lifts off, the film underneath moves this much slower (share of its own height). */
 const UNDER = 14
 /** …and it rises this much while the last lines slide over it, so the birds stay in the light. */
@@ -64,6 +68,9 @@ export function Footer() {
   const wordSeen = useInView(wordBox, '0px 0px -4% 0px')
   const [armed, setArmed] = useState(false)
   const [uncovered, setUncovered] = useState(false)
+  // The system itself asks for less motion: the switch cannot give it back, so it shows "on" and is locked.
+  const [osReduced, setOsReduced] = useState(false)
+  const locked = osReduced && !reduceToggle
 
   useEffect(() => {
     if (!prefersReducedNow()) setArmed(true)
@@ -71,6 +78,13 @@ export function Footer() {
   useEffect(() => {
     if (on) setUncovered(true)
   }, [on])
+  useEffect(() => {
+    const mq = window.matchMedia('(prefers-reduced-motion: reduce)')
+    const read = () => setOsReduced(mq.matches)
+    read()
+    mq.addEventListener('change', read)
+    return () => mq.removeEventListener('change', read)
+  }, [])
 
   // The film sits under the page: it lags while the paper lifts off it and rises a little under the last lines.
   // Transform only, written straight from the scroll position (Lenis has already smoothed it); runs on screen only.
@@ -111,9 +125,10 @@ export function Footer() {
       const size = parseFloat(getComputedStyle(box).fontSize)
       const now = w.getBoundingClientRect().width
       if (!(size > 0 && now > 0)) return
-      // On wide but short screens the word stops growing before it would push the film off the screen (it stays centred).
+      // On landscape screens the word stops growing before it would push the film off the screen (it stays centred).
       const wide = (size * width) / now
-      const next = window.innerWidth >= 900 ? Math.min(wide, window.innerHeight * MAX_WORD) : wide
+      const vh = window.innerHeight
+      const next = window.innerWidth > vh ? Math.min(wide, vh * (vh < 500 ? MAX_WORD_SHORT : MAX_WORD)) : wide
       if (Math.abs(next - size) > 0.05) box.style.fontSize = `${next.toFixed(2)}px`
     }
     const refit = () => {
@@ -145,7 +160,10 @@ export function Footer() {
   }, [])
 
   const toggleMotion = useCallback(() => {
-    const next = !useSiteStore.getState().reduceToggle
+    const now = useSiteStore.getState().reduceToggle
+    // nothing to give back while the system setting is on (turning our own switch off is still allowed)
+    if (!now && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+    const next = !now
     writeReduceToggle(next)
     setReduceToggle(next)
   }, [setReduceToggle])
@@ -157,6 +175,7 @@ export function Footer() {
           film: { armed: film.current?.armed() ?? false, playing: film.current?.playing() ?? false, live: film.current?.live() ?? false, loops: film.current?.loops() ?? 0 },
           reduced: useSiteStore.getState().tier === 'reduced',
           toggle: useSiteStore.getState().reduceToggle,
+          locked: !useSiteStore.getState().reduceToggle && window.matchMedia('(prefers-reduced-motion: reduce)').matches,
           wordWidth: word.current?.getBoundingClientRect().width ?? 0,
           boxWidth: wordBox.current?.clientWidth ?? 0,
         }),
@@ -177,7 +196,7 @@ export function Footer() {
     <footer ref={root} id="footer" className="ft" data-seen={uncovered ? '' : undefined}>
       <div className="ft-stage grain" aria-hidden>
         <div ref={layer} className="ft-film">
-          <QuietFilm ref={film} clip={LAST.clip!} poster={LAST.img} posterSm={LAST.thumb} sizes="100vw" hold={5} />
+          <QuietFilm ref={film} clip={LAST.clip!} poster={LAST.img} posterSm={LAST.thumb} sizes="100vw" hold={HOLD} />
         </div>
       </div>
 
@@ -193,45 +212,56 @@ export function Footer() {
             </Reveal>
           </div>
 
-          <Reveal className="ft-bar" delay={120}>
-            <nav className="ft-links" aria-label={t.nav.menu}>
-              {LINKS.map((l) =>
-                l.id === 'film' ? (
-                  <button key={l.id} type="button" className="ft-link" data-link={l.id} onClick={follow(l.id)}>
-                    <Play size={10} fill="currentColor" strokeWidth={0} aria-hidden />
-                    <span>{l.label}</span>
-                  </button>
-                ) : (
-                  <a key={l.id} href={`#${l.id}`} className="ft-link" data-link={l.id} onClick={follow(l.id)}>
-                    <span>{l.label}</span>
-                  </a>
-                ),
-              )}
-            </nav>
-            <div className="ft-tools">
-              <button type="button" role="switch" aria-checked={reduceToggle || reduced} className="ft-switch" data-on={reduceToggle || reduced ? '' : undefined} onClick={toggleMotion}>
-                <span className="ft-switch__track" aria-hidden>
-                  <span className="ft-switch__thumb" />
-                </span>
-                <span>{t.footer.motion}</span>
-              </button>
-              <button type="button" className="ft-top" onClick={scrollToTop}>
-                <span className="ft-top__disc glass" aria-hidden>
-                  <ArrowUp size={17} strokeWidth={2.2} />
-                </span>
-                <span>{t.footer.top}</span>
-              </button>
+          {/* links, tools and fine print arrive as one block */}
+          <Reveal className="ft-foot" delay={120}>
+            <div className="ft-bar">
+              <nav className="ft-links" aria-label={t.nav.menu}>
+                {LINKS.map((l) =>
+                  l.id === 'film' ? (
+                    <button key={l.id} type="button" className="ft-link" data-link={l.id} onClick={follow(l.id)}>
+                      <Play size={10} fill="currentColor" strokeWidth={0} aria-hidden />
+                      <span>{l.label}</span>
+                    </button>
+                  ) : (
+                    <a key={l.id} href={`#${l.id}`} className="ft-link" data-link={l.id} onClick={follow(l.id)}>
+                      <span>{l.label}</span>
+                    </a>
+                  ),
+                )}
+              </nav>
+              <div className="ft-tools">
+                <button
+                  type="button"
+                  role="switch"
+                  aria-checked={reduceToggle || reduced}
+                  aria-disabled={locked || undefined}
+                  className="ft-switch"
+                  data-on={reduceToggle || reduced ? '' : undefined}
+                  data-locked={locked ? '' : undefined}
+                  onClick={toggleMotion}
+                >
+                  <span className="ft-switch__track" aria-hidden>
+                    <span className="ft-switch__thumb" />
+                  </span>
+                  <span>{t.footer.motion}</span>
+                </button>
+                <button type="button" className="ft-top" onClick={scrollToTop}>
+                  <span className="ft-top__disc glass" aria-hidden>
+                    <ArrowUp size={17} strokeWidth={2.2} />
+                  </span>
+                  <span>{t.footer.top}</span>
+                </button>
+              </div>
+              <Pill variant="solid" size="md" className="ft-enter" onClick={() => enterApp()}>
+                {t.app.enter}
+                <ArrowRight size={16} strokeWidth={2.4} className="ft-enter__arrow flip-rtl" aria-hidden />
+              </Pill>
             </div>
-            <Pill variant="solid" size="md" className="ft-enter" onClick={() => enterApp()}>
-              {t.app.enter}
-              <ArrowRight size={16} strokeWidth={2.4} className="ft-enter__arrow flip-rtl" aria-hidden />
-            </Pill>
+            <div className="ft-fine">
+              <p className="ft-legal">{t.footer.legal}</p>
+              <p className="ft-note">{t.footer.note}</p>
+            </div>
           </Reveal>
-
-          <div className="ft-fine">
-            <p className="ft-legal">{t.footer.legal}</p>
-            <p className="ft-note">{t.footer.note}</p>
-          </div>
         </Container>
 
         <div ref={wordBox} className={cn('ft-word', armed && 'is-armed', armed && wordSeen && 'is-in')} aria-hidden>

@@ -5,7 +5,9 @@
    that slides over it.
    ───────────────────────────────────────────────────────────────────────────── */
 .ft {
-  --ft-over: 25svh; /* how much of the last block already shows when the film pins */
+  --ft-h: 100vh; /* the film's stage */
+  --ft-m: calc(var(--ft-h) / 100); /* the melt is measured in hundredths of the stage */
+  --ft-over: calc(25 * var(--ft-m)); /* how much of the last block already shows when the film pins */
   --ft-gutter: clamp(20px, 3.9vw, 56px);
   position: relative;
   z-index: 1; /* below the paper sheet that lifts off it */
@@ -14,9 +16,37 @@
   background: var(--color-night);
   color: var(--color-paper);
 }
+@supports (height: 100svh) {
+  .ft {
+    --ft-h: 100svh;
+  }
+}
 @media (max-width: 640px) {
   .ft {
     margin-top: -28px;
+  }
+}
+/* Upright screens. The clip is a wide 16:9 picture: filling a tall screen with it would blow a thin slice of it up
+   until the birds turn to mush. So the stage is a shorter band — the picture stays sharp and keeps its width —
+   and the night carries the rest of the screen. */
+@media (max-aspect-ratio: 1/1) {
+  .ft {
+    --ft-h: min(100vh, 140vw);
+  }
+  @supports (height: 100svh) {
+    .ft {
+      --ft-h: min(100svh, 140vw);
+    }
+  }
+}
+@media (max-aspect-ratio: 1/1) and (min-width: 600px) {
+  .ft {
+    --ft-h: min(100vh, 118vw);
+  }
+  @supports (height: 100svh) {
+    .ft {
+      --ft-h: min(100svh, 118vw);
+    }
   }
 }
 
@@ -25,8 +55,7 @@
   position: sticky;
   top: 0;
   z-index: 0;
-  height: 100vh;
-  height: 100svh;
+  height: var(--ft-h);
   min-height: 520px;
   overflow: hidden;
   background: var(--color-night);
@@ -57,8 +86,16 @@ html[data-reduce-motion] .ft-film .qf {
   --qf-focus: 50% 50%;
 }
 @media (max-aspect-ratio: 1/1) {
+  .ft-stage {
+    min-height: 0;
+  }
+  /* the flock and the sun, with the far tree closing the frame */
   .ft-film .qf {
-    --qf-focus: 64% 50%;
+    --qf-focus: 84% 50%;
+  }
+  /* a little more grain where the picture is magnified most */
+  .ft-stage.grain::after {
+    opacity: 0.15;
   }
 }
 /* The page's shadow on the picture, right under the lifted paper. */
@@ -84,22 +121,40 @@ html[data-reduce-motion] .ft-film .qf {
 .ft-body::before {
   content: '';
   position: absolute;
-  inset: -40svh 0 0 0;
+  inset: calc(-40 * var(--ft-m)) 0 0 0;
   z-index: -1;
   pointer-events: none;
-  /* eased stops: the picture melts, it is not cut. Under the line of text it is already dusk. */
+  /* eased stops: the picture melts, it is not cut. Under the line of text it is already dusk, and it is night
+     before the stage ends (25 hundredths below the block's top edge). */
   background: linear-gradient(
     to bottom,
     rgba(18, 12, 8, 0) 0,
-    rgba(18, 12, 8, 0.05) 6svh,
-    rgba(18, 12, 8, 0.16) 14svh,
-    rgba(18, 12, 8, 0.35) 23svh,
-    rgba(18, 12, 8, 0.58) 32svh,
-    rgba(18, 12, 8, 0.77) 40svh,
-    rgba(18, 12, 8, 0.9) 47svh,
-    rgba(18, 12, 8, 0.97) 54svh,
-    var(--color-night) 60svh
+    rgba(18, 12, 8, 0.05) calc(6 * var(--ft-m)),
+    rgba(18, 12, 8, 0.16) calc(14 * var(--ft-m)),
+    rgba(18, 12, 8, 0.35) calc(23 * var(--ft-m)),
+    rgba(18, 12, 8, 0.58) calc(32 * var(--ft-m)),
+    rgba(18, 12, 8, 0.77) calc(40 * var(--ft-m)),
+    rgba(18, 12, 8, 0.9) calc(47 * var(--ft-m)),
+    rgba(18, 12, 8, 0.97) calc(54 * var(--ft-m)),
+    var(--color-night) calc(60 * var(--ft-m))
   );
+}
+/* Upright screens: the page never ends before the film has reached the top of the screen
+   (the block is at least as tall as what the stage leaves free; the wordmark keeps to the bottom edge). */
+@media (max-aspect-ratio: 1/1) {
+  .ft-body {
+    display: flex;
+    flex-direction: column;
+    min-height: calc(100vh - var(--ft-h) + var(--ft-over));
+  }
+  @supports (height: 100svh) {
+    .ft-body {
+      min-height: calc(100svh - var(--ft-h) + var(--ft-over));
+    }
+  }
+  .ft-body > .ft-wrap {
+    margin-bottom: auto;
+  }
 }
 .ft-wrap {
   position: relative;
@@ -152,6 +207,19 @@ html[lang='en'] .ft-from {
   height: 1px;
   background: currentColor;
   opacity: 0.7;
+}
+
+/* Wide screens: the line stands on the picture's calm side — its right, where there is only sky above the hills
+   in every frame of the clip (the children are on the left when it starts, and in the still). Placed by the picture,
+   so it is the same side in both languages; the links and the fine print keep the full measure below. */
+@media (min-width: 900px) {
+  .ft-quote {
+    align-items: flex-end;
+    text-align: right;
+  }
+  html[dir='rtl'] .ft-quote {
+    align-items: flex-start;
+  }
 }
 
 /* Links · tools · the way in */
@@ -263,6 +331,11 @@ html[dir='rtl'] .ft-switch[data-on] .ft-switch__thumb {
 .ft-switch[data-on] {
   color: var(--color-paper);
 }
+/* the system setting already asks for less motion: on, and not ours to turn off */
+.ft-switch[data-locked] {
+  opacity: 0.6;
+  cursor: default;
+}
 .ft-top__disc {
   display: grid;
   place-items: center;
@@ -274,7 +347,7 @@ html[dir='rtl'] .ft-switch[data-on] .ft-switch__thumb {
   transition: transform 0.25s var(--ease-out);
 }
 @media (hover: hover) {
-  .ft-switch:hover,
+  .ft-switch:not([data-locked]):hover,
   .ft-top:hover {
     color: var(--color-paper);
   }
@@ -367,6 +440,10 @@ html[lang='ar'] .ft-word span {
     flex: 1 0 100%;
     justify-content: space-between;
   }
+  /* under a sky this large the line can speak up */
+  .ft-line {
+    font-size: clamp(2.6rem, 6.6vw, 3.6rem);
+  }
 }
 /* Wide but short screens: the type steps down so the film keeps its share. */
 @media (min-width: 900px) and (max-height: 740px) {
@@ -383,9 +460,6 @@ html[lang='ar'] .ft-word span {
 
 /* ── Phones ─────────────────────────────────────────────────────────────────── */
 @media (max-width: 767px) {
-  .ft {
-    --ft-over: 23svh;
-  }
   .ft-quote {
     padding-bottom: 20px;
   }
