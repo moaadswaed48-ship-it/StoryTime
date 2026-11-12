@@ -192,19 +192,23 @@ export const Spread = forwardRef<SpreadHandle, Props>(function Spread({ phase, s
   const cb = useRef({ onOpened, onTurnEnd })
   cb.current = { onOpened, onTurnEnd }
 
-  /** A full 16:9 page for a scene (or the paper end page), painted the way the spread will show it at rest. */
+  /**
+   * A full 16:9 page for a scene (or the paper end page), painted the way the spread will show it at rest.
+   * `again()` repaints the same canvas, for a picture that had not arrived the first time.
+   */
   const scenePage = (sc: number, st: number) => {
     const { W, H } = size.current
     const c = pageCanvas(W, H, pageScale(W))
     if (sc >= SCENES) {
       paintPaper(c)
-      return { c, ok: true, im: null }
+      return { c, ok: true, im: null, again: () => true }
     }
     const im = preloadScene(sc)
     const d = driftOf(sc, st)
     // Same drift as the page will have at rest, plus the pointer offset the spread holds during the turn.
-    const ok = paintPicture(c, ready(im), { a: d.s, d: d.s, e: ((d.tx + parNow.current.x) / 100) * W, f: ((d.ty + parNow.current.y) / 100) * H }, pageScale(W))
-    return { c, ok, im }
+    const m = { a: d.s, d: d.s, e: ((d.tx + parNow.current.x) / 100) * W, f: ((d.ty + parNow.current.y) / 100) * H }
+    const again = () => paintPicture(c, ready(im), m, pageScale(W))
+    return { c, ok: again(), im, again }
   }
 
   const paintInside = () => {
@@ -484,10 +488,10 @@ export const Spread = forwardRef<SpreadHandle, Props>(function Spread({ phase, s
       return
     }
     const leaves = Math.max(1, Math.min(3, Math.abs(turn.to - turn.from)))
-    const pages = [turn.snapshot]
-    for (let j = 1; j < leaves; j++) pages.push(scenePage(Math.round(turn.from + ((turn.to - turn.from) * j) / leaves), 0).c)
-    const last = scenePage(turn.to, turn.step)
-    pages.push(last.c)
+    const made = []
+    for (let j = 1; j < leaves; j++) made.push(scenePage(Math.round(turn.from + ((turn.to - turn.from) * j) / leaves), 0))
+    made.push(scenePage(turn.to, turn.step))
+    const pages = [turn.snapshot, ...made.map((p) => p.c)]
     const RR = parseFloat(getComputedStyle(book.current!).getPropertyValue('--rr')) || 18
     // Forward: the page after the spine lifts and turns back over it (left to right in Arabic).
     const h = runTurn({
@@ -512,12 +516,14 @@ export const Spread = forwardRef<SpreadHandle, Props>(function Spread({ phase, s
     }
     if (hold.current != null) h.seek(hold.current)
     sfx.flip()
+    // A picture that had not arrived yet turns as plain paper, and is painted in as soon as it is there.
     let alive = true
-    if (!last.ok && last.im)
-      last.im
-        .decode()
-        .then(() => alive && h.repaintLast(scenePage(turn.to, turn.step).c))
-        .catch(() => {})
+    for (const p of made)
+      if (!p.ok && p.im)
+        p.im
+          .decode()
+          .then(() => alive && p.again() && h.refresh())
+          .catch(() => {})
     return () => {
       alive = false
       h.kill()

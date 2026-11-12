@@ -20,25 +20,32 @@ type CardApi = { hover: () => void; leave: () => void; playing: () => boolean }
 
 const canHover = () => typeof window !== 'undefined' && window.matchMedia('(hover: hover) and (pointer: fine)').matches
 
-/** One 16:9 scene card. With a mouse, the scene's real clip plays inside the card while it is hovered or focused. */
-function SceneCard({ index, order, live, clash, reduced, register }: { index: number; order: number; live: boolean; clash: boolean; reduced: boolean; register: (order: number, api: CardApi | null) => void }) {
+/**
+ * One 16:9 scene card. With a mouse, the scene's real clip plays inside the card while it is hovered or focused.
+ * `warm` (the pointer is somewhere over the strip) creates the <video> early so its first frames are already there.
+ */
+function SceneCard({ index, order, live, warm, clash, reduced, register }: { index: number; order: number; live: boolean; warm: boolean; clash: boolean; reduced: boolean; register: (order: number, api: CardApi | null) => void }) {
   const scene = story.scenes[index]
   const openFilm = useSiteStore((s) => s.openFilm)
+  const covered = useSiteStore((s) => s.overlay !== null)
   const video = useRef<HTMLVideoElement>(null)
   const want = useRef(false)
   const [armed, setArmed] = useState(false) // the <video> exists
+  const [wanted, setWanted] = useState(false) // hovered or focused: the clip should be running
   const [playing, setPlaying] = useState(false)
   const flag = useRef(false)
 
   const start = useCallback(() => {
     if (!scene.clip || reduced) return
     want.current = true
+    setWanted(true)
     setArmed(true)
     video.current?.play().catch(() => {})
   }, [scene.clip, reduced])
   const stop = useCallback(() => {
     want.current = false
     flag.current = false
+    setWanted(false)
     setPlaying(false)
     const v = video.current
     if (v) {
@@ -52,6 +59,11 @@ function SceneCard({ index, order, live, clash, reduced, register }: { index: nu
     if (armed && want.current) video.current?.play().catch(() => {})
   }, [armed])
 
+  // The film or the book opened on top (often by clicking this very card): the clip rests.
+  useEffect(() => {
+    if (covered) stop()
+  }, [covered, stop])
+
   useEffect(() => {
     register(order, { hover: start, leave: stop, playing: () => flag.current })
     return () => register(order, null)
@@ -61,10 +73,11 @@ function SceneCard({ index, order, live, clash, reduced, register }: { index: nu
     <button
       type="button"
       className="hero-card hero-rise"
-      style={{ '--d': `${880 + order * 80}ms`, '--rise': '44px' } as CSSProperties}
+      style={{ '--d': `${640 + order * 60}ms`, '--rise': '44px' } as CSSProperties}
       data-hero-ui="strip"
       data-scene={index}
       data-playing={playing ? '' : undefined}
+      data-loading={wanted && !playing ? '' : undefined}
       data-clash={clash ? '' : undefined}
       tabIndex={clash ? -1 : undefined}
       aria-hidden={clash || undefined}
@@ -76,7 +89,7 @@ function SceneCard({ index, order, live, clash, reduced, register }: { index: nu
       aria-label={`${t.hero.watch} — ${scene.title[locale]}`}
     >
       <img className="hero-card__media" src={asset(scene.thumb)} alt="" width={640} height={358} loading="eager" decoding="async" draggable={false} />
-      {armed && scene.clip && (
+      {(armed || warm) && scene.clip && !reduced && (
         <video
           ref={video}
           className="hero-card__media hero-card__clip"
@@ -84,13 +97,17 @@ function SceneCard({ index, order, live, clash, reduced, register }: { index: nu
           muted
           playsInline
           loop
-          preload="auto"
+          preload="metadata"
           disablePictureInPicture
           tabIndex={-1}
           onPlaying={() => {
             if (!want.current) return video.current?.pause()
             flag.current = true
             setPlaying(true)
+          }}
+          onPause={() => {
+            flag.current = false
+            setPlaying(false)
           }}
         />
       )}
@@ -99,18 +116,19 @@ function SceneCard({ index, order, live, clash, reduced, register }: { index: nu
         <span className="hero-card__play">
           <Play size={10} fill="currentColor" strokeWidth={0} aria-hidden />
         </span>
-        {scene.title[locale]}
+        <span className="hero-card__title">{scene.title[locale]}</span>
       </span>
     </button>
   )
 }
 
-/** "Scenes from the story": three living scene cards. Desktop: a row, bottom-left. Phones: a snap row of posters. */
+/** "Scenes from the story": three living scene cards. Wide screens: a row, bottom-left. Phones and tablets: a snap row of posters. */
 export const SceneStrip = forwardRef<StripHandle, { reduced: boolean; clash: number[] }>(function SceneStrip({ reduced, clash }, ref) {
   const el = useRef<HTMLDivElement>(null)
   const openBook = useSiteStore((s) => s.openBook)
   const cards = useRef<Array<CardApi | null>>([])
   const [live, setLive] = useState(false)
+  const [warm, setWarm] = useState(false)
   useEffect(() => setLive(canHover()), [])
   const register = useCallback((order: number, api: CardApi | null) => {
     cards.current[order] = api
@@ -126,9 +144,9 @@ export const SceneStrip = forwardRef<StripHandle, { reduced: boolean; clash: num
   }))
 
   return (
-    <div ref={el} className="hero-strip">
+    <div ref={el} className="hero-strip" onPointerEnter={(e) => e.pointerType === 'mouse' && live && setWarm(true)}>
       <div className="hero-strip__in">
-        <div className="hero-strip__head hero-rise" style={{ '--d': '820ms' } as CSSProperties} data-hero-ui="strip">
+        <div className="hero-strip__head hero-rise" style={{ '--d': '600ms' } as CSSProperties} data-hero-ui="strip">
           <p className="hero-strip__label">{t.hero.scenes}</p>
           <button type="button" className="hero-strip__all" onClick={() => openBook(0)}>
             {t.hero.all}
@@ -139,7 +157,7 @@ export const SceneStrip = forwardRef<StripHandle, { reduced: boolean; clash: num
         </div>
         <div className="hero-strip__rail">
           {HERO_SCENES.map((index, order) => (
-            <SceneCard key={index} index={index} order={order} live={live} clash={clash.includes(order)} reduced={reduced} register={register} />
+            <SceneCard key={index} index={index} order={order} live={live} warm={warm} clash={clash.includes(order)} reduced={reduced} register={register} />
           ))}
         </div>
       </div>

@@ -49,8 +49,8 @@ export interface TurnHandle {
   drag(q: number): void
   /** Manual turns: let go. The leaf finishes the turn, or falls back. */
   release(land: boolean): void
-  /** Repaint the incoming page (its picture arrived after the turn began). */
-  repaintLast(page: HTMLCanvasElement): void
+  /** A page canvas was repainted in place (its picture arrived after the turn began): redraw what is cut from it. */
+  refresh(): void
 }
 
 interface Face {
@@ -321,13 +321,14 @@ export function runTurn(o: TurnOpts): TurnHandle {
         onComplete: () => finish(land),
       })
     },
-    repaintLast(page) {
+    refresh() {
       if (dead) return
-      for (const s of leaves[m - 1].strips) {
-        s.rear.page = page
-        s.rear.shade = NaN
-      }
-      blit(under, page, right ? c : 0, right ? W : c, W)
+      for (const L of leaves)
+        for (const s of L.strips) {
+          s.front.shade = NaN
+          s.rear.shade = NaN
+        }
+      blit(under, pages[m], right ? c : 0, right ? W : c, W)
       render()
     },
   }

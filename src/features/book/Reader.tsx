@@ -246,13 +246,14 @@ export function Reader({ startScene }: { startScene: number }) {
   useEffect(() => {
     for (const d of [0, 1, -1, 2, -2]) preloadScene(scene + d)
   }, [scene])
+  // Once the book is open the rest of the pictures follow quickly (about 2 MB in all), so jumps never meet a blank page.
   useEffect(() => {
     if (phase !== 'open') return
     let i = 0
     const id = window.setInterval(() => {
       preloadScene(i++)
       if (i >= SCENES) window.clearInterval(id)
-    }, 350)
+    }, 110)
     return () => window.clearInterval(id)
   }, [phase])
 
