@@ -756,9 +756,6 @@ html[lang='ar'] .aut-cta__title {
   .aut-title {
     font-size: clamp(5.7rem, 5.2vw, 6.6rem);
   }
-  html[lang='en'] .aut-title {
-    font-size: clamp(4.4rem, 4vw, 5.2rem);
-  }
 }
 
 /* ── Tablets and phones ─────────────────────────────────────────────────────── */
@@ -800,9 +797,10 @@ html[lang='ar'] .aut-cta__title {
   .aut-ghost {
     font-size: clamp(6.5rem, 34vw, 13rem);
   }
+  /* stacked: the word fills the gap between the headline and the book's top corner, whole */
   html[lang='en'] .aut-ghost {
-    font-size: clamp(3.2rem, 17vw, 7.2rem);
-    top: -0.3em;
+    font-size: clamp(3.2rem, 16vw, 7.2rem);
+    top: 0.05em;
   }
   .aut-caption {
     margin-top: 50px;
@@ -916,10 +914,11 @@ html[lang='ar'] .aut-cta__title {
     grid-row: 1 / span 2;
     align-self: center;
   }
+  /* the ways in stand as one column of equal pills, so the words keep the width they need */
   .aut-cta__pills {
+    flex-direction: column;
+    align-items: stretch;
     margin-top: 0;
-    max-width: 21rem;
-    justify-content: flex-end;
   }
   .aut-cta__pills {
     grid-column: 2;

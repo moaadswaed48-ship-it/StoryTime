@@ -17,6 +17,7 @@ import { exposeQA } from '@/lib/qa'
 import { useSiteStore } from '@/store/useSiteStore'
 import { DRAG, WAVE_MS, createRuntime, wrapAngle } from './runtime'
 import { FOV, Scene } from './Scene'
+import { TUNE } from './Acting'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -25,9 +26,10 @@ const ACTIONS: Array<{ id: SariAction; icon: LucideIcon }> = [
   { id: 'run', icon: Footprints },
   { id: 'idle', icon: PersonStanding },
 ]
-const coarse = typeof window !== 'undefined' && window.matchMedia('(pointer: coarse)').matches
 /** Colours stay as painted (the hoodie's mustard, the jeans' teal): highlights roll off softly instead of clipping. */
-const GL = { antialias: !coarse, powerPreference: 'high-performance' as const, alpha: true, toneMapping: THREE.NeutralToneMapping, toneMappingExposure: 0.99 }
+const GL = { antialias: true, powerPreference: 'high-performance' as const, alpha: true, toneMapping: THREE.NeutralToneMapping, toneMappingExposure: 0.99 }
+/** Up to 2 device pixels per CSS pixel, on phones too: his outline sits beside razor-sharp type, and the scene is nine draw calls. */
+const DPR: [number, number] = [1, 2]
 const CAMERA = { fov: FOV, near: 0.1, far: 40, position: [0, 0.95, 5] as [number, number, number] }
 /** The giant word is repeated so it can rush past while he runs; at rest only the middle copy is on stage. */
 const COPIES = [0, 1, 2, 3, 4]
@@ -278,6 +280,7 @@ export function Stage() {
           poke()
         },
         yaw: () => wrapAngle(rt.yaw),
+        tune: (o: object) => void Object.assign(TUNE, o),
         state: () => ({ ...snap.current, webgl: !snap.current.flat, yaw: wrapAngle(rt.yaw), shown: rt.shown, run: rt.run, stride: rt.stride, scroll: rt.scroll, calls: rt.calls, frames: rt.frames }),
       },
     })
@@ -314,8 +317,8 @@ export function Stage() {
           </div>
         </div>
         <div className="sari-canvas">
-          <LazyCanvas camera={CAMERA} gl={GL} frameloop={!onScreen ? 'never' : reduced && !busy && action === 'idle' ? 'demand' : 'always'} fallback={<Portrait onShown={onFlat} />}>
-            <Scene rt={rt} action={action} onReady={onReady} />
+          <LazyCanvas camera={CAMERA} gl={GL} dpr={DPR} frameloop={!onScreen ? 'never' : reduced && !busy && action === 'idle' ? 'demand' : 'always'} fallback={<Portrait onShown={onFlat} />}>
+            <Scene rt={rt} onReady={onReady} />
           </LazyCanvas>
         </div>
         {(flat || burst) && <Leaves ref={leaves} density={flat ? 9 : 0} className="sari-burst" />}

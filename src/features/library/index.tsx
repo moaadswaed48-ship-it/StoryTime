@@ -37,10 +37,11 @@ function Arrow({ next }: { next?: boolean }) {
 
 /** The words under the shelf: title, then season and status. Each line sits in its own mask and slides through it. */
 function CapBody({ book, className, hidden }: { book: ShelfBook; className?: string; hidden?: boolean }) {
+  const Title = hidden ? 'p' : 'h3' // the line that is leaving is decoration, not a second heading
   return (
     <div className={cn('lib-capbody', className)} aria-hidden={hidden || undefined}>
       <div className="lib-mask">
-        <h3 className="lib-line text-balance text-[clamp(1.35rem,2.5vw,2.1rem)] font-extrabold leading-[1.25] tracking-[-0.02em]">{book.title[locale]}</h3>
+        <Title className="lib-line text-balance text-[clamp(1.35rem,2.5vw,2.1rem)] font-extrabold leading-[1.25] tracking-[-0.02em]">{book.title[locale]}</Title>
       </div>
       <div className="lib-mask mt-1">
         <p className="lib-line flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-[14.5px] font-medium text-ink-2/85">

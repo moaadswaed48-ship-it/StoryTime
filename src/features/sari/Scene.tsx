@@ -1,10 +1,10 @@
 import { Suspense, useEffect, useMemo, useRef } from 'react'
 import * as THREE from 'three'
 import { useFrame } from '@react-three/fiber'
-import { Environment, Lightformer, useGLTF } from '@react-three/drei'
-import { SariModel, type SariAction } from '@/design/SariModel'
-import { asset } from '@/lib/asset'
+import { Environment, Lightformer } from '@react-three/drei'
+import { SariModel } from '@/design/SariModel'
 import { mulberry32 } from '@/lib/seeded'
+import { Acting } from './Acting'
 import { REST_YAW, RUN_YAW, SCROLL_YAW, SIDE, wrapAngle, type Runtime } from './runtime'
 import { LEAF_COLORS, leafTexture, ringTexture, softDisc } from './textures'
 
@@ -15,9 +15,6 @@ const TAN = Math.tan(THREE.MathUtils.degToRad(FOV / 2))
 const TALL = 1.16
 const easeOutExpo = (t: number) => (t >= 1 ? 1 : 1 - Math.pow(2, -10 * t))
 const damp = (rate: number, dt: number) => 1 - Math.exp(-rate * dt)
-
-/** Bones whose standing pose <SariModel> rewrites every frame (arms, chest, head): the run blends on top of those. */
-const POSED = new Set(['LeftArm', 'RightArm', 'LeftForeArm', 'RightForeArm', 'Spine01', 'Head', 'RightHand'])
 
 const _e = new THREE.Euler(0, 0, 0, 'YXZ')
 const _q = new THREE.Quaternion()
@@ -133,96 +130,6 @@ function Director({ rt, turntable }: { rt: Runtime; turntable: React.RefObject<T
     }
     rt.calls = state.gl.info.render.calls
     rt.frames++
-  })
-  return null
-}
-
-/**
- * He looks at the pointer. Runs after <SariModel> (which restores the head bone every frame), so this only adds
- * a turn of the head on top of its breathing; it never accumulates and it fades out when his back is to us.
- */
-function HeadLook({ rt, turntable }: { rt: Runtime; turntable: React.RefObject<THREE.Group | null> }) {
-  const head = useRef<THREE.Object3D | null>(null)
-  const look = useRef({ yaw: 0, pitch: 0 })
-  useFrame((_, delta) => {
-    const dt = Math.min(delta, 1 / 20)
-    if (!head.current) head.current = turntable.current?.getObjectByName('Head') ?? null
-    const bone = head.current
-    if (!bone) return
-    const facing = wrapAngle(rt.shown)
-    // how much of a look is possible: full when he faces us, none past a three-quarter back view
-    const can = rt.reduced ? 0 : THREE.MathUtils.clamp(1.25 - Math.abs(facing) / 1.3, 0, 1) * (1 - rt.run * 0.75)
-    const yaw = THREE.MathUtils.clamp(rt.px * 0.52 - facing * 0.55, -0.5, 0.5) * can
-    const pitch = THREE.MathUtils.clamp(-rt.py * 0.2, -0.16, 0.2) * can
-    const l = look.current
-    l.yaw += (yaw - l.yaw) * damp(5, dt)
-    l.pitch += (pitch - l.pitch) * damp(5, dt)
-    bone.quaternion.multiply(_q.setFromEuler(_e.set(l.pitch, l.yaw, 0)))
-  })
-  return null
-}
-
-interface Channel {
-  bone: THREE.Object3D
-  /** Samples the run clip for this bone at a time (s). */
-  at: THREE.Interpolant
-  move: boolean
-  restQ: THREE.Quaternion
-  restP: THREE.Vector3
-  /** True when <SariModel> poses this bone itself each frame, so the blend starts from what it left there. */
-  posed: boolean
-}
-
-/**
- * The run, played here rather than through <SariModel action="run">.
- * Why: in development React replays a new component's effects, and SariModel stops its run clip in that replay
- * without starting it again, so on some page loads his legs never move (see REQUESTS in the build report).
- * A character who sometimes cannot run is not acceptable on this stage, so the stage samples the same baked clip
- * from the same file and blends it over SariModel's standing pose: identical result, every time, in dev and in
- * production. SariModel is always asked to stand or wave; this adds the legs. Runs after SariModel in the frame.
- */
-function RunCycle({ rt, turntable }: { rt: Runtime; turntable: React.RefObject<THREE.Group | null> }) {
-  const gltf = useGLTF(asset('models/sari.glb')) // already in memory: SariModel loaded it
-  const clip = useMemo(() => gltf.animations.find((a) => a.name === 'run') ?? gltf.animations[0], [gltf.animations])
-  const channels = useRef<Channel[]>([])
-  const s = useRef({ w: 0, t: 0, resting: true })
-  useEffect(() => {
-    const root = turntable.current
-    if (!root || !clip) return
-    channels.current = clip.tracks.flatMap((track) => {
-      const { nodeName, propertyName } = THREE.PropertyBinding.parseTrackName(track.name)
-      const bone = root.getObjectByName(nodeName)
-      // rotations for every bone; movement only for the hips (the bob of the run; its travel was removed at build time)
-      const move = propertyName === 'position' && nodeName === 'Hips'
-      if (!bone || !(propertyName === 'quaternion' || move)) return []
-      // KeyframeTrack.createInterpolant() is public three.js API (it honours the track's own interpolation) but is missing from its typings
-      const at = (track as unknown as { createInterpolant(): THREE.Interpolant }).createInterpolant()
-      return [{ bone, at, move, restQ: bone.quaternion.clone(), restP: bone.position.clone(), posed: POSED.has(nodeName) }]
-    })
-    return () => {
-      // leave the rig as it was found
-      for (const c of channels.current) if (!c.posed) c.move ? c.bone.position.copy(c.restP) : c.bone.quaternion.copy(c.restQ)
-      channels.current = []
-    }
-  }, [clip, turntable])
-  useFrame((_, delta) => {
-    const dt = Math.min(delta, 1 / 30)
-    const v = s.current
-    v.w += ((rt.action === 'run' ? 1 : 0) - v.w) * damp(9, dt)
-    if (v.w < 0.002) {
-      if (v.resting) return
-      v.w = 0 // one last pass puts the legs back exactly
-      v.resting = true
-    } else v.resting = false
-    v.t = (v.t + dt) % clip.duration
-    for (const c of channels.current) {
-      const run = c.at.evaluate(v.t)
-      if (c.move) c.bone.position.copy(c.restP).lerp(_v.fromArray(run), v.w)
-      else {
-        if (!c.posed) c.bone.quaternion.copy(c.restQ)
-        c.bone.quaternion.slerp(_q.fromArray(run), v.w)
-      }
-    }
   })
   return null
 }
@@ -397,7 +304,7 @@ function LeafField({ rt, count, soft = false }: { rt: Runtime; count: number; so
 }
 
 /** Everything inside the canvas. */
-export function Scene({ rt, action, onReady }: { rt: Runtime; action: SariAction; onReady: () => void }) {
+export function Scene({ rt, onReady }: { rt: Runtime; onReady: () => void }) {
   const turntable = useRef<THREE.Group>(null)
   return (
     <>
@@ -408,9 +315,9 @@ export function Scene({ rt, action, onReady }: { rt: Runtime; action: SariAction
       <LeafField rt={rt} count={6} soft />
       <group ref={turntable} rotation-y={REST_YAW}>
         <Suspense fallback={null}>
-          <SariModel action={action === 'run' ? 'idle' : action} />
-          <RunCycle rt={rt} turntable={turntable} />
-          <HeadLook rt={rt} turntable={turntable} />
+          {/* SariModel draws him and breathes; what he does on this stage is acted on top (see Acting.tsx) */}
+          <SariModel action="idle" />
+          <Acting rt={rt} turntable={turntable} />
           <Ready onReady={onReady} />
         </Suspense>
       </group>

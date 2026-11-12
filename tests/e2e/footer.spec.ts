@@ -70,6 +70,21 @@ test.describe('footer', () => {
     await expect.poll(async () => (await state(page)).film.playing, { timeout: 40_000 }).toBe(true)
   })
 
+  test('the loop never dissolves two pictures: it rests briefly, dips to the night and starts again', async ({ page }) => {
+    await scrollToY(page, 99_999)
+    await expect.poll(async () => (await state(page)).film.playing, { timeout: 40_000 }).toBe(true)
+    // the picture at rest is the clip's last frame (open sky), not its first
+    await expect(page.locator('#footer .qf__still')).toHaveAttribute('src', /k12-end/)
+    await page.evaluate(() => { const v = document.querySelector<HTMLVideoElement>('#footer video')!; v.currentTime = Math.max(0, v.duration - 0.3) })
+    await expect.poll(async () => (await state(page)).film.loops, { timeout: 20_000 }).toBeGreaterThan(0)
+    // the moving picture stays on show the whole time (no still crossfading over it); the night comes down and lifts
+    await expect.poll(async () => page.locator('#footer .qf').getAttribute('data-dip'), { timeout: 20_000 }).toBe('')
+    expect((await state(page)).film.live).toBe(true)
+    await expect.poll(async () => page.locator('#footer .qf').getAttribute('data-dip'), { timeout: 20_000 }).toBe(null)
+    await expect.poll(async () => page.evaluate(() => document.querySelector<HTMLVideoElement>('#footer video')!.currentTime), { timeout: 20_000 }).toBeLessThan(2)
+    await expect(page.locator('#footer .qf__still')).toHaveCSS('opacity', '0')
+  })
+
   test('the links follow the bar at the top: film, sections, the way into the app', async ({ page }) => {
     await scrollToY(page, 99_999)
     const footer = page.locator('#footer')
@@ -128,6 +143,7 @@ test.describe('footer', () => {
     expect(await page.evaluate(() => localStorage.getItem('st:reduce-motion'))).toBe(null)
     expect((await state(page)).film.armed).toBe(false)
     await expect(page.locator('#footer .qf__still')).toHaveCSS('opacity', '1')
+    await expect(page.locator('#footer .qf__still')).toHaveAttribute('src', /k12-end/)
     // everything is in place without waiting for a transition
     await expect(page.locator('#footer .ft-legal')).toBeVisible()
   })
