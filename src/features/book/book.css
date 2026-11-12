@@ -345,6 +345,16 @@ html[lang='en'] .bk[data-classroom] {
   color: var(--color-ink, #1a120b);
   box-shadow: 0 12px 30px rgba(0, 0, 0, 0.38);
 }
+.bk-hand {
+  flex: none;
+}
+.bk-hand path {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
 /* The living-picture control (pause / play the clip). */
 .bk-chip {
   position: absolute;

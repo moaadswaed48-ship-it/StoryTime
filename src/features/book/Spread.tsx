@@ -8,7 +8,7 @@ import { sfx } from '@/audio/synth'
 import { driftCss, driftOf } from './logic'
 import { GUTTER_CSS, blit, pageCanvas, paintEnd, paintPicture, type Affine } from './paint'
 import { runTurn, type TurnHandle } from './turn'
-import { cachedScene, pageScale, preloadScene, ready } from './pictures'
+import { cachedScene, pageScale, preloadCover, preloadScene, ready } from './pictures'
 import { NO_CLIP, type ClipInfo } from './qa'
 
 export type BookPhase = 'closed' | 'opening' | 'open'
@@ -204,8 +204,13 @@ export const Spread = forwardRef<SpreadHandle, Props>(function Spread({ phase, s
     const { W, H } = size.current
     const c = pageCanvas(W, H, pageScale(W))
     if (sc >= SCENES) {
-      paintEnd(c, sceneEl.current, pageScale(W))
-      return { c, ok: true, im: null, again: () => true }
+      const cover = preloadCover()
+      const again = () => {
+        paintEnd(c, sceneEl.current, pageScale(W), ready(cover))
+        return true
+      }
+      again()
+      return { c, ok: !!ready(cover), im: cover, again }
     }
     const im = preloadScene(sc)
     const d = driftOf(sc, st)
@@ -261,7 +266,7 @@ export const Spread = forwardRef<SpreadHandle, Props>(function Spread({ phase, s
       const c = pageCanvas(W, H, k)
       const p = pic.current
       if (!p || now.current.scene >= SCENES) {
-        paintEnd(c, sceneEl.current, k)
+        paintEnd(c, sceneEl.current, k, ready(preloadCover()))
         return c
       }
       let m: Affine | null = null

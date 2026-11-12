@@ -21,3 +21,15 @@ export const cachedScene = (i: number) => cache.get(i) ?? null
 export const ready = (im: HTMLImageElement | null | undefined): HTMLImageElement | null => (im && im.complete && im.naturalWidth > 0 ? im : null)
 /** Canvas pixels per CSS pixel for painted pages (kept modest on wide spreads). */
 export const pageScale = (W: number) => Math.min(window.devicePixelRatio || 1, W > 900 ? 1.5 : 2)
+
+/** The cover art, for the plate the last leaf carries onto the end page. */
+let coverIm: HTMLImageElement | null = null
+export function preloadCover(): HTMLImageElement {
+  if (!coverIm) {
+    coverIm = new Image()
+    coverIm.decoding = 'async'
+    coverIm.src = asset(story.cover)
+    coverIm.decode?.().catch(() => {})
+  }
+  return coverIm
+}

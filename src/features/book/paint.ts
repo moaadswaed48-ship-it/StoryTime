@@ -129,7 +129,7 @@ export function blit(face: HTMLCanvasElement, page: HTMLCanvasElement, x0: numbe
  * (its big title and, on the wide spread, the cover plate), measured from the end page laid out under the leaf, so
  * the leaf lands on a page that already says "The End". The rest of the page (lines, buttons) arrives after it lands.
  */
-export function paintEnd(c: HTMLCanvasElement, scene: HTMLElement | null, k: number) {
+export function paintEnd(c: HTMLCanvasElement, scene: HTMLElement | null, k: number, cover?: HTMLImageElement | null) {
   const ctx = c.getContext('2d')!
   ctx.fillStyle = PAPER
   ctx.fillRect(0, 0, c.width, c.height)
@@ -138,7 +138,7 @@ export function paintEnd(c: HTMLCanvasElement, scene: HTMLElement | null, k: num
     const box = scene!.getBoundingClientRect()
     const sx = box.width ? c.width / k / box.width : 1
     try {
-      paintPlate(ctx, end, box, k * sx)
+      paintPlate(ctx, end, box, k * sx, cover)
       paintTitle(ctx, end, box, k * sx)
     } catch {
       /* a page without its print is still a page */
@@ -147,17 +147,19 @@ export function paintEnd(c: HTMLCanvasElement, scene: HTMLElement | null, k: num
   paintGutter(c)
 }
 
-function paintPlate(ctx: CanvasRenderingContext2D, end: HTMLElement, box: DOMRect, k: number) {
-  const img = end.querySelector<HTMLImageElement>('.bk-end-plate img')
-  if (!img || !img.complete || !img.naturalWidth || !img.offsetWidth) return
+function paintPlate(ctx: CanvasRenderingContext2D, end: HTMLElement, box: DOMRect, k: number, cover?: HTMLImageElement | null) {
+  const el = end.querySelector<HTMLImageElement>('.bk-end-plate img')
+  if (!el || !el.offsetWidth) return
+  const img = cover && cover.complete && cover.naturalWidth ? cover : el.complete && el.naturalWidth ? el : null
+  if (!img) return
   // Layout box (without the tilt), relative to the page.
-  const pr = (img.offsetParent as HTMLElement | null)?.getBoundingClientRect()
+  const pr = (el.offsetParent as HTMLElement | null)?.getBoundingClientRect()
   if (!pr) return
-  const w = img.offsetWidth
-  const h = img.offsetHeight
-  const cx = pr.left - box.left + img.offsetLeft + w / 2
-  const cy = pr.top - box.top + img.offsetTop + h / 2
-  const deg = parseFloat(getComputedStyle(img).rotate) || 0
+  const w = el.offsetWidth
+  const h = el.offsetHeight
+  const cx = pr.left - box.left + el.offsetLeft + w / 2
+  const cy = pr.top - box.top + el.offsetTop + h / 2
+  const deg = parseFloat(getComputedStyle(el).rotate) || 0
   ctx.save()
   ctx.scale(k, k)
   ctx.translate(cx, cy)

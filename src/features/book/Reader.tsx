@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState, type CSSProperties, type PointerEvent as ReactPointerEvent } from 'react'
-import { BookOpen, ChevronLeft, ChevronRight, Clapperboard, Gamepad2, LockKeyhole, Pause, Play, RotateCcw, X } from 'lucide-react'
+import { BookOpen, Clapperboard, Gamepad2, LockKeyhole, Pause, Play, RotateCcw, X } from 'lucide-react'
 import { story, SCENES } from '@/content/story'
 import { t } from '@/i18n/copy'
 import { dirSign, locale, num, rtl } from '@/i18n/locale'
@@ -16,10 +16,20 @@ import { exposeQA } from '@/lib/qa'
 import { END, FREE_SCENES, clampScene, nextPos, prevPos, stepCount, type Pos } from './logic'
 import { SIDE_QUERY, STACK_QUERY, useMedia } from './hooks'
 import { Spread, type BookPhase, type SpreadHandle, type TurnReq } from './Spread'
-import { preloadScene } from './pictures'
+import { preloadCover, preloadScene } from './pictures'
 import { NO_CLIP, idleHooks } from './qa'
 import { Caption, type CapLayout } from './Caption'
 import { Ambient } from './Ambient'
+
+/** An arrow drawn by hand (it points right; `flip` turns it round). */
+function HandArrow({ size, flip }: { size: number; flip?: boolean }) {
+  return (
+    <svg className="bk-hand" width={size} height={size} viewBox="0 0 24 24" aria-hidden style={flip ? { transform: 'scaleX(-1)' } : undefined}>
+      <path d="M3.6 12.4c3.1-.5 7.4-.9 15.6-.3" />
+      <path d="M13.4 6.2c1.8 2 3.6 3.7 6.1 5.8-2.3 1.7-4.2 3.6-5.8 5.9" />
+    </svg>
+  )
+}
 
 interface Actions {
   next(): void
@@ -256,6 +266,7 @@ export function Reader({ startScene }: { startScene: number }) {
   // Pictures of the scenes around the reader are fetched ahead of the turn.
   useEffect(() => {
     for (const d of [0, 1, -1, 2, -2]) preloadScene(scene + d)
+    if (scene >= SCENES - 3) preloadCover()
   }, [scene])
   // Once the book is open the rest of the pictures follow quickly (about 2 MB in all), so jumps never meet a blank page.
   useEffect(() => {
@@ -412,8 +423,6 @@ export function Reader({ startScene }: { startScene: number }) {
   const isOpen = phase === 'open'
   const canPrev = uiOn && !(scene === 0 && pos.step === 0)
   const canNext = uiOn && !atEnd && !gated
-  const PrevIcon = rtl ? ChevronRight : ChevronLeft
-  const NextIcon = rtl ? ChevronLeft : ChevronRight
   // "Use the arrows or swipe · tap a picture to make it move": the promise about the picture only where it moves.
   const [hintMove, hintTap] = t.book.hint.split(' · ')
   const hint = hasClip && hintTap ? t.book.hint : hintMove
@@ -560,10 +569,10 @@ export function Reader({ startScene }: { startScene: number }) {
             {isOpen && !stack && (
               <>
                 <button type="button" className="bk-arrow bk-arrow-prev glass bk-fade" aria-label={t.book.prev} disabled={!canPrev} onClick={prev}>
-                  <PrevIcon size={26} aria-hidden />
+                  <HandArrow size={26} flip={!rtl} />
                 </button>
                 <button type="button" className="bk-arrow bk-arrow-next bk-fade" aria-label={t.book.next} disabled={!canNext} onClick={next}>
-                  <NextIcon size={28} aria-hidden />
+                  <HandArrow size={28} flip={rtl} />
                 </button>
               </>
             )}
@@ -580,12 +589,12 @@ export function Reader({ startScene }: { startScene: number }) {
                 </p>
                 <div className="bk-nav-row">
                   <button type="button" className="bk-icon bk-icon-lg glass" aria-label={t.book.prev} disabled={!canPrev} onClick={prev}>
-                    <PrevIcon size={24} aria-hidden />
+                    <HandArrow size={24} flip={!rtl} />
                   </button>
                   {counter}
                   <Pill variant="solid" size="lg" className="bk-next-pill" disabled={!canNext} onClick={next}>
                     {t.book.next}
-                    <NextIcon size={20} aria-hidden />
+                    <HandArrow size={20} flip={rtl} />
                   </Pill>
                 </div>
               </>
