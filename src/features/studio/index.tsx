@@ -161,7 +161,7 @@ export function Studio() {
                   <span className="text-[13.5px] font-semibold tabular-nums text-muted">{two(i + 1)}</span>
                   <span className="text-[17px] font-bold leading-snug">{s.title[locale]}</span>
                 </span>
-                <Hers className="st-text text-[16px] leading-[1.9] text-ink-2">{s.ar[0]}</Hers>
+                <Hers className="st-text text-[16px] leading-[1.9] text-ink-2">{s.ar.join(' ')}</Hers>
                 <img src={asset(s.thumb)} alt="" loading="lazy" className="st-pic aspect-video w-full rounded-[10px] object-cover" draggable={false} />
                 <span className="st-filmcell">
                   <span className={cn('inline-flex h-7 items-center gap-1.5 rounded-full px-2.5 text-[12.5px] font-semibold', s.clip ? 'bg-maple/12 text-maple' : 'bg-ink/6 text-muted')}>
