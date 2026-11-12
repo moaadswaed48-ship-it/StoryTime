@@ -160,6 +160,18 @@ const BLOBS: [number, number, number, number][] = (() => {
   }
   return out
 })()
+/** Loose sprays of leaves around the rim (leaves only, nothing solid inside): they break up the round outline of the clumps. */
+const SPRAYS: [number, number, number, number][] = (() => {
+  const rnd = mulberry32(29)
+  const out: [number, number, number, number][] = []
+  const n = 16
+  for (let i = 0; i < n; i++) {
+    const a = (i / n) * Math.PI * 2 + rnd() * 0.3
+    const rad = 3.9 + rnd() * 1.0
+    out.push([Math.cos(a) * rad * 1.02 + 0.35, 3.75 + rnd() * 1.1, Math.sin(a) * rad * 0.82 + 0.1, 0.5 + rnd() * 0.4])
+  }
+  return out
+})()
 const SQUASH = 0.8
 /** Mostly gold and orange, a few reds: the crown is back-lit. */
 const CROWN_COLORS = ['#f4a72c', '#f4a72c', '#e2711d', '#f2c14e', '#f7d06a', '#d9902f', '#e98a2b', '#c8421f']
@@ -255,6 +267,11 @@ export function Tree() {
       branchGeometry(top, new THREE.Vector3(0.7, 5.4, -1.9), 0.32, 0.14),
       branchGeometry(top, new THREE.Vector3(1.2, 6.2, 0.2), 0.34, 0.16),
       branchGeometry(new THREE.Vector3(2.5, 5.2, 0.9), new THREE.Vector3(4.1, 5.05, 0.6), 0.17, 0.08),
+      // thinner boughs out to the clumps on the rim: seen from below, between the leaves, they say "tree", not "ball of leaves"
+      ...BLOBS.filter((_, i) => i >= 8 && i % 2 === 0).map(([x, y, z]) => {
+        const from = new THREE.Vector3(0.1 + (x - 0.1) * 0.3, 4.75, z * 0.3)
+        return branchGeometry(from, new THREE.Vector3(x * 0.96, y - 0.35, z * 0.96), 0.13, 0.05)
+      }),
     ])
     const bark = barkTexture()
     return new THREE.Mesh(geo, new THREE.MeshLambertMaterial({ vertexColors: true, map: bark }))
@@ -262,22 +279,25 @@ export function Tree() {
   const crown = useDisposable(() => new THREE.Mesh(canopyGeometry(), new THREE.MeshBasicMaterial({ vertexColors: true })))
   const leaves = useDisposable(() => {
     const rnd = mulberry32(17)
-    const total = 4400
-    const sum = BLOBS.reduce((n, b) => n + b[3] * b[3], 0)
+    const total = 4800
+    const all = [...BLOBS, ...SPRAYS]
+    const sum = all.reduce((n, b) => n + b[3] * b[3], 0)
     const geo = new THREE.PlaneGeometry(1, 1)
     const mat = new THREE.MeshBasicMaterial({ map: leafTexture(), alphaTest: 0.4, side: THREE.DoubleSide })
     const mesh = new THREE.InstancedMesh(geo, mat, total)
     const z = new THREE.Vector3(0, 0, 1)
     const dir = new THREE.Vector3()
     let k = 0
-    BLOBS.forEach(([cx, cy, cz, r], bi) => {
-      const n = bi === BLOBS.length - 1 ? total - k : Math.round((total * r * r) / sum)
+    all.forEach(([cx, cy, cz, r], bi) => {
+      const spray = bi >= BLOBS.length
+      const n = bi === all.length - 1 ? total - k : Math.round((total * r * r) / sum)
       for (let i = 0; i < n && k < total; i++, k++) {
-        const u = rnd() * 1.8 - 1 // more of them underneath and on the sides, where the camera looks
+        const u = spray ? rnd() * 2 - 1 : rnd() * 1.8 - 1 // more of them underneath and on the sides, where the camera looks
         const a = rnd() * Math.PI * 2
         const s = Math.sqrt(1 - u * u)
         dir.set(Math.cos(a) * s, u, Math.sin(a) * s)
-        const out = r * (0.88 + rnd() * 0.54) // a loose shell: some leaves sit deep, some hang out past the outline
+        // a loose shell: some leaves sit deep, some hang out past the outline (a spray is leaves all the way through)
+        const out = spray ? r * (0.2 + rnd() * 1.0) : r * (0.88 + rnd() * 0.54)
         _p.set(cx + dir.x * out, cy + dir.y * out * SQUASH, cz + dir.z * out)
         _q.setFromUnitVectors(z, dir)
         _q.multiply(new THREE.Quaternion().setFromEuler(_e.set((rnd() - 0.5) * 1.1, (rnd() - 0.5) * 1.1, rnd() * Math.PI * 2)))

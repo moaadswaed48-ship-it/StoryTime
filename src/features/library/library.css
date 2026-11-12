@@ -61,6 +61,18 @@
     box-shadow 0.25s ease,
     transform 0.2s ease;
 }
+/* Phones: the row scrolls; its far end dissolves so the next chip is hinted at, not cut. */
+@media (max-width: 639px) {
+  .lib-filters {
+    padding-inline-end: 64px;
+    -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 56px), transparent);
+    mask-image: linear-gradient(to right, #000 calc(100% - 56px), transparent);
+  }
+  html[dir='rtl'] .lib-filters {
+    -webkit-mask-image: linear-gradient(to left, #000 calc(100% - 56px), transparent);
+    mask-image: linear-gradient(to left, #000 calc(100% - 56px), transparent);
+  }
+}
 .lib-chip:hover {
   background: color-mix(in oklab, var(--lib-ink) 6%, transparent);
 }
@@ -99,6 +111,11 @@
   .lib-stage {
     height: clamp(380px, 48svh, 430px);
   }
+}
+/* While the books are dropping in they enter through a soft top edge instead of crossing the heading and the chips. */
+.lib.is-waiting .lib-stage {
+  -webkit-mask-image: linear-gradient(transparent 0, #000 64px);
+  mask-image: linear-gradient(transparent 0, #000 64px);
 }
 .lib-stage.is-drag {
   cursor: grabbing;
@@ -199,6 +216,8 @@
   --b3: calc(var(--k, 1) * 3px);
   --b4: calc(var(--k, 1) * 4px);
   --pg: calc(var(--k, 1) * 1.3px);
+  /* Half-width of the band of light that crosses the foil. */
+  --bw: calc(var(--u) * 17);
   position: absolute;
   left: 50%;
   transform-style: preserve-3d;
@@ -455,7 +474,6 @@ html[lang='ar'] .lib-band.is-v > span {
 
 /* ── Covers ──────────────────────────────────────────────────────────────────── */
 .lib-cover {
-  --bw: calc(var(--u) * 17);
   position: absolute;
   inset: 0;
   overflow: hidden;
@@ -578,7 +596,7 @@ html[lang='en'] .lib-rmark {
 /* arch */
 .lib-arch {
   position: relative;
-  height: 97%;
+  height: 90%;
   max-width: 92%;
   aspect-ratio: 0.8;
   display: grid;
@@ -837,15 +855,53 @@ html[lang='en'] .lib-rtitle .is-b {
   opacity: 0.28;
   cursor: default;
 }
-@keyframes lib-cap {
+/* Each line sits in a mask; on a change the new line slides in from the side the shelf travelled toward
+   while the old one leaves the other way. No fades. */
+.lib-cap {
+  position: relative;
+}
+.lib-mask {
+  overflow: hidden;
+  padding-block: 0.14em;
+}
+.lib-cap-out {
+  position: absolute;
+  inset: 0 0 auto;
+  pointer-events: none;
+}
+@keyframes lib-line-in {
   from {
-    opacity: 0;
-    transform: translateY(10px);
-    filter: blur(6px);
+    transform: translateY(calc(var(--cd, 1) * 120%));
   }
 }
-.lib-cap-in {
-  animation: lib-cap 0.5s var(--lib-ease) both;
+@keyframes lib-line-out {
+  to {
+    transform: translateY(calc(var(--cd, 1) * -120%));
+  }
+}
+.lib-cap-in .lib-line {
+  animation: lib-line-in 0.65s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+.lib-cap-out .lib-line {
+  animation: lib-line-out 0.65s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+.lib-cap-in .lib-mask + .lib-mask .lib-line,
+.lib-cap-out .lib-mask + .lib-mask .lib-line {
+  animation-delay: 70ms;
+}
+@media (prefers-reduced-motion: reduce) {
+  .lib-cap-in .lib-line {
+    animation: none;
+  }
+  .lib-cap-out {
+    display: none;
+  }
+}
+html[data-reduce-motion] .lib-cap-in .lib-line {
+  animation: none;
+}
+html[data-reduce-motion] .lib-cap-out {
+  display: none;
 }
 /* The caption waits for the books to land. */
 .lib-caption {
@@ -912,9 +968,98 @@ html[lang='en'] .lib-rtitle .is-b {
   transition-delay: 0.55s;
 }
 .lib-detail-text {
+  position: relative;
+  z-index: 0;
   width: 100%;
   max-width: 34rem;
   pointer-events: none;
+  outline: none;
+}
+/* Coming-soon view: the book's emblem as a large ghost mark behind the words. */
+.lib-ghost {
+  position: absolute;
+  z-index: -1;
+  inset-inline-start: -2.5rem;
+  top: 50%;
+  width: min(22rem, 78vw);
+  aspect-ratio: 1;
+  translate: 0 -46%;
+  background: var(--lib-ink);
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+  opacity: 0;
+  scale: 0.9;
+  transition:
+    opacity 0.4s ease,
+    scale 0.4s ease;
+  pointer-events: none;
+}
+.lib-detail.is-open .lib-ghost {
+  opacity: 0.055;
+  scale: 1;
+  transition:
+    opacity 1.2s var(--lib-ease) 0.35s,
+    scale 1.4s var(--lib-ease) 0.35s;
+}
+/* The other books of the same season: small spines that take you straight to them. */
+.lib-mini {
+  --sx: 0px;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 48px;
+  padding: 5px;
+  padding-inline-end: 16px;
+  border-radius: 12px;
+  font-size: 14.5px;
+  font-weight: 600;
+  color: var(--lib-ink);
+  background: color-mix(in oklab, var(--lib-ink) 5%, transparent);
+  transition:
+    background-color 0.2s ease,
+    transform 0.2s ease;
+}
+.lib-mini:hover {
+  background: color-mix(in oklab, var(--lib-ink) 10%, transparent);
+}
+.lib-mini:active {
+  transform: scale(0.97);
+}
+.lib-mini-spine {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 38px;
+  border-radius: 3px;
+  background-color: var(--cloth);
+  background-image: linear-gradient(90deg, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.04) 22%, rgba(255, 255, 255, 0.12) 46%, rgba(0, 0, 0, 0.06) 80%, rgba(0, 0, 0, 0.28));
+  box-shadow:
+    inset 0 0 0 1px rgba(0, 0, 0, 0.14),
+    0 1px 2px rgba(26, 18, 11, 0.25),
+    0 4px 8px rgba(26, 18, 11, 0.14);
+  transition: transform 0.3s var(--lib-ease);
+}
+.lib-mini:hover .lib-mini-spine {
+  transform: translateY(-3px) rotate(-3deg);
+}
+.lib-mini-spine .lib-emb {
+  width: 18px;
+}
+.lib-mini-ready {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--lib-maple);
+}
+/* The quiet fourth action. */
+.lib-quiet {
+  border-color: transparent;
+  background: color-mix(in oklab, var(--lib-ink) 5%, transparent);
+  color: var(--color-ink-2, #43362a);
+}
+.lib-quiet:hover {
+  background: color-mix(in oklab, var(--lib-ink) 10%, transparent);
 }
 .lib-detail.is-open .lib-detail-text {
   pointer-events: auto;
@@ -949,6 +1094,23 @@ html[lang='en'] .lib-rtitle .is-b {
 }
 html[lang='ar'] .lib-detail-title {
   line-height: 1.2;
+}
+html[lang='en'] .lib-detail-titleb {
+  margin-top: 0.14em;
+  font-size: 0.6em;
+  font-weight: 800;
+  line-height: 1.08;
+  letter-spacing: -0.025em;
+}
+/* Phones: a coming-soon book has no actions to share the screen with, so its cover is shown larger, from the top. */
+@media (max-width: 639px) {
+  .lib-detail.is-soon {
+    align-items: start;
+    padding-top: 84px;
+  }
+  .lib-detail.is-soon .lib-detail-slot {
+    height: min(42svh, 92vw);
+  }
 }
 .lib-return {
   display: inline-flex;
@@ -1049,5 +1211,8 @@ html[lang='ar'] .lib-detail-title {
   }
   .lib-detail-title {
     font-size: clamp(3rem, 5.5vw, 5.25rem);
+  }
+  html[lang='en'] .lib-detail-title {
+    font-size: clamp(3rem, 5.4vw, 4.9rem);
   }
 }

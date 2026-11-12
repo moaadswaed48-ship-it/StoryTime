@@ -33,10 +33,16 @@ function tones(book: ShelfBook): Tones {
     foil,
     hi: mix(foil, '#ffffff', pigment ? 0.1 : 0.66),
     lo: mix(foil, '#000000', pigment ? 0.18 : 0.26),
-    gl: mix(foil, '#ffffff', pigment ? 0.34 : 0.92),
+    gl: mix(foil, '#ffffff', pigment ? 0.17 : 0.92),
     pigment,
     pattern: pigment ? 0.2 : luminance(cloth) > 0.3 ? 0.3 : 0.24,
   }
+}
+
+/** The colours an element painted in a book's foil needs (see library.css → .lib-foil). */
+export function foilVars(book: ShelfBook): CSSProperties {
+  const tn = tones(book)
+  return { '--cloth': tn.cloth, '--foil': tn.foil, '--foil-hi': tn.hi, '--foil-lo': tn.lo, '--foil-gl': 'transparent', '--bw': '0px' } as CSSProperties
 }
 
 /** Splits a title into one or two balanced lines (whole words only). */
@@ -163,7 +169,7 @@ function ReadyTitle({ book }: { book: ShelfBook }) {
 function ReadyCover({ book }: { book: ShelfBook }) {
   // On the painted sky the title is stamped in copper (the spine's cloth colour), not in the pale gold of the spine.
   const c = book.palette.cloth
-  const copper = { '--foil': mix(c, '#000000', 0.22), '--foil-hi': mix(c, '#ffc48a', 0.34), '--foil-lo': mix(c, '#000000', 0.5), '--foil-gl': '#ffdcae' } as CSSProperties
+  const copper = { '--foil': mix(c, '#000000', 0.22), '--foil-hi': mix(c, '#ffc48a', 0.34), '--foil-lo': mix(c, '#000000', 0.5), '--foil-gl': mix(c, '#ffb070', 0.6) } as CSSProperties
   return (
     <div className="lib-cover is-photo" style={copper}>
       <img src={asset(book.cover!)} alt="" draggable={false} decoding="async" />

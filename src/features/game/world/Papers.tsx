@@ -202,7 +202,7 @@ export function Papers() {
       let cy = THREE.MathUtils.clamp(py, top, bottom)
       for (let n = 0; n < shown.length; n += 2) {
         if (Math.abs(shown[n] - cx) < 96 && Math.abs(shown[n + 1] - 30 - cy) < 110) {
-          const up = shown[n + 1] - 150
+          const up = shown[n + 1] - 205 // clear of the paper's own marker too
           cy = up > top ? up : Math.min(bottom, shown[n + 1] + 90)
         }
       }

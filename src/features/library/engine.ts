@@ -41,6 +41,8 @@ export interface Metrics {
   bandB: number
   bandH: number
   gap: number
+  /** How far (px) the row slides toward the empty side when its first or last book is the one pulled out. */
+  bias: number
   /**
    * Books are laid out K× larger than they stand on the shelf and scaled down by 1/K. Browsers rasterise
    * layers inside a perspective scene at layout size, so this keeps the cover crisp when it is opened large.
@@ -53,10 +55,11 @@ export function computeMetrics(stageW: number, stageH: number, viewH = stageH / 
   const phone = stageW < 640
   const S = Math.round(Math.min(stageH * 0.7, stageW * (phone ? 0.69 : 0.92), 470))
   const floorY = Math.round(stageH * 0.855)
-  // Height of the detail slot (same numbers as library.css → .lib-detail-slot).
-  const slotH = stageW >= 900 ? Math.min(viewH * 0.66, 600) : phone ? Math.min(viewH * 0.31, 280) : Math.min(viewH * 0.4, 440)
+  // Height of the largest detail slot (same numbers as library.css → .lib-detail-slot; on phones a coming-soon
+  // book is shown larger than the ready one, which shares its screen with the actions).
+  const slotH = stageW >= 900 ? Math.min(viewH * 0.66, 600) : phone ? Math.min(viewH * 0.42, stageW * 0.92) : Math.min(viewH * 0.4, 440)
   return {
-    K: Math.round(clamp(slotH / S, 1, 1.5) * 100) / 100,
+    K: Math.round(clamp((slotH / S) * 1.02, 1, 1.5) * 100) / 100,
     stageW,
     stageH,
     S,
@@ -68,7 +71,8 @@ export function computeMetrics(stageW: number, stageH: number, viewH = stageH / 
     plankW: Math.round(Math.max(stageW * 1.5, S * 4.4)),
     lip: Math.max(14, Math.round(S * 0.05)),
     bandB: Math.round(S * 0.1),
-    bandH: Math.round(S * 0.108),
+    bandH: Math.round(S * (phone ? 0.145 : 0.108)),
+    bias: Math.round(Math.min(stageW * 0.14, 210)),
     gap: 1,
     phone,
   }
@@ -151,6 +155,10 @@ export interface LayoutInput {
   spread: number
   /** Pixels the row travels per rank (for the rubber band past the ends). */
   step: number
+  /** See Metrics.bias. */
+  bias: number
+  /** Out: where the pulled-out book stands, measured from the centre of the stage (px, signed on screen). */
+  shift: number
 }
 
 /** Rank of each book among the visible ones: prefix sums of presence, so ranks glide while a filter animates. */
@@ -201,6 +209,11 @@ export function layout(inp: LayoutInput, out: Pose[]): Pose[] {
   anchor = wsum > 1e-4 ? anchor / wsum : cursor / 2
   if (focusGain < 1) anchor = lerp(cursor / 2, anchor, focusGain) // before anyone is pulled out, centre the whole row
   anchor += (inp.u - uc) * inp.step * 0.35 // rubber band past the ends
+  // At either end of the row half the ledge would stand empty: slide the row toward the empty side instead,
+  // so the frame stays full. Smooth over the last two ranks, so a drag never feels it start.
+  const edge = maxU >= 3 ? (smooth(1 - uc / 2) - smooth(1 - (maxU - uc) / 2)) * focusGain : 0
+  anchor += edge * inp.bias
+  inp.shift = -dir * edge * inp.bias
 
   for (let i = 0; i < n; i++) {
     const g = geoms[i]

@@ -1,14 +1,16 @@
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState, type CSSProperties } from 'react'
 import { ArrowLeft, ArrowRight, ArrowUpLeft, ArrowUpRight, BookOpen, Gamepad2, Play } from 'lucide-react'
+import { enterApp } from '@/app/router'
 import { prefersReducedNow } from '@/app/useMotionTier'
-import { library } from '@/content/library'
+import { library, type ShelfBook } from '@/content/library'
 import { BlurWords, Container, Pill, SectionHead, useOnScreen } from '@/design/ui'
 import { t } from '@/i18n/copy'
 import { dirSign, locale, num, rtl } from '@/i18n/locale'
 import { cn } from '@/lib/cn'
 import { exposeQA } from '@/lib/qa'
 import { useSiteStore } from '@/store/useSiteStore'
-import { Book } from './Book'
+import { Book, Emblem, foilVars } from './Book'
+import { emblemMask } from './emblems'
 import { READY, Shelf, type Filter } from './controller'
 import { computeGeoms, computeMetrics, type Metrics } from './engine'
 import { noiseTile } from './noise'
@@ -33,12 +35,34 @@ function Arrow({ next }: { next?: boolean }) {
   return <Icon size={22} strokeWidth={2} aria-hidden />
 }
 
+/** The words under the shelf: title, then season and status. Each line sits in its own mask and slides through it. */
+function CapBody({ book, className, hidden }: { book: ShelfBook; className?: string; hidden?: boolean }) {
+  return (
+    <div className={cn('lib-capbody', className)} aria-hidden={hidden || undefined}>
+      <div className="lib-mask">
+        <h3 className="lib-line text-balance text-[clamp(1.35rem,2.5vw,2.1rem)] font-extrabold leading-[1.25] tracking-[-0.02em]">{book.title[locale]}</h3>
+      </div>
+      <div className="lib-mask mt-1">
+        <p className="lib-line flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-[14.5px] font-medium text-ink-2/85">
+          <span>{t.library.filters[book.season]}</span>
+          <span className="h-1 w-1 rounded-full bg-current opacity-40" aria-hidden />
+          <span className={cn('lib-status', book.ready ? 'is-ready font-semibold text-ink' : 'is-soon')}>
+            <i aria-hidden />
+            {book.ready ? t.library.ready : t.library.soon}
+          </span>
+        </p>
+      </div>
+    </div>
+  )
+}
+
 /**
  * The shelf of moving books: a row of real (CSS-3D) books on a ledge. They land and shuffle when the
  * shelf scrolls into view; the centred one steps out and turns its cover to you; drag, wheel, arrows
  * and keys move along the row; clicking the cover flies it aside and opens its detail view.
  */
-export function Library() {
+export function Library({ variant = 'landing' }: { variant?: 'landing' | 'app' }) {
+  const app = variant === 'app'
   const sectionRef = useRef<HTMLElement>(null)
   const stageRef = useRef<HTMLDivElement>(null)
   const sceneRef = useRef<HTMLDivElement>(null)
@@ -48,6 +72,8 @@ export function Library() {
   const slotRef = useRef<HTMLDivElement>(null)
   const panelRef = useRef<HTMLDivElement>(null)
   const backRef = useRef<HTMLButtonElement>(null)
+  const textRef = useRef<HTMLDivElement>(null)
+  const openRef = useRef<HTMLButtonElement>(null)
   const bookEls = useRef<(HTMLDivElement | null)[]>([])
   const shadowEls = useRef<(HTMLDivElement | null)[]>([])
 
@@ -96,6 +122,7 @@ export function Library() {
       wall: wallRef.current!,
       slot: slotRef.current!,
       panel: panelRef.current!,
+      open: openRef.current,
       books: bookEls.current,
       shadows: shadowEls.current,
     })
@@ -172,6 +199,7 @@ export function Library() {
         entrance: (p: number) => shelf.seek(p),
         replay: () => shelf.replay(),
         scrub: (p: number) => shelf.scrub(p),
+        jump: (i: number) => shelf.jump(i),
       },
     })
   }, [shelf])
@@ -186,7 +214,8 @@ export function Library() {
     const sec = sectionRef.current!
     window.addEventListener('keydown', onKey)
     sec.addEventListener('pointermove', onMove)
-    const id = window.setTimeout(() => backRef.current?.focus({ preventScroll: true }), 450)
+    // Focus moves into the opened view; the "back" control only wears its ring when the book was opened from the keyboard.
+    const id = window.setTimeout(() => (shelf.viaKey ? backRef.current : textRef.current)?.focus({ preventScroll: true }), 450)
     return () => {
       window.removeEventListener('keydown', onKey)
       sec.removeEventListener('pointermove', onMove)
@@ -200,22 +229,30 @@ export function Library() {
   }
   const playGame = () => {
     shelf.close()
-    if (document.getElementById('game')) useSiteStore.getState().lenis?.scrollTo('#game', { offset: -80 })
+    useSiteStore.getState().openGame()
   }
+
+  // Caption: remembers the book it is leaving and which way the shelf travelled, so the lines can slide that way.
+  const [cap, setCap] = useState({ cur: READY, prev: -1, dir: 1, seq: 0 })
+  if (cap.cur !== sel) setCap({ cur: sel, prev: cap.cur, dir: sel > cap.cur ? 1 : -1, seq: cap.seq + 1 })
 
   const visible = library.map((b) => filter === 'all' || b.season === filter)
   const list = library.map((_, i) => i).filter((i) => visible[i])
   const pos = list.indexOf(sel)
   const book = library[sel]
   const dBook = library[shown.i]
+  const dTitle = dBook.title[locale]
+  // The copy breaks the real title by hand (as the hero and the cover do); other titles balance themselves.
+  const dSplit = dTitle === `${t.hero.titleA} ${t.hero.titleB}`
+  const sameSeason = library.map((b, i) => ({ b, i })).filter(({ b, i }) => b.season === dBook.season && i !== shown.i)
   const m = metrics
   const d = (n: number) => ({ '--d': n }) as CSSProperties
 
   return (
-    <section ref={sectionRef} id="library" className={cn('sheet bg-paper text-ink lib', detail !== null && 'is-detail', waiting && 'is-waiting')} style={grain}>
-      <Container className="lib-chrome pt-24 lg:pt-28">
+    <section ref={sectionRef} id="library" className={cn(app ? 'is-app' : 'sheet', 'bg-paper text-ink lib', detail !== null && 'is-detail', waiting && 'is-waiting')} style={grain}>
+      <Container className={cn('lib-chrome', app ? 'pt-2' : 'pt-24 lg:pt-28')}>
         <div className="flex flex-col gap-7 lg:flex-row lg:items-end lg:justify-between lg:gap-12">
-          <SectionHead tone="light" eyebrow={t.library.eyebrow} title={t.library.title} lede={t.library.lede} />
+          {!app && <SectionHead tone="light" eyebrow={t.library.eyebrow} title={t.library.title} lede={t.library.lede} />}
           <div role="group" aria-label={t.library.eyebrow} className="lib-filters -mx-5 overflow-x-auto px-5 sm:mx-0 sm:px-0 lg:shrink-0 lg:overflow-visible lg:pb-1.5">
             {FILTERS.map((f) => (
               <button key={f} type="button" className={cn('lib-chip', filter === f && 'is-on')} aria-pressed={filter === f} data-filter={f} onClick={() => shelf.setFilter(f)}>
@@ -265,35 +302,30 @@ export function Library() {
           </div>
         </div>
         <button
+          ref={openRef}
           type="button"
           className="lib-open"
           aria-label={book.title[locale]}
           tabIndex={detail === null ? 0 : -1}
           style={{ left: `calc(50% + ${Math.round(dirSign * geoms[READY].W * 0.52)}px)`, top: m.floorY + Math.round(m.S * 0.075), '--dir': dirSign } as CSSProperties}
-          onClick={() => shelf.open()}
+          onClick={(e) => {
+            shelf.viaKey = e.detail === 0
+            shelf.open()
+          }}
         >
           <OpenIcon size={22} strokeWidth={2.2} aria-hidden />
         </button>
       </div>
 
-      <Container className="lib-chrome pb-20 lg:pb-28">
+      <Container className={cn('lib-chrome', app ? 'pb-10 lg:pb-14' : 'pb-20 lg:pb-28')}>
         <div className="lib-caption pt-5 lg:pt-7">
           <div className="mx-auto grid max-w-[44rem] grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-3 sm:gap-8">
             <button type="button" className="lib-arrow" aria-label={t.library.prev} disabled={pos <= 0} onClick={() => shelf.step(-1)}>
               <Arrow />
             </button>
-            <div className="min-h-[5.5rem] text-center" aria-live="polite">
-              <div key={book.id} className="lib-cap-in">
-                <h3 className="text-balance text-[clamp(1.35rem,2.5vw,2.1rem)] font-extrabold leading-[1.25] tracking-[-0.02em]">{book.title[locale]}</h3>
-                <p className="mt-2 flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-[14.5px] font-medium text-ink-2/85">
-                  <span>{t.library.filters[book.season]}</span>
-                  <span className="h-1 w-1 rounded-full bg-current opacity-40" aria-hidden />
-                  <span className={cn('lib-status', book.ready ? 'is-ready font-semibold text-ink' : 'is-soon')}>
-                    <i aria-hidden />
-                    {book.ready ? t.library.ready : t.library.soon}
-                  </span>
-                </p>
-              </div>
+            <div className="lib-cap min-h-[5.5rem] text-center" aria-live="polite" style={{ '--cd': cap.dir } as CSSProperties}>
+              {cap.prev >= 0 && <CapBody key={`o${cap.seq}`} book={library[cap.prev]} className="lib-cap-out" hidden />}
+              <CapBody key={`i${cap.seq}`} book={book} className={cap.seq ? 'lib-cap-in' : undefined} />
             </div>
             <button type="button" className="lib-arrow" aria-label={t.library.next} disabled={pos < 0 || pos >= list.length - 1} onClick={() => shelf.step(1)}>
               <Arrow next />
@@ -309,14 +341,15 @@ export function Library() {
         </div>
       </Container>
 
-      <div className={cn('lib-detail', detail !== null && 'is-open')} aria-hidden={detail === null} inert={detail === null}>
+      <div className={cn('lib-detail', detail !== null && 'is-open', !dBook.ready && 'is-soon')} aria-hidden={detail === null} inert={detail === null}>
         <Container>
           <div ref={panelRef} className="lib-detail-grid">
             <div className="lib-detail-slotwrap">
               <div ref={slotRef} className="lib-detail-slot" />
               <span className="lib-detail-shadow" aria-hidden />
             </div>
-            <div className="lib-detail-text">
+            <div ref={textRef} className="lib-detail-text" tabIndex={-1}>
+              {!dBook.ready && <span className="lib-ghost" aria-hidden style={{ maskImage: emblemMask(dBook.emblem), WebkitMaskImage: emblemMask(dBook.emblem) }} />}
               <button ref={backRef} type="button" className="lib-return" data-d style={d(0)} onClick={close}>
                 <span>
                   <Arrow />
@@ -335,7 +368,16 @@ export function Library() {
                   </>
                 )}
               </p>
-              <BlurWords key={`${dBook.id}-${shown.seq}`} as="h3" text={dBook.title[locale]} immediate={detail !== null} delay={260} className="lib-detail-title mt-3 block lg:mt-4" />
+              <h3 key={`${dBook.id}-${shown.seq}`} className="lib-detail-title mt-3 lg:mt-4">
+                {dSplit ? (
+                  <>
+                    <BlurWords text={t.hero.titleA} immediate={detail !== null} delay={260} className="block" />
+                    <BlurWords text={t.hero.titleB} immediate={detail !== null} delay={440} className="lib-detail-titleb block" />
+                  </>
+                ) : (
+                  <BlurWords text={dTitle} immediate={detail !== null} delay={260} className="block" />
+                )}
+              </h3>
               {dBook.ready ? (
                 <>
                   <p className="mt-4 flex flex-wrap gap-x-2.5 gap-y-0.5 text-[14.5px] font-medium text-ink-2/80 lg:mt-5" data-d style={d(3)}>
@@ -355,13 +397,17 @@ export function Library() {
                       <BookOpen size={19} aria-hidden />
                       {t.library.read}
                     </Pill>
-                    <Pill variant="outline" size="lg" className="whitespace-nowrap px-4 max-sm:gap-2 max-sm:text-[15px] sm:px-6" data-act="watch" onClick={() => useSiteStore.getState().openFilm(0)}>
-                      <Play size={17} fill="currentColor" aria-hidden />
+                    <Pill variant="outline" size="lg" className="whitespace-nowrap px-3 max-sm:gap-2 max-sm:text-[14.5px] sm:px-6" data-act="watch" onClick={() => useSiteStore.getState().openFilm(0)}>
+                      <Play size={17} fill="currentColor" className="shrink-0" aria-hidden />
                       {t.library.watch}
                     </Pill>
-                    <Pill variant="outline" size="lg" className="whitespace-nowrap px-4 max-sm:gap-2 max-sm:text-[15px] sm:px-6" data-act="play" onClick={playGame}>
-                      <Gamepad2 size={19} aria-hidden />
+                    <Pill variant="outline" size="lg" className="whitespace-nowrap px-3 max-sm:gap-2 max-sm:text-[14.5px] sm:px-6" data-act="play" onClick={playGame}>
+                      <Gamepad2 size={19} className="shrink-0" aria-hidden />
                       {t.library.play}
+                    </Pill>
+                    <Pill variant="outline" size="md" className="lib-quiet col-span-2 whitespace-nowrap sm:basis-full sm:justify-start" data-act="page" onClick={() => enterApp('story')}>
+                      {t.app.home.open}
+                      <OpenIcon size={17} strokeWidth={2.2} className="shrink-0" aria-hidden />
                     </Pill>
                   </div>
                 </>
@@ -376,6 +422,26 @@ export function Library() {
                   <p className="t-lede mt-4 max-w-[30rem] text-ink-2 lg:mt-5" data-d style={d(4)}>
                     {t.library.soonNote}
                   </p>
+                  {sameSeason.length > 0 && (
+                    <div className="mt-7 border-t border-ink/10 pt-5 lg:mt-10 lg:pt-6" data-d style={d(5)}>
+                      <p className="flex items-center gap-2.5 text-[13.5px] font-semibold text-ink-2">
+                        {t.library.filters[dBook.season]}
+                        <span className="h-3 w-px bg-ink/20" aria-hidden />
+                        <span className="tabular-nums font-medium opacity-70">{num(sameSeason.length + 1)}</span>
+                      </p>
+                      <div className="mt-3 flex flex-wrap gap-2.5">
+                        {sameSeason.map(({ b, i }) => (
+                          <button key={b.id} type="button" className="lib-mini" data-jump={i} style={foilVars(b)} onClick={() => shelf.jump(i)}>
+                            <span className="lib-mini-spine" aria-hidden>
+                              <Emblem name={b.emblem} />
+                            </span>
+                            <span className="lib-mini-t">{b.title[locale]}</span>
+                            {b.ready && <i className="lib-mini-ready" aria-label={t.library.ready} role="img" />}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  )}
                 </>
               )}
             </div>

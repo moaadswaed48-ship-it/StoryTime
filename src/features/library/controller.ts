@@ -26,6 +26,8 @@ export interface ShelfEls {
   /** Where the opened book comes to rest, and the block that must be on screen when it does. */
   slot: HTMLElement
   panel: HTMLElement
+  /** The round "open" button that sits on the corner of the pulled-out cover. */
+  open: HTMLElement | null
   books: (HTMLElement | null)[]
   shadows: (HTMLElement | null)[]
 }
@@ -56,7 +58,6 @@ interface Written {
   s: number
   e: number
   sx: number
-  fx: number
   vis: boolean
   so: number
   st: string
@@ -89,7 +90,7 @@ export class Shelf {
   private poses: Pose[] = library.map(newPose)
   private rk: number[] = []
   private kTilt: number[] = library.map(() => 0)
-  private wrote: Written[] = library.map(() => ({ t: '', o: -1, f: -1, s: -1, e: -1, sx: 1e9, fx: -1, vis: true, so: -1, st: '' }))
+  private wrote: Written[] = library.map(() => ({ t: '', o: -1, f: -1, s: -1, e: -1, sx: 1e9, vis: true, so: -1, st: '' }))
   private slot = { x: 0, y: 0, s: 1 }
   /** Pointer parallax of the whole scene (deg) and tilt of the opened book (−1…1). */
   private px = 0
@@ -101,8 +102,12 @@ export class Shelf {
   private ttx = 0
   private tty = 0
   /** Where the bar of light rests on the opened cover (−1…1 across it; beyond ±1 = off the cover). */
-  private lx = 1.5
-  private tlx = 1.5
+  private lx = 0.6
+  private tlx = 0.6
+  private lay = { geoms: [] as Geom[], live: [] as Live[], u: 0, dir: dirSign, gap: 1, focusGain: 1, spread: 0, step: 60, bias: 0, shift: 0 }
+  private wroteShift = 1e9
+  /** The last "open" came from the keyboard (so focus may show its ring on the way back). */
+  viaKey = false
   private hover = -1
   private awake = 0
   private snap: gsap.core.Tween | null = null
@@ -325,7 +330,7 @@ export class Shelf {
     this.detail = i
     this.hover = -1
     this.tx = this.ty = this.ttx = this.tty = 0
-    this.lx = this.tlx = 1.5
+    this.lx = this.tlx = 0.6
     this.measureSlot()
     this.markOpen(i)
     this.fly?.kill()
@@ -351,6 +356,29 @@ export class Shelf {
       this.dp = 0
       done()
     } else this.fly = gsap.to(this, { dp: 0, duration: 0.85, ease: 'power3.inOut', onUpdate: this.wake, onComplete: done })
+    this.wake()
+  }
+  /** From one opened book straight to another: the first goes back to its place, the shelf slides, the next one flies out. */
+  jump(i: number) {
+    if (i < 0 || i >= N || !this.visible[i]) return
+    if (this.detail < 0) {
+      this.open(i)
+      return
+    }
+    if (i === this.detail && !this.closing) return
+    const next = () => {
+      this.closing = false
+      this.detail = -1
+      this.markOpen(-1)
+      this.open(i)
+    }
+    this.closing = true
+    this.ev.onDetail(null)
+    this.fly?.kill()
+    if (this.reduced) {
+      this.dp = 0
+      next()
+    } else this.fly = gsap.to(this, { dp: 0, duration: 0.6, ease: 'power3.inOut', onUpdate: this.wake, onComplete: next })
     this.wake()
   }
   /** Brings the opened book's panel fully into the viewport (only if it is not already). */
@@ -407,7 +435,7 @@ export class Shelf {
       const hit = at + fall
       const hop = 6 + (g.dropFrom / this.m.S) * 13
       this.hits[i] = hit
-      tl.fromTo(l, { alpha: 0 }, { alpha: 1, duration: 0.2, ease: 'none' }, at)
+      tl.fromTo(l, { alpha: 0 }, { alpha: 1, duration: 0.08, ease: 'none' }, at) // it enters through the stage's soft top edge, not by fading
       tl.fromTo(l, { dropY: -g.dropFrom }, { dropY: 0, duration: fall, ease: 'power2.in' }, at) // gravity
       tl.fromTo(l, { tilt: g.dropTilt }, { tilt: -g.dropTilt * 0.3, duration: fall, ease: 'power1.in' }, at)
       tl.to(l, { dropY: -hop, duration: 0.1, ease: 'power2.out' }, hit) // one small bounce
@@ -572,8 +600,10 @@ export class Shelf {
       if (i === this.detail && !this.closing) this.ev.onCover(i)
       return
     }
-    if (i === this.sel && Math.abs(this.delta) < 0.35) this.open(i)
-    else this.go(i)
+    if (i === this.sel && Math.abs(this.delta) < 0.35) {
+      this.viaKey = false
+      this.open(i)
+    } else this.go(i)
   }
   private key = (e: KeyboardEvent) => {
     if (this.detail >= 0 || e.altKey || e.ctrlKey || e.metaKey) return
@@ -581,8 +611,10 @@ export class Shelf {
     else if (e.key === 'ArrowLeft') this.step(-dirSign)
     else if (e.key === 'Home') this.select(0)
     else if (e.key === 'End') this.select(N)
-    else if (e.key === 'Enter' || e.key === ' ') this.open()
-    else return
+    else if (e.key === 'Enter' || e.key === ' ') {
+      this.viaKey = true
+      this.open()
+    } else return
     e.preventDefault()
   }
   /** Sideways wheel / trackpad swipes move the shelf; vertical scrolling is left to the page. */
@@ -621,7 +653,17 @@ export class Shelf {
 
     this.knocks()
     const u = this.u()
-    layout({ geoms, live, u, dir: dirSign, gap: m.gap, focusGain: this.focusGain, spread: this.spread, step: stepSize(geoms, live, m.gap) }, poses)
+    const li = this.lay
+    li.geoms = geoms
+    li.live = live
+    li.u = u
+    li.gap = m.gap
+    li.focusGain = this.focusGain
+    li.spread = this.spread
+    li.step = stepSize(geoms, live, m.gap)
+    li.bias = m.bias
+    layout(li, poses)
+    if (els.open && Math.abs(li.shift - this.wroteShift) > 0.2) els.open.style.translate = `${(this.wroteShift = li.shift).toFixed(1)}px 0`
 
     const e = this.dp
     const yaw = this.px * (1 - e)
@@ -646,16 +688,21 @@ export class Shelf {
       const rz = p.rz + this.kTilt[i]
       // Where the bar of light sits on the cover, in cover widths ×1.5 (0 = centre). It crosses as the book turns,
       // comes to rest just past the edge, and slides back over the foil on hover.
-      let light = (dirSign * p.ry + dirSign * yaw * 3 - 50) / 68 + live[i].hover * p.f * 0.55
+      let light = (dirSign * p.ry + dirSign * yaw * 3 - 28) / 68 + live[i].hover * p.f * 0.55
+      // The pulled-out cover leans toward the pointer.
+      if (p.f > 0.002) {
+        ry += this.px * 2.4 * p.f
+        rx = this.py * 2.4 * p.f
+      }
       if (e > 0 && this.detail >= 0) {
         if (i === this.detail) {
           x = lerp(x, this.slot.x, e)
           y = lerp(y, this.slot.y, e)
           z = lerp(z, 0, e) + Math.sin(Math.PI * e) * m.S * 0.26 // swoops toward the eye on the way
           ry = lerp(ry, dirSign * DETAIL_DEG + this.tx * 10, e)
-          rx = -this.ty * 7 * e
+          rx = lerp(rx, -this.ty * 7, e)
           s = lerp(1, this.slot.s, e)
-          light = lerp(light, (dirSign * this.lx) / 3, e) - 2.2 * e // one full sweep during the flight, then it follows the pointer
+          light = lerp(light, (dirSign * this.lx) / 3, e) + 1.5 * Math.sin(Math.PI * e) // sweeps across and back during the flight, then it follows the pointer
         } else {
           const ee = smooth(clamp(e * 1.7 - Math.abs(i - this.detail) * 0.035, 0, 1))
           o *= 1 - ee
@@ -693,9 +740,6 @@ export class Shelf {
         if (Math.abs(shS - w.s) > 0.004) el.style.setProperty('--sh-s', (w.s = shS).toFixed(3))
         if (Math.abs(shE - w.e) > 0.004) el.style.setProperty('--sh-e', (w.e = shE).toFixed(3))
         if (Math.abs(sx - w.sx) > 0.25) el.style.setProperty('--sx', `${(w.sx = sx).toFixed(1)}px`)
-        // The light layers (blend groups) are only composited for books whose cover can be seen.
-        const fx = p.f > 0.004 || i === this.detail ? 1 : 0
-        if (fx !== w.fx) el.style.setProperty('--fx', String((w.fx = fx)))
       }
       if (sd) {
         // The shadow fades as the book leaves the ledge (dropping in, sinking out, or flying to the detail view).
