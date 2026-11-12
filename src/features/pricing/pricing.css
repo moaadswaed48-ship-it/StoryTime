@@ -70,7 +70,13 @@
   box-shadow:
     0 6px 18px rgb(0 0 0 / 0.3),
     inset 0 1px 0 #fff;
-  transition: transform 0.55s var(--pl-ease-2);
+  transition:
+    transform 0.4s var(--pl-ease-2),
+    scale 0.16s var(--pl-ease);
+}
+/* the thumb gives a little under the finger, wherever on the control it lands */
+.pl-toggle:active .pl-toggle__thumb {
+  scale: 0.96;
 }
 .pl-toggle[data-yearly] .pl-toggle__thumb {
   transform: translateX(100%);
@@ -90,7 +96,7 @@
   line-height: 1;
   white-space: nowrap;
   color: rgb(246 240 228 / 0.8);
-  transition: color 0.3s ease;
+  transition: color 0.2s ease;
 }
 .pl-toggle__opt[aria-checked='true'] {
   color: var(--color-ink, #1a120b);
@@ -467,7 +473,7 @@ html[lang='ar'] .pl-desc {
   line-height: 0.9;
   letter-spacing: -0.045em;
   font-variant-numeric: tabular-nums;
-  animation: pl-bump 0.7s var(--pl-ease) both;
+  animation: pl-bump 0.56s var(--pl-ease) both;
 }
 @keyframes pl-bump {
   from {
@@ -508,7 +514,7 @@ html[lang='ar'] .pl-desc {
   color: var(--color-ink-2, #43362a);
 }
 html[lang='ar'] .pl-sample {
-  font-size: 12px;
+  font-size: 12.5px;
   height: 25px;
 }
 .pl-per {
@@ -529,8 +535,8 @@ html[lang='ar'] .pl-per {
   grid-area: 1 / 1;
   white-space: nowrap;
   transition:
-    transform 0.55s var(--pl-ease-2),
-    opacity 0.3s ease;
+    transform 0.45s var(--pl-ease-2),
+    opacity 0.25s ease;
 }
 /* Month leaves upward, year waits below: the swap always travels the same way. */
 .pl-per > span[aria-hidden='true'] {
@@ -642,6 +648,13 @@ html[lang='ar'] .pl-check {
     background: var(--color-paper, #f6f0e4);
     color: var(--color-ink, #1a120b);
   }
+}
+
+.pl-cta:active .pl-cta__arrow {
+  transform: translate(2px, -2px);
+}
+[dir='rtl'] .pl-cta:active .pl-cta__arrow {
+  transform: translate(-2px, -2px);
 }
 
 .pl-foot {

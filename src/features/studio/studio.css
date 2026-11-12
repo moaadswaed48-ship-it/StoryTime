@@ -180,7 +180,10 @@
   transition: background-color 0.2s ease-out;
 }
 .st-row + .st-row { border-top: 1px solid rgba(26, 18, 11, 0.07); }
-.st-row:hover { background: rgba(255, 255, 255, 0.9); }
+@media (hover: hover) and (pointer: fine) {
+  .st-row:hover { background: rgba(255, 255, 255, 0.9); }
+}
+.st-row:active { background: rgba(26, 18, 11, 0.04); transition-duration: 0.08s; }
 .st-row:first-of-type { border-radius: 28px 28px 0 0; }
 .st-row:last-of-type { border-radius: 0 0 28px 28px; }
 .st-head { grid-area: head; }

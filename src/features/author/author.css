@@ -374,9 +374,13 @@ html[lang='en'] .aut-ghost {
 .aut-scene[data-fore='right'] .aut-leaf::after {
   background: linear-gradient(to left, rgba(36, 20, 8, 0.1), rgba(36, 20, 8, 0.34));
 }
-.aut-book:hover .aut-leaf::after,
 .aut-book:has(.aut-open:focus-visible) .aut-leaf::after {
   opacity: 1;
+}
+@media (hover: hover) {
+  .aut-book:hover .aut-leaf::after {
+    opacity: 1;
+  }
 }
 
 /* Front board, hinged on the spine. */

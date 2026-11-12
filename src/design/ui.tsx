@@ -7,6 +7,7 @@ export function Container({ className, children }: { className?: string; childre
 }
 
 /* ── Buttons are pills ──────────────────────────────────────────────────────── */
+// Tailwind 4 writes `scale` / `translate` as their own CSS properties, so the transition names them: the press eases instead of snapping.
 const PILL = {
   solid: 'bg-paper text-ink hover:bg-white', // primary on film / dark
   ink: 'bg-ink text-paper hover:bg-ink-2', // primary on paper
@@ -21,7 +22,7 @@ export function Pill({ variant = 'solid', size = 'md', className, children, ...r
   return (
     <button
       type="button"
-      className={cn('inline-flex shrink-0 items-center justify-center gap-2.5 rounded-full font-semibold transition-[transform,background-color,filter] duration-200 ease-out active:scale-[0.97] disabled:opacity-40', PILL[variant], SIZE[size], className)}
+      className={cn('inline-flex shrink-0 items-center justify-center gap-2.5 rounded-full font-semibold transition-[transform,scale,translate,background-color,filter,box-shadow] duration-[160ms] ease-[cubic-bezier(0.23,1,0.32,1)] enabled:active:scale-[0.97] disabled:opacity-40', PILL[variant], SIZE[size], className)}
       {...rest}
     >
       {children}

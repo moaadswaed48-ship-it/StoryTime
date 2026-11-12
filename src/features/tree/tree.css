@@ -54,8 +54,11 @@
   overflow: visible;
   transition: transform 0.25s var(--ease-out);
 }
-.tree-leaf:hover .tree-leaf-art { transform: scale(1.05) rotate(-3deg); }
-.tree-leaf:active .tree-leaf-art { transform: scale(0.95); }
+/* hover only where there is a pointer: on a phone a tapped leaf must not stay tilted */
+@media (hover: hover) and (pointer: fine) {
+  .tree-leaf:hover .tree-leaf-art { transform: scale(1.05) rotate(-3deg); }
+}
+.tree-leaf:active .tree-leaf-art { transform: scale(0.94); transition-duration: 0.12s; }
 .tree-leaf[data-on='true'] .tree-leaf-art { filter: drop-shadow(0 6px 10px rgba(60, 20, 0, 0.35)); }
 /* a leaf on its way down carries its own light, so a child's eye follows it */
 .tree-leaf.is-flying { z-index: 3; }
@@ -112,7 +115,9 @@ html[data-reduce-motion] .tree-wing { animation: none; }
     0 10px 22px rgba(26, 18, 11, 0.1);
   transition: rotate 0.3s var(--ease-out), transform 0.3s var(--ease-out);
 }
-.tree-tile:hover { rotate: 0deg; transform: translateY(-3px); }
+@media (hover: hover) and (pointer: fine) {
+  .tree-tile:hover { rotate: 0deg; transform: translateY(-3px); }
+}
 
 /* sizes: everything on the stage derives from one height */
 .tree-stage { --h: clamp(420px, 60svh, 560px); height: var(--h); }

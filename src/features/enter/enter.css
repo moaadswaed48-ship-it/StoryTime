@@ -304,6 +304,13 @@ html[dir='rtl'] .enter__paper {
     transform: translateX(-3px);
   }
 }
+/* a finger gets the same answer as a pointer: the arrow leans the way you are going */
+.enter__go:active .enter__go-arrow {
+  transform: translateX(3px);
+}
+html[dir='rtl'] .enter__go:active .enter__go-arrow {
+  transform: translateX(-3px);
+}
 .enter__guest {
   min-height: 48px;
   padding-inline: 22px;
@@ -316,12 +323,20 @@ html[dir='rtl'] .enter__paper {
   text-underline-offset: 6px;
   transition:
     color 0.2s ease,
-    text-decoration-color 0.2s ease;
+    text-decoration-color 0.2s ease,
+    scale 0.16s var(--ease-out);
   animation: enter-rise 0.8s 0.74s var(--ease-out) both;
 }
-.enter__guest:hover {
+@media (hover: hover) {
+  .enter__guest:hover {
+    color: #fff;
+    text-decoration-color: #fff;
+  }
+}
+.enter__guest:active {
   color: #fff;
   text-decoration-color: #fff;
+  scale: 0.97;
 }
 .enter__note {
   display: inline-flex;

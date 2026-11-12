@@ -73,8 +73,10 @@
     mask-image: linear-gradient(to left, #000 calc(100% - 56px), transparent);
   }
 }
-.lib-chip:hover {
-  background: color-mix(in oklab, var(--lib-ink) 6%, transparent);
+@media (hover: hover) {
+  .lib-chip:hover {
+    background: color-mix(in oklab, var(--lib-ink) 6%, transparent);
+  }
 }
 .lib-chip:active {
   transform: scale(0.97);
@@ -83,6 +85,20 @@
   background: var(--lib-ink);
   color: var(--lib-paper);
   box-shadow: inset 0 0 0 1px var(--lib-ink);
+}
+/* the chosen shelf: its chip settles in with a small pop (transform only; still under reduced motion) */
+.lib-chip.is-on {
+  animation: lib-chip-on 0.36s var(--ease-spring, ease-out) backwards;
+}
+@keyframes lib-chip-on {
+  from {
+    transform: scale(0.94);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .lib-chip.is-on {
+    animation: none;
+  }
 }
 .lib-chip-n {
   font-size: 12px;
@@ -798,9 +814,11 @@ html[lang='en'] .lib-rtitle .is-b {
     transform 0.45s var(--lib-ease),
     background-color 0.2s ease;
 }
-.lib-open:hover {
-  transform: scale(1.08);
-  background: var(--lib-maple);
+@media (hover: hover) {
+  .lib-open:hover {
+    transform: scale(1.08);
+    background: var(--lib-maple);
+  }
 }
 .lib-open:active {
   transform: scale(0.96);
@@ -808,8 +826,10 @@ html[lang='en'] .lib-rtitle .is-b {
 .lib-open svg {
   transition: transform 0.3s var(--lib-ease);
 }
-.lib-open:hover svg {
-  transform: translate(calc(var(--dir, 1) * 1.5px), -1.5px);
+@media (hover: hover) {
+  .lib-open:hover svg {
+    transform: translate(calc(var(--dir, 1) * 1.5px), -1.5px);
+  }
 }
 .lib.is-waiting .lib-open,
 .lib.is-detail .lib-open,
@@ -848,10 +868,12 @@ html[lang='en'] .lib-rtitle .is-b {
     color 0.2s ease,
     opacity 0.2s ease;
 }
-.lib-arrow:hover:not(:disabled) {
-  background: var(--lib-ink);
-  color: var(--lib-paper);
-  transform: scale(1.05);
+@media (hover: hover) {
+  .lib-arrow:hover:not(:disabled) {
+    background: var(--lib-ink);
+    color: var(--lib-paper);
+    transform: scale(1.05);
+  }
 }
 .lib-arrow:active:not(:disabled) {
   transform: scale(0.95);
@@ -1027,8 +1049,10 @@ html[data-reduce-motion] .lib-cap-out {
     background-color 0.2s ease,
     transform 0.2s ease;
 }
-.lib-mini:hover {
-  background: color-mix(in oklab, var(--lib-ink) 10%, transparent);
+@media (hover: hover) {
+  .lib-mini:hover {
+    background: color-mix(in oklab, var(--lib-ink) 10%, transparent);
+  }
 }
 .lib-mini:active {
   transform: scale(0.97);
@@ -1048,8 +1072,10 @@ html[data-reduce-motion] .lib-cap-out {
     0 4px 8px rgba(26, 18, 11, 0.14);
   transition: transform 0.3s var(--lib-ease);
 }
-.lib-mini:hover .lib-mini-spine {
-  transform: translateY(-3px) rotate(-3deg);
+@media (hover: hover) {
+  .lib-mini:hover .lib-mini-spine {
+    transform: translateY(-3px) rotate(-3deg);
+  }
 }
 .lib-mini-spine .lib-emb {
   width: 18px;
@@ -1066,8 +1092,10 @@ html[data-reduce-motion] .lib-cap-out {
   background: color-mix(in oklab, var(--lib-ink) 5%, transparent);
   color: var(--color-ink-2, #43362a);
 }
-.lib-quiet:hover {
-  background: color-mix(in oklab, var(--lib-ink) 10%, transparent);
+@media (hover: hover) {
+  .lib-quiet:hover {
+    background: color-mix(in oklab, var(--lib-ink) 10%, transparent);
+  }
 }
 .lib-detail.is-open .lib-detail-text {
   pointer-events: auto;
@@ -1168,13 +1196,21 @@ html[lang='en'] .lib-detail-titleb {
     color 0.2s ease,
     transform 0.2s ease;
 }
-.lib-return:hover {
-  color: var(--lib-ink);
+.lib-return:active:active span {
+  transform: scale(0.92);
+  transition-duration: 0.12s;
 }
-.lib-return:hover span {
-  background: var(--lib-ink);
-  color: var(--lib-paper);
-  transform: scale(1.06);
+@media (hover: hover) {
+  .lib-return:hover {
+    color: var(--lib-ink);
+  }
+}
+@media (hover: hover) {
+  .lib-return:hover span {
+    background: var(--lib-ink);
+    color: var(--lib-paper);
+    transform: scale(1.06);
+  }
 }
 .lib-status {
   display: inline-flex;

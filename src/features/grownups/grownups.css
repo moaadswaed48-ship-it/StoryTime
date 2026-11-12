@@ -17,7 +17,9 @@
   transform: scale(calc(1 - var(--p, 0) * 0.06));
   transition: background-color 0.2s ease-out;
 }
-.gu-hold:hover .gu-hold-core { background: var(--color-ink-2); }
+@media (hover: hover) and (pointer: fine) {
+  .gu-hold:hover .gu-hold-core { background: var(--color-ink-2); }
+}
 
 /* tabs: one thumb slides under the active tab (across on phones, down on desktop) */
 .gu-tabs {
@@ -39,7 +41,7 @@ html[dir='rtl'] .gu-tabs { --dir: -1; }
   background: #fff;
   box-shadow: 0 1px 2px rgba(26, 18, 11, 0.1), 0 6px 14px rgba(26, 18, 11, 0.08);
   transform: translateX(calc(var(--i) * 100% * var(--dir)));
-  transition: transform 0.45s var(--ease-out);
+  transition: transform 0.34s var(--ease-out);
 }
 .gu-tab {
   position: relative;
@@ -56,9 +58,21 @@ html[dir='rtl'] .gu-tabs { --dir: -1; }
   line-height: 1.15;
   text-align: center;
   color: var(--color-muted);
-  transition: color 0.2s ease-out;
+  transition:
+    color 0.2s ease-out,
+    scale 0.16s var(--ease-out);
+}
+.gu-tab:active { scale: 0.96; }
+@media (hover: hover) and (pointer: fine) {
+  .gu-tab:not([aria-selected='true']):hover { color: var(--color-ink-2); }
 }
 .gu-tab[aria-selected='true'] { color: var(--color-ink); }
+/* the chosen tab's picture lands with a small pop, as in the app's tab bar */
+.gu-tab[aria-selected='true'] svg { animation: gu-pop 0.42s 0.05s var(--ease-spring) backwards; }
+@keyframes gu-pop { from { transform: scale(0.8); } }
+@media (prefers-reduced-motion: reduce) {
+  .gu-tab[aria-selected='true'] svg { animation: none; }
+}
 @media (min-width: 1024px) {
   .gu-tabs {
     grid-template-columns: 1fr;
@@ -107,13 +121,18 @@ html[dir='rtl'] .gu-tabs { --dir: -1; }
   border-radius: 999px;
   background: #fff;
   box-shadow: 0 1px 3px rgba(26, 18, 11, 0.3);
-  transition: transform 0.3s var(--ease-out);
+  transition:
+    transform 0.26s var(--ease-out),
+    scale 0.16s var(--ease-out);
 }
+/* the knob gives under the finger before it slides */
+button.gu-row:active .gu-switch::after { scale: 0.9; }
 .gu-switch[data-on='true'] { background: var(--color-maple); }
 .gu-switch[data-on='true']::after { transform: translateX(24px); }
 html[dir='rtl'] .gu-switch[data-on='true']::after { transform: translateX(-24px); }
 /* the whole row is the target, the switch is what moves */
-.gu-row { min-height: 72px; }
+.gu-row { min-height: 72px; transition: background-color 0.2s ease-out; }
+button.gu-row:active { background-color: rgba(26, 18, 11, 0.035); }
 .gu-row + .gu-row { border-top: 1px solid rgba(26, 18, 11, 0.08); }
 
 .gu-letter {

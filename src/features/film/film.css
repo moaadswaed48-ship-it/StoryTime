@@ -462,10 +462,14 @@ html[dir='rtl'] .film-scrub {
   background: rgba(255, 255, 255, 0.2);
   transition: transform 0.2s ease-out;
 }
-.film-scrub:hover .film-scrub__track,
 .film-scrub.is-dragging .film-scrub__track,
 .film-scrub:focus-visible .film-scrub__track {
   transform: scaleY(1.4);
+}
+@media (hover: hover) {
+  .film-scrub:hover .film-scrub__track {
+    transform: scaleY(1.4);
+  }
 }
 .film-scrub__fill {
   position: absolute;
@@ -503,10 +507,14 @@ html[dir='rtl'] .film-scrub__fill {
   scale: var(--thumb, 0.75);
   transition: scale 0.2s ease-out;
 }
-.film-scrub:hover .film-scrub__thumb,
 .film-scrub.is-dragging .film-scrub__thumb,
 .film-scrub:focus-visible .film-scrub__thumb {
   --thumb: 1;
+}
+@media (hover: hover) {
+  .film-scrub:hover .film-scrub__thumb {
+    --thumb: 1;
+  }
 }
 /* Hover preview: the scene under the pointer, standing clear above the bar. */
 .film-peek {

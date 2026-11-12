@@ -54,6 +54,17 @@
   border-radius: 50%;
   background: var(--color-paper-2);
   color: var(--color-ink-2);
+  transition:
+    scale 0.16s var(--ease-out),
+    background-color 0.2s ease;
+}
+.pay__close:active {
+  scale: 0.92;
+}
+@media (hover: hover) and (pointer: fine) {
+  .pay__close:hover {
+    background: #e3d7c1;
+  }
 }
 
 /* ── the form ── */
@@ -118,6 +129,9 @@
   font-weight: 700;
   color: var(--color-ink-2);
   white-space: nowrap;
+}
+html[lang='ar'] .pay__sample {
+  font-size: 12.5px;
 }
 .pay__plastic {
   position: relative;
@@ -248,7 +262,7 @@
   border: 2.5px solid rgba(246, 240, 228, 0.35);
   border-top-color: var(--color-paper);
   border-radius: 50%;
-  animation: pay-spin 0.7s linear infinite;
+  animation: pay-spin 0.6s linear infinite;
 }
 
 /* ── the receipt ── */
@@ -292,7 +306,7 @@
   line-height: 1.6;
   -webkit-mask: conic-gradient(from -45deg at bottom, #0000, #000 1deg 89deg, #0000 90deg) 50% / calc(2 * var(--z)) 100%;
   mask: conic-gradient(from -45deg at bottom, #0000, #000 1deg 89deg, #0000 90deg) 50% / calc(2 * var(--z)) 100%;
-  animation: pay-print 2.6s steps(24, end) both; /* in steps: a printer feeds line by line */
+  animation: pay-print 2s steps(24, end) both; /* in steps: a printer feeds line by line */
 }
 .pay__r-brand {
   font-size: 18px;
@@ -354,19 +368,19 @@
   font-size: 12.5px;
   font-weight: 800;
   rotate: -8deg;
-  animation: pay-stamp 0.4s var(--ease-spring) 2.75s both;
+  animation: pay-stamp 0.4s var(--ease-spring) 2.1s both;
 }
 .pay__thanks {
   margin-top: 18px;
   font-size: 16.5px;
   font-weight: 700;
   text-align: center;
-  animation: pay-in 0.6s var(--ease-out) 2.9s both;
+  animation: pay-in 0.5s var(--ease-out) 2.2s both;
 }
 .pay__go {
   width: 100%;
   margin-top: 14px;
-  animation: pay-in 0.6s var(--ease-out) 3.05s both;
+  animation: pay-in 0.5s var(--ease-out) 2.3s both; /* the way on is never kept waiting long */
 }
 
 @keyframes pay-fade {

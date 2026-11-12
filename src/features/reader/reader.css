@@ -111,8 +111,10 @@
   background: transparent;
   transition: background-color 0.18s var(--ease-state);
 }
-.rd-over .rd-gate-btn:hover {
-  background: rgba(255, 255, 255, 0.35);
+@media (hover: hover) {
+  .rd-over .rd-gate-btn:hover {
+    background: rgba(255, 255, 255, 0.35);
+  }
 }
 .rd-over .rd-gate-btn:active {
   background: rgba(26, 18, 11, 0.08);
@@ -151,9 +153,11 @@
 .rd[data-chrome] .rd-arrow {
   opacity: 0.85;
 }
-.rd-arrow:hover {
-  opacity: 1;
-  transform: scale(1.05);
+@media (hover: hover) {
+  .rd-arrow:hover {
+    opacity: 1;
+    transform: scale(1.05);
+  }
 }
 .rd-arrow:active {
   transform: scale(0.97);
@@ -220,9 +224,13 @@
     background-color 0.18s var(--ease-state),
     transform 0.18s var(--ease-out);
 }
-.rd-btn:hover,
 .rd-btn[data-active] {
   background: rgba(255, 255, 255, 0.14);
+}
+@media (hover: hover) {
+  .rd-btn:hover {
+    background: rgba(255, 255, 255, 0.14);
+  }
 }
 .rd-btn:active {
   transform: scale(0.95);
@@ -411,8 +419,10 @@
     background-color 0.18s var(--ease-state),
     transform 0.18s var(--ease-out);
 }
-.rd-scene:hover {
-  background: rgba(255, 255, 255, 0.1);
+@media (hover: hover) {
+  .rd-scene:hover {
+    background: rgba(255, 255, 255, 0.1);
+  }
 }
 .rd-scene:active {
   transform: scale(0.97);

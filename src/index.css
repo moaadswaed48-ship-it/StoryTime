@@ -98,10 +98,12 @@
   font-weight: 700;
   font-size: clamp(1.25rem, 2vw, 1.75rem);
   line-height: 1.2;
+  text-wrap: balance;
 }
 .t-lede {
   font-size: clamp(1rem, 1.35vw, 1.2rem);
   line-height: 1.6;
+  text-wrap: pretty; /* no lone last word; browsers without it keep their normal wrap */
 }
 .t-label {
   font-size: 12px;
@@ -118,6 +120,9 @@ html[lang='ar'] .t-display {
 }
 html[lang='ar'] .t-h2 {
   line-height: 1.22;
+}
+html[lang='ar'] .t-h3 {
+  line-height: 1.4; /* IBM Plex Sans Arabic sits taller than Rubik: two-line sub-headings need the air */
 }
 html[lang='ar'] .t-label {
   font-size: 13.5px;
@@ -201,30 +206,30 @@ html[lang='en'] .font-story {
 }
 .blur-words.is-armed .w {
   opacity: 0;
-  filter: blur(12px);
-  transform: translateY(0.35em);
+  filter: blur(8px);
+  transform: translateY(0.3em);
 }
 .blur-words.is-in .w {
   opacity: 1;
   filter: blur(0);
   transform: none;
   transition:
-    opacity 0.9s var(--ease-out),
-    filter 0.9s var(--ease-out),
-    transform 0.9s var(--ease-out);
-  transition-delay: calc(var(--i) * 90ms + var(--d, 0ms));
+    opacity 0.7s var(--ease-out),
+    filter 0.7s var(--ease-out),
+    transform 0.7s var(--ease-out);
+  transition-delay: calc(var(--i) * 60ms + var(--d, 0ms));
 }
 /* In-view fade-up. */
 .reveal.is-armed {
   opacity: 0;
-  transform: translateY(28px);
+  transform: translateY(20px);
 }
 .reveal.is-in {
   opacity: 1;
   transform: none;
   transition:
-    opacity 0.8s var(--ease-out),
-    transform 0.8s var(--ease-out);
+    opacity 0.65s var(--ease-out),
+    transform 0.65s var(--ease-out);
   transition-delay: var(--d, 0ms);
 }
 @keyframes overlay-in {
@@ -301,3 +306,17 @@ html[data-reduce-motion] .view-in { animation: none; }
 html[lang='en'] {
   --font-sans: 'Rubik Variable', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
 }
+
+/* ── Finish: numbers and presses ────────────────────────────────────────────── */
+/* Digits that change or line up in columns keep one width, so a counter never shivers. */
+.tnum {
+  font-variant-numeric: tabular-nums;
+}
+/* A plain button that answers the finger: add `.press` (transform only, quick out, a touch slower back). */
+.press {
+  transition: scale 0.16s cubic-bezier(0.23, 1, 0.32, 1);
+}
+.press:active {
+  scale: 0.97;
+}
+

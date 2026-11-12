@@ -6,7 +6,7 @@ const reducedNow = () => document.documentElement.hasAttribute('data-reduce-moti
  * A whole number that counts to its target whenever the target changes (ease-out cubic).
  * It starts from whatever is on screen, so a quick second toggle never jumps. Reduced motion: the value is set at once.
  */
-export function useCount(target: number, ms = 720): number {
+export function useCount(target: number, ms = 560): number {
   const [value, setValue] = useState(target)
   const shown = useRef(target)
 

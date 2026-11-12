@@ -258,7 +258,7 @@ export function PlanPanel() {
           <ArrowUpRight className="flip-rtl h-[18px] w-[18px]" aria-hidden />
         </Pill>
       </div>
-      <button type="button" onClick={() => go('studio')} className="gu-card group flex min-h-[84px] w-full items-center gap-4 px-5 text-start transition-[background-color,transform] duration-200 hover:bg-white active:scale-[0.99] sm:px-7" data-gu-studio>
+      <button type="button" onClick={() => go('studio')} className="gu-card group flex min-h-[84px] w-full items-center gap-4 px-5 text-start transition-[background-color,scale] duration-200 ease-out hover:bg-white active:scale-[0.985] sm:px-7" data-gu-studio>
         <span className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-ink text-paper">
           <PenLine className="h-5 w-5" aria-hidden />
         </span>

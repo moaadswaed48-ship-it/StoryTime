@@ -74,7 +74,7 @@
   animation: au-fade-out 0.28s ease both;
 }
 .au[data-state='closing'] .au__card {
-  animation: au-sheet-out 0.28s cubic-bezier(0.4, 0, 1, 1) both;
+  animation: au-sheet-out 0.24s cubic-bezier(0.4, 0, 0.6, 1) both;
 }
 
 /* ── Picture side ────────────────────────────────────────────────────────────── */
@@ -318,6 +318,12 @@ html[lang='ar'] .au__label {
     transform: translateX(-3px);
   }
 }
+.au__submit:active .au__chip {
+  transform: translateX(3px);
+}
+[dir='rtl'] .au__submit:active .au__chip {
+  transform: translateX(-3px);
+}
 
 /* The form arrives piece by piece. */
 .au__form > * {
@@ -524,6 +530,19 @@ html[lang='ar'] .au__welcome {
   text-decoration-color: color-mix(in oklab, var(--color-ink) 30%, transparent);
   text-underline-offset: 4px;
   border-radius: 12px;
+  transition:
+    color 0.2s ease,
+    text-decoration-color 0.2s ease,
+    opacity 0.12s ease;
+}
+.au__switch:active {
+  opacity: 0.6;
+}
+@media (hover: hover) and (pointer: fine) {
+  .au__switch:hover {
+    color: var(--color-ink);
+    text-decoration-color: currentColor;
+  }
 }
 
 .au__input input {

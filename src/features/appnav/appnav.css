@@ -129,7 +129,7 @@
   font-weight: 800;
   letter-spacing: -0.02em;
   white-space: nowrap;
-  transition: transform 0.2s ease;
+  transition: transform 0.16s var(--ease-out);
 }
 .appnav__brand:active,
 .appnav__reader:active {
@@ -202,6 +202,12 @@
   width: 20px;
   height: 20px;
 }
+.appnav__lang svg {
+  transition: rotate 0.45s var(--ease-out);
+}
+.appnav__lang:active svg {
+  rotate: 60deg;
+}
 .appnav__lang span {
   display: none;
 }
@@ -227,7 +233,7 @@
   background: var(--color-paper);
   box-shadow: 0 4px 14px rgb(0 0 0 / 0.25);
   transform: translateX(calc(var(--i) * 100%));
-  transition: transform 0.5s var(--ease-out);
+  transition: transform 0.38s var(--ease-out); /* seen on every visit: quick, and it lands before the new screen settles */
 }
 html[dir='rtl'] .appnav__thumb {
   transform: translateX(calc(var(--i) * -100%));
@@ -245,8 +251,8 @@ html[dir='rtl'] .appnav__thumb {
   white-space: nowrap;
   -webkit-tap-highlight-color: transparent;
   transition:
-    color 0.3s ease,
-    transform 0.2s ease;
+    color 0.2s ease,
+    transform 0.16s var(--ease-out);
 }
 .appnav__tab:active {
   transform: scale(0.95);
@@ -256,6 +262,10 @@ html[dir='rtl'] .appnav__thumb {
 }
 .appnav__tab[aria-current='page'] .appnav__tab-icon {
   color: var(--color-maple);
+}
+/* the chosen tab's picture lands with a small pop, just after the thumb starts to move */
+.appnav__tab[aria-current='page'] .appnav__tab-icon {
+  animation: appnav-pop 0.45s 0.06s var(--ease-spring) backwards;
 }
 @media (hover: hover) {
   .appnav__tab:not([aria-current='page']):hover {
@@ -284,6 +294,10 @@ html[dir='rtl'] .appnav__thumb {
   font-weight: 800;
   line-height: 1;
   box-shadow: 0 0 0 2px rgb(30 21 14 / 0.9);
+}
+/* a new leaf: the count pops (the badge is re-keyed by its number) */
+.appnav__badge {
+  animation: appnav-pop 0.5s 0.15s var(--ease-spring) backwards;
 }
 .appnav__tab[aria-current='page'] .appnav__badge {
   box-shadow: 0 0 0 2px var(--color-paper);
@@ -392,8 +406,10 @@ html[dir='rtl'] .appnav__thumb {
   .appnav__reader {
     padding-inline-start: 8px;
   }
-  .appnav__reader:hover {
-    background: rgb(255 255 255 / 0.1);
+  @media (hover: hover) {
+    .appnav__reader:hover {
+      background: rgb(255 255 255 / 0.1);
+    }
   }
   .appnav__lang {
     display: inline-flex;
@@ -418,9 +434,11 @@ html[dir='rtl'] .appnav__thumb {
   .appnav__lang span {
     display: inline;
   }
-  .appnav__lang:hover {
-    background: rgb(255 255 255 / 0.1);
-    color: #fff;
+  @media (hover: hover) {
+    .appnav__lang:hover {
+      background: rgb(255 255 255 / 0.1);
+      color: #fff;
+    }
   }
 }
 
@@ -428,6 +446,11 @@ html[dir='rtl'] .appnav__thumb {
   from {
     opacity: 0;
     transform: translate3d(0, -110%, 0);
+  }
+}
+@keyframes appnav-pop {
+  from {
+    transform: scale(0.78);
   }
 }
 @keyframes appnav-rise {
@@ -438,7 +461,9 @@ html[dir='rtl'] .appnav__thumb {
 }
 @media (prefers-reduced-motion: reduce) {
   .appnav__top,
-  .appnav__dock {
+  .appnav__dock,
+  .appnav__badge,
+  .appnav__tab[aria-current='page'] .appnav__tab-icon {
     animation: none;
   }
 }

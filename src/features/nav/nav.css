@@ -117,7 +117,7 @@
   font-weight: 800;
   letter-spacing: -0.02em;
   white-space: nowrap;
-  transition: transform 0.2s ease;
+  transition: transform 0.16s var(--ease-out, ease);
 }
 .st-brand:active {
   transform: scale(0.97);
@@ -194,6 +194,21 @@
 }
 .st-ghost:active {
   transform: scale(0.97);
+}
+/* the language button: the globe turns a little under the pointer and further under the finger, then the page turns */
+.st-ghost[lang] svg {
+  transition: rotate 0.45s var(--ease-out, ease);
+}
+.st-ghost[lang]:active svg {
+  rotate: 60deg;
+}
+@media (hover: hover) and (pointer: fine) {
+  .st-ghost[lang]:hover svg {
+    rotate: 25deg;
+  }
+  .st-ghost[lang]:hover:active svg {
+    rotate: 60deg;
+  }
 }
 .st-actions .st-cta {
   height: 40px;

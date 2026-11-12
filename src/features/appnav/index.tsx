@@ -32,14 +32,14 @@ function Tabs({ tabs, active, className, leaves }: { tabs: typeof TABS; active: 
             <Icon className="appnav__tab-icon" strokeWidth={active === id ? 2.3 : 1.9} aria-hidden />
             {/* the leaves earned so far ride on the tree tab */}
             {id === 'tree' && leaves > 0 && (
-              <span className="appnav__badge" data-leaves={leaves} aria-hidden>
+              <span key={leaves} className="appnav__badge tnum" data-leaves={leaves} aria-hidden>
                 {num(leaves)}
               </span>
             )}
           </span>
           <span className="appnav__tab-label">{label}</span>
           {id === 'tree' && leaves > 0 && (
-            <span className="appnav__badge appnav__badge--inline" aria-hidden>
+            <span key={leaves} className="appnav__badge appnav__badge--inline tnum" aria-hidden>
               {num(leaves)}
             </span>
           )}

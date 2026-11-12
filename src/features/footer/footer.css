@@ -248,6 +248,7 @@ html[lang='en'] .ft-from {
   display: inline-flex;
   align-items: center;
   gap: 8px;
+  min-width: 44px;
   min-height: 44px;
   font-size: 15px;
   font-weight: 500;
@@ -369,6 +370,12 @@ html[dir='rtl'] .ft-switch[data-on] .ft-switch__thumb {
 }
 .ft-top:active .ft-top__disc {
   transform: scale(0.94);
+}
+.ft-enter:active .ft-enter__arrow {
+  translate: 3px 0;
+}
+html[dir='rtl'] .ft-enter:active .ft-enter__arrow {
+  translate: -3px 0;
 }
 .ft-enter__arrow {
   transition: translate 0.2s var(--ease-out);

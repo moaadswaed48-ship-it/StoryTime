@@ -83,6 +83,9 @@
   text-align: start;
   color: inherit;
 }
+.tour-cap:active .tour-cap__n {
+  scale: 0.9;
+}
 .tour-cap__n {
   display: grid;
   flex: none;
@@ -97,6 +100,7 @@
   font-weight: 700;
   font-variant-numeric: tabular-nums;
   transition:
+    scale 0.16s var(--ease-out),
     background-color 0.35s var(--ease-state),
     border-color 0.35s var(--ease-state),
     color 0.35s var(--ease-state);
@@ -140,6 +144,9 @@ html[lang='ar'] .tour-cap__s {
   .tour-enter__pill:hover .tour-enter__arrow {
     transform: translateX(calc(3px * var(--dir, 1)));
   }
+}
+.tour-enter__pill:active .tour-enter__arrow {
+  transform: translateX(calc(3px * var(--dir, 1)));
 }
 html[dir='rtl'] .tour-enter__pill {
   --dir: -1;

@@ -245,6 +245,9 @@ html[lang='en'] .ss-detail {
     transform: translate(calc(2px * var(--ss-dir)), -2px);
   }
 }
+.ss-pill:active .ss-pill-arrow {
+  transform: translate(calc(2px * var(--ss-dir)), -2px);
+}
 
 /* Live (scripted) states. Without .is-live everything above is simply visible. */
 .ss.is-live .ss-kicker,
@@ -360,6 +363,9 @@ html[lang='en'] .ss-detail {
 .ss-tick[data-on='1'] .ss-tick-label {
   opacity: 1;
 }
+.ss-tick:active .ss-tick-dot {
+  scale: 0.8;
+}
 .ss-tick-dot {
   flex: none;
   width: 11.5px;
@@ -369,6 +375,7 @@ html[lang='en'] .ss-detail {
   box-shadow: inset 0 0 0 1.5px rgb(255 255 255 / 0.75);
   transition:
     transform 0.4s var(--ease-spring),
+    scale 0.16s var(--ease-out),
     background-color 0.3s var(--ease-state),
     box-shadow 0.3s var(--ease-state);
 }

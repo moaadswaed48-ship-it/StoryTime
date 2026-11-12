@@ -212,7 +212,7 @@ export function MyTree() {
                       data-row={k}
                       data-on={on}
                       className={cn(
-                        'group flex min-h-[84px] w-full items-center gap-3.5 rounded-[26px] py-3 pe-3 ps-4 text-start transition-[transform,background-color,box-shadow] duration-200 ease-out active:scale-[0.985]',
+                        'group flex min-h-[84px] w-full items-center gap-3.5 rounded-[26px] py-3 pe-3 ps-4 text-start transition-[scale,background-color,box-shadow] duration-200 ease-out active:scale-[0.985]',
                         on ? 'bg-white/75 shadow-soft hover:bg-white' : 'bg-white/40 shadow-[0_0_0_1px_rgba(26,18,11,.09)] hover:bg-white/70',
                       )}
                     >

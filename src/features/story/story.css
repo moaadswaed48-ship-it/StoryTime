@@ -163,7 +163,7 @@ html[lang='en'] .story__title {
   min-width: 0;
   text-align: center;
   -webkit-tap-highlight-color: transparent;
-  animation: story-door 0.9s calc(0.25s + var(--i) * 110ms) var(--ease-out) both;
+  animation: story-door 0.75s calc(0.18s + var(--i) * 70ms) var(--ease-out) both;
 }
 .door__arch {
   position: relative;
@@ -182,8 +182,14 @@ html[lang='en'] .story__title {
     transform 0.45s var(--ease-out),
     box-shadow 0.45s var(--ease-out);
 }
+/* down fast, back slower: the door answers the finger at once */
 .door:active .door__arch {
   transform: scale(0.97);
+  transition-duration: 0.14s;
+}
+.door:active .door__icon {
+  transform: scale(0.9);
+  transition-duration: 0.12s;
 }
 .door__pic {
   position: absolute;
@@ -377,6 +383,9 @@ html[lang='en'] .door__s {
   .door:hover:active .door__arch {
     transform: translateY(-8px) scale(0.98);
   }
+  .door:hover:active .door__icon {
+    transform: scale(0.96);
+  }
 }
 
 /* Section blocks */
@@ -426,8 +435,10 @@ html[lang='en'] .door__s {
     background-color 0.2s ease,
     transform 0.2s ease;
 }
-.story__arrow:hover {
-  background: rgb(26 18 11 / 0.06);
+@media (hover: hover) {
+  .story__arrow:hover {
+    background: rgb(26 18 11 / 0.06);
+  }
 }
 .story__arrow:active {
   transform: scale(0.94);
@@ -512,6 +523,7 @@ html[lang='en'] .door__s {
 }
 .scene:active .scene__pic {
   transform: scale(0.97);
+  transition-duration: 0.14s;
 }
 @media (hover: hover) {
   .scene:hover .scene__pic {
@@ -558,9 +570,12 @@ html[lang='en'] .door__s {
 .words__cell:nth-child(4n) .word {
   --tilt: 1.4deg;
 }
-.word.is-flipped,
-.word:active {
+.word.is-flipped {
   transform: none;
+}
+.word:active {
+  transform: scale(0.97);
+  transition-duration: 0.14s;
 }
 /* a hint that needs no reading: the first card lifts its corner once when the row comes into view */
 .words.is-hinting .words__cell:first-child .word__inner {
@@ -787,7 +802,18 @@ html[lang='en'] .word__quote {
   height: 40px;
   border-radius: 999px;
   border: 1px solid rgb(26 18 11 / 0.16);
-  transition: transform 0.4s var(--ease-out);
+  transition:
+    transform 0.3s var(--ease-out),
+    scale 0.16s var(--ease-out),
+    background-color 0.2s ease;
+}
+.grown__head:active .grown__chev {
+  scale: 0.9;
+}
+@media (hover: hover) and (pointer: fine) {
+  .grown__head:hover .grown__chev {
+    background-color: rgb(26 18 11 / 0.06);
+  }
 }
 .grown[data-open] .grown__chev {
   transform: rotate(180deg);
@@ -797,7 +823,7 @@ html[lang='en'] .word__quote {
 }
 .grown[data-open] .grown__body {
   display: block;
-  animation: story-grown 0.55s var(--ease-out) both;
+  animation: story-grown 0.4s var(--ease-out) both;
 }
 .grown__cols {
   display: grid;
@@ -904,7 +930,7 @@ html[lang='en'] .word__quote {
 @keyframes story-pop {
   from {
     opacity: 0;
-    transform: scale(0.5);
+    transform: scale(0.8);
   }
 }
 @keyframes story-grown {

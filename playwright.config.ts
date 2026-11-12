@@ -10,7 +10,7 @@ export default defineConfig({
   workers: 1,
   reporter: [['list']],
   use: {
-    baseURL: dev ? 'http://localhost:5173/' : 'http://localhost:4173/',
+    baseURL: dev ? `http://localhost:${process.env.PW_PORT ?? 5173}/` : 'http://localhost:4173/', // PW_PORT: a second dev server (another worktree) without touching the shared one
     trace: 'off',
     launchOptions: { args: ['--use-gl=angle', '--use-angle=swiftshader', '--enable-unsafe-swiftshader', '--ignore-gpu-blocklist', '--autoplay-policy=no-user-gesture-required'] },
   },
