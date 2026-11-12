@@ -1,0 +1,389 @@
+/* ─────────────────────────────────────────────────────────────────────────────
+   Footer: the last picture of the story, pinned under the page, and the night
+   rising over it. No JS is needed for the layout: the stage is CSS sticky and
+   the melt is a gradient (in the page's own night colour) attached to the block
+   that slides over it.
+   ───────────────────────────────────────────────────────────────────────────── */
+.ft {
+  --ft-over: 25svh; /* how much of the last block already shows when the film pins */
+  --ft-gutter: clamp(20px, 3.9vw, 56px);
+  position: relative;
+  z-index: 1; /* below the paper sheet that lifts off it */
+  isolation: isolate;
+  margin-top: -44px; /* the film starts under the rounded shoulders of the section above */
+  background: var(--color-night);
+  color: var(--color-paper);
+}
+@media (max-width: 640px) {
+  .ft {
+    margin-top: -28px;
+  }
+}
+
+/* ── The film ───────────────────────────────────────────────────────────────── */
+.ft-stage {
+  position: sticky;
+  top: 0;
+  z-index: 0;
+  height: 100vh;
+  height: 100svh;
+  min-height: 520px;
+  overflow: hidden;
+  background: var(--color-night);
+}
+.ft-film {
+  position: absolute;
+  inset: 0;
+  will-change: transform;
+}
+/* Phones see a tall slice of the 16:9 frame: keep the sun, the flock and the two boys' side of the yard. */
+.ft-film .qf {
+  --qf-focus: 50% 50%;
+}
+@media (max-aspect-ratio: 1/1) {
+  .ft-film .qf {
+    --qf-focus: 64% 50%;
+  }
+}
+/* The page's shadow on the picture, right under the lifted paper. */
+.ft-stage::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto 0;
+  z-index: 2;
+  height: 22%;
+  pointer-events: none;
+  background: linear-gradient(to bottom, rgba(18, 12, 8, 0.42), rgba(18, 12, 8, 0.12) 46%, rgba(18, 12, 8, 0));
+}
+.ft-stage.grain::after {
+  z-index: 3;
+}
+
+/* ── The night that rises over it ───────────────────────────────────────────── */
+.ft-body {
+  position: relative;
+  z-index: 2;
+  margin-top: calc(-1 * var(--ft-over));
+}
+.ft-body::before {
+  content: '';
+  position: absolute;
+  inset: -52svh 0 0 0;
+  z-index: -1;
+  pointer-events: none;
+  /* eased stops: the picture melts, it is not cut */
+  background: linear-gradient(
+    to bottom,
+    rgba(18, 12, 8, 0) 0,
+    rgba(18, 12, 8, 0.07) 10svh,
+    rgba(18, 12, 8, 0.2) 22svh,
+    rgba(18, 12, 8, 0.4) 34svh,
+    rgba(18, 12, 8, 0.62) 46svh,
+    rgba(18, 12, 8, 0.8) 56svh,
+    rgba(18, 12, 8, 0.93) 66svh,
+    var(--color-night) 76svh
+  );
+}
+.ft-wrap {
+  position: relative;
+}
+
+/* One line of the story, in the story's own face. */
+.ft-quote {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding-bottom: clamp(26px, 4.2svh, 44px);
+}
+.ft-line {
+  display: block;
+  font-weight: 700;
+  font-size: clamp(2.1rem, 5vw, 4.4rem);
+  line-height: 1.5;
+  color: #fff7ea;
+  text-shadow:
+    0 2px 2px rgba(18, 12, 8, 0.35),
+    0 10px 34px rgba(18, 12, 8, 0.55);
+}
+html[lang='en'] .ft-line {
+  font-weight: 400;
+  font-style: italic;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+}
+.ft-from {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 6px;
+  font-size: 13.5px;
+  font-weight: 500;
+  line-height: 1.6;
+  color: rgb(246 240 228 / 0.62);
+  text-shadow: 0 1px 12px rgba(18, 12, 8, 0.6);
+}
+html[lang='en'] .ft-from {
+  margin-top: 14px;
+  font-size: 12px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+.ft-from i {
+  width: 28px;
+  height: 1px;
+  background: currentColor;
+  opacity: 0.7;
+}
+
+/* Links · tools · the way in */
+.ft-bar {
+  display: flex;
+  align-items: center;
+  gap: clamp(14px, 2vw, 28px);
+  padding-top: 18px;
+  border-top: 1px solid rgb(246 240 228 / 0.14);
+}
+.ft-links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 2px clamp(14px, 2.2vw, 34px);
+  margin-inline-end: auto;
+}
+.ft-link {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  font-size: 15px;
+  font-weight: 500;
+  color: rgb(246 240 228 / 0.78);
+  transition: color 0.2s ease-out;
+}
+.ft-link span {
+  position: relative;
+}
+/* underline grows from the reading side */
+.ft-link span::after {
+  content: '';
+  position: absolute;
+  inset-inline: 0;
+  bottom: -3px;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+  transition: transform 0.3s var(--ease-out);
+}
+html[dir='rtl'] .ft-link span::after {
+  transform-origin: 100% 50%;
+}
+.ft-link svg {
+  color: var(--color-maple-soft);
+}
+@media (hover: hover) {
+  .ft-link:hover {
+    color: var(--color-paper);
+  }
+  .ft-link:hover span::after {
+    transform: scaleX(1);
+  }
+}
+.ft-link:active {
+  color: var(--color-paper);
+}
+
+.ft-tools {
+  display: flex;
+  align-items: center;
+  gap: clamp(10px, 1.6vw, 22px);
+}
+.ft-switch,
+.ft-top {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+  font-size: 13.5px;
+  font-weight: 500;
+  color: rgb(246 240 228 / 0.72);
+  transition: color 0.2s ease-out;
+}
+.ft-switch__track {
+  position: relative;
+  flex: none;
+  width: 42px;
+  height: 24px;
+  border-radius: 999px;
+  background: rgb(246 240 228 / 0.16);
+  box-shadow: inset 0 0 0 1px rgb(246 240 228 / 0.2);
+  transition: background-color 0.25s var(--ease-state);
+}
+.ft-switch__thumb {
+  position: absolute;
+  top: 3px;
+  inset-inline-start: 3px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--color-paper);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+  transition: transform 0.25s var(--ease-state);
+}
+.ft-switch[data-on] .ft-switch__track {
+  background: var(--color-maple);
+  box-shadow: none;
+}
+.ft-switch[data-on] .ft-switch__thumb {
+  transform: translateX(18px);
+}
+html[dir='rtl'] .ft-switch[data-on] .ft-switch__thumb {
+  transform: translateX(-18px);
+}
+.ft-switch[data-on] {
+  color: var(--color-paper);
+}
+.ft-top__disc {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  color: var(--color-paper);
+  transition: transform 0.25s var(--ease-out);
+}
+@media (hover: hover) {
+  .ft-switch:hover,
+  .ft-top:hover {
+    color: var(--color-paper);
+  }
+  .ft-top:hover .ft-top__disc {
+    transform: translateY(-3px);
+  }
+  .ft-enter:hover .ft-enter__arrow {
+    translate: 3px 0;
+  }
+  html[dir='rtl'] .ft-enter:hover .ft-enter__arrow {
+    translate: -3px 0;
+  }
+}
+.ft-top:active .ft-top__disc {
+  transform: scale(0.94);
+}
+.ft-enter__arrow {
+  transition: translate 0.2s var(--ease-out);
+}
+
+/* Fine print */
+.ft-fine {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px 32px;
+  padding-top: 14px;
+  font-size: 13px;
+  line-height: 1.7;
+  color: rgb(246 240 228 / 0.5);
+}
+.ft-legal {
+  color: rgb(246 240 228 / 0.7);
+}
+
+/* ── The wordmark: as wide as the page, sinking off its bottom edge ─────────── */
+.ft-word {
+  --sink: 0.8em; /* how much of the line the page keeps */
+  margin: clamp(10px, 2.2svh, 26px) var(--ft-gutter) 0;
+  height: var(--sink);
+  overflow: hidden;
+  font-size: 17vw; /* until the fit is measured */
+  font-weight: 900;
+  line-height: 1;
+  white-space: nowrap;
+  text-align: center;
+  user-select: none;
+}
+/* Arabic keeps its dots: only the tails of the deepest letters leave the page. */
+html[lang='ar'] .ft-word {
+  --sink: 0.99em;
+  font-size: 18vw;
+}
+.ft-word span {
+  display: inline-block;
+  margin-top: -0.085em;
+  padding-bottom: 0.3em; /* room for the gradient to cover the descenders */
+  letter-spacing: -0.045em;
+  color: var(--color-paper);
+  background: linear-gradient(180deg, #fbf3e4 6%, #f6c08a 38%, var(--color-maple-soft) 56%, rgb(217 84 30 / 0.7) 76%, rgb(217 84 30 / 0.28) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  will-change: transform;
+}
+html[lang='ar'] .ft-word span {
+  margin-top: -0.03em;
+}
+/* rises out of the bottom edge (a mask slide, no fade) */
+.ft-word.is-armed span {
+  transform: translate3d(0, 62%, 0);
+}
+.ft-word.is-in span {
+  transform: none;
+  transition: transform 1.25s var(--ease-out-2);
+}
+
+/* ── Phones ─────────────────────────────────────────────────────────────────── */
+@media (max-width: 767px) {
+  .ft {
+    --ft-over: 23svh;
+  }
+  .ft-quote {
+    padding-bottom: 20px;
+  }
+  .ft-line {
+    font-size: clamp(2rem, 9.4vw, 2.7rem);
+  }
+  .ft-bar {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 6px;
+    padding-top: 14px;
+  }
+  .ft-enter {
+    order: -1;
+    width: 100%;
+    margin-bottom: 4px;
+  }
+  .ft-links {
+    justify-content: space-between;
+    gap: 0 12px;
+    margin-inline-end: 0;
+  }
+  .ft-link {
+    font-size: 14.5px;
+  }
+  .ft-tools {
+    justify-content: space-between;
+  }
+  .ft-fine {
+    flex-direction: column;
+    gap: 2px;
+    padding-top: 10px;
+    font-size: 12.5px;
+    line-height: 1.65;
+  }
+  .ft-word {
+    margin-top: 12px;
+  }
+}
+
+/* Reduced motion: nothing waits for a transition. */
+@media (prefers-reduced-motion: reduce) {
+  .ft-word.is-armed span {
+    transform: none;
+  }
+}
+html[data-reduce-motion] .ft-word.is-armed span {
+  transform: none;
+}

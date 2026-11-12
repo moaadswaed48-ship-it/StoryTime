@@ -1,4 +1,217 @@
-/** Placeholder for the "footer" feature. Replace this file's contents; keep the named export. */
+import { useCallback, useEffect, useLayoutEffect, useRef, useState, type MouseEvent } from 'react'
+import gsap from 'gsap'
+import { ArrowRight, ArrowUp, Play } from 'lucide-react'
+import { enterApp } from '@/app/router'
+import { prefersReducedNow, writeReduceToggle } from '@/app/useMotionTier'
+import { story } from '@/content/story'
+import { BlurWords, Container, Pill, Reveal, useInView, useOnScreen } from '@/design/ui'
+import { t } from '@/i18n/copy'
+import { locale } from '@/i18n/locale'
+import { clamp } from '@/lib/clamp'
+import { cn } from '@/lib/cn'
+import { exposeQA } from '@/lib/qa'
+import { useSiteStore } from '@/store/useSiteStore'
+import { QuietFilm, type QuietFilmHandle } from './QuietFilm'
+import './footer.css'
+
+/** The last scene of the story: the birds leaving at sunset. */
+const LAST = story.scenes[11]
+/** Same destinations as the bar at the top of the page. `film` opens the player instead of scrolling. */
+const LINKS = [
+  { id: 'library', label: t.nav.library },
+  { id: 'film', label: t.nav.film },
+  { id: 'parents', label: t.nav.parents },
+  { id: 'pricing', label: t.nav.pricing },
+] as const
+
+/** While the paper lifts off, the film underneath moves this much slower (share of its own height). */
+const UNDER = 14
+/** …and it rises this much while the last lines slide over it, so the birds stay in the light. */
+const RISE = 9
+
+function scrollToSection(id: string) {
+  const { lenis, tier } = useSiteStore.getState()
+  const el = document.getElementById(id)
+  if (!el) return
+  if (lenis) lenis.scrollTo(el, { offset: -80, immediate: tier === 'reduced', force: true })
+  else el.scrollIntoView()
+}
+function scrollToTop() {
+  const { lenis, tier } = useSiteStore.getState()
+  if (lenis) lenis.scrollTo(0, { immediate: tier === 'reduced', force: true, duration: 1.6 })
+  else window.scrollTo(0, 0)
+}
+
+/**
+ * The close of the page. The paper lifts off the last picture of the story — the birds leaving at sunset — which
+ * stays pinned (CSS sticky) while the night rises over it, carrying one line of the story, the links, the fine
+ * print and the wordmark, set as wide as the page and sinking off its bottom edge.
+ * The film plays only on screen, rests on its last frame and dissolves back to its first. Reduced motion: the still.
+ */
 export function Footer() {
-  return <footer />
+  const root = useRef<HTMLElement>(null)
+  const layer = useRef<HTMLDivElement>(null)
+  const wordBox = useRef<HTMLDivElement>(null)
+  const word = useRef<HTMLSpanElement>(null)
+  const film = useRef<QuietFilmHandle>(null)
+  const reduced = useSiteStore((s) => s.tier === 'reduced')
+  const reduceToggle = useSiteStore((s) => s.reduceToggle)
+  const setReduceToggle = useSiteStore((s) => s.setReduceToggle)
+  const openFilm = useSiteStore((s) => s.openFilm)
+  const on = useOnScreen(root, '0px')
+  const wordSeen = useInView(wordBox, '0px 0px -4% 0px')
+  const [armed, setArmed] = useState(false)
+
+  useEffect(() => {
+    if (!prefersReducedNow()) setArmed(true)
+  }, [])
+
+  // The film sits under the page: it lags while the paper lifts off it and rises a little under the last lines.
+  // Transform only, written straight from the scroll position (Lenis has already smoothed it); runs on screen only.
+  useEffect(() => {
+    const el = root.current
+    const plate = layer.current
+    if (!el || !plate) return
+    if (!on || reduced) {
+      plate.style.transform = ''
+      return
+    }
+    const tick = () => {
+      const r = el.getBoundingClientRect()
+      const vh = window.innerHeight
+      const under = clamp(r.top / vh, 0, 1)
+      const over = clamp(-r.top / Math.max(1, r.height - vh), 0, 1)
+      plate.style.transform = `translate3d(0, ${(-under * UNDER - over * RISE).toFixed(3)}%, 0)`
+    }
+    tick()
+    gsap.ticker.add(tick)
+    return () => gsap.ticker.remove(tick)
+  }, [on, reduced])
+
+  // The wordmark is set exactly as wide as the page between its gutters (measured, never letter-spaced).
+  useLayoutEffect(() => {
+    const box = wordBox.current
+    const w = word.current
+    if (!box || !w) return
+    let last = 0
+    let raf = 0
+    const fit = (force = false) => {
+      const width = box.clientWidth
+      if (!width || (!force && Math.abs(width - last) < 0.5)) return
+      last = width
+      box.style.fontSize = '200px'
+      const natural = w.getBoundingClientRect().width
+      box.style.fontSize = natural > 0 ? `${((200 * width) / natural).toFixed(2)}px` : ''
+    }
+    fit(true)
+    const ro = new ResizeObserver(() => {
+      cancelAnimationFrame(raf)
+      raf = requestAnimationFrame(() => fit())
+    })
+    ro.observe(box)
+    let alive = true
+    document.fonts?.ready.then(() => alive && fit(true))
+    return () => {
+      alive = false
+      cancelAnimationFrame(raf)
+      ro.disconnect()
+    }
+  }, [])
+
+  const toggleMotion = useCallback(() => {
+    const next = !useSiteStore.getState().reduceToggle
+    writeReduceToggle(next)
+    setReduceToggle(next)
+  }, [setReduceToggle])
+
+  useEffect(() => {
+    exposeQA({
+      footer: {
+        state: () => ({
+          film: { armed: film.current?.armed() ?? false, playing: film.current?.playing() ?? false, live: film.current?.live() ?? false, loops: film.current?.loops() ?? 0 },
+          reduced: useSiteStore.getState().tier === 'reduced',
+          toggle: useSiteStore.getState().reduceToggle,
+          wordWidth: word.current?.getBoundingClientRect().width ?? 0,
+          boxWidth: wordBox.current?.clientWidth ?? 0,
+        }),
+        toggleMotion,
+        top: scrollToTop,
+      },
+    })
+  }, [toggleMotion])
+
+  const follow = (id: string) => (e: MouseEvent) => {
+    e.preventDefault()
+    e.stopPropagation() // Lenis' own anchor handler would scroll without the offset
+    if (id === 'film') openFilm()
+    else scrollToSection(id)
+  }
+
+  return (
+    <footer ref={root} id="footer" className="ft">
+      <div className="ft-stage grain" aria-hidden>
+        <div ref={layer} className="ft-film">
+          <QuietFilm ref={film} clip={LAST.clip!} poster={LAST.img} posterSm={LAST.thumb} sizes="100vw" hold={5} />
+        </div>
+      </div>
+
+      <div className="ft-body">
+        <Container className="ft-wrap">
+          <div className="ft-quote">
+            <BlurWords as="p" text={t.footer.line} className="ft-line font-story" />
+            <Reveal delay={420}>
+              <p className="ft-from">
+                <i aria-hidden />
+                {story.title[locale]}
+              </p>
+            </Reveal>
+          </div>
+
+          <Reveal className="ft-bar" delay={120}>
+            <nav className="ft-links" aria-label={t.nav.menu}>
+              {LINKS.map((l) =>
+                l.id === 'film' ? (
+                  <button key={l.id} type="button" className="ft-link" data-link={l.id} onClick={follow(l.id)}>
+                    <Play size={10} fill="currentColor" strokeWidth={0} aria-hidden />
+                    <span>{l.label}</span>
+                  </button>
+                ) : (
+                  <a key={l.id} href={`#${l.id}`} className="ft-link" data-link={l.id} onClick={follow(l.id)}>
+                    <span>{l.label}</span>
+                  </a>
+                ),
+              )}
+            </nav>
+            <div className="ft-tools">
+              <button type="button" role="switch" aria-checked={reduceToggle || reduced} className="ft-switch" data-on={reduceToggle || reduced ? '' : undefined} onClick={toggleMotion}>
+                <span className="ft-switch__track" aria-hidden>
+                  <span className="ft-switch__thumb" />
+                </span>
+                <span>{t.footer.motion}</span>
+              </button>
+              <button type="button" className="ft-top" onClick={scrollToTop}>
+                <span className="ft-top__disc glass" aria-hidden>
+                  <ArrowUp size={17} strokeWidth={2.2} />
+                </span>
+                <span>{t.footer.top}</span>
+              </button>
+            </div>
+            <Pill variant="solid" size="md" className="ft-enter" onClick={() => enterApp()}>
+              {t.app.enter}
+              <ArrowRight size={16} strokeWidth={2.4} className="ft-enter__arrow flip-rtl" aria-hidden />
+            </Pill>
+          </Reveal>
+
+          <div className="ft-fine">
+            <p className="ft-legal">{t.footer.legal}</p>
+            <p className="ft-note">{t.footer.note}</p>
+          </div>
+        </Container>
+
+        <div ref={wordBox} className={cn('ft-word', armed && 'is-armed', armed && wordSeen && 'is-in')} aria-hidden>
+          <span ref={word}>{t.brand}</span>
+        </div>
+      </div>
+    </footer>
+  )
 }
