@@ -111,6 +111,7 @@ html[data-reduce-motion] .ft-film .qf {
   z-index: 2;
   height: 22%;
   pointer-events: none;
+  opacity: var(--ft-shade, 1);
   background: linear-gradient(to bottom, rgba(18, 12, 8, 0.42), rgba(18, 12, 8, 0.12) 46%, rgba(18, 12, 8, 0));
 }
 .ft-stage.grain::after {
@@ -524,7 +525,7 @@ html[lang='ar'] .ft-word > span {
     text-align: start;
   }
   html[lang='ar'] .ft-word {
-    --lead: 1.02em;
+    --lead: 1.2em; /* the tail of و must clear the tops of ا and ل below it */
     font-size: 36vw;
   }
   .ft-word__l {

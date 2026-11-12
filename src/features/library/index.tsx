@@ -392,7 +392,7 @@ export function Library({ variant = 'landing' }: { variant?: 'landing' | 'app' }
                       {dBook.blurb[locale]}
                     </p>
                   )}
-                  <div className="mt-7 grid grid-cols-2 gap-3 sm:flex sm:flex-wrap lg:mt-9" data-d style={d(5)}>
+                  <div className="mt-5 grid grid-cols-2 gap-2.5 sm:mt-7 sm:flex sm:flex-wrap sm:gap-3 lg:mt-9" data-d style={d(5)}>
                     <Pill variant="ink" size="lg" className="col-span-2" data-act="read" onClick={() => useSiteStore.getState().openBook(0)}>
                       <BookOpen size={19} aria-hidden />
                       {t.library.read}
@@ -405,7 +405,7 @@ export function Library({ variant = 'landing' }: { variant?: 'landing' | 'app' }
                       <Gamepad2 size={19} className="shrink-0" aria-hidden />
                       {t.library.play}
                     </Pill>
-                    <Pill variant="outline" size="md" className="lib-quiet col-span-2 whitespace-nowrap sm:basis-full sm:justify-start" data-act="page" onClick={() => enterApp('story')}>
+                    <Pill variant="outline" size="md" className="lib-quiet col-span-2 whitespace-nowrap max-sm:h-11" data-act="page" onClick={() => enterApp('story')}>
                       {t.app.home.open}
                       <OpenIcon size={17} strokeWidth={2.2} className="shrink-0" aria-hidden />
                     </Pill>

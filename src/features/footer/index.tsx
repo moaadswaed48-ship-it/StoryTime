@@ -118,6 +118,7 @@ export function Footer() {
       if (!reduced) plate.style.transform = ''
       return
     }
+    el.style.removeProperty('--ft-shade')
     // sizes are read when they change, not every frame
     const size = { w: plate.offsetWidth, h: Math.max(1, plate.offsetHeight), foot: 0, vh: window.innerHeight }
     const measure = () => {
@@ -159,6 +160,7 @@ export function Footer() {
     }
     let shown = film.current?.progress() ?? 1
     let last = ''
+    let lastShade = ''
     const tick = (_time: number, dt: number) => {
       const r = el.getBoundingClientRect()
       const vh = size.vh
@@ -173,6 +175,9 @@ export function Footer() {
       const rise = base + (top - base) * shown * shown * (3 - 2 * shown)
       const next = `translate3d(0, ${(-under * UNDER - over * rise).toFixed(3)}%, 0)`
       if (next !== last) plate.style.transform = last = next
+      // the paper's shadow on the picture goes with the paper
+      const shade = clamp(under * 4, 0, 1).toFixed(2)
+      if (shade !== lastShade) el.style.setProperty('--ft-shade', (lastShade = shade))
     }
     tick(0, 16)
     gsap.ticker.add(tick)

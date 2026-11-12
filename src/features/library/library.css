@@ -465,6 +465,7 @@ html[lang='en'] .lib-stitle-t {
 /* Narrow spines (phones): the words run down the band, the same way the title runs down the spine. */
 .lib-band.is-v > span {
   display: flex;
+  flex-direction: column;
   writing-mode: vertical-rl;
   line-height: 1.12;
 }
@@ -500,6 +501,10 @@ html[lang='ar'] .lib-band.is-v > span {
   background-size: calc(var(--u) * 28.8) calc(var(--u) * 28.8);
   background-position: 50% 0;
   pointer-events: none;
+}
+/* Under the imprint line the board is left plain. */
+.lib-cover.is-plate .lib-pattern {
+  top: calc(var(--u) * 17.6);
 }
 .lib-cover.is-medal .lib-pattern {
   -webkit-mask-image: linear-gradient(#000 0 52%, transparent 76%);

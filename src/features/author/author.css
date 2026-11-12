@@ -652,7 +652,7 @@ html[lang='en'] .aut-lockup__b {
   z-index: 3;
   /* it hugs what it carries: no empty glass beside the words */
   width: max-content;
-  max-width: min(36rem, 52%);
+  max-width: min(40rem, 56%);
   padding: clamp(24px, 2.5vw, 36px) clamp(22px, 2.5vw, 34px) clamp(20px, 2vw, 28px);
   border-radius: 26px;
 }
@@ -733,6 +733,19 @@ html[lang='ar'] .aut-cta__title {
 .aut-cta__studio:focus-visible {
   outline: 2px solid var(--color-maple-soft);
   outline-offset: 3px;
+}
+
+/* Narrow laptops: the two main pills share a row and the desk pill takes the next one, under the first — the glass
+   hugs the two (a wrapped flex row would be measured unwrapped and leave empty glass beside it). */
+@media (min-width: 1024px) and (max-width: 1279px) {
+  .aut-cta__pills {
+    display: grid;
+    grid-template-columns: auto auto;
+    justify-content: start;
+  }
+  .aut-cta__studio.aut-cta__studio {
+    justify-self: start;
+  }
 }
 
 /* Very wide screens: the object and the headline grow with the sheet, so the block never looks small in it. */
@@ -848,6 +861,7 @@ html[lang='ar'] .aut-cta__title {
     left: auto;
     bottom: auto;
     width: auto;
+    max-width: none;
     margin: -26px 0 0;
     padding: 26px 20px 20px;
     /* (the foot repeats the card's own corners: a backdrop blur is not cut by a parent's rounded clip) */
