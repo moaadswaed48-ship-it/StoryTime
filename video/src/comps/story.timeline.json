@@ -10,14 +10,14 @@
   "scenes": [
     { "scene": 0, "start": 0, "end": 5, "shots": [{ "kind": "footage", "clip": "v01", "bars": 2 }] },
     { "scene": 1, "start": 5, "end": 12.5, "shots": [{ "kind": "plate", "picture": "k02", "bars": 1 }, { "kind": "lay", "bars": 2 }] },
-    { "scene": 2, "start": 12.5, "end": 20, "shots": [{ "kind": "plate", "picture": "k03", "bars": 1 }, { "kind": "wait", "bars": 2 }] },
+    { "scene": 2, "start": 12.5, "end": 20, "shots": [{ "kind": "plate", "picture": "k03", "bars": 1 }, { "kind": "plate", "picture": "k03", "move": "k03b", "bars": 1 }, { "kind": "plate", "picture": "k03", "move": "k03c", "bars": 1 }] },
     { "scene": 3, "start": 20, "end": 25, "shots": [{ "kind": "footage", "clip": "v04", "bars": 2 }] },
     { "scene": 4, "start": 25, "end": 32.5, "shots": [{ "kind": "stick", "bars": 2 }, { "kind": "plate", "picture": "k05", "bars": 1 }] },
     { "scene": 5, "start": 32.5, "end": 37.5, "shots": [{ "kind": "footage", "clip": "v06", "bars": 2 }] },
     { "scene": 6, "start": 37.5, "end": 45, "shots": [{ "kind": "leaf", "bars": 2 }, { "kind": "plate", "picture": "k07", "bars": 1 }] },
     { "scene": 7, "start": 45, "end": 50, "shots": [{ "kind": "footage", "clip": "v08", "bars": 2 }] },
-    { "scene": 8, "start": 50, "end": 57.5, "shots": [{ "kind": "plate", "picture": "k09", "bars": 1 }, { "kind": "picture", "bars": 2 }] },
-    { "scene": 9, "start": 57.5, "end": 65, "shots": [{ "kind": "crown", "bars": 2 }, { "kind": "plate", "picture": "k10", "bars": 1 }] },
+    { "scene": 8, "start": 50, "end": 57.5, "shots": [{ "kind": "plate", "picture": "k09", "bars": 1 }, { "kind": "plate", "picture": "k09", "move": "k09b", "bars": 1 }, { "kind": "picture", "bars": 1 }] },
+    { "scene": 9, "start": 57.5, "end": 65, "shots": [{ "kind": "crown", "bars": 1 }, { "kind": "plate", "picture": "k10", "bars": 1 }, { "kind": "plate", "picture": "k10", "move": "k10b", "bars": 1 }] },
     { "scene": 10, "start": 65, "end": 70, "shots": [{ "kind": "footage", "clip": "v11", "bars": 2 }] },
     { "scene": 11, "start": 70, "end": 80, "shots": [{ "kind": "footage", "clip": "v12", "bars": 2 }, { "kind": "birds", "bars": 2 }] }
   ]

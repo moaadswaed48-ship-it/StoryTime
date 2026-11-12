@@ -189,7 +189,7 @@ export async function stickShot(stage: Stage, dur: number, tap: number): Promise
 export async function leafShot(stage: Stage, _dur: number): Promise<Shot> {
   const yard = await makeYard(stage, { picture: 'k08', clear: 0.2, seed: 7, backdrop: YARD, fov: 32, falling: 30, haze: [5, 14] })
   const set = new PaperSet(yard.light)
-  for (let k = 0; k < 14; k++) set.add(k % 5, 0.46)
+  for (let k = 0; k < 14; k++) set.add(5, 0.46)
   const heroAt = (t: number, out: THREE.Vector3) => out.set(-0.55 + 0.55 * Math.sin(1.5 * t) + 0.13 * t, 2.55 - 0.37 * t + Math.abs(Math.sin(1.5 * t)) * 0.05, 0.6 + 0.28 * Math.cos(1.1 * t))
   const hero = new LeafField(
     {

@@ -1,27 +1,20 @@
-# Status at pause (2026-11-12)
+# Status (2026-11-12)
 
-Paused on request of the parent session. Resume from here.
+Both videos are rendered from the current code, measured with `npm run qa`, and reviewed from frames by
+fresh-eyes reviewers (trailer: two rounds; story film: one round). The fixes from the last round of each
+were checked in stills by the builder, not by a new reviewer.
 
-## Finished
-- The studio itself (`video/`): deterministic renderer, 3D kit, Arabic type, music synthesiser, QA script, README.
-- Trailer, **first render**, published and measured: `public/film/trailer-16x9.mp4` (36 s, 11.68 MB) and
-  `public/film/trailer-9x16.mp4` (36 s, 11.73 MB), plus `trailer-poster.jpg`. H.264 yuv420p, AAC, faststart;
-  −17.5 LUFS, true peak −5.0 dBFS; all detected cuts on bar lines.
+## What the reviews changed
+- Trailer: her first line now sits only on its own shot; the title picture returns to focus before the first
+  cut; the book's leaves no longer cut through each other, its spreads are full-bleed with her line on a paper
+  band and each spread is held; game papers wait beside Sari instead of in front of him; tumbling papers are
+  blank; the wide end card sits in the sky; first-frame leaves keep clear of the faces; paving seam fixed.
+- Story film: the insert of the 3D Sari alone in the yard (scene 3) and the leaf tower are gone; scenes 3, 9
+  and 10 now cut wide and close inside her paintings; the leaf-picture insert is one bar instead of two.
 
-## Half-done
-- **Those trailer files are one revision behind the code.** After they were rendered, the opening and end card
-  were reworked in code (sharp first frame with a focus pull; end card on the sunset / the cover, type moved
-  into the sky). Checked in stills only; not re-rendered. The poster is also the old (blurred) one.
-- **Trailer review not completed.** A fresh-eyes reviewer was started on the first render and stopped at the
-  pause; no verdict exists.
-- **Story film not rendered.** `src/comps/story.ts` and all shots exist and were checked in stills
-  (twelve scenes, 80 s, 32 bars). A full render was 60% through when stopped. `story.mp4` / `story.json`
-  do not exist yet. Not reviewed.
-- Music has only been measured (loudness, peaks, spectrum), never listened to.
-- Scratch files to remove before the final commit: `scripts/bench.mjs`, `scripts/debug.mjs`,
-  `src/comps/lab.ts` (and its entry in `src/main.ts`), the timing `console.log`s in `src/main.ts`,
-  the `msaa`/`rt` query switches are already gone from `src/engine/stage.ts`.
-
-## Next step
-`cd video && npm install && npm run prepare:media && npm run trailer` (≈ 25 min), then run the fresh-eyes
-review on the two new trailer cuts; only after it says "proud": `npm run story`, `npm run qa`, review, report.
+## Known limits (not fixed)
+- The clip of the wind (v06) has smeared frames on Amir; footage is never re-timed, the phone cut frames Sari.
+- The 3D Sari is slimmer than the painted one; he is kept to the game run and one crown close-up.
+- The 3D paving does not match the painted yard.
+- The author's name is not in the site's content, so it is not on the end card.
+- The music has been measured (loudness, peaks, spectrum, bar-line cuts), not listened to.

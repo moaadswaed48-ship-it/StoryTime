@@ -91,8 +91,8 @@ export async function bookShot(stage: Stage, dur: number): Promise<Shot> {
         cam.position.set(cx * 0.6 + 0.05 + drift(t * 0.3, 3) * 0.02, lerp(4.6, 5.9, k) - push * 0.3, lerp(3.0, 3.6, k))
         cam.lookAt(cx * 0.6 - 0.02, 0, lerp(0.55, 0.62, k))
       } else {
-        cam.position.set(cx + 0.56 + drift(t * 0.3, 3) * 0.02, lerp(2.45, 2.85, k) - push * 0.16, lerp(2.05, 2.4, k) - push * 0.14)
-        cam.lookAt(cx + 0.34, 0, 0.02)
+        cam.position.set(cx + 0.5 + drift(t * 0.3, 3) * 0.02, lerp(2.6, 3.15, k) - push * 0.16, lerp(2.2, 2.65, k) - push * 0.14)
+        cam.lookAt(cx + 0.3, 0, 0.02)
       }
       const focus = cam.position.length()
       ground.update(t, focus, 1.3)

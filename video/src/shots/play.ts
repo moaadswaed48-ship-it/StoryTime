@@ -53,7 +53,7 @@ export async function playShot(stage: Stage, beat: number, dur: number): Promise
   set.focusRange = 1.5
   const glows: THREE.Sprite[] = []
   for (let k = 0; k < total + 3; k++) {
-    set.add(k % 5, 0.42)
+    set.add(k % 4, 0.42) // the children's names only
     const g = makeGlow(0xffc37a, 1.5, 0.5)
     glows.push(g)
     scene.add(g)
@@ -131,14 +131,18 @@ export async function playShot(stage: Stage, beat: number, dur: number): Promise
       set.focus = focus
       set.papers.forEach((p, k) => {
         const tk = takeAt(k)
-        const px = (k % 2 ? 0.56 : -0.5) + Math.sin(k * 1.9) * 0.05
+        // wide: the camera stands to his right, so every paper waits on that side, clear of the line of
+        // sight to him; phone: either side, close enough to stay inside the narrow frame
+        const px = stage.tall ? (k % 2 ? 0.34 : -0.34) : 0.66 + (k % 2 ? 0.1 : 0) + Math.sin(k * 1.9) * 0.03
         const pz = SPEED * tk + 0.32
+        // papers near the lens are not drawn; they fade in once they are clear of it and inside the frame
+        const seen = clamp((sz + dist - pz - (stage.tall ? 2.7 : 1.9)) / 0.6)
         const since = t - tk
         const bob = Math.sin(t * 2.4 + k * 1.3) * 0.05
         const pop = clamp(since / 0.42)
         const e = easeOutCubic(pop)
         // taken: it lifts up and out to its own side, so it never crosses his face
-        const y = 0.74 + bob + (since > 0 ? e * 1.0 : 0)
+        const y = (k % 2 ? 0.9 : 0.72) + bob + (since > 0 ? e * 1.0 : 0)
         const x = px + (since > 0 ? Math.sign(px) * e * 0.5 : 0)
         p.pos.set(x, y, pz + (since > 0 ? SPEED * since : 0))
         // face the camera, swaying; spin away when taken
@@ -146,15 +150,14 @@ export async function playShot(stage: Stage, beat: number, dur: number): Promise
         p.quat.setFromEuler(_e)
         p.size = (0.42 / 0.86) * (since > 0 ? 1 - e * 0.35 : 1)
         // papers behind the lens are not drawn; they fade in as they enter the frame
-        const ahead = sz + dist - pz
-        p.alpha = (since > 0 ? 1 - pop * pop : 1) * clamp((ahead - 1.5) / 0.7)
+        p.alpha = (since > 0 ? 1 - pop * pop : 1) * seen
         p.bend = 0.08 + Math.sin(t * 2 + k) * 0.05
         p.wave = 0.25
         p.dapple = 0.35
         const g = glows[k]
         g.position.set(x, y, p.pos.z - 0.06)
         const mat = g.material as THREE.SpriteMaterial
-        mat.opacity = (since > 0 ? 0.9 * (1 - pop) : 0.3 + 0.08 * Math.sin(t * 3 + k)) * clamp((ahead - 1.5) / 0.7)
+        mat.opacity = (since > 0 ? 0.9 * (1 - pop) : 0.3 + 0.08 * Math.sin(t * 3 + k)) * seen
         g.scale.setScalar(since > 0 ? 1.4 + e * 2.2 : 1.3)
       })
       set.update(t, cam)

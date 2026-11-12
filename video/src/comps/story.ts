@@ -4,7 +4,7 @@ import { ramp } from '../engine/math'
 import type { DepthSpec } from '../kit/plate'
 import { Sparks } from '../kit/world'
 import { footageShot } from '../shots/footage'
-import { birdsShot, crownShot, layShot, leafShot, pictureShot, stickShot, waitShot } from '../shots/inserts'
+import { birdsShot, crownShot, layShot, leafShot, pictureShot, stickShot } from '../shots/inserts'
 import { plateShot, type PlateShotOptions } from '../shots/yard'
 import { hash } from '../engine/math'
 import TL from './story.timeline.json'
@@ -12,8 +12,8 @@ import TL from './story.timeline.json'
 /**
  * The whole story, twelve scenes in order, with nothing written on the picture (the site's player sets
  * her words as captions from story.json). Thirty-two bars of 3/4 at 72 bpm: a scene with footage is two
- * bars (the clip at its own speed), a scene without footage is three — the painting, alive, for one bar
- * and a code-made close-up of what her text describes for two. Scenes dissolve into each other on the
+ * bars (the clip at its own speed), a scene without footage is three — the painting, alive, cut wide and
+ * close on the bar, and a short code-made close-up of what her text describes. Scenes dissolve into each other on the
  * bar line; inside a scene the cut is hard, on the bar.
  */
 const DEPTH: Record<string, DepthSpec> = {
@@ -50,6 +50,11 @@ const MOVES: Record<string, Move> = {
   k07: { from: { cx: 0.5, cy: 0.42, zoom: 1.18 }, to: { cx: 0.52, cy: 0.47, zoom: 1.05 }, travel: [0.012, -0.004] },
   k09: { from: { cx: 0.5, cy: 0.5, zoom: 1.02 }, to: { cx: 0.48, cy: 0.46, zoom: 1.12 }, travel: [0.014, 0.004], leaves: 70 },
   k10: { from: { cx: 0.5, cy: 0.5, zoom: 1.12 }, to: { cx: 0.5, cy: 0.5, zoom: 1.02 }, travel: [-0.012, 0.003] },
+  // cut-ins: the same painting, closer, on what her text is about (a cut on the bar, not a zoom)
+  k03b: { from: { cx: 0.6, cy: 0.6, zoom: 1.36 }, to: { cx: 0.56, cy: 0.64, zoom: 1.45 }, travel: [-0.014, 0.004] }, // Amir reaches for the paper
+  k03c: { from: { cx: 0.4, cy: 0.44, zoom: 1.38 }, to: { cx: 0.37, cy: 0.42, zoom: 1.46 }, travel: [0.014, 0.003], leaves: 16 }, // Sari: wait your turn
+  k09b: { from: { cx: 0.54, cy: 0.46, zoom: 1.36 }, to: { cx: 0.6, cy: 0.42, zoom: 1.46 }, travel: [0.016, -0.004], leaves: 60 }, // the boys under the falling leaves
+  k10b: { from: { cx: 0.7, cy: 0.5, zoom: 1.36 }, to: { cx: 0.75, cy: 0.47, zoom: 1.45 }, travel: [0.014, 0.003], leaves: 20 }, // the teacher's crown and the leaf castle
 }
 const FOOT: Record<string, { from: { cx: number; cy: number; zoom: number }; to: { cx: number; cy: number; zoom: number }; leaves: number }> = {
   v01: { from: { cx: 0.5, cy: 0.5, zoom: 1.0 }, to: { cx: 0.48, cy: 0.49, zoom: 1.06 }, leaves: 8 },
@@ -68,7 +73,7 @@ async function build(stage: Stage): Promise<Film> {
   for (const sc of TL.scenes) {
     let t = sc.start
     for (let i = 0; i < sc.shots.length; i++) {
-      const s = sc.shots[i] as { kind: string; clip?: string; picture?: string; bars: number }
+      const s = sc.shots[i] as { kind: string; clip?: string; picture?: string; move?: string; bars: number }
       const dur = s.bars * B
       const first = i === 0
       const last = i === sc.shots.length - 1
@@ -78,13 +83,12 @@ async function build(stage: Stage): Promise<Film> {
       const span = end - start
       let shot: Shot
       if (s.kind === 'footage') shot = footageShot(stage, { clip: s.clip!, startFrame: 0, dur: span, from: FOOT[s.clip!].from, to: FOOT[s.clip!].to, leaves: FOOT[s.clip!].leaves, leafSeed: seed })
-      else if (s.kind === 'plate') shot = await plateShot(stage, { picture: s.picture!, depth: DEPTH[s.picture!], dur: span, seed, ...MOVES[s.picture!] })
+      else if (s.kind === 'plate') shot = await plateShot(stage, { picture: s.picture!, depth: DEPTH[s.picture!], dur: span, seed, ...MOVES[s.move ?? s.picture!] })
       else if (s.kind === 'lay') shot = await layShot(stage, span)
-      else if (s.kind === 'wait') shot = await waitShot(stage, span)
-      else if (s.kind === 'stick') shot = await stickShot(stage, span, TL.beat + (first ? X / 2 : 0))
+            else if (s.kind === 'stick') shot = await stickShot(stage, span, TL.beat + (first ? X / 2 : 0))
       else if (s.kind === 'leaf') shot = await leafShot(stage, span)
       else if (s.kind === 'picture') shot = await pictureShot(stage, span)
-      else if (s.kind === 'crown') shot = await crownShot(stage, span)
+      else if (s.kind === 'crown') shot = await crownShot(stage, span * 2.6) // one bar: only the crown settling on his curls, in close-up
       else shot = await birdsShot(stage, span)
       clips.push({ shot, start, end })
       t += dur

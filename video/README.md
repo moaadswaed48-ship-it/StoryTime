@@ -50,8 +50,9 @@ src/comps/              trailer.ts (both cuts from one source), story.ts, and th
 - **Her words are hers.** Arabic story text is imported from `src/content/story.ts` (never retyped). Other words come from the site's copy (`src/i18n/copy.ts`). Names on the game papers are only names that appear in her story.
 - **Arabic type** is real text shaped by the browser (DOM for titles and captions, canvas text for book pages and papers): right to left, joined, no letter-spacing, animated by word or by block, never by letter.
 - **Footage is never re-timed.** The six clips play at their own 24 fps; code adds the camera move and real 3D leaves in front.
-- **Paintings are never just zoomed.** A scene without footage shows its painting for one bar with a hand-drawn depth map (parallax), moving leaf-shade and 3D leaves, and a code-made 3D close-up for two bars.
-- **No invented acting** for Amir or the teacher. Sari appears as the site's own rigged model (run, stand, raised hand).
+- **Paintings are never just zoomed.** A scene without footage shows its painting with a hand-drawn depth map (parallax), moving leaf-shade and 3D leaves, cut wide and then close on the bar line, beside a short code-made 3D close-up of what her text describes.
+- **No invented acting** for Amir or the teacher. Sari appears as the site's own rigged model only where it holds up beside the paintings (the run in the game, one close-up with the leaf crown).
+- **Tumbling papers are blank**, as in the footage; names are written only on papers that face the camera upright.
 - **Story film has no text on the picture**; the only letters are the names written on the game's papers, which are props.
 
 ## Files and limits

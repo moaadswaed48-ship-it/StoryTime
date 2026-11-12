@@ -76,7 +76,7 @@ export async function titleShot(stage: Stage, mode: 'open' | 'close'): Promise<S
       cam.lookAt(0, 0, 0)
       shafts.update(t, mode === 'open' ? 1.15 * ramp(t, 0.1, 1) : 0.5)
       dust.update(t, [0.08, 0.03, 0.02])
-      leaves.update(t + (mode === 'open' ? 6 : 2), cam)
+      leaves.update(t + (mode === 'open' ? (stage.tall ? 7.3 : 9.1) : 2), cam) // offsets chosen so no leaf crosses a face in the first frame
       const r = stage.renderer
       r.setRenderTarget(target)
       const auto = r.autoClear

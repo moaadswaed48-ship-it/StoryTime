@@ -37,7 +37,7 @@ export async function gustShot(stage: Stage, o: GustOptions = {}): Promise<Shot>
   set.shadows = false
   set.focus = 4.2
   set.focusRange = 1.5
-  for (let i = 0; i < nP; i++) set.add(i % 5, 0.5 + hash(i, seed + 40) * 0.2)
+  for (let i = 0; i < nP; i++) set.add(5, 0.5 + hash(i, seed + 40) * 0.2) // blank sides, as in the footage: tumbling names would read upside-down
   const wind = o.wind ?? (() => 1)
 
   // each object rides a helix around a slowly wandering axis; `u` is how far it has travelled

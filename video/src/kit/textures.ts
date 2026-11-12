@@ -338,6 +338,8 @@ export function makeStonesTexture(size = 1024, seed = 3): THREE.Texture {
       let d1 = 1e9
       let d2 = 1e9
       let id = 0
+      let bx = 0
+      let by = 0
       for (let oj = -2; oj <= 2; oj++)
         for (let oi = -2; oi <= 2; oi++) {
           const ii = ci + oi
@@ -353,6 +355,8 @@ export function makeStonesTexture(size = 1024, seed = 3): THREE.Texture {
             d2 = d1
             d1 = dist
             id = k
+            bx = sx
+            by = sy
           } else if (dist < d2) d2 = dist
         }
       const edge = (d2 - d1) / cell // 0 at the joint
@@ -360,8 +364,8 @@ export function makeStonesTexture(size = 1024, seed = 3): THREE.Texture {
       const bevel = Math.min(1, edge / 0.3)
       // light from the upper left: brighter on the up-left shoulder of each stone
       const k = id
-      const lx = (x - px[k]) / cell
-      const ly = (y - py[k]) / cell
+      const lx = (x - bx) / cell // the stone's own centre, also where it wraps over the tile edge
+      const ly = (y - by) / cell
       const shoulder = Math.max(-1, Math.min(1, (-lx - ly) * 1.2)) * (1 - bevel) * 0.16
       const grit = (hash(x + y * size, seed + 9) - 0.5) * 0.07
       const mott = Math.sin(x * 0.021 + hue[k] * 9) * Math.sin(y * 0.017 + hue[k] * 5) * 0.05
