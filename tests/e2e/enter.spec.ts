@@ -10,17 +10,17 @@ async function open(page: Page) {
   await page.goto(pageUrl('enter'))
   await waitForHook(page, 'enter')
   await page.evaluate(() => window.__st!.enter.open())
-  await expect(page.getByRole('dialog')).toBeVisible()
+  await expect(page.locator('.enter__sheet')).toBeVisible()
 }
 
 test.describe('enter — who is reading today?', () => {
   test('shows four pictures and cancels with Escape without storing anything', async ({ page }) => {
     const con = watchConsole(page)
     await open(page)
-    await expect(page.getByRole('radio')).toHaveCount(4)
-    await expect(page.getByRole('radio', { checked: true })).toHaveCount(1)
+    await expect(page.locator('.enter').getByRole('radio')).toHaveCount(4)
+    await expect(page.locator('.enter').getByRole('radio', { checked: true })).toHaveCount(1)
     await page.keyboard.press('Escape')
-    await expect(page.getByRole('dialog')).toHaveCount(0)
+    await expect(page.locator('.enter__sheet')).toHaveCount(0)
     expect(await profile(page)).toBeNull()
     expect(await view(page)).toBe('landing')
     con.assertClean()
