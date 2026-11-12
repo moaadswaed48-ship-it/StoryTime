@@ -24,6 +24,8 @@ interface SiteState {
   startScene: number
   loggedIn: boolean
   loginOpen: boolean
+  /** Which side of the sign-in sheet opens first: signing in, or a new account. Back to 'in' whenever `setLoginOpen` is used. */
+  authMode: 'in' | 'up'
   /** The demo checkout (subscribe → pay → receipt). Nothing is sent or charged. */
   checkout: null | { plan: string; yearly: boolean }
   sound: boolean
@@ -39,6 +41,8 @@ interface SiteState {
   setPicking: (on: boolean, target?: View) => void
   setLoggedIn: (v: boolean) => void
   setLoginOpen: (v: boolean) => void
+  /** Opens the sign-in sheet on the given side (the landing page's two doors: returning parent, new parent). */
+  openAuth: (mode?: 'in' | 'up') => void
   openCheckout: (plan?: string, yearly?: boolean) => void
   closeCheckout: () => void
   setSoundOn: (v: boolean) => void
@@ -66,6 +70,7 @@ export const useSiteStore = create<SiteState>()((set) => ({
   startScene: 0,
   loggedIn: readMember(),
   loginOpen: false,
+  authMode: 'in',
   checkout: null,
   sound: false,
   setTier: (tier) => set({ tier }),
@@ -86,7 +91,8 @@ export const useSiteStore = create<SiteState>()((set) => ({
     }
     set({ loggedIn })
   },
-  setLoginOpen: (loginOpen) => set({ loginOpen }),
+  setLoginOpen: (loginOpen) => set({ loginOpen, authMode: 'in' }),
+  openAuth: (authMode = 'in') => set({ loginOpen: true, authMode }),
   openCheckout: (plan = 'family', yearly = false) => set({ checkout: { plan, yearly } }),
   closeCheckout: () => set({ checkout: null }),
   setSoundOn: (sound) => set({ sound }),

@@ -9,6 +9,7 @@ import { t } from '@/i18n/copy'
 import { dirSign, locale, switchLocale } from '@/i18n/locale'
 import { asset } from '@/lib/asset'
 import { useSiteStore } from '@/store/useSiteStore'
+import { Assure } from './Hero'
 import { BookMark, scrollToSection } from './Nav'
 
 const C = t.landing.closing
@@ -20,6 +21,8 @@ const C = t.landing.closing
 export function Closing() {
   const root = useRef<HTMLElement>(null)
   const reduced = useSiteStore((s) => s.tier === 'reduced')
+  const loggedIn = useSiteStore((s) => s.loggedIn)
+  const openAuth = useSiteStore((s) => s.openAuth)
 
   useGSAP(
     () => {
@@ -65,6 +68,20 @@ export function Closing() {
                 <ArrowRight size={17} strokeWidth={2.4} className="flip-rtl" />
               </span>
             </button>
+          </Reveal>
+          {/* the other two doors (a new account, a returning parent), and the three facts once more */}
+          <Reveal delay={440} className="lp-close__more">
+            {!loggedIn && (
+              <p className="lp-close__doors">
+                <button type="button" className="lp-door lp-door--pill" data-door="up" onClick={() => openAuth('up')}>
+                  {t.landing.doors.signup}
+                </button>
+                <button type="button" className="lp-door" data-door="in" onClick={() => openAuth('in')}>
+                  {t.auth.toIn}
+                </button>
+              </p>
+            )}
+            <Assure />
           </Reveal>
         </div>
         <div className="lp-phones" aria-hidden>

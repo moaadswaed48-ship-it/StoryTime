@@ -6,10 +6,13 @@ import { switchLocale } from '@/i18n/locale'
 import { cn } from '@/lib/cn'
 import { useSiteStore } from '@/store/useSiteStore'
 
+const N = t.landing.nav
+/** The places on the page, in the order the page tells them. */
 const LINKS = [
-  { id: 'ways', label: t.landing.nav.ways },
-  { id: 'cast', label: t.landing.nav.cast },
-  { id: 'author', label: t.landing.nav.author },
+  { id: 'parents', label: N.parents },
+  { id: 'how', label: N.how },
+  { id: 'author', label: N.author },
+  { id: 'plans', label: N.plans },
 ] as const
 
 /** Smooth-scrolls to a section of the landing page (Lenis when it runs). */
@@ -33,11 +36,15 @@ export function BookMark({ size = 22 }: { size?: number }) {
 
 /**
  * The landing page's own bar: clear over the hero's sky, a pill of light glass once the page moves.
- * Wordmark · three places on the page (wide screens) · language · the one action: step inside.
+ * Wordmark · four places on the page (wide screens) · language · the two doors: sign in (a returning parent) and
+ * a new account (a new one). Once signed in, the doors become "log out" and the way into the library.
  */
 export function LandingNav() {
   const overlay = useSiteStore((s) => s.overlay)
   const picking = useSiteStore((s) => s.picking)
+  const loggedIn = useSiteStore((s) => s.loggedIn)
+  const openAuth = useSiteStore((s) => s.openAuth)
+  const setLoggedIn = useSiteStore((s) => s.setLoggedIn)
   const [scrolled, setScrolled] = useState(false)
   useEffect(() => {
     const on = () => setScrolled(window.scrollY > 40)
@@ -64,12 +71,31 @@ export function LandingNav() {
             <Globe size={17} strokeWidth={1.9} aria-hidden />
             <span lang={t.nav.lang === 'English' ? 'en' : 'ar'}>{t.nav.lang}</span>
           </button>
-          <button type="button" className="lp-btn lp-btn--sm" data-enter="nav" onClick={() => enterApp()}>
-            {t.landing.nav.enter}
-            <span className="lp-btn__arrow" aria-hidden>
-              <ArrowRight size={14} strokeWidth={2.4} className="flip-rtl" />
-            </span>
-          </button>
+          {loggedIn ? (
+            <>
+              <button type="button" className="lp-nav__door" data-door="out" onClick={() => setLoggedIn(false)}>
+                {t.nav.logout}
+              </button>
+              <button type="button" className="lp-btn lp-btn--sm" data-enter="nav" onClick={() => enterApp()}>
+                {N.enter}
+                <span className="lp-btn__arrow" aria-hidden>
+                  <ArrowRight size={14} strokeWidth={2.4} className="flip-rtl" />
+                </span>
+              </button>
+            </>
+          ) : (
+            <>
+              <button type="button" className="lp-nav__door" data-door="in" onClick={() => openAuth('in')}>
+                {t.nav.login}
+              </button>
+              <button type="button" className="lp-btn lp-btn--sm" data-door="up" onClick={() => openAuth('up')}>
+                {N.signup}
+                <span className="lp-btn__arrow" aria-hidden>
+                  <ArrowRight size={14} strokeWidth={2.4} className="flip-rtl" />
+                </span>
+              </button>
+            </>
+          )}
         </div>
       </div>
     </header>

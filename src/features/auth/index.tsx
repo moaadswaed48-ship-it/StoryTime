@@ -66,7 +66,7 @@ export function AuthModal() {
       handOver.current = false
       setDone(useSiteStore.getState().loggedIn)
       setShow(false)
-      setMode('in')
+      setMode(useSiteStore.getState().authMode) // the landing page can ask for the new-account side
       setForm({ name: '', email: '', pass: '' })
       setHeight(0)
       setFx(false)

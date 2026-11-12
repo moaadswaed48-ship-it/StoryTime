@@ -37,8 +37,8 @@ test('opens as a cinema, plays with sound, shows the title and then her words', 
   await expect(page.locator('[data-film-title]')).toHaveAttribute('data-film-title', 'on')
   // the film really runs, with sound: the title holds over the cover and into scene 1, then her words come in
   await freezeWhen(page, 'f.playing() && !f.muted() && f.time() > 3.9')
-  expect(await film<number>(page, 'duration()')).toBeGreaterThan(100)
-  expect(await film<number>(page, 'duration()')).toBeLessThan(130)
+  expect(await film<number>(page, 'duration()')).toBeGreaterThan(75)
+  expect(await film<number>(page, 'duration()')).toBeLessThan(100)
   expect(await film(page, 'scene()')).toBe(0)
   await expect(page.locator('[data-film-title]')).toHaveAttribute('data-film-title', 'off')
   await expect(caption(page)).toHaveText(cue(0))

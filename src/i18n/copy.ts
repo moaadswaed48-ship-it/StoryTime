@@ -261,12 +261,16 @@ const ar = {
   },
   /** The landing page (the front door): about the service, a world of stories, not about one story. */
   landing: {
-    nav: { ways: "كيف تعمل", cast: "الشخصيات", author: "المؤلفة", enter: "ادخل" },
+    nav: { parents: "للأهل", how: "كيف تعمل", author: "المؤلفة", plans: "الخطط", enter: "ادخل", signup: "حساب جديد" },
+    /** Three short truths shown beside the calls to action (each one is a fact of the product, said elsewhere too). */
+    assure: ["بلا إعلانات", "بلا تتبّع", "بلا بطاقة دفع"],
+    /** The second door beside "enter": a new account (the sign-in line is `t.auth.toIn`). */
+    doors: { signup: "أنشئ حسابًا" },
     hero: {
-      kicker: "حكايات تُقرأ وتُشاهَد وتُلعَب",
+      kicker: "حكايات عربية للأطفال من 3 إلى 12 سنة",
       titleA: "عالم من الحكايات",
       titleB: "يبدأ من كتاب",
-      sub: "في وقت الحكاية، كل قصة كتاب يُفتح، وفيلم قصير، ولعبة بالأبطال أنفسهم. للأطفال، ولمن يقرأ معهم.",
+      sub: "كل حكاية كتاب يُفتح، وفيلم قصير، ولعبة بالأبطال أنفسهم. وقت شاشة يشبه وقت القصة.",
       enter: "ادخل إلى المكتبة",
       watch: "شاهد الفيلم",
       watchSub: "الحكاية الأولى",
@@ -297,11 +301,94 @@ const ar = {
         { name: "المعلمة ليلى", role: "معلمة الصف", line: "تفهم ما يحتاجه ساري قبل أن يركّز." },
       ],
     },
+    /** Beside the plans (the heading, the cards and the two notes about sample prices are `t.pricing`). */
+    plans: { safe: "في هذا العرض التجريبي لا يُخصَم أي مبلغ." },
+    /** What a parent asks first, answered with what is in the product. */
+    parents: {
+      kicker: "للأهل",
+      titleA: "قبل الشاشة",
+      titleB: "أربعة أسئلة وأربع إجابات",
+      lede: "ما يسأل عنه الأهل أولًا، مع إجابات ممّا في التطبيق اليوم.",
+      picture: "من الحكاية الأولى",
+      items: [
+        {
+          q: "هل هو وقت شاشة آخر؟",
+          a: "حكاية لها بداية ونهاية",
+          s: "كتاب يُفتح، ثم فيلم قصير، ثم لعبة من الحكاية نفسها. لا مقاطع تتوالى بلا توقّف.",
+        },
+        {
+          q: "وهل سيحبّ العربية؟",
+          a: "عربية سليمة يسمعها ويراها",
+          s: "نصّ فصيح واضح كما كتبته المؤلفة، بصوت راوية وصور تتحرّك.",
+        },
+        {
+          q: "وهل المكان آمن؟",
+          a: "بلا إعلانات وبلا تتبّع",
+          s: "اسم الطفل وتقدّمه يبقيان على هذا الجهاز فقط. وقسم الكبار يُفتح بضغطة مطوّلة.",
+        },
+        {
+          q: "وماذا نفعل معًا؟",
+          a: "حكاية تكملونها معًا",
+          s: "بعد الحكاية أسئلة تتحدّثون فيها، ونشاط بعيدًا عن الشاشة.",
+        },
+      ],
+    },
+    /** How it works, in three steps, and what stays with the child afterwards. */
+    steps: {
+      kicker: "كيف تعمل",
+      title: "ثلاث خطوات إلى أول ورقة",
+      items: [
+        { t: "اختر من يقرأ اليوم", s: "يختار الطفل صورته، ويكتب اسمه إن أحبّ." },
+        { t: "اقرأ، شاهد، العب", s: "كتاب تُقلَب صفحاته بالإصبع، وفيلم قصير، ولعبة من الحكاية." },
+        { t: "اكسب ورقة", s: "كل قراءة أو مشاهدة أو لعبة تضيف ورقة إلى شجرة الطفل." },
+      ],
+      after: {
+        title: "وماذا يبقى مع الطفل؟",
+        items: [
+          { t: "أوراق على شجرته", s: "ورقة للقراءة، وورقة للمشاهدة، وورقة للعبة." },
+          { t: "كلمات من الحكاية", s: "كل كلمة بصورتها، وبجملتها كما كتبتها المؤلفة." },
+          { t: "حروف عرفها", s: "الحروف التي يعرفها في اللعبة تظهر على شجرته." },
+        ],
+        enter: "ابدأ بالورقة الأولى",
+      },
+    },
+    /** Questions parents ask. Every answer is a fact of the product as it is today. */
+    faq: {
+      kicker: "أسئلة",
+      title: "أسئلة يسألها الأهل",
+      lede: "وإن بقي سؤال، فالجواب الأصدق في الداخل.",
+      items: [
+        {
+          q: "لأيّ عمر تناسب؟",
+          a: "وقت الحكاية للأطفال من 3 إلى 12 سنة. الحكاية الأولى مكتوبة لأطفال الروضة، من 3 إلى 6 سنوات.",
+        },
+        {
+          q: "كم حكاية متاحة الآن؟",
+          a: "حكاية واحدة كاملة اليوم: كتاب وفيلم ولعبة. الحكايات القادمة تظهر على الرفّ بعلامة «قريبًا»، وهي أفكار لم تُكتب بعد.",
+        },
+        {
+          q: "على أيّ جهاز تعمل؟",
+          a: "في المتصفّح مباشرة: على الهاتف والجهاز اللوحي والحاسوب. لا حاجة إلى تنزيل شيء.",
+        },
+        {
+          q: "بأيّ لغة؟",
+          a: "العربية أولًا، والإنجليزية بضغطة واحدة. الترجمة الإنجليزية للحكاية مسودّة، والأصل عربي.",
+        },
+        {
+          q: "هل تناسب الروضة والصف؟",
+          a: "نعم. في قسم الكبار «وضع الصف» للمعلّمة أمام المجموعة: نصّ أكبر، بلا أوراق ولا مكافآت، والحكاية تملأ الشاشة.",
+        },
+        {
+          q: "هل أحتاج إلى حساب أو بطاقة لأبدأ؟",
+          a: "لا. ادخل كزائر وابدأ. وهذا عرض تجريبي: التسجيل والدفع هنا للتجربة فقط، فلا يُرسَل شيء ولا يُخصَم أي مبلغ، والأسعار المعروضة أسعار تجريبية.",
+        },
+      ],
+    },
     closing: {
       eyebrow: "المكتبة",
       titleA: "الحكاية بانتظارك",
       titleB: "في الداخل",
-      text: "اقرأ، شاهد، والعب. كلّها في مكان واحد.",
+      text: "الحكاية الأولى جاهزة. ادخل، واختر من يقرأ اليوم.",
       enter: "ادخل إلى المكتبة",
     },
     footer: { line: "عالم من الحكايات يبدأ من كتاب." },
@@ -759,12 +846,14 @@ const en: typeof ar = {
   },
   /** The landing page (the front door): about the service, a world of stories, not about one story. */
   landing: {
-    nav: { ways: "How it works", cast: "Characters", author: "The author", enter: "Enter" },
+    nav: { parents: "For parents", how: "How it works", author: "The author", plans: "Plans", enter: "Enter", signup: "Sign up" },
+    assure: ["No ads", "No tracking", "No card needed"],
+    doors: { signup: "Create an account" },
     hero: {
-      kicker: "Stories to read, watch and play",
+      kicker: "Arabic stories for ages 3 to 12",
       titleA: "A world of stories",
       titleB: "begins with a book",
-      sub: "At StoryTime every story is a book that opens, a short film and a game with the same heroes. For children, and whoever reads with them.",
+      sub: "Every story is a book that opens, a short film and a game with the same heroes. Screen time that feels like story time.",
       enter: "Enter the library",
       watch: "Watch the film",
       watchSub: "The first story",
@@ -795,11 +884,90 @@ const en: typeof ar = {
         { name: "Teacher Layla", role: "The class teacher", line: "Understands what Sari needs before he can concentrate." },
       ],
     },
+    plans: { safe: "In this preview nothing is charged." },
+    parents: {
+      kicker: "For parents",
+      titleA: "Before the screen",
+      titleB: "four questions, four answers",
+      lede: "What a parent asks first, answered with what is in the app today.",
+      picture: "From the first story",
+      items: [
+        {
+          q: "Is it just more screen time?",
+          a: "A story with a beginning and an end",
+          s: "A book that opens, then a short film, then a game from the same story. No clips that roll on without end.",
+        },
+        {
+          q: "Will my child enjoy the Arabic?",
+          a: "Proper Arabic to hear and to see",
+          s: "Clear literary Arabic exactly as the author wrote it, with a storyteller's voice and pictures that move.",
+        },
+        {
+          q: "Is it a safe place?",
+          a: "No ads and no tracking",
+          s: "The child's name and progress stay on this device only. The grown-ups' area opens with a long press.",
+        },
+        {
+          q: "What can we do together?",
+          a: "A story you finish together",
+          s: "After the story there are questions to talk about, and an activity away from the screen.",
+        },
+      ],
+    },
+    steps: {
+      kicker: "How it works",
+      title: "Three steps to the first leaf",
+      items: [
+        { t: "Choose who's reading today", s: "The child picks a picture, and types a name if they like." },
+        { t: "Read, watch, play", s: "A book with pages turned by a finger, a short film, and a game from the story." },
+        { t: "Earn a leaf", s: "Every reading, film or game adds a leaf to the child's tree." },
+      ],
+      after: {
+        title: "And what stays with the child?",
+        items: [
+          { t: "Leaves on their tree", s: "A leaf for reading, a leaf for watching and a leaf for playing." },
+          { t: "Words from the story", s: "Each word with its picture, and in the sentence it comes from." },
+          { t: "Letters they know", s: "Letters they get right in the game appear on their tree." },
+        ],
+        enter: "Start with the first leaf",
+      },
+    },
+    faq: {
+      kicker: "Questions",
+      title: "Questions parents ask",
+      lede: "And if one is left, the truest answer is inside.",
+      items: [
+        {
+          q: "What ages is it for?",
+          a: "StoryTime is for children aged 3 to 12. The first story is written for kindergarten children, aged 3 to 6.",
+        },
+        {
+          q: "How many stories are there now?",
+          a: "One complete story today: a book, a film and a game. The next ones appear on the shelf marked \u201cComing soon\u201d; they are ideas that are not written yet.",
+        },
+        {
+          q: "Which devices does it work on?",
+          a: "Right in the browser: on a phone, a tablet or a computer. Nothing to download.",
+        },
+        {
+          q: "Which languages?",
+          a: "Arabic first, and English with one tap. The English text of the story is a draft translation; the original is Arabic.",
+        },
+        {
+          q: "Does it suit a kindergarten class?",
+          a: "Yes. The grown-ups' area has a classroom mode for a teacher in front of the group: larger text, no leaves or rewards, and the story fills the screen.",
+        },
+        {
+          q: "Do I need an account or a card to start?",
+          a: "No. Enter as a guest and begin. This is a preview: sign-up and payment here are demos to try, so nothing is sent, nothing is charged, and the prices shown are samples.",
+        },
+      ],
+    },
     closing: {
       eyebrow: "The library",
       titleA: "The story is waiting",
       titleB: "inside",
-      text: "Read, watch and play. All in one place.",
+      text: "The first story is ready. Step in, and choose who's reading today.",
       enter: "Enter the library",
     },
     footer: { line: "A world of stories begins with a book." },

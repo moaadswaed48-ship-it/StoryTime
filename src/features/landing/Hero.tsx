@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react'
 import gsap from 'gsap'
 import { useGSAP } from '@gsap/react'
-import { ArrowRight, ArrowUpRight, BookOpen, Gamepad2, Play } from 'lucide-react'
+import { ArrowRight, ArrowUpRight, BookOpen, Check, Gamepad2, Play } from 'lucide-react'
 import { enterApp } from '@/app/router'
 import { prefersReducedNow } from '@/app/useMotionTier'
 import { story } from '@/content/story'
@@ -15,6 +15,20 @@ import { Butterfly } from './Butterfly'
 
 const H = t.landing.hero
 const WAYS = [BookOpen, Play, Gamepad2]
+
+/** The three short facts that stand beside every call to action. */
+export function Assure({ className }: { className?: string }) {
+  return (
+    <ul className={cn('lp-assure', className)}>
+      {t.landing.assure.map((a) => (
+        <li key={a}>
+          <Check size={14} strokeWidth={2.6} aria-hidden />
+          {a}
+        </li>
+      ))}
+    </ul>
+  )
+}
 
 /**
  * The first screen: a stack of old books on a green peak above the clouds. The service in one picture.
@@ -150,6 +164,8 @@ export function Hero() {
               </span>
             </button>
           </div>
+          {/* what a parent wants to know before pressing: three facts (the two sign-in doors are in the bar above) */}
+          <Assure className="lp-hero__more lp-in" />
         </div>
 
         {/* glass notes pinned to the picture (wide screens): the first story, the three ways, the film */}

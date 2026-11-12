@@ -21,3 +21,5 @@ assets-src/film/*
 !assets-src/film/*.png
 qa/out/
 .claude/worktrees/
+
+assets-src/audio/
