@@ -189,7 +189,7 @@ export function Enter() {
   return (
     <div className="enter" data-phase={phase} data-over={useSiteStore.getState().view === 'landing' ? 'film' : 'app'} data-lenis-prevent onPointerDown={phase === 'open' ? undefined : () => cross.current?.finish()}>
       {choosing && (
-        <div className="enter__sheet" role="dialog" aria-modal="true" aria-labelledby="enter-title" inert={phase !== 'open'}>
+        <div className="enter__sheet" role="dialog" aria-modal="true" aria-label={t.app.who.title} inert={phase !== 'open'}>
           <button type="button" className="enter__backdrop" tabIndex={-1} aria-label={t.nav.close} onClick={cancel} />
           <Leaves density={7} className="enter__leaves" />
           <button type="button" className="enter__close glass" aria-label={t.nav.close} onClick={cancel}>

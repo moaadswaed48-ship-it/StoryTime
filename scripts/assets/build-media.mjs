@@ -29,6 +29,7 @@ for (const n of CLIPS) {
 ff(['-i', `${SRC}/v08.mp4`, '-an', '-vf', 'trim=end_frame=120,scale=1920:1080:force_original_aspect_ratio=increase,crop=1920:1080,fps=24', '-c:v', 'libx264', '-preset', 'slow', '-crf', '24', '-g', '24', '-pix_fmt', 'yuv420p', '-movflags', '+faststart', 'public/film/hero-1080.mp4'])
 ff(['-i', `${SRC}/v08.mp4`, '-an', '-vf', 'trim=end_frame=120,scale=1280:720:force_original_aspect_ratio=increase,crop=1280:720,fps=24', '-c:v', 'libx264', '-preset', 'slow', '-crf', '26', '-g', '24', '-pix_fmt', 'yuv420p', '-movflags', '+faststart', 'public/film/hero-720.mp4'])
 ff(['-i', `${SRC}/v08.mp4`, '-frames:v', '1', '-vf', 'scale=1920:1080:force_original_aspect_ratio=increase,crop=1920:1080', '-q:v', '3', 'public/film/hero-poster.jpg'])
+ff(['-i', `${SRC}/v08.mp4`, '-frames:v', '1', '-vf', 'scale=1280:720:force_original_aspect_ratio=increase,crop=1280:720', '-q:v', '6', 'public/film/hero-poster-1280.jpg']) // phones
 
 // 4. scroll-scrub image sequence from the wind scene (desktop + phone sets)
 for (const [dir, w, q] of [['d', 1280, 70], ['m', 720, 62]]) {

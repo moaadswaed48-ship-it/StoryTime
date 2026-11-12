@@ -1,4 +1,6 @@
 import { Providers } from '@/app/Providers'
+import { ErrorBoundary } from '@/design/ErrorBoundary'
+import { t } from '@/i18n/copy'
 import { useRouter } from '@/app/router'
 import { useSiteStore } from '@/store/useSiteStore'
 import { Landing } from '@/pages/Landing'
@@ -29,15 +31,20 @@ export default function App() {
     <Providers>
       <div id="page" className="relative">
         <a href="#main" className="sr-only focus:not-sr-only focus:fixed focus:start-4 focus:top-4 focus:z-[100] focus:rounded-full focus:bg-paper focus:px-4 focus:py-2 focus:text-ink">
-          ↓
+          {t.ui.skip}
         </a>
-        <Views />
-        <Enter />
-        <Book />
-        <FilmPlayer />
-        <GameOverlay />
-        <AuthModal />
-        <Checkout />
+        {/* one failed download (a lost connection) must never blank the page: each part fails on its own */}
+        <ErrorBoundary>
+          <Views />
+        </ErrorBoundary>
+        <ErrorBoundary fallback={null}>
+          <Enter />
+          <Book />
+          <FilmPlayer />
+          <GameOverlay />
+          <AuthModal />
+          <Checkout />
+        </ErrorBoundary>
       </div>
     </Providers>
   )

@@ -518,7 +518,7 @@
 
 /* Phone: the bar's label never loses its end. */
 .rd[data-full] .rd-top .rd-btn {
-  min-width: 42px;
+  min-width: 44px;
   padding-inline: 9px;
 }
 .rd[data-full] .rd-id {

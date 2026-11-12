@@ -4,6 +4,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { useGSAP } from '@gsap/react'
 import { Footprints, Hand, PersonStanding, Rotate3d, type LucideIcon } from 'lucide-react'
 import { sfx } from '@/audio/synth'
+import { ErrorBoundary } from '@/design/ErrorBoundary'
 import { Leaves, type LeavesHandle } from '@/design/Leaves'
 import type { SariAction } from '@/design/SariModel'
 import { useInView, useOnScreen } from '@/design/ui'
@@ -341,9 +342,11 @@ export function Stage() {
         </div>
         <div className="sari-canvas">
           {near && (
+            <ErrorBoundary fallback={<Portrait onShown={onFlat} />}>
             <Suspense fallback={null}>
               <Canvas3D rt={rt} onReady={onReady} frameloop={!onScreen ? 'never' : reduced && !busy && action === 'idle' ? 'demand' : 'always'} fallback={<Portrait onShown={onFlat} />} />
             </Suspense>
+            </ErrorBoundary>
           )}
         </div>
         {(flat || burst) && <Leaves ref={leaves} density={flat ? 9 : 0} className="sari-burst" />}

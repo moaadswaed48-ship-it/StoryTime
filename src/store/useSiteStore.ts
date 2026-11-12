@@ -44,6 +44,16 @@ interface SiteState {
   setSoundOn: (v: boolean) => void
 }
 
+/** The demo sign-in / subscription is remembered on this device, so a visitor who "paid" is not asked again. */
+const MEMBER = 'st:member:v1'
+function readMember(): boolean {
+  try {
+    return typeof location !== 'undefined' && !new URLSearchParams(location.search).has('qa') && localStorage.getItem(MEMBER) === '1'
+  } catch {
+    return false
+  }
+}
+
 export const useSiteStore = create<SiteState>()((set) => ({
   tier: 'full',
   reduceToggle: false,
@@ -54,7 +64,7 @@ export const useSiteStore = create<SiteState>()((set) => ({
   enterTarget: 'home',
   overlay: null,
   startScene: 0,
-  loggedIn: false,
+  loggedIn: readMember(),
   loginOpen: false,
   checkout: null,
   sound: false,
@@ -68,7 +78,14 @@ export const useSiteStore = create<SiteState>()((set) => ({
   closeOverlay: () => set({ overlay: null }),
   setView: (view) => set({ view }),
   setPicking: (picking, target) => set(target ? { picking, enterTarget: target } : { picking }),
-  setLoggedIn: (loggedIn) => set({ loggedIn }),
+  setLoggedIn: (loggedIn) => {
+    try {
+      localStorage.setItem(MEMBER, loggedIn ? '1' : '0')
+    } catch {
+      /* private mode: the choice lasts for this visit */
+    }
+    set({ loggedIn })
+  },
   setLoginOpen: (loginOpen) => set({ loginOpen }),
   openCheckout: (plan = 'family', yearly = false) => set({ checkout: { plan, yearly } }),
   closeCheckout: () => set({ checkout: null }),

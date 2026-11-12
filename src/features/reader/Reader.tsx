@@ -5,7 +5,7 @@ import { t } from '@/i18n/copy'
 import { locale, num, rtl } from '@/i18n/locale'
 import { useSiteStore } from '@/store/useSiteStore'
 import { useProfileStore } from '@/store/useProfileStore'
-import { useOverlayLock } from '@/design/overlay'
+import { sheetOnTop, useOverlayLock } from '@/design/overlay'
 import { Pill } from '@/design/ui'
 import { setSound, sfx } from '@/audio/synth'
 import { asset } from '@/lib/asset'
@@ -399,6 +399,7 @@ export function ReaderView({ startScene }: { startScene: number }) {
     el?.focus({ preventScroll: true })
     const onKey = (e: KeyboardEvent) => {
       if (e.defaultPrevented || e.metaKey || e.ctrlKey || e.altKey) return
+      if (sheetOnTop()) return // the checkout or sign-in sheet owns the keyboard while it is open
       if (e.key === 'Escape' && live.current.panel) {
         // Escape closes what is on top first: the open panel, and only then the book.
         e.stopImmediatePropagation()

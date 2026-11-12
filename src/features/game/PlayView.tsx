@@ -265,7 +265,7 @@ function Hud({ slots, waiting, onExit }: { slots: RefObject<(HTMLLIElement | nul
       <div className="game-chip glass-ink pointer-events-auto flex items-center gap-2 rounded-full ps-2.5 pe-3 sm:gap-4 sm:ps-5 sm:pe-5">
         <span className="game-chip-label t-label hidden text-paper/70 sm:block">{t.game.papers}</span>
         {/* the row fills in the order the names are won: the first paper a child collects takes the first place */}
-        <ol className="flex gap-[5px] sm:gap-2" aria-label={`${t.game.papers} ${num(count)} / ${num(papers.length)}`} data-game-row>
+        <ol className="flex gap-[5px] max-[359px]:gap-[3px] sm:gap-2" aria-label={`${t.game.papers} ${num(count)} / ${num(papers.length)}`} data-game-row>
           {papers.map((p, k) => {
             const got = k < order.length ? papers[order[k]] : null
             return (
@@ -284,7 +284,7 @@ function Hud({ slots, waiting, onExit }: { slots: RefObject<(HTMLLIElement | nul
             )
           })}
         </ol>
-        <span className={cn('min-w-[2.3rem] text-center text-[14px] font-semibold tabular-nums text-paper/85 sm:min-w-[2.6rem] sm:text-[15px]', papers.length > 5 && 'max-[400px]:hidden')} dir="ltr">
+        <span className={cn('min-w-[2.3rem] text-center text-[14px] font-semibold tabular-nums text-paper/85 sm:min-w-[2.6rem] sm:text-[15px]', papers.length > 5 ? 'max-[400px]:hidden' : 'max-[359px]:hidden')} dir="ltr">
           {num(count)} / {num(papers.length)}
         </span>
       </div>

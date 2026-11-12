@@ -282,7 +282,7 @@ export function Nav() {
               <AccountIcon size={17} strokeWidth={1.9} className="flip-rtl shrink-0" aria-hidden />
               {accountLabel}
             </Pill>
-            <Pill variant="solid" size="lg" className="st-sheet__enter w-full whitespace-nowrap px-4" onClick={enter}>
+            <Pill variant="solid" size="lg" className="st-sheet__enter w-full whitespace-nowrap px-4 max-[359px]:text-[14px]" onClick={enter}>
               {t.app.enter}
               <ArrowRight size={18} strokeWidth={2.4} className="flip-rtl shrink-0" aria-hidden />
             </Pill>

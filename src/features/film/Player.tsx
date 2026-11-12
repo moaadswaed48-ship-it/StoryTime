@@ -563,7 +563,7 @@ export function Player() {
       <div className="film-frame">
         <Ambient src={light} />
         <div className="film-screen">
-          {!shown && <Poster />}
+          {!(shown && started) && <Poster />}
           <video
             ref={video}
             className={cn('film-video', ready && armed && 'is-ready')}

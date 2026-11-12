@@ -5,7 +5,7 @@ import { t } from '@/i18n/copy'
 import { dirSign, locale, num, rtl } from '@/i18n/locale'
 import { useSiteStore } from '@/store/useSiteStore'
 import { useProfileStore } from '@/store/useProfileStore'
-import { useOverlayLock } from '@/design/overlay'
+import { sheetOnTop, useOverlayLock } from '@/design/overlay'
 import { BlurWords, Eyebrow, Pill } from '@/design/ui'
 import { Leaves, type LeavesHandle } from '@/design/Leaves'
 import { prefersReducedNow } from '@/app/useMotionTier'
@@ -211,6 +211,7 @@ export function Reader({ startScene }: { startScene: number }) {
     el?.focus({ preventScroll: true })
     const onKey = (e: KeyboardEvent) => {
       if (e.defaultPrevented || e.metaKey || e.ctrlKey || e.altKey) return
+      if (sheetOnTop()) return // the checkout or sign-in sheet owns the keyboard while it is open
       const tgt = e.target as HTMLElement | null
       const onControl = !!tgt?.closest?.('button, a, input, select, textarea')
       if (e.key === 'Tab') {

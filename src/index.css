@@ -13,7 +13,8 @@
   --color-paper-2: #ece2d0;
   --color-ink: #1a120b;
   --color-ink-2: #43362a;
-  --color-muted: #7d6e5e;
+  --color-muted: #6a5d4f; /* 4.9:1 on paper-2 */
+  --color-maple-ink: #b4421a; /* the accent as small text on paper (4.9:1) */
   --color-maple: #d9541e; /* the single accent */
   --color-maple-soft: #f4a35e; /* the same accent, tinted for dark surfaces */
   --font-sans: 'IBM Plex Sans Arabic', 'Rubik Variable', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
@@ -27,6 +28,7 @@
 
 @layer base {
   html {
+    color-scheme: dark;
     font-synthesis: none;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;

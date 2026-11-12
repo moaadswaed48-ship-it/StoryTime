@@ -14,7 +14,7 @@ const PILL = {
   glass: 'glass text-white hover:bg-white/10', // secondary on film / dark
   outline: 'border border-ink/20 text-ink hover:bg-ink/5', // secondary on paper
 }
-const SIZE = { sm: 'h-10 px-4 text-[13.5px]', md: 'h-12 px-6 text-[15px]', lg: 'h-14 px-8 text-[16px]' }
+const SIZE = { sm: 'h-11 px-4 text-[13.5px]', md: 'h-12 px-6 text-[15px]', lg: 'h-14 px-8 text-[16px]' }
 export type PillVariant = keyof typeof PILL
 
 export function Pill({ variant = 'solid', size = 'md', className, children, ...rest }: ButtonHTMLAttributes<HTMLButtonElement> & { variant?: PillVariant; size?: keyof typeof SIZE; children: ReactNode }) {
@@ -32,7 +32,7 @@ export function Pill({ variant = 'solid', size = 'md', className, children, ...r
 /** Small label above a heading: a dot (or hairline) plus tracked text. */
 export function Eyebrow({ children, className, tone = 'dark' }: { children: ReactNode; className?: string; tone?: 'dark' | 'light' }) {
   return (
-    <p className={cn('t-label inline-flex items-center gap-3', tone === 'dark' ? 'text-maple-soft' : 'text-maple', className)}>
+    <p className={cn('t-label inline-flex items-center gap-3', tone === 'dark' ? 'text-maple-soft' : 'text-maple-ink', className)}>
       <span className="h-1.5 w-1.5 rounded-full bg-current" aria-hidden />
       {children}
     </p>

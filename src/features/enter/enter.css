@@ -506,3 +506,30 @@ html[dir='rtl'] .enter__hello-name {
     animation: none;
   }
 }
+
+/* A phone held sideways: four small faces in one row, a smaller title, and no helper lines, so the name field
+   and the start button are on the first screen. */
+@media (orientation: landscape) and (max-height: 520px) {
+  .enter__sheet {
+    padding-top: max(14px, env(safe-area-inset-top));
+    padding-bottom: max(12px, env(safe-area-inset-bottom));
+  }
+  .enter__title {
+    font-size: 1.6rem;
+  }
+  .enter__sub,
+  .enter__note {
+    display: none;
+  }
+  .enter__avatars {
+    --av: 56px;
+    grid-template-columns: repeat(4, auto);
+    gap: 8px 18px;
+  }
+  .enter__panel {
+    gap: 8px;
+  }
+  .enter__pick {
+    gap: 10px;
+  }
+}

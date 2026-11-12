@@ -10,7 +10,8 @@ export interface FilmHandle {
   parallax: HTMLDivElement | null
 }
 
-const POSTER = 'film/hero-poster.jpg'
+/** Phones get a lighter poster (it only shows until the film arrives); index.html preloads the same file per screen. */
+const POSTER = typeof window !== 'undefined' && window.matchMedia('(max-width: 760px)').matches ? 'film/hero-poster-1280.jpg' : 'film/hero-poster.jpg'
 
 /**
  * Which file to play — decided once per load.

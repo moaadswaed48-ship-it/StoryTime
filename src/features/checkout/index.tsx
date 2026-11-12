@@ -37,9 +37,26 @@ export function Checkout() {
 
   useEffect(() => {
     if (!open) return
+    const before = document.activeElement instanceof HTMLElement ? document.activeElement : null
     setPhase('form')
     setForm(EMPTY)
     card.current?.focus({ preventScroll: true })
+    // Tab stays inside the sheet; focus returns to where it came from when the sheet closes.
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key !== 'Tab') return
+      const items = Array.from(card.current?.querySelectorAll<HTMLElement>('button:not([disabled]), input, a[href]') ?? []).filter((n) => n.getClientRects().length > 0)
+      if (!items.length) return
+      const at = items.indexOf(document.activeElement as HTMLElement)
+      const to = e.shiftKey ? (at <= 0 ? items.length - 1 : at - 1) : at === -1 || at === items.length - 1 ? 0 : at + 1
+      e.preventDefault()
+      e.stopImmediatePropagation()
+      items[to].focus()
+    }
+    window.addEventListener('keydown', onKey, true)
+    return () => {
+      window.removeEventListener('keydown', onKey, true)
+      if (before?.isConnected) before.focus({ preventScroll: true })
+    }
   }, [open])
 
   const tier = t.pricing.tiers.find((x) => x.id === order?.plan) ?? t.pricing.tiers[1]

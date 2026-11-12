@@ -43,6 +43,7 @@
   position: relative;
   z-index: 1;
   display: grid;
+  grid-template-columns: minmax(0, 1fr); /* or a wide input stretches the sheet past the screen */
   width: 100%;
   max-height: 94vh;
   max-height: 94dvh;
