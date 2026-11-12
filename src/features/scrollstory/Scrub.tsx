@@ -282,7 +282,6 @@ export function ScrubStory() {
             const d = i - s.reel
             const far = Math.abs(d)
             const o = clamp(1 - far * 1.35, 0, 1)
-            el.style.visibility = o < 0.004 ? 'hidden' : 'visible'
             el.style.opacity = o.toFixed(3)
             el.style.transform = `translate3d(0, ${(d * 0.9 + creep).toFixed(4)}em, 0) scale(${(1 - Math.min(far, 1) * 0.05).toFixed(4)})`
             el.style.filter = far > 0.01 && useSiteStore.getState().tier !== 'low' ? `blur(${(far * 16).toFixed(1)}px)` : 'none'
@@ -332,8 +331,10 @@ export function ScrubStory() {
             s.pan = pan
             s.shown = (imgB && mix >= 0.5 ? bb : a) + 1
             if (!s.filmed) {
+              // First picture: fade the canvas in over the blurred placeholder, then drop the placeholder.
               s.filmed = true
               stg.classList.add('has-film')
+              window.setTimeout(() => stg.classList.add('film-set'), 900)
             }
           }
           // Decode the next frames in the direction of travel before the playhead gets there.
@@ -424,7 +425,7 @@ export function ScrubStory() {
                       words.current[i] = el
                     }}
                     className="ss-word t-mega display-on-film"
-                    style={i === 0 ? undefined : { opacity: 0, visibility: 'hidden' }}
+                    style={i === 0 ? undefined : { opacity: 0 }}
                   >
                     {b.word}
                   </h3>

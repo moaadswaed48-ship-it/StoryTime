@@ -125,7 +125,7 @@ export function Hero() {
         .to(strip.current?.el ?? null, { y: -28, opacity: 0, duration: 0.42 }, 0)
         .to(cue.current, { opacity: 0, duration: 0.18 }, 0)
     },
-    { scope: section, dependencies: [reduced] },
+    { scope: section, dependencies: [reduced], revertOnUpdate: true },
   )
 
   /* ── Pointer depth (mouse only): film and type slide a few pixels against each other ── */

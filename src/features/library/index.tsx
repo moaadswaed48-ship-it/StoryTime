@@ -26,7 +26,7 @@ function guessMetrics(): Metrics {
 
 /** Arrow that points toward the previous / next book whatever the reading direction. */
 function Arrow({ next }: { next?: boolean }) {
-  const Icon = next !== rtl ? ArrowRight : ArrowLeft
+  const Icon = !!next !== rtl ? ArrowRight : ArrowLeft
   return <Icon size={22} strokeWidth={2} aria-hidden />
 }
 
@@ -190,7 +190,7 @@ export function Library() {
       <Container className="lib-chrome pt-24 lg:pt-28">
         <div className="flex flex-col gap-7 lg:flex-row lg:items-end lg:justify-between lg:gap-12">
           <SectionHead tone="light" eyebrow={t.library.eyebrow} title={t.library.title} lede={t.library.lede} />
-          <div role="group" aria-label={t.library.eyebrow} className="lib-filters -mx-5 overflow-x-auto px-5 sm:mx-0 sm:px-0 lg:pb-1.5">
+          <div role="group" aria-label={t.library.eyebrow} className="lib-filters -mx-5 overflow-x-auto px-5 sm:mx-0 sm:px-0 lg:shrink-0 lg:overflow-visible lg:pb-1.5">
             {FILTERS.map((f) => (
               <button key={f} type="button" className={cn('lib-chip', filter === f && 'is-on')} aria-pressed={filter === f} data-filter={f} onClick={() => shelf.setFilter(f)}>
                 {t.library.filters[f]}
@@ -282,7 +282,7 @@ export function Library() {
                 <span>
                   <Arrow />
                 </span>
-                {t.library.back}
+                <b>{t.library.back}</b>
               </button>
               <p className="mt-6 flex flex-wrap items-center gap-x-3 gap-y-1 lg:mt-9" data-d style={d(1)}>
                 <span className="t-label text-maple">{t.library.filters[dBook.season]}</span>
@@ -299,12 +299,12 @@ export function Library() {
               <BlurWords key={`${dBook.id}-${shown.seq}`} as="h3" text={dBook.title[locale]} immediate={detail !== null} delay={260} className="lib-detail-title mt-3 block lg:mt-4" />
               {dBook.ready ? (
                 <>
-                  <p className="mt-4 text-[14.5px] font-medium text-muted lg:mt-5" data-d style={d(3)}>
-                    {t.library.meta}
-                    <span className="mx-2.5 opacity-50" aria-hidden>
+                  <p className="mt-4 flex flex-wrap gap-x-2.5 gap-y-0.5 text-[14.5px] font-medium text-muted lg:mt-5" data-d style={d(3)}>
+                    <span>{t.library.meta}</span>
+                    <span className="opacity-50 max-sm:hidden" aria-hidden>
                       ·
                     </span>
-                    {t.library.by}
+                    <span>{t.library.by}</span>
                   </p>
                   {dBook.blurb && (
                     <p className="t-lede mt-4 max-w-[34rem] text-ink-2 lg:mt-5" data-d style={d(4)}>

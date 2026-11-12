@@ -123,32 +123,36 @@
   transform-origin: 50% 0;
   backface-visibility: hidden;
   background:
+    radial-gradient(34% 150% at 50% 30%, rgba(255, 250, 238, 0.5), rgba(255, 250, 238, 0) 100%),
     repeating-linear-gradient(180deg, rgba(122, 86, 46, 0.07) 0 1px, transparent 1px 6px),
     var(--lib-noise),
-    linear-gradient(180deg, #d8c5a3, #e6d7ba 50%, #efe3cb);
+    linear-gradient(180deg, #d3bf9b, #e3d3b4 50%, #ecdfc5);
   background-size:
+    auto,
     auto,
     180px 180px,
     auto;
-  background-blend-mode: normal, soft-light, normal;
+  background-blend-mode: normal, normal, soft-light, normal;
 }
 .lib-lip {
   position: absolute;
   left: 50%;
   backface-visibility: hidden;
   background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.75) 0 1.5px, rgba(255, 255, 255, 0) 1.5px),
-    linear-gradient(180deg, rgba(60, 36, 12, 0) calc(100% - 2px), rgba(60, 36, 12, 0.28) 100%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.8) 0 1.5px, rgba(255, 255, 255, 0) 1.5px),
+    linear-gradient(180deg, rgba(60, 36, 12, 0) calc(100% - 2px), rgba(60, 36, 12, 0.3) 100%),
+    radial-gradient(34% 400% at 50% 0%, rgba(255, 246, 228, 0.42), rgba(255, 246, 228, 0) 100%),
     repeating-linear-gradient(180deg, rgba(110, 76, 38, 0.1) 0 1px, transparent 1px 5px),
     var(--lib-noise),
-    linear-gradient(180deg, #cfba93, #b9a078);
+    linear-gradient(180deg, #c9b188, #b0946a);
   background-size:
+    auto,
     auto,
     auto,
     auto,
     180px 180px,
     auto;
-  background-blend-mode: normal, normal, normal, soft-light, normal;
+  background-blend-mode: normal, normal, normal, normal, soft-light, normal;
 }
 .lib-lip::after {
   content: '';
@@ -721,14 +725,14 @@ html[lang='en'] .lib-rtitle .is-b {
   transition: visibility 0s;
 }
 .lib-detail-grid {
+  position: relative;
   display: grid;
   grid-template-columns: minmax(0, 1fr);
   justify-items: center;
-  gap: 28px;
-  padding-block: 88px 56px;
+  gap: 22px;
 }
 .lib-detail-slot {
-  height: min(40svh, 330px);
+  height: min(34svh, 300px);
   aspect-ratio: 0.753;
 }
 .lib-detail-slotwrap {
@@ -803,6 +807,30 @@ html[lang='ar'] .lib-detail-title {
   font-weight: 600;
   color: var(--color-ink-2, #43362a);
   transition: color 0.2s ease;
+}
+/* Phones: the way back is a round button in the corner beside the cover; its words stay for screen readers. */
+@media (max-width: 899px) {
+  .lib-return {
+    position: absolute;
+    inset-inline-start: 0;
+    top: 0;
+    padding: 0;
+  }
+  .lib-return span {
+    width: 44px;
+    height: 44px;
+  }
+  .lib-return b {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+}
+.lib-return b {
+  font-weight: inherit;
 }
 .lib-return span {
   display: grid;

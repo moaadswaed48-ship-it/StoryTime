@@ -5,18 +5,23 @@
 export const PAPER = '#f6f0e4'
 export const BASE_BG = '#1a120b'
 
-/** The crease down the middle of the open book: [offset from the centre as a fraction of the width, alpha]. */
+/**
+ * Light on the open pages: a crease that fades from the spine (≈ 26 % · e^(−22u), u = distance across the page)
+ * and slightly darker outer edges. Stops are [position across the spread 0…1, alpha].
+ */
+const crease = (u: number) => 0.26 * Math.exp(-22 * u)
 const GUTTER: [number, number][] = [
-  [-0.05, 0],
-  [-0.022, 0.07],
-  [-0.006, 0.2],
-  [0, 0.34],
-  [0.006, 0.2],
-  [0.022, 0.07],
-  [0.05, 0],
+  [0, 0.12],
+  [0.012, 0.05],
+  [0.035, 0],
+  ...[0.16, 0.1, 0.06, 0.035, 0.018, 0.008, 0].map((u): [number, number] => [0.5 - u / 2, crease(u)]),
+  ...[0.008, 0.018, 0.035, 0.06, 0.1, 0.16].map((u): [number, number] => [0.5 + u / 2, crease(u)]),
+  [0.965, 0],
+  [0.988, 0.05],
+  [1, 0.12],
 ]
 const GUTTER_RGB = '22, 11, 4'
-export const GUTTER_CSS = `linear-gradient(to right, ${GUTTER.map(([o, a]) => `rgba(${GUTTER_RGB}, ${a}) ${((0.5 + o) * 100).toFixed(2)}%`).join(', ')})`
+export const GUTTER_CSS = `linear-gradient(to right, ${GUTTER.map(([x, a]) => `rgba(${GUTTER_RGB}, ${a.toFixed(4)}) ${(x * 100).toFixed(2)}%`).join(', ')})`
 
 export interface Affine {
   a: number
@@ -36,7 +41,7 @@ export function pageCanvas(W: number, H: number, k: number): HTMLCanvasElement {
 export function paintGutter(c: HTMLCanvasElement) {
   const ctx = c.getContext('2d')!
   const g = ctx.createLinearGradient(0, 0, c.width, 0)
-  for (const [o, a] of GUTTER) g.addColorStop(0.5 + o, `rgba(${GUTTER_RGB}, ${a})`)
+  for (const [x, a] of GUTTER) g.addColorStop(x, `rgba(${GUTTER_RGB}, ${a.toFixed(4)})`)
   ctx.fillStyle = g
   ctx.fillRect(0, 0, c.width, c.height)
 }

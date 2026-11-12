@@ -9,6 +9,8 @@ import { luminance, mix, type Geom, type Metrics } from './engine'
 
 /** Average glyph advance (em) of the display face at weight 700–800 — used to fit titles without measuring. */
 const ADV = locale === 'ar' ? 0.5 : 0.57
+/** The same for the heavier (900) cover lock-up. */
+const ADV_COVER = locale === 'ar' ? 0.5 : 0.64
 /** The spine is on the right of an Arabic book's front cover and on the left of an English one. */
 const SPINE_SIDE = -dirSign
 
@@ -27,7 +29,7 @@ function tones(book: ShelfBook): Tones {
   return {
     cloth,
     foil,
-    hi: mix(foil, '#ffffff', dark ? 0.36 : 0.62),
+    hi: mix(foil, '#ffffff', dark ? 0.2 : 0.62),
     lo: mix(foil, '#000000', dark ? 0.28 : 0.24),
     glint: dark ? 0.5 : 0.92,
     pattern: dark ? 0.13 : luminance(cloth) > 0.5 ? 0.22 : 0.17,
@@ -111,7 +113,7 @@ function ReadyTitle({ book }: { book: ShelfBook }) {
   // The copy already breaks this title by hand; fall back to a balanced split for any other book.
   const lines: string[] = title === `${t.hero.titleA} ${t.hero.titleB}` ? [t.hero.titleA, t.hero.titleB] : twoLines(title)
   const box = 53 // width of the lock-up in cover units
-  const fit = (s: string, max: number, min: number) => Math.max(min, Math.min(max, box / (ADV * s.length)))
+  const fit = (s: string, max: number, min: number) => Math.max(min, Math.min(max, box / (ADV_COVER * s.length)))
   return (
     <div className="lib-rtitle">
       <p className="lib-foil" style={{ fontSize: `calc(var(--u) * ${fit(lines[0], 10.6, 6).toFixed(2)})` }}>

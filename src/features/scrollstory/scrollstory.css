@@ -55,6 +55,11 @@ html[dir='rtl'] .ss {
   display: block;
   width: 100%;
   height: 100%;
+  opacity: 0;
+  transition: opacity 0.6s var(--ease-state);
+}
+.ss-stage.has-film .ss-film > canvas {
+  opacity: 1;
 }
 /* Blurred first frame under the canvas: the stage is never blank while the real frame loads. */
 .ss-lqip {
@@ -67,7 +72,7 @@ html[dir='rtl'] .ss {
 html[dir='ltr'] .ss-lqip {
   transform: scaleX(-1);
 }
-.ss-stage.has-film .ss-lqip {
+.ss-stage.film-set .ss-lqip {
   display: none;
 }
 
@@ -360,13 +365,17 @@ html[lang='en'] .ss-word {
     padding-inline-end: 44px;
   }
   .ss-word {
-    font-size: clamp(4rem, min(30vw, 16svh), 11rem);
+    font-size: clamp(4rem, min(32vw, 16svh), 11rem);
   }
   html[lang='en'] .ss-word {
-    font-size: clamp(3.75rem, min(26vw, 15svh), 10rem);
+    font-size: clamp(3.75rem, min(28vw, 15svh), 10rem);
   }
   .ss-line {
+    gap: 12px;
     max-width: 22rem;
+  }
+  .ss-idx::after {
+    display: none;
   }
   .ss-rail {
     --ss-rail-h: 132px;

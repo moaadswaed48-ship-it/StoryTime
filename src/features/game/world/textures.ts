@@ -50,7 +50,7 @@ export const pavingTexture = () =>
     const rnd = mulberry32(21)
     g.fillStyle = '#93694a'
     g.fillRect(0, 0, S, S)
-    const tones = ['#dab78e', '#cfa77d', '#c69b71', '#e0c29c', '#bf9168', '#d5ae84', '#caa179']
+    const tones = ['#dab78e', '#cfa77d', '#c69b71', '#e0c29c', '#bf9168', '#d5ae84', '#caa179', '#cc9673', '#d3a07a']
     const rows = 10
     const rh = S / rows
     const gap = 4
@@ -71,16 +71,16 @@ export const pavingTexture = () =>
           const pw = w - gap * 2
           const ph = rh - gap * 2
           // soft drop into the grout
-          g.fillStyle = 'rgba(58,30,12,.4)'
-          roundRect(g, px + 2, py + 4, pw, ph, rad)
+          g.fillStyle = 'rgba(58,30,12,.3)'
+          roundRect(g, px + 1.5, py + 3, pw, ph, rad)
           g.fill()
           const grad = g.createLinearGradient(px, py, px + pw * (0.4 + tilt * 0.6), py + ph)
           grad.addColorStop(0, tone)
-          grad.addColorStop(1, shade(tone, -0.1))
+          grad.addColorStop(1, shade(tone, -0.07))
           g.fillStyle = grad
           roundRect(g, px, py, pw, ph, rad)
           g.fill()
-          g.strokeStyle = 'rgba(255,238,210,.16)'
+          g.strokeStyle = 'rgba(255,238,210,.1)'
           g.lineWidth = 2
           roundRect(g, px + 2.5, py + 2.5, pw - 5, ph - 5, Math.max(4, rad - 2))
           g.stroke()
@@ -89,7 +89,7 @@ export const pavingTexture = () =>
       }
     }
     // grain: sand and tiny shadows
-    for (let i = 0; i < 5200; i++) {
+    for (let i = 0; i < 9000; i++) {
       const dark = rnd() < 0.55
       g.fillStyle = dark ? `rgba(84,48,22,${0.05 + rnd() * 0.1})` : `rgba(255,240,214,${0.05 + rnd() * 0.1})`
       const s = 1.5 + rnd() * 3.5

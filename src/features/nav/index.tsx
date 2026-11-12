@@ -240,7 +240,7 @@ export function Nav() {
         <div className="st-sheet__foot st-stagger" style={{ '--i': LINKS.length + 1 } as CSSProperties}>
           <div className="st-sheet__row">
             <Pill variant="glass" size="lg" className="px-6" onClick={account}>
-              <AccountIcon size={17} strokeWidth={1.9} className="flip-rtl" aria-hidden />
+              <AccountIcon size={17} strokeWidth={1.9} className="flip-rtl shrink-0" aria-hidden />
               {accountLabel}
             </Pill>
             <Pill
@@ -252,7 +252,7 @@ export function Nav() {
                 openBook()
               }}
             >
-              <BookOpen size={18} strokeWidth={2.2} aria-hidden />
+              <BookOpen size={18} strokeWidth={2.2} className="shrink-0" aria-hidden />
               {t.nav.cta}
             </Pill>
           </div>

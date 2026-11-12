@@ -21,6 +21,8 @@ export interface TurnReq {
   step: number
   forward: boolean
   snapshot: HTMLCanvasElement
+  /** The leaf follows a finger (`dragTo`, `release`) instead of turning by itself. */
+  manual?: boolean
 }
 export interface SpreadHandle {
   capture(): HTMLCanvasElement | null
@@ -28,12 +30,19 @@ export interface SpreadHandle {
   clip(): ClipInfo
   /** Freeze the next (or running) opening / page turn at a fraction of its length; `null` lets it run again. */
   hold(p: number | null): void
+  /** A dragged leaf: how far it is turned (0…1), and letting it go (it lands, or falls back). */
+  dragTo(q: number): void
+  release(land: boolean): void
+  rect(): DOMRect | null
 }
 
 const BLUR = 14 // px, the frosted picture behind the paywall card (keep in step with .bk-page[data-blur])
 const COVER_T = 4 // px, thickness of the cover board
 const RX0 = 9
 const RY0 = rtl ? 27 : -27
+/** How far the picture shifts against the pointer, in percent of the page (the art is zoomed 1.045 to allow it). */
+const PAR_X = 1
+const PAR_Y = 0.6
 const smooth = (v: number) => {
   const x = v < 0 ? 0 : v > 1 ? 1 : v
   return x * x * (3 - 2 * x)
@@ -160,7 +169,6 @@ export const Spread = forwardRef<SpreadHandle, Props>(function Spread({ phase, s
   const book = useRef<HTMLDivElement>(null)
   const cover = useRef<HTMLDivElement>(null)
   const block = useRef<HTMLDivElement>(null)
-  const dress = useRef<HTMLDivElement>(null)
   const fx = useRef<HTMLDivElement>(null)
   const inside = useRef<HTMLCanvasElement>(null)
   const frontShade = useRef<HTMLDivElement>(null)
@@ -175,6 +183,11 @@ export const Spread = forwardRef<SpreadHandle, Props>(function Spread({ phase, s
   const hold = useRef<number | null>(null)
   const turnH = useRef<TurnHandle | null>(null)
   const turnNo = useRef(0)
+  const want = useRef<{ q: number; land: boolean | null }>({ q: 0, land: null })
+  const par = useRef<HTMLDivElement>(null)
+  const parNow = useRef({ x: 0, y: 0 })
+  const turning = useRef(false)
+  turning.current = !!turn
   const openTl = useRef<gsap.core.Timeline | null>(null)
   const cb = useRef({ onOpened, onTurnEnd })
   cb.current = { onOpened, onTurnEnd }
@@ -189,7 +202,8 @@ export const Spread = forwardRef<SpreadHandle, Props>(function Spread({ phase, s
     }
     const im = preloadScene(sc)
     const d = driftOf(sc, st)
-    const ok = paintPicture(c, ready(im), { a: d.s, d: d.s, e: (d.tx / 100) * W, f: (d.ty / 100) * H }, pageScale(W))
+    // Same drift as the page will have at rest, plus the pointer offset the spread holds during the turn.
+    const ok = paintPicture(c, ready(im), { a: d.s, d: d.s, e: ((d.tx + parNow.current.x) / 100) * W, f: ((d.ty + parNow.current.y) / 100) * H }, pageScale(W))
     return { c, ok, im }
   }
 
@@ -246,7 +260,7 @@ export const Spread = forwardRef<SpreadHandle, Props>(function Spread({ phase, s
         const tf = getComputedStyle(p.drift).transform
         if (tf && tf !== 'none') {
           const M = new DOMMatrixReadOnly(tf)
-          m = { a: M.a, d: M.d, e: M.e, f: M.f }
+          m = { a: M.a, d: M.d, e: M.e + (parNow.current.x / 100) * W, f: M.f + (parNow.current.y / 100) * H }
         }
       }
       const v = p.video
@@ -270,6 +284,15 @@ export const Spread = forwardRef<SpreadHandle, Props>(function Spread({ phase, s
       turnH.current?.seek(p)
       openTl.current?.pause().progress(p)
     },
+    dragTo(q) {
+      want.current.q = q
+      turnH.current?.drag(q)
+    },
+    release(land) {
+      if (turnH.current) turnH.current.release(land)
+      else want.current.land = land
+    },
+    rect: () => sceneEl.current?.getBoundingClientRect() ?? null,
   }))
 
   /* ── Closed: float, tilt with the pointer (or sway on touch screens) ───────── */
@@ -332,9 +355,11 @@ export const Spread = forwardRef<SpreadHandle, Props>(function Spread({ phase, s
       measure()
       pose.current.rx = RX0 - ptr.y * 14
       pose.current.ry = RY0 + ptr.x * 22
-      const intro = 1 - Math.pow(1 - Math.min(1, tt / 1.1), 3)
+      // Entrance: the book swings round to face the reader while it rises into place.
+      const intro = 1 - Math.pow(1 - Math.min(1, tt / 1.3), 3)
+      pose.current.ry += (rtl ? 1 : -1) * (1 - intro) * 40
       const float = Math.sin(tt * 1.15) * 7 * pose.current.s
-      const dy = float + (1 - intro) * 46
+      const dy = float + (1 - intro) * 52
       // Keep the floated position as the pose, so the opening starts exactly where the book is.
       write(dy, 0.94 + 0.06 * intro)
       pose.current.y += dy
@@ -388,7 +413,9 @@ export const Spread = forwardRef<SpreadHandle, Props>(function Spread({ phase, s
       if (firstShade.current) firstShade.current.style.opacity = (0.78 * Math.pow(1 - c, 1.5)).toFixed(3)
       b.style.setProperty('--bw', `${(H * 0.75 + (W / 2 - H * 0.75) * st.widen).toFixed(2)}px`)
       b.style.setProperty('--r', `${(6 + (RR - 6) * st.widen).toFixed(2)}px`)
-      if (dress.current) dress.current.style.opacity = st.widen.toFixed(3)
+      // The shadow on the table widens as the cover comes over; the boards show once the pages spread out.
+      b.style.setProperty('--floor', smooth(c * 1.15).toFixed(3))
+      b.style.setProperty('--dress', st.widen.toFixed(3))
       if (block.current) block.current.style.visibility = p < 0.004 ? 'hidden' : 'visible'
     }
     const tl = gsap.timeline({ onUpdate: apply, onComplete: () => cb.current.onOpened() })
@@ -413,8 +440,38 @@ export const Spread = forwardRef<SpreadHandle, Props>(function Spread({ phase, s
     b.style.transform = ''
     b.style.removeProperty('--bw')
     b.style.removeProperty('--r')
-    if (dress.current) dress.current.style.opacity = ''
+    b.style.removeProperty('--floor')
+    b.style.removeProperty('--dress')
   }, [phase])
+
+  /* ── Depth: the picture shifts a little against the pointer (held still while a leaf turns) ── */
+  useEffect(() => {
+    if (phase !== 'open' || reduced || !window.matchMedia('(hover: hover) and (pointer: fine)').matches) return
+    const tgt = { x: 0, y: 0 }
+    let raf = 0
+    const loop = () => {
+      raf = 0
+      const el = par.current
+      const now = parNow.current
+      if (!turning.current) {
+        now.x += (tgt.x - now.x) * 0.12
+        now.y += (tgt.y - now.y) * 0.12
+        if (el) el.style.transform = `translate3d(${now.x.toFixed(3)}%, ${now.y.toFixed(3)}%, 0)`
+      }
+      if (turning.current || Math.abs(tgt.x - now.x) > 0.002 || Math.abs(tgt.y - now.y) > 0.002) raf = requestAnimationFrame(loop)
+    }
+    const onMove = (e: PointerEvent) => {
+      tgt.x = -(e.clientX / window.innerWidth - 0.5) * 2 * PAR_X
+      tgt.y = -(e.clientY / window.innerHeight - 0.5) * 2 * PAR_Y
+      if (!raf) raf = requestAnimationFrame(loop)
+    }
+    window.addEventListener('pointermove', onMove, { passive: true })
+    return () => {
+      window.removeEventListener('pointermove', onMove)
+      cancelAnimationFrame(raf)
+      parNow.current = { x: 0, y: 0 }
+    }
+  }, [phase, reduced])
 
   /* ── Page turns ─────────────────────────────────────────────────────────────── */
   const turnId = turn?.id
@@ -440,6 +497,7 @@ export const Spread = forwardRef<SpreadHandle, Props>(function Spread({ phase, s
       side: turn.forward === rtl ? 'left' : 'right',
       pages,
       radius: RR,
+      manual: turn.manual,
       onDone: () => {
         if (turnH.current === h) turnH.current = null
         cb.current.onTurnEnd(turn.id)
@@ -447,6 +505,11 @@ export const Spread = forwardRef<SpreadHandle, Props>(function Spread({ phase, s
     })
     turnH.current = h
     turnNo.current = turn.id
+    if (turn.manual) {
+      // The finger may already have moved (or even let go) before the leaf existed.
+      h.drag(want.current.q)
+      if (want.current.land != null) h.release(want.current.land)
+    }
     if (hold.current != null) h.seek(hold.current)
     sfx.flip()
     let alive = true
@@ -459,6 +522,7 @@ export const Spread = forwardRef<SpreadHandle, Props>(function Spread({ phase, s
       alive = false
       h.kill()
       if (turnH.current === h) turnH.current = null
+      want.current = { q: 0, land: null }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [turnId])
@@ -467,7 +531,8 @@ export const Spread = forwardRef<SpreadHandle, Props>(function Spread({ phase, s
   return (
     <div className="bk-scene" ref={sceneEl}>
       <div className="bk-book" ref={book} data-phase={phase} data-rtl={rtl ? '1' : '0'}>
-        <div className="bk-dress" ref={dress} aria-hidden>
+        <div className="bk-dress" aria-hidden>
+          <div className="bk-floor" />
           <div className="bk-board" />
           <div className="bk-edges-s" />
           <div className="bk-edges-b" />
@@ -481,7 +546,15 @@ export const Spread = forwardRef<SpreadHandle, Props>(function Spread({ phase, s
             <div className="bk-b-spine" />
           </div>
         )}
-        <div className="bk-base bk-clip">{scene < SCENES ? <Picture key={scene} scene={scene} step={step} clipOn={clipOn} blurred={blurred} api={pic} onClip={onClip} /> : endPage}</div>
+        <div className="bk-base bk-clip">
+          {scene < SCENES ? (
+            <div className="bk-par" ref={par}>
+              <Picture key={scene} scene={scene} step={step} clipOn={clipOn} blurred={blurred} api={pic} onClip={onClip} />
+            </div>
+          ) : (
+            endPage
+          )}
+        </div>
         <div className="bk-gutter bk-clip" style={{ background: GUTTER_CSS }} aria-hidden />
         {shut && <div className="bk-firstshade" ref={firstShade} aria-hidden />}
         <div className="bk-fx" ref={fx} aria-hidden />

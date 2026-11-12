@@ -385,7 +385,7 @@ export function Player() {
 
   const dock = (
     <div className="film-dock film-ui film-ui--rise" onPointerEnter={rest(true)} onPointerLeave={rest(false)}>
-      {film.length > 0 && (
+      {film.length > 0 && !(portrait && over) && (
         <div ref={chips} className="film-chips" role="group" aria-label={t.film.chapters}>
           {film.map((s, k) => (
             <button key={s.scene} type="button" className="film-chip glass" aria-current={k === Math.max(0, idx) && !over ? 'true' : undefined} onClick={() => seekScene(k)} data-film-chip={s.scene}>

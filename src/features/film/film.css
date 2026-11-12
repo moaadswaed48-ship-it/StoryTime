@@ -764,13 +764,13 @@ html[lang='ar'] .film-end__word {
     translate: 0 -54%;
   }
   .film-words .film-title__name {
-    font-size: clamp(2.3rem, 11.5vw, 3.6rem);
+    font-size: clamp(2rem, min(11.5vw, 6.4vh), 3.6rem);
   }
   .film-words .film-title .t-label {
     justify-content: center;
   }
   .film-words .film-cue {
-    font-size: clamp(1.55rem, 7vw, 2.3rem);
+    font-size: clamp(1.3rem, min(7vw, 3.7vh), 2.3rem);
   }
   .film-words .film-end {
     display: flex;
@@ -780,7 +780,7 @@ html[lang='ar'] .film-end__word {
   }
   .film-words .film-end__word {
     margin-top: 0.1em;
-    font-size: clamp(4rem, 22vw, 7rem);
+    font-size: clamp(3rem, min(22vw, 11vh), 7rem);
   }
   .film-words .film-end__actions {
     width: 100%;
@@ -818,6 +818,34 @@ html[lang='ar'] .film-end__word {
   }
   .film-time {
     margin-inline-end: auto;
+  }
+}
+
+/* Short portrait screens (small phones, a browser with its bars showing): tighter, and the two end
+   actions share one row. */
+@media (orientation: portrait) and (max-height: 740px) {
+  .film-top {
+    height: 58px;
+  }
+  .film-words {
+    padding-block: 6px 10px;
+  }
+  .film-dock {
+    gap: 10px;
+  }
+  .film-words .film-end__actions {
+    max-width: none;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    gap: 10px;
+    margin-top: 16px;
+  }
+  .film-words .film-end__actions > * {
+    min-width: 0;
+    flex: 1;
+    height: 3rem;
+    padding-inline: 12px;
+    font-size: 14.5px;
   }
 }
 
