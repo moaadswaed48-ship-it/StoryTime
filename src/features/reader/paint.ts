@@ -156,16 +156,10 @@ export interface PaintOptions {
 /** Where the painting sits on a scene page, in page fractions (x0, y0, x1, y1): the film plays in the same box. */
 export const pictureBox = (g: PageGeometry): [number, number, number, number] => [0, 0, 1, g.pictureH / g.pageH]
 
-/** Layout of the title page, shared by the painter and by anything that wants to sit on it. */
-function titleLayout(g: PageGeometry) {
-  const artH = Math.round(Math.min(g.pageH * 0.58, g.pageW * 1.24))
-  const titleSize = Math.round(Math.min(46, Math.max(27, g.pageW * 0.083)))
-  return { artH, titleSize }
-}
-
 function paintTitle(ctx: CanvasRenderingContext2D, g: PageGeometry, o: PaintOptions) {
-  const { pageW: w } = g
-  const { artH, titleSize } = titleLayout(g)
+  const { pageW: w, pageH: h } = g
+  const artH = Math.round(Math.min(h * 0.6, w * 1.3))
+  const titleSize = Math.round(Math.min(46, Math.max(27, w * 0.083)))
   cover(ctx, picture(story.cover, o.onPicture), 0, 0, w, artH, 0.3)
   // The cover painting melts into the paper instead of ending on a hard line.
   const fade = ctx.createLinearGradient(0, artH * 0.62, 0, artH)
@@ -175,18 +169,22 @@ function paintTitle(ctx: CanvasRenderingContext2D, g: PageGeometry, o: PaintOpti
   ctx.fillStyle = fade
   ctx.fillRect(0, artH * 0.62 - 1, w, artH * 0.38 + 2)
 
+  // The lettering is set as one block and placed in the middle of the paper left under the painting.
+  const lines = wrapBalanced(story.title[locale], w - 2 * Math.max(24, g.marginX * 0.8), measurer(uiFont(titleSize, 800)), 2)
+  const pitch = Math.round(titleSize * (rtl ? 1.3 : 1.14))
+  const small = Math.max(15.5, titleSize * 0.44)
+  const block = titleSize * 1.28 + lines.length * pitch + titleSize * 1.15 + (o.childName ? small * 1.95 : 0)
+  const room = g.folioY - small * 1.4 - artH
   ctx.textAlign = 'center'
   ctx.textBaseline = 'alphabetic'
   const cx = w / 2
-  let y = artH + Math.round(titleSize * 0.2)
+  let y = artH - titleSize * 0.35 + Math.max(0, (room - block) * 0.42)
   ctx.font = uiFont(Math.max(12.5, titleSize * 0.36), 600)
   ctx.fillStyle = MAPLE
   ctx.fillText(story.kicker[locale], cx, y)
   y += Math.round(titleSize * 1.28)
   ctx.font = uiFont(titleSize, 800)
   ctx.fillStyle = INK
-  const lines = wrapBalanced(story.title[locale], w - 2 * Math.max(24, g.marginX * 0.8), measurer(uiFont(titleSize, 800)), 2)
-  const pitch = Math.round(titleSize * (rtl ? 1.3 : 1.14))
   for (const line of lines) {
     ctx.fillText(line, cx, y)
     y += pitch
@@ -194,7 +192,6 @@ function paintTitle(ctx: CanvasRenderingContext2D, g: PageGeometry, o: PaintOpti
   y += Math.round(titleSize * 0.1)
   leaf(ctx, cx, y, titleSize * 0.42, 0.5)
   y += Math.round(titleSize * 1.05)
-  const small = Math.max(15.5, titleSize * 0.44)
   ctx.font = storyFont(small)
   ctx.fillStyle = INK_SOFT
   ctx.fillText(t.book.dedication, cx, y)

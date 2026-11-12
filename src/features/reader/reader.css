@@ -415,7 +415,7 @@
   inset-inline: 0;
   margin-inline: auto;
   top: calc(74px + env(safe-area-inset-top, 0px));
-  bottom: calc(118px + env(safe-area-inset-bottom, 0px));
+  max-height: calc(100% - 196px - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px));
   width: min(calc(100% - 20px), 760px);
   display: flex;
   flex-direction: column;

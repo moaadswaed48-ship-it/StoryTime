@@ -39,6 +39,8 @@ export const idleHooks = {
   close: () => {},
   /** Freezes a forward turn at `progress` (0…1); `null` lets the page fall back. */
   hold: (_progress: number | null, _grip?: number, _rise?: number) => {},
+  /** Slows the engine's clock (1 = real time) so a turn can be looked at frame by frame. */
+  slow: (_k: number) => {},
   size: () => 0,
   setSize: (_n: number) => {},
   chrome: (_on?: boolean) => false,

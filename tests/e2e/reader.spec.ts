@@ -117,7 +117,8 @@ test('the author’s words are on the page exactly, and a larger size re-flows t
   const log = watchConsole(page)
   await openReader(page, 'ar', 2)
   // (an open book can show two scenes at once; the one asked for is among them)
-  expect([1, 2]).toContain(await rd<number>(page, 'scene()'))
+  const reading = await rd<number>(page, 'scene()')
+  expect([1, 2]).toContain(reading)
   const norm = (s: string) => s.split(/\s+/).filter(Boolean).join(' ')
   const printed = async () => norm((await rd<string[]>(page, 'lines()')).join(' '))
   // the third scene opens where it was asked to, and its first paragraph is printed word for word
@@ -128,8 +129,8 @@ test('the author’s words are on the page exactly, and a larger size re-flows t
   await rd(page, 'setSize(4)')
   await page.waitForFunction((n) => window.__st!.reader.size() === 4 && window.__st!.reader.pages() > n && window.__st!.reader.ready(), pages)
   // same place in the story, bigger type, more pages
-  expect([1, 2]).toContain(await rd<number>(page, 'scene()'))
-  expect(await printed()).toContain(norm(story.scenes[2].ar[0]).split(' ').slice(0, 4).join(' '))
+  expect(await rd<number>(page, 'scene()')).toBe(reading)
+  expect(await printed()).toContain(norm(story.scenes[reading].ar[0]).split(' ').slice(0, 4).join(' '))
   await rd(page, 'setSize(1)')
   await page.waitForFunction((n) => window.__st!.reader.pages() === n && window.__st!.reader.ready(), pages)
   expect((await rd<string[]>(page, 'lines()')).length).toBe(lines)

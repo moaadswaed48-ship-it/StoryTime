@@ -114,6 +114,7 @@ export class CurlEngine {
   // stats
   private st = { frames: 0, cpu: 0, cpuMax: 0, gap: 0, gapMax: 0, gaps: 0 }
   private chained = false
+  private timeScale = 1
 
   constructor(
     private canvas: HTMLCanvasElement,
@@ -597,7 +598,7 @@ export class CurlEngine {
     if (!this.begin(dir, { x: w, y: h * 0.7 }, 'auto', target)) return false
     const t = this.turnState!
     t.p = dir > 0 ? { x: w, y: t.ay } : { x: -w, y: t.ay }
-    this.settle(dir > 0, { x: 0, y: 0 }, -0.2 * h, l.spread ? 0.82 : 0.66)
+    this.settle(dir > 0, { x: 0, y: 0 }, -0.26 * w, l.spread ? 0.82 : 0.66)
     return true
   }
 
@@ -662,7 +663,7 @@ export class CurlEngine {
   private frame = (now: number) => {
     this.raf = 0
     if (this.dead || !this.layout) return
-    const dt = this.last ? Math.min(0.05, (now - this.last) / 1000) : 1 / 60
+    const dt = (this.last ? Math.min(0.05, (now - this.last) / 1000) : 1 / 60) * this.timeScale
     // Only frames that follow one another count towards the smoothness figures.
     if (this.chained && this.last) {
       const gap = now - this.last
@@ -702,7 +703,8 @@ export class CurlEngine {
       const h10 = s3 - 2 * s2 + s
       const h01 = -2 * s3 + 3 * s2
       const l = this.layout
-      const lift = t.arc * Math.sin(Math.PI * s)
+      // The hand's rise is tied to how far the page has travelled, not to the clock, so the corner leads from the first frame.
+      const lift = t.arc * Math.sin(Math.PI * h01)
       t.p = constrain(
         { x: h00 * t.from.x + h10 * t.dur * t.vel.x + h01 * t.to.x, y: h00 * t.from.y + h10 * t.dur * t.vel.y + h01 * t.to.y + lift },
         t.ay,
@@ -746,6 +748,11 @@ export class CurlEngine {
     this.st.frames++
     this.st.cpu += cpu
     this.st.cpuMax = Math.max(this.st.cpuMax, cpu)
+  }
+
+  /** Runs the engine's clock slower or faster (1 = real time). For looking closely at a turn. */
+  setTimeScale(k: number) {
+    this.timeScale = Math.max(0.001, k)
   }
 
   stats(reset = false): CurlStats {

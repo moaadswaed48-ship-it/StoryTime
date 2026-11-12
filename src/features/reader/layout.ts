@@ -21,12 +21,13 @@ export interface Stage {
 
 /** Where the book sits on a screen of `w × h` CSS px. */
 export function stageFor(w: number, h: number): Stage {
-  const spread = w >= 880 && w / h >= 1.15
+  const spread = w >= 600 && w / h >= 1.15
   if (spread) {
     const padX = Math.round(Math.min(88, Math.max(56, w * 0.05)))
     const padY = Math.round(Math.min(30, Math.max(12, h * 0.03)))
     let pageH = Math.min(940, h - 2 * padY)
-    let pageW = Math.floor(Math.min((w - 2 * padX) / 2, pageH * 0.8))
+    // A phone on its side is short: its pages may be as wide as they are tall, so the text keeps some room.
+    let pageW = Math.floor(Math.min((w - 2 * padX) / 2, pageH * (pageH < 520 ? 1 : 0.8)))
     // A very wide, short window: keep the page from becoming a letterbox.
     pageH = Math.round(Math.min(pageH, pageW / 0.6))
     pageW = Math.round(pageW)

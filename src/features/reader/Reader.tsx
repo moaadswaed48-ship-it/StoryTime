@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState, type CSSProperties, type PointerEvent as ReactPointerEvent } from 'react'
+import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState, type CSSProperties, type PointerEvent as ReactPointerEvent, type WheelEvent as ReactWheelEvent } from 'react'
 import { ChevronLeft, ChevronRight, Gamepad2, LockKeyhole, Play, RotateCcw } from 'lucide-react'
 import { story, sceneText, SCENES } from '@/content/story'
 import { t } from '@/i18n/copy'
@@ -225,16 +225,17 @@ export function ReaderView({ startScene }: { startScene: number }) {
 
   const visible = useMemo(() => (pages ? pagesAt(pos, pages.length, stage.spread) : []), [pages, pos, stage.spread])
   const first = pages?.[visible[0]]
+  // The page the reader's place is counted from: where a scene starts on what is showing, else the page that
+  // is continuing. Re-flowing the book (text size, rotation) and re-opening it both come back to this page.
+  const anchor = pages ? (visible.map((i) => pages[i]).find((p) => p.kind === 'scene' && p.part === 0) ?? first) : undefined
   useEffect(() => {
-    if (first) shown.current = first
-  }, [first])
+    if (anchor) shown.current = anchor
+  }, [anchor])
 
   const gated = visible.some((i) => i >= locked)
   const atEnd = !gated && !!pages && visible.some((i) => pages[i].kind === 'end')
   const phase = !pages ? 'loading' : gated ? 'gate' : atEnd ? 'end' : 'open'
-  // The scene the reader is in: the one that starts on what is showing, else the one that is continuing.
-  // (Opening the book at this scene again shows this same page or spread.)
-  const scene = pages ? (visible.map((i) => pages[i]).find((p) => p.kind === 'scene' && p.part === 0) ?? first)?.scene ?? 0 : 0
+  const scene = anchor?.scene ?? 0
   const scenesShown = pages ? visible.filter((i) => i < locked && pages[i].kind === 'scene').map((i) => pages[i].scene) : []
 
   /* ── Shared behaviour: progress, reward ───────────────────────────────────── */
@@ -308,7 +309,28 @@ export function ReaderView({ startScene }: { startScene: number }) {
     return () => window.clearTimeout(id)
   }, [chrome, panel, hinted])
 
+  useEffect(() => {
+    if (!chrome) setPanel(null)
+  }, [chrome])
+
   /* ── Gestures ─────────────────────────────────────────────────────────────── */
+  // A sideways swipe on a trackpad turns one page per stroke.
+  const wheel = useRef({ sum: 0, held: false, timer: 0 })
+  const onWheel = (ev: ReactWheelEvent<HTMLDivElement>) => {
+    if (Math.abs(ev.deltaX) <= Math.abs(ev.deltaY)) return
+    const wh = wheel.current
+    window.clearTimeout(wh.timer)
+    wh.timer = window.setTimeout(() => {
+      wh.held = false
+      wh.sum = 0
+    }, 200)
+    if (wh.held) return
+    wh.sum += ev.deltaX
+    if (Math.abs(wh.sum) < 48) return
+    wh.held = true
+    if (wh.sum > 0 === !rtl) next()
+    else prev()
+  }
   const pointer = useRef<number | null>(null)
   const onDown = (ev: ReactPointerEvent<HTMLDivElement>) => {
     if (ev.button || pointer.current !== null) return
@@ -424,12 +446,24 @@ export function ReaderView({ startScene }: { startScene: number }) {
     // A page that fell back already carries the film's frame, so its window opens at once; otherwise it fades in.
     engine.current?.setLive(page, pictureBox(live.current.geo), frozen.current.has(page))
   }
-  const bindVideo = (page: number) => (el: HTMLVideoElement | null) => {
-    if (el) {
-      videos.current.set(page, el)
-      el.play().catch(() => undefined)
-    } else videos.current.delete(page)
+  // One ref callback per page, kept between renders (a new function would re-attach the video on every render).
+  const binders = useRef(new Map<number, (el: HTMLVideoElement | null) => void>())
+  const bindVideo = (page: number) => {
+    let fn = binders.current.get(page)
+    if (!fn) {
+      fn = (el) => {
+        if (el) videos.current.set(page, el)
+        else videos.current.delete(page)
+      }
+      binders.current.set(page, fn)
+    }
+    return fn
   }
+  useEffect(() => {
+    // The pictures of the pages that have just settled start to move.
+    if (live.current.turning) return
+    for (const v of videos.current.values()) if (v.paused) v.play().catch(() => undefined)
+  }, [clips])
 
   /* ── Test hooks ───────────────────────────────────────────────────────────── */
   const api = useRef<ReaderHooks>(idleHooks)
@@ -450,6 +484,7 @@ export function ReaderView({ startScene }: { startScene: number }) {
     goPage: (n: number) => goPage(n - 1),
     close,
     hold: (p, grip, rise) => void engine.current?.hold(p, grip, rise),
+    slow: (k: number) => engine.current?.setTimeScale(k),
     size: () => size,
     setSize,
     chrome: (on?: boolean) => {
@@ -545,7 +580,7 @@ export function ReaderView({ startScene }: { startScene: number }) {
       ))}
 
       <div ref={holder} className="rd-canvas" style={{ left: frame.x, top: frame.y, width: frame.w, height: frame.h }} />
-      <div className="rd-surface" onPointerDown={onDown} onPointerMove={onMove} onPointerUp={onUp} onPointerCancel={onCancel} onContextMenu={(e) => e.preventDefault()} />
+      <div className="rd-surface" onPointerDown={onDown} onPointerMove={onMove} onPointerUp={onUp} onPointerCancel={onCancel} onWheel={onWheel} onContextMenu={(e) => e.preventDefault()} />
 
       {gateStyle && (
         <div className="rd-over" style={gateStyle} data-on={settled || undefined}>
