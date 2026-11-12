@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState, type CSSProperties, type PointerEvent as ReactPointerEvent } from 'react'
-import { BookOpen, ChevronLeft, ChevronRight, Gamepad2, LockKeyhole, Pause, Play, RotateCcw, X } from 'lucide-react'
+import { BookOpen, ChevronLeft, ChevronRight, Clapperboard, Gamepad2, LockKeyhole, Pause, Play, RotateCcw, X } from 'lucide-react'
 import { story, SCENES } from '@/content/story'
 import { t } from '@/i18n/copy'
 import { dirSign, locale, num, rtl } from '@/i18n/locale'
@@ -14,11 +14,11 @@ import { asset } from '@/lib/asset'
 import { cn } from '@/lib/cn'
 import { exposeQA } from '@/lib/qa'
 import { END, FREE_SCENES, clampScene, nextPos, prevPos, stepCount, type Pos } from './logic'
-import { STACK_QUERY, useMedia } from './hooks'
+import { SIDE_QUERY, STACK_QUERY, useMedia } from './hooks'
 import { Spread, type BookPhase, type SpreadHandle, type TurnReq } from './Spread'
 import { preloadScene } from './pictures'
 import { NO_CLIP, idleHooks } from './qa'
-import { Caption } from './Caption'
+import { Caption, type CapLayout } from './Caption'
 import { Ambient } from './Ambient'
 
 interface Actions {
@@ -41,6 +41,8 @@ export function Reader({ startScene }: { startScene: number }) {
   const tierReduced = useSiteStore((s) => s.tier === 'reduced')
   const reduced = tierReduced || prefersReducedNow()
   const stack = useMedia(STACK_QUERY)
+  const side = useMedia(SIDE_QUERY) && !stack
+  const layout: CapLayout = stack ? 'stack' : side ? 'side' : 'wide'
 
   const [phase, setPhaseState] = useState<BookPhase>(startScene > 0 ? 'open' : 'closed')
   const [pos, setPosState] = useState<Pos>({ scene: clampScene(startScene), step: 0 })
@@ -64,6 +66,7 @@ export function Reader({ startScene }: { startScene: number }) {
   const ghost = useRef<HTMLDivElement>(null)
   const spread = useRef<SpreadHandle>(null)
   const burst = useRef<LeavesHandle>(null)
+  const strip = useRef<HTMLDivElement>(null)
   const act = useRef<Actions>(null!)
 
   const setPhase = (p: BookPhase) => {
@@ -157,6 +160,10 @@ export function Reader({ startScene }: { startScene: number }) {
   const gateShown = gated && !turning
   const clipOn = phase === 'open' && !turning && !gated && !atEnd && !reduced
   const hasClip = !atEnd && !!story.scenes[pos.scene].clip
+  // On phones the text, beads and buttons arrive while the book is still landing, so the screen fills with it.
+  const uiOn = phase === 'open' || (phase === 'opening' && stack)
+  /** End actions and the paywall card sit outside the picture where the picture is small (phones). */
+  const outside = stack || side
   // While a page is held by the finger (and not yet let go), its text steps aside.
   const lifted = !!turn?.manual && turn.from === pos.scene
   const scene = pos.scene
@@ -286,9 +293,24 @@ export function Reader({ startScene }: { startScene: number }) {
     if (reduced) return
     const r = root.current?.getBoundingClientRect()
     if (!r) return
-    const ids = [0.3, 0.5, 0.7].map((x, i) => window.setTimeout(() => burst.current?.burst(r.width * x, r.height * 0.3, 14), 120 + i * 140))
+    // Phones: a small shower from the top of the card, behind the buttons. Wide: three bursts over the spread.
+    const card = spread.current?.rect()
+    const shots = outside && card ? [0.3, 0.7].map((x) => [card.left - r.left + card.width * x, card.top - r.top + 10, 5]) : [0.3, 0.5, 0.7].map((x) => [r.width * x, r.height * 0.3, 14])
+    const ids = shots.map(([x, y, n], i) => window.setTimeout(() => burst.current?.burst(x, y, n), 120 + i * 140))
     return () => ids.forEach((id) => window.clearTimeout(id))
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [atEnd, turning, reduced])
+
+  // Phones: the bead strip scrolls; the bead of the scene being read is kept in the middle of it.
+  useEffect(() => {
+    const el = strip.current
+    if (!el || el.scrollWidth <= el.clientWidth + 1) return
+    const on = el.querySelector<HTMLElement>('.bk-dot[aria-current]')
+    if (!on) return
+    const a = el.getBoundingClientRect()
+    const b = on.getBoundingClientRect()
+    el.scrollBy({ left: b.left + b.width / 2 - (a.left + a.width / 2), behavior: reduced || phase !== 'open' ? 'auto' : 'smooth' })
+  }, [scene, phase, stack, reduced])
 
   /* ── Drag the page (it follows the finger), swipe, or tap the picture ─────── */
   const press = useRef<{ x: number; y: number; t: number; onPic: boolean; mode: 'none' | 'swipe' | 'drag'; forward: boolean; target: Pos | null; q: number; turn: number } | null>(null)
@@ -388,10 +410,13 @@ export function Reader({ startScene }: { startScene: number }) {
 
   const qaPhase = phase !== 'open' ? phase : atEnd ? 'end' : gated ? 'gate' : 'open'
   const isOpen = phase === 'open'
-  const canPrev = isOpen && !(scene === 0 && pos.step === 0)
-  const canNext = isOpen && !atEnd && !gated
+  const canPrev = uiOn && !(scene === 0 && pos.step === 0)
+  const canNext = uiOn && !atEnd && !gated
   const PrevIcon = rtl ? ChevronRight : ChevronLeft
   const NextIcon = rtl ? ChevronLeft : ChevronRight
+  // "Use the arrows or swipe · tap a picture to make it move": the promise about the picture only where it moves.
+  const [hintMove, hintTap] = t.book.hint.split(' · ')
+  const hint = hasClip && hintTap ? t.book.hint : hintMove
 
   const endActions = (
     <div className="bk-end-actions">
@@ -400,11 +425,11 @@ export function Reader({ startScene }: { startScene: number }) {
         {t.book.playGame}
       </Pill>
       <i aria-hidden />
-      <Pill variant={stack ? 'glass' : 'outline'} size={stack ? 'lg' : 'md'} onClick={again}>
+      <Pill variant={outside ? 'glass' : 'outline'} size={stack ? 'lg' : 'md'} onClick={again}>
         <RotateCcw size={17} aria-hidden />
         {t.book.again}
       </Pill>
-      <Pill variant={stack ? 'glass' : 'outline'} size={stack ? 'lg' : 'md'} onClick={() => openFilm(0)}>
+      <Pill variant={outside ? 'glass' : 'outline'} size={stack ? 'lg' : 'md'} onClick={() => openFilm(0)}>
         <Play size={16} aria-hidden />
         {t.book.watch}
       </Pill>
@@ -417,7 +442,7 @@ export function Reader({ startScene }: { startScene: number }) {
         <Eyebrow tone="light">{story.kicker[locale]}</Eyebrow>
         <h2 className="bk-end-title">{t.book.end}</h2>
         <p className="bk-end-sub font-story">{t.book.endSub}</p>
-        {!stack && endActions}
+        {!outside && endActions}
       </div>
       <div className="bk-end-plate">
         <img src={asset(story.cover)} alt="" draggable={false} />
@@ -427,21 +452,26 @@ export function Reader({ startScene }: { startScene: number }) {
   )
 
   const dots = (
-    <div className="bk-dots" style={{ '--i': Math.min(scene, SCENES - 1), '--n': SCENES, '--dir': dirSign } as CSSProperties} data-end={atEnd || undefined}>
-      <span className="bk-dots-ind" aria-hidden />
-      {story.scenes.map((_, i) => (
-        <button
-          key={i}
-          type="button"
-          className="bk-dot"
-          aria-label={`${t.book.page} ${num(i + 1)}`}
-          aria-current={i === scene ? 'step' : undefined}
-          data-state={i === scene ? 'on' : i >= FREE_SCENES && !loggedIn ? 'locked' : i < scene || atEnd ? 'seen' : 'off'}
-          onClick={() => goScene(i)}
-        >
-          <span style={{ backgroundImage: `url(${asset(story.scenes[i].thumb)})` }} />
-        </button>
-      ))}
+    <div className="bk-dots-strip" ref={strip}>
+      <div className="bk-dots" style={{ '--i': Math.min(scene, SCENES - 1), '--n': SCENES, '--dir': dirSign } as CSSProperties} data-end={atEnd || undefined}>
+        <span className="bk-dots-ind" aria-hidden />
+        {story.scenes.map((_, i) => {
+          const locked = i >= FREE_SCENES && !loggedIn
+          return (
+            <button
+              key={i}
+              type="button"
+              className="bk-dot"
+              aria-label={`${t.book.page} ${num(i + 1)}`}
+              aria-current={i === scene ? 'step' : undefined}
+              data-state={i === scene ? 'on' : locked ? 'locked' : i < scene || atEnd ? 'seen' : 'off'}
+              onClick={() => goScene(i)}
+            >
+              <span style={{ backgroundImage: `url(${asset(story.scenes[i].thumb)})` }}>{locked && i !== scene && <LockKeyhole size={11} strokeWidth={2.4} aria-hidden />}</span>
+            </button>
+          )
+        })}
+      </div>
     </div>
   )
   const counter = <p className="bk-count">{!atEnd && `${t.book.page} ${num(scene + 1)} ${t.book.of} ${num(SCENES)}`}</p>
@@ -455,6 +485,7 @@ export function Reader({ startScene }: { startScene: number }) {
       aria-label={story.title[locale]}
       tabIndex={-1}
       data-phase={qaPhase}
+      data-layout={layout}
       data-turning={turning || undefined}
       data-dragging={dragging || undefined}
       data-classroom={classroom || undefined}
@@ -470,7 +501,7 @@ export function Reader({ startScene }: { startScene: number }) {
       <div className="bk-layout">
         <header className="bk-top">
           <div className="bk-top-id">
-            {isOpen ? (
+            {uiOn ? (
               <div className="bk-fade">
                 <p className="bk-top-title">{story.title[locale]}</p>
                 <p className="bk-top-sub">{t.book.draft || story.kicker[locale]}</p>
@@ -480,9 +511,9 @@ export function Reader({ startScene }: { startScene: number }) {
             )}
           </div>
           <div className="bk-top-actions">
-            {isOpen && (
+            {uiOn && (
               <Pill variant="glass" size="sm" className="bk-watch bk-fade" onClick={watch} aria-label={t.book.watch}>
-                <Play size={15} aria-hidden />
+                {stack ? <Clapperboard size={18} aria-hidden /> : <Play size={15} aria-hidden />}
                 <span className="bk-watch-label">{t.book.watch}</span>
               </Pill>
             )}
@@ -494,9 +525,9 @@ export function Reader({ startScene }: { startScene: number }) {
 
         <div className="bk-main" onPointerDown={onPointerDown} onPointerMove={onPointerMove} onPointerUp={(e) => endPress(e, false)} onPointerCancel={(e) => endPress(e, true)}>
           <div className="bk-wrap">
-            <Spread ref={spread} phase={phase} scene={scene} step={pos.step} turn={turn} blurred={gateShown} clipOn={clipOn} reduced={reduced} ghost={ghost} onOpen={openStable} onOpened={onOpened} onTurnEnd={onTurnEnd} onClip={onClip} endPage={endPage} />
+            <Spread ref={spread} phase={phase} scene={scene} step={pos.step} turn={turn} blurred={gateShown} clipOn={clipOn} reduced={reduced} stack={stack} ghost={ghost} onOpen={openStable} onOpened={onOpened} onTurnEnd={onTurnEnd} onClip={onClip} endPage={endPage} />
 
-            {isOpen && !atEnd && !gated && <Caption scene={scene} step={pos.step} go={!turning} stack={stack} hide={lifted} />}
+            {uiOn && !atEnd && !gated && <Caption scene={scene} step={pos.step} wait={turning} layout={layout} hide={lifted} />}
 
             {gateShown && (
               <div className="bk-gate">
@@ -513,11 +544,11 @@ export function Reader({ startScene }: { startScene: number }) {
               </div>
             )}
 
-            {atEnd && stack && !turning && (
-              <>
+            {atEnd && outside && !turning && (
+              <div className="bk-out-end">
                 {endActions}
                 <p className="bk-end-note font-story">{t.book.dedication}</p>
-              </>
+              </div>
             )}
 
             {isOpen && hasClip && !gated && !turning && (
@@ -539,13 +570,13 @@ export function Reader({ startScene }: { startScene: number }) {
           </div>
         </div>
 
-        <footer className="bk-bottom" data-on={isOpen || undefined}>
-          {isOpen &&
+        <footer className="bk-bottom" data-on={uiOn || undefined}>
+          {uiOn &&
             (stack ? (
               <>
                 {dots}
                 <p className="bk-hint" data-off={moved || atEnd || undefined}>
-                  {t.book.hint}
+                  {hint}
                 </p>
                 <div className="bk-nav-row">
                   <button type="button" className="bk-icon bk-icon-lg glass" aria-label={t.book.prev} disabled={!canPrev} onClick={prev}>
@@ -562,7 +593,7 @@ export function Reader({ startScene }: { startScene: number }) {
               <>
                 {counter}
                 {dots}
-                <p className="bk-hint">{!atEnd && t.book.hint}</p>
+                <p className="bk-hint">{!atEnd && hint}</p>
               </>
             ))}
         </footer>
@@ -587,11 +618,15 @@ export function Reader({ startScene }: { startScene: number }) {
                 {t.book.forChild} <bdi>{childName}</bdi>
               </p>
             )}
-            <div className="bk-rise" style={{ '--i': 4 } as CSSProperties}>
+            <div className="bk-rise bk-open-wrap" style={{ '--i': 4 } as CSSProperties}>
               <Pill variant="solid" size="lg" className="bk-open" onClick={open} data-testid="bk-open">
                 <BookOpen size={19} aria-hidden />
                 {t.book.open}
               </Pill>
+              {/* A ring drawn round the button by hand, once. */}
+              <svg className="bk-ring" viewBox="0 0 300 100" preserveAspectRatio="none" aria-hidden>
+                <path pathLength={1} d="M58 20 C110 4 236 3 279 29 C305 46 287 83 200 92 C124 100 33 93 15 63 C1 40 31 17 101 9 C131 6 161 6 188 9" />
+              </svg>
             </div>
           </div>
           <div className="bk-ghost" ref={ghost} aria-hidden />

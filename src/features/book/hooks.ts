@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react'
 
 /** Portrait phones (and small portrait tablets): the picture card sits on top and the text below it. */
 export const STACK_QUERY = '(max-width: 900px) and (orientation: portrait)'
+/** Short landscape screens (phones on their side): the picture on one side, the author's text in a column beside it. */
+export const SIDE_QUERY = '(max-height: 600px) and (orientation: landscape)'
 
 export function useMedia(query: string): boolean {
   const [on, setOn] = useState(() => typeof window !== 'undefined' && window.matchMedia(query).matches)

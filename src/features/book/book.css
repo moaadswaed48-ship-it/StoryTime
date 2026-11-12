@@ -8,6 +8,8 @@
   --sw: min(92vw, 1180px, calc((100svh - 212px) * 16 / 9));
   --sh: calc(var(--sw) * 0.5625);
   --rr: 18px;
+  --ca: 0.75; /* one shut page: width over height (a 3:4 cover) */
+  --gx: 10%; /* where the dark pool behind the text sits: the start-bottom corner */
   --bk-fs: clamp(18px, calc(var(--sw) * 0.0255), 30px);
   --dir: 1;
   outline: none;
@@ -18,6 +20,7 @@
 }
 html[dir='rtl'] .bk {
   --dir: -1;
+  --gx: 90%;
 }
 html[lang='en'] .bk {
   --bk-fs: clamp(17px, calc(var(--sw) * 0.0225), 26px);
@@ -48,7 +51,7 @@ html[lang='en'] .bk[data-classroom] {
 .bk-amb-box {
   position: absolute;
   inset: 0;
-  opacity: 0.42;
+  opacity: 0.22;
 }
 .bk-amb {
   position: absolute;
@@ -64,7 +67,8 @@ html[lang='en'] .bk[data-classroom] {
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(ellipse at 50% -10%, rgba(255, 232, 200, 0.07), transparent 55%),
+    radial-gradient(ellipse at 50% -10%, rgba(255, 232, 200, 0.06), transparent 55%),
+    radial-gradient(ellipse 70% 60% at 50% 45%, transparent 35%, rgba(10, 6, 3, 0.85) 100%),
     radial-gradient(115% 88% at 50% 46%, rgba(18, 12, 8, 0.28) 28%, rgba(18, 12, 8, 0.78) 68%, rgba(18, 12, 8, 0.94) 100%);
 }
 .bk-leaves {
@@ -181,7 +185,7 @@ html[lang='en'] .bk[data-classroom] {
   position: relative;
   width: var(--sw);
   height: var(--sh);
-  perspective: calc(var(--sw) * 2.1);
+  perspective: calc(var(--sw) * 2.6); /* keep in step with turn.ts */
   animation: bk-fade 0.7s var(--ease-state, ease) backwards;
 }
 .bk-bottom {
@@ -223,10 +227,14 @@ html[lang='en'] .bk[data-classroom] {
 }
 
 /* Scene beads: a round crop of every picture, with one sliding ring. Scenes behind the paywall are dimmed. */
+.bk-dots-strip {
+  min-width: 0;
+}
 .bk-dots {
+  --cell: 30px;
   position: relative;
   display: flex;
-  width: calc(var(--n) * 30px);
+  width: calc(var(--n) * var(--cell));
 }
 .bk-dot {
   flex: 1;
@@ -237,6 +245,9 @@ html[lang='en'] .bk[data-classroom] {
 .bk-dot > span {
   width: 18px;
   height: 18px;
+  display: grid;
+  place-items: center;
+  color: rgba(255, 255, 255, 0.92);
   border-radius: 999px;
   background-color: #3a281a;
   background-size: cover;
@@ -252,8 +263,12 @@ html[lang='en'] .bk[data-classroom] {
   opacity: 1;
 }
 .bk-dot[data-state='locked'] > span {
-  opacity: 0.4;
-  filter: grayscale(1);
+  opacity: 0.55;
+  filter: grayscale(1) brightness(0.62);
+}
+.bk-dot > span > svg {
+  width: 9px;
+  height: 9px;
 }
 .bk-dot[data-state='on'] > span {
   opacity: 1;
@@ -356,7 +371,7 @@ html[lang='en'] .bk[data-classroom] {
   position: absolute;
   inset: 0;
   transform-style: preserve-3d;
-  --bw: calc(var(--sh) * 0.75); /* width of one page while the book is shut (a 3:4 cover) */
+  --bw: calc(var(--sh) * var(--ca)); /* width of one page while the book is shut */
   --T: calc(var(--sh) * 0.072); /* thickness of the page block */
   --ov: calc(var(--sh) * 0.009); /* how far the boards overhang the pages */
   --r: 6px;
@@ -364,10 +379,10 @@ html[lang='en'] .bk[data-classroom] {
   --floor: 0; /* 0…1: the shadow on the table */
 }
 .bk-book[data-rtl='1'] {
-  transform-origin: calc(50% - var(--sh) * 0.375) 50%;
+  transform-origin: calc(50% - var(--sh) * var(--ca) / 2) 50%;
 }
 .bk-book[data-rtl='0'] {
-  transform-origin: calc(50% + var(--sh) * 0.375) 50%;
+  transform-origin: calc(50% + var(--sh) * var(--ca) / 2) 50%;
 }
 
 /* Open-book dressing: a shadow on the table, the boards, and the page edges peeking out under the spread. */
@@ -867,47 +882,41 @@ html[lang='en'] .bk-dedication {
   bottom: 0;
   height: var(--sh);
   transform-origin: 50% 100%;
-  transform: scaleY(var(--g, 0.42));
-  background: linear-gradient(
-    to top,
-    rgba(18, 12, 8, 0.94) 0%,
-    rgba(18, 12, 8, 0.88) 22%,
-    rgba(18, 12, 8, 0.72) 46%,
-    rgba(18, 12, 8, 0.44) 68%,
-    rgba(18, 12, 8, 0.16) 87%,
-    rgba(18, 12, 8, 0) 100%
-  );
-  opacity: 0;
+  transform: scaleY(min(1, calc(var(--g, 0.42) * 1.5)));
+  /* A pool of shade from the start-bottom corner: the text's own page darkens, the other page's art stays clean. */
+  background:
+    radial-gradient(78% 100% at var(--gx) 100%, rgba(18, 12, 8, 0.9) 0%, rgba(18, 12, 8, 0.8) 28%, rgba(18, 12, 8, 0.5) 54%, rgba(18, 12, 8, 0.16) 78%, rgba(18, 12, 8, 0) 100%),
+    linear-gradient(to top, rgba(18, 12, 8, 0.3), rgba(18, 12, 8, 0) 60%);
+  animation: bk-fade 0.6s var(--ease-state, ease) 0.06s backwards;
   transition:
-    opacity 0.6s var(--ease-state, ease) 0.06s,
+    opacity 0.3s var(--ease-state, ease),
     transform 0.7s var(--ease-out, ease);
-}
-.bk-cap-grad.is-in {
-  opacity: 1;
 }
 .bk-cap-grad.is-out {
   opacity: 0;
+  animation: none;
   transition: opacity 0.22s var(--ease-state, ease);
 }
+/* The text is visible at rest: its entrance only fills backwards. */
 .bk-cap-item {
   position: relative;
   grid-area: 1 / 1;
   align-self: end;
   padding: clamp(60px, 10vh, 104px) clamp(28px, 5.6%, 76px) clamp(22px, 3.6vh, 36px);
-  opacity: 0;
-  transform: translateY(12px);
-  transition:
-    opacity 0.7s var(--ease-out, ease) 0.06s,
-    transform 0.85s var(--ease-out, ease) 0.06s;
-}
-.bk-cap-item.is-in {
-  opacity: 1;
-  transform: none;
+  animation: bk-cap-in 0.75s var(--ease-out, ease) 0.06s backwards;
 }
 .bk-cap-item.is-out {
   opacity: 0;
-  transform: none;
+  animation: none;
   transition: opacity 0.22s var(--ease-state, ease);
+}
+/* While a leaf is in the air the text steps aside; it rises again once the page has landed. */
+.bk-cap[data-wait] {
+  opacity: 0;
+  transition-duration: 0.2s;
+}
+.bk-cap[data-wait] .bk-cap-item {
+  animation: none;
 }
 .bk-cap-meta {
   display: flex;
@@ -952,7 +961,7 @@ html[lang='en'] .bk-cap-title {
 }
 .bk-text {
   margin: 0;
-  max-inline-size: 37em;
+  max-inline-size: 26em; /* about 60 letters a line: a page of a picture book, not a subtitle */
   font-size: var(--bk-fs);
   font-weight: 500;
   line-height: 1.9;
@@ -963,7 +972,7 @@ html[lang='en'] .bk-cap-title {
 html[lang='en'] .bk-text {
   font-weight: 400;
   line-height: 1.58;
-  max-inline-size: 40em;
+  max-inline-size: 30em;
 }
 
 /* ── Paywall card ───────────────────────────────────────────────────────────── */
@@ -1094,6 +1103,13 @@ html[lang='en'] .bk-end-title {
 .bk-end[data-in] .bk-end-plate > * {
   opacity: 1;
   transform: none;
+}
+/* Printed on the page (the last leaf already carries them): no entrance. */
+.bk-end .bk-end-text > .bk-end-title,
+.bk-end .bk-end-plate > img {
+  opacity: 1;
+  transform: none;
+  transition: none;
 }
 .bk-end-text > :nth-child(2) {
   transition-delay: 0.08s;

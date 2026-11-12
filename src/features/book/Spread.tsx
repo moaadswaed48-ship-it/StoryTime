@@ -6,7 +6,7 @@ import { locale, rtl } from '@/i18n/locale'
 import { t } from '@/i18n/copy'
 import { sfx } from '@/audio/synth'
 import { driftCss, driftOf } from './logic'
-import { GUTTER_CSS, blit, pageCanvas, paintPaper, paintPicture, type Affine } from './paint'
+import { GUTTER_CSS, blit, pageCanvas, paintEnd, paintPicture, type Affine } from './paint'
 import { runTurn, type TurnHandle } from './turn'
 import { cachedScene, pageScale, preloadScene, ready } from './pictures'
 import { NO_CLIP, type ClipInfo } from './qa'
@@ -150,6 +150,8 @@ interface Props {
   blurred: boolean
   clipOn: boolean
   reduced: boolean
+  /** Portrait phones: the picture card is small, so the book flies at the reader on its way in. */
+  stack: boolean
   /** Where the closed book floats (a plain box laid out by CSS). */
   ghost: RefObject<HTMLElement | null>
   onOpen: () => void
@@ -164,7 +166,7 @@ interface Props {
  * the cover swings over the spine and the pages widen into the 16:9 spread. Open: pictures, clips and turning leaves.
  * The open spread sits at its natural layout position; the closed pose is only a transform away from it.
  */
-export const Spread = forwardRef<SpreadHandle, Props>(function Spread({ phase, scene, step, turn, blurred, clipOn, reduced, ghost, onOpen, onOpened, onTurnEnd, onClip, endPage }, ref) {
+export const Spread = forwardRef<SpreadHandle, Props>(function Spread({ phase, scene, step, turn, blurred, clipOn, reduced, stack, ghost, onOpen, onOpened, onTurnEnd, onClip, endPage }, ref) {
   const sceneEl = useRef<HTMLDivElement>(null)
   const book = useRef<HTMLDivElement>(null)
   const cover = useRef<HTMLDivElement>(null)
@@ -176,6 +178,8 @@ export const Spread = forwardRef<SpreadHandle, Props>(function Spread({ phase, s
   const firstShade = useRef<HTMLDivElement>(null)
   const pic = useRef<PicApi | null>(null)
   const size = useRef({ W: 0, H: 0 })
+  /** Width of one shut page over its height (`--ca`: a 3:4 cover; 2:3 on phones, where the spread is 4:3). */
+  const ca = useRef(0.75)
   const now = useRef({ scene, step, blurred })
   now.current = { scene, step, blurred }
   const pose = useRef({ x: 0, y: 0, s: 1, rx: RX0, ry: RY0 })
@@ -200,7 +204,7 @@ export const Spread = forwardRef<SpreadHandle, Props>(function Spread({ phase, s
     const { W, H } = size.current
     const c = pageCanvas(W, H, pageScale(W))
     if (sc >= SCENES) {
-      paintPaper(c)
+      paintEnd(c, sceneEl.current, pageScale(W))
       return { c, ok: true, im: null, again: () => true }
     }
     const im = preloadScene(sc)
@@ -237,6 +241,7 @@ export const Spread = forwardRef<SpreadHandle, Props>(function Spread({ phase, s
       const H = el.clientHeight
       if (W === size.current.W && H === size.current.H) return
       size.current = { W, H }
+      ca.current = parseFloat(getComputedStyle(el).getPropertyValue('--ca')) || 0.75
       // A resize in the middle of a turn: drop the leaf, the page underneath is already right.
       dropTurn()
       paintInside()
@@ -256,7 +261,7 @@ export const Spread = forwardRef<SpreadHandle, Props>(function Spread({ phase, s
       const c = pageCanvas(W, H, k)
       const p = pic.current
       if (!p || now.current.scene >= SCENES) {
-        paintPaper(c)
+        paintEnd(c, sceneEl.current, k)
         return c
       }
       let m: Affine | null = null
@@ -307,7 +312,7 @@ export const Spread = forwardRef<SpreadHandle, Props>(function Spread({ phase, s
       const g = ghost.current?.getBoundingClientRect()
       const sc = sceneEl.current!.getBoundingClientRect()
       if (!g || !g.height || !sc.height) return false
-      pose.current.x = g.left + g.width / 2 - (sc.left + sc.width / 2 + (rtl ? -1 : 1) * 0.375 * sc.height)
+      pose.current.x = g.left + g.width / 2 - (sc.left + sc.width / 2 + (rtl ? -1 : 1) * (ca.current / 2) * sc.height)
       pose.current.y = g.top + g.height / 2 - (sc.top + sc.height / 2)
       pose.current.s = g.height / sc.height
       // Look at the floating book head-on: the vanishing point sits on the book, not on the middle of the spread.
@@ -401,21 +406,22 @@ export const Spread = forwardRef<SpreadHandle, Props>(function Spread({ phase, s
     const { W, H } = size.current
     paintInside()
     const from = { ...pose.current }
-    const st = { pose: 1, cover: 0, widen: 0 }
+    const st = { pose: 1, cover: 0, widen: 0, bump: 0 }
+    const CA = ca.current
     const sgn = rtl ? 1 : -1
     const RR = parseFloat(getComputedStyle(b).getPropertyValue('--rr')) || 18
     const eye0 = { ...eye.current }
     const apply = () => {
       const p = st.pose
       sceneEl.current!.style.perspectiveOrigin = `${(W / 2 + (eye0.x - W / 2) * p).toFixed(1)}px ${(H / 2 + (eye0.y - H / 2) * p).toFixed(1)}px`
-      b.style.transform = `translate3d(${(from.x * p).toFixed(2)}px, ${(from.y * p).toFixed(2)}px, 0) scale(${(1 + (from.s - 1) * p).toFixed(4)}) rotateX(${(from.rx * p).toFixed(2)}deg) rotateY(${(from.ry * p).toFixed(2)}deg)`
+      b.style.transform = `translate3d(${(from.x * p).toFixed(2)}px, ${(from.y * p).toFixed(2)}px, 0) scale(${((1 + (from.s - 1) * p) * (1 + 0.075 * st.bump)).toFixed(4)}) rotateX(${(from.rx * p).toFixed(2)}deg) rotateY(${(from.ry * p).toFixed(2)}deg)`
       const c = st.cover
       // The hinge sinks by the board's thickness, so the opened cover ends up lying in the plane of the pages.
       cv.style.transform = `translateZ(${(5 + (0.6 - COVER_T - 5) * c).toFixed(2)}px) rotateY(${(sgn * 180 * c).toFixed(2)}deg)`
       if (frontShade.current) frontShade.current.style.opacity = (0.55 * smooth(c / 0.5)).toFixed(3)
       if (backShade.current) backShade.current.style.opacity = (0.66 * (1 - smooth((c - 0.5) / 0.5))).toFixed(3)
       if (firstShade.current) firstShade.current.style.opacity = (0.78 * Math.pow(1 - c, 1.5)).toFixed(3)
-      b.style.setProperty('--bw', `${(H * 0.75 + (W / 2 - H * 0.75) * st.widen).toFixed(2)}px`)
+      b.style.setProperty('--bw', `${(H * CA + (W / 2 - H * CA) * st.widen).toFixed(2)}px`)
       b.style.setProperty('--r', `${(6 + (RR - 6) * st.widen).toFixed(2)}px`)
       // The shadow on the table widens as the cover comes over; the boards show once the pages spread out.
       b.style.setProperty('--floor', smooth(c * 1.15).toFixed(3))
@@ -426,6 +432,8 @@ export const Spread = forwardRef<SpreadHandle, Props>(function Spread({ phase, s
     tl.to(st, { pose: 0, duration: 1.0, ease: 'power3.inOut' }, 0)
     tl.to(st, { cover: 1, duration: 1.12, ease: 'power2.inOut' }, 0.4)
     tl.to(st, { widen: 1, duration: 0.64, ease: 'power2.out' }, 1.06)
+    // Phones: on its way to the card the book comes at the reader and settles back, so it reads as flying forward.
+    if (stack) tl.to(st, { bump: 1, duration: 0.55, ease: 'sine.out' }, 0.3).to(st, { bump: 0, duration: 0.75, ease: 'sine.inOut' }, 0.85)
     openTl.current = tl
     if (hold.current != null) tl.pause().progress(hold.current)
     sfx.pop()

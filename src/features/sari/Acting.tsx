@@ -16,8 +16,8 @@ type Turn = [x: number, y: number, z: number]
  * Applied in the order z, x, y: z lowers or raises the arm in his own plane, x swings it forward or back,
  * y twists it about its length. Found by test renders of this rig.
  */
-const HANG: Record<'Arm' | 'ForeArm' | 'Hand', Turn> = { Arm: [0.1, 0.5, 0.56], ForeArm: [0.28, 0.5, 0.06], Hand: [0, 0.1, 0.05] }
-const HELLO: Record<'Arm' | 'ForeArm' | 'Hand', Turn> = { Arm: [0, 0, -0.55], ForeArm: [0, 0, -1.5], Hand: [0, 0, 0] }
+const HANG: Record<'Arm' | 'ForeArm' | 'Hand', Turn> = { Arm: [0.08, -0.45, 0.6], ForeArm: [0.22, -0.55, 0.08], Hand: [0, 0, 0] }
+const HELLO: Record<'Arm' | 'ForeArm' | 'Hand', Turn> = { Arm: [0.2, 0, -0.78], ForeArm: [0.1, 0, -1.45], Hand: [0, 0, 0] }
 /** The arm that waves is the one on the open side of the stage, away from the words. */
 const WAVER = SIDE > 0 ? 'Right' : 'Left'
 const JOINTS = ['Arm', 'ForeArm', 'Hand'] as const
@@ -32,7 +32,7 @@ interface Channel {
 }
 
 /** QA only (while the pose is being tuned): extra turns per bone, and whole-pose overrides. */
-export const TUNE: { hang?: typeof HANG; hello?: typeof HELLO; freeze?: number } = {}
+export const TUNE: { hang?: typeof HANG; hello?: typeof HELLO; freeze?: number; phase?: number } = {}
 
 /**
  * Sari's acting, layered on <SariModel> (which draws him and breathes). Runs after it in the frame and adds:
@@ -74,7 +74,7 @@ export function Acting({ rt, turntable }: { rt: Runtime; turntable: React.RefObj
       return live
     }
     for (const side of ['Left', 'Right']) for (const j of [...JOINTS, 'Shoulder']) want(side + j)
-    for (const name of ['Hips', 'Spine', 'Spine01', 'Spine02', 'Head']) want(name)
+    for (const name of ['Hips', 'Spine', 'Spine01', 'Spine02', 'neck', 'Head']) want(name)
     const channels = clip.tracks.flatMap((track): Channel[] => {
       const { nodeName, propertyName } = THREE.PropertyBinding.parseTrackName(track.name)
       // rotations for every bone; movement only for the hips (the bob of the run; its travel was removed at build time)
@@ -118,6 +118,7 @@ export function Acting({ rt, turntable }: { rt: Runtime; turntable: React.RefObj
     if (waving && v.was !== 'wave') v.waveT = 0 // every hello opens the same way
     v.was = rt.action
     v.waveT += dt
+    if (TUNE.phase !== undefined) v.waveT = TUNE.phase
     v.wave += ((waving ? 1 : 0) - v.wave) * damp(waving ? 10 : 7, dt)
     v.run += ((rt.action === 'run' ? 1 : 0) - v.run) * damp(9, dt)
     if (v.run < 0.002 && rt.action !== 'run') v.run = 0

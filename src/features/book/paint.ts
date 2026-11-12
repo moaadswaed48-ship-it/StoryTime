@@ -123,3 +123,85 @@ export function blit(face: HTMLCanvasElement, page: HTMLCanvasElement, x0: numbe
   const dw = (sw / kx / (x1 - x0)) * face.width
   ctx.drawImage(page, sx, 0, sw, page.height, dx, 0, dw, face.height)
 }
+
+/**
+ * The end page as the last leaf carries it: paper, the crease, and the parts of the end page that are printed on it
+ * (its big title and, on the wide spread, the cover plate), measured from the end page laid out under the leaf, so
+ * the leaf lands on a page that already says "The End". The rest of the page (lines, buttons) arrives after it lands.
+ */
+export function paintEnd(c: HTMLCanvasElement, scene: HTMLElement | null, k: number) {
+  const ctx = c.getContext('2d')!
+  ctx.fillStyle = PAPER
+  ctx.fillRect(0, 0, c.width, c.height)
+  const end = scene?.querySelector<HTMLElement>('.bk-end')
+  if (end) {
+    const box = scene!.getBoundingClientRect()
+    const sx = box.width ? c.width / k / box.width : 1
+    try {
+      paintPlate(ctx, end, box, k * sx)
+      paintTitle(ctx, end, box, k * sx)
+    } catch {
+      /* a page without its print is still a page */
+    }
+  }
+  paintGutter(c)
+}
+
+function paintPlate(ctx: CanvasRenderingContext2D, end: HTMLElement, box: DOMRect, k: number) {
+  const img = end.querySelector<HTMLImageElement>('.bk-end-plate img')
+  if (!img || !img.complete || !img.naturalWidth || !img.offsetWidth) return
+  // Layout box (without the tilt), relative to the page.
+  const pr = (img.offsetParent as HTMLElement | null)?.getBoundingClientRect()
+  if (!pr) return
+  const w = img.offsetWidth
+  const h = img.offsetHeight
+  const cx = pr.left - box.left + img.offsetLeft + w / 2
+  const cy = pr.top - box.top + img.offsetTop + h / 2
+  const deg = parseFloat(getComputedStyle(img).rotate) || 0
+  ctx.save()
+  ctx.scale(k, k)
+  ctx.translate(cx, cy)
+  ctx.rotate((deg * Math.PI) / 180)
+  ctx.shadowColor = 'rgba(26, 18, 11, 0.24)'
+  ctx.shadowBlur = 34
+  ctx.shadowOffsetY = 18
+  ctx.beginPath()
+  ctx.roundRect(-w / 2, -h / 2, w, h, 10)
+  ctx.fillStyle = '#e9dcc6'
+  ctx.fill()
+  ctx.shadowColor = 'transparent'
+  ctx.clip()
+  // object-fit: cover
+  const r = Math.max(w / img.naturalWidth, h / img.naturalHeight)
+  const dw = img.naturalWidth * r
+  const dh = img.naturalHeight * r
+  ctx.drawImage(img, -dw / 2, -dh / 2, dw, dh)
+  ctx.restore()
+}
+
+function paintTitle(ctx: CanvasRenderingContext2D, end: HTMLElement, box: DOMRect, k: number) {
+  const el = end.querySelector<HTMLElement>('.bk-end-title')
+  const node = el?.firstChild
+  if (!el || !node || !el.offsetWidth) return
+  const range = document.createRange()
+  range.selectNodeContents(el)
+  const rects = range.getClientRects()
+  if (rects.length !== 1) return // a title on several lines stays for the page to show
+  const r = rects[0]
+  const cs = getComputedStyle(el)
+  const rtl = cs.direction === 'rtl'
+  ctx.save()
+  ctx.scale(k, k)
+  ctx.font = `${cs.fontWeight} ${cs.fontSize} ${cs.fontFamily}`
+  ctx.direction = rtl ? 'rtl' : 'ltr'
+  ctx.textAlign = rtl ? 'right' : 'left'
+  const ls = parseFloat(cs.letterSpacing)
+  if (ls && 'letterSpacing' in ctx) (ctx as CanvasRenderingContext2D & { letterSpacing: string }).letterSpacing = `${ls}px`
+  ctx.fillStyle = cs.color
+  const m = ctx.measureText(el.textContent ?? '')
+  const asc = m.fontBoundingBoxAscent || parseFloat(cs.fontSize) * 0.9
+  const desc = m.fontBoundingBoxDescent || parseFloat(cs.fontSize) * 0.25
+  const y = r.top - box.top + (r.height - (asc + desc)) / 2 + asc
+  ctx.fillText(el.textContent ?? '', (rtl ? r.right : r.left) - box.left, y)
+  ctx.restore()
+}

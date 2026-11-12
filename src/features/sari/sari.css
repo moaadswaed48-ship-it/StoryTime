@@ -1,6 +1,6 @@
 /* ─────────────────────────────────────────────────────────────────────────────
    Meet Sari — the hero on a stage lit like the film.
-   Layers of the stage, back to front: film bokeh + light beam → the giant name →
+   Layers of the stage, back to front: the film far out of focus, the sun, its beam, the floor → the giant name →
    the WebGL canvas (floor, leaves, Sari) → leaf burst → hint and dock.
    Only transform / opacity / filter move; per-frame values are written by the loop in Scene.tsx.
    ───────────────────────────────────────────────────────────────────────────── */
@@ -28,7 +28,7 @@ html[dir='rtl'] .sari {
   z-index: -1;
   pointer-events: none;
   background:
-    radial-gradient(ellipse 46% 58% at var(--stage-x) var(--stage-y), rgb(226 124 52 / 0.2), rgb(190 92 34 / 0.07) 55%, transparent 76%),
+    radial-gradient(ellipse 44% 56% at var(--stage-x) var(--stage-y), rgb(226 124 52 / 0.13), rgb(190 92 34 / 0.05) 55%, transparent 76%),
     radial-gradient(ellipse 120% 70% at 50% 0%, rgb(255 236 214 / 0.04), transparent 62%),
     linear-gradient(180deg, var(--color-night) 0%, var(--color-night-2) 52%, var(--color-night) 100%);
 }
@@ -58,7 +58,7 @@ html[dir='rtl'] .sari {
   user-select: none;
   -webkit-tap-highlight-color: transparent;
   cursor: grab;
-  outline-offset: -8px;
+  outline-offset: -12px;
   border-radius: 28px;
 }
 .sari-stage.is-grabbing {
@@ -68,44 +68,61 @@ html[dir='rtl'] .sari {
   cursor: default;
 }
 
-/* Backdrop: the low autumn sun behind him (a soft halo, light spilling along the floor) and its rays coming
-   from the key light's side. All of it is still: the light never moves, he does. */
+/* Backdrop, back to front. All of it is still: the light never moves, he does.
+   1. the film's courtyard under its autumn tree, far out of focus, falling to night at the edges (a real vignette);
+   2. the low sun, small and hot behind his head and shoulder on the rim-light side;
+   3. one soft beam from that side that ends on the pool of light at his feet;
+   4. the floor: a warm line where it meets the distance, then darkness toward the camera. */
 .sari-back {
   position: absolute;
   inset: 0;
   pointer-events: none;
+  /* which way the sun is across the stage: −1 = left (Arabic: the words are on the right), 1 = right */
+  --sun-x: calc(50% + var(--dir) * 7%);
+}
+.sari-back__film {
+  position: absolute;
+  inset: -5% -9%;
+  background-size: cover;
+  background-position: 8% 50%;
+  filter: blur(22px) saturate(1.2) brightness(0.74);
+  opacity: 0.9;
+  -webkit-mask-image: radial-gradient(ellipse 47% 47% at 50% 45%, #000 0%, rgb(0 0 0 / 0.86) 34%, rgb(0 0 0 / 0.34) 66%, transparent 100%);
+  mask-image: radial-gradient(ellipse 47% 47% at 50% 45%, #000 0%, rgb(0 0 0 / 0.86) 34%, rgb(0 0 0 / 0.34) 66%, transparent 100%);
+}
+html[dir='ltr'] .sari-back__film {
+  transform: scaleX(-1);
 }
 .sari-back__glow {
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(ellipse 30% 27% at 50% 36%, rgb(244 158 78 / 0.3), rgb(232 132 56 / 0.1) 60%, transparent 100%),
-    radial-gradient(ellipse 48% 50% at 50% 45%, rgb(206 104 40 / 0.32), rgb(160 72 26 / 0.13) 56%, rgb(150 66 24 / 0.035) 82%, transparent 100%),
-    radial-gradient(ellipse 47% 13% at 50% 83%, rgb(246 160 80 / 0.2), transparent 100%);
+    radial-gradient(ellipse 21% 23% at var(--sun-x) 33%, rgb(255 190 112 / 0.5), rgb(240 138 58 / 0.16) 58%, transparent 100%),
+    radial-gradient(ellipse 44% 46% at 50% 44%, rgb(206 104 40 / 0.16), rgb(160 72 26 / 0.06) 60%, transparent 100%);
+  mix-blend-mode: screen;
 }
 .sari-back__rays {
-  /* drawn for Arabic (the words, and the sun, on the right); mirrored whole for left-to-right pages */
-  --sun: 94% -12%;
+  /* drawn for Arabic (the sun behind him on the left); mirrored whole for left-to-right pages */
+  --sun: 6% -14%;
   position: absolute;
   inset: 0;
-  background: conic-gradient(
-    from 196deg at var(--sun),
-    transparent 0deg,
-    rgb(255 214 160 / 0.13) 5deg,
-    transparent 11deg,
-    rgb(255 214 160 / 0.07) 15deg,
-    transparent 20deg,
-    rgb(255 214 160 / 0.11) 27deg,
-    transparent 36deg,
-    transparent 360deg
-  );
-  filter: blur(9px);
+  background: conic-gradient(from 142deg at var(--sun), transparent 0deg, rgb(255 216 164 / 0.1) 12deg, rgb(255 216 164 / 0.1) 17deg, transparent 31deg, transparent 360deg);
+  filter: blur(18px);
   mix-blend-mode: screen;
-  -webkit-mask-image: radial-gradient(circle at var(--sun), #000 14%, rgb(0 0 0 / 0.55) 50%, transparent 86%);
-  mask-image: radial-gradient(circle at var(--sun), #000 14%, rgb(0 0 0 / 0.55) 50%, transparent 86%);
+  -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 58%, transparent 84%);
+  mask-image: linear-gradient(to bottom, #000 0%, #000 58%, transparent 84%);
 }
 html[dir='ltr'] .sari-back__rays {
   transform: scaleX(-1);
+}
+.sari-back__floor {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 50% 5% at 50% 70%, rgb(255 176 96 / 0.2), transparent 100%),
+    linear-gradient(to bottom, transparent 64%, rgb(18 12 8 / 0.5) 80%, var(--color-night) 97%);
+  -webkit-mask-image: radial-gradient(ellipse 62% 60% at 50% 72%, #000 40%, transparent 100%);
+  mask-image: radial-gradient(ellipse 62% 60% at 50% 72%, #000 40%, transparent 100%);
 }
 
 /* The giant name behind him. One copy is on stage at rest; when he runs the row rushes past. */
@@ -138,7 +155,7 @@ html[dir='ltr'] .sari-back__rays {
   white-space: nowrap;
   font-size: 38cqw;
   line-height: 1;
-  color: rgb(255 240 222 / 0.055);
+  color: rgb(255 240 222 / 0.075);
   transform: translate3d(-50%, 0, 0);
   will-change: transform;
 }
@@ -290,24 +307,25 @@ html[lang='ar'] .sari-title {
   max-width: 31rem;
   color: rgb(246 240 228 / 0.72);
 }
+/* three small tiles in one row at every width: the short ones keep their size, the long ones share what is left */
 .sari-facts {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, auto));
+  justify-content: start;
   gap: 8px;
   margin-top: 26px;
 }
 .sari-fact {
-  display: inline-flex;
-  align-items: baseline;
-  gap: 10px;
-  min-height: 42px;
-  padding: 9px 16px 10px;
-  border-radius: 999px;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  padding: 10px 15px 12px;
+  border-radius: 18px;
   background: rgb(255 240 222 / 0.055);
   box-shadow:
     inset 0 0 0 1px rgb(255 240 222 / 0.1),
     inset 0 1px 0 rgb(255 255 255 / 0.07);
-  line-height: 1.5;
+  line-height: 1.45;
 }
 .sari-fact__k {
   font-size: 12.5px;
@@ -318,6 +336,7 @@ html[lang='ar'] .sari-title {
   font-size: 15px;
   font-weight: 600;
   color: rgb(246 240 228 / 0.94);
+  text-wrap: balance;
 }
 .sari-cta {
   margin-top: 30px;
@@ -336,8 +355,9 @@ html[lang='ar'] .sari-title {
   color: var(--color-paper);
   transition: transform 0.3s var(--sari-ease);
 }
+/* a play mark points the way film plays, in both languages (as everywhere else on the site) */
 .sari-cta__icon svg {
-  transform: translateX(calc(var(--dir) * 1px)) scaleX(var(--dir));
+  transform: translateX(1px);
 }
 @media (hover: hover) {
   .sari-cta button:hover .sari-cta__icon {
@@ -349,6 +369,7 @@ html[lang='ar'] .sari-title {
 .sari-portrait {
   position: absolute;
   inset: 0;
+  transform-origin: 50% 92%;
 }
 .sari-portrait__arch {
   position: absolute;
@@ -357,7 +378,8 @@ html[lang='ar'] .sari-title {
   height: 82%;
   aspect-ratio: 0.66;
   max-width: 88%;
-  border-radius: 999px 999px 44px 44px;
+  /* the arch is 0.66 wide for 1 tall, so half its width is a third of its height: a true round top, soft feet */
+  border-radius: 50% 50% 44px 44px / 33% 33% 44px 44px;
   transform: translateX(-50%);
   /* he is blended onto this wall only: the arch is its own group, so nothing behind it can leak a grey box */
   isolation: isolate;
@@ -390,10 +412,37 @@ html[lang='ar'] .sari-title {
   mask-image: none;
 }
 .is-flat .sari-back__rays {
-  opacity: 0.4;
+  opacity: 0.5;
 }
-.is-flat .sari-word__track {
-  color: rgb(255 240 222 / 0.09);
+/* the arch hides most of the giant name: two stray fragments are worse than none */
+.is-flat .sari-word {
+  display: none;
+}
+@media (max-width: 1023.98px) {
+  /* no dock under the portrait: the words move up into its place */
+  .is-flat .sari-stage {
+    margin-bottom: -30px;
+  }
+}
+
+/* ── Between phone and laptop: one centred column, like a poster ─────────────── */
+@media (min-width: 640px) and (max-width: 1023.98px) {
+  .sari-copy {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 44rem;
+    margin-inline: auto;
+    text-align: center;
+  }
+  .sari-facts {
+    justify-content: center;
+    text-align: start;
+  }
+  .sari-cta button {
+    width: auto;
+    min-width: 260px;
+  }
 }
 
 /* ── Wide screens: words on the reading side, a tall stage on the other ──────── */
@@ -428,6 +477,9 @@ html[lang='ar'] .sari-title {
     margin-top: 32px;
     gap: 10px;
   }
+  .sari-fact {
+    padding: 11px 18px 13px;
+  }
   .sari-cta {
     margin-top: 40px;
   }
@@ -444,17 +496,26 @@ html[lang='ar'] .sari-title {
     height: auto;
     border-radius: 0;
   }
+  /* the stage has no visible box here, so a focus ring would draw one: the hint lights up instead */
+  .sari-stage:focus-visible {
+    outline: none;
+  }
+  .sari-stage:focus-visible ~ .sari-controls .sari-hint {
+    opacity: 1;
+    color: #fff;
+    box-shadow: 0 0 0 2px var(--color-maple-soft);
+  }
   /* the canvas melts away toward the words and into the next section, so no leaf or light is ever cut */
   .sari-canvas {
     --edge: 0%;
-    -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 12%, #000 calc(100% - var(--edge)), transparent 100%), linear-gradient(to bottom, #000 91%, transparent 100%);
-    mask-image: linear-gradient(to right, transparent 0%, #000 12%, #000 calc(100% - var(--edge)), transparent 100%), linear-gradient(to bottom, #000 91%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to right, transparent 0%, transparent 2.5%, #000 14%, #000 calc(100% - var(--edge)), transparent 100%), linear-gradient(to bottom, #000 91%, transparent 100%);
+    mask-image: linear-gradient(to right, transparent 0%, transparent 2.5%, #000 14%, #000 calc(100% - var(--edge)), transparent 100%), linear-gradient(to bottom, #000 91%, transparent 100%);
     -webkit-mask-composite: source-in;
     mask-composite: intersect;
   }
   html[dir='rtl'] .sari-canvas {
-    -webkit-mask-image: linear-gradient(to left, transparent 0%, #000 12%, #000 calc(100% - var(--edge)), transparent 100%), linear-gradient(to bottom, #000 91%, transparent 100%);
-    mask-image: linear-gradient(to left, transparent 0%, #000 12%, #000 calc(100% - var(--edge)), transparent 100%), linear-gradient(to bottom, #000 91%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to left, transparent 0%, transparent 2.5%, #000 14%, #000 calc(100% - var(--edge)), transparent 100%), linear-gradient(to bottom, #000 91%, transparent 100%);
+    mask-image: linear-gradient(to left, transparent 0%, transparent 2.5%, #000 14%, #000 calc(100% - var(--edge)), transparent 100%), linear-gradient(to bottom, #000 91%, transparent 100%);
   }
   .sari-word__track {
     top: 15%;
@@ -479,8 +540,10 @@ html[lang='ar'] .sari-title {
   /* the hint steps aside, level with the dock, on its outer side */
   .sari-hint {
     position: absolute;
-    inset-inline-start: calc(50% + 188px);
-    bottom: 19px;
+    inset-inline-start: calc(50% + 182px);
+    bottom: 13px;
+    padding: 6px 12px;
+    border-radius: 999px;
     white-space: nowrap;
   }
   .sari-dock__btn {
