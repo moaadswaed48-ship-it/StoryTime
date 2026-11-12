@@ -28,23 +28,25 @@ const _c = new THREE.Color()
 
 /**
  * Stage light, the way a character is lit for a poster:
- * a warm soft key from the upper side where the words are, an orange rim from behind on the far side
- * (the low autumn sun of the film), a gold kicker on the near shoulder, and a warm bounce from the ground
- * so the shadow side never goes muddy. A small painted environment gives the soft wrap; nothing is fetched.
+ * a warm-white soft key from the upper side where the words are, an orange rim from behind on the far side
+ * (the low autumn sun of the film), a gold kicker on the near shoulder, a slightly cool fill and a bounce from
+ * the ground so the shadow side never goes muddy and the hoodie stays mustard, the jeans teal.
+ * A small painted environment gives the soft wrap; nothing is fetched.
  */
 function Lights() {
   return (
     <>
-      <hemisphereLight args={['#ffe7c9', '#7a4320', 0.95]} />
-      <directionalLight position={[SIDE * 2.6, 3.4, 3.2]} intensity={2.15} color="#ffe3bd" />
+      <hemisphereLight args={['#fff4e6', '#8c6a52', 1.0]} />
+      <directionalLight position={[SIDE * 2.6, 3.4, 3.2]} intensity={2.25} color="#fff1de" />
       <directionalLight position={[-SIDE * 2.6, 2.3, -3.1]} intensity={5.2} color="#ff8433" />
-      <directionalLight position={[SIDE * 3.2, 1.6, -2.4]} intensity={1.7} color="#ffc27a" />
+      <directionalLight position={[SIDE * 3.2, 1.6, -2.4]} intensity={1.3} color="#ffc27a" />
       <Environment resolution={128} frames={1}>
-        <color attach="background" args={['#22150b']} />
-        <Lightformer form="rect" intensity={2.6} color="#ffe9cc" position={[SIDE * 4, 4.5, 4]} scale={[7, 6, 1]} target={[0, 0.6, 0]} />
-        <Lightformer form="rect" intensity={0.9} color="#ffd6ad" position={[-SIDE * 5, 1.5, 3]} scale={[5, 5, 1]} target={[0, 0.6, 0]} />
+        <color attach="background" args={['#1d1814']} />
+        <Lightformer form="rect" intensity={2.6} color="#fff3e2" position={[SIDE * 4, 4.5, 4]} scale={[7, 6, 1]} target={[0, 0.6, 0]} />
+        {/* the fill is a touch cool, so the jeans keep their teal and the shadow side stays clean */}
+        <Lightformer form="rect" intensity={1.15} color="#e4ecff" position={[-SIDE * 5, 1.5, 3]} scale={[5, 5, 1]} target={[0, 0.6, 0]} />
         <Lightformer form="rect" intensity={5} color="#ff8a3c" position={[-SIDE * 3.5, 3, -5]} scale={[4, 7, 1]} target={[0, 0.6, 0]} />
-        <Lightformer form="circle" intensity={1.2} color="#c8672a" position={[0, -3, 0]} scale={[12, 12, 1]} target={[0, 0.6, 0]} />
+        <Lightformer form="circle" intensity={1.0} color="#c98a5a" position={[0, -3, 0]} scale={[12, 12, 1]} target={[0, 0.6, 0]} />
       </Environment>
     </>
   )
@@ -317,7 +319,7 @@ interface Leaf {
 function LeafField({ rt, count, soft = false }: { rt: Runtime; count: number; soft?: boolean }) {
   const mesh = useMemo(() => {
     const mat = soft
-      ? new THREE.MeshBasicMaterial({ map: leafTexture(true), transparent: true, opacity: 0.5, depthWrite: false, side: THREE.DoubleSide })
+      ? new THREE.MeshBasicMaterial({ map: leafTexture(true), transparent: true, opacity: 0.44, depthWrite: false, side: THREE.DoubleSide })
       : new THREE.MeshLambertMaterial({ map: leafTexture(), alphaTest: 0.5, alphaToCoverage: true, side: THREE.DoubleSide, emissive: '#8a3d10', emissiveIntensity: 0.55 })
     const m = new THREE.InstancedMesh(new THREE.PlaneGeometry(1, 1), mat, count)
     m.frustumCulled = false
@@ -340,8 +342,8 @@ function LeafField({ rt, count, soft = false }: { rt: Runtime; count: number; so
   }, [count, soft])
   useEffect(() => {
     const rnd = mulberry32(soft ? 98 : 42)
-    // the out-of-focus ones stay in the oranges: a blurred yellow reads as a stain, not a leaf
-    leaves.forEach((_, i) => mesh.setColorAt(i, _c.set(LEAF_COLORS[Math.floor(rnd() * (soft ? 3 : LEAF_COLORS.length))]).multiplyScalar(soft ? 0.9 : 1)))
+    // the out-of-focus ones stay orange and rust: a blurred yellow reads as a stain, not a leaf
+    leaves.forEach((_, i) => mesh.setColorAt(i, _c.set(soft ? (rnd() < 0.5 ? LEAF_COLORS[0] : LEAF_COLORS[2]) : LEAF_COLORS[Math.floor(rnd() * LEAF_COLORS.length)])))
     if (mesh.instanceColor) mesh.instanceColor.needsUpdate = true
     return () => {
       mesh.geometry.dispose()

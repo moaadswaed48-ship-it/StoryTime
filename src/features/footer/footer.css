@@ -6,13 +6,15 @@
    ───────────────────────────────────────────────────────────────────────────── */
 .ft {
   --ft-h: 100vh; /* the film's stage */
-  --ft-m: calc(var(--ft-h) / 100); /* the melt is measured in hundredths of the stage */
-  --ft-over: calc(25 * var(--ft-m)); /* how much of the last block already shows when the film pins */
+  --ft-m: calc(var(--ft-h) / 100); /* hundredths of the stage */
+  --ft-g: var(--ft-m); /* the unit the melt is drawn in */
+  --ft-over: calc(20 * var(--ft-g) + 5 * var(--ft-m)); /* how much of the last block already shows when the film pins */
+  --ft-tuck: 44px; /* the film starts this far under the rounded shoulders of the section above */
   --ft-gutter: clamp(20px, 3.9vw, 56px);
   position: relative;
   z-index: 1; /* below the paper sheet that lifts off it */
   isolation: isolate;
-  margin-top: -44px; /* the film starts under the rounded shoulders of the section above */
+  margin-top: calc(-1 * var(--ft-tuck));
   background: var(--color-night);
   color: var(--color-paper);
 }
@@ -23,7 +25,7 @@
 }
 @media (max-width: 640px) {
   .ft {
-    margin-top: -28px;
+    --ft-tuck: 28px;
   }
 }
 /* Upright screens. The clip is a wide 16:9 picture: filling a tall screen with it would blow a thin slice of it up
@@ -32,6 +34,9 @@
 @media (max-aspect-ratio: 1/1) {
   .ft {
     --ft-h: min(100vh, 140vw);
+    /* a shorter melt that ends exactly with the stage: the sky keeps more of the band, the sun still glows */
+    --ft-g: calc(0.8 * var(--ft-m));
+    --ft-over: calc(20 * var(--ft-g));
   }
   @supports (height: 100svh) {
     .ft {
@@ -121,35 +126,35 @@ html[data-reduce-motion] .ft-film .qf {
 .ft-body::before {
   content: '';
   position: absolute;
-  inset: calc(-40 * var(--ft-m)) 0 0 0;
+  inset: calc(-40 * var(--ft-g)) 0 0 0;
   z-index: -1;
   pointer-events: none;
   /* eased stops: the picture melts, it is not cut. Under the line of text it is already dusk, and it is night
-     before the stage ends (25 hundredths below the block's top edge). */
+     by the time the stage ends (20 units below the block's top edge). */
   background: linear-gradient(
     to bottom,
     rgba(18, 12, 8, 0) 0,
-    rgba(18, 12, 8, 0.05) calc(6 * var(--ft-m)),
-    rgba(18, 12, 8, 0.16) calc(14 * var(--ft-m)),
-    rgba(18, 12, 8, 0.35) calc(23 * var(--ft-m)),
-    rgba(18, 12, 8, 0.58) calc(32 * var(--ft-m)),
-    rgba(18, 12, 8, 0.77) calc(40 * var(--ft-m)),
-    rgba(18, 12, 8, 0.9) calc(47 * var(--ft-m)),
-    rgba(18, 12, 8, 0.97) calc(54 * var(--ft-m)),
-    var(--color-night) calc(60 * var(--ft-m))
+    rgba(18, 12, 8, 0.05) calc(6 * var(--ft-g)),
+    rgba(18, 12, 8, 0.16) calc(14 * var(--ft-g)),
+    rgba(18, 12, 8, 0.35) calc(23 * var(--ft-g)),
+    rgba(18, 12, 8, 0.58) calc(32 * var(--ft-g)),
+    rgba(18, 12, 8, 0.77) calc(40 * var(--ft-g)),
+    rgba(18, 12, 8, 0.9) calc(47 * var(--ft-g)),
+    rgba(18, 12, 8, 0.97) calc(54 * var(--ft-g)),
+    var(--color-night) calc(60 * var(--ft-g))
   );
 }
-/* Upright screens: the page never ends before the film has reached the top of the screen
+/* Upright screens: the page never ends before the paper has left the screen
    (the block is at least as tall as what the stage leaves free; the wordmark keeps to the bottom edge). */
 @media (max-aspect-ratio: 1/1) {
   .ft-body {
     display: flex;
     flex-direction: column;
-    min-height: calc(100vh - var(--ft-h) + var(--ft-over));
+    min-height: calc(100vh - var(--ft-h) + var(--ft-over) + var(--ft-tuck) + 2px);
   }
   @supports (height: 100svh) {
     .ft-body {
-      min-height: calc(100svh - var(--ft-h) + var(--ft-over));
+      min-height: calc(100svh - var(--ft-h) + var(--ft-over) + var(--ft-tuck) + 2px);
     }
   }
   .ft-body > .ft-wrap {

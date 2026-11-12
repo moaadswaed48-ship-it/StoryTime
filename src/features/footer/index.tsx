@@ -32,8 +32,16 @@ const MAX_WORD_SHORT = 0.2
 const HOLD = 9
 /** While the paper lifts off, the film underneath moves this much slower (share of its own height). */
 const UNDER = 14
-/** …and it rises this much while the last lines slide over it, so the birds stay in the light. */
-const RISE = 9
+/** …and it rises while the last lines slide over it, so the birds stay in the light: at least RISE_MIN, and as much as
+ *  it takes (up to RISE_MAX) for the lowest bird of the resting frame to fly clear above the line of text —
+ *  but never faster than a share of the page's own travel, so on screens with little travel it does not rush. */
+const RISE_MIN = 9
+const RISE_MAX = 20
+const RISE_PACE = 0.6
+/** Where the point of the flock's V is when the clip comes to rest, as a share of the frame's height. */
+const FLOCK_Y = 0.492
+/** The clip's shape. */
+const FRAME = 16 / 9
 
 function scrollToSection(id: string) {
   const { lenis, tier } = useSiteStore.getState()
@@ -57,6 +65,7 @@ function scrollToTop() {
 export function Footer() {
   const root = useRef<HTMLElement>(null)
   const layer = useRef<HTMLDivElement>(null)
+  const quote = useRef<HTMLDivElement>(null)
   const wordBox = useRef<HTMLDivElement>(null)
   const word = useRef<HTMLSpanElement>(null)
   const film = useRef<QuietFilmHandle>(null)
@@ -99,9 +108,18 @@ export function Footer() {
     const tick = () => {
       const r = el.getBoundingClientRect()
       const vh = window.innerHeight
+      const travel = Math.max(1, r.height - vh)
       const under = clamp(r.top / vh, 0, 1)
-      const over = clamp(-r.top / Math.max(1, r.height - vh), 0, 1)
-      plate.style.transform = `translate3d(0, ${(-under * UNDER - over * RISE).toFixed(3)}%, 0)`
+      const over = clamp(-r.top / travel, 0, 1)
+      // Where things will be when the page has ended: the point of the flock in the pinned picture (cover-fitted,
+      // centred), and the top of the line of text. The picture rises by the difference, plus some air.
+      const h = Math.max(1, plate.offsetHeight)
+      const pic = Math.max(h, plate.offsetWidth / FRAME)
+      const flock = (h - pic) / 2 + FLOCK_Y * pic
+      const lineTop = quote.current ? vh - r.height + (quote.current.getBoundingClientRect().top - r.top) : vh
+      const need = ((flock - (lineTop - vh * 0.05)) / h) * 100
+      const rise = Math.min(clamp(need, RISE_MIN, RISE_MAX), ((travel * RISE_PACE) / h) * 100)
+      plate.style.transform = `translate3d(0, ${(-under * UNDER - over * rise).toFixed(3)}%, 0)`
     }
     tick()
     gsap.ticker.add(tick)
@@ -202,7 +220,7 @@ export function Footer() {
 
       <div className="ft-body">
         <Container className="ft-wrap">
-          <div className="ft-quote">
+          <div ref={quote} className="ft-quote">
             <BlurWords as="p" text={t.footer.line} className="ft-line font-story" />
             <Reveal delay={420}>
               <p className="ft-from">
