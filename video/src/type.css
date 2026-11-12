@@ -1,0 +1,8 @@
+/* Type on the stage. Arabic is never tracked and never split into letters. */
+#stage, #stage * { box-sizing: border-box; letter-spacing: 0 !important; }
+#stage { font-family: 'Rubik Variable', sans-serif; color: #f6f0e4; -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; font-synthesis: none; }
+.t-word { display: inline-block; white-space: pre; will-change: transform, opacity, filter; }
+.t-line { display: block; }
+.f-display { font-family: 'Rubik Variable', sans-serif; font-weight: 800; line-height: 1.12; }
+.f-ui { font-family: 'Rubik Variable', sans-serif; font-weight: 500; }
+.f-story { font-family: 'Noto Naskh Arabic', 'Rubik Variable', serif; font-weight: 500; line-height: 1.75; }
