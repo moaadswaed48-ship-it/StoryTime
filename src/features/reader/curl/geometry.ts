@@ -35,7 +35,7 @@ export const baseRadius = (w: number) => Math.min(150, Math.max(40, w * 0.18))
 /** The roll may be this fraction of the clearance between the fold and the spine: it closes as the leaf comes down. */
 const ROLL_PER_ROOM = 0.56
 /** However the hand pulls, the roll keeps at least this share of its wished radius (it never becomes a crease). */
-const LEAST_ROLL = 0.36
+const LEAST_ROLL = 0.24
 
 const smooth = (a: number, b: number, v: number) => {
   const t = Math.min(1, Math.max(0, (v - a) / (b - a)))

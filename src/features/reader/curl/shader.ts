@@ -101,6 +101,7 @@ void main() {
 
   // Shadow the leaf throws on whatever lies below it: soft, and wider the higher the paper is.
   float lift = smoothstep(0.0, 14.0, r) * uOn;
+  // (Every exponent below is kept at or under zero: a huge one overflows, and infinity times a zero weight is NaN, which paints black.)
   float away = max(sdB, 0.0) + max(d - r, 0.0);
   float shadow = lift * 0.40 * exp(-away / (1.15 * r + 6.0));
   // A tighter contact shadow right at the roll, so the paper reads as touching the page there.
@@ -133,7 +134,7 @@ void main() {
   float backFlat = mix(1.0, flatLight, 1.0 - lift);
   float backLight = mix(1.0, roll, lift) * valley * backFlat * (uGhost > 0.5 ? 0.965 : 1.0);
   // A sheet in the air is bowed, not a board: its light falls away gently towards its own edges ...
-  backLight *= 1.0 - 0.085 * lift * exp(sdB / (1.1 * r + 8.0));
+  backLight *= 1.0 - 0.085 * lift * exp(min(sdB, 0.0) / (1.1 * r + 8.0));
   backLight *= 1.0 + 0.04 * lift * sin(PI * clamp(-d / uPage.x, 0.0, 1.0));
   // ... and a hairline of shade along the edge keeps it distinct from the page it lies on.
   backLight *= 1.0 - 0.10 * lift * smoothstep(-2.5, 0.0, sdB);

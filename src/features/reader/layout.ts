@@ -85,7 +85,8 @@ export function geometryFor(pageW: number, pageH: number, o: TypeOptions): PageG
   const fontSize = Math.round(natural * step * (o.classroom ? 1.3 : 1) * 2) / 2
   // Arabic carries marks above and below the line and needs air; Latin serif is happy tighter.
   const lineHeight = Math.round(fontSize * (o.arabic ? 1.86 : 1.56))
-  const paraGap = Math.round(lineHeight * 0.42)
+  // Half a line between paragraphs: lines on facing pages stay level, or exactly half a line apart.
+  const paraGap = Math.round(lineHeight / 2)
   // Comfortable margins, and never a line longer than about thirty times the type size.
   const marginX = Math.round(Math.max(Math.min(64, Math.max(24, pageW * 0.078)), (pageW - natural * 31) / 2))
   // The painting is 16:9 across the full page width, but never more than 46 % of a short page.

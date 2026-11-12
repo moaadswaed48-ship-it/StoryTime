@@ -68,8 +68,9 @@ interface Turn {
   /** Where the hand took the page (x in the turn's frame, px), and whether the leaf started out turned. */
   gx: number
   startTurned: boolean
-  /** Which point of the free edge is being carried (y, leaf px). */
+  /** Which point of the free edge is being carried (y, leaf px), and where that was when the hand took the page. */
   ay: number
+  ay0: number
   p: Vec
   mode: 'drag' | 'auto' | 'held'
   /** A leaf that cannot leave (end of the book, or locked): it lifts a little and falls back. */
@@ -117,7 +118,7 @@ export class CurlEngine {
   private warmTimer = 0
   private paper: [number, number, number] = [0.965, 0.94, 0.89]
   // pointer
-  private down: { x: number; y: number; t: number; moved: boolean } | null = null
+  private down: { x: number; y: number; t: number; moved: boolean; strayed: boolean } | null = null
   private finger: Vec = { x: 0, y: 0 }
   private trail: { t: number; x: number; px: number; py: number }[] = []
   // film windows
@@ -420,7 +421,7 @@ export class CurlEngine {
     // A page still on its way down is hurried along rather than snapped: a second flick never sees a jump.
     if (this.turnState?.mode === 'auto') this.hurry = this.turnState.peek ? 6 : 3.2
     else if (this.turnState) return
-    this.down = { x, y, t: time, moved: false }
+    this.down = { x, y, t: time, moved: false, strayed: false }
     this.finger = this.toLeaf(x, y)
     this.trail = []
   }
@@ -447,7 +448,8 @@ export class CurlEngine {
         if (corner && at.x > w * 0.55) forward = true
         else if (corner && l.spread && at.x < -w * 0.55) forward = false
         else {
-          this.down = null
+          // Not a turn yet, and no longer a tap; if the stroke bends sideways it still becomes one.
+          d.strayed = true
           return false
         }
       }
@@ -474,7 +476,7 @@ export class CurlEngine {
     this.hurry = 1
     if (!d) return 'none'
     const t = this.turnState
-    if (!d.moved || !t || t.mode !== 'drag') return d.moved ? 'none' : 'tap'
+    if (!d.moved || !t || t.mode !== 'drag') return d.moved || d.strayed ? 'none' : 'tap'
     const l = this.layout!
     const w = this.px(l.pageW)
     // Finger speed over the last moments decides a flick; otherwise where the page is, and that the hand really carried it there.
@@ -547,6 +549,7 @@ export class CurlEngine {
       gx: mirror ? -grip.x : grip.x,
       startTurned,
       ay,
+      ay0: ay,
       p: start,
       mode,
       resist,
@@ -655,7 +658,7 @@ export class CurlEngine {
     if (!this.begin(dir, { x: w, y: h * 0.7 }, 'auto', target)) return false
     const t = this.turnState!
     // On an open book the sheet crosses the whole spread, so it rises less: it must not leave the book.
-    this.settle(!t.startTurned, { x: 0, y: 0 }, (l.spread ? -0.08 : -0.26) * w, l.spread ? 0.82 : 0.66)
+    this.settle(!t.startTurned, { x: 0, y: 0 }, (l.spread ? -0.08 : -0.26) * w, l.spread ? 0.7 : 0.58)
     return true
   }
 
@@ -766,6 +769,16 @@ export class CurlEngine {
       const k = Math.exp(-dt / CATCH_UP)
       t.off.x *= k
       t.off.y *= k
+      if (t.startTurned) {
+        // A page coming back is laid down straight: as the hand nears the page's resting edge, the point it
+        // carries slides to the hand's own height, so a little drift cannot swing the fold round.
+        const l0 = this.layout
+        const w0 = this.px(l0.pageW)
+        const h0 = this.px(l0.pageH)
+        const f = this.fingerIn(t)
+        const near = 1 - Math.min(1, Math.max(0, (w0 - f.x) / (0.5 * w0)))
+        t.ay = t.ay0 + (Math.min(h0, Math.max(0, f.y)) - t.ay0) * near * near * (3 - 2 * near)
+      }
       const g = this.goal(t)
       const far = Math.abs(t.off.x) + Math.abs(t.off.y) > 0.3
       if (!far) t.off.x = t.off.y = 0
