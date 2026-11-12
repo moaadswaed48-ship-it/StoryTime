@@ -96,6 +96,46 @@ test('a drag turns him, he comes back to the front, and a tap makes him wave', a
   con.assertClean()
 })
 
+test('with reduced motion nothing moves by itself, and he still does what the dock asks', async ({ page }) => {
+  const con = watchConsole(page)
+  await page.emulateMedia({ reducedMotion: 'reduce' })
+  const webgl = await meet(page)
+  test.skip(!webgl, 'no WebGL here: the portrait fallback is showing')
+  // no hello by himself: he is simply standing there
+  expect(await action(page)).toBe('idle')
+  expect((await sari<{ reduced: boolean }>(page, 'state()')).reduced).toBe(true)
+  await expect(page.locator('#sari [data-action="idle"]')).toHaveAttribute('aria-pressed', 'true')
+
+  await page.locator('#sari [data-action="run"]').click()
+  expect(await action(page)).toBe('run')
+  await expect.poll(async () => (await sari<{ stride: number }>(page, 'state()')).stride, SLOW).toBeGreaterThan(0.3)
+  await page.locator('#sari [data-action="idle"]').click()
+  expect(await action(page)).toBe('idle')
+  con.assertClean()
+})
+
+test('when WebGL is lost his portrait takes the stage and the dock goes', async ({ page }) => {
+  const con = watchConsole(page)
+  const webgl = await meet(page)
+  if (webgl) {
+    await page.evaluate(() => {
+      const canvas = document.querySelector<HTMLCanvasElement>('#sari canvas')!
+      const gl = (canvas.getContext('webgl2') ?? canvas.getContext('webgl')) as WebGLRenderingContext
+      gl.getExtension('WEBGL_lose_context')!.loseContext()
+    })
+  }
+  await expect.poll(async () => (await sari<{ flat: boolean }>(page, 'state()')).flat, SLOW).toBe(true)
+  const portrait = page.locator('#sari .sari-portrait img')
+  await expect(portrait).toBeVisible()
+  await expect.poll(() => portrait.evaluate((img: HTMLImageElement) => img.complete && img.naturalWidth > 0)).toBe(true)
+  await expect(page.locator('#sari .sari-dock')).toHaveCount(0)
+  await expect(page.locator('#sari canvas.sari-burst')).toHaveCount(1) // the 2D leaves drift over the portrait
+  // the words and the way into the game are untouched
+  await expect(page.locator('#sari .sari-fact')).toHaveCount(3)
+  await expect(page.locator('#sari [data-sari-play]')).toBeVisible()
+  con.assertClean()
+})
+
 test('the play pill opens the game', async ({ page }) => {
   const con = watchConsole(page)
   await meet(page)
