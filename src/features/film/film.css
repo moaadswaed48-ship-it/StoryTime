@@ -13,6 +13,7 @@
   --bar: 64px; /* height of the control bar */
   --chip: 44px; /* height of a scene chip */
   --lift: calc(var(--bar) + 4px); /* how far the words rise while the controls are up */
+  --peek: 54px; /* where the scrubber's preview card stands */
   position: fixed;
   inset: 0;
   z-index: 70;
@@ -31,6 +32,7 @@
 /* Paused, the scene row stands above the bar: the words step above both. */
 .film-stage[data-film='paused'][data-film-started='yes'] {
   --lift: calc(var(--bar) + var(--chip) + 18px);
+  --peek: calc(var(--chip) + 68px); /* the preview stands above the scene row, not on it */
 }
 .film-stage.is-closing {
   opacity: 0;
@@ -510,7 +512,7 @@ html[dir='rtl'] .film-scrub__fill {
 .film-peek {
   position: absolute;
   z-index: 2;
-  bottom: 54px;
+  bottom: var(--peek);
   background: rgba(18, 12, 8, 0.94);
   box-shadow:
     inset 0 0 0 1px rgba(255, 255, 255, 0.12),
@@ -853,6 +855,7 @@ html[lang='ar'] .film-end__word {
 @media (hover: hover) and (pointer: fine) and (orientation: landscape) and (min-height: 701px) {
   .film-stage[data-film='playing']:has(.film-dock:hover, .film-scenes:hover, .film-dock:focus-within, .film-scenes:focus-within) {
     --lift: calc(var(--bar) + var(--chip) + 18px);
+    --peek: calc(var(--chip) + 68px);
   }
   .film-stage.has-ui[data-film='playing']:has(.film-dock:hover, .film-scenes:hover, .film-dock:focus-within, .film-scenes:focus-within) .film-scenes {
     opacity: 1;
@@ -889,6 +892,7 @@ html[lang='ar'] .film-end__word {
   }
   .film-stage[data-film='paused'][data-film-started='yes'] {
     --lift: calc(var(--bar) + 4px);
+    --peek: 54px;
   }
   .film-screen {
     border-radius: 0;
