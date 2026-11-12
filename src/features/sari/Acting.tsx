@@ -16,7 +16,7 @@ type Turn = [x: number, y: number, z: number]
  * Applied in the order z, x, y: z lowers or raises the arm in his own plane, x swings it forward or back,
  * y twists it about its length. Found by test renders of this rig.
  */
-const HANG: Record<'Arm' | 'ForeArm' | 'Hand', Turn> = { Arm: [0.08, -0.45, 0.6], ForeArm: [0.22, -0.55, 0.08], Hand: [0, 0, 0] }
+const HANG: Record<'Arm' | 'ForeArm' | 'Hand', Turn> = { Arm: [-0.1, -0.45, 0.6], ForeArm: [0.14, -0.55, 0.08], Hand: [0, 0, 0] }
 const HELLO: Record<'Arm' | 'ForeArm' | 'Hand', Turn> = { Arm: [0.2, 0, -0.78], ForeArm: [0.1, 0, -1.45], Hand: [0, 0, 0] }
 /** The arm that waves is the one on the open side of the stage, away from the words. */
 const WAVER = SIDE > 0 ? 'Right' : 'Left'

@@ -90,7 +90,7 @@ function box(css: Partial<CSSStyleDeclaration>, tag: 'div' | 'canvas' = 'div') {
 // painted with a gradient from the shade at its spine-side edge to the shade at its outer edge, so the light falls
 // off continuously across the curl instead of in twelve flat steps. A narrow band of sheen runs where the paper
 // rolls over (≈ 55–80°), the way a sheet catches the light at its shoulder. Angle in degrees.
-const dark = (t: number) => (t <= 90 ? 0.75 * (1 - Math.cos(t / DEG)) : 0.7 * (1 + Math.cos(t / DEG)))
+const dark = (t: number) => (t <= 90 ? 0.78 * Math.pow(1 - Math.cos(t / DEG), 0.65) : 0.72 * Math.pow(Math.max(0, 1 + Math.cos(t / DEG)), 0.65))
 const glint = (t: number) => (t <= 90 ? 0.26 * Math.exp(-(((t - 66) / 11) ** 2)) + 0.08 * Math.exp(-(((t - 24) / 16) ** 2)) : 0.16 * Math.exp(-(((t - 148) / 14) ** 2)))
 
 function cast(el: HTMLElement, dir: string, reach: number, alpha: number, height: number, core: number) {
