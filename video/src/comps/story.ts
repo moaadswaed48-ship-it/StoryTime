@@ -54,6 +54,14 @@ const MOVES: Record<string, Move> = {
   k03b: { from: { cx: 0.6, cy: 0.6, zoom: 1.36 }, to: { cx: 0.56, cy: 0.64, zoom: 1.45 }, travel: [-0.014, 0.004] }, // Amir reaches for the paper
   k03c: { from: { cx: 0.4, cy: 0.44, zoom: 1.38 }, to: { cx: 0.37, cy: 0.42, zoom: 1.46 }, travel: [0.014, 0.003], leaves: 16 }, // Sari: wait your turn
   k09b: { from: { cx: 0.54, cy: 0.46, zoom: 1.36 }, to: { cx: 0.6, cy: 0.42, zoom: 1.46 }, travel: [0.016, -0.004], leaves: 60 }, // the boys under the falling leaves
+  k02b: { from: { cx: 0.34, cy: 0.5, zoom: 1.36 }, to: { cx: 0.3, cy: 0.48, zoom: 1.45 }, travel: [0.014, 0.003], leaves: 12 }, // Sari lays the name papers out
+  k02c: { from: { cx: 0.7, cy: 0.6, zoom: 1.36 }, to: { cx: 0.73, cy: 0.58, zoom: 1.45 }, travel: [-0.014, 0.004] }, // Amir and the rows of papers
+  k05b: { from: { cx: 0.36, cy: 0.56, zoom: 1.38 }, to: { cx: 0.4, cy: 0.6, zoom: 1.47 }, travel: [0.014, 0.004], leaves: 14 }, // Sari's stick and the paper
+  k05c: { from: { cx: 0.76, cy: 0.47, zoom: 1.38 }, to: { cx: 0.78, cy: 0.45, zoom: 1.46 }, travel: [-0.014, 0.003], leaves: 14 }, // Amir, delighted
+  k07b: { from: { cx: 0.58, cy: 0.5, zoom: 1.38 }, to: { cx: 0.6, cy: 0.46, zoom: 1.47 }, travel: [0.014, -0.003], leaves: 30 }, // Amir and what he caught
+  k07c: { from: { cx: 0.34, cy: 0.56, zoom: 1.38 }, to: { cx: 0.31, cy: 0.54, zoom: 1.46 }, travel: [-0.014, 0.003], leaves: 30 }, // Sari laughing with him
+  k09c: { from: { cx: 0.3, cy: 0.48, zoom: 1.36 }, to: { cx: 0.26, cy: 0.45, zoom: 1.45 }, travel: [-0.014, 0.004], leaves: 60 }, // the teacher calls them over
+  k10c: { from: { cx: 0.3, cy: 0.46, zoom: 1.36 }, to: { cx: 0.33, cy: 0.43, zoom: 1.45 }, travel: [0.014, 0.003], leaves: 20 }, // crowns and towers of leaves
   k10b: { from: { cx: 0.7, cy: 0.5, zoom: 1.36 }, to: { cx: 0.75, cy: 0.47, zoom: 1.45 }, travel: [0.014, 0.003], leaves: 20 }, // the teacher's crown and the leaf castle
 }
 const FOOT: Record<string, { from: { cx: number; cy: number; zoom: number }; to: { cx: number; cy: number; zoom: number }; leaves: number }> = {

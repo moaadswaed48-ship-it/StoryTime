@@ -166,7 +166,7 @@ const ar = {
       { n: "١٢", l: "مشهدًا في الحكاية" },
       { n: "٣–٦", l: "سنوات" },
       { n: "٣", l: "طرق: قراءة ومشاهدة ولعب" },
-      { n: "٠", l: "إعلانات" },
+      { n: "٢", l: "لغتان: العربية والإنجليزية" },
     ],
   },
   pricing: {
@@ -582,7 +582,7 @@ const en: typeof ar = {
       { n: "12", l: "scenes in the story" },
       { n: "3–6", l: "years old" },
       { n: "3", l: "ways: read, watch, play" },
-      { n: "0", l: "ads" },
+      { n: "2", l: "languages: Arabic and English" },
     ],
   },
   pricing: {

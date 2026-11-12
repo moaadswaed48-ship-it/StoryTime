@@ -150,8 +150,9 @@ async function main() {
       for (;;) {
         const start = next
         if (start >= to) break
-        next = Math.min(to, start + CHUNK)
-        for (let f = start; f < next; f++) {
+        const end = Math.min(to, start + CHUNK)
+        next = end // `next` is shared between workers: loop to this worker's own end, or frames are rendered twice
+        for (let f = start; f < end; f++) {
           await capture(page, f, resolve(framesDir, `f${pad(f - from)}.${ext}`), type)
           done++
           if (done % 48 === 0 || done === count) {

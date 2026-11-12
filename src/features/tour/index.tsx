@@ -117,6 +117,9 @@ export function Tour() {
           const scale = ahead ? 1 - 0.1 * Math.min(r, 3) : 1 + r * 0.12
           const opacity = ahead ? clamp(2.7 - r, 0, 1) : clamp(1 + r * 1.3, 0, 1)
           gsap.set(el, {
+            // the stylesheet's own translate(-50%, -50%) is read by GSAP as pixels: clear it, or the phone is offset twice
+            x: 0,
+            y: 0,
             xPercent: -50 + x * dirSign,
             yPercent: -50 + (ahead ? r * 2 : 0),
             scale,

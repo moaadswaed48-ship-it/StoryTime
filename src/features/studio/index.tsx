@@ -14,7 +14,8 @@ import './studio.css'
 
 const reducedNow = () => document.documentElement.hasAttribute('data-reduce-motion') || window.matchMedia('(prefers-reduced-motion: reduce)').matches
 const two = (n: number) => (n < 10 ? num(0) : '') + num(n)
-const upcoming = library.filter((b) => !b.ready)
+/** One waiting folder per season: enough to show how the next story gets in, without a wall of look-alike cards. */
+const upcoming = (['winter', 'spring', 'summer', 'autumn'] as const).flatMap((season) => library.filter((b) => !b.ready && b.season === season).slice(0, 1))
 
 /** Her manuscript is Arabic. It is shown as she wrote it in both languages of the site, set in the story face. */
 function Hers({ children, className }: { children: string; className?: string }) {
@@ -57,7 +58,7 @@ function Visual({ step }: { step: number }) {
   if (step === 0)
     return (
       <div className="st-vis">
-        <div className="st-sheet">
+        <div className="st-manuscript">
           <Hers className="st-clamp block text-[14.5px] leading-[2.05] text-ink">{first.ar.join(' ')}</Hers>
         </div>
       </div>
@@ -192,7 +193,7 @@ export function Studio() {
           <p id="st-note" role="status" className={cn('mt-4 rounded-[18px] bg-ink px-5 py-4 text-[15.5px] leading-relaxed text-paper', note ? 'view-in block' : 'hidden')} data-st-note>
             {note ? t.app.studio.addNote : ''}
           </p>
-          <ul className="mt-7 grid grid-cols-2 gap-x-4 gap-y-6 sm:grid-cols-3 lg:grid-cols-4 lg:gap-x-6" data-st-next>
+          <ul className="mt-7 grid grid-cols-2 gap-x-4 gap-y-6 lg:grid-cols-4 lg:gap-x-6" data-st-next>
             {upcoming.map((b, i) => (
               <Reveal as="li" key={b.id} delay={Math.min(i, 7) * 50}>
                 <div className="st-folder flex min-h-[132px] flex-col" style={{ '--cloth': b.palette.cloth === '#e9e1d1' ? b.palette.ink : b.palette.cloth } as CSSProperties} data-st-folder={b.id}>
