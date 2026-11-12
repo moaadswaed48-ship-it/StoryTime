@@ -10,7 +10,7 @@ import { clamp, lerp } from '@/lib/clamp'
 import { cn } from '@/lib/cn'
 import { exposeQA } from '@/lib/qa'
 import { beats, LQIP } from './beats'
-import { frameStore, loadMeta, type FrameStore } from './frames'
+import { frameStore, loadMeta, restFrame, type FrameStore } from './frames'
 
 /** Where each beat rests on the scrub runway (0 → 1). */
 const REST = [1 / 6, 1 / 2, 5 / 6]
@@ -272,19 +272,20 @@ export function ScrubStory() {
         const reelTo = s.on ? s.beat : -1
         s.reel += (reelTo - s.reel) * kReel
         if (Math.abs(reelTo - s.reel) < 0.0015) s.reel = reelTo
-        const reelNow = s.reel + (clamp(third - s.beat, 0, 1) - 0.5) * 0.07
-        if (reelNow !== s.reelDrawn) {
-          s.reelDrawn = reelNow
+        const creep = (0.5 - clamp(third - s.beat, 0, 1)) * 0.06 // em: drifts up a touch as the beat plays
+        const reelKey = s.reel * 8 + creep
+        if (reelKey !== s.reelDrawn) {
+          s.reelDrawn = reelKey
           for (let i = 0; i < words.current.length; i++) {
             const el = words.current[i]
             if (!el) continue
-            const d = i - reelNow
+            const d = i - s.reel
             const far = Math.abs(d)
             const o = clamp(1 - far * 1.35, 0, 1)
             el.style.visibility = o < 0.004 ? 'hidden' : 'visible'
             el.style.opacity = o.toFixed(3)
-            el.style.transform = `translate3d(0, ${(d * 0.9).toFixed(4)}em, 0) scale(${(1 - Math.min(far, 1) * 0.05).toFixed(4)})`
-            el.style.filter = far > 0.03 ? `blur(${(far * 16).toFixed(1)}px)` : 'none'
+            el.style.transform = `translate3d(0, ${(d * 0.9 + creep).toFixed(4)}em, 0) scale(${(1 - Math.min(far, 1) * 0.05).toFixed(4)})`
+            el.style.filter = far > 0.01 ? `blur(${(far * 16).toFixed(1)}px)` : 'none'
           }
         }
 
@@ -293,7 +294,8 @@ export function ScrubStory() {
         let moving = Math.abs(target - s.p) > 0.0002 || s.reel !== reelTo
         if (src) {
           const last = src.count - 1
-          const want = Math.round(target * last)
+          // The playhead passes through motion-smeared frames but always comes to rest on a clean one.
+          const want = restFrame(Math.round(target * last), src.count)
           src.playhead = want
           const goal = src.loaded ? src.nearest(want) : want
           s.pos += (goal - s.pos) * k
@@ -315,7 +317,7 @@ export function ScrubStory() {
             mix = bb < 0 ? 0 : Math.round(mix * 64) / 64
           }
           const zoom = 1.05 - 0.05 * s.p + (1 - open) * 0.05
-          const pan = lerp(0.392, 0.452, smooth(0, 0.5, s.p))
+          const pan = lerp(0.405, 0.452, smooth(0, 0.5, s.p))
           const imgA = a >= 0 ? src.images[a] : undefined
           const imgB = bb >= 0 ? src.images[bb] : undefined
           if (imgA && cw > 0 && (a !== s.a || bb !== s.b || mix !== s.mix || Math.abs(zoom - s.zoom) > 0.0004 || Math.abs(pan - s.pan) > 0.0004)) {

@@ -96,6 +96,13 @@ export function Game() {
           flush()
           return useGame.getState().phase === 'playing' && place(i, Math.max(gap, REACH + 0.4))
         },
+        /** The same as tapping paper i: Sari walks to it through the real frame loop and picks it up on arrival. */
+        tap: (i: number) => {
+          const p = rt.papers[i]
+          if (!p || useGame.getState().phase !== 'playing') return false
+          rt.target = { x: p.x, z: p.z }
+          return true
+        },
         answer: (letter: string) => useGame.getState().answer(letter),
         again: () => useGame.getState().again(),
         /** Screenshots: keep the "well done" card on screen until the next walkTo(). */

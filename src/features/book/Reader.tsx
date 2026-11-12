@@ -13,11 +13,12 @@ import { asset } from '@/lib/asset'
 import { cn } from '@/lib/cn'
 import { exposeQA } from '@/lib/qa'
 import { END, FREE_SCENES, clampScene, nextPos, prevPos, stepCount, type Pos } from './logic'
-import { STACK_QUERY, useLagged, useMedia } from './hooks'
+import { STACK_QUERY, useMedia } from './hooks'
 import { Spread, type BookPhase, type SpreadHandle, type TurnReq } from './Spread'
 import { preloadScene } from './pictures'
 import { NO_CLIP, idleHooks } from './qa'
 import { Caption } from './Caption'
+import { Ambient } from './Ambient'
 import { turnSeconds } from './turn'
 
 interface Actions {
@@ -314,7 +315,6 @@ export function Reader({ startScene }: { startScene: number }) {
     }, 90)
   }
 
-  const amb = useLagged(phase !== 'open' || atEnd ? story.coverThumb : story.scenes[scene].thumb, phase !== 'open' || atEnd ? 'cover' : `s${scene}`, 1100)
   const qaPhase = phase !== 'open' ? phase : atEnd ? 'end' : gated ? 'gate' : 'open'
   const isOpen = phase === 'open'
   const canPrev = isOpen && !(scene === 0 && pos.step === 0)
@@ -384,10 +384,7 @@ export function Reader({ startScene }: { startScene: number }) {
       data-turning={turning || undefined}
     >
       <div className="bk-bg" aria-hidden>
-        <div className="bk-amb-box">
-          {amb.prev && <img key={amb.prev.k} className="bk-amb is-out" src={asset(amb.prev.v)} alt="" />}
-          <img key={amb.cur.k} className="bk-amb" src={asset(amb.cur.v)} alt="" />
-        </div>
+        <Ambient src={asset(phase !== 'open' || atEnd ? story.coverThumb : story.scenes[scene].thumb)} />
         <div className="bk-vig grain" />
       </div>
       <div className="bk-leaves" aria-hidden>

@@ -26,23 +26,26 @@ export function Poster({ onStart, pictureRef, touch }: { onStart: () => void; pi
   const Hint = touch ? Gamepad2 : Keyboard
 
   return (
-    <section id="game" className="relative overflow-clip bg-night py-20 sm:py-24 lg:py-28" aria-label={t.game.title}>
+    <section id="game" className="relative overflow-clip bg-night py-14 sm:py-24 lg:py-28" aria-label={t.game.title}>
       <div aria-hidden className="pointer-events-none absolute inset-x-0 top-0 h-[70%] bg-[radial-gradient(ellipse_at_top,rgba(244,163,94,0.08),transparent_70%)]" />
       <Container className="relative">
         <Reveal>
           <div className="game-poster relative isolate overflow-hidden rounded-[28px] bg-night-2 shadow-[0_40px_120px_rgba(0,0,0,0.45)] lg:aspect-[16/9]" data-game-poster>
             <div ref={pictureRef} className="grain relative aspect-[4/3] overflow-hidden sm:aspect-[16/9] lg:absolute lg:inset-0 lg:aspect-auto">
-              <img
-                src={asset(story.scenes[5].img)}
-                alt={story.scenes[5].title[locale]}
-                width={1344}
-                height={752}
-                decoding="async"
-                className="game-poster-img h-full w-full object-cover object-[28%_50%] sm:object-center"
-              />
+              {/* composed for right-to-left reading (words over the school wall); mirrored for English so they never sit on a face */}
+              <span className="game-flip block h-full w-full">
+                <img
+                  src={asset(story.scenes[5].img)}
+                  alt={story.scenes[5].title[locale]}
+                  width={1344}
+                  height={752}
+                  decoding="async"
+                  className="game-poster-img h-full w-full object-cover object-[28%_50%] sm:object-center"
+                />
+              </span>
               {/* text sits on the ground of the picture: a soft rise from the bottom, heavier on the reading side */}
               <div aria-hidden className="absolute inset-0 hidden bg-[linear-gradient(to_top,rgba(18,12,8,0.94)_0%,rgba(18,12,8,0.72)_24%,rgba(18,12,8,0.18)_52%,transparent_68%)] lg:block" />
-              <div aria-hidden className="absolute inset-0 hidden bg-[radial-gradient(ellipse_at_0%_100%,rgba(18,12,8,0.7),transparent_58%)] lg:block rtl:bg-[radial-gradient(ellipse_at_100%_100%,rgba(18,12,8,0.7),transparent_58%)]" />
+              <div aria-hidden className="absolute inset-0 hidden bg-[radial-gradient(ellipse_at_0%_100%,rgba(18,12,8,0.72),transparent_58%)] lg:block rtl:bg-[radial-gradient(ellipse_at_100%_100%,rgba(18,12,8,0.72),transparent_58%)]" />
               <div aria-hidden className="absolute inset-x-0 bottom-0 h-2/5 bg-gradient-to-t from-night-2 to-transparent lg:hidden" />
             </div>
 

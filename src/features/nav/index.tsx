@@ -60,7 +60,7 @@ export function Nav() {
   const setLoggedIn = useSiteStore((s) => s.setLoggedIn)
   const setLoginOpen = useSiteStore((s) => s.setLoginOpen)
 
-  const [scrolled, setScrolled] = useState(false)
+  const [scrolled, setScrolled] = useState(() => typeof window !== 'undefined' && window.scrollY > 80)
   const [menu, setMenu] = useState(false)
   const [active, setActive] = useState<string | null>(null)
   const root = useRef<HTMLElement>(null)

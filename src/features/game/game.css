@@ -1,6 +1,10 @@
 /* The Paper Yard — shapes and keyframes that utilities do not cover. Tokens come from src/index.css. */
 
 /* ── Poster ─────────────────────────────────────────────────────────────────── */
+/* The scene picture is composed for right-to-left reading; in English the whole picture is mirrored. */
+html[dir='ltr'] .game-flip {
+  transform: scaleX(-1);
+}
 .game-title {
   font-weight: 900;
   font-size: clamp(2.6rem, 6.6vw, 6rem);
@@ -148,13 +152,13 @@ html[lang='ar'] .game-title {
 .game-slot {
   display: grid;
   place-items: center;
-  width: 30px;
-  height: 38px;
-  border-radius: 7px;
+  width: 26px;
+  height: 34px;
+  border-radius: 6px;
   border: 1.5px dashed rgb(246 240 228 / 0.42);
   color: var(--color-ink, #1a120b);
   font-weight: 800;
-  font-size: 18px;
+  font-size: 17px;
   line-height: 1;
 }
 @media (min-width: 640px) {
@@ -491,6 +495,14 @@ html[lang='ar'] .game-done-title {
 }
 .game-sheet:active .game-sheet-face {
   filter: brightness(0.96);
+}
+.game-sheet-face {
+  transition:
+    opacity 0.35s var(--ease-state, ease),
+    box-shadow 0.25s var(--ease-state, ease);
+}
+.game-sheet.is-waiting .game-sheet-face {
+  opacity: 0.28;
 }
 .game-sheet.is-gone {
   pointer-events: none;

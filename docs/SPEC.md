@@ -85,7 +85,10 @@ Scene data: `import { story, sceneText, SCENES } from '@/content/story'` → `st
 - `@/design/LazyCanvas`: `<LazyCanvas camera={…} fallback={…}>` — a React-Three-Fiber canvas that mounts near the viewport, pauses off-screen, caps DPR, falls back without WebGL. Fills a positioned parent. One canvas per 3D feature; no shared canvas.
 - `@/design/SariModel`: `<SariModel action="idle" | "run" | "wave" speed={1} />` — 1.1 units tall, feet at y=0, faces +Z, cross-fades between actions. Wrap in `<Suspense>`.
 - `@/design/Leaves`: `<Leaves density={14} ref />` falling-leaf canvas with `ref.current.burst(x, y)`.
-- `@/store/useSiteStore`: `tier`, `lenis`, `overlay: null | 'book' | 'film'`, `startScene`, `openBook(scene?)`, `openFilm(scene?)`, `closeOverlay()`, `loggedIn`, `setLoggedIn`, `loginOpen`, `setLoginOpen`, `sound`, `setSoundOn`.
+- `@/store/useSiteStore`: `tier`, `lenis`, `view`, `picking`, `overlay: null | 'book' | 'film' | 'game'`, `startScene`, `openBook(scene?)`, `openFilm(scene?)`, `openGame()`, `closeOverlay()`, `loggedIn`, `setLoggedIn`, `loginOpen`, `setLoginOpen`, `sound`, `setSoundOn`.
+- `@/app/router`: `go(view)` shows a view (`'landing' | 'home' | 'story' | 'tree' | 'grownups' | 'studio'`), `enterApp(target?)` is the way in from the landing page (asks "who is reading?" the first time). Never call `setView` yourself.
+- `@/store/useProfileStore`: `profile: { name, avatar } | null`, `progress[storyId]: { read, watched, played, scene, letters }`, `classroom`, `setProfile`, `mark(storyId, 'read' | 'watched' | 'played')`, `setScene`, `addLetter`, `setClassroom`, `reset`; helpers `progressOf(storyId)`, `leavesOf(progress)`. Kept in this browser only.
+- `@/content/learning`: `words` (each with the author's own sentence), `questions`, `goals`, `activity` — our draft companion material for the story.
 - `@/i18n/locale`: `locale`, `rtl`, `dirSign`, `num(n)`, `switchLocale()`. `@/i18n/copy`: `t`.
 - `@/audio/synth`: `sfx.pop() / chime() / win() / flip()`, `setSound(on)` (no audio files; silent until sound is on).
 - `@/lib/qa`: `exposeQA({ name: {...} })` → `window.__st.name` in dev or with `?qa=1` (use it for test hooks). `@/lib/seeded`: `mulberry32(seed)`.
@@ -93,7 +96,27 @@ Scene data: `import { story, sceneText, SCENES } from '@/content/story'` → `st
 
 ## 5. Page map and briefs
 
-Order on the page: Nav · Hero · ScrollStory · Library · MeetSari · Game · Parents · Pricing · Author · Footer, plus overlays BookReader, FilmPlayer, AuthModal. Each feature folder exports the named component already stubbed in its `index.tsx` — keep the export name and the section `id`.
+**Two worlds on one page** (`src/App.tsx`, `src/pages/*`):
+- **The landing page** (`view === 'landing'`) is the front door. Its one job is to make the visitor step inside. Order: Nav · Hero · ScrollStory · Library · MeetSari · Tour · Parents · Pricing · Author · Footer.
+- **The app** (every other view, section 8) is the product itself: the child's library, a story's page, the reward tree, the grown-ups' area, the author's desk. The game lives here, not on the landing page.
+- Full-screen experiences sit on top of both: BookReader, FilmPlayer, GameOverlay, AuthModal, Enter.
+
+Each feature folder exports the named component already stubbed in its `index.tsx` — keep the export name and the section `id`.
+
+### 5.0 Changes since the first build (apply them in the fix round)
+
+The owner asked for the site to be organised as a short landing page plus the real app. For the sections already built this means:
+- **nav:** links are `#library`, film (`openFilm()`), `#parents`, `#pricing`; the solid end CTA is `t.app.enter` → `enterApp()` (not "open the book"). The landing nav is only mounted on the landing page.
+- **hero:** unchanged — its two pills open the book and the film straight away.
+- **scrollstory:** beat 3's pill calls `openGame()`.
+- **library:** accept `variant?: 'landing' | 'app'` (in `app` the component renders without its own section heading; the app's home supplies one). In the detail view of the ready book add `t.app.home.open` → `enterApp('story')`, and `play` → `openGame()`.
+- **book:** when the end page is reached call `useProfileStore.getState().mark(story.id, 'read')`; on every scene change call `setScene(story.id, i)`; when a child's name is set show `t.book.forChild` + the name under the dedication; the end page's game button calls `openGame()`. In classroom mode (`classroom === true`) use larger text.
+- **film:** when playback reaches the end call `mark(story.id, 'watched')`.
+- **game:** export **`GameOverlay`** as well — the full-screen play view, mounted once by `App.tsx`, visible when `overlay === 'game'`, `closeOverlay()` on exit. Keep `Game` (the section with the poster): its start button calls `openGame()`. If `profile?.name` is set, add the child's own name as one more paper (first-letter rule in `logic.ts`; skip it if the name is empty or its first letter cannot be decided). Call `addLetter(story.id, letter)` on each right answer and `mark(story.id, 'played')` at the end.
+- **sari:** add one pill `t.game.start` → `openGame()`.
+- **auth:** the success state's button calls `enterApp()`.
+- **author:** add a quiet pill `t.app.grown.studio` → `go('studio')` next to the existing ones.
+- **footer:** links follow the nav; add `t.app.enter` → `enterApp()`.
 
 ### 5.1 `nav` — export `Nav`
 Floating pill navigation (see craft.md "Navigation"). Over the hero: `.glass`; after 80px of scroll: `.glass-ink` so it stays legible on paper sections. Start: wordmark `t.brand`. Centre (≥ lg): links `#library`, film (calls `openFilm()`), `#sari`, `#game`, `#parents`, `#pricing`. End: language pill (`switchLocale`), login/logout (`setLoginOpen(true)` / `setLoggedIn(false)`), solid CTA `t.nav.cta` → `openBook()`. Phone: wordmark + language + menu button → full-screen glass sheet with large links (lock scroll, close on link/Esc). Hidden while `overlay !== null`. z-index 50. Enters first (from above).
@@ -198,3 +221,69 @@ STRINGS: <any new strings you added, ar + en>   (or "none")
 KNOWN ISSUES: <anything not finished or not verified>   (or "none")
 REQUESTS: <anything you need changed in shared files>   (or "none")
 ```
+
+## 8. The app (everything behind "enter the library")
+
+**Why it exists.** The landing page makes the promise; the app keeps it. The author must see a product a kindergarten or a family would really use tomorrow, built around her story, with room for the next ones. The owner will manage it for her. Judge every screen by one question: *would she believe this is real?* Fewer things done beautifully beat many things done thinly; anything not real yet is labelled plainly.
+
+**Feel.** Same film, same type, same single accent as the landing page, but calmer and closer: this is a child's place. Big friendly targets (≥ 56px for a child's finger), few words, pictures first. Light paper ground for browsing (`bg-paper text-ink`), night ground for watching and playing. Motion is gentle and never blocks a tap. Everything works with one thumb at 390×844; desktop gets a comfortable centred layout (max ≈ 1120px), not a stretched phone.
+
+**Data is real.** A child's name, picture and progress are stored in the browser (`useProfileStore`) and survive a reload. Nothing is sent anywhere, and the UI says so where a grown-up would wonder. No invented numbers, reviews or claims; companion material comes from `@/content/learning` and is shown with `t.app.story.draft`.
+
+Words: `t.app.*` (read it first). Add missing strings in your feature's `strings.ts` (`{ ar, en }`), short and simple, and list them in your report.
+
+### 8.1 `enter` — export `Enter`
+The way in. Mounted once by `App.tsx`; visible when `picking === true`.
+- "Who is reading today?" (`t.app.who`): four round pictures to choose from (Sari, Amir, a leaf, a bird — crop the two boys from the scene paintings with `sharp` in `scripts/assets/build-app-art.mjs` → `public/app/avatars/*.webp`; draw leaf and bird as SVG), an optional name field (Arabic or Latin, ≤ 14 characters, trimmed), `go` and a one-tap `guest`. The small line `note` reassures the grown-up.
+- On confirm: `setProfile(...)`, then a short crossing into the library — a moment worth remembering (for example: leaves sweep across the screen and part to reveal the shelf), ≤ 1.2 s, skippable, instant with reduced motion — then `go('home')` (or the target passed to `enterApp`).
+- Full-screen dialog (`z-[90]`, `useOverlayLock`), Esc or backdrop cancels back to the landing page.
+- QA hook `window.__st.enter = { open(), choose(avatar, name), state() }`.
+
+### 8.2 `appnav` — export `AppNav`
+The app's own navigation; the landing nav is not mounted here.
+- Phone: a floating glass tab bar at the bottom (safe-area aware) with three tabs from `t.app.tabs` — library (`go('home')`), my tree (`go('tree')`), grown-ups (`go('grownups')`) — icons + labels, the active one clearly marked; a small top bar with the wordmark (tap → `go('landing')`) and the child's picture and name (tap → `setPicking(true)` to switch reader).
+- Desktop: one floating pill at the top: wordmark · the three tabs · reader chip · language.
+- Hidden while `overlay !== null`. In classroom mode hide the tree tab.
+
+### 8.3 `home` — export `AppHome`
+The child's library.
+- Greeting: `t.app.home.hello` + the name (or `helloGuest`), with the child's picture.
+- "Today's story": one large living card for the real story — its clip playing softly (`film/c08.mp4`, poster `story/k08.webp`), title, a progress ring made of three leaf segments (read / watched / played), main pill `start` or `continue` (→ `openBook(progress.scene)`), second pill `open` → `go('story')`.
+- "All stories": mount `<Library variant="app" />` from `@/features/library` (do not edit that folder; if the prop is not there yet, mount `<Library />`).
+- "My leaves": a compact strip showing how many of the three leaves are earned, → `go('tree')`. Hidden in classroom mode.
+- QA hook `window.__st.home = { state() }`.
+
+### 8.4 `story` — export `StoryPage`
+One story's own page: everything about «أوراق الخريف والطيور المهاجرة» in one place. (Use `story.title`; never retype her title.)
+- Top: a wide living picture (clip over still), the title set large, `story.kicker`, back to the library.
+- **Three doors**, the heart of the page: big cards for read / watch / play (`t.app.story.read|watch|play`), each with its own picture from the story, a line of what is inside, and a `done` leaf once finished. They call `openBook(progress.scene)`, `openFilm(0)`, `openGame()`.
+- **Scenes:** a horizontal strip of the 12 scene pictures with their titles; tapping one opens the book at that scene.
+- **Words from the story** (`words` in `@/content/learning`): cards with the word and a round crop of the scene picture; tapping flips the card to show the author's sentence in `font-story` (her exact words). The flip should feel like turning a small card over.
+- **For parents and teachers** (collapsed by default, clearly a grown-up area): `goals`, `questions` ("talking after reading") and the off-screen `activity`, under the label `t.app.story.draft`.
+- QA hook `window.__st.story = { doors(), flip(id), state() }`.
+
+### 8.5 `tree` — export `MyTree`
+The reward that makes a child come back, taken from the story: leaves.
+- A beautiful bare autumn tree that gains a leaf for each finished activity (read, watched, played — `leavesOf`). Each earned leaf arrives with a small celebration the first time it is seen; unearned ones are faint outlines that say how to earn them (`t.app.tree.go` → the matching door).
+- When all three are earned: the migrating birds cross the sky, and Sari (3D, `<LazyCanvas>` + `<SariModel action="wave">`; picture fallback without WebGL) stands beside the tree wearing a crown of leaves, as the children do in the story (`t.app.tree.all`, `crown`).
+- "Letters I know": the first letters answered correctly in the game (`progress.letters`), as friendly tiles.
+- Calm with nothing earned yet (`empty`), never a wall of locks. QA hook `window.__st.tree = { leaves(), state() }`.
+
+### 8.6 `grownups` — export `GrownUps`
+Where a parent or a teacher looks behind the curtain. Quiet, clear, trustworthy.
+- Gate: `t.app.grown.gate` with a press-and-hold button (≈ 1.5 s, visible progress ring) so a small child does not wander in. Stays open for the rest of the visit.
+- Four tabs (`t.app.grown.tabs`): **progress** (what this child has done in each story: three states, last scene, letters; honest empty state `none`), **classroom mode** (explain it in one line, a real switch bound to `setClassroom`, and `present` → `openBook(0)`), **settings** (language → `switchLocale()`, sound, reduce motion via `writeReduceToggle` + `setReduceToggle`, clear progress with an in-page confirm step), **plan** (`planDemo`, `planSee` → `go('landing')` then scroll to `#pricing`; a link to the author's desk → `go('studio')`).
+- The line `t.app.grown.local` is always visible.
+- QA hook `window.__st.grownups = { unlock(), tab(name), state() }`.
+
+### 8.7 `studio` — export `Studio`
+"The author's desk": a read-only demonstration of how her stories are managed and how the next one gets in. This screen is the owner's sales argument — she writes, he turns the text into book, film and game — so it must look like a tool one would trust with a manuscript.
+- Head: `t.app.studio` eyebrow, title, lede, a visible `demo` badge.
+- The path of a story: four steps (`steps`) as a connected line that draws itself in view.
+- Her story on the desk: the 12 scenes as rows or cards — scene number and title, the first words of her text (verbatim, truncated with an ellipsis by CSS, never edited), the picture thumbnail, and whether the scene has film (`ready`) or a still (`still`). Tapping a row opens the book at that scene.
+- The next stories: the working titles from `@/content/library` that are not ready, as empty folders marked `working` and `waiting`.
+- `add` button that only opens a small note (`addNote`). Nothing is sent, nothing is editable.
+- QA hook `window.__st.studio = { state() }`.
+
+### 8.8 `tour` — export `Tour` (landing section `id="inside"`, built last)
+"Inside StoryTime": the landing page's proof that the app is real. Real screens of the app (captured with Playwright from the finished app into `public/app/shots/*.webp`, phone size, both languages) in device frames that move with scroll, three or four short captions, and one large `t.app.enter` pill → `enterApp()`. No fake UI drawn by hand.

@@ -96,6 +96,9 @@ export class Shelf {
   private ty = 0
   private ttx = 0
   private tty = 0
+  /** Where the bar of light rests on the opened cover (−1…1 across it; beyond ±1 = off the cover). */
+  private lx = 1.5
+  private tlx = 1.5
   private hover = -1
   private awake = 0
   private snap: gsap.core.Tween | null = null
@@ -316,6 +319,7 @@ export class Shelf {
     this.detail = i
     this.hover = -1
     this.tx = this.ty = this.ttx = this.tty = 0
+    this.lx = this.tlx = 1.5
     this.measureSlot()
     this.markOpen(i)
     this.fly?.kill()
@@ -359,8 +363,10 @@ export class Shelf {
   tilt(clientX: number, clientY: number) {
     if (this.detail < 0 || this.closing || this.reduced || !this.fine || !this.els) return
     const r = this.els.slot.getBoundingClientRect()
-    this.ttx = clamp((clientX - (r.left + r.width / 2)) / (r.width * 1.2), -1, 1)
+    const nx = (clientX - (r.left + r.width / 2)) / r.width
+    this.ttx = clamp(nx / 1.2, -1, 1)
     this.tty = clamp((clientY - (r.top + r.height / 2)) / r.height, -1, 1)
+    this.tlx = clamp(nx * 2, -1.5, 1.5) // the light sits under the pointer while it is over the cover
     this.wake()
   }
 
@@ -596,6 +602,7 @@ export class Shelf {
     this.py = ease(this.py, this.tpy)
     this.tx = ease(this.tx, this.ttx)
     this.ty = ease(this.ty, this.tty)
+    this.lx = ease(this.lx, this.tlx)
     for (let i = 0; i < N; i++) live[i].hover = ease(live[i].hover, i === this.hover && !this.drag?.active && this.detail < 0 ? 1 : 0, Math.min(1, k * 1.6))
 
     this.knocks()
@@ -632,7 +639,7 @@ export class Shelf {
           ry = lerp(ry, dirSign * DETAIL_DEG + this.tx * 10, e)
           rx = -this.ty * 7 * e
           s = lerp(1, this.slot.s, e)
-          light = lerp(light, -0.16 + dirSign * this.tx * 0.42, e) - 2.2 * e // one full sweep during the flight
+          light = lerp(light, (dirSign * this.lx) / 3, e) - 2.2 * e // one full sweep during the flight, then it follows the pointer
         } else {
           const ee = smooth(clamp(e * 1.7 - Math.abs(i - this.detail) * 0.035, 0, 1))
           o *= 1 - ee
@@ -647,7 +654,8 @@ export class Shelf {
       }
       const sd = els.shadows[i]
       if (vis) {
-        const t = `translate3d(${x.toFixed(2)}px,${y.toFixed(2)}px,${z.toFixed(2)}px) rotateZ(${rz.toFixed(3)}deg) rotateX(${rx.toFixed(3)}deg) rotateY(${ry.toFixed(3)}deg) scale(${s.toFixed(4)})`
+        const k3 = (s / m.K).toFixed(4)
+        const t = `translate3d(${x.toFixed(2)}px,${y.toFixed(2)}px,${z.toFixed(2)}px) rotateZ(${rz.toFixed(3)}deg) rotateX(${rx.toFixed(3)}deg) rotateY(${ry.toFixed(3)}deg) scale3d(${k3},${k3},${k3})`
         if (t !== w.t) {
           el.style.transform = t
           w.t = t
@@ -658,7 +666,7 @@ export class Shelf {
         const shF = 0.5 * Math.pow(clamp(1 - cs, 0, 1), 1.35)
         const shS = 0.52 * Math.pow(clamp(1 - sn, 0, 1), 1.3)
         const shE = 0.08 + 0.3 * clamp(1 + sn, 0, 1)
-        const sx = dirSign * g.W * 1.5 * light
+        const sx = dirSign * g.W * m.K * 1.5 * light
         if (Math.abs(o - w.o) > 0.003) el.style.setProperty('--o', (w.o = o).toFixed(3))
         if (Math.abs(shF - w.f) > 0.004) el.style.setProperty('--sh-f', (w.f = shF).toFixed(3))
         if (Math.abs(shS - w.s) > 0.004) el.style.setProperty('--sh-s', (w.s = shS).toFixed(3))

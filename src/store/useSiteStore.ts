@@ -4,13 +4,19 @@ import { exposeQA } from '@/lib/qa'
 
 export type MotionTier = 'full' | 'low' | 'reduced'
 /** Only one fullscreen experience is open at a time. */
-export type Overlay = null | 'book' | 'film'
+export type Overlay = null | 'book' | 'film' | 'game'
+/** The landing page is the front door; every other view is a screen of the app itself. */
+export type View = 'landing' | 'home' | 'story' | 'tree' | 'grownups' | 'studio'
 
 interface SiteState {
   tier: MotionTier
   reduceToggle: boolean
   perfLow: boolean
   lenis: Lenis | null
+  /** Which page is showing. Change it with `go()` from `@/app/router`, never directly. */
+  view: View
+  /** True while the "who is reading today?" step is open on the way into the app. */
+  picking: boolean
   overlay: Overlay
   /** Scene (0-based) the book or the film should open at. */
   startScene: number
@@ -23,7 +29,10 @@ interface SiteState {
   setLenis: (lenis: Lenis | null) => void
   openBook: (scene?: number) => void
   openFilm: (scene?: number) => void
+  openGame: () => void
   closeOverlay: () => void
+  setView: (view: View) => void
+  setPicking: (on: boolean) => void
   setLoggedIn: (v: boolean) => void
   setLoginOpen: (v: boolean) => void
   setSoundOn: (v: boolean) => void
@@ -34,6 +43,8 @@ export const useSiteStore = create<SiteState>()((set) => ({
   reduceToggle: false,
   perfLow: false,
   lenis: null,
+  view: 'landing',
+  picking: false,
   overlay: null,
   startScene: 0,
   loggedIn: false,
@@ -45,7 +56,10 @@ export const useSiteStore = create<SiteState>()((set) => ({
   setLenis: (lenis) => set({ lenis }),
   openBook: (scene = 0) => set({ overlay: 'book', startScene: scene }),
   openFilm: (scene = 0) => set({ overlay: 'film', startScene: scene }),
+  openGame: () => set({ overlay: 'game' }),
   closeOverlay: () => set({ overlay: null }),
+  setView: (view) => set({ view }),
+  setPicking: (picking) => set({ picking }),
   setLoggedIn: (loggedIn) => set({ loggedIn }),
   setLoginOpen: (loginOpen) => set({ loginOpen }),
   setSoundOn: (sound) => set({ sound }),

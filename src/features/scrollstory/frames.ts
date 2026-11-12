@@ -33,6 +33,35 @@ export function loadPasses(count: number): number[][] {
 /** Four at a time: over HTTP/1.1 this leaves connections free for the hero film and the pictures around it. */
 const PARALLEL = 4
 
+/**
+ * Frame numbers (1-based, inclusive) where fast motion smears a face in the source film. They are fine in
+ * passing — that is what motion blur is for — but nobody should be left looking at one, so the playhead
+ * never comes to rest inside these ranges. Checked by eye against the 121-frame build of the wind scene.
+ */
+const SMEARED: ReadonlyArray<readonly [number, number]> = [
+  [11, 15],
+  [28, 31],
+  [45, 48],
+  [61, 67],
+  [83, 86],
+  [101, 103],
+  [117, 119],
+]
+
+/** The clean frame nearest to `index` (0-based in and out) for a film of `count` frames. */
+export function restFrame(index: number, count: number): number {
+  if (count !== 121) return index // the list above describes this build only
+  const n = index + 1
+  for (const [from, to] of SMEARED) {
+    if (n < from || n > to) continue
+    const back = from - 1
+    const ahead = to + 1
+    const pick = ahead > count ? back : back < 1 ? ahead : n - back < ahead - n ? back : ahead
+    return pick - 1
+  }
+  return index
+}
+
 export class FrameStore {
   readonly count: number
   readonly images: (HTMLImageElement | undefined)[]

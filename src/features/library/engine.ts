@@ -41,14 +41,22 @@ export interface Metrics {
   bandB: number
   bandH: number
   gap: number
+  /**
+   * Books are laid out K× larger than they stand on the shelf and scaled down by 1/K. Browsers rasterise
+   * layers inside a perspective scene at layout size, so this keeps the cover crisp when it is opened large.
+   */
+  K: number
   phone: boolean
 }
 
-export function computeMetrics(stageW: number, stageH: number): Metrics {
+export function computeMetrics(stageW: number, stageH: number, viewH = stageH / 0.6): Metrics {
   const phone = stageW < 640
   const S = Math.round(Math.min(stageH * 0.7, stageW * (phone ? 0.69 : 0.92), 470))
   const floorY = Math.round(stageH * 0.855)
+  // Height of the detail slot (same numbers as library.css → .lib-detail-slot).
+  const slotH = stageW >= 900 ? Math.min(viewH * 0.66, 600) : Math.min(viewH * 0.4, 330)
   return {
+    K: Math.round(clamp(slotH / S, 1, 1.5) * 100) / 100,
     stageW,
     stageH,
     S,
@@ -141,7 +149,7 @@ export interface LayoutInput {
   focusGain: number
   /** 1 → books stand loose and crooked (just landed), 0 → packed and straight. */
   spread: number
-  /** Extra forward turn of the open book on hover. */
+  /** Pixels the row travels per rank (for the rubber band past the ends). */
   step: number
 }
 

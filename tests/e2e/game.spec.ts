@@ -1,0 +1,156 @@
+import { expect, test, type Page } from '@playwright/test'
+import { pageUrl } from './_url'
+import { scrollToY, waitForHook, watchConsole } from './helpers'
+
+interface PaperInfo {
+  name: string
+  letter: string
+  options: string[]
+  collected: boolean
+}
+
+async function open(page: Page, extra = '') {
+  const log = watchConsole(page)
+  await page.goto(pageUrl('game', extra))
+  await waitForHook(page, 'game')
+  await scrollToY(page, '#game')
+  return log
+}
+const state = (page: Page) => page.evaluate(() => window.__st!.game.state())
+const papers = (page: Page): Promise<PaperInfo[]> => page.evaluate(() => window.__st!.game.papers())
+const worldReady = (page: Page) => page.waitForFunction(() => window.__st!.game.state().ready, null, { timeout: 70_000 })
+
+test('the poster starts the game, the page is locked while playing, Escape brings it back', async ({ page }) => {
+  const log = await open(page)
+  const section = page.locator('#game')
+  await expect(section.getByRole('heading', { level: 2 })).toBeVisible()
+  await expect(section.locator('.game-tag')).toHaveCount(5)
+  await section.locator('[data-game-start]').click()
+  await expect(page.locator('[data-game-play]')).toBeVisible()
+  expect((await state(page)).phase).toBe('playing')
+  expect(await page.evaluate(() => document.documentElement.style.overflow)).toBe('hidden')
+
+  // the yard renders, cheaply
+  await worldReady(page)
+  await page.waitForFunction(() => window.__st!.game.state().drawCalls > 0, null, { timeout: 30_000 })
+  const s = await state(page)
+  expect(s.mode).toBe('3d')
+  expect(s.drawCalls).toBeLessThanOrEqual(60)
+  await expect(page.locator('[data-game-row] li')).toHaveCount(5)
+
+  await page.keyboard.press('Escape')
+  await expect(page.locator('[data-game-play]')).toHaveCount(0)
+  expect((await state(page)).phase).toBe('poster')
+  expect(await page.evaluate(() => document.documentElement.style.overflow)).not.toBe('hidden')
+  log.assertClean()
+})
+
+test('five papers, five first letters: a wrong letter never loses, the right one collects the paper', async ({ page }) => {
+  const log = await open(page)
+  await page.evaluate(() => window.__st!.game.start())
+  const list = await papers(page)
+  expect(list).toHaveLength(5)
+  for (let i = 0; i < list.length; i++) {
+    const p = list[i]
+    expect(p.options).toHaveLength(3)
+    expect(p.options).toContain(p.letter)
+    expect(await page.evaluate((k) => window.__st!.game.walkTo(k), i)).toBe(true)
+    await expect(page.locator('[data-game-name]')).toHaveText(p.name)
+    await expect(page.locator('[data-game-letter]')).toHaveCount(3)
+    if (i === 0) {
+      const bad = p.options.find((l) => l !== p.letter)!
+      expect(await page.evaluate((l) => window.__st!.game.answer(l), bad)).toBe(false)
+      await expect(page.locator(`[data-game-letter="${bad}"]`)).toBeDisabled()
+      await expect(page.locator('[data-game-feedback]')).not.toBeEmpty()
+      const after = await state(page)
+      expect(after.phase).toBe('asking')
+      expect(after.collected).toBe(0)
+    }
+    expect(await page.evaluate((l) => window.__st!.game.answer(l), p.letter)).toBe(true)
+    expect((await state(page)).collected).toBe(i + 1)
+  }
+  await page.waitForFunction(() => window.__st!.game.state().phase === 'done', null, { timeout: 20_000 })
+  await expect(page.locator('[data-game-done]')).toBeVisible()
+  await expect(page.locator('[data-game-row] li.is-full')).toHaveCount(5)
+
+  // "play again" deals a fresh round
+  await page.locator('[data-game-again]').click()
+  const fresh = await state(page)
+  expect(fresh.phase).toBe('playing')
+  expect(fresh.collected).toBe(0)
+  expect(fresh.round).toBe(2)
+  await page.evaluate(() => window.__st!.game.exit())
+  log.assertClean()
+})
+
+test('Sari runs with the keys (and the stick on a phone) and picks a paper up by walking into it', async ({ page, isMobile }) => {
+  const log = await open(page)
+  await page.evaluate(() => window.__st!.game.start())
+  await worldReady(page)
+
+  const start = (await state(page)).sari
+  await page.keyboard.down('ArrowUp')
+  await page.waitForFunction((z) => window.__st!.game.state().sari.z < z - 0.2, start.z, { timeout: 70_000 })
+  await page.keyboard.up('ArrowUp')
+  expect((await state(page)).phase).toBe('playing')
+
+  if (isMobile) {
+    const box = (await page.locator('[data-game-stick]').boundingBox())!
+    const cx = box.x + box.width / 2
+    const cy = box.y + box.height / 2
+    const from = (await state(page)).sari
+    await page.mouse.move(cx, cy)
+    await page.mouse.down()
+    await page.mouse.move(cx + 44, cy, { steps: 4 })
+    await page.waitForFunction((x) => window.__st!.game.state().sari.x > x + 0.2, from.x, { timeout: 70_000 })
+    await page.mouse.up()
+  }
+
+  // a few steps from a paper, then the real walk: frame loop, collision, question
+  const target = (await state(page)).next
+  expect(target).toBeGreaterThanOrEqual(0)
+  expect(await page.evaluate((k) => window.__st!.game.near(k, 1.7), target)).toBe(true)
+  expect((await state(page)).phase).toBe('playing')
+  expect(await page.evaluate((k) => window.__st!.game.tap(k), target)).toBe(true)
+  await page.waitForFunction(() => window.__st!.game.state().phase === 'asking', null, { timeout: 70_000 })
+  expect((await state(page)).current).toBe(target)
+  await expect(page.locator('[data-game-question]')).toBeVisible()
+  await page.evaluate(() => window.__st!.game.exit())
+  log.assertClean()
+})
+
+test('after the last name, "read the story" closes the game and opens the book', async ({ page }) => {
+  const log = await open(page)
+  await page.evaluate(() => window.__st!.game.start())
+  const list = await papers(page)
+  for (let i = 0; i < list.length; i++) {
+    await page.evaluate((k) => window.__st!.game.walkTo(k), i)
+    await page.evaluate((l) => window.__st!.game.answer(l), list[i].letter)
+  }
+  await page.waitForFunction(() => window.__st!.game.state().phase === 'done', null, { timeout: 20_000 })
+  await page.locator('[data-game-read]').click()
+  await expect(page.locator('[data-game-play]')).toHaveCount(0)
+  expect(await page.evaluate(() => window.__st!.store.getState().overlay)).toBe('book')
+  expect(await page.evaluate(() => window.__st!.store.getState().startScene)).toBe(0)
+  expect((await state(page)).phase).toBe('poster')
+  await page.evaluate(() => window.__st!.store.getState().closeOverlay())
+  log.assertClean()
+})
+
+test('without WebGL the same quiz is played by tapping the papers', async ({ page }) => {
+  const log = await open(page, '&nowebgl')
+  await page.locator('#game [data-game-start]').click()
+  await expect(page.locator('[data-game-cards]')).toBeVisible()
+  expect((await state(page)).mode).toBe('cards')
+  const list = await papers(page)
+  for (let i = 0; i < list.length; i++) {
+    await page.locator(`[data-game-sheet="${i}"]`).click()
+    await expect(page.locator('[data-game-name]')).toHaveText(list[i].name)
+    await page.locator(`[data-game-letter="${list[i].letter}"]`).click()
+    await page.waitForFunction((n) => window.__st!.game.state().collected === n && window.__st!.game.state().phase !== 'right', i + 1, { timeout: 20_000 })
+  }
+  await expect(page.locator('[data-game-done]')).toBeVisible()
+  expect((await state(page)).phase).toBe('done')
+  await page.evaluate(() => window.__st!.game.exit())
+  log.assertClean()
+})

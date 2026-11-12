@@ -250,7 +250,7 @@ export function Tree() {
   const crown = useDisposable(() => new THREE.Mesh(canopyGeometry(), new THREE.MeshLambertMaterial({ vertexColors: true, emissive: '#6e2f0d' })))
   const leaves = useDisposable(() => {
     const rnd = mulberry32(17)
-    const total = 1250
+    const total = 1600
     const sum = BLOBS.reduce((n, b) => n + b[3] * b[3], 0)
     const geo = new THREE.PlaneGeometry(1, 1)
     const mat = new THREE.MeshBasicMaterial({ map: leafTexture(), alphaTest: 0.4, side: THREE.DoubleSide })

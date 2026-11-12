@@ -122,9 +122,11 @@ export function Player() {
       if (!v) return
       const max = (Number.isFinite(v.duration) ? v.duration : (live.tl?.duration ?? 0)) - 0.05
       const to = clamp(time, 0, Math.max(0, max))
+      const finished = v.ended
       if (v.seeking) pendingSeek.current = to
       else v.currentTime = to
       setEnded(false)
+      if (finished) v.play().catch(() => {}) // scrubbing back from the end card picks the film up again
     },
     [],
   )

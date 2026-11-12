@@ -1,19 +1,20 @@
 import { Providers } from '@/app/Providers'
-import { Nav } from '@/features/nav'
-import { Hero } from '@/features/hero'
-import { ScrollStory } from '@/features/scrollstory'
-import { Library } from '@/features/library'
-import { MeetSari } from '@/features/sari'
-import { Game } from '@/features/game'
-import { Parents } from '@/features/parents'
-import { Pricing } from '@/features/pricing'
-import { Author } from '@/features/author'
-import { Footer } from '@/features/footer'
+import { useRouter } from '@/app/router'
+import { useSiteStore } from '@/store/useSiteStore'
+import { Landing } from '@/pages/Landing'
+import { AppShell } from '@/pages/AppShell'
+import { Enter } from '@/features/enter'
 import { BookReader } from '@/features/book'
 import { FilmPlayer } from '@/features/film'
 import { AuthModal } from '@/features/auth'
 
-/** One long scroll: film hero → scroll story → library shelf → Sari → game → parents → plans → author → footer. */
+function Views() {
+  useRouter()
+  const view = useSiteStore((s) => s.view)
+  return view === 'landing' ? <Landing /> : <AppShell view={view} />
+}
+
+/** Two worlds on one page: the landing page (front door) and the app behind it. Full-screen experiences sit on top of both. */
 export default function App() {
   return (
     <Providers>
@@ -21,18 +22,8 @@ export default function App() {
         <a href="#main" className="sr-only focus:not-sr-only focus:fixed focus:start-4 focus:top-4 focus:z-[100] focus:rounded-full focus:bg-paper focus:px-4 focus:py-2 focus:text-ink">
           ↓
         </a>
-        <Nav />
-        <main id="main">
-          <Hero />
-          <ScrollStory />
-          <Library />
-          <MeetSari />
-          <Game />
-          <Parents />
-          <Pricing />
-          <Author />
-        </main>
-        <Footer />
+        <Views />
+        <Enter />
         <BookReader />
         <FilmPlayer />
         <AuthModal />

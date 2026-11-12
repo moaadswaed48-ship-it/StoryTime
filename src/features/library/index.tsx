@@ -21,7 +21,7 @@ function guessMetrics(): Metrics {
   const w = typeof window === 'undefined' ? 1440 : window.innerWidth
   const h = typeof window === 'undefined' ? 900 : window.innerHeight
   const stageH = w < 640 ? Math.min(460, Math.max(410, h * 0.52)) : Math.min(640, Math.max(460, h * 0.64))
-  return computeMetrics(w, Math.round(stageH))
+  return computeMetrics(w, Math.round(stageH), h)
 }
 
 /** Arrow that points toward the previous / next book whatever the reading direction. */
@@ -103,7 +103,7 @@ export function Library() {
     const measure = () => {
       const w = stage.clientWidth
       const h = stage.clientHeight
-      if (w && h) setMetrics((prev) => (prev.stageW === w && prev.stageH === h ? prev : computeMetrics(w, h)))
+      if (w && h) setMetrics((prev) => (prev.stageW === w && prev.stageH === h ? prev : computeMetrics(w, h, window.innerHeight)))
     }
     measure()
     const ro = new ResizeObserver(measure)
@@ -187,10 +187,6 @@ export function Library() {
 
   return (
     <section ref={sectionRef} id="library" className={cn('sheet bg-paper text-ink lib', detail !== null && 'is-detail', waiting && 'is-waiting')}>
-      <span className="lib-ghost" aria-hidden>
-        {t.library.filters[dBook.season]}
-      </span>
-
       <Container className="lib-chrome pt-24 lg:pt-28">
         <div className="flex flex-col gap-7 lg:flex-row lg:items-end lg:justify-between lg:gap-12">
           <SectionHead tone="light" eyebrow={t.library.eyebrow} title={t.library.title} lede={t.library.lede} />
@@ -282,7 +278,7 @@ export function Library() {
               <span className="lib-detail-shadow" aria-hidden />
             </div>
             <div className="lib-detail-text">
-              <button ref={backRef} type="button" className="lib-back" data-d style={d(0)} onClick={close}>
+              <button ref={backRef} type="button" className="lib-return" data-d style={d(0)} onClick={close}>
                 <span>
                   <Arrow />
                 </span>
@@ -290,11 +286,15 @@ export function Library() {
               </button>
               <p className="mt-6 flex flex-wrap items-center gap-x-3 gap-y-1 lg:mt-9" data-d style={d(1)}>
                 <span className="t-label text-maple">{t.library.filters[dBook.season]}</span>
-                <span className="h-1 w-1 rounded-full bg-ink/30" aria-hidden />
-                <span className={cn('lib-status text-[14px] font-semibold', dBook.ready ? 'text-ink-2' : 'is-soon text-muted')}>
-                  <i aria-hidden />
-                  {dBook.ready ? t.library.ready : t.library.soon}
-                </span>
+                {dBook.ready && (
+                  <>
+                    <span className="h-1 w-1 rounded-full bg-ink/30" aria-hidden />
+                    <span className="lib-status text-[14px] font-semibold text-ink-2">
+                      <i aria-hidden />
+                      {t.library.ready}
+                    </span>
+                  </>
+                )}
               </p>
               <BlurWords key={`${dBook.id}-${shown.seq}`} as="h3" text={dBook.title[locale]} immediate={detail !== null} delay={260} className="lib-detail-title mt-3 block lg:mt-4" />
               {dBook.ready ? (

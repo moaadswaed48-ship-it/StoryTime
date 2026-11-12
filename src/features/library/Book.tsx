@@ -146,23 +146,23 @@ function ReadyCover({ book }: { book: ShelfBook }) {
 }
 
 /* ── Spine ── */
-function Spine({ book, g, m, tn }: { book: ShelfBook; g: Geom; m: Metrics; tn: Tones }) {
+function Spine({ book, g, m, tn }: { book: ShelfBook; g: Box; m: Box & { S: number; bandB: number; bandH: number }; tn: Tones }) {
   const title = book.title[locale]
   const bandTop = book.ready ? m.S * 0.07 : m.bandB + m.bandH
   // Room left for the vertical title between the emblem block and the band.
-  const room = g.H - (g.T * 0.2 + 5 + g.T * 0.86 + 1) - bandTop - 22
-  const single = Math.min(g.T * 0.37, 23, room / (ADV * title.length))
+  const room = g.H - (g.T * 0.2 + 5 * m.K + g.T * 0.86 + 1) - bandTop - 22 * m.K
+  const single = Math.min(g.T * 0.37, 23 * m.K, room / (ADV * title.length))
   const two = twoLines(title)
   const useTwo = two.length === 2 && single < g.T * 0.27
   const lines = useTwo ? two : [title]
   const size = useTwo ? Math.min(g.T * 0.3, room / (ADV * Math.max(two[0].length, two[1]!.length))) : single
   const soon = t.library.soon
   // The band text only when it can be read on this spine; otherwise the band carries a dot.
-  const bandText = !book.ready && g.T >= (locale === 'ar' ? 42 : 46)
+  const bandText = !book.ready && g.T / m.K >= (locale === 'ar' ? 42 : 46)
   return (
     <>
       <span className="lib-round" />
-      <div className="lib-spine-in" style={{ paddingBottom: bandTop + 12 }}>
+      <div className="lib-spine-in" style={{ paddingBottom: bandTop + 12 * m.K }}>
         <span className="lib-rule2" />
         <Emblem book={book} id={`lg-${book.id}-s`} tn={tn} className="lib-semblem" />
         <span className="lib-rule1" />
@@ -193,6 +193,14 @@ function Spine({ book, g, m, tn }: { book: ShelfBook; g: Geom; m: Metrics; tn: T
   )
 }
 
+/** A box in layout pixels (already multiplied by the scene's K). */
+interface Box {
+  W: number
+  H: number
+  T: number
+  K: number
+}
+
 interface BookProps {
   book: ShelfBook
   g: Geom
@@ -206,23 +214,27 @@ interface BookProps {
  * One book as a real box: front board, back board, spine, page block (fore-edge and top).
  * Its transform, opacity and light (`--o`, `--sh-*`, `--sx`) are written every frame by the shelf loop.
  */
-export const Book = memo(function Book({ book, g, m, i, selected, setRef }: BookProps) {
+export const Book = memo(function Book({ book, g: geom, m, i, selected, setRef }: BookProps) {
   const tn = tones(book)
+  const K = m.K
+  const g: Box = { W: geom.W * K, H: geom.H * K, T: geom.T * K, K }
+  const sm = { ...g, S: m.S * K, bandB: m.bandB * K, bandH: m.bandH * K }
   const status = book.ready ? t.library.ready : t.library.soon
   const style = {
     width: g.W,
     height: g.H,
     marginLeft: -g.W / 2,
     top: m.floorY - g.H,
+    '--k': K,
     '--u': `${(g.W / 100).toFixed(3)}px`,
-    '--T': `${g.T}px`,
+    '--T': `${g.T.toFixed(2)}px`,
     '--cloth': tn.cloth,
     '--foil': tn.foil,
     '--foil-hi': tn.hi,
     '--foil-lo': tn.lo,
     '--glint': tn.glint,
-    '--band-b': `${m.bandB}px`,
-    '--band-h': `${m.bandH}px`,
+    '--band-b': `${sm.bandB.toFixed(2)}px`,
+    '--band-h': `${sm.bandH.toFixed(2)}px`,
     '--sp': `${(dirSign * g.W * 3.3).toFixed(1)}px`,
   } as CSSProperties
   const half = g.T / 2
@@ -240,11 +252,9 @@ export const Book = memo(function Book({ book, g, m, i, selected, setRef }: Book
       <div className="lib-face lib-front" aria-hidden style={{ transform: `translateZ(${half}px)` }}>
         {book.ready ? <ReadyCover book={book} /> : <SeriesCover book={book} tn={tn} />}
       </div>
-      <div className="lib-face lib-back lib-cloth" aria-hidden style={{ transform: `rotateY(180deg) translateZ(${half}px)` }}>
-        {!book.ready && <div className="lib-band" />}
-      </div>
+      <div className="lib-face lib-back" aria-hidden style={{ transform: `rotateY(180deg) translateZ(${half}px)` }} />
       <div className="lib-face lib-spine lib-cloth" aria-hidden style={{ width: g.T, marginLeft: -half, transform: `rotateY(${SPINE_SIDE * 90}deg) translateZ(${g.W / 2}px)` }}>
-        <Spine book={book} g={g} m={m} tn={tn} />
+        <Spine book={book} g={g} m={sm} tn={tn} />
       </div>
       <div className="lib-face lib-fore" aria-hidden style={{ width: g.T, marginLeft: -half, transform: `rotateY(${-SPINE_SIDE * 90}deg) translateZ(${g.W / 2 - 1}px)` }} />
       <div className="lib-face lib-top" aria-hidden style={{ height: g.T, top: -half, transform: 'rotateX(90deg)' }} />

@@ -32,8 +32,8 @@ export interface SpreadHandle {
 
 const BLUR = 14 // px, the frosted picture behind the paywall card (keep in step with .bk-page[data-blur])
 const COVER_T = 4 // px, thickness of the cover board
-const RX0 = 7
-const RY0 = rtl ? 24 : -24
+const RX0 = 9
+const RY0 = rtl ? 27 : -27
 const smooth = (v: number) => {
   const x = v < 0 ? 0 : v > 1 ? 1 : v
   return x * x * (3 - 2 * x)
@@ -171,6 +171,7 @@ export const Spread = forwardRef<SpreadHandle, Props>(function Spread({ phase, s
   const now = useRef({ scene, step, blurred })
   now.current = { scene, step, blurred }
   const pose = useRef({ x: 0, y: 0, s: 1, rx: RX0, ry: RY0 })
+  const eye = useRef({ x: 0, y: 0 })
   const hold = useRef<number | null>(null)
   const turnH = useRef<TurnHandle | null>(null)
   const turnNo = useRef(0)
@@ -282,6 +283,9 @@ export const Spread = forwardRef<SpreadHandle, Props>(function Spread({ phase, s
       pose.current.x = g.left + g.width / 2 - (sc.left + sc.width / 2 + (rtl ? -1 : 1) * 0.375 * sc.height)
       pose.current.y = g.top + g.height / 2 - (sc.top + sc.height / 2)
       pose.current.s = g.height / sc.height
+      // Look at the floating book head-on: the vanishing point sits on the book, not on the middle of the spread.
+      eye.current = { x: g.left + g.width / 2 - sc.left, y: g.top + g.height / 2 - sc.top }
+      sceneEl.current!.style.perspectiveOrigin = `${eye.current.x.toFixed(1)}px ${eye.current.y.toFixed(1)}px`
       return true
     }
     const write = (dy = 0, ds = 1) => {
@@ -371,8 +375,10 @@ export const Spread = forwardRef<SpreadHandle, Props>(function Spread({ phase, s
     const st = { pose: 1, cover: 0, widen: 0 }
     const sgn = rtl ? 1 : -1
     const RR = parseFloat(getComputedStyle(b).getPropertyValue('--rr')) || 18
+    const eye0 = { ...eye.current }
     const apply = () => {
       const p = st.pose
+      sceneEl.current!.style.perspectiveOrigin = `${(W / 2 + (eye0.x - W / 2) * p).toFixed(1)}px ${(H / 2 + (eye0.y - H / 2) * p).toFixed(1)}px`
       b.style.transform = `translate3d(${(from.x * p).toFixed(2)}px, ${(from.y * p).toFixed(2)}px, 0) scale(${(1 + (from.s - 1) * p).toFixed(4)}) rotateX(${(from.rx * p).toFixed(2)}deg) rotateY(${(from.ry * p).toFixed(2)}deg)`
       const c = st.cover
       // The hinge sinks by the board's thickness, so the opened cover ends up lying in the plane of the pages.
@@ -403,6 +409,7 @@ export const Spread = forwardRef<SpreadHandle, Props>(function Spread({ phase, s
   useLayoutEffect(() => {
     if (phase !== 'open') return
     const b = book.current!
+    sceneEl.current!.style.perspectiveOrigin = ''
     b.style.transform = ''
     b.style.removeProperty('--bw')
     b.style.removeProperty('--r')

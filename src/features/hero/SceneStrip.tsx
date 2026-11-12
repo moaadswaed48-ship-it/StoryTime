@@ -93,7 +93,7 @@ function SceneCard({ index, order, live, clash, reduced, register }: { index: nu
         />
       )}
       <span className="hero-card__shade" />
-      <span className="hero-card__play glass">
+      <span className="hero-card__play">
         <Play size={12} fill="currentColor" strokeWidth={0} aria-hidden />
       </span>
       <span className="hero-card__meta">

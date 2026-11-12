@@ -158,11 +158,20 @@ html[lang='ar'] .film-title__name {
   max-width: 64%;
 }
 /* While the controls are up, the title steps above them (same move as the captions). */
+.film-frame .film-title {
+  transform-origin: 0% 100%;
+}
+html[dir='rtl'] .film-frame .film-title {
+  transform-origin: 100% 100%;
+}
 .film-stage.has-ui .film-frame .film-title:not(.is-off) {
-  transform: translateY(calc(-1 * var(--dock) + 2cqw));
+  transform: translateY(calc(-1 * var(--dock) + 1.2cqw)) scale(0.76);
 }
 .film-frame .film-title__name {
   font-size: clamp(2rem, 5.9cqw, 5.6rem);
+}
+html[lang='en'] .film-frame .film-title__name {
+  font-size: clamp(1.9rem, 5cqw, 4.8rem);
 }
 
 /* ── captions: her words, in the story face ─────────────────────────────────── */
@@ -175,6 +184,9 @@ html[lang='ar'] .film-title__name {
 }
 html[lang='ar'] .film-cue {
   line-height: 1.85;
+}
+html[lang='en'] .film-cue {
+  line-height: 1.32;
 }
 .film-cue.is-leaving {
   opacity: 0;
@@ -610,15 +622,15 @@ html[dir='rtl'] .film-unmute {
   width: 112%;
   height: 112%;
   object-fit: cover;
-  filter: blur(22px) saturate(1.1);
-  opacity: 0.5;
+  filter: blur(20px) saturate(1.15);
+  opacity: 0.74;
 }
 .film-end__back::before {
   content: '';
   position: absolute;
   z-index: 1;
   inset: 0;
-  background: radial-gradient(75% 85% at 50% 46%, rgba(12, 8, 5, 0.2), rgba(12, 8, 5, 0.82));
+  background: radial-gradient(80% 90% at 50% 44%, rgba(12, 8, 5, 0.34), rgba(12, 8, 5, 0.86));
 }
 .film-end__word {
   font-weight: 900;
@@ -715,6 +727,17 @@ html[lang='ar'] .film-end__word {
   .film-bigplay {
     width: 64px;
     height: 64px;
+  }
+  /* The end: the last picture stays clear on top, the words sit below it. */
+  .film-end__back img {
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    filter: none;
+    opacity: 0.9;
+  }
+  .film-end__back::before {
+    background: linear-gradient(to bottom, rgba(5, 3, 2, 0) 55%, rgba(5, 3, 2, 0.9));
   }
   .film-top {
     width: 100%;

@@ -65,7 +65,7 @@ export function PlayView({ from, touch }: { from: DOMRect | null; touch: boolean
     Object.assign(el.style, { left: `${r.left}px`, top: `${r.top}px`, width: `${r.width}px`, height: `${r.height}px`, borderRadius: '28px' })
     const scale = Math.max(vw / r.width, vh / r.height) * 1.03
     // on a tall phone end on Sari, not on the gap between the boys
-    const focus = vw < vh ? 0.27 : 0.5
+    const focus = vw < vh ? 0.5 + dirSign * 0.23 : 0.5
     const tween = gsap.fromTo(
       el,
       { x: 0, y: 0, scale: 1 },
@@ -160,7 +160,9 @@ export function PlayView({ from, touch }: { from: DOMRect | null; touch: boolean
       </div>
 
       <div ref={curtain} className={cn('game-curtain', veil && 'is-gone')} aria-hidden>
-        <img src={PICTURE} alt="" className="object-[28%_50%] sm:object-center" />
+        <span className="game-flip block h-full w-full">
+          <img src={PICTURE} alt="" className="object-[28%_50%] sm:object-center" />
+        </span>
         {grown && !veil && (
           <span className="game-loader">
             <i />
@@ -195,12 +197,12 @@ function Hud({ slots, waiting, onExit }: { slots: RefObject<(HTMLLIElement | nul
   }
   return (
     <div
-      className={cn('game-hud pointer-events-none absolute inset-x-0 top-0 z-[45] flex items-start justify-between gap-3 px-4 sm:px-6', waiting && 'is-waiting')}
+      className={cn('game-hud pointer-events-none absolute inset-x-0 top-0 z-[45] flex items-start justify-between gap-2 px-3 sm:gap-3 sm:px-6', waiting && 'is-waiting')}
       style={{ paddingTop: 'max(16px, env(safe-area-inset-top))' }}
     >
-      <div className="glass-ink pointer-events-auto flex h-14 items-center gap-3 rounded-full ps-3 pe-4 sm:h-16 sm:gap-4 sm:ps-5 sm:pe-5">
+      <div className="glass-ink pointer-events-auto flex h-12 items-center gap-2 rounded-full ps-2.5 pe-3 sm:h-16 sm:gap-4 sm:ps-5 sm:pe-5">
         <span className="t-label hidden text-paper/70 sm:block">{t.game.papers}</span>
-        <ol className="flex gap-1.5 sm:gap-2" aria-label={`${t.game.papers} ${num(count)} / ${num(papers.length)}`} data-game-row>
+        <ol className="flex gap-[5px] sm:gap-2" aria-label={`${t.game.papers} ${num(count)} / ${num(papers.length)}`} data-game-row>
           {papers.map((p, i) => (
             <li
               key={p.id}
@@ -215,17 +217,17 @@ function Hud({ slots, waiting, onExit }: { slots: RefObject<(HTMLLIElement | nul
             </li>
           ))}
         </ol>
-        <span className="min-w-[2.6rem] text-center text-[15px] font-semibold tabular-nums text-paper/85" dir="ltr">
+        <span className="min-w-[2.3rem] text-center text-[14px] font-semibold tabular-nums text-paper/85 sm:min-w-[2.6rem] sm:text-[15px]" dir="ltr">
           {num(count)} / {num(papers.length)}
         </span>
       </div>
-      <div className="pointer-events-auto flex gap-2">
+      <div className="pointer-events-auto flex gap-1.5 sm:gap-2">
         <button
           type="button"
           onClick={toggleSound}
           aria-label={t.nav.sound}
           aria-pressed={sound}
-          className="glass-ink grid h-14 w-14 place-items-center rounded-full text-paper transition-transform duration-200 active:scale-[0.95] sm:h-16 sm:w-16"
+          className="glass-ink grid h-12 w-12 place-items-center rounded-full text-paper transition-transform duration-200 active:scale-[0.95] sm:h-16 sm:w-16"
         >
           {sound ? <Volume2 size={22} aria-hidden /> : <VolumeX size={22} aria-hidden />}
         </button>
@@ -234,7 +236,7 @@ function Hud({ slots, waiting, onExit }: { slots: RefObject<(HTMLLIElement | nul
           onClick={onExit}
           aria-label={t.game.exit}
           data-game-exit
-          className="glass-ink inline-flex h-14 items-center justify-center gap-2.5 rounded-full px-[17px] text-[15px] font-semibold text-paper transition-transform duration-200 active:scale-[0.95] sm:h-16 sm:px-6"
+          className="glass-ink inline-flex h-12 min-w-12 items-center justify-center gap-2.5 rounded-full px-[13px] text-[15px] font-semibold text-paper transition-transform duration-200 active:scale-[0.95] sm:h-16 sm:px-6"
         >
           <X size={22} aria-hidden />
           <span className="hidden sm:inline">{t.game.exit}</span>
@@ -327,7 +329,7 @@ function Hint({ touch, cards }: { touch: boolean; cards: boolean }) {
     )
   if (touch)
     return (
-      <p className={cn(base, 'bottom-[max(72px,calc(env(safe-area-inset-bottom)+46px))] end-4 h-12 max-w-[11.5rem] px-4 leading-tight', rest && 'opacity-0')}>
+      <p className={cn(base, 'bottom-[calc(max(26px,env(safe-area-inset-bottom))+152px)] start-5 h-11 whitespace-nowrap px-4', rest && 'opacity-0')}>
         <Gamepad2 size={18} aria-hidden className="shrink-0 text-maple-soft" />
         {t.game.move}
       </p>
@@ -454,7 +456,7 @@ function QuestionCard({ slots, burst }: { slots: RefObject<(HTMLLIElement | null
         <p className="game-name" lang={locale} data-game-name>
           {paper.name}
         </p>
-        <h3 id="game-question" className="mt-5 text-[clamp(1.15rem,2.2vw,1.5rem)] font-semibold leading-snug text-ink-2">
+        <h3 id="game-question" className="mt-5 text-[clamp(1.15rem,2.2vw,1.5rem)] font-semibold leading-snug text-ink-2 [text-wrap:balance]">
           {t.game.question}
         </h3>
         <div className="mt-6 grid grid-cols-3 gap-3 sm:gap-4">
@@ -543,12 +545,13 @@ function SariFace({ className }: { className?: string }) {
 
 /* ── Without WebGL: the same quiz, nobody is left out ───────────────────────── */
 
+// places that leave the boys' faces in the picture free (landscape x/y, portrait xm/ym, in % of the screen)
 const SPOTS = [
-  { x: 16, y: 43, xm: 27, ym: 29 },
-  { x: 33, y: 67, xm: 72, ym: 37 },
-  { x: 50, y: 41, xm: 29, ym: 52 },
-  { x: 67, y: 67, xm: 71, ym: 61 },
-  { x: 84, y: 44, xm: 45, ym: 74 },
+  { x: 11, y: 44, xm: 26, ym: 27 },
+  { x: 36, y: 70, xm: 74, ym: 36 },
+  { x: 47, y: 30, xm: 27, ym: 53 },
+  { x: 69, y: 70, xm: 72, ym: 62 },
+  { x: 87, y: 42, xm: 44, ym: 76 },
 ]
 
 function CardsYard() {
@@ -561,7 +564,9 @@ function CardsYard() {
   const spots = useMemo(() => shuffle(SPOTS, mulberry32(round * 13 + 5)), [round])
   return (
     <div className="absolute inset-0 overflow-hidden" data-game-cards>
-      <img src={PICTURE} alt="" className="absolute inset-0 h-full w-full scale-[1.06] object-cover object-[27%_50%] blur-[3px] sm:object-center" />
+      <span className="game-flip absolute inset-0 block">
+        <img src={PICTURE} alt="" className="h-full w-full scale-[1.06] object-cover object-[27%_50%] blur-[3px] sm:object-center" />
+      </span>
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_45%,rgba(18,12,8,0.2),rgba(18,12,8,0.62))]" aria-hidden />
       {papers.map((p, i) => {
         const s = spots[i % spots.length]
@@ -576,7 +581,7 @@ function CardsYard() {
               sfx.pop()
               touchPaper(i)
             }}
-            className={cn('game-sheet', gone && 'is-gone')}
+            className={cn('game-sheet', gone && 'is-gone', !gone && phase !== 'playing' && 'is-waiting')}
             style={{ '--x': `${s.x}%`, '--y': `${s.y}%`, '--xm': `${s.xm}%`, '--ym': `${s.ym}%`, '--i': i, '--r': `${TILT[i % TILT.length] * 1.4}deg` } as CSSProperties}
             data-game-sheet={i}
           >

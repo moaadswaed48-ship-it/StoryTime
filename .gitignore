@@ -10,8 +10,10 @@ playwright-report
 .env.*
 assets-src/story/*.png
 
-# third-party skill with its own media/examples licence — kept local, not redistributed
-.claude/skills/motionsites-web-builder/
+# third-party skill: only its MIT-licensed design references are kept in the repository (examples and media are not)
+.claude/skills/motionsites-web-builder/*
+!.claude/skills/motionsites-web-builder/references/
+!.claude/skills/motionsites-web-builder/LICENSE
 # generated originals (large) — only the full-quality master clips are kept in the repository
 assets-src/film/*
 !assets-src/film/master/

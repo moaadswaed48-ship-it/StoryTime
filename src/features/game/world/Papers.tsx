@@ -68,7 +68,7 @@ function PaperItem({ index, name }: { index: number; name: string }) {
     m.rotation.set(-0.3 + Math.sin(st.t * 1.6) * 0.12 * (1 + gust), Math.sin(st.t * 0.8) * 0.55 * (1 - k) + k * Math.PI * 2, Math.sin(st.t * 2.2) * 0.15 * (1 + gust * 2) * (1 - k))
     m.scale.setScalar(1 + k * 1.3)
     // a paper right under the lens would fill the screen: let it fade as the camera passes over it
-    const close = picked ? 1 : smooth(1.2, 2.6, _v.length())
+    const close = picked ? 1 : smooth(1.9, 3.1, _v.length())
     mats.sheet.opacity = (1 - smooth(0.62, 1, st.fly)) * close
     // a travelling wave makes it flutter
     const arr = geo.attributes.position.array as Float32Array
@@ -100,7 +100,7 @@ function PaperItem({ index, name }: { index: number; name: string }) {
 export function Papers() {
   const papers = useGame((g) => g.papers)
   const reduced = useSiteStore((s) => s.tier === 'reduced')
-  const s = useRef({ next: 5.5, rnd: mulberry32(99), targets: [] as (Point | null)[] })
+  const s = useRef({ next: 5.5, rnd: mulberry32(99), targets: [] as (Point | null)[], hidden: [] as { i: number; px: number; py: number; d: number }[] })
 
   useFrame((state, delta) => {
     const dt = Math.min(delta, 0.1)
@@ -128,9 +128,11 @@ export function Papers() {
       })
     } else st.targets = []
 
-    // edge arrows (DOM): only for papers the camera cannot see
+    // edge arrows (DOM): for the two nearest papers the camera cannot see (more would be clutter)
     const { width, height } = state.size
     const playing = game.phase === 'playing'
+    const hidden = st.hidden
+    hidden.length = 0
     for (let i = 0; i < rt.arrows.length; i++) {
       const el = rt.arrows[i]
       if (!el) continue
@@ -148,10 +150,23 @@ export function Papers() {
         px = width / 2 + THREE.MathUtils.clamp((p.x - state.camera.position.x) / 6, -1, 1) * (width / 2)
         py = height * 2
       }
-      const seen = !behind && px > 18 && px < width - 18 && py > 70 && py < height - 28
+      const cam = state.camera.position
+      const underLens = Math.hypot(p.x - cam.x, cam.y, p.z - cam.z) < 2.6 // faded out there, see PaperItem
+      const seen = !behind && !underLens && px > 18 && px < width - 18 && py > 70 && py < height - 28
+      if (underLens) py = height * 2
       if (seen) {
         el.style.opacity = '0'
         continue
+      }
+      hidden.push({ i, px, py, d: Math.hypot(p.x - rt.sari.x, p.z - rt.sari.z) })
+    }
+    hidden.sort((a, b) => a.d - b.d)
+    hidden.forEach(({ i, px, py }, rank) => {
+      const el = rt.arrows[i]
+      if (!el) return
+      if (rank > 1) {
+        el.style.opacity = '0'
+        return
       }
       const side = 40
       const cx = THREE.MathUtils.clamp(px, side, width - side)
@@ -159,7 +174,7 @@ export function Papers() {
       el.style.opacity = '1'
       el.style.transform = `translate3d(${cx.toFixed(1)}px, ${cy.toFixed(1)}px, 0)`
       el.style.setProperty('--a', `${Math.atan2(py - cy, px - cx).toFixed(3)}rad`)
-    }
+    })
   })
 
   return (
