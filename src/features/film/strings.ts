@@ -1,8 +1,4 @@
-import { locale } from '@/i18n/locale'
+import { t } from '@/i18n/copy'
 
-/** Words the film player needs that are not in `t.film` yet (listed in the task report for proofreading). */
-const all = {
-  ar: { fullscreen: 'ملء الشاشة', exitFullscreen: 'إنهاء ملء الشاشة' },
-  en: { fullscreen: 'Full screen', exitFullscreen: 'Exit full screen' },
-}
-export const strings = all[locale]
+/** This feature's extra words; they live in `src/i18n/copy.ts` under `t.ui.film`. */
+export const strings = t.ui.film

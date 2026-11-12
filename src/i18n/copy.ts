@@ -300,6 +300,43 @@ const ar = {
       addNote: 'في العرض التوضيحي، هذا الزرّ لا يرسل شيئًا.',
     },
   },
+  /** Extra words of single screens (labels, confirmations, hints). */
+  ui: {
+    auth: { show: 'إظهار كلمة المرور', hide: 'إخفاء كلمة المرور' },
+    film: { fullscreen: 'ملء الشاشة', exitFullscreen: 'إنهاء ملء الشاشة' },
+    game: {
+    /** Hint in the no-WebGL version of the game, where the papers are tapped instead of collected by running. */
+    tapPaper: 'اضغط على ورقة لتلتقطها',
+  },
+    grownups: {
+    /** Row labels in the progress card (a grown-up's words, not the child's). */
+    leaves: 'الأوراق',
+    lastScene: 'آخر مشهد',
+    letters: 'الحروف',
+    /** The confirm step before progress is cleared. */
+    resetAsk: 'هل تريد مسح كل التقدّم؟',
+    resetYes: 'نعم، امسح',
+    cancel: 'إلغاء',
+  },
+    reader: {
+    page: 'صفحة',
+    textSize: 'حجم الخط',
+    smaller: 'خط أصغر',
+    larger: 'خط أكبر',
+    hint: 'اسحب الصفحة لتقلبها · المس وسطها لتظهر الأدوات',
+  },
+    studio: {
+    /** A scene that has its own moving clip (the other state is `t.app.studio.still`). */
+    clip: 'مقطع متحرّك',
+  },
+    tree: {
+    /** The line over the tree while one or two leaves are earned (empty and full already have theirs). */
+    one: 'ورقتك الأولى على الشجرة!',
+    two: 'بقيت ورقة واحدة!',
+    /** Under "Letters I know" before the game has been played. */
+    lettersEmpty: 'الحروف التي تعرفها في اللعبة تظهر هنا.',
+  },
+  },
 }
 
 const en: typeof ar = {
@@ -596,6 +633,37 @@ const en: typeof ar = {
       add: 'Add a new story',
       addNote: 'In this demonstration the button sends nothing.',
     },
+  },
+  /** Extra words of single screens (labels, confirmations, hints). */
+  ui: {
+    auth: { show: 'Show password', hide: 'Hide password' },
+    film: { fullscreen: 'Full screen', exitFullscreen: 'Exit full screen' },
+    game: {
+    tapPaper: 'Tap a paper to pick it up',
+  },
+    grownups: {
+    leaves: 'Leaves',
+    lastScene: 'Last scene',
+    letters: 'Letters',
+    resetAsk: 'Clear all progress?',
+    resetYes: 'Yes, clear',
+    cancel: 'Cancel',
+  },
+    reader: {
+    page: 'Page',
+    textSize: 'Text size',
+    smaller: 'Smaller text',
+    larger: 'Larger text',
+    hint: 'Drag the page to turn it · tap the middle for the controls',
+  },
+    studio: {
+    clip: 'Moving clip',
+  },
+    tree: {
+    one: 'Your first leaf is on the tree!',
+    two: 'One more leaf to go!',
+    lettersEmpty: 'Letters you get right in the game appear here.',
+  },
   },
 }
 

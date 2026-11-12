@@ -119,9 +119,12 @@ export function Stage() {
   // the leaf layer only exists while leaves are in the air (or all the time behind the portrait)
   useEffect(() => {
     if (!burst) return
-    leaves.current?.burst(burst.x, burst.y, 16)
+    // one tick later, not now: in development React replays a newly mounted component's effects, and that replay
+    // empties the leaf layer again (which is why the burst could never be seen on the dev server)
+    const fire = window.setTimeout(() => leaves.current?.burst(burst.x, burst.y, 16), 0)
     window.clearTimeout(timers.current.burst)
     timers.current.burst = window.setTimeout(() => setBurst(null), 2400)
+    return () => window.clearTimeout(fire)
   }, [burst])
 
   // the loop reads these without waiting for React
