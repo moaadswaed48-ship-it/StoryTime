@@ -92,8 +92,8 @@ async function build(stage: Stage, params: URLSearchParams): Promise<Film> {
   const titleY = tall ? H * 0.43 : H * 0.5
   const kickerStyle = { font: 'ui' as const, size: tall ? 44 : 40, weight: 600, color: '#ffd9ae', shadow: true }
   const titleStyle = { font: 'display' as const, size: tall ? 128 : 150, weight: 800, lineHeight: 1.18, shadow: '0 4px 40px rgba(18,10,5,0.55), 0 2px 6px rgba(18,10,5,0.45)' }
-  add(new TextBlock(stage, SITE.kicker, kickerStyle, cx, titleY - (tall ? 250 : 215)), { in: 0.25, out: 3.95, mode: 'block', rise: 0.7 })
-  add(new TextBlock(stage, [SITE.titleA, SITE.titleB], titleStyle, cx, titleY), { in: 0.45, out: 3.95, stagger: 0.2, rise: 0.8 })
+  add(new TextBlock(stage, SITE.kicker, kickerStyle, cx, titleY - (tall ? 250 : 215)), { in: 0.55, out: 3.95, mode: 'block', rise: 0.7 })
+  add(new TextBlock(stage, [SITE.titleA, SITE.titleB], titleStyle, cx, titleY), { in: 0.7, out: 3.95, stagger: 0.2, rise: 0.8 })
 
   // her lines over her world
   const quoteStyle = { font: 'story' as const, size: tall ? 62 : 60, weight: 600, lineHeight: 1.6, width: tall ? 930 : 1500, shadow: true }
@@ -133,15 +133,16 @@ async function build(stage: Stage, params: URLSearchParams): Promise<Film> {
   hud.innerHTML = `<span style="display:inline-block;width:34px;height:26px;border-radius:5px;background:#fbf5e8;transform:rotate(-8deg)"></span><span>${SITE.papers}</span><span id="hud-n" style="display:inline-block;color:${MAPLE};min-width:92px;text-align:center"></span>`
   const hudN = hud.querySelector('#hud-n') as HTMLSpanElement
 
-  // closing: her line, then the title and the name of the site
+  // closing: her line, then the title and the name of the site, on a soft shade so the type holds on the painting
   const E = at('end')
-  add(new TextBlock(stage, SITE.autumn, { font: 'story', size: tall ? 120 : 132, weight: 700, shadow: true, lineHeight: 1.4 }, cx, tall ? H * 0.42 : H * 0.48), { in: E + 0.25, out: E + B - 0.4, stagger: 0.22, rise: 0.8, fall: 0.4 })
-  const endY = tall ? H * 0.42 : H * 0.44
+  const endShade = box(stage, `left:${cx - (tall ? 620 : 900)}px;top:${(tall ? H * 0.24 : H * 0.42) - (tall ? 560 : 470)}px;width:${tall ? 1240 : 1800}px;height:${tall ? 1120 : 940}px;background:radial-gradient(closest-side, rgba(24,12,6,0.62), rgba(24,12,6,0.4) 55%, rgba(24,12,6,0));opacity:0;`)
+  add(new TextBlock(stage, SITE.autumn, { font: 'story', size: tall ? 120 : 132, weight: 700, shadow: true, lineHeight: 1.4 }, cx, tall ? H * 0.235 : H * 0.36), { in: E + 0.25, out: E + B - 0.4, stagger: 0.22, rise: 0.8, fall: 0.4 })
+  const endY = tall ? H * 0.215 : H * 0.385
   add(new TextBlock(stage, SITE.kicker, kickerStyle, cx, endY - (tall ? 250 : 215)), { in: E + B + 0.1, out: 999, mode: 'block', rise: 0.7 })
   add(new TextBlock(stage, [SITE.titleA, SITE.titleB], titleStyle, cx, endY), { in: E + B + 0.15, out: 999, stagger: 0.16, rise: 0.7 })
-  const rule = box(stage, `left:${cx - 60}px;top:${endY + (tall ? 215 : 205)}px;width:120px;height:5px;border-radius:3px;background:#d9541e;opacity:0;`)
-  add(new TextBlock(stage, SITE.brand, { font: 'display', size: tall ? 58 : 54, weight: 700, shadow: true }, cx, endY + (tall ? 300 : 280)), { in: E + B + 0.7, out: 999, mode: 'block', rise: 0.7 })
-  add(new TextBlock(stage, SITE.ways, { font: 'ui', size: tall ? 36 : 32, weight: 500, color: '#ffd9ae', shadow: true }, cx, endY + (tall ? 385 : 352)), { in: E + B + 0.9, out: 999, mode: 'block', rise: 0.7 })
+  const rule = box(stage, `left:${cx - 60}px;top:${endY + (tall ? 196 : 205)}px;width:120px;height:5px;border-radius:3px;background:#d9541e;opacity:0;`)
+  add(new TextBlock(stage, SITE.brand, { font: 'display', size: tall ? 58 : 54, weight: 700, shadow: true }, cx, endY + (tall ? 262 : 280)), { in: E + B + 0.7, out: 999, mode: 'block', rise: 0.7 })
+  add(new TextBlock(stage, SITE.ways, { font: 'ui', size: tall ? 36 : 32, weight: 500, color: '#ffd9ae', shadow: true }, cx, endY + (tall ? 336 : 352)), { in: E + B + 0.9, out: 999, mode: 'block', rise: 0.7 })
 
   return {
     duration: posterMode ? 1 / TL.fps : TL.duration,
@@ -175,6 +176,7 @@ async function build(stage: Stage, params: URLSearchParams): Promise<Film> {
         const pop = 1 + 0.22 * (1 - easeOutBack(clamp(since / 0.35)))
         hudN.style.transform = `scale(${pop.toFixed(3)})`
       }
+      endShade.style.opacity = String(ramp(time, E + 0.05, E + 0.7))
       rule.style.opacity = String(ramp(time, E + B + 0.5, E + B + 1.0))
       rule.style.transform = `scaleX(${ramp(time, E + B + 0.5, E + B + 1.1).toFixed(3)})`
       grade.vignette = 0.34
