@@ -14,15 +14,15 @@
 //   --out=path.mp4     write somewhere else (drafts never overwrite the published files)
 //   --keep             keep the captured frames
 //   --no-audio         skip the music
-//   --q=<query>        extra query string passed to the page, e.g. --q=shot=wind
+//   --audio-only       keep the published picture, re-make the music and re-mux it (seconds, not minutes)
 //
 // How it works: Vite serves the studio page; each worker opens /?comp=<id>, calls
 // window.__film.seek(n) for its share of the frames and captures the page; ffmpeg encodes the
 // frames with the music written by scripts/music.mjs. No clock is involved anywhere, so a frame is
 // the same whether it is rendered first, last or alone. The server does not watch files, so editing
 // sources during a render cannot reload the page half-way.
-import { spawn, execFileSync } from 'node:child_process'
-import { existsSync, mkdirSync, readFileSync, rmSync, statSync, writeFileSync, readdirSync } from 'node:fs'
+import { execFileSync } from 'node:child_process'
+import { existsSync, mkdirSync, readFileSync, renameSync, rmSync, statSync, writeFileSync } from 'node:fs'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { createServer } from 'vite'
@@ -91,11 +91,20 @@ async function capture(page, frame, file, type) {
 
 async function main() {
   const t0 = Date.now()
+  if (opt['audio-only']) {
+    const music = resolve(ROOT, '.cache/music', `${target.music}.wav`)
+    execFileSync('node', [resolve(HERE, 'music.mjs'), target.music, `--out=${music}`], { stdio: 'inherit' })
+    const tmp = target.out.replace(/\.mp4$/, '.remux.mp4')
+    ff(['-i', target.out, '-i', music, '-map', '0:v', '-c:v', 'copy', '-map', '1:a', '-c:a', 'aac', '-b:a', '160k', '-ar', '48000', '-shortest', '-movflags', '+faststart', tmp])
+    renameSync(tmp, target.out)
+    console.log(`${target.out} · audio replaced · ${(statSync(target.out).size / 1e6).toFixed(2)} MB`)
+    return
+  }
   const server = await createServer({ root: ROOT, configFile: resolve(ROOT, 'vite.config.ts'), server: { port: 5180 + Math.floor(Math.random() * 400), strictPort: false, hmr: false, watch: null } })
   await server.listen()
   const port = server.config.server.port ?? server.httpServer.address().port
   const base = `http://127.0.0.1:${server.httpServer.address().port ?? port}`
-  const url = `${base}/?comp=${comp}${opt.q ? '&' + opt.q : ''}`
+  const url = `${base}/?comp=${comp}`
   const browsers = []
   try {
     // probe: size and length come from the composition itself

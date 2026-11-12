@@ -9,7 +9,7 @@
 // The band: a double-course plucked string (extended Karplus–Strong) sings the tune; a celesta-like bell
 // doubles it softly an octave up; a harp rolls 1–5–8–10–8–5 in eighths; a warm pad and a soft bass hold the
 // harmony; a one-beat echo and a small hall glue it. A 7 kHz low-pass keeps it gentle. The mix is
-// normalised so the sample peak is −4 dBFS (true peak after AAC stays under −3 dBFS; scripts/qa.mjs measures it).
+// normalised so the sample peak is −4.5 dBFS (true peak after AAC stays under −3 dBFS; scripts/qa.mjs measures it).
 import { mkdirSync, writeFileSync } from 'node:fs'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
@@ -27,7 +27,7 @@ const BAR = BEAT * 3
 const START = score.start ?? 0 // time of bar 1 beat 1
 const DURATION = score.duration
 const LEN = Math.round(DURATION * SR)
-const PEAK_DB = -4
+const PEAK_DB = -4.5 // sample peak; AAC adds ~1.5 dB of inter-sample overshoot, so the true peak stays under −3 dBFS
 
 /* ── helpers ──────────────────────────────────────────────────────────────── */
 function mulberry32(a) {

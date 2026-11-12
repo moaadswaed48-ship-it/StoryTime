@@ -62,7 +62,7 @@ src/comps/              trailer.ts (both cuts from one source), story.ts, and th
 | `trailer-9x16.mp4` 1080×1920, 36 s | | 12 MB |
 | `story.mp4` 1280×720, 80 s | | 14 MB |
 
-All: H.264 High, `yuv420p`, BT.709, AAC 160 kb/s 48 kHz, `+faststart`, 24 fps. Music peaks at −4 dBFS before AAC.
+All: H.264 High, `yuv420p`, BT.709, AAC 160 kb/s 48 kHz, `+faststart`, 24 fps. Music peaks at −4.5 dBFS before AAC (true peak after AAC under −3 dBFS).
 
 `story.json`: `{ "duration": 80, "scenes": [{ "scene": 0, "start": 0, "end": 5 }, …] }` — `scene` is the 0-based index into `story.scenes`; boundaries are the middles of the 0.4 s dissolves between scenes.
 
