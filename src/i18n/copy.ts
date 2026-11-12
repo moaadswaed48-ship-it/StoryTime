@@ -155,7 +155,7 @@ const ar = {
       },
       {
         t: "أكثر من لغة",
-        s: "العربية أولًا، ثم العبرية والإنجليزية والروسية — الموقع كلّه يتحوّل بضغطة.",
+        s: "العربية والإنجليزية اليوم، والعبرية والروسية لاحقًا — الموقع كلّه يتحوّل بضغطة.",
       },
       {
         t: "للروضة والبيت",
@@ -203,7 +203,7 @@ const ar = {
         features: [
           "كل الحكايات والأفلام والألعاب",
           "حتى أربعة أطفال",
-          "حكاية جديدة كل شهر",
+          "كل حكاية جديدة تُضاف إلى المكتبة",
           "كل اللغات عند صدورها",
         ],
       },
@@ -571,7 +571,7 @@ const en: typeof ar = {
       },
       {
         t: "More than one language",
-        s: "Arabic first, then Hebrew, English and Russian — the whole site transforms with one tap.",
+        s: "Arabic and English today, Hebrew and Russian later — the whole site switches with one tap.",
       },
       {
         t: "Classroom and home",
@@ -623,7 +623,7 @@ const en: typeof ar = {
         features: [
           "Every story, film and game",
           "Up to four children",
-          "A new story every month",
+          "Every new story added to the library",
           "Every language as it is released",
         ],
       },
