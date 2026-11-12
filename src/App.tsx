@@ -5,9 +5,16 @@ import { Landing } from '@/pages/Landing'
 import { AppShell } from '@/pages/AppShell'
 import { Enter } from '@/features/enter'
 import { BookReader } from '@/features/book'
+import { Reader, canCurl } from '@/features/reader'
 import { FilmPlayer } from '@/features/film'
 import { GameOverlay } from '@/features/game'
 import { AuthModal } from '@/features/auth'
+
+/** The page-curl reader where the device can run it; the DOM book otherwise (no WebGL, reduced motion). */
+function Book() {
+  useSiteStore((s) => s.overlay) // re-check each time the book opens
+  return canCurl() ? <Reader /> : <BookReader />
+}
 
 function Views() {
   useRouter()
@@ -25,7 +32,7 @@ export default function App() {
         </a>
         <Views />
         <Enter />
-        <BookReader />
+        <Book />
         <FilmPlayer />
         <GameOverlay />
         <AuthModal />
