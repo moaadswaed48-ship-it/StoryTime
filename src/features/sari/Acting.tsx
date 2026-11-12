@@ -1,8 +1,7 @@
 import { useEffect, useMemo, useRef } from 'react'
 import * as THREE from 'three'
 import { useFrame } from '@react-three/fiber'
-import { useGLTF } from '@react-three/drei'
-import { asset } from '@/lib/asset'
+import { useSari } from '@/design/SariModel'
 import { SIDE, wrapAngle, type Runtime } from './runtime'
 
 const damp = (rate: number, dt: number) => 1 - Math.exp(-rate * dt)
@@ -42,7 +41,7 @@ interface Channel {
  * not SariModel's own mixer is alive (in development React's effect replay can stop it; see REQUESTS in the report).
  */
 export function Acting({ rt, turntable }: { rt: Runtime; turntable: React.RefObject<THREE.Group | null> }) {
-  const gltf = useGLTF(asset('models/sari.glb')) // already in memory: SariModel loaded it
+  const gltf = useSari() // already in memory: SariModel loaded it
   const clip = useMemo(() => gltf.animations.find((a) => a.name === 'run') ?? gltf.animations[0], [gltf.animations])
   const rig = useRef<{
     bones: Record<string, THREE.Object3D>

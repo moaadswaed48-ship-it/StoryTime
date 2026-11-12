@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef } from 'react'
+import { use, useEffect, useMemo, useRef } from 'react'
 import * as THREE from 'three'
 import { useFrame } from '@react-three/fiber'
 import { useGLTF } from '@react-three/drei'
@@ -7,6 +7,38 @@ import { asset } from '@/lib/asset'
 
 export type SariAction = 'idle' | 'run' | 'wave'
 const URL = asset('models/sari.glb')
+
+/**
+ * Hosts that cannot serve `.glb` (the claude.ai preview) get the model as base64 text instead: build with
+ * `VITE_SARI_MODEL_B64=models/sari-glb.txt` and publish `base64 sari.glb` at that path. The bytes are decoded into
+ * three's loader cache under the normal URL, so nothing else changes, and the embedded pictures load as plain images.
+ */
+const B64 = import.meta.env.VITE_SARI_MODEL_B64 as string | undefined
+let bytes: Promise<void> | null = null
+function modelBytes() {
+  bytes ??= fetch(asset(B64!))
+    .then((r) => r.text())
+    .then((text) => {
+      const bin = atob(text.replace(/\s+/g, ''))
+      const buf = new Uint8Array(bin.length)
+      for (let i = 0; i < bin.length; i++) buf[i] = bin.charCodeAt(i)
+      THREE.Cache.enabled = true
+      THREE.Cache.add(`file:${URL}`, buf.buffer)
+    })
+  return bytes
+}
+const imagesAsPictures = (loader: { register: (cb: (parser: { textureLoader: THREE.Loader; options: { manager: THREE.LoadingManager } }) => { name: string }) => unknown }) => {
+  loader.register((parser) => {
+    parser.textureLoader = new THREE.TextureLoader(parser.options.manager)
+    return { name: 'st_images_as_pictures' }
+  })
+}
+
+/** Sari's loaded model (suspends until it is ready). Use this instead of calling `useGLTF` directly. */
+export function useSari() {
+  if (B64) use(modelBytes())
+  return B64 ? useGLTF(URL, true, true, imagesAsPictures as never) : useGLTF(URL)
+}
 
 /** Extra bone rotations (Euler XYZ, radians) layered on the bind pose. Found by test renders of this rig. */
 const IDLE: Record<string, [number, number, number]> = { LeftArm: [0, 0, -0.62], RightArm: [0, 0, 0.62], LeftForeArm: [0, 0, -0.15], RightForeArm: [0, 0, 0.15] }
@@ -23,7 +55,7 @@ const _q = new THREE.Quaternion()
  * Actions cross-fade. `speed` scales the run cycle (1 ≈ a child's jog). Safe to mount several times.
  */
 export function SariModel({ action = 'idle', speed = 1, ...props }: { action?: SariAction; speed?: number } & Omit<React.ComponentProps<'group'>, 'children'>) {
-  const gltf = useGLTF(URL)
+  const gltf = useSari()
   const scene = useMemo(() => {
     const s = cloneSkinned(gltf.scene)
     s.traverse((o) => {
@@ -110,4 +142,5 @@ export function SariModel({ action = 'idle', speed = 1, ...props }: { action?: S
     </group>
   )
 }
-useGLTF.preload(URL)
+if (B64) void modelBytes().then(() => useGLTF.preload(URL, true, true, imagesAsPictures as never))
+else useGLTF.preload(URL)
