@@ -37,6 +37,7 @@ test.describe('tour — inside StoryTime', () => {
     await page.evaluate(() => {
       const tr = document.querySelector<HTMLElement>('#inside .tour-track')!
       const y = tr.getBoundingClientRect().bottom + window.scrollY - window.innerHeight
+      window.__st!.lenis.resize()
       window.__st!.lenis.scrollTo(y, { immediate: true, force: true })
     })
     await expect.poll(async () => (await tour(page)).active).toBe(3)

@@ -144,6 +144,8 @@ export function Tour() {
       trigger.current = tween.scrollTrigger ?? null
       // the whole deck drifts a little against the scroll, so the stage never feels frozen while a screen holds
       gsap.fromTo(deck.current, { y: 26 }, { y: -26, ease: 'none', scrollTrigger: { trigger: track.current, start: 'top top', end: 'bottom bottom', scrub: true } })
+      // the page just grew by the track's height: let the smooth scroller and every trigger below re-measure
+      useSiteStore.getState().lenis?.resize()
       ScrollTrigger.refresh()
       return () => {
         trigger.current = null

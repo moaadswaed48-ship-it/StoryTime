@@ -27,8 +27,8 @@ const LETTERS = { ar: ['س', 'أ'], en: ['S', 'A'] }
  */
 const SCREENS = [
   { name: 'home', hash: 'app', settle: 3200 },
-  { name: 'story', hash: 'story', settle: 2600, scrollTo: '[data-door], .story__doors', offset: -96 },
-  { name: 'reader', hash: 'story', settle: 1200, open: 2, after: 5200 },
+  { name: 'story', hash: 'story', settle: 2600, scrollTo: '[data-door], .story__doors', offset: -210 },
+  { name: 'reader', hash: 'story', settle: 1200, open: 3, after: 5200 },
   { name: 'tree', hash: 'tree', settle: 4200 },
 ]
 
