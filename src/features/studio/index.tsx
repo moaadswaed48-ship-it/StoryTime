@@ -200,8 +200,8 @@ export function Studio() {
                   <span className="text-[12.5px] font-semibold text-muted">{t.library.filters[b.season]}</span>
                   <span className="mt-1 text-[18px] font-bold leading-snug">{b.title[locale]}</span>
                   <span className="mt-auto flex flex-wrap gap-1.5 pt-4">
-                    <span className="inline-flex h-6 items-center rounded-full bg-white/70 px-2.5 text-[12.5px] font-semibold text-ink-2">{t.app.studio.working}</span>
-                    <span className="inline-flex h-6 items-center rounded-full border border-dashed border-ink/25 px-2.5 text-[12.5px] font-semibold text-muted">{t.app.studio.waiting}</span>
+                    <span className="inline-flex h-6 items-center rounded-full bg-white/70 px-2.5 text-[12.5px] font-semibold text-ink-2">{b.filmScene ? t.app.studio.drafted : t.app.studio.working}</span>
+                    {!b.filmScene && <span className="inline-flex h-6 items-center rounded-full border border-dashed border-ink/25 px-2.5 text-[12.5px] font-semibold text-muted">{t.app.studio.waiting}</span>}
                   </span>
                 </div>
               </Reveal>

@@ -364,7 +364,7 @@ const ar = {
         },
         {
           q: "كم حكاية متاحة الآن؟",
-          a: "حكاية واحدة كاملة اليوم: كتاب وفيلم ولعبة. الحكايات القادمة تظهر على الرفّ بعلامة «قريبًا»، وهي من كتابتنا وليست من نصوص المؤلفة.",
+          a: "حكاية واحدة كاملة اليوم: كتاب وفيلم، ومعهما لعبة «جزيرة الأصدقاء». الحكايات القادمة تظهر على الرفّ بعلامة «قريبًا»، وهي من كتابتنا وليست من نصوص المؤلفة.",
         },
         {
           q: "على أيّ جهاز تعمل؟",
@@ -515,6 +515,7 @@ const ar = {
       next: "أفكار لحكايات قادمة",
       waiting: "بانتظار النصّ",
       working: "فكرة منّا",
+      drafted: "مسوّدة منّا · فيلم قيد الصنع",
       add: "أضيفي حكاية جديدة",
       addNote: "في العرض التوضيحي، هذا الزرّ لا يرسل شيئًا.",
     },
@@ -948,7 +949,7 @@ const en: typeof ar = {
         },
         {
           q: "How many stories are there now?",
-          a: "One complete story today: a book, a film and a game. The next ones appear on the shelf marked \u201cComing soon\u201d; they are written by StoryTime, not by the author.",
+          a: "One complete story today: a book and a film, with the game Friends Island beside them. The next ones appear on the shelf marked \u201cComing soon\u201d; they are written by StoryTime, not by the author.",
         },
         {
           q: "Which devices does it work on?",
@@ -1112,6 +1113,7 @@ const en: typeof ar = {
       next: "Ideas for the next stories",
       waiting: "Waiting for the text",
       working: "Our idea",
+      drafted: "Our draft · film in the making",
       add: "Add a new story",
       addNote: "In this demonstration the button sends nothing.",
     },

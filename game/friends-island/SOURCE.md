@@ -7,3 +7,5 @@ It is a remix of **Wigglewild by Patch** (https://patch.gg/games/blendi/wigglewi
 - Never publish this folder to Patch: `patch.json`, `AGENTS.md` and `BRIEF.md` are the original's files, kept for reference.
 - Build: `npm ci --ignore-scripts && npm run build`, then copy `dist/` to `../../public/play/friends-island/`
   (check `vite.config.ts` for the relative base before copying).
+
+- The repo stores some of this game's binary assets with **Git LFS** (see `.gitattributes`): clone with git-lfs installed, or the assets are pointer files and the game will not rebuild.

@@ -10,6 +10,7 @@ const site = (page: Page) =>
     const s = window.__st!.store.getState()
     return { overlay: s.overlay as string | null, startScene: s.startScene as number, view: s.view as string }
   })
+const hasCta = (page: Page) => page.locator('#author .aut-cta').count().then((n) => n > 0)
 const closeOverlay = (page: Page) => page.evaluate(() => window.__st!.store.getState().closeOverlay())
 
 test.describe('author', () => {
@@ -32,9 +33,12 @@ test.describe('author', () => {
     const words = await section.locator('.aut-w').count()
     expect(words).toBeGreaterThan(10)
     // the invitation keeps every word of its title, one sentence to a line
-    const lines = await section.locator('.aut-cta__title span').allInnerTexts()
-    expect(lines.length).toBeGreaterThanOrEqual(1)
-    expect(lines.every((l) => l.trim().length > 0)).toBe(true)
+    // (the landing page shows the section without its invitation card; the demo page shows it)
+    if (await hasCta(page)) {
+      const lines = await section.locator('.aut-cta__title span').allInnerTexts()
+      expect(lines.length).toBeGreaterThanOrEqual(1)
+      expect(lines.every((l) => l.trim().length > 0)).toBe(true)
+    }
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth + 1)).toBe(true)
     con.assertClean()
   })
@@ -80,6 +84,7 @@ test.describe('author', () => {
     expect((await site(page)).startScene).toBe(0)
     await closeOverlay(page)
     await expect.poll(async () => (await site(page)).overlay).toBe(null)
+    if (!(await hasCta(page))) return // the landing page has no invitation card
 
     await scrollToY(page, '#author .aut-cta')
     const card = page.locator('#author .aut-cta')
@@ -101,6 +106,7 @@ test.describe('author', () => {
   })
 
   test('the falling leaves play only while the card is on screen', async ({ page }) => {
+    test.skip(!(await hasCta(page)), 'no invitation card on this page')
     await scrollToY(page, '#author .aut-cta')
     await expect.poll(async () => (await state(page)).film.playing, { timeout: 40_000 }).toBe(true)
     // something covers the page: the clip rests
@@ -122,6 +128,7 @@ test.describe('author', () => {
     expect(s.book.landed).toBe(true)
     expect(s.lit).toBe(1)
     expect(s.signed).toBe(true)
+    if (!(await hasCta(page))) return
     await scrollToY(page, '#author .aut-cta')
     await page.waitForTimeout(1200)
     expect((await state(page)).film.armed).toBe(false)
