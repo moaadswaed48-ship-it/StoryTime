@@ -1,7 +1,7 @@
 // The films' music, made in code: no samples, no downloads. Plain Node, no packages.
 //
-//   node scripts/music.mjs trailer [--out=.cache/music/trailer.wav]
-//   node scripts/music.mjs story   [--out=.cache/music/story.wav]
+// Carried from the old build's video/scripts/music.mjs (unchanged apart from these lines).
+//   node studio/scripts/music.mjs demo [--out=studio/.cache/music/demo.wav]
 //
 // A score (scripts/scores/<name>.mjs) is a list of bars in 3/4: a chord, melody notes, and optional
 // bells / chimes / wind. The beat length comes from the film's timeline file, so bar lines are picture cuts.
@@ -16,7 +16,7 @@ import { fileURLToPath, pathToFileURL } from 'node:url'
 
 const HERE = dirname(fileURLToPath(import.meta.url))
 const name = process.argv[2]
-if (!name) throw new Error('usage: node scripts/music.mjs <trailer|story> [--out=file.wav]')
+if (!name) throw new Error('usage: node studio/scripts/music.mjs <score> [--out=file.wav]')
 const arg = Object.fromEntries(process.argv.slice(3).map((a) => a.replace(/^--/, '').split('=')))
 const OUT = resolve(arg.out ?? resolve(HERE, '../.cache/music', `${name}.wav`))
 const score = (await import(pathToFileURL(resolve(HERE, 'scores', `${name}.mjs`)).href)).default

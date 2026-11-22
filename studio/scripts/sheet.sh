@@ -1,6 +1,6 @@
 #!/bin/bash
 # Contact sheet of stills: scripts/sheet.sh <comp> <cols>x<rows> <tile width> <out.jpg> <times> [scale]
-# e.g. scripts/sheet.sh trailer-16x9 3x2 640 out/a.jpg 0,1,2,3,4,5
+# e.g. studio/scripts/sheet.sh demo 3x2 640 out/a.jpg 0,1,2,3,4,5  (needs the Stage 3 studio page, like render.mjs)
 set -e
 cd "$(dirname "$0")/.."
 node scripts/render.mjs "$1" --stills="$5" --scale="${6:-0.5}" 2>&1 | grep -v "^still\|Vite\|__dirname\|VITE_\|404" || true

@@ -9,7 +9,7 @@
  */
 import { clamp, lerp } from '@/lib/clamp'
 import { hashString, mulberry32 } from '@/lib/seeded'
-import type { ShelfBook } from '@/content/library'
+import type { ShelfBook } from './types'
 
 export const OPEN_DEG = 15
 export const DETAIL_DEG = -27

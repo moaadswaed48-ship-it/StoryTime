@@ -1,9 +1,12 @@
-// Renders one composition to a video (or stills). Run from video/:
+// Renders one composition to a video (or stills). Carried from the old build's video/scripts/render.mjs.
+// STAGE 0 NOTE: the studio page it drives (studio/vite.config.ts + a page exposing window.__film) does not exist
+// yet; it arrives with the art engine in Stage 3. The capture → encode pipeline below is unchanged.
 //
-//   node scripts/render.mjs trailer-16x9            → ../public/film/trailer-16x9.mp4
-//   node scripts/render.mjs trailer-9x16            → ../public/film/trailer-9x16.mp4
-//   node scripts/render.mjs trailer-poster          → ../public/film/trailer-poster.jpg
-//   node scripts/render.mjs story                   → ../public/film/story.mp4 + story.json
+//   node studio/scripts/render.mjs <comp>                 → studio/out/<comp>.mp4
+//   node studio/scripts/render.mjs <comp> --still         → studio/out/<comp>.jpg (frame 0)
+//
+// The page contract: /?comp=<id> builds the composition and sets window.__film = { ready, error, frames, fps, W, H,
+// seek(n) }, where seek(n) draws frame n synchronously.
 //
 // Options
 //   --scale=0.5        draft at half size (everything scales, type included)
@@ -14,7 +17,10 @@
 //   --out=path.mp4     write somewhere else (drafts never overwrite the published files)
 //   --keep             keep the captured frames
 //   --no-audio         skip the music
-//   --audio-only       keep the published picture, re-make the music and re-mux it (seconds, not minutes)
+//   --audio-only       keep the finished picture, re-make the music and re-mux it (seconds, not minutes)
+//   --music=<score>    a score in scripts/scores/<score>.mjs, synthesised by scripts/music.mjs
+//   --max-mb=12        size ceiling: over it, the video is re-encoded two-pass to just under it
+//   --crf=19           quality
 //
 // How it works: Vite serves the studio page; each worker opens /?comp=<id>, calls
 // window.__film.seek(n) for its share of the frames and captures the page; ffmpeg encodes the
@@ -30,7 +36,7 @@ import { chromium } from 'playwright-core'
 
 const HERE = dirname(fileURLToPath(import.meta.url))
 const ROOT = resolve(HERE, '..')
-const SITE_FILM = resolve(ROOT, '../public/film')
+const OUT_DIR = resolve(ROOT, 'out')
 const args = process.argv.slice(2)
 const comp = args.find((a) => !a.startsWith('--'))
 const opt = Object.fromEntries(
@@ -42,19 +48,14 @@ const opt = Object.fromEntries(
     }),
 )
 if (!comp) {
-  console.error('usage: node scripts/render.mjs <trailer-16x9|trailer-9x16|trailer-poster|story> [options]')
+  console.error('usage: node studio/scripts/render.mjs <comp> [--still] [--music=<score>] [options]')
   process.exit(1)
 }
 
-/** Per composition: where the finished file goes, its size ceiling and its music. */
-const TARGETS = {
-  'trailer-16x9': { out: `${SITE_FILM}/trailer-16x9.mp4`, maxMB: 12, music: 'trailer', crf: 18 },
-  'trailer-9x16': { out: `${SITE_FILM}/trailer-9x16.mp4`, maxMB: 12, music: 'trailer', crf: 18 },
-  'trailer-poster': { out: `${SITE_FILM}/trailer-poster.jpg`, still: true },
-  story: { out: `${SITE_FILM}/story.mp4`, maxMB: 24, music: 'story', crf: 19, json: `${SITE_FILM}/story.json` },
-}
-const target = TARGETS[comp]
-if (!target) throw new Error(`unknown composition ${comp}`)
+/** Where the finished file goes, its size ceiling and its music: all from the command line now. */
+const target = opt.still
+  ? { out: `${OUT_DIR}/${comp}.jpg`, still: true }
+  : { out: `${OUT_DIR}/${comp}.mp4`, maxMB: opt['max-mb'] ? Number(opt['max-mb']) : undefined, music: typeof opt.music === 'string' ? opt.music : undefined, crf: 19 }
 const scale = Number(opt.scale ?? 1)
 const draft = scale !== 1 || opt.from !== undefined || opt.to !== undefined
 const workDir = resolve(ROOT, 'out', comp)
@@ -171,26 +172,6 @@ async function main() {
       execFileSync('node', [resolve(HERE, 'music.mjs'), target.music, `--out=${music}`], { stdio: 'inherit' })
     }
 
-    /* the storyteller (story film only): each scene's line starts half a second into its scene; the music dips under her */
-    const cues = resolve(ROOT, '../public/audio/story/cue/ar')
-    if (music && comp === 'story' && existsSync(resolve(cues, 's01.mp3'))) {
-      const tl = JSON.parse(readFileSync(resolve(ROOT, 'src/comps/story.timeline.json'), 'utf8'))
-      const lead = tl.voice?.lead ?? 0.5
-      const voiced = resolve(ROOT, '.cache/music', 'story-voiced.wav')
-      const ins = ['-i', music]
-      let graph = ''
-      tl.scenes.forEach((sc, i) => {
-        ins.push('-i', resolve(cues, `s${String(i + 1).padStart(2, '0')}.mp3`))
-        graph += `[${i + 1}:a]aresample=48000,adelay=${Math.round((sc.start + lead) * 1000)}:all=1[v${i}];`
-      })
-      graph += tl.scenes.map((_, i) => `[v${i}]`).join('') + `amix=inputs=${tl.scenes.length}:normalize=0,volume=1.5,apad=whole_dur=${tl.duration},asplit=2[voice][key];`  // padded to the film's length, or the mix would end with her last word
-      graph += `[0:a]volume=0.8[bed];[bed][key]sidechaincompress=threshold=0.02:ratio=10:attack=40:release=700:makeup=1[duck];`
-      graph += `[duck][voice]amix=inputs=2:normalize=0:duration=first,alimiter=limit=0.89,volume=-2.5dB[o]`
-      ff([...ins, '-filter_complex', graph, '-map', '[o]', '-ar', '48000', '-ac', '2', voiced])
-      music = voiced
-      console.log('voice mixed →', voiced)
-    }
-
     /* encode */
     const out = opt.out ? resolve(opt.out) : draft ? resolve(ROOT, 'out', `${comp}-draft.mp4`) : target.out
     mkdirSync(dirname(out), { recursive: true })
@@ -210,11 +191,6 @@ async function main() {
       ff([...input, ...vcodec(['-b:v', `${kbps}k`, '-pass', '1', '-passlogfile', log]), '-an', '-f', 'null', process.platform === 'win32' ? 'NUL' : '/dev/null'])
       ff([...input, ...audioIn, ...vcodec(['-b:v', `${kbps}k`, '-pass', '2', '-passlogfile', log]), ...acodec, ...tail])
       mb = statSync(out).size / 1e6
-    }
-    if (target.json && !draft) {
-      const tl = JSON.parse(readFileSync(resolve(ROOT, 'src/comps/story.timeline.json'), 'utf8'))
-      writeFileSync(target.json, JSON.stringify({ duration: tl.duration, scenes: tl.scenes.map((s) => ({ scene: s.scene, start: s.start, end: s.end })) }, null, 2) + '\n')
-      console.log('wrote', target.json)
     }
     if (!opt.keep) rmSync(framesDir, { recursive: true, force: true })
     console.log(`${out} · ${mb.toFixed(2)} MB · ${(count / fps).toFixed(2)} s · rendered in ${Math.round((Date.now() - t0) / 1000)} s`)

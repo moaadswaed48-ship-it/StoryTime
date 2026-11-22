@@ -26,7 +26,7 @@ for (const [name, viewport] of sizes) {
   const ys = opt.y ? String(opt.y).split(',').map(Number) : [null]
   for (let i = 0; i < ys.length; i++) {
     if (ys[i] !== null) {
-      await page.evaluate((y) => (window.__st?.lenis ? window.__st.lenis.scrollTo(y, { immediate: true, force: true }) : window.scrollTo(0, y)), ys[i])
+      await page.evaluate((y) => window.scrollTo(0, y), ys[i])
       await page.waitForTimeout(Number(opt.after ?? 900))
     }
     const file = `${out}-${name}${ys.length > 1 ? '-' + i : ''}.jpg`

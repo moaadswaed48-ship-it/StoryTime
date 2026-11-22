@@ -314,10 +314,3 @@ export function relocate(before: BookPage | undefined, after: BookPage[]): numbe
   const through = before.parts > 1 ? before.part / (before.parts - 1) : 0
   return first + Math.round(through * (parts - 1))
 }
-
-/** First page that is locked while the visitor is not logged in: the first page of the first paid scene. */
-export function lockedFrom(pages: BookPage[], freeScenes: number, loggedIn: boolean): number {
-  if (loggedIn) return Infinity
-  const i = pages.findIndex((p) => p.kind === 'scene' && p.scene === freeScenes && p.part === 0)
-  return i < 0 ? Infinity : i
-}

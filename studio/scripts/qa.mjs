@@ -1,6 +1,6 @@
-// Checks on the finished files. Run from video/:
-//   node scripts/qa.mjs                  → all published videos
-//   node scripts/qa.mjs trailer-16x9     → one
+// Checks on a finished video. Carried from the old build's video/scripts/qa.mjs.
+//   node studio/scripts/qa.mjs <file.mp4> [--timeline=path.json] [--max-mb=12] [--tile=4x3] [--tw=480]
+// --timeline gives the bar length (its `bar` field) for the cuts-vs-bar-lines check; without it that check is skipped.
 // For each video it prints: container facts (codec, pixel format, size, duration, +faststart), loudness
 // (integrated LUFS, true peak), where the picture cuts fall against the music's bar lines, and it writes
 // one frame per second to out/qa/<name>/sNNN.jpg plus contact sheets (out/qa/<name>/sheet-NN.jpg).
@@ -10,14 +10,14 @@ import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..')
-const FILM = resolve(ROOT, '../public/film')
-const TL = (n) => JSON.parse(readFileSync(resolve(ROOT, `src/comps/${n}.timeline.json`), 'utf8'))
+const args = process.argv.slice(2)
+const opt = Object.fromEntries(args.filter((a) => a.startsWith('--')).map((a) => a.slice(2).split('=')))
+const file = args.find((a) => !a.startsWith('--'))
+if (!file) throw new Error('usage: node studio/scripts/qa.mjs <file.mp4> [--timeline=path.json] [--max-mb=12]')
 const VIDEOS = {
-  'trailer-16x9': { file: `${FILM}/trailer-16x9.mp4`, maxMB: 12, tl: 'trailer', tile: '4x3', tw: 480 },
-  'trailer-9x16': { file: `${FILM}/trailer-9x16.mp4`, maxMB: 12, tl: 'trailer', tile: '6x2', tw: 320 },
-  story: { file: `${FILM}/story.mp4`, maxMB: 14, tl: 'story', tile: '4x3', tw: 480 },
+  [file.replace(/^.*\//, '').replace(/\.[^.]+$/, '')]: { file: resolve(file), maxMB: Number(opt['max-mb'] ?? Infinity), tl: opt.timeline, tile: opt.tile ?? '4x3', tw: Number(opt.tw ?? 480) },
 }
-const only = process.argv[2]
+const only = undefined
 const run = (cmd, args) => spawnSync(cmd, args, { encoding: 'utf8', maxBuffer: 1 << 28 })
 
 for (const [name, v] of Object.entries(VIDEOS)) {
@@ -47,15 +47,16 @@ for (const [name, v] of Object.entries(VIDEOS)) {
     console.log(`  loudness  ${I} LUFS integrated · true peak ${P} dBFS ${Number(P) < -3 ? 'OK (< -3)' : 'TOO HOT'}`)
   }
   // picture cuts vs bar lines
-  const tl = TL(v.tl)
+  const tl = v.tl ? JSON.parse(readFileSync(resolve(v.tl), 'utf8')) : null
   const sc = run('ffmpeg', ['-hide_banner', '-nostats', '-i', v.file, '-vf', 'scdet=threshold=9', '-an', '-f', 'null', '-']).stderr
   const cuts = [...sc.matchAll(/lavfi\.scd\.time:\s*([\d.]+)/g)].map((m) => Number(m[1]))
-  const offs = cuts.map((c) => {
+  const offs = !tl ? [] : cuts.map((c) => {
     const bars = c / tl.bar
     return { c, off: (bars - Math.round(bars)) * tl.bar }
   })
   const onBar = offs.filter((o) => Math.abs(o.off) < 0.06).length
-  console.log(`  cuts  ${cuts.length} detected · ${onBar} on a bar line (±0.06 s) · off-bar: ${offs.filter((o) => Math.abs(o.off) >= 0.06).map((o) => o.c.toFixed(2)).join(', ') || 'none'}`)
+  if (!tl) console.log(`  cuts  ${cuts.length} detected (no timeline given: bar-line check skipped)`)
+  else console.log(`  cuts  ${cuts.length} detected · ${onBar} on a bar line (±0.06 s) · off-bar: ${offs.filter((o) => Math.abs(o.off) >= 0.06).map((o) => o.c.toFixed(2)).join(', ') || 'none'}`)
   // one frame per second, and sheets
   const out = resolve(ROOT, 'out/qa', name)
   rmSync(out, { recursive: true, force: true })

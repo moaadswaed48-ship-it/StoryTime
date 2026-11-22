@@ -1,3 +1,10 @@
+/*
+ * REFERENCE ONLY: not compiled (excluded in tsconfig.json) and not imported anywhere.
+ * Carried from the old build (src/features/sari/Acting.tsx) for its technique: gestures layered on a rig from the
+ * bind pose each frame (relaxed stand, wave, run blend, head look-at). It depends on the old AI-made Sari model
+ * (`useSari`, `@/design/SariModel`), which was deliberately NOT carried over. Stage 3 rewrites these gestures
+ * against the new standard humanoid skeleton. `runtime.ts` beside it is the old shared state it reads.
+ */
 import { useEffect, useMemo, useRef } from 'react'
 import * as THREE from 'three'
 import { useFrame } from '@react-three/fiber'

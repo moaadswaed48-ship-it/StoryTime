@@ -1,12 +1,11 @@
 /**
- * What every scene of the film is made with, beyond the puppets and the set: the shape of a scene, its words on
- * screen, blinks, the smoothing of elbows and knees, and the one routine that draws a world under the Moon's hard
- * lights (day and night either side of the line, with warm pools of lamp- or eye-light inside the night).
+ * What every scene of a film is made with, beyond the puppets and the set: the shape of a scene, its words on
+ * screen, blinks, the smoothing of elbows and knees, and the one routine that draws a world under hard lights
+ * (day and night either side of a line, with warm pools of lamp- or eye-light inside the night).
+ * Carried from the old build's Moon film kit; the Moon story and its rover character were left behind.
  */
-import { moon } from '@/content/stories/moon'
 import { Painter, STAGE_W, ellipse, hopArc, ramp, type Light } from './core'
 import { drawPerson, skeleton, type PersonOpts, type Pose, type Who } from './people'
-import { drawRover, roverEye, type Rover } from './wameed'
 import { dayRegion, lineX, nightRegion, type Terminator } from './world'
 
 /** Words on screen at one moment: how visible the line is, and each of its phrases (0…1), all from the time alone. */
@@ -17,7 +16,7 @@ export type Joints = Record<string, { x: number; y: number }>
 
 /** A scene: a pure function of its own time (seconds from its first frame). */
 export type SceneDef = {
-  /** Scene number in the story (1…12). */
+  /** Scene number in the story (1-based). */
   n: number
   duration: number
   /** Where each shot starts (the first is 0). */
@@ -32,9 +31,9 @@ export type SceneDef = {
 }
 
 // ── words ─────────────────────────────────────────────────────────────────────
-/** A scene's cue line (the narrator's line, verbatim from the story), cut into phrases of the given word counts. */
-export function cuePhrases(n: number, counts: number[]): string[] {
-  const words = moon.scenes[n - 1].cue.ar.split(' ')
+/** A cue line (the narrator's line, verbatim from the story), cut into phrases of the given word counts. */
+export function cuePhrases(line: string, counts: number[]): string[] {
+  const words = line.split(' ')
   const out: string[] = []
   let i = 0
   for (const c of counts) {
@@ -97,7 +96,7 @@ export function smoothBends<C extends Partial<Record<Who, Pose>>>(raw: (t: numbe
 }
 
 /** Joint positions of a cast, for the pop check. */
-export function jointsOf(c: Partial<Record<Who, Pose>> & { rover?: Rover }): Joints {
+export function jointsOf(c: Partial<Record<Who, Pose>>): Joints {
   const out: Joints = {}
   for (const who of ['sari', 'amir', 'layla'] as const) {
     const p = c[who]
@@ -105,19 +104,12 @@ export function jointsOf(c: Partial<Record<Who, Pose>> & { rover?: Rover }): Joi
     const s = skeleton(who, p)
     for (const j of ['head', 'elA', 'elB', 'haA', 'haB', 'knA', 'knB', 'ftA', 'ftB'] as const) out[`${who}.${j}`] = s.world(s[j])
   }
-  if (c.rover) {
-    out.rover = { x: c.rover.x, y: c.rover.y - c.rover.lift }
-    out['rover.eye'] = roverEye(c.rover)
-  }
   return out
 }
 
 /** The long shadow of a person standing in the Sun (`len`: how many times their height it is). */
 export function personShadow(P: Painter, who: Who, p: Pose, opts: PersonOpts = {}, len = 4.2) {
   P.shadow(p.x, p.y, () => drawPerson(P, who, { ...p, x: 0, y: 0, lift: 0, aw: 0, bw: 0 }, { basket: opts.basket, basketOn: opts.basketOn, helmet: opts.helmet }), p.lift, len)
-}
-export function roverShadow(P: Painter, r: Rover, len = 4.2) {
-  P.shadow(r.x, r.y, () => drawRover(P, { ...r, x: 0, y: 0, lift: 0 }), r.lift, len)
 }
 
 /** The world's left and right edge inside the frame (with a margin), for drawing only what can be seen. */

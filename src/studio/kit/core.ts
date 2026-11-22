@@ -1,5 +1,6 @@
 /**
- * The hand-made cartoon kit for «نزهة على القمر»: palette, easing, key-framed tracks and the Painter.
+ * The hand-made cartoon kit (carried from the old build's Moon film): palette, easing, key-framed tracks and the Painter.
+ * The palette `C` is still the old film's; Stage 3 replaces it with the character builder's colours.
  *
  * Everything here is a pure function of time: no state is carried from one frame to the next, so any frame can be
  * drawn on its own (scrubbing, frame-by-frame capture to video). The stage is designed at 1920×1080 "units".
@@ -9,7 +10,7 @@ import { mulberry32 } from '@/lib/seeded'
 export const STAGE_W = 1920
 export const STAGE_H = 1080
 
-/** Palette from docs/stories/moon-art.md §2, plus the few darker "second papers" each costume needs. */
+/** The old Moon film's palette, plus the few darker "second papers" each costume needs (kept so the puppets draw as before). */
 export const C = {
   space: '#0b0f24',
   navy: '#1d2447',

@@ -3,8 +3,9 @@
  * `fg` is the foil, `ko` the knock-out (the cloth showing through) — the same drawing is used as
  * a mask for an element painted in foil (spine, cover, detail view) and as a tiled pattern stamped
  * all over a cover board.
+ * The old maple-leaf emblem was removed: it belonged to the autumn look (project rule 2).
  */
-import type { Emblem } from '@/content/library'
+import type { Emblem } from './types'
 
 interface Paint {
   fg: string
@@ -15,9 +16,6 @@ const spin = (n: number, step: number, inner: (i: number) => string) =>
   Array.from({ length: n }, (_, i) => `<g transform="rotate(${i * step} 32 32)">${inner(i)}</g>`).join('')
 
 const DRAW: Record<Emblem, (p: Paint) => string> = {
-  leaf: ({ fg, ko }) =>
-    `<path d="M32 4 36.6 14.6 42.5 11.5 41 24.5 49 17.5 50.6 23 58.5 21.6 54.6 30 59.5 33 48 41.6 49.6 47 33.8 44V60H30.2V44L14.4 47 16 41.6 4.5 33 9.4 30 5.5 21.6 13.4 23 15 17.5 23 24.5 21.5 11.5 27.4 14.6Z" fill="${fg}" stroke="${fg}" stroke-width="1.6" stroke-linejoin="round"/>` +
-    `<path d="M32 41V16M32 37 45.5 27.5M32 37 18.5 27.5M32 29l7-9.5M32 29l-7-9.5" fill="none" stroke="${ko}" stroke-width="1.5" stroke-linecap="round"/>`,
   snow: ({ fg, ko }) =>
     `<g fill="none" stroke="${fg}" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round">${spin(3, 60, () => `<path d="M32 5V59M32 13.5l-6-5.5M32 13.5l6-5.5M32 50.5l-6 5.5M32 50.5l6 5.5M32 22l-4.6-4M32 22l4.6-4M32 42l-4.6 4M32 42l4.6 4"/>`)}</g>` +
     `<circle cx="32" cy="32" r="3" fill="${ko}"/>`,

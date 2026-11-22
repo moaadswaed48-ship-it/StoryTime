@@ -1,0 +1,38 @@
+@import 'tailwindcss';
+
+/*
+ * Neutral tokens only. The brand (colour, type, shape) is decided in Stage 2; nothing here is a design choice.
+ * Fonts are the platform's own until then.
+ */
+@theme {
+  --color-paper: oklch(0.985 0 0);
+  --color-surface: oklch(1 0 0);
+  --color-ink: oklch(0.21 0 0);
+  --color-ink-muted: oklch(0.46 0 0);
+  --color-line: oklch(0.87 0 0);
+  --color-focus: oklch(0.55 0.14 255);
+  --font-sans: system-ui, -apple-system, 'Segoe UI', Roboto, 'Noto Sans', 'Noto Sans Arabic', 'Noto Sans Hebrew', 'DejaVu Sans', sans-serif;
+  --radius-control: 0.75rem;
+}
+
+@layer base {
+  html {
+    background: var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    -webkit-text-size-adjust: 100%;
+    text-rendering: optimizeLegibility;
+  }
+  body {
+    min-height: 100dvh;
+  }
+  /* Never letter-space Arabic or Hebrew. */
+  :lang(ar),
+  :lang(he) {
+    letter-spacing: normal !important;
+  }
+  :focus-visible {
+    outline: 3px solid var(--color-focus);
+    outline-offset: 2px;
+  }
+}
