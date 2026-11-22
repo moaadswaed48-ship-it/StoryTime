@@ -1,14 +1,31 @@
-// After `react-router build`: make the static output ready for a plain file host.
-//  - 404.html: a copy of the SPA fallback, so a host that serves 404.html for unknown paths (GitHub Pages)
-//    still opens client-only pages such as /ar/app/library.
-//  - .nojekyll: GitHub Pages would otherwise hide files whose names start with "_" (the SPA fallback).
-import { copyFileSync, existsSync, readdirSync, writeFileSync } from 'node:fs'
+// After `react-router build`: lay build/client out exactly like the URL space, ready for a plain file host.
+//  - React Router writes pre-rendered pages under build/client/<base path>/ but the assets and the SPA fallback at
+//    build/client/. Both move under the base path, so build/client/StoryTime/next/assets/x.js is served at
+//    /StoryTime/next/assets/x.js. Deploy = copy build/client/<base path>/ to where the base path points.
+//  - __spa-fallback.html: the page for client-only URLs (the app). 404.html is a copy for hosts that serve
+//    404.html for unknown paths (GitHub Pages uses only the one at the site root: see docs/HANDOFF.md).
+//  - .nojekyll: GitHub Pages would otherwise hide files whose names start with "_".
+//  - build/client/.vite (the build manifest) is removed: it is not part of the site.
+import { copyFileSync, existsSync, mkdirSync, readFileSync, renameSync, rmSync, writeFileSync } from 'node:fs'
 import { resolve } from 'node:path'
+import { basePath } from '../site.config.ts'
 
-const out = resolve(import.meta.dirname, '../build/client')
-const fallback = ['__spa-fallback.html', 'index.html'].map((f) => resolve(out, f)).find(existsSync)
-if (!fallback) throw new Error('postbuild: no SPA fallback found in build/client')
-copyFileSync(fallback, resolve(out, '404.html'))
-writeFileSync(resolve(out, '.nojekyll'), '')
-if (existsSync(resolve(out, 'lab'))) throw new Error('postbuild: lab pages must not be in a production build')
-console.log(`postbuild: 404.html from ${fallback.split('/').pop()}, .nojekyll written; top level:`, readdirSync(out).join(' '))
+const client = resolve(import.meta.dirname, '../build/client')
+const site = resolve(client, '.' + basePath)
+rmSync(resolve(client, '.vite'), { recursive: true, force: true })
+
+if (basePath !== '/') {
+  mkdirSync(site, { recursive: true })
+  const spa = resolve(client, 'index.html')
+  if (existsSync(spa) && /"isSpaMode":true/.test(readFileSync(spa, 'utf8'))) renameSync(spa, resolve(site, '__spa-fallback.html'))
+  if (existsSync(resolve(client, '__spa-fallback.html'))) renameSync(resolve(client, '__spa-fallback.html'), resolve(site, '__spa-fallback.html'))
+  rmSync(resolve(site, 'assets'), { recursive: true, force: true })
+  renameSync(resolve(client, 'assets'), resolve(site, 'assets'))
+}
+const fallback = resolve(site, '__spa-fallback.html')
+if (!existsSync(fallback)) throw new Error('postbuild: no __spa-fallback.html (is "/" still pre-rendered?)')
+if (!/"isSpaMode":true/.test(readFileSync(fallback, 'utf8'))) throw new Error('postbuild: __spa-fallback.html is not the SPA fallback')
+copyFileSync(fallback, resolve(site, '404.html'))
+writeFileSync(resolve(site, '.nojekyll'), '')
+if (existsSync(resolve(site, 'lab'))) throw new Error('postbuild: lab pages must not be in a production build')
+console.log(`postbuild: site laid out at build/client${basePath} (base ${basePath})`)

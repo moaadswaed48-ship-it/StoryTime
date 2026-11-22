@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type PointerEvent } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useSearchParams } from 'react-router'
 import { num } from '@/i18n/helpers'
 import { CurlEngine } from '@/reader/curl/engine'
@@ -63,16 +63,25 @@ export default function CurlLab() {
   const [positions, setPositions] = useState(1)
   const [error, setError] = useState<string | null>(null)
   const frame = useRef({ x: 0, y: 0 })
+  const relayoutRef = useRef<(() => void) | null>(null)
 
-  // Engine: made once, given a layout whenever the box changes size or the direction flips.
+  // Engine: made once on a canvas of its own, given a layout whenever the box changes size or the direction flips.
+  // The canvas is created here and removed on cleanup: destroy() loses its WebGL context for good, so a remount
+  // (React's development double-mount included) must never reuse it.
   useEffect(() => {
-    const el = canvas.current
     const host = box.current
-    if (!el || !host) return
+    if (!host) return
+    const el = document.createElement('canvas')
+    el.className = 'absolute inset-0 touch-none'
+    el.tabIndex = 0
+    el.setAttribute('aria-label', 'Test book: drag a page corner, or use the arrow keys')
+    host.appendChild(el)
+    canvas.current = el
     let e: CurlEngine
     try {
       e = new CurlEngine(el, { onChange: setPos })
     } catch (err) {
+      el.remove()
       setError(String(err))
       return
     }
@@ -94,10 +103,28 @@ export default function CurlLab() {
       setPositions(e.positions())
       setPos(e.position())
     }
+    relayoutRef.current = relayout
     relayout()
     const ro = new ResizeObserver(relayout)
     ro.observe(host)
-    ;(e as unknown as { relayout: () => void }).relayout = relayout
+    const down = (ev: PointerEvent) => {
+      el.setPointerCapture?.(ev.pointerId)
+      e.press(ev.clientX - frame.current.x, ev.clientY - frame.current.y, ev.timeStamp)
+    }
+    const move = (ev: PointerEvent) => e.move(ev.clientX - frame.current.x, ev.clientY - frame.current.y, ev.timeStamp)
+    const up = (ev: PointerEvent) => e.release(ev.timeStamp)
+    const cancel = () => e.cancel()
+    const key = (ev: KeyboardEvent) => {
+      const fwd = rtlRef.current ? 'ArrowLeft' : 'ArrowRight'
+      const back = rtlRef.current ? 'ArrowRight' : 'ArrowLeft'
+      if (ev.key === fwd) e.turn(1)
+      if (ev.key === back) e.turn(-1)
+    }
+    el.addEventListener('pointerdown', down)
+    el.addEventListener('pointermove', move)
+    el.addEventListener('pointerup', up)
+    el.addEventListener('pointercancel', cancel)
+    el.addEventListener('keydown', key)
     // For screenshots: ?hold=0.4 holds a forward turn in the air.
     const hold = Number(params.get('hold'))
     let timer = 0
@@ -106,21 +133,16 @@ export default function CurlLab() {
       clearTimeout(timer)
       ro.disconnect()
       e.destroy()
+      el.remove()
       engine.current = null
+      relayoutRef.current = null
     }
   }, [params])
 
   useEffect(() => {
     rtlRef.current = rtl
-    ;(engine.current as unknown as { relayout?: () => void } | null)?.relayout?.()
+    relayoutRef.current?.()
   }, [rtl])
-
-  const down = (ev: PointerEvent<HTMLCanvasElement>) => {
-    ev.currentTarget.setPointerCapture?.(ev.pointerId)
-    engine.current?.press(ev.clientX - frame.current.x, ev.clientY - frame.current.y, ev.timeStamp)
-  }
-  const move = (ev: PointerEvent<HTMLCanvasElement>) => engine.current?.move(ev.clientX - frame.current.x, ev.clientY - frame.current.y, ev.timeStamp)
-  const up = (ev: PointerEvent<HTMLCanvasElement>) => engine.current?.release(ev.timeStamp)
 
   return (
     <main className="flex flex-1 flex-col">
@@ -136,24 +158,7 @@ export default function CurlLab() {
       {error ? (
         <p className="m-4 rounded-control border border-line p-4">WebGL is not available here: {error}</p>
       ) : (
-        <div ref={box} className="relative min-h-[60dvh] flex-1 bg-[oklch(0.93_0_0)]">
-          <canvas
-            ref={canvas}
-            className="absolute inset-0 touch-none"
-            onPointerDown={down}
-            onPointerMove={move}
-            onPointerUp={up}
-            onPointerCancel={() => engine.current?.cancel()}
-            onKeyDown={(e) => {
-              const fwd = rtl ? 'ArrowLeft' : 'ArrowRight'
-              const back = rtl ? 'ArrowRight' : 'ArrowLeft'
-              if (e.key === fwd) engine.current?.turn(1)
-              if (e.key === back) engine.current?.turn(-1)
-            }}
-            tabIndex={0}
-            aria-label="Test book: drag a page corner, or use the arrow keys"
-          />
-        </div>
+        <div ref={box} className="relative min-h-[60dvh] flex-1 bg-[oklch(0.93_0_0)]" />
       )}
     </main>
   )
