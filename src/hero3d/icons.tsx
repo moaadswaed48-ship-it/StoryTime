@@ -64,7 +64,7 @@ function draw(act: Act): Drawn {
   }
   const line = (...names: (keyof typeof s.at)[]) => names.map((n, i) => `${i ? 'L' : 'M'}${pt(s.at[n]).map((c) => c.toFixed(1)).join(' ')}`).join('')
   const body = [line('hips', 'spine', 'chest', 'neck'), line('leftUpperLeg', 'leftLowerLeg', 'leftFoot', 'leftToe'), line('rightUpperLeg', 'rightLowerLeg', 'rightFoot', 'rightToe')]
-  const arms = [line('chest', 'leftUpperArm', 'leftLowerArm', 'leftHand', 'leftTip'), line('chest', 'rightUpperArm', 'rightLowerArm', 'rightHand', 'rightTip')]
+  const arms = [line('leftUpperArm', 'leftLowerArm', 'leftHand', 'leftTip'), line('rightUpperArm', 'rightLowerArm', 'rightHand', 'rightTip')]
   const crown = pt(s.at.crown)
   const base = pt(s.at.head)
   const r = Math.hypot(crown[0] - base[0], crown[1] - base[1]) * 0.54

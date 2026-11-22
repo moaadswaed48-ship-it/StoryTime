@@ -278,7 +278,7 @@ export const GESTURE_DEFS: Record<Act, GestureDef> = {
       p.hipY = -0.17 * c + 0.015 * g - 0.03 * (1 - hop) * hw
       p.spineRx = 0.2 * c - 0.1 * g
       p.chestRx = -0.08 * g
-      p.headRx = 0.08 * c - 0.2 * g
+      p.headRx = 0.08 * c - 0.1 * g
       p.squash = -0.06 * c + 0.05 * g
       for (const s of ['L', 'R'] as const) {
         reach(p, s, c, 0.24, -0.34, 0.46)
