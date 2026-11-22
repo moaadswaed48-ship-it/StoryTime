@@ -1,5 +1,5 @@
 {
-  "title": "Konkylien der synger",
+  "title": "Den syngende konkylie",
   "names": {
     "b02-dalia": "Dalia",
     "b02-drum-boy": "drengen med trommen",
@@ -11,57 +11,57 @@
   },
   "pages": [
     { "n": 1, "text": "Regnen trommede på børnehavens tag. Dryp, dryp, dryp. I dag måtte alle tage noget med hjemmefra. Dalia havde taget noget lille med. Hun holdt det gemt i hånden.", "speech": "Regnen trommede på børnehavens tag. Dryp, dryp, dryp. I dag måtte alle tage noget med hjemmefra. Dalia havde taget noget lille med. Hun holdt det gemt i hånden." },
-    { "n": 2, "text": "Seks børn sad i en rundkreds på tæppet. Pædagogen satte sig ned sammen med dem. »Vis os hvad I har taget med,« sagde hun.", "speech": "Seks børn sad i en rundkreds på tæppet. Pædagogen satte sig ned sammen med dem. »Vis os hvad I har taget med,« sagde hun." },
-    { "n": 3, "text": "Drengen med trommen startede. Bum, bum, BUM sagde hans tromme. Pigen med gummianden var den næste. Piv, piv sagde hendes and.", "speech": "Drengen med trommen startede. Bum, bum, BUM sagde hans tromme. Pigen med gummianden var den næste. Piv, piv sagde hendes and." },
-    { "n": 4, "text": "Så kom en fløjte. Fiiiiit. Alle grinede, og der blev mere og mere larm. Og regnen sagde dryp, dryp, dryp.", "speech": "Så kom en fløjte. Fiiiiit. Alle grinede, og der blev mere og mere larm. Og regnen sagde dryp, dryp, dryp." },
-    { "n": 5, "text": "Så var det Dalias tur. Hun rejste sig og åbnede hånden. Inde i den lå en konkylie, hvid og lyserød og snoet.", "speech": "Så var det Dalias tur. Hun rejste sig og åbnede hånden. Inde i den lå en konkylie, hvid og lyserød og snoet." },
+    { "n": 2, "text": "Seks børn sad i en rundkreds på tæppet. Pædagogen satte sig hos dem. »Vis os hvad I har taget med,« sagde hun.", "speech": "Seks børn sad i en rundkreds på tæppet. Pædagogen satte sig hos dem. »Vis os hvad I har taget med,« sagde hun." },
+    { "n": 3, "text": "Drengen med trommen var først. Bum, bum, BUM, sagde hans tromme. Pigen med gummianden var den næste. Piv, piv, sagde hendes and.", "speech": "Drengen med trommen var først. Bum, bum, BUM, sagde hans tromme. Pigen med gummianden var den næste. Piv, piv, sagde hendes and." },
+    { "n": 4, "text": "Så kom en fløjte. Fiiiit! Alle grinede, og der blev mere og mere larm. Og regnen sagde dryp, dryp, dryp.", "speech": "Så kom en fløjte. Fiiiit! Alle grinede, og der blev mere og mere larm. Og regnen sagde dryp, dryp, dryp." },
+    { "n": 5, "text": "Nu var det Dalias tur. Hun rejste sig og åbnede hånden. Der lå en konkylie, hvid og lyserød og snoet.", "speech": "Nu var det Dalias tur. Hun rejste sig og åbnede hånden. Der lå en konkylie, hvid og lyserød og snoet." },
     { "n": 6, "text": "»Det her er min konkylie,« sagde Dalia. Men hendes stemme var helt lille, og der var så meget larm. Bum, sagde trommen. Piv, sagde gummianden. Ingen hørte hende.", "speech": "»Det her er min konkylie,« sagde Dalia. Men hendes stemme var helt lille, og der var så meget larm. Bum, sagde trommen. Piv, sagde gummianden. Ingen hørte hende." },
-    { "n": 7, "text": "Dalia lukkede hånden om konkylien. Hun kiggede ned på sine støvler. Måske skal jeg bare sætte mig igen, tænkte hun. Hvad ville du gøre?", "speech": "Dalia lukkede hånden om konkylien. Hun kiggede ned på sine støvler. Måske skal jeg bare sætte mig igen, tænkte hun. Hvad ville du gøre?" },
+    { "n": 7, "text": "Dalia lukkede hånden om konkylien. Hun kiggede ned på sine støvler. Måske skal jeg bare sætte mig ned igen, tænkte hun. Hvad ville du gøre?", "speech": "Dalia lukkede hånden om konkylien. Hun kiggede ned på sine støvler. Måske skal jeg bare sætte mig ned igen, tænkte hun. Hvad ville du gøre?" },
     { "n": 8, "text": "Drengen med trommen så Dalias lukkede hånd. Han lagde trommestikkerne fra sig. Han satte en finger for munden. »Hys,« sagde han.", "speech": "Drengen med trommen så Dalias lukkede hånd. Han lagde trommestikkerne fra sig. Han satte en finger for munden. »Hys,« sagde han." },
     { "n": 9, "text": "Pigen med gummianden så ham. Hun lagde anden i skødet. »Hys.« Så holdt fløjten også op. Hys, hys, hele vejen rundt i kredsen.", "speech": "Pigen med gummianden så ham. Hun lagde anden i skødet. »Hys.« Så holdt fløjten også op. Hys, hys, hele vejen rundt i kredsen." },
     { "n": 10, "text": "Pædagogen satte også en finger for munden. Snart var der kun én lyd tilbage. Regnen sagde dryp, dryp, dryp.", "speech": "Pædagogen satte også en finger for munden. Snart var der kun én lyd tilbage. Regnen sagde dryp, dryp, dryp." },
-    { "n": 11, "text": "Dalia åbnede hånden igen. Hun holdt konkylien op til øret. »Hvis I er helt stille,« hviskede hun, »så synger den havet.«", "speech": "Dalia åbnede hånden igen. Hun holdt konkylien op til øret. »Hvis I er helt stille,« hviskede hun, »så synger den havet.«" },
-    { "n": 12, "text": "Drengen med trommen lænede sig frem. Dalia holdt konkylien op til hans øre. Han lyttede. Hans øjne blev store. »Jeg kan høre det,« hviskede han. »Ligesom små bølger.«", "speech": "Drengen med trommen lænede sig frem. Dalia holdt konkylien op til hans øre. Han lyttede. Hans øjne blev store. »Jeg kan høre det,« hviskede han. »Ligesom små bølger.«" },
-    { "n": 13, "text": "En efter en gik konkylien rundt i kredsen. Alle lyttede. Ingen pev. Ingen trommede. Ingen fløjtede.", "speech": "En efter en gik konkylien rundt i kredsen. Alle lyttede. Ingen pev. Ingen trommede. Ingen fløjtede." },
-    { "n": 14, "text": "Da konkylien kom tilbage til Dalia, smilede hun. »Skal jeg fortælle hvor jeg fandt den?« spurgte hun. Og denne gang hørte alle hende.", "speech": "Da konkylien kom tilbage til Dalia, smilede hun. »Skal jeg fortælle hvor jeg fandt den?« spurgte hun. Og denne gang hørte alle hende." }
+    { "n": 11, "text": "Dalia åbnede hånden igen. Hun holdt konkylien op til øret. »Hvis I er helt stille,« hviskede hun, »så synger den om havet.«", "speech": "Dalia åbnede hånden igen. Hun holdt konkylien op til øret. »Hvis I er helt stille,« hviskede hun, »så synger den om havet.«" },
+    { "n": 12, "text": "Drengen med trommen lænede sig frem. Dalia holdt konkylien op til hans øre. Han lyttede. Han fik store øjne. »Jeg kan høre det,« hviskede han. »Ligesom små bølger.«", "speech": "Drengen med trommen lænede sig frem. Dalia holdt konkylien op til hans øre. Han lyttede. Han fik store øjne. »Jeg kan høre det,« hviskede han. »Ligesom små bølger.«" },
+    { "n": 13, "text": "Konkylien gik fra øre til øre, hele vejen rundt i kredsen. Alle lyttede. Ingen sagde et pip. Ingen trommede. Ingen fløjtede.", "speech": "Konkylien gik fra øre til øre, hele vejen rundt i kredsen. Alle lyttede. Ingen sagde et pip. Ingen trommede. Ingen fløjtede." },
+    { "n": 14, "text": "Da konkylien kom tilbage til Dalia, smilede hun. »Skal jeg fortælle jer hvor jeg fandt den?« spurgte hun. Og denne gang hørte alle hende.", "speech": "Da konkylien kom tilbage til Dalia, smilede hun. »Skal jeg fortælle jer hvor jeg fandt den?« spurgte hun. Og denne gang hørte alle hende." }
   ],
   "film": [
     { "id": "f01", "speaker": "narrator", "text": "Regn på børnehavens tag.", "speech": "Regn på børnehavens tag.", "emotion": "calm and cosy, a grey morning" },
     { "id": "f02", "speaker": "narrator", "text": "Dryp, dryp, dryp.", "speech": "Dryp, dryp, dryp.", "emotion": "soft, in time with the rain" },
-    { "id": "f03", "speaker": "b02-dalia", "text": "Hys. Du skal blive gemt.", "speech": "Hys. Du skal blive gemt.", "emotion": "a tiny secret whisper to her shell, smiling" },
+    { "id": "f03", "speaker": "b02-dalia", "text": "Hys. Du skal gemme dig lidt endnu.", "speech": "Hys. Du skal gemme dig lidt endnu.", "emotion": "a tiny secret whisper to her shell, smiling" },
     { "id": "f04", "speaker": "b02-teacher", "text": "Godmorgen, alle sammen!", "speech": "Godmorgen, alle sammen!", "emotion": "warm and bright" },
     { "id": "f05", "speaker": "b02-teacher", "text": "Hvad har I taget med i dag?", "speech": "Hvad har I taget med i dag?", "emotion": "curious, inviting" },
     { "id": "f06", "speaker": "b02-drum-boy", "text": "Mig først! Hør her!", "speech": "Mig først! Hør her!", "emotion": "loud, excited, bouncing" },
     { "id": "f07", "speaker": "b02-duck-girl", "text": "Min and kan synge!", "speech": "Min and kan synge!", "emotion": "giggly, proud" },
-    { "id": "f08", "speaker": "narrator", "text": "Larmen blev større … og større.", "speech": "Larmen blev større … og større.", "emotion": "playful, rising in volume and speed" },
+    { "id": "f08", "speaker": "narrator", "text": "Det larmede mere … og mere.", "speech": "Det larmede mere … og mere.", "emotion": "playful, rising in volume and speed" },
     { "id": "f09", "speaker": "b02-teacher", "text": "Dalia, det er din tur.", "speech": "Dalia, det er din tur.", "emotion": "gentle, encouraging" },
     { "id": "f10", "speaker": "b02-dalia", "text": "Det her er min konkylie …", "speech": "Det her er min konkylie …", "emotion": "very small, shy, hopeful; the end is swallowed by the noise" },
     { "id": "f11", "speaker": "narrator", "text": "Men ingen hørte hende.", "speech": "Men ingen hørte hende.", "emotion": "quiet and sad, slower" },
-    { "id": "f12", "speaker": "b02-dalia", "text": "Måske skal jeg bare sætte mig igen.", "speech": "Måske skal jeg bare sætte mig igen.", "emotion": "a sad inner voice, close to tears but not crying" },
+    { "id": "f12", "speaker": "b02-dalia", "text": "Måske skal jeg bare sætte mig ned igen.", "speech": "Måske skal jeg bare sætte mig ned igen.", "emotion": "a sad inner voice, close to tears but not crying" },
     { "id": "f13", "speaker": "b02-drum-boy", "text": "Hys.", "speech": "Hys.", "emotion": "soft and kind, a decision" },
     { "id": "f14", "speaker": "b02-duck-girl", "text": "Hys.", "speech": "Hys.", "emotion": "copying him at once, eager, a little giggly" },
     { "id": "f15", "speaker": "narrator", "text": "Hys … hys … hele vejen rundt i kredsen.", "speech": "Hys … hys … hele vejen rundt i kredsen.", "emotion": "hushed, travelling, getting quieter with each hush" },
-    { "id": "f16", "speaker": "narrator", "text": "Kun regnen var tilbage. Dryp, dryp, dryp.", "speech": "Kun regnen var tilbage. Dryp, dryp, dryp.", "emotion": "very soft, full of wonder" },
+    { "id": "f16", "speaker": "narrator", "text": "Nu var der kun regnen tilbage. Dryp, dryp, dryp.", "speech": "Nu var der kun regnen tilbage. Dryp, dryp, dryp.", "emotion": "very soft, full of wonder" },
     { "id": "f17", "speaker": "b02-dalia", "text": "Hvis I er helt stille …", "speech": "Hvis I er helt stille …", "emotion": "whispering, a secret, growing braver" },
-    { "id": "f18", "speaker": "b02-dalia", "text": "… så synger den havet.", "speech": "… så synger den havet.", "emotion": "whispering, magical" },
+    { "id": "f18", "speaker": "b02-dalia", "text": "… så synger den om havet.", "speech": "… så synger den om havet.", "emotion": "whispering, magical" },
     { "id": "f19", "speaker": "b02-drum-boy", "text": "Jeg kan høre det … ligesom små bølger.", "speech": "Jeg kan høre det … ligesom små bølger.", "emotion": "amazed, a whisper full of delight" },
-    { "id": "f20", "speaker": "narrator", "text": "En efter en lyttede alle.", "speech": "En efter en lyttede alle.", "emotion": "calm, warm, slow" },
-    { "id": "f21", "speaker": "b02-dalia", "text": "Skal jeg fortælle hvor jeg fandt den?", "speech": "Skal jeg fortælle hvor jeg fandt den?", "emotion": "clear and warm, still soft, but sure of herself now" },
+    { "id": "f20", "speaker": "narrator", "text": "Én efter én lyttede de.", "speech": "Én efter én lyttede de.", "emotion": "calm, warm, slow" },
+    { "id": "f21", "speaker": "b02-dalia", "text": "Skal jeg fortælle jer hvor jeg fandt den?", "speech": "Skal jeg fortælle jer hvor jeg fandt den?", "emotion": "clear and warm, still soft, but sure of herself now" },
     { "id": "f22", "speaker": "b02-drum-boy", "text": "Ja, fortæl!", "speech": "Ja, fortæl!", "emotion": "eager, but in a quiet voice" },
     { "id": "f23", "speaker": "narrator", "text": "Og denne gang hørte alle hende.", "speech": "Og denne gang hørte alle hende.", "emotion": "warm, satisfied, a smile in the voice" },
     { "id": "f24", "speaker": "b02-dalia", "text": "Jeg fandt den ved havet en morgen …", "speech": "Jeg fandt den ved havet en morgen …", "emotion": "happy storytelling, fading softly under the music" }
   ],
   "activity": {
     "title": "Snakkepinden",
-    "goal": "At lytte til en ven og sige igen hvad vennen sagde.",
+    "goal": "At lytte til en ven og gentage hvad vennen sagde.",
     "materials": ["En kort, glat pind fra haven eller en træske"],
     "steps": [
       { "n": 1, "caption": "Kun den med pinden taler." },
       { "n": 2, "caption": "Send den videre. Sig én ting du hørte." },
-      { "n": 3, "caption": "Sig nu din egen ting." }
+      { "n": 3, "caption": "Fortæl så dit eget." }
     ],
-    "safety": "Brug en kort, glat pind uden spidse ender og uden splinter. Vi holder pinden og sender den videre. Vi vifter ikke med den og stikker ikke med den. Nødnummer: 101 i Israel, 112 i Danmark.",
-    "forAdult": "I historien bliver Dalia først hørt, da alle holder op med at larme og lytter. Legen her øver netop det, og ét skridt mere: at vise den anden at man virkelig har hørt efter, ved at sige igen hvad der blev sagt. Sådan viser vi respekt for den der taler, og det er noget børn kan lære og øve. Sæt jer i en rundkreds på gulvet (to er nok, tre eller fire er bedre). Vælg et let emne til første runde, for eksempel »et dyr jeg kan lide« eller »noget der fik mig til at grine i dag«. Den der holder pinden, taler. Alle andre lytter med lukket mund og stille hænder. Så går pinden videre. Før den næste siger sin egen ting, siger vedkommende én ting igen som den forrige sagde: »Du kan lide katte, fordi de er bløde.« Begynd selv, så barnet hører hvordan det lyder, og hjælp med de første ord: »Du sagde …«. Ros lytningen, ikke kun snakken: »Du huskede præcis hvad bedstemor sagde!«. Ti til tyve minutter, eller to-tre runder, er rigeligt. Gør det lettere ved at lytteren kun siger den andens navn og ét ord. Gør det sværere ved at sige to ting igen eller ved at stille den der talte ét spørgsmål, før man selv tager sin tur. Hvis et barn glemmer det, siger den der talte det bare igen: At glemme er en del af at lære.",
-    "inClass": "Lav rundkredse med seks børn og én voksen i hver og én pind til hver kreds. Pædagogen holder pinden først, sender den videre og gentager hvad det første barn sagde, før det andet barn taler, så alle hører hvordan man gør. Hold det samme emne hele runden. Sig det højt når nogen lytter godt: »Du hørte hvert eneste ord.«"
+    "safety": "Brug en kort, glat pind uden spidse ender og uden splinter. Vi holder pinden og sender den videre. Vi vifter ikke med den og stikker ikke med den. Sker der et uheld, så ring til det lokale alarmnummer.",
+    "forAdult": "I historien bliver Dalia først hørt da alle holder op med at larme og lytter. Legen her øver netop det, og ét skridt mere: at vise den anden at man virkelig har hørt efter, ved at sige igen hvad der blev sagt. Sådan viser vi respekt for den der taler, og det bliver børn bedre til jo mere de øver sig. Sæt jer i en rundkreds på gulvet (to er nok, tre eller fire er bedre). Vælg et let emne til første runde, for eksempel »et dyr jeg kan lide« eller »noget der fik mig til at grine i dag«. Den der holder pinden, taler. Alle andre lytter med lukket mund og stille hænder. Så går pinden videre. Før den næste fortæller sit eget, gentager vedkommende én ting som den forrige sagde: »Du kan lide katte, fordi de er bløde.« Begynd selv, så børnene hører hvordan det lyder, og hjælp med de første ord: »Du sagde …« Ros børnene for at lytte, ikke kun for at tale: »Du huskede præcis hvad bedstemor sagde!« Ti til tyve minutter, eller to-tre runder, er rigeligt. Gør det lettere: Lytteren siger kun den andens navn og ét ord. Gør det sværere: Lytteren gentager to ting eller stiller et spørgsmål til det den anden fortalte. Hvis et barn glemmer det, gentager den anden det bare: At glemme er en del af at lære.",
+    "inClass": "Lav rundkredse med seks børn, én voksen og én pind i hver kreds. Den voksne taler først og sender så pinden videre. Når det første barn har sagt sit, gentager den voksne hvad barnet sagde, så alle hører hvordan man gør. Så fortsætter legen rundt i kredsen. Hold det samme emne hele runden. Sig det højt når nogen lytter godt: »Du hørte hvert eneste ord.«"
   }
 }

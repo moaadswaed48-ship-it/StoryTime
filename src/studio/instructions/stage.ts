@@ -17,8 +17,7 @@
 import { guide } from '@/cast/instruction-cast'
 import { FACES } from '../figure/pose'
 import { Painter, Pen, TAU, blob, circle, curve, ellipse, rrect } from '../kit/core'
-import { bunting, rug, windowIn } from '../places/things'
-import { potPlant } from '../places/nature'
+import { rug, windowIn } from '../places/things'
 import { INSTRUCTION_PROFILES } from '../style/instruction-profiles'
 import { handOf, play, standing, type Actor } from './actors'
 import { hereYouAreAct, talkingStickAct } from './acts'
@@ -63,17 +62,25 @@ function backdrop(P: Painter, place: 'home' | 'kinder', rugOn: boolean) {
   P.clip(floor, () => P.detail(boards, C.floor, 0.6))
   P.shape(rrect(0, WALL - 16, W, 20, 0), '#fff3dc', { line: 0.6, shade: 0.4 })
   P.far(0.22, () => {
+    // one quiet cue for the place, nothing a child could pull, pick or swallow: a window at home, children's
+    // drawings taped to the wall at kindergarten
     if (place === 'home') {
       windowIn(P, 330, 300, 230, 250, { curtain: '#e9a05a', sky: '#cfe6ea', hill: '#9cc39a' })
-      potPlant(P, 960, WALL - 6, 190, { pot: '#c96a4a', leaf: '#6a9e5c', seed: 8 })
+      P.shape(rrect(820, 230, 190, 150, 8), '#fff6e2', { shade: 0.5 })
+      P.flat(rrect(836, 246, 158, 118, 4), '#f6d9a8')
+      P.flat(circle(915, 305, 36), '#e9a23a')
     } else {
-      bunting(P, 150, 190, 1050, 190, ['#e2674a', '#f2c94c', '#4f9a8f', '#7f6fb8'], 0, 11)
-      for (const [x, kind, col] of [[330, 0, '#f2c94c'], [600, 1, '#e2674a'], [870, 2, '#4f9a8f']] as const) {
-        // three children's drawings on the wall
-        P.shape(rrect(x - 78, 290, 156, 190, 6), '#fffaf0', { shade: 0.5 })
-        if (kind === 0) P.flat(circle(x, 385, 40), col)
-        else if (kind === 1) P.flat(blob([x - 50, 440, x, 330, x + 50, 440]), col)
-        else P.flat(ellipse(x, 385, 54, 30), col)
+      for (const [x, kind, col, rot] of [[330, 0, '#f2c94c', -0.03], [600, 1, '#e2674a', 0.02], [870, 2, '#4f9a8f', -0.02]] as const) {
+        c.save()
+        c.translate(x, 330)
+        c.rotate(rot)
+        P.shape(rrect(-84, -100, 168, 200, 6), '#fffaf0', { shade: 0.5 })
+        if (kind === 0) P.flat(circle(0, 0, 44), col)
+        else if (kind === 1) P.flat(blob([-54, 60, 0, -60, 54, 60]), col)
+        else P.flat(ellipse(0, 0, 58, 32), col)
+        // paper tape at the top corners
+        for (const sd of [-1, 1]) P.flat(rrect(sd * 70 - 20, -108, 40, 18, 3), '#e9c46a', 0.9)
+        c.restore()
       }
     }
   })

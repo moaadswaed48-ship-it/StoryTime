@@ -66,8 +66,8 @@ def ar_light_word(word):
         return ar_join(pre + cl)
     for c in cl:  # L1
         c[1] = [x for x in c[1] if x != SUKUN]
-    last = cl[-1]  # L2
-    last[1] = [x for x in last[1] if x == TF or (keep_end and x in SHORT)]
+    last = cl[-1]  # L2 (a final shadda is kept: it is part of the consonant, e.g. عَدّ, ظَلّ, لكِنّ; REVIEW-ar.md D1)
+    last[1] = [x for x in last[1] if x in (TF, SHADDA) or (keep_end and x in SHORT)]
     for i in range(len(cl) - 1):  # L3
         nxt_c, nxt_m = cl[i + 1]
         if FATHA in cl[i][1] and nxt_c in 'اى' and not nxt_m:
@@ -133,9 +133,9 @@ def he_speech(s):
 
 
 # ---------------------------------------------------------------- build
-def build():
+def build(langs=('ar', 'he')):
     for sid in STORIES:
-        for lang in ('ar', 'he'):
+        for lang in langs:
             src = SRC / f'{sid}.{lang}.json'
             if not src.exists():
                 continue
@@ -396,8 +396,8 @@ def check():
 
 if __name__ == '__main__':
     cmd = sys.argv[1] if len(sys.argv) > 1 else 'check'
-    if cmd == 'build':
-        build()
+    if cmd == 'build':  # "build" = Arabic and Hebrew; "build ar" or "build he" = one language only
+        build(tuple(sys.argv[2:]) or ('ar', 'he'))
     elif cmd == 'light':
         for line in sys.stdin:
             print(ar_light(line.rstrip('\n')))

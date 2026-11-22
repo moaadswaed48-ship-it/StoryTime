@@ -12,15 +12,13 @@ const DIR = 'qa/out/stage4b2/emails'
 mkdirSync(DIR, { recursive: true })
 
 test.describe.configure({ timeout: 180_000 })
-test.beforeAll(({}, info) => {
-  if (info.project.name !== 'phone') return
-  execSync('npx vitest run tests/email-preview-files.test.ts', { stdio: 'pipe' })
-})
 
-for (const lang of ['ar', 'en'] as const) {
-  test(`every email at phone width (${lang})`, async ({ page }, info) => {
-    test.skip(info.project.name !== 'phone', 'phone width only')
-    await page.setViewportSize({ width: 390, height: 844 })
+// One test for both languages: the files are written once, by one worker.
+test('every email at phone width (Arabic and English)', async ({ page }, info) => {
+  test.skip(info.project.name !== 'phone', 'phone width only')
+  execSync('npx vitest run tests/email-preview-files.test.ts', { stdio: 'pipe' })
+  await page.setViewportSize({ width: 390, height: 844 })
+  for (const lang of ['ar', 'en'] as const) {
     const files = readdirSync(SRC).filter((f) => f.endsWith(`-${lang}.html`))
     expect(files).toHaveLength(19)
     for (const f of files) {
@@ -30,5 +28,5 @@ for (const lang of ['ar', 'en'] as const) {
       expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1), `${name} scrolls sideways`).toBe(true)
       await page.screenshot({ path: `${DIR}/${name}.png`, fullPage: true })
     }
-  })
-}
+  }
+})

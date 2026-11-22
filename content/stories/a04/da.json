@@ -17,13 +17,13 @@
     },
     {
       "n": 3,
-      "text": "Løb, løb … stop! Hvor er bedstefar?",
-      "speech": "Løb, løb … stop! Hvor er bedstefar?"
+      "text": "Løb, løb, løb … stop! Hvor er bedstefar?",
+      "speech": "Løb, løb, løb … stop! Hvor er bedstefar?"
     },
     {
       "n": 4,
-      "text": "»Kom nu, bedstefar!« Bedstefar smiler. Skridt … tok. Skridt … tok.",
-      "speech": "»Kom nu, bedstefar!« Bedstefar smiler. Skridt … tok. Skridt … tok."
+      "text": "»Kom nu, bedstefar!« råber Sami. Bedstefar vinker. Skridt … tok. Skridt … tok.",
+      "speech": "»Kom nu, bedstefar!« råber Sami. Bedstefar vinker. Skridt … tok. Skridt … tok."
     },
     {
       "n": 5,
@@ -47,8 +47,8 @@
     },
     {
       "n": 9,
-      "text": "Langsomt, langsomt, sammen … toppen! Rødt, rødt, rødt. Røde blomster overalt.",
-      "speech": "Langsomt, langsomt, sammen … toppen! Rødt, rødt, rødt. Røde blomster overalt."
+      "text": "Langsomt, langsomt, sammen … oppe på toppen! Rødt, rødt, rødt. Røde blomster overalt.",
+      "speech": "Langsomt, langsomt, sammen … oppe på toppen! Rødt, rødt, rødt. Røde blomster overalt."
     },
     {
       "n": 10,
@@ -121,8 +121,8 @@
     {
       "id": "f09",
       "speaker": "a04-sami",
-      "text": "Lad os gå sammen, bedstefar.",
-      "speech": "Lad os gå sammen, bedstefar.",
+      "text": "Vi går sammen, bedstefar.",
+      "speech": "Vi går sammen, bedstefar.",
       "emotion": "tender, a little out of breath"
     },
     {
@@ -184,7 +184,7 @@
   ],
   "activity": {
     "title": "Kiggerammen",
-    "goal": "At se godt efter små ting i naturen og lære, hvad de hedder.",
+    "goal": "At se godt efter små ting i naturen og lære hvad de hedder.",
     "materials": [
       "En papirtallerken"
     ],
@@ -199,19 +199,19 @@
       },
       {
         "n": 3,
-        "caption": "Stop. Løft rammen."
+        "caption": "Stop. Hold rammen op."
       },
       {
         "n": 4,
-        "caption": "Hvad er derinde? Sig navnet."
+        "caption": "Hvad er der i rammen? Sig navnet."
       },
       {
         "n": 5,
-        "caption": "Hjem. Vask hænder."
+        "caption": "Hjem igen. Vask hænder."
       }
     ],
-    "safety": "Vi kigger kun: vi plukker ikke, rører ikke ved insekter og putter intet i munden. Den voksne river tallerkenen og smider midten ud. Nødnummer: 101 i Israel, 112 i Danmark.",
-    "forAdult": "I historien ser Sami først sommerfuglen, mariehønen og bien, da han sætter farten ned til bedstefars tempo. Denne tur lader barnet mærke det samme: Når vi går langsomt, er der mere at se. Papirrammen hjælper et barn på to eller tre år med at se på én lille ting ad gangen, og den giver jer et øjeblik til at sætte navn på tingen. Det er sådan, små børn lærer nye ord. Den voksne river midten ud af en papirtallerken (saksen bliver hos den voksne) og smider det afrevne stykke i skraldespanden, fordi små stykker papir kan komme i munden. Gå langsomt udenfor, hånd i hånd, i den langsomstes tempo. Stop med få skridts mellemrum og sig »Stop og kig!«. Barnet holder rammen op foran noget (en blomst, en sten, en myre, en sky), og I siger navnet sammen og lægger ét ord til: »en rød blomst«, »en lillebitte myre«, »en stor sky«. Lad barnet vælge, hvad der skal i rammen; det er fint at vælge det samme mange gange. Pas på: Vi kigger, men vi plukker ikke og rører ikke, især ikke ved insekter og planter (nogle planter er giftige; i Danmark aldrig taks eller guldregn, i Israel aldrig oleander, arum eller ricinus). Brug solhat, når solen skinner. Fem til ti minutter er rigeligt. Gør det lettere ved selv at holde rammen om én ting og spørge »Hvad er det?«. Gør det sværere ved at spørge »Kan du finde noget rødt?« eller »noget lille?«. Vask hænder, når I kommer hjem.",
-    "inClass": "Én voksen går med højst fire børn, to og to, og hvert par deler én ramme. Den voksne går langsomt forrest og siger »Stop og kig!« med få skridts mellemrum. Det ene par løfter sin ramme og siger navnet på én ting; det andet par gentager ordet. Så bytter parrene. Når I kommer ind igen, vasker alle hænder."
+    "safety": "Vi kigger kun. Vi plukker ikke, rører ikke ved insekter og putter ikke noget i munden. Den voksne river midten ud af tallerkenen og smider den ud. Sker der et uheld, så ring til det lokale alarmnummer.",
+    "forAdult": "I historien ser Sami først sommerfuglen, mariehønen og bien da han sætter farten ned og går i bedstefars tempo. Denne tur lader barnet mærke det samme: Når vi går langsomt, er der mere at se. Papirrammen hjælper et barn på to eller tre år med at se på én lille ting ad gangen, og den giver jer et øjeblik til at sætte navn på tingen. Når små børn hører navnet på det de kigger på, lærer de nye ord. Riv eller klip selv midten ud af en papirtallerken (saksen bliver hos den voksne), og smid midterstykket i skraldespanden, for små stykker papir kan ende i munden. Gå langsomt udenfor, hånd i hånd, i den langsomstes tempo. Stop op med få skridts mellemrum og sig: »Stop og kig!« Barnet holder rammen op foran noget (en blomst, en sten, en myre, en sky), og I siger navnet sammen og lægger ét ord til: »en rød blomst«, »en lillebitte myre«, »en stor sky«. Lad barnet vælge hvad der skal i rammen. Det er fint at vælge det samme mange gange. Pas på: Vi kigger, men vi plukker ikke og rører ikke, især ikke ved insekter og planter. Nogle planter er giftige (i Danmark taks og guldregn, i Israel oleander, arum og ricinus). Husk solhat. Fem til ti minutter er rigeligt. Gør det lettere ved selv at holde rammen om én ting og spørge: »Hvad er det?« Gør det sværere ved at spørge: »Kan du finde noget rødt?« eller »Kan du finde noget lille?« Vask hænder når I kommer hjem.",
+    "inClass": "Én voksen går med højst fire børn, to og to, og hvert par deler én ramme. Den voksne går langsomt forrest og siger »Stop og kig!« med få skridts mellemrum. Det ene par holder sin ramme op og siger navnet på én ting. Det andet par gentager ordet. Så bytter parrene. Bagefter vasker alle hænder."
   }
 }
