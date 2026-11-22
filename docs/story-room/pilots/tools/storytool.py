@@ -206,7 +206,7 @@ def ar_fully_marked(s):
                 continue
             if c == 'ل' and prev and prev[0] == 'ا' and nxt and SHADDA in nxt[1]:
                 continue
-            if c == 'ل' and i == 0 and nxt and SHADDA in nxt[1]:
+            if c == 'ل' and nxt and SHADDA in nxt[1] and (i == 0 or (i == 1 and prev[0] == 'ل')):
                 continue
             errs.append(f'{w}: bare {c}')
     # pausal form before . ! ? ؟ : » … (style-ar F7)
@@ -337,22 +337,23 @@ def check():
                     if LATIN.search(t):
                         E(f'{l} Latin letters in: {t[:40]}')
             if l == 'ar':
-                for p in d['pages']:
+                src = json.loads((SRC / f'{sid}.ar.json').read_text('utf-8'))
+                for p, r in zip(d['pages'] + d['film'], src['pages'] + src['film']):
+                    tag = p.get('n', p.get('id'))
                     for e in ar_fully_marked(p['speech']):
-                        E(f'ar page {p["n"]} {e}')
-                    if ar_light(p['speech']) != p['text']:
-                        E(f'ar page {p["n"]} light layer is not the rules applied to the full layer')
-                for f in d['film']:
-                    for e in ar_fully_marked(f['speech']):
-                        E(f'ar {f["id"]} {e}')
-                    if ar_light(f['speech']) != f['text']:
-                        E(f'ar {f["id"]} light layer is not the rules applied to the full layer')
+                        E(f'ar {tag} {e}')
+                    if ar_light(r['speech']) != p['text'] or ar_clean(r['speech']) != p['speech']:
+                        E(f'ar {tag} regenerating the light layer from the full layer does not give the same text')
+                sa = src['activity']
+                for t in [sa[k] for k in ('goal', 'safety', 'forAdult', 'inClass')] + sa['materials'] + [x['caption'] for x in sa['steps']]:
+                    for e in ar_fully_marked(re.sub(r'\d+', '', t)):
+                        E(f'ar activity source {e}')
             if l == 'he':
                 for p in d['pages'] + d['film']:
                     tag = p.get('n', p.get('id'))
                     for e in he_fully_marked(p['speech']):
                         E(f'he {tag} {e}')
-                    if he_display(p['speech']) != p['text']:
+                    if he_display(p['speech']) != p['text'] or re.search('[@%$]', p['speech']):
                         E(f'he {tag} display is not speech minus the three voice marks')
                 for t in [act[k] for k in ('title', 'goal', 'safety', 'forAdult', 'inClass')] + act['materials'] + [s['caption'] for s in act['steps']]:
                     if re.search('[֑-ׇ]', t):

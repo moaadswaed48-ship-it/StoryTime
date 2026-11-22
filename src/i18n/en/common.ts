@@ -13,6 +13,7 @@ export default {
     signUp: 'Create account',
     collections: 'Collections',
     settings: 'Settings',
+    owner: "Owner's area",
   },
   placeholder: 'Placeholder page: design and content are in progress.',
   notFound: 'Page not found',

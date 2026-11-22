@@ -13,6 +13,7 @@ export default {
     signUp: 'הרשמה',
     collections: 'אוספים',
     settings: 'הגדרות',
+    owner: 'ניהול האתר',
   },
   placeholder: 'עמוד זמני: העיצוב והתוכן עדיין בהכנה.',
   notFound: 'הדף לא נמצא',

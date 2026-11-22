@@ -39,6 +39,14 @@ export default [
       route('story/:id', 'routes/app/story.tsx'),
       route('collections', 'routes/app/collections.tsx'),
       route('settings', 'routes/app/settings.tsx'),
+      // The owner's area (part B2): owner role only, enforced by the data layer and the database.
+      route('owner', 'routes/app/owner/layout.tsx', [
+        index('routes/app/owner/stories.tsx'),
+        route('story/:id', 'routes/app/owner/editor.tsx'),
+        route('story/:id/preview', 'routes/app/owner/preview.tsx'),
+        route('dashboard', 'routes/app/owner/dashboard.tsx'),
+        route('changes', 'routes/app/owner/changes.tsx'),
+      ]),
       route('plans', 'routes/app/plans.tsx'),
       route('checkout', 'routes/app/checkout.tsx'),
       route('checkout/done', 'routes/app/checkout-done.tsx'),

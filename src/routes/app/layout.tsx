@@ -28,13 +28,15 @@ export default function AppLayout() {
       </Shell>
     )
   }
-  if (!session.account.onboardedAt && here !== welcome) return <Navigate to={localPath(lang, 'app/welcome')} replace />
+  // The owner account does not need the family onboarding (part B2).
+  if (!session.account.onboardedAt && here !== welcome && session.account.role !== 'owner') return <Navigate to={localPath(lang, 'app/welcome')} replace />
 
   const t = dict.common.nav
   const tabs = [
     ['app/library', t.library],
     ['app/collections', t.collections],
     ['app/settings', t.settings],
+    ...(session.account.role === 'owner' ? ([['app/owner', t.owner]] as const) : []),
   ] as const
   const nav = here === welcome ? null : (
     <nav aria-label={dict.common.menu} className="mx-auto flex max-w-5xl flex-wrap gap-1 px-4 pt-4">

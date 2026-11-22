@@ -13,6 +13,7 @@ export default {
     signUp: 'Opret konto',
     collections: 'Samlinger',
     settings: 'Indstillinger',
+    owner: 'Ejerens område',
   },
   placeholder: 'Midlertidig side: design og indhold er under udarbejdelse.',
   notFound: 'Siden blev ikke fundet',

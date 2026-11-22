@@ -18,6 +18,8 @@ export type CommonDict = {
     signUp: string
     collections: string
     settings: string
+    /** The owner's area: shown only to the owner account. */
+    owner: string
   }
   /** Shown on every page that is still a placeholder (rule: placeholders are visibly marked). */
   placeholder: string

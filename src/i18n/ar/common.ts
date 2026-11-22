@@ -13,6 +13,7 @@ export default {
     signUp: 'إنشاء حساب',
     collections: 'المجموعات',
     settings: 'الإعدادات',
+    owner: 'إدارة الموقع',
   },
   placeholder: 'صفحة مؤقتة: التصميم والمحتوى قيد الإعداد.',
   notFound: 'الصفحة غير موجودة',
