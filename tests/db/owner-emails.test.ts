@@ -199,7 +199,8 @@ describe('dashboard and email tables', () => {
     expect(await err(rows(db, user(owner), `select email_audience()`))).toMatch(/permission denied/)
     const a = (await rows<{ r: any[] }>(db, service, `select email_audience() as r`))[0]!.r
     expect(a).toHaveLength(1)
-    expect(a[0]).toMatchObject({ email: 'parent@example.test', lang: 'en', marketing: true, trial: { ageGroup: '4-5' } })
+    expect(a[0]).toMatchObject({ email: 'parent@example.test', lang: 'en', marketing: true, trial: { ageGroup: '4-5', stories: ['Title en'] }, orders: [], refunds: [] })
+    expect(a[0].confirmedAt).toBeTruthy()
   })
 
   it('a dedupe key is claimed once; unsubscribing by link is a consent row', async () => {

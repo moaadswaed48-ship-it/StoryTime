@@ -3,7 +3,7 @@
  * shading and palette rules) as the people. Each is posed with a few plain numbers and re-coloured with a coat.
  * Animals are drawn in side view facing screen right; `flip: -1` turns them round.
  */
-import { Painter, blob, circle, curve, ellipse, limbPath, poly, type Pt } from './kit/core'
+import { Painter, Pen, blob, circle, curve, ellipse, limbPath, poly, type Pt } from './kit/core'
 import { mixHex } from './style/color'
 
 export type AnimalKind = 'cat' | 'dog' | 'bird' | 'sheep' | 'fish'

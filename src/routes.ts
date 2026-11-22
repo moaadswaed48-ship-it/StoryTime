@@ -16,6 +16,7 @@ export default [
           route('shelf', 'lab/shelf.tsx'),
           route('studio', 'lab/studio.tsx'),
           route('hero', 'lab/hero.tsx'),
+          route('emails', 'lab/emails.tsx'),
         ]),
       ]
     : []),
@@ -37,7 +38,11 @@ export default [
       route('welcome', 'routes/app/welcome.tsx'),
       route('library', 'routes/app/library.tsx'),
       route('story/:id', 'routes/app/story.tsx'),
-      route('collections', 'routes/app/collections.tsx'),
+      route('story/:id/read', 'routes/app/read.tsx'),
+      route('story/:id/watch', 'routes/app/watch.tsx'),
+      route('story/:id/do', 'routes/app/do.tsx'),
+      route('collections', 'routes/app/collections.tsx', { id: 'collections-index' }),
+      route('collections/:kind', 'routes/app/collections.tsx'),
       route('settings', 'routes/app/settings.tsx'),
       // The owner's area (part B2): owner role only, enforced by the data layer and the database.
       route('owner', 'routes/app/owner/layout.tsx', [

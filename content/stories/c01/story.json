@@ -1,0 +1,166 @@
+{
+  "id": "c01",
+  "ageGroups": ["6-8"],
+  "owner": "storytime",
+  "lesson": "Split ten into two parts in different ways: the number pairs that make ten.",
+  "cast": ["c01-sofia", "c01-liam", "c01-seller", "c01-baker", "c01-doctor"],
+  "pages": [
+    {
+      "n": 1,
+      "art": "An outdoor market late on an autumn afternoon: four or five simple stalls under striped awnings, most already packing up; long golden light from low in the sky, long shadows on the paving. Far off in the pale sky, a small flock of birds (one silhouette repeated) flying south. In the middle, the pomegranate stall: a wooden table, a red-and-cream awning, crates stacked behind. The seller, a round woman in a red headscarf and a cream apron, is mid-laugh, head thrown back. Sofia and Liam stand behind the table in aprons far too big for them. Feeling: warm, lively, the end of a good day. Calm area: the pale sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 2,
+      "art": "Close on the table top: ten round red pomegranates in a loose row, glowing in the low sun, each easy to count (no fruit hidden behind another). Liam bends over them, one finger touching a pomegranate as he counts. Sofia is carrying two empty woven baskets out from behind the crates. Feeling: careful, a job beginning. Calm area: the plain awning cloth across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 3,
+      "art": "The seller, hands on hips, laughing, gives the two children the job; she points with her chin towards the two empty baskets on the table. Behind her, the crates she is about to stack. Sofia listens seriously; Liam is already reaching for the fruit. Feeling: being trusted with something important. Calm area: the sky and awning across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 4,
+      "art": "Two woven baskets side by side on the table, each holding five pomegranates in a neat pyramid (two rows the eye can count). Liam stands behind them with his arms folded and his chin up, very pleased; Sofia smiles beside him. Feeling: proud, everything in order. Calm area: the front edge of the table and the paving across the bottom.",
+      "zone": { "side": "full", "v": "bottom", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 5,
+      "art": "The baker comes hurrying down the row between the stalls towards the stall, apron white with flour, little puffs of flour flying off him, flour in his bushy eyebrows; one hand raised with seven fingers up (five on one hand, two on the other). Liam, behind his neat baskets, looks dismayed. Feeling: comic rush. Calm area: the sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 6,
+      "art": "Sofia lifts a pomegranate from one basket and moves it across to the other; a dotted arc shows its path, and a second dotted arc shows the one she moved just before. Now one basket holds seven and the other three, both easy to count. Liam leans over the baskets, finger raised, counting, eyebrows up in surprise. The baker watches, delighted. Feeling: a puzzle cracked open. Calm area: the sky and awning across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 7,
+      "art": "The doctor arrives: tall, calm, in a light coat, holding a very small leather bag in both hands. Sofia is putting one pomegranate down on the bare table, outside both baskets; the doctor's basket now holds two. Behind them, just visible, Liam's hand drifts towards the loose pomegranate on the table. Feeling: polite, quiet, a small change. Calm area: the plain wall of the next stall across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 8,
+      "art": "Liam counting the two baskets, one finger on each; his other hand is down by his side, holding a pomegranate he has forgotten about (the child reading can spot it; he cannot). His face has just fallen: mouth open, eyebrows high. Sofia looks at him. Feeling: comic alarm. Calm area: the sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 9,
+      "art": "Everyone searching at once: Sofia with her head inside an empty crate, the baker peering behind a stack of sacks in a puff of flour, the doctor looking into her tiny bag, the seller turning out her apron pocket. Liam stands in the middle scratching his head, and in his other hand, plainly visible, is the pomegranate. Feeling: busy, funny; the reader knows. Calm area: the paving across the bottom.",
+      "zone": { "side": "full", "v": "bottom", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 10,
+      "art": "Sofia, giggling, points at Liam's hand. Liam stares down at the pomegranate in his own hand, astonished. The baker, the doctor and the seller are all laughing; the seller laughs hardest, bent over, holding her sides. Feeling: release, everyone laughing together, nobody unkind. Calm area: the sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 11,
+      "art": "Liam drops the found pomegranate into the baker's basket. Now the baker's basket holds eight and the doctor's two. The baker beams, rubbing floury hands together. Feeling: everything fits. Calm area: the front of the table and paving across the bottom.",
+      "zone": { "side": "full", "v": "bottom", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 12,
+      "art": "Sofia has pushed the two baskets together and taps one with each hand. Above the baskets, like a thought, three small faint pictures of earlier moments: two baskets of five and five, seven and three, eight and two (drawn as fruit, never as numerals). Liam, eyes shining, lifts one pomegranate towards the doctor's basket; the doctor laughs and holds up a hand to stop him. Feeling: discovery and play. Calm area: the sky across the top, above the thought pictures.",
+      "zone": { "side": "full", "v": "top", "size": "s" },
+      "image": null
+    },
+    {
+      "n": 13,
+      "art": "The baker hurrying away down the row with his basket of eight, a trail of flour puffs behind him; the doctor walking off the other way with her small bag, turning to wave. Sofia and Liam wave back from behind the now empty table and two empty baskets. The light is lower and redder. Feeling: a job well done. Calm area: the sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 14,
+      "art": "The seller comes back wiping her hands on her apron, and from under the table she lifts a cloth bundle: inside it is one more pomegranate, its skin split open a little, showing a glimpse of red inside. Sofia and Liam lean in, curious. Feeling: a surprise, a gift. Calm area: the awning and sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 15,
+      "art": "Close: the pomegranate broken open in the seller's hands, the seeds glowing like small red lanterns in the last of the sun. Sofia and Liam each hold a few seeds on an open palm; the seller is laughing her biggest laugh. Two empty baskets side by side on the table behind them. Last picture of the book: golden, sweet, still. Calm area: the darkening sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    }
+  ],
+  "film": {
+    "targetSeconds": 400,
+    "shots": [
+      { "n": 1, "page": 1, "action": "12 s. Scene 1, the market. Wide on the late-afternoon autumn market, golden light, long shadows. The camera drifts slowly along the stalls; far up, a flock of birds (one silhouette, repeated) flies south. No words: let the place breathe. Keep the lower fifth calm for captions in every shot.", "sound": ["a light hand drum and plucked strings, cheerful", "market murmur, thinning out", "a crate set down"], "lines": [] },
+      { "n": 2, "page": 1, "action": "8 s. The camera arrives at the pomegranate stall. The seller is mid-laugh with a passer-by; her laugh is the first sound we hear clearly.", "sound": ["a big rolling laugh: ha-HA-ha"], "lines": ["f01"] },
+      { "n": 3, "page": 1, "action": "7 s. Sofia and Liam behind the table in aprons too big for them; Liam rolls up his sleeves, Sofia ties her apron strings twice round.", "sound": ["the cheerful tune"], "lines": ["f02"] },
+      { "n": 4, "page": 1, "action": "6 s. Close on the seller laughing; her whole body shakes, her headscarf bobs. A sound joke, no words.", "sound": ["her laugh"], "lines": [] },
+      { "n": 5, "page": 2, "action": "6 s. Close on the ten pomegranates in a row, glowing in the low sun. A sparrow hops onto the table edge, looks, and hops away. Breathing room.", "sound": ["a sparrow chirp", "soft wind"], "lines": [] },
+      { "n": 6, "page": 2, "action": "9 s. Liam taps each pomegranate once: ten taps, each with a soft wooden tok and a plucked note climbing one step higher. He speaks after the tenth note.", "sound": ["ten taps with ten rising notes"], "lines": ["f03"] },
+      { "n": 7, "page": 2, "action": "7 s. Sofia carries two empty baskets from behind the crates and sets them on the table, one, two.", "sound": ["basket thump", "basket thump"], "lines": [] },
+      { "n": 8, "page": 3, "action": "10 s. Scene 2, the job. The seller, hands on hips, gives them the job; she nods at the baskets.", "sound": ["the tune, softer"], "lines": ["f04", "f05"] },
+      { "n": 9, "page": 3, "action": "6 s. She walks off to stack crates; her laugh rolls away down the row and echoes. Liam answers before she is gone.", "sound": ["crates stacking", "her laugh fading down the row"], "lines": ["f06"] },
+      { "n": 10, "page": 4, "action": "9 s. Liam lines up the two baskets with great care, like a judge.", "sound": ["baskets scraped into place"], "lines": ["f07"] },
+      { "n": 11, "page": 4, "action": "11 s. Counting in: the pomegranates hop into the left basket one at a time on five beats, then into the right basket on five beats, each with a plucked note (two matching rising phrases). The line is spoken on the beats.", "sound": ["five plucked notes", "five plucked notes, the same tune again"], "lines": ["f08"] },
+      { "n": 12, "page": 4, "action": "6 s. Two equal baskets side by side. Liam folds his arms and lifts his chin. Hold 2 s after the line.", "sound": ["a satisfied little chord"], "lines": ["f09"] },
+      { "n": 13, "page": 5, "action": "7 s. Scene 3, the baker. Down the row comes the baker at a fast trot, a puff of flour off his apron with every step. Comic, no words.", "sound": ["hurried footsteps", "a soft poof of flour on each step", "the music speeds up"], "lines": [] },
+      { "n": 14, "page": 5, "action": "7 s. He skids to a stop at the table, holds up seven fingers and puffs out his request.", "sound": ["a skid", "puffing breath"], "lines": ["f10"] },
+      { "n": 15, "page": 5, "action": "7 s. Liam looks from the baker to his two perfect baskets, crestfallen.", "sound": ["a falling two-note sigh on strings"], "lines": ["f11"] },
+      { "n": 16, "page": 6, "action": "8 s. Sofia taps her chin, thinking; then she lifts one pomegranate from the right basket and it arcs across to the left, then a second one. Each hop has its own plucked note.", "sound": ["a thinking tick-tock on wood block", "two hops, two notes"], "lines": ["f12"] },
+      { "n": 17, "page": 6, "action": "8 s. Sofia presents the baskets to the baker with both hands.", "sound": ["a bright chord"], "lines": ["f13"] },
+      { "n": 18, "page": 6, "action": "10 s. Liam counts both baskets slowly, finger hovering over each fruit; the camera stays close on him. Hold 2 s on his surprised face after the line.", "sound": ["soft ticks as he counts"], "lines": ["f14"] },
+      { "n": 19, "page": 7, "action": "8 s. Scene 4, the doctor. The doctor walks up calmly, holding her very small bag in both hands, and asks politely.", "sound": ["calm footsteps", "the tune slows down"], "lines": ["f15"] },
+      { "n": 20, "page": 7, "action": "5 s. She lifts the tiny bag a little to show it. A small visual joke.", "sound": ["a tiny clasp click"], "lines": ["f16"] },
+      { "n": 21, "page": 7, "action": "7 s. Sofia lifts one pomegranate out of the doctor's basket and sets it on the bare table. The camera stays on the baskets; at the edge of the frame Liam's hand picks the loose pomegranate up without his noticing. Sharp viewers will see it. No words.", "sound": ["a soft wooden tok on the table"], "lines": [] },
+      { "n": 22, "page": 8, "action": "9 s. Liam counts the baskets aloud, slowly; his other hand, holding the pomegranate, hangs at his side.", "sound": ["soft counting ticks"], "lines": ["f17"] },
+      { "n": 23, "page": 8, "action": "8 s. The music stops with a comic sting (never scary). Liam's face falls; he looks at everyone.", "sound": ["a comic plucked 'boing'", "silence"], "lines": ["f18"] },
+      { "n": 24, "page": 9, "action": "6 s. Scene 5, the search. Quick cuts begin: Sofia puts her head into an empty crate.", "sound": ["tiptoe pizzicato music", "a hollow crate echo"], "lines": ["f19"] },
+      { "n": 25, "page": 9, "action": "5 s. The baker looks behind the sacks; a cloud of flour puffs up round his head.", "sound": ["a poof of flour", "a sneeze, small"], "lines": [] },
+      { "n": 26, "page": 9, "action": "5 s. The doctor opens her tiny bag and peers into it with great seriousness.", "sound": ["clasp click"], "lines": ["f20"] },
+      { "n": 27, "page": 9, "action": "6 s. The seller turns out her apron pocket: a pencil, a handkerchief, a lemon, but no pomegranate.", "sound": ["little objects plopping onto the table"], "lines": ["f21"] },
+      { "n": 28, "page": 9, "action": "8 s. Wide: everyone bent over, searching. Liam in the middle scratches his head with his free hand; in the other hand, clearly visible, is the pomegranate. Let the viewer spot it first. No words.", "sound": ["the tiptoe music, with a wink of a note"], "lines": [] },
+      { "n": 29, "page": 10, "action": "7 s. Scene 6, found. Sofia straightens up, sees Liam's hand, and starts to giggle.", "sound": ["a giggle trying not to come out"], "lines": ["f22"] },
+      { "n": 30, "page": 10, "action": "6 s. Close on Liam's hand and the pomegranate in it. He stares at it. One bright 'ding'. No words.", "sound": ["a single bell-like ding"], "lines": [] },
+      { "n": 31, "page": 10, "action": "9 s. Everyone bursts out laughing, the seller loudest; Liam laughs at himself too.", "sound": ["laughter building", "the seller's big laugh on top"], "lines": ["f23"] },
+      { "n": 32, "page": 11, "action": "9 s. Liam works it out aloud, pointing to the baker's basket, the doctor's basket and his own hand in turn.", "sound": ["three soft ticks, one per point"], "lines": ["f24"] },
+      { "n": 33, "page": 11, "action": "8 s. The baker grins and holds out his basket; the found pomegranate hops in with a plucked note. Sofia sums it up.", "sound": ["one hop, one note", "a happy chord"], "lines": ["f25", "f26"] },
+      { "n": 34, "page": 11, "action": "6 s. Sofia and Liam high-five across the baskets. No words.", "sound": ["a high-five slap", "the tune returns"], "lines": [] },
+      { "n": 35, "page": 12, "action": "8 s. Scene 7, always ten. Sofia pushes the two baskets side by side; a steady musical beat starts. She speaks on the beat.", "sound": ["a steady hand-drum beat begins"], "lines": ["f27"] },
+      { "n": 36, "page": 12, "action": "7 s. Close on Sofia, delighted by her discovery.", "sound": ["the beat"], "lines": ["f28"] },
+      { "n": 37, "page": 12, "action": "6 s. Liam's eyes light up.", "sound": ["the beat", "a rising whistle note"], "lines": ["f29"] },
+      { "n": 38, "page": 12, "action": "14 s. The juggle, Liam's daydream: the background melts into warm plain colour and the two baskets stand alone. On each beat one pomegranate hops from one basket to the other, so the piles change size, while a row of ten small round slots under the baskets always stays exactly full (dots, never digits). The narrator names a pair on the beats; let two or three hops pass with no words between lines. At the end the colour snaps back to the market.", "sound": ["the beat", "one plucked note per hop", "a soft chime on 'always ten'"], "lines": ["f30", "f31", "f32"] },
+      { "n": 39, "page": 12, "action": "6 s. Back at the stall: Liam has really moved one pomegranate into the baker's basket, leaving the doctor only one. The doctor laughs and holds up a hand.", "sound": ["the beat stops", "the doctor's laugh"], "lines": ["f33"] },
+      { "n": 40, "page": 12, "action": "5 s. Liam quickly hops it back. Grin.", "sound": ["one hop back, one note"], "lines": ["f34"] },
+      { "n": 41, "page": 13, "action": "9 s. Scene 8, goodbyes. The baker pays (coins clink into the seller's tin), grabs his basket and hurries off in a trail of flour puffs.", "sound": ["coins clinking", "hurried footsteps fading"], "lines": ["f35"] },
+      { "n": 42, "page": 13, "action": "9 s. The doctor pays, smiles and walks away the other way, turning once to wave.", "sound": ["coins", "calm footsteps"], "lines": ["f36"] },
+      { "n": 43, "page": 13, "action": "8 s. The empty table and two empty baskets; Sofia and Liam look at each other, tired and happy. The light turns redder. A breath, no words.", "sound": ["evening birds", "the tune, very soft"], "lines": [] },
+      { "n": 44, "page": 14, "action": "8 s. The seller comes back wiping her hands on her apron, beaming.", "sound": ["her footsteps", "a warm chord"], "lines": ["f37"] },
+      { "n": 45, "page": 14, "action": "10 s. She bends and lifts a cloth bundle from under the table and opens it: one more pomegranate, its skin split. She speaks low, like a secret, then warm.", "sound": ["cloth rustle"], "lines": ["f38", "f39"] },
+      { "n": 46, "page": 15, "action": "12 s. Close: her thumbs break the fruit open with a soft crack. The seeds catch the low sun and glow like tiny red lanterns; a few small sparkles. Music swells gently. Hold 4 s on the seeds with no words.", "sound": ["a soft crack", "a shimmer of chimes", "the tune swells, gently"], "lines": [] },
+      { "n": 47, "page": 15, "action": "7 s. Liam leans in close, amazed.", "sound": ["the shimmer fades"], "lines": ["f40"] },
+      { "n": 48, "page": 15, "action": "9 s. The seller laughs her biggest laugh of the whole film.", "sound": ["her biggest laugh"], "lines": ["f41"] },
+      { "n": 49, "page": 15, "action": "11 s. The three of them eat the seeds, one at a time, in the last golden light. The narrator's line comes in the middle of the shot.", "sound": ["the tune, slow and warm"], "lines": ["f42"] },
+      { "n": 50, "page": 15, "action": "14 s. Closing image: the stall at sunset, two empty baskets side by side and the open pomegranate on its cloth. Nothing moves except the light slowly fading. Hold the still picture 6 s while the music ends, then stop. No autoplay.", "sound": ["the last notes of the tune", "evening birds"], "lines": [] }
+    ]
+  },
+  "activity": {
+    "minutes": 25,
+    "materials": ["ten-cardboard-tubes", "soft-ball", "paper", "pencil"],
+    "steps": [
+      { "n": 1, "picture": "Ten cardboard tubes standing on the floor at the end of a clear hallway, in a triangle of rows of one, two, three and four. A soft ball and a shoe marking the rolling line a few big steps away.", "loop": false },
+      { "n": 2, "picture": "A child kneels at the line and rolls the soft ball low along the floor towards the tubes.", "loop": true },
+      { "n": 3, "picture": "Some tubes have fallen. The child points to the fallen tubes with one hand and the standing tubes with the other; a grown-up crouches beside them, listening.", "loop": false },
+      { "n": 4, "picture": "The child writes on a paper score sheet with two empty rows, one for each round, pencil in hand.", "loop": false },
+      { "n": 5, "picture": "The child adds the two rows on the score sheet, counting on fingers; the grown-up smiles; behind them the tubes stand in their triangle again.", "loop": false }
+    ],
+    "checkedAgainst": "docs/story-room/age-6-8.md section 7 (red list) and section 4 (activity limits), 22 Nov 2026"
+  }
+}

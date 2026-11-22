@@ -35,8 +35,8 @@ export type StyleProfile = {
     light: string
     lift: number
     /** A second, paler step of shadow lying wider than the first (a half-tone): width as a multiple of `offset` (0 = none) and strength 0…1. */
-    half: number
-    halfDepth: number
+    half?: number
+    halfDepth?: number
   }
   /**
    * The hand that made it: how far a drawn edge strays from the true one (stage units at scale 1), the distance
@@ -44,7 +44,7 @@ export type StyleProfile = {
    * and how far the line sits off the paint, like a print not quite in register. All of it is fixed for each place
    * along each outline, so a film does not boil. 0 everywhere = ruled, machine-made edges.
    */
-  hand: { wobble: number; wave: number; line: number; shade: number; register: { x: number; y: number } }
+  hand?: { wobble: number; wave?: number; line?: number; shade?: number; register?: { x: number; y: number } }
   /** Unit vector pointing from a thing toward the light, on screen (x right, y down). */
   light: { x: number; y: number }
   /** Shadows thrown on the ground: colour (multiplied over what is there), strength, how far they slide, how flat they lie. */
@@ -57,7 +57,7 @@ export type StyleProfile = {
     /** Dry-brush speckle inside large surfaces (ground, walls, foliage), 0…1. */
     speckle: number
     /** How far the brush streaks turn to run along each shape, 0…1 (0 = one direction everywhere). */
-    follow: number
+    follow?: number
   }
   /** Exaggeration: multiplies what the character sheet's life stage gives. */
   proportions: { head: number; eyes: number; hands: number; feet: number; limb: number; cheeks: number }

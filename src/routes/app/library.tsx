@@ -11,7 +11,7 @@ import { IconArrow, IconList, IconShelf } from '@/features/family/icons'
 import { usePrefs, useReducedMotion } from '@/features/family/prefs'
 import { Avatar, ProfilePicker } from '@/features/family/ProfilePicker'
 import { Shelf, supports3d } from '@/features/family/Shelf'
-import { useIsOpen, useLearners, useProgress, useStories } from '@/features/family/useFamily'
+import { keepTogether, useIsOpen, useLearners, useProgress, useStories } from '@/features/family/useFamily'
 import { isRtl } from '@/i18n/config'
 import { fmt } from '@/i18n/format'
 import { useLang } from '@/i18n/use-dict'
@@ -123,7 +123,7 @@ export default function Library() {
         {group && (
           <div className="sm:max-w-md sm:flex-1">
             <ChoiceGroup legend={t.groupLegend} name="library-group" value={group} onChange={setGroup} columns={3} compact
-              options={AGE_GROUPS.map((g) => ({ value: g, label: dict.commerce.groups[g] }))} />
+              options={AGE_GROUPS.map((g) => ({ value: g, label: keepTogether(dict.commerce.groups[g]) }))} />
           </div>
         )}
         <fieldset className="flex flex-col gap-2">

@@ -139,6 +139,17 @@ No fresh-context reviewer has looked yet: none could be started from this helper
 
 ## Studio (2D): the flat-drawing art engine (Stage 3 art engine + first style test)
 
+> **IN PROGRESS (second Studio job, 22 Nov 2026, evening): "figures with weight, views, light, animals, sound".**
+> Done so far (not committed): `kit/core.ts` has `Pen` (a canvas path that remembers its points, so outlines get a
+> stable hand wobble), layered shading, per-scene light direction, standing lamps (`Painter.lamps`), cast shadows
+> that follow the light; `style/profile.ts` has `hand`, `shade.half`, `texture.follow` (all optional) and richer
+> `MOODS`; `figure/rig.ts` solves the skeleton in depth (`Pose.spin` = which way the figure faces: front, three-
+> quarter, side, back); `figure/draw.ts` and `figure/face.ts` draw every sheet from any side; `figure/walk.ts`
+> has the walk cycles. Still to do when this note was written: actions sheet, animals, light sheet and bedroom,
+> market street, sound and captions, the film shot, proofs, tests. If this note is still here, the job was cut
+> short: run `npx tsc --noEmit`, then `node studio/scripts/export.mjs list` and carry on from the scenes.
+
+
 Status: BUILT, proofs rendered and looked at (22 Nov 2026). Not committed. Provisional look, waiting for the
 owner's reference cartoon. All drawing is code: no AI image tools.
 
@@ -236,9 +247,13 @@ Status: IN PROGRESS (22 Nov 2026). Not committed by the Builder.
 - [x] Packages: `react-email` 6.11.16 and `@react-email/render` 2.3.1 (pinned, installed with `--ignore-scripts`;
       the only install script in the tree is esbuild's own binary check). The old `@react-email/components` and its
       single-component packages are deprecated on npm, so the maintained `react-email` package is used.
-- [ ] Owner data layer (`src/features/owner/data/`), publish rules, local store, Supabase store
-- [ ] Owner screens (`src/routes/app/owner/*`)
-- [ ] Emails (`src/emails/`), transports, scheduler, edge functions
+- [x] Owner data layer (`src/features/owner/data/`): rules, local store (localStorage + IndexedDB files), Supabase
+      store over new SQL functions in `supabase/migrations/20261122100300_owner_emails.sql`; unit tests
+      `tests/owner-data.test.ts` (13) and PGlite tests `tests/db/owner-emails.test.ts` (11) pass
+- [x] Owner screens written (`src/routes/app/owner/*`, words in `src/i18n/<lang>/owner.ts`); not yet walked in a browser
+- [x] Emails (`src/emails/`): 19 templates x 4 languages, preview + Resend transports, scheduler; tests pass
+      (`tests/emails.test.ts`, `tests/email-schedule.test.ts`)
+- [ ] Edge functions (`supabase/functions/`), `/lab/emails` gallery
 - [ ] Tests, Playwright walks, email screenshots (`qa/out/stage4b2/`)
 
 ## Stage 4, part B1 (Builder): the family side after sign-in
@@ -315,12 +330,20 @@ Next steps
 
 ## Instruction pictures (Studio helper): three directions for the activity pictures
 
-Status: IN PROGRESS (started 22 Nov 2026). Not committed.
+Status: IN PROGRESS (started 22 Nov 2026). Not committed. All three directions draw both activities (first
+drafts); polishing rounds and the final renders are still to do.
 - Brief: a fixed instruction cast, three different visual directions, both example activities rendered in each
   ("Here You Are, Thank You", ages 2-3, and "The Talking Stick", ages 4-5), a comparison page for the owner.
 - Note: the brief called the first activity "A04's"; in `outlines.md` today it belongs to A03 (A04 now has
   "The Looking Frame"). The named activity, as written under A03 today, is the one drawn.
-- Files (only these are touched): `src/cast/instruction-cast.ts`, `src/studio/style/instruction-profiles.ts`,
-  `src/studio/instructions/`, `src/lab/instructions.tsx`, `studio/scripts/instructions*`,
-  `docs/previews/instructions/`, one line in `src/routes.ts`.
-- If this section still says IN PROGRESS, the work was interrupted: see the file list above for what exists.
+- The cast: `src/cast/instruction-cast.ts` (teacher Mona, Mum, Dad, Grandpa, Lia 2½, Tom 4, Sara 6, Jonah 8).
+- The three looks as data: `src/studio/style/instruction-profiles.ts` (`above`, `hands`, `stage`).
+- The drawing: `src/studio/instructions/` (`above.ts`, `hands.ts`, `stage.ts` side by side; `kit.ts` shared things
+  and signs; `actors.ts` posing with the builder; `activities.ts` cards and captions; `mount.ts` canvas + real
+  caption text; `cast-sheet.ts`).
+- Export: `node studio/scripts/instructions-export.mjs check|card|strip|stills|loops|contact|cast|all`
+  (its own page in `studio/scripts/instructions/`). Working files go to `studio/out/instructions/` (ignored).
+- Still to do if this is interrupted: polish each direction at phone size, lab page `src/lab/instructions.tsx`
+  + one route line, final renders into `docs/previews/instructions/`, the comparison `README.md` there.
+- The figure builder was being rewritten by another helper while this was made (side views, kneeling, palm
+  hand arrived mid-way): if a render fails with a missing export in `src/studio/figure/`, wait and run again.

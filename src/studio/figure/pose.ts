@@ -23,8 +23,19 @@ export type Pose = {
   rot: number
   /** 0…1 bending forward toward the viewer (a bow): the torso shortens and the head comes down in front of the chest. */
   pitch: number
-  /** Turning about the vertical axis, radians: 0 faces us, π shows the back. */
+  /**
+   * Which way the figure faces, radians about the upright axis: 0 faces us, +π/2 is a side view facing screen right,
+   * −π/2 faces screen left, π shows the back; ±π/4 is a three-quarter view. The whole skeleton is turned, so a
+   * turn passes through every view in between.
+   */
   spin: number
+  /** Shoulders turned against the hips, radians (+ = chest toward screen right): the counter-swing of a walk, a reach across. */
+  twist: number
+  /** −1…1 curve of the back, seen from the side: + rounds it (a slump, curling over something), − hollows it (chest out, proud). */
+  arc: number
+  /** Extra tilt of the hip line and of the shoulder line in the picture, radians (+ = screen-right side down). They already counter each other when `hipx` puts the weight on one leg. */
+  hipTilt: number
+  shTilt: number
   /** Head: −1…1 turn (− toward screen left), tilt (radians), −1…1 nod (+ looks down). */
   turn: number
   tilt: number
@@ -59,6 +70,9 @@ export type Pose = {
   ry: number
   lx: number
   ly: number
+  /** …and forward (+) or back (−) of the shoulder, in arm lengths: a reach toward what the figure faces, the swing of a walking arm. */
+  rz: number
+  lz: number
   /** …or (weight 0…1) a point on the body: x in half shoulder widths from the centre line (+ = own side), y 0 = shoulders … 1 = hips. */
   rB: number
   rBx: number
@@ -80,7 +94,10 @@ export type Pose = {
   lW: number
   lWx: number
   lWy: number
-  /** Hand shape: 0 relaxed, 1 pointing, 2…4 that many fingers held up, 5 open with fingers spread, 6 closed (a grip or a fist). */
+  /** How far toward the viewer (+) or away (−) that world point is, in arm lengths from the shoulder (it decides whether the arm passes in front of the body). */
+  rWd: number
+  lWd: number
+  /** Hand shape: 0 relaxed (fingers softly curled), 1 pointing, 2…4 that many fingers held up, 5 open with fingers spread, 6 closed (a grip or a fist), 7 an open palm held flat (offering, receiving, a stop). */
   rHand: number
   lHand: number
   /** Extra turn of the hand at the wrist, radians. */
@@ -99,7 +116,16 @@ export type Pose = {
   rfy: number
   lfx: number
   lfy: number
-  /** −1…1: which way the shoes (and knees) point. 0 = toward us. */
+  /** …and forward (+) or back (−), in leg lengths along the way the figure faces: a step. Sitting on the ground, 0.3 or more stretches the leg out in front. */
+  rfz: number
+  lfz: number
+  /** How far each heel is lifted, radians (+ = heel up, on the ball of the foot; − = toes up, landing on the heel). */
+  rfa: number
+  lfa: number
+  /** 0…1 that knee on the ground (the other foot stands in front, knee up). Both at 1: kneeling on both knees. */
+  rKneel: number
+  lKneel: number
+  /** −1…1: the feet and knees turned away from the way the body faces (+ toward screen right when it faces us). 0 = straight ahead. */
   toe: number
   /** 0…1 up on the toes: heels lifted, the whole figure a little taller. */
   tip: number
@@ -110,21 +136,23 @@ export type Pose = {
   swing: number
 }
 
-export const HAND = { relaxed: 0, point: 1, two: 2, three: 3, four: 4, open: 5, grip: 6 } as const
+export const HAND = { relaxed: 0, point: 1, two: 2, three: 3, four: 4, open: 5, grip: 6, palm: 7 } as const
+/** The views a figure is usually drawn in, as values for `spin` (multiply by −1 to face screen left). */
+export const VIEW = { front: 0, threeQuarter: Math.PI / 4, side: Math.PI / 2, backThreeQuarter: (Math.PI * 3) / 4, back: Math.PI } as const
 
 /** Standing at ease, arms hanging, a small closed smile. */
 export function rest(x = 0, y = 0): Pose {
   return {
-    x, y, lift: 0, hipx: 0, crouch: 0, lean: 0, sq: 1, rot: 0, pitch: 0, spin: 0,
+    x, y, lift: 0, hipx: 0, crouch: 0, lean: 0, sq: 1, rot: 0, pitch: 0, spin: 0, twist: 0, arc: 0, hipTilt: 0, shTilt: 0,
     turn: 0, tilt: 0, nod: 0,
     lookX: 0, lookY: 0, blink: 0, lids: 0, wide: 0, cheek: 0.15, brow: 0, browTilt: 0,
     smile: 0.45, open: 0, mWide: 0.5, wob: 0, flush: 0,
-    rx: 0.07, ry: 0.97, lx: 0.07, ly: 0.97,
+    rx: 0.07, ry: 0.97, lx: 0.07, ly: 0.97, rz: 0, lz: 0,
     rB: 0, rBx: 0, rBy: 0, lB: 0, lBx: 0, lBy: 0,
     rH: 0, rHx: 0, rHy: 0, lH: 0, lHx: 0, lHy: 0,
-    rW: 0, rWx: 0, rWy: 0, lW: 0, lWx: 0, lWy: 0,
+    rW: 0, rWx: 0, rWy: 0, lW: 0, lWx: 0, lWy: 0, rWd: 0, lWd: 0,
     rHand: 0, lHand: 0, rWrist: 0, lWrist: 0, rBack: 0, lBack: 0, rBend: -1, lBend: -1,
-    rfx: 0, rfy: 0, lfx: 0, lfy: 0, toe: 0, tip: 0,
+    rfx: 0, rfy: 0, lfx: 0, lfy: 0, rfz: 0, lfz: 0, rfa: 0, lfa: 0, rKneel: 0, lKneel: 0, toe: 0, tip: 0,
     sit: 0, seat: 0, swing: 0,
   }
 }

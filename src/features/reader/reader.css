@@ -1,0 +1,9 @@
+/* The flat book (no WebGL): a turned page fades in. Never with reduced motion (the class is not set then). */
+.reader-fade {
+  animation: reader-fade 220ms ease-out both;
+}
+@keyframes reader-fade {
+  from {
+    opacity: 0;
+  }
+}

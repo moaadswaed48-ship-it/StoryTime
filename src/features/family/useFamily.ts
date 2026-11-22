@@ -108,3 +108,6 @@ export function useStories(group: AgeGroup | null | 'all') {
 export function useIsOpen(access: AccessSnapshot | null) {
   return useMemo(() => (s: Pick<StorySummary, 'id' | 'ageGroups'>) => !!access && hasAccessToStory(access, { id: s.id, published: true, ageGroups: s.ageGroups }), [access])
 }
+
+/** An age-group label that never breaks inside its range ("Ages 4–5"), also in right-to-left text. */
+export const keepTogether = (label: string) => label.replace(/ /g, '\u00a0').replace(/–/g, '\u2060–\u2060')

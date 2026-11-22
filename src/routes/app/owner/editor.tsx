@@ -269,38 +269,27 @@ function PublishSection({ story, dirty, busy, run }: { story: OwnerStory; dirty:
   return (
     <Section title={od.editor.sections.publish}>
       <p className="text-ink-muted">{p.lead}</p>
-      <div className="overflow-x-auto">
-        <table className="w-full min-w-[20rem] border-collapse text-start" data-testid="lang-table">
-          <thead>
-            <tr className="border-b border-line text-sm text-ink-muted">
-              <th className="py-2 pe-3 text-start font-medium">{p.colLang}</th>
-              <th className="py-2 pe-3 text-start font-medium">{p.colState}</th>
-              <th className="py-2 text-start font-medium"><span className="sr-only">{p.signOff}</span></th>
-            </tr>
-          </thead>
-          <tbody>
-            {langs.map((l) => {
-              const gaps = blockingGaps(story, l).length + shared
-              const so = story.signoffs[l]
-              const valid = signoffValid(story, l)
-              const state = valid ? fmt(p.stateChecked, { date: formatDate(so!.at, lang) }) : so ? p.stateStale : gaps ? fmt(p.stateMissing, { n: gaps }) : p.stateReady
-              return (
-                <tr key={l} className="border-b border-line" data-testid={`signoff-${l}`}>
-                  <td className="py-2 pe-3 font-medium" lang={l}>{ENDONYM[l]}</td>
-                  <td className="py-2 pe-3 text-sm">{state}</td>
-                  <td className="py-2 text-end">
-                    {valid ? (
-                      <Button variant="quiet" disabled={busy} onClick={() => void run(api.withdrawSignOff(story.id, l))}>{p.withdraw}</Button>
-                    ) : (
-                      <Button variant="secondary" disabled={busy || dirty || blockingGaps(story, l).length > 0} onClick={() => void run(api.signOff(story.id, l))} data-testid={`signoff-${l}-button`}>{p.signOff}</Button>
-                    )}
-                  </td>
-                </tr>
-              )
-            })}
-          </tbody>
-        </table>
-      </div>
+      <ul className="flex flex-col divide-y divide-line border-y border-line" data-testid="lang-table" aria-label={p.colLang}>
+        {langs.map((l) => {
+          const gaps = blockingGaps(story, l).length + shared
+          const so = story.signoffs[l]
+          const valid = signoffValid(story, l)
+          const state = valid ? fmt(p.stateChecked, { date: formatDate(so!.at, lang) }) : so ? p.stateStale : gaps ? fmt(p.stateMissing, { n: gaps }) : p.stateReady
+          return (
+            <li key={l} className="flex flex-wrap items-center justify-between gap-x-4 gap-y-2 py-2" data-testid={`signoff-${l}`}>
+              <span className="flex flex-col">
+                <span className="font-medium" lang={l}>{ENDONYM[l]}</span>
+                <span className={`text-sm ${valid ? 'text-green-900' : so ? 'text-amber-900' : 'text-ink-muted'}`}>{state}</span>
+              </span>
+              {valid ? (
+                <Button variant="quiet" disabled={busy} onClick={() => void run(api.withdrawSignOff(story.id, l))}>{p.withdraw}</Button>
+              ) : (
+                <Button variant="secondary" disabled={busy || dirty || blockingGaps(story, l).length > 0} onClick={() => void run(api.signOff(story.id, l))} data-testid={`signoff-${l}-button`}>{p.signOff}</Button>
+              )}
+            </li>
+          )
+        })}
+      </ul>
       <p className="text-sm text-ink-muted">{p.signOffHint}</p>
 
       {story.credit === 'author' ? (

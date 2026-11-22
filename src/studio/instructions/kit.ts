@@ -6,7 +6,7 @@
  * Safety is drawn in: the cushion has no buttons, tassels or cords; the cup is a big empty tumbler with no lid;
  * the stick is short, thick and round at both ends.
  */
-import { Painter, TAU, blob, circle, curve, ellipse, limbPath, rrect, seededList } from '../kit/core'
+import { Painter, Pen, TAU, blob, circle, curve, ellipse, limbPath, rrect, seededList } from '../kit/core'
 import { mixHex } from '../style/color'
 
 export const clamp = (v: number, a = 0, b = 1) => (v < a ? a : v > b ? b : v)
@@ -23,7 +23,7 @@ export const wrap = (t: number, period: number) => ((t % period) + period) % per
  * The soft shadow of a thing lying a little above a surface (seen from above), or of a paper label: the path's
  * shape, blurred and slid by (dx, dy) picture units. Drawn before the thing itself.
  */
-export function softShadow(P: Painter, path: Path2D, dx: number, dy: number, blur: number, alpha = 0.3, color = '#3a2848') {
+export function softShadow(P: Painter, path: Pen | Path2D, dx: number, dy: number, blur: number, alpha = 0.3, color = '#3a2848') {
   if (P.sil) return
   const c = P.ctx
   const m = c.getTransform()
@@ -38,7 +38,7 @@ export function softShadow(P: Painter, path: Path2D, dx: number, dy: number, blu
   c.shadowOffsetX = OFF + dx * sc
   c.shadowOffsetY = dy * sc
   c.fillStyle = '#000'
-  c.fill(path)
+  c.fill(path instanceof Pen ? path.raw : path)
   c.restore()
 }
 
@@ -52,7 +52,7 @@ export function cushion(P: Painter, x: number, y: number, w: number, o: CushionO
   const h = w * (o.ratio ?? 0.8)
   const a = w / 2
   const b = h / 2
-  const p = new Path2D()
+  const p = new Pen()
   p.moveTo(-a, -b)
   p.quadraticCurveTo(0, -b + h * 0.1, a, -b)
   p.quadraticCurveTo(a - w * 0.085, 0, a, b)
@@ -73,7 +73,7 @@ export function cushion(P: Painter, x: number, y: number, w: number, o: CushionO
     },
   })
   // the seam: a line just inside the edge
-  const s = new Path2D()
+  const s = new Pen()
   s.moveTo(-a * 0.86, -b * 0.8)
   s.quadraticCurveTo(0, -b * 0.66, a * 0.86, -b * 0.8)
   s.moveTo(-a * 0.86, b * 0.8)
@@ -92,7 +92,7 @@ export function tumbler(P: Painter, x: number, y: number, s: number, o: { color?
   c.save()
   c.translate(x, y)
   c.rotate(o.rot ?? 0)
-  const body = new Path2D()
+  const body = new Pen()
   body.moveTo(-rw, -s)
   body.lineTo(-bw, -s * 0.06)
   body.quadraticCurveTo(0, s * 0.06, bw, -s * 0.06)
@@ -166,8 +166,8 @@ export function spoon(P: Painter, x: number, y: number, len: number, o: { rot?: 
 
 // ── wordless signs ────────────────────────────────────────────────────────────
 /** A heart centred on (x, y), `s` wide. */
-export function heartPath(x: number, y: number, s: number): Path2D {
-  const p = new Path2D()
+export function heartPath(x: number, y: number, s: number): Pen {
+  const p = new Pen()
   const h = s * 0.5
   p.moveTo(x, y + h * 0.82)
   p.bezierCurveTo(x - h * 1.5, y - h * 0.1, x - h * 0.9, y - h * 1.2, x, y - h * 0.36)
@@ -184,7 +184,7 @@ export function icon(P: Painter, kind: Icon, s: number, ghost = false) {
   if (ghost) c.globalAlpha *= 0.55
   if (kind === 'heart') P.shape(heartPath(0, 0, s), '#e4572e', { shade: 0.5, line: 0.9, tex: false })
   else if (kind === 'sun') {
-    const rays = new Path2D()
+    const rays = new Pen()
     for (let i = 0; i < 8; i++) {
       const a = (i / 8) * TAU
       rays.moveTo(Math.cos(a) * s * 0.36, Math.sin(a) * s * 0.36)
@@ -228,7 +228,7 @@ export function bubble(P: Painter, x: number, y: number, w: number, h: number, o
   const fill = o.fill ?? '#fffaf0'
   const edge = o.edge ?? '#3a2a44'
   const lw = o.lw ?? 5
-  const body = rrect(-w / 2, -h / 2, w, h, Math.min(w, h) * 0.42)
+  const body = rrect(-w / 2, -h / 2, w, h, Math.min(w, h) * 0.42).raw
   // the tail: a small wedge from the bubble's edge toward the speaker
   const dx = o.to.x - x
   const dy = o.to.y - y
@@ -286,7 +286,7 @@ export function arrow(P: Painter, pts: number[], o: ArrowOpts = {}) {
   const sh = pts.slice()
   sh[n - 2] = ex - Math.cos(a) * head * 0.7
   sh[n - 1] = ey - Math.sin(a) * head * 0.7
-  const shaft = curve(sh)
+  const shaft = curve(sh).raw
   const hp = new Path2D()
   hp.moveTo(ex, ey)
   hp.lineTo(ex - Math.cos(a - 0.5) * head * 1.25, ey - Math.sin(a - 0.5) * head * 1.25)

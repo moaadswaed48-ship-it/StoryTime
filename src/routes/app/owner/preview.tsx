@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
 import { useParams, useSearchParams } from 'react-router'
-import { ownerError, useOwner } from '@/features/owner/context'
+import { ownerError, useOwner, useOwnerDict } from '@/features/owner/context'
 import type { OwnerStory } from '@/features/owner/data'
 import { toStoryContent } from '@/features/owner/data/preview'
 import { possibleLangs } from '@/features/owner/data/rules'
@@ -42,6 +42,8 @@ export default function OwnerPreview() {
   const view: Lang = isLang(asked) && langs.includes(asked) ? asked : langs.includes(lang) ? lang : (langs[0] ?? lang)
   const content = useMemo(() => (story ? toStoryContent(story, view, (m) => (m ? urls[m] ?? null : null)) : null), [story, view, urls])
   const p = od.preview
+  // The family view speaks the language being previewed, as it would for a family; the frame around it does not.
+  const family = useOwnerDict(view).od?.preview ?? p
 
   if (error) return <Notice tone="error" title={error} />
   if (!story || !content) return <Spinner label={dict.account.states.loading} />
@@ -64,7 +66,7 @@ export default function OwnerPreview() {
           ))}
         </div>
       </fieldset>
-      <FamilyView content={content} labels={p} />
+      <FamilyView content={content} labels={family} />
     </div>
   )
 }

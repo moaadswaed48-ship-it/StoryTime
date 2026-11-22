@@ -1,5 +1,6 @@
 import { useOwner } from './context'
 import type { AuditRow } from './data'
+import { ENDONYM, isLang } from '@/i18n/config'
 import { formatDate } from '@/i18n/format'
 import { useLang } from '@/i18n/use-dict'
 
@@ -14,11 +15,12 @@ export function AuditList({ rows, empty }: { rows: AuditRow[]; empty: string }) 
       {rows.map((r) => {
         const action = c.actions[r.action as keyof typeof c.actions] ?? r.action
         const target = c.targets[r.target as keyof typeof c.targets] ?? c.targets.other
-        const langDetail = /^(ar|he|en|da)(,(ar|he|en|da))*$/.test(r.detail) ? ` (${r.detail.split(',').join(', ')})` : ''
+        const langs = r.detail.split(',').filter(isLang)
+        const langDetail = langs.length && langs.length === r.detail.split(',').length ? langs.map((l) => ENDONYM[l]).join(', ') : ''
         return (
           <li key={r.id} className="flex flex-col gap-0.5 py-2 sm:flex-row sm:gap-4">
             <span className="shrink-0 text-sm text-ink-muted sm:w-48">{formatDate(r.at, lang, true)}</span>
-            <span>{action}: {target}<span dir="ltr">{langDetail}</span></span>
+            <span>{action}: {target}{langDetail && <> · <bdi>{langDetail}</bdi></>}</span>
           </li>
         )
       })}

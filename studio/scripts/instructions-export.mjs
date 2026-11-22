@@ -46,7 +46,9 @@ let browser
 async function open(query, width, scale = 2) {
   const ctx = await browser.newContext({ viewport: { width, height: 900 }, deviceScaleFactor: scale })
   const page = await ctx.newPage()
-  page.on('console', (m) => m.type() === 'error' && console.error('  [page]', m.text().slice(0, 500)))
+  page.on('console', (m) => (m.type() === 'error' || process.env.DEBUG) && console.error('  [page]', m.text().slice(0, 500)))
+  page.on('requestfailed', (r) => console.error('  [request failed]', r.url().slice(0, 200), r.failure()?.errorText))
+  page.on('response', (r) => r.status() >= 400 && console.error('  [http]', r.status(), r.url().slice(0, 200)))
   page.on('pageerror', (e) => console.error('  [page error]', String(e.stack ?? e).slice(0, 900)))
   await page.goto(`${base}/?${query}`)
   await page.waitForFunction(() => window.__inst !== undefined, null, { timeout: 120000 })
@@ -54,6 +56,9 @@ async function open(query, width, scale = 2) {
   if (err) throw new Error(`page failed:\n${err}`)
   await page.evaluate(() => document.fonts.ready)
   const h = await page.evaluate(() => Math.ceil(document.getElementById('stage').getBoundingClientRect().height))
+  // the page is captured whole, so the window is made as tall as the page
+  await page.setViewportSize({ width, height: Math.max(200, h) })
+  await page.evaluate(() => new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r))))
   const info = await page.evaluate(() => ({ loop: window.__inst.loop ?? 0, still: window.__inst.still ?? 0 }))
   const shoot = async (file, t) => {
     if (t !== undefined) await page.evaluate((s) => window.__inst.seek(s), t)
@@ -182,7 +187,7 @@ async function main() {
       // quick look: every card of a direction on one sheet (English), plus the loops as strips
       for (const dir of dirs) {
         const f = resolve(WORK, 'check', `${dir}-${opt.lang ?? 'en'}.jpg`)
-        await setShot(dir, String(opt.lang ?? 'en'), 5, 1900, 1, f)
+        await setShot(dir, String(opt.lang ?? "en"), 5, Number(opt.width ?? 2400), 1, f)
         console.log(f)
       }
     } else if (cmd === 'stills' || cmd === 'all') {

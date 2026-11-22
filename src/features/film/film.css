@@ -1,0 +1,105 @@
+/*
+ * The film player: one calm frame. Neutral until the design pass. The controls sit under the picture (never over
+ * it, never hidden while the film plays); in full screen they sit at the foot of the screen.
+ */
+.film-frame {
+  --media-primary-color: #fff;
+  --media-secondary-color: transparent;
+  --media-control-background: transparent;
+  --media-control-hover-background: rgb(255 255 255 / 0.12);
+  --media-font-family: inherit;
+  --media-button-icon-height: 26px;
+  --media-control-height: 48px;
+  --media-range-track-height: 6px;
+  --media-range-track-border-radius: 3px;
+  --media-range-track-background: rgb(255 255 255 / 0.28);
+  --media-range-bar-color: #fff;
+  --media-range-thumb-height: 18px;
+  --media-range-thumb-width: 18px;
+  --media-range-thumb-border-radius: 9px;
+  --media-time-range-buffered-color: rgb(255 255 255 / 0.45);
+  --media-tooltip-display: none;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border-radius: 1rem;
+  background: #111;
+  color: #fff;
+  box-shadow: 0 20px 50px -24px rgb(0 0 0 / 0.55);
+}
+.film-frame media-controller {
+  display: block;
+  aspect-ratio: 16 / 9;
+  width: 100%;
+  background: #111;
+}
+.film-frame video::cue {
+  font-size: 1.15em;
+  line-height: 1.5;
+  background: rgb(0 0 0 / 0.62);
+  color: #fff;
+}
+.film-frame .film-big-play {
+  --media-button-icon-height: 44px;
+  width: 88px;
+  height: 88px;
+  border-radius: 999px;
+  background: rgb(255 255 255 / 0.92);
+  --media-primary-color: #111;
+  transition: opacity 200ms ease, transform 200ms ease;
+}
+.film-frame .film-big-play:not([mediapaused]) {
+  opacity: 0;
+  pointer-events: none;
+  transform: scale(0.9);
+}
+.film-frame media-control-bar {
+  width: 100%;
+  min-height: 56px;
+  padding: 4px 8px;
+  gap: 2px;
+  align-items: center;
+  background: #111;
+}
+.film-frame media-control-bar > * {
+  min-width: 48px;
+  min-height: 48px;
+}
+.film-frame media-control-bar.film-scrub {
+  min-height: 0;
+  padding: 10px 16px 0;
+}
+.film-frame media-time-range {
+  flex: 1;
+  min-width: 60px;
+  height: 36px;
+}
+.film-frame media-control-bar > span {
+  min-width: 0;
+}
+.film-frame media-time-display {
+  font-variant-numeric: tabular-nums;
+  padding-inline: 6px;
+}
+.film-frame:fullscreen,
+.film-frame:-webkit-full-screen {
+  border-radius: 0;
+  justify-content: center;
+}
+.film-frame:fullscreen media-controller {
+  flex: 1;
+  aspect-ratio: auto;
+  min-height: 0;
+}
+/* Opening: the frame rises into place (no motion when reduced). */
+@media (prefers-reduced-motion: no-preference) {
+  .film-frame[data-entering] {
+    animation: film-in 420ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  }
+}
+@keyframes film-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px) scale(0.985);
+  }
+}

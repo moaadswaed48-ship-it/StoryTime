@@ -104,7 +104,8 @@ describe('trial and passes', () => {
     const list = await api.listStories('en', '4-5')
     // Stories from content/stories (real ones first, then the sample) come before the text-only seed samples.
     expect(list.map((s) => s.slug).filter((s) => s.startsWith('sample'))).toEqual(['sample-b', 'sample-45-1', 'sample-45-2', 'sample-45-3', 'sample-68-1'])
-    expect(list.every((s) => s.isSample)).toBe(true)
+    expect(list.filter((s) => s.slug.startsWith('sample')).every((s) => s.isSample)).toBe(true)
+    expect(list.filter((s) => !s.slug.startsWith('sample')).some((s) => s.isSample)).toBe(false)
     expect(await codeOf(api.getStoryContent(list[0]!.id, 'en'))).toBe('locked')
   })
 

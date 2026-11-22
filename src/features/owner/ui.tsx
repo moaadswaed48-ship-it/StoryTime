@@ -75,7 +75,7 @@ export function ZonePicker({ zone, onChange, name }: { zone: TextZone; onChange:
   return (
     <div className="flex flex-col gap-3">
       <p className="font-medium">{z.zoneLegend}</p>
-      <div className="flex flex-wrap items-start gap-4">
+      <div className="flex flex-col items-start gap-4 sm:flex-row">
         <div aria-hidden="true" className="relative h-24 w-36 shrink-0 overflow-hidden rounded-md border border-ink/40 bg-line/40">
           <div
             className="absolute rounded-sm bg-ink/70"
@@ -86,7 +86,7 @@ export function ZonePicker({ zone, onChange, name }: { zone: TextZone; onChange:
             }}
           />
         </div>
-        <div className="flex min-w-0 flex-1 flex-col gap-3">
+        <div className="flex w-full min-w-0 flex-1 flex-col gap-3">
           {group('side', ZONE_SIDES, z.zoneSide, z.zoneSideLegend)}
           {group('v', ZONE_VS, z.zoneV, z.zoneVLegend)}
           {group('size', ZONE_SIZES, z.zoneSize, z.zoneSizeLegend)}
@@ -162,8 +162,13 @@ export function FileField({ purpose, label, hint, currentId, onUploaded, testId 
         <p className="text-sm text-ink-muted" dir="auto">{limitsText(od, purpose)}</p>
       </div>
       {currentId && <MediaPreview id={currentId} label={label} />}
-      <fieldset className="flex flex-col gap-1.5">
-        <legend className="mb-1 text-sm font-medium">{u.sourceLegend}</legend>
+      <details className="rounded-control border border-line px-3">
+        <summary className="flex min-h-11 cursor-pointer items-center gap-2 text-sm">
+          <span className="font-medium">{u.sourceLegend}</span>
+          <span className="text-ink-muted">{source === 'upload' ? u.sourceOwn : source === 'studio' ? u.sourceStudio : u.sourceOther}</span>
+        </summary>
+      <fieldset className="flex flex-col gap-1.5 pb-3">
+        <legend className="sr-only">{u.sourceLegend}</legend>
         <div className="grid gap-1.5 sm:grid-cols-3">
           {([['upload', u.sourceOwn], ['studio', u.sourceStudio], ['third_party', u.sourceOther]] as const).map(([v, l]) => (
             <label key={v} className="flex min-h-12 cursor-pointer items-center gap-2 rounded-control border border-ink/30 px-3 text-sm has-[:checked]:border-ink has-[:checked]:ring-2 has-[:checked]:ring-ink">
@@ -186,6 +191,7 @@ export function FileField({ purpose, label, hint, currentId, onUploaded, testId 
           </label>
         </div>
       )}
+      </details>
       <div>
         <label htmlFor={id} className={`inline-flex min-h-12 cursor-pointer items-center gap-2 rounded-control border border-ink/70 bg-surface px-5 font-medium has-[:focus-visible]:outline has-[:focus-visible]:outline-3 has-[:focus-visible]:outline-focus ${busy ? 'opacity-60' : ''}`}>
           {busy && <Spinner small />}

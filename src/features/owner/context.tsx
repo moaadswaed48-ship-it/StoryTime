@@ -56,12 +56,14 @@ export function ownerError(od: OwnerDict, e: unknown): string {
 
 const sizeText = (bytes: number) => (bytes >= 1024 * 1024 ? `${Math.round(bytes / (1024 * 1024))} MB` : `${Math.round(bytes / 1024)} KB`)
 export const typesText = (p: UploadPurpose) => UPLOAD_LIMITS[p].ext.filter((e) => e !== 'jpeg').map((e) => e.toUpperCase()).join(', ')
-export const limitsText = (od: OwnerDict, p: UploadPurpose) => fmt(od.upload.limits, { types: typesText(p), size: sizeText(UPLOAD_LIMITS[p].maxBytes) })
+/** File types and sizes read left to right even in Arabic and Hebrew: isolated so the sentence stays in order. */
+const iso = (s: string) => `\u2066${s}\u2069`
+export const limitsText = (od: OwnerDict, p: UploadPurpose) => fmt(od.upload.limits, { types: iso(typesText(p)), size: iso(sizeText(UPLOAD_LIMITS[p].maxBytes)) })
 
 export function uploadRefusal(od: OwnerDict, reason: NonNullable<OwnerError['refusal']>, p: UploadPurpose): string {
   const r = od.upload.refused
-  if (reason === 'type') return fmt(r.type, { types: typesText(p) })
-  if (reason === 'size') return fmt(r.size, { size: sizeText(UPLOAD_LIMITS[p].maxBytes) })
+  if (reason === 'type') return fmt(r.type, { types: iso(typesText(p)) })
+  if (reason === 'size') return fmt(r.size, { size: iso(sizeText(UPLOAD_LIMITS[p].maxBytes)) })
   return r[reason]
 }
 

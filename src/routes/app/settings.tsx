@@ -10,6 +10,7 @@ import { errorText, strengthOf } from '@/features/account/messages'
 import { ParentGate } from '@/features/account/ParentGate'
 import { justDeleted } from '@/features/account/parts'
 import { useSession } from '@/features/account/session'
+import { usePrefs } from '@/features/family/prefs'
 import { CancelPass } from '@/features/commerce/CancelPass'
 import { ENDONYM, LANGS, type Lang } from '@/i18n/config'
 import { fmt, formatDate, formatShekels } from '@/i18n/format'
@@ -30,6 +31,7 @@ export default function Settings() {
       <div className="flex flex-col gap-6">
         <AccountSection />
         <LanguageSection />
+        <ReadingSection />
         <ProfilesSection />
         <PassesSection />
         <NewsSection />
@@ -380,6 +382,19 @@ function DeleteSection() {
         {error && <Notice tone="error">{errorText(dict, error)}</Notice>}
         <Button type="submit" variant="danger" busy={busy} className="self-start">{t.deleteSubmit}</Button>
       </form>
+    </Section>
+  )
+}
+
+/** Reading and films (part B1): the defaults the reader and the player use, remembered for this account. */
+function ReadingSection() {
+  const { dict } = useLang()
+  const t = dict.stories.settings
+  const [prefs, setPrefs] = usePrefs()
+  return (
+    <Section title={t.title} id="reading">
+      <Checkbox label={t.autoFlip} checked={prefs.autoFlip} onChange={(e) => setPrefs({ autoFlip: e.target.checked })} data-testid="pref-autoflip" />
+      <Checkbox label={t.captions} checked={prefs.captions} onChange={(e) => setPrefs({ captions: e.target.checked })} data-testid="pref-captions" />
     </Section>
   )
 }

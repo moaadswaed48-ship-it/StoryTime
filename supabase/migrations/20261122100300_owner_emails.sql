@@ -469,8 +469,8 @@ create policy email_suppressions_owner on public.email_suppressions for select t
 alter table public.consents drop constraint consents_source_check;
 alter table public.consents add constraint consents_source_check check (source in ('sign-up', 'settings', 'checkout', 'email-link'));
 
--- What the reminder job needs about every account: address, language, the latest news consent, trial, passes and
--- the age groups of its profiles. Service role only (the edge function); children's names are not included.
+-- What the email job needs about every account: address, language, when it was confirmed, the latest news consent,
+-- trial (with its story titles), passes, paid orders, refunds and the age groups of its profiles. Service role only (the edge function); children's names are not included.
 create function public.email_audience() returns jsonb
 language sql stable security definer set search_path = '' as $$
   select coalesce(jsonb_agg(jsonb_build_object(
@@ -480,7 +480,24 @@ language sql stable security definer set search_path = '' as $$
     'role', p.role,
     'marketing', coalesce((select c.granted from public.consents c where c.account_id = p.id and c.kind = 'marketing' order by c.created_at desc limit 1), false),
     'groups', coalesce((select jsonb_agg(distinct ch.age_group) from public.children ch where ch.account_id = p.id), '[]'::jsonb),
-    'trial', (select jsonb_build_object('id', t.id, 'ageGroup', t.age_group, 'startedAt', t.started_at, 'endsAt', t.ends_at) from public.trials t where t.account_id = p.id),
+    'confirmedAt', u.email_confirmed_at,
+    'trial', (select jsonb_build_object('id', t.id, 'ageGroup', t.age_group, 'startedAt', t.started_at, 'endsAt', t.ends_at,
+      'stories', coalesce((
+        select jsonb_agg(coalesce(
+          (select l.title from public.story_listings l where l.story_id = ti.story_id and l.lang = p.language),
+          (select l.title from public.story_listings l where l.story_id = ti.story_id order by l.lang limit 1)))
+        from public.trial_items ti where ti.trial_id = t.id), '[]'::jsonb))
+      from public.trials t where t.account_id = p.id),
+    'orders', coalesce((
+      select jsonb_agg(jsonb_build_object('id', o.id, 'ageGroup', o.age_group, 'months', o.months, 'amountAgorot', o.amount_agorot,
+        'priceWasPlaceholder', o.price_was_placeholder, 'paidAt', o.paid_at, 'startsAt', ps.starts_at, 'endsAt', ps.ends_at))
+      from public.orders o left join public.passes ps on ps.order_id = o.id
+      where o.account_id = p.id and o.paid_at is not null), '[]'::jsonb),
+    'refunds', coalesce((
+      select jsonb_agg(jsonb_build_object('id', r.id, 'orderId', r.order_id, 'ageGroup', o.age_group, 'months', o.months,
+        'paidAgorot', o.amount_agorot, 'priceWasPlaceholder', o.price_was_placeholder, 'amountAgorot', r.amount_agorot,
+        'feeAgorot', r.fee_agorot, 'status', r.status, 'requestedAt', r.requested_at, 'issuedAt', r.issued_at, 'creditDocUrl', r.credit_document_url))
+      from public.refunds r join public.orders o on o.id = r.order_id where o.account_id = p.id), '[]'::jsonb),
     'passes', coalesce((
       select jsonb_agg(jsonb_build_object('id', ps.id, 'ageGroup', ps.age_group, 'months', ps.months, 'startsAt', ps.starts_at, 'endsAt', ps.ends_at,
         'status', ps.status, 'paidAt', o.paid_at))

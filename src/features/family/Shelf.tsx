@@ -5,6 +5,7 @@ import { emblemMask } from '@/library/emblems'
 import { computeGeoms, computeMetrics, layout, mix, nearest, newLive, newPose, stepSize, type Geom, type LayoutInput, type Pose } from '@/library/engine'
 import type { ShelfBook } from '@/library/types'
 import { Cover, shelfBookOf } from './Cover'
+import { IconLock } from './icons'
 
 /**
  * The bookshelf: the carried-over shelf engine (src/library/engine.ts, see /lab/shelf) with the stories of one age
@@ -28,7 +29,7 @@ function BookBox({ item, g, dir, setRef }: { item: ShelfItem; g: Geom; dir: numb
       <div className="absolute inset-0 [backface-visibility:hidden]" style={{ transform: `rotateY(180deg) translateZ(${half}px)`, background: mix(cloth, '#000000', 0.35) }} />
       <div className="absolute top-0 left-1/2 h-full [backface-visibility:hidden]" style={{ width: g.T, marginLeft: -half, transform: `rotateY(${spineSide * 90}deg) translateZ(${g.W / 2}px)`, background: `linear-gradient(90deg, rgba(0,0,0,.3), rgba(255,255,255,.08) 40%, rgba(0,0,0,.3)), ${cloth}` }}>
         <span className="absolute inset-x-[18%] bottom-[8%] aspect-square" style={{ background: foil, maskImage: mask, WebkitMaskImage: mask, maskSize: 'contain', WebkitMaskSize: 'contain' } as CSSProperties} />
-        {!item.open && <span className="absolute inset-x-[30%] top-[10%] aspect-square rounded-full bg-white/80" />}
+        {!item.open && <IconLock className="absolute inset-x-[18%] top-[6%] aspect-square w-[64%] text-white/90" />}
       </div>
       <div className="absolute top-0 left-1/2 h-full [backface-visibility:hidden]" style={{ width: g.T, marginLeft: -half, transform: `rotateY(${-spineSide * 90}deg) translateZ(${g.W / 2 - 1}px)`, background: '#f1ede4' }} />
       <div className="absolute left-0 w-full [backface-visibility:hidden]" style={{ height: g.T, top: -half, transform: 'rotateX(90deg)', background: '#e9e4d8' }} />

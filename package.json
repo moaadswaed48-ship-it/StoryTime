@@ -12,7 +12,8 @@
     "preview": "node scripts/serve.mjs",
     "typecheck": "react-router typegen && tsc --noEmit",
     "test": "vitest run",
-    "e2e": "playwright test"
+    "e2e": "playwright test",
+    "emails:bundle": "node supabase/functions/_shared/build-emails.mjs"
   },
   "dependencies": {
     "@gsap/react": "2.1.2",

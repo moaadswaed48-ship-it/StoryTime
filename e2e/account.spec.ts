@@ -100,12 +100,16 @@ async function onboard(page: Page, lang: L, role: 'parent' | 'teacher', info: Te
   await noSideScroll(page)
   await shot(page, info, `onboarding-trial-${lang}-${role}`)
   await page.getByRole('button', { name: o.trialStart }).click()
-  // Onboarding ends inside the first trial story, whose (sample) text loads only now.
-  await expect(page.getByTestId('story-pages').locator('li')).toHaveCount(2)
+  // Onboarding ends on the storybook page of the first trial story: its four doors, open.
+  await expect(page.getByTestId('storybook')).toHaveAttribute('data-state', 'open')
+  await expect(page.getByTestId('doors').locator('li')).toHaveCount(4)
 }
 
 async function library(page: Page, lang: L) {
   await page.goto(`${lang}/app/library/`)
+  // The library opens on the bookshelf; the list view (same books) is one tap away and is what these checks count.
+  await expect(page.getByTestId('view-list')).toBeVisible()
+  if (!(await page.getByTestId('story-list').isVisible())) await page.getByTestId('view-list').click()
   await expect(page.getByTestId('story-list')).toBeVisible()
   return page.getByTestId('story-list').locator('a')
 }
@@ -140,14 +144,16 @@ for (const lang of ['en', 'ar'] as const) {
     await signUp(page, lang, 'parent', `parent-${lang}-${info.project.name}@example.test`, info)
     await onboard(page, lang, 'parent', info)
 
-    // During the trial: 3 stories open, the fourth (a 6-8 sample also listed in 4-5) locked.
+    // During the trial: 3 stories open, the others (including a 6-8 sample also listed in 4-5) locked.
     let items = await library(page, lang)
     await expect(page.getByTestId('access-panel')).toContainText(a.trialStoriesNote)
     await expect(items.and(page.locator('[data-state="open"]'))).toHaveCount(3)
-    await expect(items.and(page.locator('[data-state="locked"]'))).toHaveCount(1)
-    await items.and(page.locator('[data-state="locked"]')).click()
-    await expect(page.getByText(a.lockedLead)).toBeVisible()
-    await expect(page.getByTestId('story-pages')).toHaveCount(0)
+    const total = await items.count()
+    expect(total).toBeGreaterThan(3)
+    await items.and(page.locator('[data-state="locked"]')).last().click()
+    await expect(page.getByTestId('storybook')).toHaveAttribute('data-state', 'locked')
+    await expect(page.getByText(d.stories.doors.lockedTitle)).toBeVisible()
+    await expect(page.getByTestId('page-text')).toHaveCount(0)
 
     // Trial over (4 days later): everything locks, one calm screen, profile kept.
     await setClock(page, 4 * DAY)
@@ -164,7 +170,7 @@ for (const lang of ['en', 'ar'] as const) {
     await page.goto(`${lang}/app/library/`)
     await buyThreeMonths(page, lang, false, info, `${lang}-parent`)
     items = await library(page, lang)
-    await expect(items.and(page.locator('[data-state="open"]'))).toHaveCount(4)
+    await expect(items.and(page.locator('[data-state="open"]'))).toHaveCount(total)
 
     // Settings (behind the gate): pass active, profile kept, news unticked.
     await page.goto(`${lang}/app/settings/`)
@@ -196,7 +202,7 @@ for (const lang of ['en', 'ar'] as const) {
     await expect(page.getByText(d.commerce.access.trialEndedTitle)).toBeVisible()
     await buyThreeMonths(page, lang, true, info, `${lang}-teacher`)
     items = await library(page, lang)
-    await expect(items.and(page.locator('[data-state="open"]'))).toHaveCount(4)
+    await expect(items.and(page.locator('[data-state="locked"]'))).toHaveCount(0)
     await page.goto(`${lang}/app/settings/`)
     await passGate(page, page.getByTestId('profiles'))
     await expect(page.getByRole('heading', { name: d.account.settings.classesTitle })).toBeVisible()

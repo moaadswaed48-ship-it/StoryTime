@@ -121,17 +121,20 @@ export type PenStats = { cx: number; cy: number; angle: number; long: number; le
  * uneven, the same unevenness in every frame (it is counted along the outline, not across the screen, so a shape
  * that moves or bends keeps its own line and a film does not boil).
  */
-export class Pen {
-  raw: Path2D
+const PathBase = (HAS_PATH ? Path2D : class {}) as typeof Path2D
+export class Pen extends PathBase {
   subs: Sub[] = []
+  /** false once something was added that the Pen cannot follow point by point: the outline is then drawn as it is. */
+  private tracked = true
   private cur: number[] | null = null
   private sx = 0
   private sy = 0
   private cache: Map<string, Path2D> | null = null
   private st: PenStats | null = null
 
-  constructor() {
-    this.raw = HAS_PATH ? new Path2D() : (null as unknown as Path2D)
+  /** The exact canvas path (a Pen is one). */
+  get raw(): Path2D {
+    return this
   }
   private begin(x: number, y: number) {
     this.cur = [x, y]
@@ -156,17 +159,17 @@ export class Pen {
     const n = Math.max(1, Math.ceil(Math.hypot(x - x0, y - y0) / (SEG * 2.4)))
     for (let i = 1; i <= n; i++) this.put(x0 + ((x - x0) * i) / n, y0 + ((y - y0) * i) / n)
   }
-  moveTo(x: number, y: number) {
-    this.raw?.moveTo(x, y)
+  override moveTo(x: number, y: number) {
+    if (HAS_PATH) super.moveTo(x, y)
     this.begin(x, y)
   }
-  lineTo(x: number, y: number) {
-    this.raw?.lineTo(x, y)
+  override lineTo(x: number, y: number) {
+    if (HAS_PATH) super.lineTo(x, y)
     if (!this.cur) this.begin(this.sx, this.sy)
     this.seg(x, y)
   }
-  quadraticCurveTo(cx: number, cy: number, x: number, y: number) {
-    this.raw?.quadraticCurveTo(cx, cy, x, y)
+  override quadraticCurveTo(cx: number, cy: number, x: number, y: number) {
+    if (HAS_PATH) super.quadraticCurveTo(cx, cy, x, y)
     if (!this.cur) this.begin(this.sx, this.sy)
     const [x0, y0] = this.last()
     const n = Math.max(4, Math.min(36, Math.ceil((Math.hypot(cx - x0, cy - y0) + Math.hypot(x - cx, y - cy)) / SEG)))
@@ -176,8 +179,8 @@ export class Pen {
       this.put(v * v * x0 + 2 * v * u * cx + u * u * x, v * v * y0 + 2 * v * u * cy + u * u * y)
     }
   }
-  bezierCurveTo(c1x: number, c1y: number, c2x: number, c2y: number, x: number, y: number) {
-    this.raw?.bezierCurveTo(c1x, c1y, c2x, c2y, x, y)
+  override bezierCurveTo(c1x: number, c1y: number, c2x: number, c2y: number, x: number, y: number) {
+    if (HAS_PATH) super.bezierCurveTo(c1x, c1y, c2x, c2y, x, y)
     if (!this.cur) this.begin(this.sx, this.sy)
     const [x0, y0] = this.last()
     const n = Math.max(5, Math.min(44, Math.ceil((Math.hypot(c1x - x0, c1y - y0) + Math.hypot(c2x - c1x, c2y - c1y) + Math.hypot(x - c2x, y - c2y)) / SEG)))
@@ -187,8 +190,8 @@ export class Pen {
       this.put(v * v * v * x0 + 3 * v * v * u * c1x + 3 * v * u * u * c2x + u * u * u * x, v * v * v * y0 + 3 * v * v * u * c1y + 3 * v * u * u * c2y + u * u * u * y)
     }
   }
-  ellipse(x: number, y: number, rx: number, ry: number, rot: number, a0: number, a1: number, ccw = false) {
-    this.raw?.ellipse(x, y, Math.abs(rx), Math.abs(ry), rot, a0, a1, ccw)
+  override ellipse(x: number, y: number, rx: number, ry: number, rot: number, a0: number, a1: number, ccw = false) {
+    if (HAS_PATH) super.ellipse(x, y, Math.abs(rx), Math.abs(ry), rot, a0, a1, ccw)
     let sweep: number
     if (!ccw) sweep = a1 - a0 >= TAU - 1e-9 ? TAU : (((a1 - a0) % TAU) + TAU) % TAU
     else sweep = a0 - a1 >= TAU - 1e-9 ? -TAU : -((((a0 - a1) % TAU) + TAU) % TAU)
@@ -215,19 +218,19 @@ export class Pen {
       }
     }
   }
-  arc(x: number, y: number, r: number, a0: number, a1: number, ccw = false) {
+  override arc(x: number, y: number, r: number, a0: number, a1: number, ccw = false) {
     // (the exact path gets the same arc through ellipse)
     this.ellipse(x, y, r, r, 0, a0, a1, ccw)
   }
-  rect(x: number, y: number, w: number, h: number) {
+  override rect(x: number, y: number, w: number, h: number) {
     this.moveTo(x, y)
     this.lineTo(x + w, y)
     this.lineTo(x + w, y + h)
     this.lineTo(x, y + h)
     this.closePath()
   }
-  closePath() {
-    this.raw?.closePath()
+  override closePath() {
+    if (HAS_PATH) super.closePath()
     const c = this.cur
     if (!c) return
     this.seg(c[0], c[1])
@@ -238,9 +241,18 @@ export class Pen {
     this.sy = c[1]
     this.cur = null
   }
-  addPath(o: Pen) {
-    this.raw?.addPath(o.raw)
-    for (const s of o.subs) this.subs.push(s)
+  override arcTo(x1: number, y1: number, x2: number, y2: number, r: number) {
+    if (HAS_PATH) super.arcTo(x1, y1, x2, y2, r)
+    this.tracked = false
+  }
+  override roundRect(x: number, y: number, w: number, h: number, radii?: number | DOMPointInit | (number | DOMPointInit)[]) {
+    if (HAS_PATH) super.roundRect(x, y, w, h, radii)
+    this.tracked = false
+  }
+  override addPath(o: Path2D, transform?: DOMMatrix2DInit) {
+    if (HAS_PATH) super.addPath(o, transform)
+    if (o instanceof Pen && !transform && o.tracked) for (const s of o.subs) this.subs.push(s)
+    else this.tracked = false
     this.cur = null
     this.cache = null
     this.st = null
@@ -290,7 +302,7 @@ export class Pen {
    * path's own units), `seed` picks a different hand (the line and the paint under it use two).
    */
   wob(amp: number, wave: number, seed: number): Path2D {
-    if (!(amp > 0.02) || !HAS_PATH) return this.raw
+    if (!(amp > 0.02) || !HAS_PATH || !this.tracked) return this
     const key = `${Math.round(amp * 20)}|${Math.round(wave)}|${seed}`
     const hit = this.cache?.get(key)
     if (hit) return hit
@@ -599,6 +611,9 @@ export type ShapeOpts = {
 /** A light that stands in the scene (a lamp, a candle, a lit window): things near it are lit by it and from its side. */
 export type Lamp = { x: number; y: number; /** How far its light reaches, stage units. */ r: number; color: string; /** 0…1 strength. */ k: number; /** The floor under it (where shadows start from). */ gy?: number }
 
+const NO_HAND = { wobble: 0, wave: 60, line: 1, shade: 0, register: { x: 0, y: 0 } }
+/** A path as the hand draws it (a plain canvas path, which keeps no points, is drawn as it is). */
+const wob = (p: Path2D, amp: number, wave: number, seed: number): Path2D => (p instanceof Pen ? p.wob(amp, wave, seed) : p)
 const LIT = new Map<string, string>()
 const LAYERS: HTMLCanvasElement[] = []
 
@@ -669,9 +684,9 @@ export class Painter {
    * Works out how a shape is lit before it is drawn: how much of a standing light reaches it, and from which
    * side the light comes (the main light, bent toward a lamp when one is near).
    */
-  private aim(path: Pen | null): { x: number; y: number } {
+  private aim(path: Path2D | null): { x: number; y: number } {
     const base = this.light
-    if (!this.lamps.length || !path) {
+    if (!this.lamps.length || !(path instanceof Pen)) {
       this.lit = 0
       return base
     }
@@ -754,10 +769,10 @@ export class Painter {
   }
   /** How far the hand strays from the true outline, in local units. */
   private wobAmp(mult = 1): number {
-    return (mult * this.style.hand.wobble * (1 - 0.4 * Math.max(0, this.depth))) / Math.pow(this.unit, 0.5)
+    return (mult * (this.style.hand?.wobble ?? 0) * (1 - 0.4 * Math.max(0, this.depth))) / Math.pow(this.unit, 0.5)
   }
   private wave(): number {
-    return this.style.hand.wave / Math.pow(this.unit, 0.6)
+    return (this.style.hand?.wave ?? 60) / Math.pow(this.unit, 0.6)
   }
 
   /** Shift the next drawing by (dx, dy) local units along the screen axes. Follow with ctx.restore(). */
@@ -775,23 +790,24 @@ export class Painter {
    * on the side away from the light, a lit edge (and a rim of coloured light at night or by a lamp), and last the
    * dry-brush texture, which runs the way the shape runs.
    */
-  shape(path: Pen, color: string, o: ShapeOpts = {}) {
+  shape(path: Path2D, color: string, o: ShapeOpts = {}) {
     const c = this.ctx
     if (this.sil) {
       c.fillStyle = this.sil
-      c.fill(path.raw)
+      c.fill(path)
       return
     }
     const st = this.style
+    const hand = { ...NO_HAND, ...st.hand }
     const L = this.aim(path)
     const amp = this.wobAmp(o.wob ?? 1)
     const wave = this.wave()
-    const body = path.wob(amp, wave, 23)
+    const body = wob(path, amp, wave, 23)
     const lw = o.line === false ? 0 : this.lineW(o.line ?? 1)
     if (lw > 0) {
-      const edge = path.wob(amp * st.hand.line, wave * 0.8, 11)
-      const rx = st.hand.register.x / Math.pow(this.unit, 0.5)
-      const ry = st.hand.register.y / Math.pow(this.unit, 0.5)
+      const edge = wob(path, amp * hand.line, wave * 0.8, 11)
+      const rx = hand.register.x / Math.pow(this.unit, 0.5)
+      const ry = hand.register.y / Math.pow(this.unit, 0.5)
       c.lineJoin = 'round'
       c.lineCap = 'round'
       c.strokeStyle = o.ink ? this.col(o.ink) : this.ink(color)
@@ -811,6 +827,7 @@ export class Painter {
     const d = st.shade.model === 'crescent' ? (o.shade ?? 1) * st.shade.offset * (1 - 0.5 * Math.max(0, this.depth)) * (1 - 0.35 * soft) : 0
     const hi = d > 0 ? (o.hi ?? 1) * st.shade.hi : 0
     const tex = st.texture.speckle > 0 && o.tex !== false
+    const half = st.shade.half ?? 0
     if (!o.over && d <= 0 && !tex) return
     c.save()
     c.clip(body)
@@ -818,12 +835,12 @@ export class Painter {
     if (d > 0) {
       const hole = new Path2D()
       hole.rect(-1e5, -1e5, 2e5, 2e5)
-      hole.addPath(path.wob(amp * st.hand.shade, wave * 1.6, 37))
+      hole.addPath(wob(path, amp * hand.shade, wave * 1.6, 37))
       const dark = this.shadeOf(color)
       // inside the shape but outside a copy of it slid toward the light = the side turned away
-      if (st.shade.half > 0) {
-        this.nudge(L.x * d * st.shade.half, L.y * d * st.shade.half)
-        c.globalAlpha = st.shade.halfDepth * (1 - 0.3 * soft)
+      if (half > 0) {
+        this.nudge(L.x * d * half, L.y * d * half)
+        c.globalAlpha = (st.shade.halfDepth ?? 0.3) * (1 - 0.3 * soft)
         c.fillStyle = dark
         c.fill(hole, 'evenodd')
         c.restore()
@@ -853,8 +870,8 @@ export class Painter {
     }
     if (tex) {
       // the paint itself: dry-brush streaks that belong to the shape, move with it and run along it
-      const s = path.stats()
-      const pat = brushPattern(c, s.long > 1.35 ? s.angle : -0.2, st.texture.follow)
+      const s = path instanceof Pen ? path.stats() : null
+      const pat = brushPattern(c, s && s.long > 1.35 ? s.angle : -0.2, st.texture.follow ?? 0)
       if (pat) {
         c.globalAlpha = st.texture.speckle * (1 - 0.5 * Math.max(0, this.depth)) * (0.3 + 0.7 * luma(c.fillStyle as string))
         c.fillStyle = pat
@@ -865,11 +882,11 @@ export class Painter {
     c.globalAlpha = 1
   }
   /** Several overlapping pieces of one thing (a curl of hair, a cloud): one contour round the lot. */
-  group(paths: Pen[], color: string, o: ShapeOpts = {}) {
+  group(paths: Path2D[], color: string, o: ShapeOpts = {}) {
     const c = this.ctx
     if (this.sil) {
       c.fillStyle = this.sil
-      for (const p of paths) c.fill(p.raw)
+      for (const p of paths) c.fill(p)
       return
     }
     const lw = o.line === false ? 0 : this.lineW(o.line ?? 1)
@@ -883,31 +900,31 @@ export class Painter {
       const h = this.style.line.heavy
       if (h > 0) {
         this.nudge(-L.x * lw * h, -L.y * lw * h)
-        for (const p of paths) c.stroke(p.wob(amp, wave, 23))
+        for (const p of paths) c.stroke(wob(p, amp, wave, 23))
         c.restore()
       }
-      for (const p of paths) c.stroke(p.wob(amp, wave, 23))
+      for (const p of paths) c.stroke(wob(p, amp, wave, 23))
     }
     for (const p of paths) this.shape(p, color, { ...o, line: false })
   }
   /** A flat fill with no contour and no shadow (a detail lying on another shape). */
-  flat(path: Pen, color: string, alpha = 1) {
+  flat(path: Path2D, color: string, alpha = 1) {
     const c = this.ctx
     if (this.sil) {
       if (alpha > 0.6) {
         c.fillStyle = this.sil
-        c.fill(path.raw)
+        c.fill(path)
       }
       return
     }
     this.aim(path)
     c.globalAlpha = alpha
     c.fillStyle = this.col(color)
-    c.fill(path.wob(this.wobAmp(0.7), this.wave(), 23))
+    c.fill(wob(path, this.wobAmp(0.7), this.wave(), 23))
     c.globalAlpha = 1
   }
   /** A stroke in exactly this colour. */
-  line(path: Pen, color: string, width: number, alpha = 1) {
+  line(path: Path2D, color: string, width: number, alpha = 1) {
     const c = this.ctx
     if (this.sil && alpha < 0.6) return
     if (!this.sil) this.aim(path)
@@ -916,11 +933,11 @@ export class Painter {
     c.lineWidth = width
     c.globalAlpha = alpha
     c.strokeStyle = this.col(color)
-    c.stroke(this.sil ? path.raw : path.wob(this.wobAmp(0.8), this.wave(), 41))
+    c.stroke(this.sil ? path : wob(path, this.wobAmp(0.8), this.wave(), 41))
     c.globalAlpha = 1
   }
   /** An inner drawn line (a fold, a seam, a strand) in the contour colour of `color`. Skipped in silhouettes. */
-  detail(path: Pen, color: string, mult = 1) {
+  detail(path: Path2D, color: string, mult = 1) {
     if (this.sil) return
     const c = this.ctx
     this.aim(path)
@@ -928,13 +945,13 @@ export class Painter {
     c.lineJoin = 'round'
     c.lineWidth = Math.max(0.4, this.lineW(mult) * this.style.line.detail * 1.5)
     c.strokeStyle = this.ink(color)
-    c.stroke(path.wob(this.wobAmp(1), this.wave(), 41))
+    c.stroke(wob(path, this.wobAmp(1), this.wave(), 41))
   }
   /** Draw `fn` only inside `region`. */
-  clip(region: Pen, fn: () => void) {
+  clip(region: Path2D, fn: () => void) {
     const c = this.ctx
     c.save()
-    c.clip(this.sil ? region.raw : region.wob(this.wobAmp(1), this.wave(), 23))
+    c.clip(this.sil ? region : wob(region, this.wobAmp(1), this.wave(), 23))
     fn()
     c.restore()
   }
@@ -1058,11 +1075,11 @@ export class Painter {
    * A pool of light lying on a wall or a floor: a flat warm shape in rings, brightest in the middle, cut to
    * `region` when one is given. It is paint, not a glow: three hard-edged steps.
    */
-  pool(x: number, y: number, rx: number, ry: number, color: string, alpha = 0.5, region?: Pen) {
+  pool(x: number, y: number, rx: number, ry: number, color: string, alpha = 0.5, region?: Path2D) {
     if (this.sil) return
     const c = this.ctx
     c.save()
-    if (region) c.clip(region.raw)
+    if (region) c.clip(region)
     for (const [k, a, seed] of [[1, 0.34, 3], [0.72, 0.4, 5], [0.44, 0.5, 9]] as const) {
       c.globalCompositeOperation = 'soft-light'
       c.globalAlpha = alpha * a * 1.6
@@ -1076,7 +1093,7 @@ export class Painter {
     c.restore()
   }
   /** Dry-brush speckle inside `region`: short dabs of a lighter and a darker paint, fixed by `seed`. */
-  speckle(region: Pen, color: string, seed: number, box: [number, number, number, number], density = 1, size = 1) {
+  speckle(region: Path2D, color: string, seed: number, box: [number, number, number, number], density = 1, size = 1) {
     const k = this.style.texture.speckle
     if (this.sil || k <= 0) return
     const c = this.ctx
@@ -1087,7 +1104,7 @@ export class Painter {
     const dark = this.shadeOf(color)
     const light = mixHex(this.col(color), this.col(this.style.shade.light), 0.34)
     c.save()
-    c.clip(region.raw)
+    c.clip(region)
     c.lineCap = 'round'
     for (let i = 0; i < n; i++) {
       const px = x + r[i * 4] * w

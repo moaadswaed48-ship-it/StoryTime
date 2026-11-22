@@ -6,7 +6,7 @@
  * The owner chooses one. To keep the chosen one: delete the other two entries here, their files in
  * `src/studio/instructions/` and their lines in `src/studio/instructions/index.ts`.
  */
-import type { StyleProfile } from './profile'
+import { GOUACHE, INK, type StyleProfile } from './profile'
 
 export type DirectionId = 'above' | 'hands' | 'stage'
 
@@ -44,19 +44,24 @@ export type InstructionProfile = {
 }
 
 /**
- * 1 · FROM ABOVE: a photograph-like flat-lay. Cut paper with no drawn outline; things are separated by soft
+ * Each look starts from one of the Studio's own profiles and changes what makes it itself, so a field the Studio
+ * adds to `StyleProfile` later is inherited instead of breaking these.
+ *
+ * 1 · FROM ABOVE: a photograph-like flat-lay. Cut paper with barely a drawn outline; things are separated by soft
  * shadows, as real paper on a real floor would be.
  */
 const ABOVE_STYLE: StyleProfile = {
+  ...GOUACHE,
   id: 'inst-above',
   label: 'From above (cut paper, soft shadows)',
-  line: { weight: 0.75, heavy: 0, ink: '#4a3340', mix: 0.42, detail: 1.5, scaling: 0.5 },
-  shade: { model: 'crescent', offset: 5, tint: '#9a7f9c', depth: 0.34, hi: 0.5, light: '#fff6e0', lift: 0.34 },
+  line: { ...GOUACHE.line, weight: 0.75, heavy: 0, ink: '#4a3340', mix: 0.42, detail: 1.5, scaling: 0.5 },
+  shade: { ...GOUACHE.shade, model: 'crescent', offset: 5, tint: '#9a7f9c', depth: 0.34, hi: 0.5, light: '#fff6e0', lift: 0.34, half: 0, halfDepth: 0 },
+  hand: { ...GOUACHE.hand, wobble: 0.9, line: 1, shade: 1.5, register: { x: 0, y: 0 } },
   light: { x: -0.6, y: -0.8 },
-  cast: { tint: '#5a4668', alpha: 0.3, skew: 0.3, flat: 0.2 },
-  texture: { grain: 0.75, mottle: 0.35, speckle: 0.42 },
-  proportions: { head: 1.12, eyes: 1.05, hands: 1.1, feet: 1, limb: 1, cheeks: 1 },
-  palette: { paper: '#efe4d0', saturation: 0.92, warm: '#f1cf9c', warmth: 0.05, floor: 0.14, ceil: 0.96, haze: '#e4e2dc', hazeK: 0.5 },
+  cast: { ...GOUACHE.cast, tint: '#5a4668', alpha: 0.3, skew: 0.3, flat: 0.2 },
+  texture: { ...GOUACHE.texture, grain: 0.75, mottle: 0.35, speckle: 0.42 },
+  proportions: { ...GOUACHE.proportions, head: 1.12, eyes: 1.05, hands: 1.1, feet: 1, limb: 1, cheeks: 1 },
+  palette: { ...GOUACHE.palette, paper: '#efe4d0', saturation: 0.92, warm: '#f1cf9c', warmth: 0.05, floor: 0.14, ceil: 0.96, haze: '#e4e2dc', hazeK: 0.5 },
 }
 
 /**
@@ -64,15 +69,16 @@ const ABOVE_STYLE: StyleProfile = {
  * colour per activity behind everything.
  */
 const HANDS_STYLE: StyleProfile = {
+  ...INK,
   id: 'inst-hands',
   label: 'Hands first (ink line, flat colour)',
-  line: { weight: 2.5, heavy: 0, ink: '#22203a', mix: 1, detail: 0.8, scaling: 0.72 },
-  shade: { model: 'flat', offset: 0, tint: '#6a5a8a', depth: 0, hi: 0, light: '#ffffff', lift: 0 },
-  light: { x: -0.74, y: -0.67 },
-  cast: { tint: '#22203a', alpha: 0.16, skew: 0.3, flat: 0.12 },
-  texture: { grain: 0.4, mottle: 0.12, speckle: 0 },
-  proportions: { head: 1.22, eyes: 1.14, hands: 1.34, feet: 1.1, limb: 1.04, cheeks: 0.9 },
-  palette: { paper: '#fbf5e8', saturation: 1.06, warm: '#ffe9c9', warmth: 0.02, floor: 0.13, ceil: 0.97, haze: '#e7ecef', hazeK: 0.5 },
+  line: { ...INK.line, weight: 2.5, heavy: 0, ink: '#22203a', mix: 1, detail: 0.8, scaling: 0.72 },
+  shade: { ...INK.shade, model: 'flat', offset: 0, depth: 0, hi: 0 },
+  hand: { ...INK.hand, wobble: 1.6, line: 0.7, shade: 0, register: { x: 0, y: 0 } },
+  cast: { ...INK.cast, tint: '#22203a', alpha: 0.16, skew: 0.3, flat: 0.12 },
+  texture: { ...INK.texture, grain: 0.4, mottle: 0.12, speckle: 0 },
+  proportions: { ...INK.proportions, head: 1.22, eyes: 1.14, hands: 1.34, feet: 1.1, limb: 1.04, cheeks: 0.9 },
+  palette: { ...INK.palette, paper: '#fbf5e8', saturation: 1.06, warm: '#ffe9c9', warmth: 0.02, floor: 0.13, ceil: 0.97 },
 }
 
 /**
@@ -80,15 +86,16 @@ const HANDS_STYLE: StyleProfile = {
  * whole person acts, so faces and feelings carry the step.
  */
 const STAGE_STYLE: StyleProfile = {
+  ...GOUACHE,
   id: 'inst-stage',
   label: 'The little stage (warm gouache)',
-  line: { weight: 2, heavy: 0.7, ink: '#3a2238', mix: 0.6, detail: 0.85, scaling: 0.62 },
-  shade: { model: 'crescent', offset: 7, tint: '#8c6fa3', depth: 0.6, hi: 0.34, light: '#fff3d6', lift: 0.3 },
+  line: { ...GOUACHE.line, weight: 2, heavy: 0.7, ink: '#3a2238', mix: 0.6, detail: 0.85, scaling: 0.62 },
+  shade: { ...GOUACHE.shade, model: 'crescent', offset: 7, tint: '#8c6fa3', depth: 0.6, hi: 0.34, light: '#fff3d6', lift: 0.3 },
   light: { x: -0.5, y: -0.86 },
-  cast: { tint: '#4a3566', alpha: 0.3, skew: 0.3, flat: 0.13 },
-  texture: { grain: 0.55, mottle: 0.45, speckle: 0.6 },
-  proportions: { head: 1.2, eyes: 1.08, hands: 1.04, feet: 1, limb: 1, cheeks: 1 },
-  palette: { paper: '#f8efdc', saturation: 0.96, warm: '#f2c58c', warmth: 0.06, floor: 0.14, ceil: 0.95, haze: '#e6dcd6', hazeK: 0.55 },
+  cast: { ...GOUACHE.cast, tint: '#4a3566', alpha: 0.3, skew: 0.3, flat: 0.13 },
+  texture: { ...GOUACHE.texture, grain: 0.55, mottle: 0.45, speckle: 0.6 },
+  proportions: { ...GOUACHE.proportions, head: 1.2, eyes: 1.08, hands: 1.04, feet: 1, limb: 1, cheeks: 1 },
+  palette: { ...GOUACHE.palette, paper: '#f8efdc', saturation: 0.96, warm: '#f2c58c', warmth: 0.06, floor: 0.14, ceil: 0.95, haze: '#e6dcd6', hazeK: 0.55 },
 }
 
 export const INSTRUCTION_PROFILES: Record<DirectionId, InstructionProfile> = {
@@ -103,7 +110,7 @@ export const INSTRUCTION_PROFILES: Record<DirectionId, InstructionProfile> = {
     holdFps: 8,
     caption: { place: 'over', box: { x: 96, y: 888, w: 888, h: 150 }, color: '#3a2a34', size: 0.058, weight: 700 },
     c: {
-      wood: '#d9b88a', woodDark: '#c49e6c', rugA: '#3f8f8a', rugB: '#e9d9b8', rugC: '#d9694a', floorB: '#cfd9cf', floorBDark: '#bccabf',
+      wood: '#d9b88a', woodDark: '#c49e6c', rugA: '#3f8f8a', rugB: '#e9d9b8', rugC: '#d9694a', rugHome: '#c9785a', floorB: '#cfd9cf', floorBDark: '#bccabf',
       label: '#fffaf0', tape: '#f2c14e', tape2: '#7fb8b0', token: '#fffaf0', ink: '#3a2a34', arrow: '#fffaf0', accent: '#d9573f',
     },
   },
