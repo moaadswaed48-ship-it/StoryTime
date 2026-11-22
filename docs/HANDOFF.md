@@ -242,19 +242,80 @@ owner's reference cartoon. All drawing is code: no AI image tools.
 
 ## Stage 4, part B2 (Builder): the owner's area and the emails
 
-Status: IN PROGRESS (22 Nov 2026). Not committed by the Builder.
+Status: DONE for what can be proven here (22 Nov 2026). Not committed by the Builder.
+Final checks on the final code: `npm run typecheck` 0 errors (whole project); `npm test` 258 pass in 21 files (mine:
+`tests/owner-data.test.ts` 13, `tests/emails.test.ts` 85, `tests/email-schedule.test.ts` 15,
+`tests/email-preview-files.test.ts` 1, `tests/db/owner-emails.test.ts` 11); `npm run e2e` 56 pass, 2 skipped (build
+included; mine: `e2e/owner.spec.ts` 8 at 390 and 1440 px, `e2e/emails.spec.ts` 1). Screenshots in `qa/out/stage4b2/`
+(owner screens phone + desktop, `emails/` 38 phone-width emails in Arabic and English) were looked at; faults fixed:
+emails laid out at 980 px on phones (viewport tag added), links and file sizes scrambled inside Arabic sentences
+(direction isolates), cramped "where the words sit" chooser on phones, a heavy repeated "where is this file from"
+question (now folded), language codes in the change history, preview labels not in the previewed language.
+No fresh-context reviewer has looked yet (none can be started from this helper).
 
-- [x] Packages: `react-email` 6.11.8 and `@react-email/render` 2.2.0 (pinned, at least two weeks old, installed with `--ignore-scripts`;
-      the only install script in the tree is esbuild's own binary check). The old `@react-email/components` and its
-      single-component packages are deprecated on npm, so the maintained `react-email` package is used.
-- [x] Owner data layer (`src/features/owner/data/`): rules, local store (localStorage + IndexedDB files), Supabase
-      store over new SQL functions in `supabase/migrations/20261122100300_owner_emails.sql`; unit tests
-      `tests/owner-data.test.ts` (13) and PGlite tests `tests/db/owner-emails.test.ts` (11) pass
-- [x] Owner screens written (`src/routes/app/owner/*`, words in `src/i18n/<lang>/owner.ts`); not yet walked in a browser
-- [x] Emails (`src/emails/`): 19 templates x 4 languages, preview + Resend transports, scheduler; tests pass
-      (`tests/emails.test.ts`, `tests/email-schedule.test.ts`)
-- [ ] Edge functions (`supabase/functions/`), `/lab/emails` gallery
-- [ ] Tests, Playwright walks, email screenshots (`qa/out/stage4b2/`)
+- [x] Packages: `react-email` 6.11.8 and `@react-email/render` 2.2.0 (pinned, at least two weeks old, read first,
+      installed with `--ignore-scripts`; recorded in `docs/SKILLS.md`). No Resend SDK: its HTTP API is called with fetch.
+- [x] Owner data layer `src/features/owner/data/`: `api.ts` (interface), `rules.ts` (gaps, sign-off fingerprints,
+      publish rule, trial limit, upload limits and content sniffing), `local.ts` (localStorage + IndexedDB files),
+      `supabase.ts` (owner_* SQL functions, private `content` bucket, signed links), `preview.ts` (owner story ->
+      the family `StoryContent`).
+- [x] Migration `supabase/migrations/20261122100300_owner_emails.sql` (new file; earlier ones untouched): publish
+      languages, sign-off fingerprint, publish guard and trial-limit triggers in the database, owner_story /
+      owner_save_story (one transaction, writes only real changes) / sign-off / publish / dashboard, email_log dedupe
+      key, email_suppressions, consent source "email-link", email_audience / email_new_stories (service role only),
+      storage bucket + policies (guarded: skipped where storage does not exist, as in PGlite).
+- [x] Screens `src/routes/app/owner/` (layout, stories, editor, preview, dashboard, changes), words in
+      `src/i18n/<lang>/owner.ts` (type `src/i18n/owner-schema.ts`, loaded only in the owner's area). "Owner's area" tab
+      in the app nav for the owner only; the owner skips family onboarding (two small edits in `routes/app/layout.tsx`).
+- [x] Emails `src/emails/`: 19 templates x 4 languages (`copy/<lang>.ts`), one layout, `render.tsx` (HTML + text),
+      `send.ts` (interface, Resend transport, memory), `preview-transport.ts` (writes to disk), `schedule.ts`
+      (who is due what), `unsubscribe.ts`, `webhook-verify.ts`, gallery `/lab/emails` (dev only).
+- [x] Edge functions (NOT DEPLOYED OR RUN): `auth-email-hook`, `email-reminders` (event emails + reminders + news,
+      every 5 minutes by pg_cron), `email-events` (Resend bounces/complaints), `email-unsubscribe`; shared code in
+      `_shared/mail.ts`; `npm run emails:bundle` builds `_shared/emails.mjs` (git-ignored) from `src/emails/server.ts`.
+      The bundle was built and rendered an email, scheduled and verified links in Node; never run in Deno.
+- [x] `docs/emails/REVIEW-NOTES.md`: the lines a native editor should check.
+
+### How it fits together
+- Owner role: checked by `LocalOwnerServer` on every call (local) and by `is_owner()` in every owner_* function and
+  row-level security (Supabase). The screen check in `layout.tsx` is a courtesy. Make an owner: local, set
+  `profiles[id].role = 'owner'` in localStorage `storytime.local.v1` (see `e2e/owner.spec.ts` signInAs); Supabase, SQL.
+- Publishing: every target language complete (title + every page's words) and signed off on its current content; a
+  picture on every page; an age group. "Only these languages" stores `published_langs`. The author's story is
+  Arabic-only, its Arabic words and page list cannot change (`text_locked`), pictures and layout can. Editing a
+  published story is live at once (the editor says so). Film and activity gaps are shown but do not block.
+- Page layout is stored as `pages.layout = { key, zone }`; `zone` is the content/SCHEMA.md zone. The family reader on
+  Supabase (part B1) does not read it yet.
+- Emails: service emails never carry an offer; news only with consent, `פרסומת` first in the subject in every
+  language (lawyer question 5), one-click unsubscribe (link + RFC 8058 headers). Quiet hours 21:00-08:00 Israel time
+  for reminders and news; event emails go at once. Each email has a dedupe key claimed in email_log before sending.
+  Business details, support address and prices show the site's visible placeholders until set.
+
+### Decisions taken (say if you disagree)
+- One film file and one caption file per language (the voice differs per language).
+- Sign-off is per language and expires when that language's words, film or captions change.
+- Uploaded files are checked by their first bytes, not their name; limits: pictures 10 MB, step pictures or loops
+  20 MB, films 500 MB (the Supabase free plan allows 50 MB per file), captions 512 KB (.vtt only).
+- Every file asks "where is it from" (made by us / made in the Studio / someone else + who + permission), stored in
+  `media` for the ownership pack.
+- Event emails (welcome, trial started, purchase confirmation, cancellation, refund) are sent by the same job as the
+  reminders, so the payment callback (part A) did not need changing.
+
+### Not built, not proven
+- NOT RUN anywhere real: Supabase owner functions over PostgREST, storage uploads and signed links, every edge function,
+  Resend sending, the auth hook's link format, pg_cron. The SQL itself is proven in PGlite.
+- Account-deleted email: template exists, nothing sends it (the account is gone before the job runs); send it from
+  the deletion path (an edge function around `delete_my_account`).
+- Contact-reply email: template exists; the contact form and the owner's inbox are not built.
+- Owner's area: processing cancellations and refunds, editing prices, reading contact messages (product checklist 20)
+  were not part of this task. Story deletion is not offered. Two-step sign-in for the owner not built.
+- Test mode: stories made in the owner's area are seen in its preview but not in the family library (that reads
+  `content/stories/` and the samples); on Supabase, publishing makes them visible through the database.
+- The preview shows the family's content in a plain view; it should embed the family reader once part B1 exports it.
+- Email change confirmation link uses Supabase's own verify page (the site has no email-change page yet).
+- Owner must supply: business details and support address (edge-function settings), a Resend account with a verified
+  domain, a sending address and a read reply-to inbox, a native reader per language for `REVIEW-NOTES.md`, a lawyer's
+  answer on the `פרסומת` marking and on reminders with a link to the passes page.
 
 ## Stage 4, part B1 (Builder): the family side after sign-in
 
