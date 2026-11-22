@@ -1080,14 +1080,16 @@ export class Painter {
     const c = this.ctx
     c.save()
     if (region) c.clip(region)
-    for (const [k, a, seed] of [[1, 0.34, 3], [0.72, 0.4, 5], [0.44, 0.5, 9]] as const) {
-      c.globalCompositeOperation = 'soft-light'
-      c.globalAlpha = alpha * a * 1.6
-      c.fillStyle = color
+    // soft-edged washes laid one inside the other, as a painter builds up a glow
+    c.filter = `blur(${(Math.min(rx, ry) * 0.07 * this.k).toFixed(1)}px)`
+    for (const [k, a, seed] of [[1, 0.2, 3], [0.8, 0.26, 5], [0.6, 0.32, 9], [0.4, 0.4, 13], [0.22, 0.46, 17]] as const) {
       const ring = ellipse(x, y, rx * k, ry * k).wob(Math.min(rx, ry) * 0.05, Math.min(rx, ry) * 0.5, seed)
+      c.globalCompositeOperation = 'soft-light'
+      c.globalAlpha = Math.min(1, alpha * a * 1.7)
+      c.fillStyle = color
       c.fill(ring)
       c.globalCompositeOperation = 'source-over'
-      c.globalAlpha = alpha * a * 0.4
+      c.globalAlpha = alpha * a * 0.34
       c.fill(ring)
     }
     c.restore()

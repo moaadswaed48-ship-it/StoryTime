@@ -56,7 +56,7 @@ export const INSTRUCTION_CAST: Sheet[] = [
   {
     id: 'guide-lia', name: n('ليا', 'ליה', 'Lia', 'Lia'), stage: 'toddler',
     build: { ...BUILDS.toddler, height: 0.47, girth: 0.62 },
-    skin: '#efc59e', hair: { style: 'bob', color: '#8a5a36' }, eyes: { color: '#5a3a24', size: 0.95 },
+    skin: '#efc59e', hair: { style: 'ponytail', color: '#8a5a36' }, eyes: { color: '#5a3a24', size: 0.95 },
     top: { style: 'dress', color: '#ef7d54', trim: '#fff0d8' }, bottom: { style: 'none', color: '#ef7d54' }, shoes: { style: 'bare', color: '#000000' },
     manner: 'About two and a half: carries everything with both arms and her whole tummy; proud of every delivery.',
   },

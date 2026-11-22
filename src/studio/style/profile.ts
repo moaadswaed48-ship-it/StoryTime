@@ -133,7 +133,7 @@ export const GOUACHE: StyleProfile = {
   hand: { wobble: 1.5, wave: 58, line: 1.5, shade: 3.2, register: { x: 0.7, y: 0.5 } },
   light: { x: -0.74, y: -0.67 },
   cast: { tint: '#6b4f8f', alpha: 0.3, skew: 0.42, flat: 0.13 },
-  texture: { grain: 0.55, mottle: 0.5, speckle: 0.66, follow: 1 },
+  texture: { grain: 0.55, mottle: 0.5, speckle: 0.5, follow: 1 },
   proportions: { head: 1.16, eyes: 1.04, hands: 1, feet: 1, limb: 1, cheeks: 1 },
   palette: { paper: '#f8efdc', saturation: 0.94, warm: '#f2c58c', warmth: 0.06, floor: 0.14, ceil: 0.95, haze: '#dfe6e6', hazeK: 0.62 },
 }

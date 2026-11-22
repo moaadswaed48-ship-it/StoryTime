@@ -78,6 +78,8 @@
   min-width: 0;
 }
 .film-frame media-time-display {
+  direction: ltr;
+  unicode-bidi: isolate;
   font-variant-numeric: tabular-nums;
   padding-inline: 6px;
 }

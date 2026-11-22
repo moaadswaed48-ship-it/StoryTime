@@ -244,7 +244,7 @@ owner's reference cartoon. All drawing is code: no AI image tools.
 
 Status: IN PROGRESS (22 Nov 2026). Not committed by the Builder.
 
-- [x] Packages: `react-email` 6.11.16 and `@react-email/render` 2.3.1 (pinned, installed with `--ignore-scripts`;
+- [x] Packages: `react-email` 6.11.8 and `@react-email/render` 2.2.0 (pinned, at least two weeks old, installed with `--ignore-scripts`;
       the only install script in the tree is esbuild's own binary check). The old `@react-email/components` and its
       single-component packages are deprecated on npm, so the maintained `react-email` package is used.
 - [x] Owner data layer (`src/features/owner/data/`): rules, local store (localStorage + IndexedDB files), Supabase
@@ -258,19 +258,59 @@ Status: IN PROGRESS (22 Nov 2026). Not committed by the Builder.
 
 ## Stage 4, part B1 (Builder): the family side after sign-in
 
-Status: IN PROGRESS (22 Nov 2026). Not committed. This section is kept current while the work runs.
+Status: DONE for B1 (22 Nov 2026), not committed. Checks on the final code: `npm run typecheck` 0 errors (whole
+project); `npm test` 258 pass (21 files; mine: `tests/zone.test.ts`, `listen.test.ts`, `content.test.ts`, updated
+`local-data.test.ts`); build passes; full Playwright suite 57 pass, 3 skipped (my `e2e/stage4b1.spec.ts`: 8 tests,
+phone 390 + desktop 1440, English + Arabic; part A's `account.spec.ts` updated for the new library). Run against a
+private copy of the build because other helpers rebuild `build/` while tests run. 50 screenshots in
+`qa/out/stage4b1/` looked at; faults fixed. No fresh-context reviewer yet (none could be started from this helper).
 
-Plan (ticked as each part lands):
-- [x] Content types (`src/content/schema.ts`) + loader (`src/data/local/content.ts`, called by LocalServer only after the access check) + 3 sample stories `content/stories/sample-a|b|c` (media made by `node src/content/make-samples.mjs`); progress API `listProgress`/`saveProgress` (local + Supabase)
-- [ ] Library: bookshelf on `src/library/` engine, profile + age group, locked/open, continue, flat list
-- [ ] Collections: stories, films, activities; usable in place; link to the storybook
-- [ ] Storybook page: Read, Listen, Watch, Do doors
-- [ ] Reader: curl engine, zone layout, text size, listen + auto-flip, reduced-motion/no-WebGL book, progress
-- [ ] Film player: Media Chrome 4.19.4
-- [ ] Activity page
-- [x] Unit tests: `tests/zone.test.ts`, `tests/listen.test.ts`, `tests/content.test.ts` (137 pass in total)
-- [ ] Playwright walks + screenshots in `qa/out/stage4b1/`
+- [x] Content: types `src/content/schema.ts`; loader `src/data/local/content.ts` (only LocalServer calls it, content
+      only after `hasAccessToStory`); samples `content/stories/sample-a|b|c` (one per group, 5-6 pages, four
+      languages, marked "Sample"); their media made by `node src/content/make-samples.mjs` (painted SVG pages,
+      tick "test recordings" with word timings, 18-21 s code-drawn films + VTT in 4 languages, step pictures and loops)
+- [x] Progress API: `listProgress` / `saveProgress` in `DataApi` (local + Supabase `progress` table)
+- [x] Library `routes/app/library.tsx`: profile picker (more than one profile), age group, access panel, continue,
+      shelf (`features/family/Shelf.tsx` on `src/library/engine.ts`, transforms written outside React) or list
+      (default with reduced motion or no 3D; choice remembered)
+- [x] Storybook page `routes/app/story.tsx`: Read, Listen, Watch, Do doors, always visible; unavailable doors say why
+- [x] Reader `features/reader/` + `routes/app/read.tsx`: curl engine (fresh canvas per mount) with DOM text at rest;
+      flat book for reduced motion / no WebGL / `?book=flat`; zone layout `src/reader/zone.ts`; text size; Listen +
+      word marking + auto-flip switch (`src/reader/listen.ts`); hand turn pauses; progress; access-ended screen
+- [x] Film `features/film/` (Media Chrome 4.19.4, lazy): poster, metadata preload, captions on + remembered, position
+      remembered, controls under the picture (never hidden), RTL, four-language labels, iPhone video full screen fallback
+- [x] Activity `features/family/ActivityView.tsx` + `routes/app/do.tsx`; "We did it!" saved
+- [x] Collections `routes/app/collections.tsx` (`/collections/stories|films|activities`): film plays and activity opens
+      in place; link to storybook; age filter; locked items say what opens them
+- [x] Settings: "Reading and films" (auto-flip, captions)
 
+### How it fits together
+- Media conventions the loader looks for (not yet in `content/SCHEMA.md`; please add): `pages/NN.*` (or
+  `pages[].image`), `cover.*`, `audio/<lang>/NN.mp3|m4a` + `NN.json` (`{duration, words:[[start,end]...]}`, one per
+  white-space word of `text`), `film/<lang>.mp4` else `film/film.mp4`, `film/poster.*`, `film/<lang>.vtt`,
+  `activity/step-N.*` (+ `.mp4` loop when `loop:true`), `activity/material-<id>.*`. Optional `teaser` in `<lang>.json`.
+- Catalogue: real stories first, then samples, then part A's text-only seeds; each group's first 3 are its trial.
+- Prefs (auto-flip, captions, text size, shelf/list, hint) are per account in localStorage (`storytime.prefs.<id>`);
+  the active profile in `storytime.activeLearner.<id>`; film position in `storytime.film.<learner>.<story>`.
+- Test hook: `window.__storytimeListenRate` speeds recordings in browser tests.
+
+### Not done or not proven
+- Supabase backend returns no zones, pictures, audio, film or activity yet (signed media links not built); the
+  local backend serves media from the build (hashed addresses, test mode only).
+- Prefs and film position do not follow the account to another device (needs a `profiles.prefs` column).
+- Favourites ("my shelf"), first-story trial counter "1 of 3 opened", print view: not built.
+- Real voice: none. Listen uses tick recordings; dev server only: browser speech stand-in for pages without one.
+  On phones the browser asks for a tap on Listen after opening from the door (tested; the reader says so).
+- Safari/WebKit not run (not installed); iPhone full screen and audio unlock unproven on a real iPhone.
+- Film seek bar is not mirrored in Arabic/Hebrew (time runs left to right); decide in the design pass.
+- Real story b02 pages are ~25 words: at the larger text size they scroll on a 320 px phone (normal size fits).
+
+### For the design pass and the Studio
+- Neutral look only: paper `#fbf8f1`, door pictures and icons in `features/family/icons.tsx`, film CSS
+  `features/film/film.css`, reader colours in `features/reader/paint.ts`. Shelf covers use the first page picture
+  until a `cover.*` exists.
+- The words sit on a soft paper wash over the picture's `zone`; side zones become full-width bands on phones, so
+  keep the top or bottom band calm in every picture, and both sides calm for side zones (art never flips).
 ## 3D hero (Stage 3 helper): code-built characters and gestures
 
 Status: BUILT AND CHECKED (22 Nov 2026), not committed by this helper. Checks on the final code: 10 tests pass

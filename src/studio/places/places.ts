@@ -5,10 +5,11 @@
  * All sizes follow the Painter's page (P.W × P.H) and the ground line `gy`, so one place serves film and book.
  */
 import { drawAnimal, restAnimal } from '../animals'
-import { Painter, Pen, blob, circle, curve, cutRect, ellipse, poly, seededList } from '../kit/core'
+import { Painter, Pen, blob, circle, curve, cutRect, ellipse, poly, rrect, seededList } from '../kit/core'
 import { mixHex } from '../style/color'
+import { MOODS, type Mood } from '../style/profile'
 import { bush, cloud, flower, grass, ground, hills, leafSpray, moon, pathway, potPlant, sea, sky, stars, sun, surf, tree } from './nature'
-import { ball, basket, bed, block, book, bucket, bunting, clock, crate, fence, fruit, house, lamp, pinnedDrawing, room, rug, shelf, stall, stoneWall, sunPatch, teddy, toyCar, umbrella, windowIn } from './things'
+import { ball, basket, bed, bedsideLamp, block, book, bucket, bunting, clock, crate, fence, framedPicture, fruit, house, lamp, pinnedDrawing, quiltBed, room, rug, shelf, stall, stoneWall, sunPatch, teddy, toyBasket, toyCar, umbrella, windowIn, windowLight, windowView, type DayTime } from './things'
 
 /** A village on a far slope: a handful of small flat-roofed houses and dark trees, hazed by distance. */
 function farVillage(P: Painter, x: number, y: number, w: number, seed: number) {
@@ -114,20 +115,104 @@ export function kindergartenFront(P: Painter, t: number, gy: number) {
   void gy
 }
 
-/** A child's bedroom at night: a window with the moon, a bed, a lit lamp, a shelf. */
-export function bedroom(P: Painter, t: number, o: { gy: number }) {
+/** Where things stand in the bedroom, so a scene can seat someone on the bed or stand them by the lamp. */
+export function bedroomPlan(P: Painter, gy: number) {
+  const floorY = gy - 170
+  const bed = { x: P.W * 0.76, y: gy - 96, w: 620 }
+  return {
+    floorY,
+    window: { x: P.W * 0.27, y: floorY - 372, w: 380, h: 420 },
+    lamp: { x: P.W * 0.455, y: floorY + 34, s: 300 },
+    bed: { ...bed, top: bed.w * 0.3 * 0.98 },
+    rug: { x: P.W * 0.42, y: gy + 44 },
+  }
+}
+const ROOM_MOOD: Record<DayTime, Mood> = { morning: MOODS.morning, overcast: MOODS.overcast, lamp: MOODS.lamp, night: MOODS.night }
+
+/**
+ * A child's bedroom, at four times of day. The light is part of the place: this sets the Painter's mood and its
+ * standing lights. Morning: sun through the window lies across the floor and everything is lit from the window
+ * side. Overcast: flat grey light, rain on the glass, soft patches instead of shadows. Lamp: the room is dusk-blue
+ * and the bedside lamp lights what is near it, from its side, with shadows pointing away from it. Night: moonlight
+ * on the floor and a pale rim on everything.
+ */
+export function bedroom(P: Painter, t: number, o: { gy: number; time?: DayTime }) {
   const gy = o.gy
+  const time = o.time ?? 'night'
+  const L = bedroomPlan(P, gy)
+  const floorY = L.floorY
+  P.mood = ROOM_MOOD[time]
+  P.lamps = []
   P.world()
-  room(P, { floorY: gy - 130, wall: '#c9cdea', floor: '#b98a66', skirting: '#f1e8dc' })
-  windowIn(P, P.W * 0.25, gy - 560, 300, 320, { curtain: '#7f8fc9', sky: '#33407a', hill: '#2c4a5e', night: true })
-  shelf(P, P.W * 0.86, gy - 130, 300, 330, '#d9b78a', 2, (row, x0, y, w) => {
-    if (row === 0) teddy(P, x0 + w / 2, y, 130)
-    else for (let i = 0; i < 6; i++) book(P, x0 + 24 + i * 32, y, 26, 90 + (i % 2) * 14, ['#e2674a', '#3f8f8a', '#f2c94c'][i % 3])
+  const wallC = '#bfd6d0'
+  const floorC = '#d8a876'
+  // far plane: the wall, with a stencilled pattern and what hangs on it
+  const wall = rrect(-400, -400, P.W + 800, floorY + 400, 0)
+  P.shape(wall, wallC, { line: 0, shade: 0 })
+  P.speckle(wall, wallC, 11, [0, 0, P.W, floorY], 0.5, 1.8)
+  if (!P.sil) {
+    const r = seededList(23, 200)
+    for (let i = 0; i < 46; i++) {
+      const x = (i % 12) * 170 + (Math.floor(i / 12) % 2) * 85 + (r[i] - 0.5) * 14
+      const y = 70 + Math.floor(i / 12) * 150 + (r[i + 50] - 0.5) * 14
+      P.flat(circle(x, y, 7), '#d3e6e0', 0.9)
+      P.flat(circle(x + 22, y + 12, 3.4), '#d3e6e0', 0.9)
+    }
+  }
+  const floor = rrect(-400, floorY, P.W + 800, P.H - floorY + 400, 0)
+  P.shape(floor, floorC, { line: 0, shade: 0 })
+  P.speckle(floor, floorC, 13, [0, floorY, P.W, P.H - floorY], 1.2, 1.8)
+  const boards = new Pen()
+  for (let i = -14; i <= 14; i++) {
+    boards.moveTo(P.W * 0.5 + i * 120, floorY)
+    boards.lineTo(P.W * 0.5 + i * 330, P.H + 60)
+  }
+  P.clip(floor, () => P.detail(boards, floorC, 0.6))
+  P.shape(cutRect(-400, floorY - 28, P.W + 800, 32, 0, 9, 1.4), '#f6ecd8', { line: 0.7, shade: 0.5 })
+
+  windowView(P, L.window.x, L.window.y, L.window.w, L.window.h, time, t, { curtain: '#e98a6a' })
+  potPlant(P, L.window.x - L.window.w * 0.3, L.window.y + L.window.h / 2 + 12, 70, { pot: '#7fa9b8', seed: 3 })
+  framedPicture(P, P.W * 0.455, floorY - 540, 150, 120)
+  // a shelf on the wall over the bed: books, a teddy, a little clock
+  const sx = P.W * 0.8
+  P.shape(cutRect(sx - 230, floorY - 470, 460, 18, 5, 4, 2), '#c9905c', { shade: 0.6 })
+  for (let i = 0; i < 6; i++) book(P, sx - 196 + i * 34, floorY - 470, 28, 92 + (i % 3) * 14, ['#e2674a', '#3f8f8a', '#f2c94c', '#7a4f9a', '#5f8fa8', '#e48a9e'][i], i === 5 ? 0.22 : 0)
+  teddy(P, sx + 130, floorY - 470, 124)
+  clock(P, sx + 28, floorY - 520, 40, '#3f8f8a', time === 'morning' ? 7 : time === 'overcast' ? 3 : time === 'lamp' ? 7 : 11, 30)
+
+  // light lying on the room before the furniture stands on it
+  const wx = L.window.x
+  if (time === 'morning') {
+    windowLight(P, wx + 250, floorY + 8, 360, 300, 230, '#fff2c4', 0.85)
+    P.pool(wx, L.window.y + 30, 420, 330, '#fff2c4', 0.22, wall)
+  } else if (time === 'overcast') {
+    windowLight(P, wx + 60, floorY + 8, 400, 230, 40, '#eef3f6', 0.2)
+  } else if (time === 'night') {
+    windowLight(P, wx + 190, floorY + 8, 360, 300, 170, '#a9c0ff', 0.6)
+  }
+  // middle plane: the rug, the bed, the bedside table and its lamp
+  rug(P, L.rug.x, L.rug.y, 430, 84, ['#6f7fc0', '#f6e2b8', '#e2674a'])
+  const lit = time === 'lamp'
+  if (lit) {
+    const lx = L.lamp.x
+    const ly = L.lamp.y - L.lamp.s * 0.52 - 10 - L.lamp.s * 0.24
+    // the lamp throws a warm pool up the wall and across the floor, then lights whatever is drawn near it
+    P.pool(lx, ly - 30, 470, 400, '#ffd28a', 0.85, wall)
+    P.pool(lx - 30, floorY + 150, 760, 200, '#ffd28a', 0.62, floor)
+    P.lamps = [{ x: lx, y: ly, r: 820, color: '#ffc47a', k: 1, gy: L.lamp.y }]
+  }
+  quiltBed(P, L.bed.x, L.bed.y, L.bed.w)
+  bedsideLamp(P, L.lamp.x, L.lamp.y, L.lamp.s, lit)
+}
+/** The near edge of the bedroom: a basket of toys and a pair of slippers, darker, in front of everyone. */
+export function bedroomFront(P: Painter, t: number, gy: number) {
+  P.world()
+  P.near(0.3, () => {
+    toyBasket(P, 150, P.H + 34, 300)
+    for (const k of [0, 1]) P.shape(blob([P.W - 330 + k * 86, P.H - 30, P.W - 316 + k * 86, P.H - 62, P.W - 262 + k * 86, P.H - 58, P.W - 250 + k * 86, P.H - 26]), '#e98a6a', { shade: 0.8 })
   })
-  bed(P, P.W * 0.56, gy - 80, 640, { blanket: '#e2674a', frame: '#c79a6a' })
-  lamp(P, P.W * 0.76, gy - 110, 420, { lit: true })
-  rug(P, P.W * 0.4, gy + 40, 380, 70, ['#5f6fb0', '#f6e2b8', '#e2674a'])
   void t
+  void gy
 }
 
 /** A market street: houses in rows going away, two stalls under striped awnings, crates of fruit, bunting. */
@@ -231,3 +316,5 @@ void curve
 void mixHex
 void moon
 void stars
+void bed
+void lamp

@@ -15,6 +15,7 @@ export default [
           route('kit', 'lab/kit.tsx'),
           route('shelf', 'lab/shelf.tsx'),
           route('studio', 'lab/studio.tsx'),
+          route('instructions', 'lab/instructions.tsx'),
           route('hero', 'lab/hero.tsx'),
           route('emails', 'lab/emails.tsx'),
         ]),

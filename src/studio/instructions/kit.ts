@@ -390,3 +390,24 @@ export function pips(P: Painter, x: number, y: number, n: number, total: number,
     P.flat(circle(px, y, r), i < n ? on : off)
   }
 }
+
+/** Sound going out from a mouth at (x, y) toward `ang`: three arcs, growing. (`t` makes them travel in a loop.) */
+export function sound(P: Painter, x: number, y: number, ang: number, size: number, color: string, edge: string) {
+  const c = P.ctx
+  c.save()
+  c.translate(x, y)
+  c.rotate(ang)
+  c.lineCap = 'round'
+  for (const [w, col] of [[size * 0.13 + size * 0.07, edge], [size * 0.13, color]] as const) {
+    c.strokeStyle = col
+    c.lineWidth = w
+    for (let i = 0; i < 3; i++) {
+      const r = size * (0.34 + i * 0.3)
+      c.globalAlpha = 1 - i * 0.16
+      c.beginPath()
+      c.arc(0, 0, r, -0.5, 0.5)
+      c.stroke()
+    }
+  }
+  c.restore()
+}

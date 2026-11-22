@@ -116,3 +116,18 @@ Other web-search candidates seen but not chosen:
 | `@electric-sql/pglite` | 0.5.15 (dev only, released 3 Nov 2026) | Real Postgres (18.6, WebAssembly) inside Vitest, to test the migrations and row-level security | No install scripts, no dependencies, no hard-coded hosts. Runs in memory. |
 
 Not the newest versions on purpose: each was out at least two weeks.
+
+## Packages added in Stage 4 part B2 (read 22 Nov 2026)
+
+| Package | Version (pinned) | Why | What was checked |
+|---|---|---|---|
+| `react-email` | 6.11.8 (released 6 Nov 2026) | Email components and rendering (`src/emails/`) | Packed and read before installing (6.11.16), then 6.11.8 installed and scanned the same way. The components (`dist/components`, `dist/index.mjs`) make no network calls, read no environment variables and run no commands; `sideEffects: false`, so only the used components reach a bundle. The package also carries the `email` command-line preview tool and its dependencies (esbuild, socket.io, babel, tailwindcss): installed but never run. The older `@react-email/components` and single-component packages are marked deprecated on npm, so the maintained package is used. Installed with `--ignore-scripts`; the only install script in the tree is esbuild's own binary check. |
+| `@react-email/render` | 2.2.0 (released 28 Oct 2026) | HTML and plain-text rendering (also a dependency of `react-email`, pinned so the version is ours) | No install scripts. Depends on `html-to-text`, `prettier`, `entities`, `html5parser`; no hosts in the code, no environment reading. |
+
+Not installed: the `resend` SDK. The Resend transport (`src/emails/send.ts`) calls Resend's documented HTTP API with `fetch`, so the same code runs in Node and in a Supabase edge function. Both are at least two weeks old (the newest, 6.11.16 and 2.3.1, were read first and are the same code line).
+
+## Package added in Stage 4 part B1 (read 22 Nov 2026)
+
+| Package | Version (pinned) | Why | What was checked |
+|---|---|---|---|
+| `media-chrome` (+ its one dependency `ce-la-react` 0.3.2, BSD-3-Clause) | 4.19.4 (released 23 Oct 2026; 4.19.5 is under two weeks old) | The film player (`src/features/film/`), the verdict above | No install scripts in either package. No hard-coded hosts in the code. The only `fetch` is in `media-theme-element`, which loads a theme template from an address the page gives it (not used here). No storage or cookie access. Loaded only inside the signed-in app (a lazy chunk). |

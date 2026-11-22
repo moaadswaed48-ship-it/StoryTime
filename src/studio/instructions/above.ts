@@ -80,9 +80,9 @@ function hairTop(P: Painter, s: Sheet, R: number) {
     for (const [x, y] of [[-0.3, -0.1], [0.3, 0.2], [0, 0.5], [-0.4, 0.5], [0.4, -0.2]]) P.detail(curve([R * (x - 0.14), R * y, R * x, R * (y - 0.16), R * (x + 0.14), R * y]), hc, 0.9)
     return
   }
-  if (st === 'bob' || st === 'long') cap(0.16, 1.12)
-  else if (st === 'short') cap(0.2, 0.95)
-  else cap(0.16, 1.02)
+  if (st === 'bob' || st === 'long') cap(0.24, 1.1)
+  else if (st === 'short') cap(0.26, 0.93)
+  else cap(0.24, 1.0)
   // the parting, and the light on the crown
   P.detail(curve([0, -R * 0.74, R * 0.05, -R * 0.1, -R * 0.02, R * 0.5]), hc, 0.9)
   if (st === 'bun') P.shape(circle(0, R * 0.52, R * 0.46), hc, { shade: 0.8 })
@@ -199,6 +199,8 @@ function topFigure(P: Painter, f: TopFig) {
     if (!hidesEars) for (const side of [-1, 1]) P.shape(ellipse(side * R * 0.98, R * 0.04, R * 0.16, R * 0.2), s.skin, { shade: 0.4 })
     P.shape(ellipse(0, -R * 0.98, R * 0.17, R * 0.15), s.skin, { shade: 0.3 })
     P.shape(circle(0, 0, R), s.skin, { shade: 0.8 })
+    // the cheeks just show under the fringe: it tells which way the face is
+    for (const side of [-1, 1]) P.flat(ellipse(side * R * 0.5, -R * 0.74, R * 0.17, R * 0.1, side * 0.5), mixHex(s.skin, '#e9624e', 0.42), 0.8)
     if (s.extras?.includes('glasses')) {
       const gc = s.extraColors?.glasses ?? '#3a2a34'
       P.line(curve([-R * 0.62, -R * 0.74, -R * 0.3, -R * 0.94, 0, -R * 0.9, R * 0.3, -R * 0.94, R * 0.62, -R * 0.74]), gc, R * 0.07)
@@ -331,6 +333,8 @@ function hereYouAre(P: Painter, d: DrawCtx) {
   const lia = guide('lia')
   const mum = guide('mother')
   const key = d.card.key
+  // signs keep clear of the number: in a right-to-left page they go to the other side (the people stay where they are)
+  const mx = (x: number) => (d.rtl ? W - x : x)
   woodFloor(P)
   if (key === 'materials') {
     rugRect(P, 540, 450, 900, 640, C.rugHome)
@@ -360,10 +364,10 @@ function hereYouAre(P: Painter, d: DrawCtx) {
       if (ghost) P.layer(draw, ghost)
       else draw()
     }
-    walker(330, 150, 1.1, 0.2, 0.3)
-    topFigure(P, mumAt({ l: { x: 462, y: 560 }, r: { x: 618, y: 560 } }))
-    walker(476, 322, 1.3, 0.7)
-    path(P, [528, 480, 548, 520, 544, 548])
+    walker(540, 96, DOWN, 0.2, 0.3)
+    topFigure(P, mumAt({ l: { x: 462, y: 566 }, r: { x: 618, y: 566 } }))
+    walker(540, 272, DOWN, 0.7)
+    path(P, [540, 440, 542, 480, 540, 528])
     daylight(P)
     return signs(P, d)
   }
@@ -388,7 +392,7 @@ function hereYouAre(P: Painter, d: DrawCtx) {
       handOn(P, mum, S, mr, UP)
       handOn(P, mum, S, ml, UP)
     }
-    say(P, 810, 250, { x: 650, y: 262 }, 230, 124, () => giving(P, 'cushion', DOWN), { pop })
+    say(P, mx(810), 250, { x: mx(650), y: 262 }, 230, 124, () => giving(P, 'cushion', DOWN), { pop })
     daylight(P)
     return signs(P, d)
   }
@@ -401,7 +405,7 @@ function hereYouAre(P: Painter, d: DrawCtx) {
     cushion(P, 540, cy, 180, { ratio: 0.94, shadow: 8 })
     handOn(P, mum, S, mr, UP)
     handOn(P, mum, S, ml, UP)
-    say(P, 836, 640, { x: 668, y: 690 }, 164, 132, () => icon(P, 'heart', 86))
+    say(P, mx(836), 640, { x: mx(668), y: 690 }, 164, 132, () => icon(P, 'heart', 86))
     daylight(P)
     return signs(P, d)
   }
@@ -414,8 +418,8 @@ function hereYouAre(P: Painter, d: DrawCtx) {
   tumblerTop(P, 540, cy, 62, { shadow: 8 })
   handOn(P, mum, S, mr, UP - 0.5)
   handOn(P, mum, S, ml, UP + 0.5)
-  say(P, 836, 640, { x: 668, y: 690 }, 220, 120, () => giving(P, 'cup', UP))
-  say(P, 800, 232, { x: 650, y: 262 }, 160, 128, () => icon(P, 'heart', 84))
+  say(P, mx(836), 640, { x: mx(668), y: 690 }, 220, 120, () => giving(P, 'cup', UP))
+  say(P, mx(800), 232, { x: mx(650), y: 262 }, 160, 128, () => icon(P, 'heart', 84))
   daylight(P)
   return signs(P, d)
 }
@@ -433,8 +437,8 @@ const seat = (i: number): TopFig => {
   return { s: guide(RING_OF[i]), x: CX + Math.cos(a) * RING, y: CY + Math.sin(a) * RING, a: a + Math.PI, sc: SB, sit: true }
 }
 /** The stick at angle `a` round the circle, held across in front of whoever sits there. */
-const stickAt = (a: number, r = 140) => ({ x: CX + Math.cos(a) * r, y: CY + Math.sin(a) * r, rot: a + Math.PI / 2 })
-const SLEN = 170
+const stickAt = (a: number, r = 132) => ({ x: CX + Math.cos(a) * r, y: CY + Math.sin(a) * r, rot: a + Math.PI / 2 })
+const SLEN = 186
 /** The two ends of the stick, a little in from the tips: where hands hold it. */
 const grips = (st: { x: number; y: number; rot: number }, k = 0.36): [Pt, Pt] => [
   { x: st.x - Math.cos(st.rot) * SLEN * k, y: st.y - Math.sin(st.rot) * SLEN * k },
@@ -524,7 +528,7 @@ function talkingStick(P: Painter, d: DrawCtx) {
   }
   if (key === 's2') {
     return ringScene(P, d, seatAngle(0), [0, 0.5, 0, -0.5], () => {
-      say(P, 810, 130, { x: 640, y: 150 }, 178, 138, () => icon(P, 'sun', 100))
+      say(P, d.rtl ? W - 810 : 810, 130, { x: d.rtl ? W - 640 : 640, y: 150 }, 178, 138, () => icon(P, 'sun', 100))
       // the words going out to the listeners
       for (const r of [0, 1, 2]) P.line(curve([CX - 50 - r * 30, CY - 6 + r * 34, CX, CY + 22 + r * 42, CX + 50 + r * 30, CY - 6 + r * 34]), C.arrow, 9, 0.95 - r * 0.2)
     })

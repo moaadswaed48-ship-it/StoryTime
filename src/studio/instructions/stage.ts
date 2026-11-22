@@ -22,7 +22,7 @@ import { potPlant } from '../places/nature'
 import { INSTRUCTION_PROFILES } from '../style/instruction-profiles'
 import { handOf, play, standing, type Actor } from './actors'
 import { hereYouAreAct, talkingStickAct } from './acts'
-import { arrow, bubble, cushion, ease, icon, numeral, spoon, stick, tumbler, wrap } from './kit'
+import { arrow, bubble, cushion, ease, icon, numeral, sound, spoon, stick, tumbler, wrap } from './kit'
 import type { Direction, DrawCtx } from './types'
 
 const PR = INSTRUCTION_PROFILES.stage
@@ -204,12 +204,6 @@ const giving = (P: Painter, what: 'cushion' | 'cup', dir: number) => {
   P.at(-dir * 30, 0, 1, () => icon(P, what, 84))
   arrow(P, [dir * 22, 0, dir * 46, 0, dir * 72, 0], { width: 12, color: C.accent, edge: EDGE, head: 28 })
 }
-/** Two short arcs beside a listening ear. */
-function listening(P: Painter, x: number, y: number, dir: number, s = 1) {
-  for (const r of [26, 44]) P.line(curve([x + dir * r * s, y - r * 0.7 * s, x + dir * r * 1.32 * s, y, x + dir * r * s, y + r * 0.7 * s]), '#fffaf0', 7 * s, 0.95)
-  for (const r of [26, 44]) P.line(curve([x + dir * r * s, y - r * 0.7 * s, x + dir * r * 1.32 * s, y, x + dir * r * s, y + r * 0.7 * s]), C.frame, 3.4 * s, 0.9)
-}
-
 // ── activity A: here you are, thank you ───────────────────────────────────────
 function hereYouAre(P: Painter, d: DrawCtx) {
   const key = d.card.key
@@ -228,13 +222,14 @@ function hereYouAre(P: Painter, d: DrawCtx) {
   const t = d.card.loop ? wrap(P.held(d.t), d.card.loop) : 0
   return scene(P, d, 'home', true, () => {
     const a = hereYouAreAct(P, key, t)
+    // the way she comes lies on the floor, behind everybody's feet
+    if (key === 's1') arrow(P, [a.at.from.x, a.at.from.y, (a.at.from.x + a.at.to.x) / 2, a.at.from.y + 8, a.at.to.x, a.at.to.y], { dash: dots, width: 10, color: C.arrow, edge: EDGE, head: 30 })
     play(P, a.actors, a.things)
     const { lia, mum } = a.at
-    if (key === 's1') arrow(P, [a.at.from.x, a.at.from.y, (a.at.from.x + a.at.to.x) / 2, a.at.from.y + 12, a.at.to.x, a.at.to.y], { dash: dots, width: 10, color: C.arrow, edge: EDGE, head: 30 })
-    else if (key === 's2') say(P, lia.x + 46, lia.y - 200, { x: lia.x + 40, y: lia.y - 80 }, 236, 124, () => giving(P, 'cushion', 1), { pop: a.at.pop.x })
-    else if (key === 's3') say(P, mum.x - 214, mum.y - 96, { x: mum.x - 84, y: mum.y - 10 }, 160, 128, () => icon(P, 'heart', 84))
-    else {
-      say(P, mum.x - 190, mum.y - 150, { x: mum.x - 84, y: mum.y - 40 }, 226, 122, () => giving(P, 'cup', -1))
+    if (key === 's2') say(P, lia.x + 46, lia.y - 200, { x: lia.x + 40, y: lia.y - 80 }, 236, 124, () => giving(P, 'cushion', 1), { pop: a.at.pop.x })
+    else if (key === 's3') say(P, mum.x - 214, mum.y + 4, { x: mum.x - 84, y: mum.y + 24 }, 160, 128, () => icon(P, 'heart', 84))
+    else if (key === 's4') {
+      say(P, mum.x - 232, mum.y + 4, { x: mum.x - 84, y: mum.y + 24 }, 226, 122, () => giving(P, 'cup', -1))
       say(P, lia.x - 20, lia.y - 196, { x: lia.x + 10, y: lia.y - 84 }, 150, 120, () => icon(P, 'heart', 76))
     }
   })
@@ -258,10 +253,28 @@ function talkingStick(P: Painter, d: DrawCtx) {
   const t = L ? wrap(P.held(d.t), L) : 0
   const shot = (tt: number) => {
     const a = talkingStickAct(P, key, tt)
+    if (key === 's1') {
+      // the ring they sit in: a dotted circle lying on the rug
+      const c = P.ctx
+      c.save()
+      c.setLineDash(dots)
+      c.lineCap = 'round'
+      for (const [w, col] of [[16, EDGE], [10, P.col(C.arrow)]] as const) {
+        c.lineWidth = w
+        c.strokeStyle = col
+        c.beginPath()
+        c.ellipse(W / 2 + 14, 772, 392, 62, 0, 0, TAU)
+        c.stroke()
+      }
+      c.restore()
+    }
     play(P, a.actors, a.things)
     const { mona, sara } = a.at
-    if (key === 's1') arrow(P, [340, 560, 480, 606, 630, 620, 790, 606, 920, 560], { dash: dots, width: 10, color: C.arrow, edge: EDGE, head: 0.1, alpha: 0.9 })
-    else if (key === 's2') say(P, mona.x + 150, mona.y - 150, { x: mona.x + 52, y: mona.y - 40 }, 180, 136, () => icon(P, 'sun', 100))
+    if (key === 's1') void 0
+    else if (key === 's2') {
+      say(P, mona.x + 150, mona.y - 150, { x: mona.x + 52, y: mona.y - 40 }, 180, 136, () => icon(P, 'sun', 100))
+      sound(P, mona.x + 70, mona.y + 36, 0.2, 80, C.arrow, EDGE)
+    }
     else if (key === 's3') arrow(P, [a.at.a.x + 30, a.at.a.y - 190, a.at.mid.x, a.at.mid.y - 200, a.at.b.x - 30, a.at.b.y - 190], { width: 12, color: C.arrow, edge: EDGE, head: 30, alpha: 0.3 + 0.7 * a.at.k.x * (1 - a.at.k.y * 0.7) })
     else {
       // first what she heard (Mona's sun, pale, dashed), then her own (a fish); the order follows the page's reading direction
@@ -270,6 +283,7 @@ function talkingStick(P: Painter, d: DrawCtx) {
       const by = sara.y - 214
       say(P, bx - s * 112, by, { x: sara.x + 10, y: sara.y - 76 }, 172, 132, () => icon(P, 'sun', 96, true), { dashed: true })
       say(P, bx + s * 112, by, { x: sara.x + 40, y: sara.y - 76 }, 172, 132, () => icon(P, 'fish', 104))
+      sound(P, sara.x + 64, sara.y + 30, 0.1, 70, C.arrow, EDGE)
       arrow(P, [bx - s * 22, by, bx, by, bx + s * 22, by], { width: 9, color: C.gold, edge: EDGE, head: 22 })
     }
   }

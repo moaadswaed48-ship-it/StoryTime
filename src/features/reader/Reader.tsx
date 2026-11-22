@@ -476,7 +476,7 @@ export function Reader({ content, group, startPage, listen, closeTo, onPage, acc
           </button>
           <div className="order-first flex w-full min-w-0 items-center justify-center gap-2 sm:order-none sm:w-auto sm:flex-1 sm:gap-4">
             <button type="button" onClick={play} disabled={!hasAudio && !import.meta.env.DEV} aria-pressed={playing} data-testid="listen"
-              className="inline-flex min-h-14 shrink-0 items-center justify-center gap-2 rounded-full bg-ink px-5 text-lg font-semibold text-paper shadow-sm disabled:opacity-40">
+              className="inline-flex min-h-14 shrink-0 items-center justify-center gap-2 rounded-full bg-ink px-4 text-lg sm:px-5 font-semibold text-paper shadow-sm disabled:opacity-40">
               {playing ? <IconPause className="size-7" /> : <IconPlay className="size-7" />}
               {playing ? t.pause : t.listen}
             </button>

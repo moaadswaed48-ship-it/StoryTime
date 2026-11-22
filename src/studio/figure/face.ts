@@ -114,14 +114,24 @@ function hairCtx(P: Painter, s: Sheet, g: Rig, p: Pose, yaw: number): HairCtx {
   return { P, s, g, p, v: viewOf(g, yaw), hc: s.hair.color, tie: s.top.trim ?? mixHex(s.top.color, '#ffffff', 0.3) }
 }
 
-/** Where the skin of the face ends and the hair begins: the two temples, as they land in this view. */
-function temples(v: View, tx = 0.86, tz = 0.3): { xl: number; xr: number; open: boolean } {
-  const xs: number[] = []
-  for (const side of [-1, 1]) if (v.d(side * tx, tz) > 0) xs.push(v.x(side * tx, tz))
-  if (xs.length === 0) return { xl: 0, xr: 0, open: false }
-  if (xs.length === 2) return { xl: Math.min(xs[0], xs[1]), xr: Math.max(xs[0], xs[1]), open: true }
-  // one temple is round the far side: the face runs out to the edge of the head there
-  return v.f > 0 ? { xl: xs[0], xr: v.R * 3, open: true } : { xl: -v.R * 3, xr: xs[0], open: true }
+/**
+ * Where the skin of the face ends and the hair begins: the two temples, as they land in this view. A temple that
+ * has turned out of sight leaves the face running to the edge of the head on that side (`openL` / `openR` → 1).
+ */
+function temples(v: View, tx = 0.86, tz = 0.3): { xl: number; xr: number; open: boolean; openL: number; openR: number } {
+  const vis = (side: number) => smooth(-0.14 * v.R, 0.16 * v.R, v.d(side * tx, tz))
+  // facing right, the character's right temple is the near one and stays on the left of the picture
+  const near = v.f > 0 ? -1 : 1
+  const vn = vis(near)
+  const vf = vis(-near)
+  const xn = v.x(near * tx, tz)
+  const xf = v.x(-near * tx, tz)
+  if (vn < 0.02 && vf < 0.02) return { xl: 0, xr: 0, open: false, openL: 0, openR: 0 }
+  const edge = v.f * v.R * 3
+  // the near temple slides round to the front edge as the head turns away, closing the face
+  const a = xn + (v.f * v.W * 1.1 - xn) * (1 - vn)
+  const b = xf + (edge - xf) * (1 - vf)
+  return v.f > 0 ? { xl: a, xr: b, open: true, openL: 0, openR: 1 - vf } : { xl: b, xr: a, open: true, openL: 1 - vf, openR: 0 }
 }
 
 type CapOpts = {
@@ -143,8 +153,15 @@ function cap(h: HairCtx, o: CapOpts): Pen {
   const { R, Ry } = v
   const pts = skullPoints(h.g, v, o.lift, 40)
   const n = pts.length / 2
+  const t = temples(v, o.tx, o.tz)
   const backness = (k: number) => Math.max(clamp01(-k * v.s), clamp01(-v.c * 1.4))
-  const low = (k: number) => Ry * (o.temple + (o.nape - o.temple) * Math.pow(backness(k), 0.7))
+  // beside the face the hair comes down to the temple (or the cheek); round the back to the nape; and on the side
+  // the face is turned to, where there is no temple to be seen, it stops at the forehead
+  const low = (k: number) => {
+    const side = Ry * (o.temple + (o.nape - o.temple) * Math.pow(backness(k), 0.7))
+    const openK = t.open ? (k < 0 ? t.openL : t.openR) : 0
+    return side + (Ry * (o.line + 0.06) - side) * openK
+  }
   const yl = low(-1)
   const yr = low(1)
   // the outer edge: over the crown from the left side to the right side
@@ -165,7 +182,6 @@ function cap(h: HairCtx, o: CapOpts): Pen {
   }
   const ax = out[0]
   const fx = out[out.length - 2]
-  const t = temples(v, o.tx, o.tz)
   const inner: number[] = []
   if (!t.open) {
     // seen from behind: the lower edge runs straight round the nape
@@ -182,7 +198,7 @@ function cap(h: HairCtx, o: CapOpts): Pen {
       const u = 1 - (i / m) * 2 // +1 at screen right … −1 at screen left
       const x = mid + (u * wide) / 2
       // the hairline drops toward the temples
-      const y = yLine + Ry * o.fringe(u) + Math.pow(Math.abs(u), 2.4) * (Math.min(u > 0 ? yr : yl, Ry * o.temple) - yLine)
+      const y = yLine + Ry * o.fringe(u) + Math.pow(Math.abs(u), 2.4) * (Math.min(u > 0 ? yr : yl, Ry * o.temple) - yLine) * (1 - (u > 0 ? t.openR : t.openL))
       if (x >= xl - 1e-3 && x <= xr + 1e-3) inner.push(x, y)
     }
     if (t.xl > ax + R * 0.04) inner.push(xl, yl, xl + (ax - xl) * 0.5, yl + Ry * 0.05)

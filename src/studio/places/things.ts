@@ -534,3 +534,202 @@ export function pinnedDrawing(P: Painter, x: number, y: number, w: number, h: nu
   }
   c.restore()
 }
+
+// ── a room that changes with the light ────────────────────────────────────────
+export type DayTime = 'morning' | 'overcast' | 'lamp' | 'night'
+
+/**
+ * A tall window with what the time of day shows through it: a morning sky with a far hill and a tree, a grey sky
+ * with rain running down the glass, the last colour of dusk, or the moon and stars. `t` moves the rain and the
+ * leaves. Returns the glass (x, y, w, h) for whoever throws its light across the room.
+ */
+export function windowView(P: Painter, x: number, y: number, w: number, h: number, time: DayTime, t = 0, o: { frame?: string; curtain?: string } = {}) {
+  const frame = o.frame ?? '#fff6e2'
+  P.shape(cutRect(x - w / 2 - 16, y - h / 2 - 16, w + 32, h + 32, 10, 3, 2), frame, { shade: 0.8 })
+  const glass = rrect(x - w / 2, y - h / 2, w, h, 6)
+  const sky = { morning: ['#bfe3ee', '#dff0e4', '#fbeecb'], overcast: ['#b9c2cb', '#c8cfd4', '#d6dad8'], lamp: ['#4b4f8f', '#8a6aa0', '#e89a7a'], night: ['#1f2a5e', '#2b3a78', '#3a4b8c'] }[time]
+  // what is outside keeps its own light: it is not lit by the room
+  const mood = P.mood
+  const lamps = P.lamps
+  P.mood = { id: `out-${time}`, light: '#ffffff', k: 0 }
+  P.lamps = []
+  P.shape(glass, sky[0], { shade: 0, line: 0.7, tex: false })
+  P.clip(glass, () => {
+    P.flat(rrect(x - w / 2, y - h * 0.16, w, h * 0.7, 0), sky[1])
+    P.flat(rrect(x - w / 2, y + h * 0.14, w, h * 0.4, 0), sky[2])
+    const dark = time === 'night' || time === 'lamp'
+    if (time === 'morning') {
+      P.flat(circle(x + w * 0.24, y - h * 0.06, w * 0.13), '#fff3c4', 0.9)
+      P.flat(circle(x + w * 0.24, y - h * 0.06, w * 0.085), '#ffe08a')
+      P.flat(ellipse(x - w * 0.2, y - h * 0.3, w * 0.2, h * 0.045), '#fffaf0', 0.9)
+    } else if (time === 'night') {
+      P.flat(circle(x + w * 0.2, y - h * 0.2, w * 0.1), '#fdf3d0')
+      P.flat(circle(x + w * 0.245, y - h * 0.22, w * 0.085), sky[0])
+      const r = seededList(91, 30)
+      for (let i = 0; i < 10; i++) P.flat(circle(x - w / 2 + r[i * 3] * w, y - h / 2 + r[i * 3 + 1] * h * 0.6, 1.6 + r[i * 3 + 2] * 2), '#fdf3d0', 0.6 + 0.4 * r[i * 3 + 2])
+    } else if (time === 'lamp') {
+      P.flat(circle(x - w * 0.26, y - h * 0.3, 3), '#fdf3d0', 0.9)
+      P.flat(circle(x + w * 0.1, y - h * 0.38, 2.2), '#fdf3d0', 0.7)
+    } else {
+      P.flat(ellipse(x - w * 0.1, y - h * 0.26, w * 0.5, h * 0.09), '#a9b3bd', 0.9)
+      P.flat(ellipse(x + w * 0.2, y - h * 0.14, w * 0.4, h * 0.07), '#aeb7c0', 0.8)
+    }
+    // a far hill and a tree, darker as the day ends
+    const hill = { morning: '#9cc48a', overcast: '#8fa69a', lamp: '#3a3f6a', night: '#1c2a52' }[time]
+    P.flat(blob([x - w * 0.7, y + h * 0.5, x - w * 0.34, y + h * 0.16, x + w * 0.06, y + h * 0.3, x + w * 0.44, y + h * 0.12, x + w * 0.8, y + h * 0.5]), hill)
+    const sway = Math.sin(t * 1.1) * 4
+    P.line(curve([x - w * 0.26, y + h * 0.5, x - w * 0.27 + sway * 0.3, y + h * 0.2]), dark ? '#161b3a' : '#7a5a48', w * 0.035)
+    P.flat(blob([x - w * 0.46 + sway, y + h * 0.2, x - w * 0.42 + sway, y - h * 0.02, x - w * 0.26 + sway, y - h * 0.1, x - w * 0.1 + sway, y - h * 0.0, x - w * 0.08 + sway, y + h * 0.2, x - w * 0.27, y + h * 0.28]), dark ? '#1d2748' : time === 'overcast' ? '#6f927a' : '#6fa860')
+    if (time === 'overcast') {
+      // rain on the glass: drops that run down and start again
+      const r = seededList(55, 60)
+      const drops = new Pen()
+      for (let i = 0; i < 18; i++) {
+        const dx = x - w / 2 + r[i * 3] * w
+        const dy = y - h / 2 + ((r[i * 3 + 1] * h + t * (60 + r[i * 3 + 2] * 90)) % h)
+        drops.moveTo(dx, dy)
+        drops.lineTo(dx + 2, dy + 16 + r[i * 3 + 2] * 16)
+      }
+      P.line(drops, '#eef3f5', 2.4, 0.75)
+    }
+    if (time === 'lamp') P.flat(glass, '#ffcf8f', 0.08)
+  })
+  P.mood = mood
+  P.lamps = lamps
+  P.line(curve([x, y - h / 2, x, y + h / 2]), frame, 10)
+  P.line(curve([x - w / 2, y - h * 0.1, x + w / 2, y - h * 0.1]), frame, 10)
+  P.shape(cutRect(x - w / 2 - 30, y + h / 2 + 10, w + 60, 20, 6, 4, 2), frame, { shade: 0.5 })
+  if (o.curtain) {
+    for (const s of [-1, 1]) {
+      const cx = x + s * (w / 2 + 8)
+      P.shape(blob([cx - s * 10, y - h / 2 - 26, cx + s * 66, y - h / 2 - 26, cx + s * 74, y + h / 2 + 44, cx + s * 36, y + h / 2 + 34, cx - s * 4, y + h * 0.16, cx + s * 16, y - h * 0.2]), o.curtain, { shade: 1.2 })
+      P.detail(curve([cx + s * 34, y - h / 2 - 12, cx + s * 46, y, cx + s * 52, y + h / 2 + 30]), o.curtain, 0.7)
+      P.detail(curve([cx + s * 16, y - h / 2 - 12, cx + s * 20, y - h * 0.1, cx + s * 4, y + h * 0.14]), o.curtain, 0.7)
+    }
+    P.line(curve([x - w / 2 - 90, y - h / 2 - 30, x + w / 2 + 90, y - h / 2 - 30]), '#8a5a44', 8)
+  }
+}
+
+/** Light from a window lying across the floor: the window's own shape, slanted, with the shadow of its bars. */
+export function windowLight(P: Painter, x: number, y: number, w: number, reach: number, slant: number, color: string, alpha: number) {
+  if (P.sil) return
+  const c = P.ctx
+  const pane = (u0: number, u1: number, v0: number, v1: number) => {
+    const q = (u: number, v: number): [number, number] => [x + (u - 0.5) * w * (1 + v * 0.5) + slant * v, y + v * reach]
+    const a = q(u0, v0)
+    const b = q(u1, v0)
+    const d = q(u1, v1)
+    const e = q(u0, v1)
+    return poly([a[0], a[1], b[0], b[1], d[0], d[1], e[0], e[1]])
+  }
+  c.save()
+  for (const [u0, u1, v0, v1] of [[0, 0.47, 0, 0.38], [0.53, 1, 0, 0.38], [0, 0.47, 0.44, 1], [0.53, 1, 0.44, 1]] as const) {
+    const p = pane(u0, u1, v0, v1)
+    c.globalCompositeOperation = 'soft-light'
+    c.globalAlpha = alpha * 1.7
+    c.fillStyle = color
+    c.fill(p)
+    c.globalCompositeOperation = 'source-over'
+    c.globalAlpha = alpha * 0.42
+    c.fill(p)
+  }
+  c.restore()
+}
+
+/** A small table with a drawer, and a lamp with a cloth shade standing on it. `lit` makes the shade glow. Returns where the light is. */
+export function bedsideLamp(P: Painter, x: number, y: number, s: number, lit: boolean, o: { wood?: string; shade?: string } = {}): Pt2 {
+  const wood = o.wood ?? '#c9905c'
+  const shade = o.shade ?? '#f2c45a'
+  const th = s * 0.52
+  P.groundShadow(x, y, s * 0.3, s * 0.035)
+  for (const k of [-1, 1]) P.shape(rrect(x + k * s * 0.19 - 6, y - th * 0.4, 12, th * 0.4, 4), dark(wood, 0.2), { shade: 0.4 })
+  P.shape(cutRect(x - s * 0.24, y - th, s * 0.48, th * 0.68, 6, 4, 2), wood, { shade: 1 })
+  P.shape(cutRect(x - s * 0.19, y - th * 0.84, s * 0.38, th * 0.26, 4, 5, 1.5), pale(wood, 0.14), { shade: 0.4, line: 0.8 })
+  P.flat(circle(x, y - th * 0.71, s * 0.018), dark(wood, 0.4))
+  P.shape(cutRect(x - s * 0.27, y - th - 10, s * 0.54, 16, 5, 6, 1.5), pale(wood, 0.2), { shade: 0.5 })
+  // the lamp: a round foot, a stem, a shade
+  const ly = y - th - 10
+  P.shape(ellipse(x, ly - 6, s * 0.09, 8), '#7a8fb0', { shade: 0.5 })
+  P.shape(blob([x - s * 0.05, ly - 8, x - s * 0.03, ly - s * 0.16, x + s * 0.03, ly - s * 0.16, x + s * 0.05, ly - 8]), '#7a8fb0', { shade: 0.6 })
+  const sy = ly - s * 0.16
+  const sh = blob([x - s * 0.1, sy - s * 0.24, x + s * 0.1, sy - s * 0.24, x + s * 0.18, sy, x - s * 0.18, sy])
+  if (lit) {
+    // a lit shade is the brightest thing in the room: it is not shaded by the room's own dusk
+    const mood = P.mood
+    P.mood = { id: 'glow', light: '#ffffff', k: 0 }
+    P.shape(sh, '#ffe9a8', { shade: 0, hi: 0, ink: '#c98a3a' })
+    P.flat(blob([x - s * 0.07, sy - s * 0.2, x + s * 0.07, sy - s * 0.2, x + s * 0.12, sy - s * 0.03, x - s * 0.12, sy - s * 0.03]), '#fff8dc', 0.9)
+    P.mood = mood
+  } else P.shape(sh, shade, { shade: 0.9 })
+  return { x, y: sy - s * 0.08 }
+}
+type Pt2 = { x: number; y: number }
+
+/** A child's bed seen from the side: head board at `head` (+1 = at the right), a pillow, a patchwork quilt that hangs over the near edge. Returns the height of the mattress top above the floor. */
+export function quiltBed(P: Painter, x: number, y: number, w: number, o: { frame?: string; quilt?: string[]; head?: number } = {}): number {
+  const frame = o.frame ?? '#c79a6a'
+  const colors = o.quilt ?? ['#e2674a', '#f2c94c', '#5f8fa8', '#f6e2b8', '#7fae8a']
+  const hd = o.head ?? 1
+  const h = w * 0.3
+  const top = h * 0.98
+  P.groundShadow(x, y, w * 0.56, 18)
+  // far legs, then the head and foot boards
+  P.shape(cutRect(x + hd * (w / 2 - 14) - 16, y - h * 1.9, 32, h * 1.9, 12, 2, 2), frame, { shade: 0.8 })
+  P.shape(blob([x + hd * (w / 2) - hd * 70, y - h * 1.84, x + hd * (w / 2) - hd * 30, y - h * 2.06, x + hd * (w / 2) + hd * 4, y - h * 1.84, x + hd * (w / 2) + hd * 4, y - h * 0.9, x + hd * (w / 2) - hd * 70, y - h * 0.9]), frame, { shade: 0.8 })
+  P.shape(cutRect(x - hd * (w / 2 - 12) - 14, y - h * 1.18, 28, h * 1.18, 10, 3, 2), frame, { shade: 0.8 })
+  P.shape(cutRect(x - w / 2 + 8, y - h * 0.52, w - 16, h * 0.34, 6, 4, 2), dark(frame, 0.1), { shade: 0.6 })
+  P.shape(cutRect(x - w / 2 + 10, y - h * 0.9, w - 20, h * 0.44, 16, 5, 3), '#fff6e2', { shade: 0.7 })
+  // pillow at the head
+  const px = x + hd * w * 0.33
+  P.shape(blob(wobble([px - w * 0.13, y - h * 0.94, px - w * 0.12, y - h * 1.22, px, y - h * 1.3, px + w * 0.12, y - h * 1.22, px + w * 0.13, y - h * 0.94, px, y - h * 0.9], 3, 6)), '#fff6e2', { shade: 0.8 })
+  // the quilt: patches, hanging down the near side
+  const qx0 = x - hd * w * 0.5 + (hd > 0 ? 4 : w * 0.3)
+  const qw = w * 0.72
+  const quilt = blob(wobble([qx0, y - top, qx0 + qw * 0.5, y - top - h * 0.1, qx0 + qw, y - top, qx0 + qw + 6, y - h * 0.24, qx0 + qw * 0.5, y - h * 0.16, qx0 - 6, y - h * 0.24], 4, 8))
+  P.shape(quilt, colors[0], {
+    shade: 1.3,
+    over: () => {
+      const n = 6
+      const r = seededList(17, 40)
+      for (let i = 0; i < n; i++) for (let j = 0; j < 3; j++) {
+        const cx = qx0 + (qw * i) / n
+        const cy = y - top - h * 0.12 + (h * 0.94 * j) / 3
+        P.flat(cutRect(cx + 3, cy + 3, qw / n - 6, (h * 0.94) / 3 - 6, 6, i * 3 + j, 2), colors[(i + j * 2 + Math.floor(r[i * 3 + j] * 2)) % colors.length])
+      }
+      const seams = new Pen()
+      for (let i = 1; i < n; i++) {
+        seams.moveTo(qx0 + (qw * i) / n, y - top - h * 0.14)
+        seams.lineTo(qx0 + (qw * i) / n, y - h * 0.14)
+      }
+      for (let j = 1; j < 3; j++) {
+        seams.moveTo(qx0 - 8, y - top - h * 0.12 + (h * 0.94 * j) / 3)
+        seams.lineTo(qx0 + qw + 8, y - top - h * 0.12 + (h * 0.94 * j) / 3)
+      }
+      P.detail(seams, colors[0], 0.6)
+    },
+  })
+  // the fold where the quilt is turned back
+  P.shape(blob(wobble([qx0 + (hd > 0 ? qw - 40 : -10), y - top - h * 0.04, qx0 + (hd > 0 ? qw + 12 : 44), y - top - h * 0.1, qx0 + (hd > 0 ? qw + 16 : 48), y - top + h * 0.14, qx0 + (hd > 0 ? qw - 36 : -6), y - top + h * 0.18], 2, 9)), '#fff6e2', { shade: 0.5 })
+  return top
+}
+
+/** A picture in a frame on the wall: a small landscape (a hill and a sun, never words). */
+export function framedPicture(P: Painter, x: number, y: number, w: number, h: number, frame = '#b98556') {
+  P.shape(cutRect(x - w / 2, y - h / 2, w, h, 4, 7, 1.5), frame, { shade: 0.6 })
+  const inner = rrect(x - w / 2 + 9, y - h / 2 + 9, w - 18, h - 18, 2)
+  P.shape(inner, '#cfe6ea', { shade: 0, line: 0.6, tex: false })
+  P.clip(inner, () => {
+    P.flat(blob([x - w * 0.6, y + h * 0.5, x - w * 0.2, y + h * 0.02, x + w * 0.16, y + h * 0.2, x + w * 0.6, y + h * 0.5]), '#8fbb78')
+    P.flat(circle(x + w * 0.2, y - h * 0.14, w * 0.08), '#f2c94c')
+  })
+}
+
+/** A basket of toys for the front of a room: a ball, some blocks, a rabbit's ears. */
+export function toyBasket(P: Painter, x: number, y: number, w: number) {
+  basket(P, x, y, w, '#c99a5c', () => {
+    P.shape(circle(-w * 0.2, -w * 0.1, w * 0.19), '#e2674a', { shade: 0.8 })
+    P.shape(cutRect(w * 0.02, -w * 0.3, w * 0.24, w * 0.24, 4, 3, 1), '#5f8fa8', { shade: 0.6 })
+    P.shape(cutRect(w * 0.2, -w * 0.16, w * 0.2, w * 0.2, 4, 5, 1), '#f2c94c', { shade: 0.6 })
+    for (const k of [-1, 1]) P.shape(ellipse(-w * 0.02 + k * w * 0.045, -w * 0.36, w * 0.035, w * 0.13, k * 0.16), '#e9d3c0', { shade: 0.4 })
+  })
+}

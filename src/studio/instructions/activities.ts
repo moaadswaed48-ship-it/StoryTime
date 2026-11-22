@@ -34,7 +34,7 @@ export const ACTIVITIES: Record<ActivityId, Activity> = {
       { key: 'materials', n: 0, caption: w('A stick or a wooden spoon', 'عصا أو ملعقة خشبية', 'מקל או כף עץ', 'En pind eller en grydeske') },
       { key: 's1', n: 1, caption: w('Sit in a circle', 'نجلس في دائرة', 'יושבים במעגל', 'Sid i en rundkreds') },
       { key: 's2', n: 2, caption: w('Stick in hand: speak. All listen', 'من يحمل العصا يتكلّم، والكل يستمع', 'מי שמחזיק במקל מדבר. כולם מקשיבים', 'Den med pinden taler. Alle lytter') },
-      { key: 's3', n: 3, caption: w('Pass the stick on', 'نمرّر العصا', 'מעבירים את המקל', 'Giv pinden videre'), loop: 4, still: 1.3 },
+      { key: 's3', n: 3, caption: w('Pass the stick on', 'نمرّر العصا', 'מעבירים את המקל', 'Giv pinden videre'), loop: 4, still: 1.7 },
       { key: 's4', n: 4, caption: w('Say what you heard. Then your own', 'نعيد ما سمعناه، ثم نقول ما عندنا', 'חוזרים על מה ששמענו. אחר כך משלנו', 'Sig, hvad du hørte. Så dit eget') },
     ],
   },

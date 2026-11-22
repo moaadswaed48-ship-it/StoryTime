@@ -59,7 +59,8 @@ export function mountCard(root: HTMLElement, dirId: DirectionId, activityId: Act
   if (cap.place === 'over' && cap.box) {
     const b = cap.box
     zone = document.createElement('div')
-    zone.style.cssText = `position:absolute;left:${(b.x / pr.W) * 100}%;top:${(b.y / pr.H) * 100}%;width:${(b.w / pr.W) * 100}%;height:${(b.h / pr.H) * 100}%;display:flex;align-items:center;justify-content:center;padding:0 2.4cqw;box-sizing:border-box`
+    const bx = rtl ? pr.W - b.x - b.w : b.x
+    zone.style.cssText = `position:absolute;left:${(bx / pr.W) * 100}%;top:${(b.y / pr.H) * 100}%;width:${(b.w / pr.W) * 100}%;height:${(b.h / pr.H) * 100}%;display:flex;align-items:center;justify-content:center;padding:0 2.4cqw;box-sizing:border-box`
     words.style.cssText = type
     zone.appendChild(words)
     pic.appendChild(zone)

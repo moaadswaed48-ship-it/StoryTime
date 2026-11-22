@@ -30,15 +30,15 @@ const SA = 1.5
 const FLOOR = 788
 const MUM = { x: 892, y: FLOOR + 4 }
 
-export function hereYouAreAct(P: Painter, key: CardKey, t = 0): Act {
+export function hereYouAreAct(P: Painter, key: CardKey, t = 0, ghost = true): Act {
   const lia = guide('lia')
   const mum = guide('mother')
   if (key === 's1') {
     // Lia walks over with the cushion in both arms; a pale Lia shows where she came from; Mum waits with open hands
     const walk = (k: number): Partial<Pose> => ({ spin: RIGHT, lookY: -0.2, lean: 0.05, rfz: 0.3 * k, lfz: -0.3 * k, rfa: k < 0 ? 0.5 : 0, lfa: k > 0 ? 0.5 : 0, ...FACES.delight, open: 0.3 })
-    const l: Actor = { s: lia, sc: SA, p: standing(500, FLOOR, walk(1)) }
-    const g: Actor = { s: lia, sc: SA, ghost: 0.26, p: standing(262, FLOOR, walk(-1)) }
-    const m: Actor = { s: mum, sc: SA, p: kneeling(MUM.x, MUM.y, { spin: LEFT, lookY: 0.2, rx: 0.2, ry: 0.5, rz: 0.7, lx: 0.2, ly: 0.56, lz: 0.6, rHand: 7, lHand: 7, ...FACES.delight, open: 0.35 }) }
+    const l: Actor = { s: lia, sc: SA, p: standing(452, FLOOR, walk(1)) }
+    const g: Actor = { s: lia, sc: SA, ghost: 0.26, p: standing(236, FLOOR, walk(-1)) }
+    const m: Actor = { s: mum, sc: SA, p: kneeling(MUM.x, MUM.y, { spin: LEFT, lookY: 0.2, rx: 0.2, ry: 0.56, rz: 0.46, lx: 0.2, ly: 0.64, lz: 0.4, rHand: 7, lHand: 7, ...FACES.delight, open: 0.35 }) }
     const carry = (a: Actor, alpha?: number) => {
       const c = { x: a.p.x + 62, y: a.p.y - 196 }
       reach(a.p, 'r', { x: c.x - 20, y: c.y + 62 }, 6)
@@ -48,12 +48,12 @@ export function hereYouAreAct(P: Painter, key: CardKey, t = 0): Act {
     const cg = carry(g, 0.26)
     const cl = carry(l)
     return {
-      actors: [g, m, l],
+      actors: ghost ? [g, m, l] : [m, l],
       things: () => {
-        cg.draw()
+        if (ghost) cg.draw()
         cl.draw()
       },
-      at: { lia: headOf(P, l), mum: headOf(P, m), thing: cl.c, from: { x: 350, y: FLOOR + 26 }, to: { x: 700, y: FLOOR + 26 }, hands: { x: 760, y: 600 } },
+      at: { lia: headOf(P, l), mum: headOf(P, m), thing: cl.c, from: { x: 250, y: FLOOR + 4 }, to: { x: 730, y: FLOOR + 4 }, hands: { x: 770, y: 610 } },
     }
   }
   if (key === 's2') {
@@ -98,10 +98,6 @@ const SEATS: Record<Who, Pt> = { mona: { x: 232, y: 792 }, sara: { x: 470, y: 72
 const STICK = 176
 /** Both hands low in front of the body, one above the other: how the talking stick is held. */
 const HOLD: Partial<Pose> = { rB: 1, rBx: -0.1, rBy: 0.78, lB: 1, lBx: -0.1, lBy: 1.02, rHand: 6, lHand: 6 }
-/** One hand cupped behind the ear: "I am listening". */
-const EAR_R: Partial<Pose> = { rH: 1, rHx: 1.12, rHy: 0.1, rHand: 5, rB: 0 }
-const EAR_L: Partial<Pose> = { lH: 1, lHx: 1.12, lHy: 0.1, lHand: 5, lB: 0 }
-
 function circleOf(over: Partial<Record<Who, Partial<Pose>>> = {}): Record<Who, Actor> {
   return {
     mona: { s: guide('teacher'), sc: SB, p: seated(SEATS.mona.x, SEATS.mona.y, { spin: 0.7, ...over.mona }) },
@@ -121,15 +117,15 @@ export function talkingStickAct(P: Painter, key: CardKey, t = 0, dad = true): Ac
     return { actors: order(c, dad), things: () => {}, at: heads(P, c) }
   }
   if (key === 's2') {
-    // Mona has the stick and speaks; the others turn to her, two with a hand behind the ear
+    // Mona has the stick and speaks; the others turn to her, mouths closed, eyes on her
     const c = circleOf({
       mona: { ...FACES.delight, open: 0.6, mWide: 0.6, ...HOLD },
-      sara: { spin: 0.5, turn: -0.9, lookX: -0.6, tilt: -0.08, ...FACES.curious, smile: 0.5, ...EAR_R },
-      jonah: { spin: -0.5, lookX: -0.5, tilt: -0.06, ...FACES.smile },
-      tom: { lookX: -0.4, tilt: -0.05, ...FACES.curious, smile: 0.4, ...EAR_L },
+      sara: { spin: -0.5, lookX: -0.5, tilt: -0.08, lean: -0.05, ...FACES.smile, brow: 0.5 },
+      jonah: { spin: -0.45, lookX: -0.6, tilt: -0.06, ...FACES.smile },
+      tom: { lookX: -0.4, tilt: -0.05, ...FACES.smile, brow: 0.4 },
     })
     const b = between(P, c.mona)
-    return { actors: order(c, dad), things: () => stick(P, b.x, b.y - 30, STICK, { rot: -Math.PI / 2 + 0.05 }), at: { ...heads(P, c), stick: { x: b.x, y: b.y - 30 } } }
+    return { actors: order(c, dad), things: () => stick(P, b.x + 24, b.y - 36, STICK, { rot: -Math.PI / 2 + 0.42 }), at: { ...heads(P, c), stick: { x: b.x + 24, y: b.y - 36 } } }
   }
   if (key === 's3') {
     // Mona holds the stick out, Sara takes it and draws it in
@@ -144,13 +140,14 @@ export function talkingStickAct(P: Painter, key: CardKey, t = 0, dad = true): Ac
     })
     // where the stick rests in Mona's hands, where the two meet, where it rests in Sara's
     const a0 = between(P, c.mona)
-    const a = { x: a0.x, y: a0.y - 30 }
+    // (in Mona's lap it leans forward, clear of her arm, so it can be seen)
+    const a = { x: a0.x + 24, y: a0.y - 36 }
     const b0 = between(P, { ...c.sara, p: { ...c.sara.p, spin: 0.2, lean: 0, ...HOLD } })
     const b = { x: b0.x, y: b0.y - 30 }
     const mid = { x: (a.x + b.x) / 2 + 6, y: Math.min(a.y, b.y) - 40 }
     const sx = lerp(lerp(a.x, mid.x, give), b.x, pull)
     const sy = lerp(lerp(a.y, mid.y, give), b.y, pull)
-    const rot = -Math.PI / 2 + lerp(lerp(0.05, 0.34, give), 0, pull)
+    const rot = -Math.PI / 2 + lerp(lerp(0.42, 0.34, give), 0, pull)
     const ux = Math.cos(rot)
     const uy = Math.sin(rot)
     // Mona's hands follow the stick's lower half until Sara has it; Sara's take the upper half, then hold it as Mona did
@@ -165,7 +162,7 @@ export function talkingStickAct(P: Painter, key: CardKey, t = 0, dad = true): Ac
   const c = circleOf({
     mona: { lookX: 0.4, tilt: 0.05, ...FACES.smile, cheek: 0.7 },
     sara: { spin: 0.1, ...FACES.delight, open: 0.55, mWide: 0.6, ...HOLD },
-    jonah: { spin: -0.6, lookX: -0.5, tilt: -0.05, ...FACES.curious, smile: 0.5, ...EAR_R },
+    jonah: { spin: -0.5, lookX: -0.6, tilt: -0.05, ...FACES.smile, brow: 0.5 },
     tom: { lookX: -0.4, ...FACES.smile },
   })
   const b = between(P, c.sara)

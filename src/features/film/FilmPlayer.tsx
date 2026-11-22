@@ -177,7 +177,7 @@ export default function FilmPlayer({ film, title, lang, memoryKey, captions, onC
         </MediaControlBar>
         <MediaControlBar {...attrs({ mediacontroller: ctrlId })}>
           <MediaPlayButton />
-          <MediaTimeDisplay showDuration />
+          <MediaTimeDisplay showDuration dir="ltr" />
           <span className="flex-1" />
           {track && <MediaCaptionsButton data-testid="film-captions" />}
           <MediaMuteButton />

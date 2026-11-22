@@ -13,7 +13,7 @@ export type DirectionId = 'above' | 'hands' | 'stage'
 export type CaptionStyle = {
   /** 'over': on a label drawn inside the picture. 'below': on a band under the picture, part of the same card. */
   place: 'over' | 'below'
-  /** For 'over': the label's box in the picture's own units (the picture draws the label, the page sets the words in it). */
+  /** For 'over': the label's box in the picture's own units, as for a left-to-right page (the picture draws the label, the page sets the words in it; a right-to-left page mirrors the box). */
   box?: { x: number; y: number; w: number; h: number }
   /** For 'below': the band's colour and its height as a fraction of the picture's width. */
   band?: string
@@ -120,10 +120,10 @@ export const INSTRUCTION_PROFILES: Record<DirectionId, InstructionProfile> = {
     idea: 'A craft-book close-up: big hands and the thing they hold, one dark line, one strong colour.',
     style: HANDS_STYLE,
     W: 1200,
-    H: 900,
+    H: 1140,
     radius: 0.05,
     holdFps: 12,
-    caption: { place: 'below', band: '#fbf5e8', bandH: 0.2, color: '#22203a', size: 0.06, weight: 800 },
+    caption: { place: 'over', box: { x: 250, y: 918, w: 916, h: 204 }, color: '#22203a', size: 0.06, weight: 800 },
     c: {
       ink: '#22203a', paper: '#fbf5e8', fieldA: '#f6b93b', fieldA2: '#fbd06a', fieldB: '#5cb8ae', fieldB2: '#86cfc4', arrow: '#fbf5e8', accent: '#e4572e',
     },
@@ -134,10 +134,10 @@ export const INSTRUCTION_PROFILES: Record<DirectionId, InstructionProfile> = {
     idea: 'A small paper theatre: the cast act each step with a few props, and their faces tell how it feels.',
     style: STAGE_STYLE,
     W: 1200,
-    H: 1000,
+    H: 1040,
     radius: 0.04,
     holdFps: 12,
-    caption: { place: 'over', box: { x: 150, y: 846, w: 900, h: 134 }, color: '#fff6e2', size: 0.052, weight: 700 },
+    caption: { place: 'over', box: { x: 120, y: 852, w: 960, h: 166 }, color: '#fff6e2', size: 0.054, weight: 700 },
     c: {
       frame: '#2b3a67', frameDark: '#1f2b50', curtain: '#d9573f', curtainDark: '#b8402f', gold: '#f2c14e', back: '#f9ecd2', backA: '#f6dfc0', backB: '#dfeadf',
       floor: '#dcae72', floorDark: '#c4925a', lampOn: '#ffe08a', lampOff: '#4a5a8a', ink: '#3a2238', arrow: '#fffaf0', accent: '#d9573f',
