@@ -159,7 +159,7 @@ export function FileField({ purpose, label, hint, currentId, onUploaded, testId 
       <div className="flex flex-col gap-0.5">
         <p className="font-medium">{label}</p>
         {hint && <p className="text-sm text-ink-muted">{hint}</p>}
-        <p className="text-sm text-ink-muted" dir="auto">{limitsText(od, purpose)}</p>
+        <p className="text-sm text-ink-muted">{limitsText(od, purpose)}</p>
       </div>
       {currentId && <MediaPreview id={currentId} label={label} />}
       <details className="rounded-control border border-line px-3">

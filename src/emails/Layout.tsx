@@ -41,7 +41,7 @@ export function EmailLayout(props: {
         <meta name="color-scheme" content="light only" />
         <meta name="supported-color-schemes" content="light" />
       </Head>
-      <Body style={{ backgroundColor: '#f4f4f2', fontFamily: FONT, margin: 0, padding: '24px 0' }}>
+      <Body style={{ backgroundColor: '#f4f4f2', fontFamily: FONT, margin: 0, padding: '20px 10px' }}>
         <Preview>{props.preview}</Preview>
         <Container dir={dir} style={{ backgroundColor: '#ffffff', border: `1px solid ${LINE}`, borderRadius: '12px', maxWidth: '560px', padding: '28px 24px' }}>
           <Text dir={dir} style={{ ...small, fontWeight: 600, letterSpacing: dir === 'rtl' ? 'normal' : '0.02em', margin: '0 0 20px' }}>StoryTime</Text>

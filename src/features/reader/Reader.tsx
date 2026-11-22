@@ -378,12 +378,16 @@ export function Reader({ content, group, startPage, listen, closeTo, onPage, acc
 
   // ---- start listening when asked (the Listen door) ---------------------------------------------------------
   const autoListen = useRef(listen)
+  const playRef = useRef(play)
+  playRef.current = play
+  const autoTimer = useRef(0)
   useEffect(() => {
     if (!autoListen.current || !mode || !opened.current) return
     autoListen.current = false
-    const id = window.setTimeout(() => play(), 350)
-    return () => clearTimeout(id)
-  }, [mode, pos]) // eslint-disable-line react-hooks/exhaustive-deps
+    // Not cancelled by the re-render that follows opening (only by leaving the reader).
+    autoTimer.current = window.setTimeout(() => playRef.current(), 350)
+  }, [mode, pos])
+  useEffect(() => () => clearTimeout(autoTimer.current), [])
 
   // ---- layout of the DOM pages over the stage ----------------------------------------------------------------
   const boxes = useMemo(() => {

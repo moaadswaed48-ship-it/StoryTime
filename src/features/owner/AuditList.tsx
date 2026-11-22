@@ -16,11 +16,14 @@ export function AuditList({ rows, empty }: { rows: AuditRow[]; empty: string }) 
         const action = c.actions[r.action as keyof typeof c.actions] ?? r.action
         const target = c.targets[r.target as keyof typeof c.targets] ?? c.targets.other
         const langs = r.detail.split(',').filter(isLang)
-        const langDetail = langs.length && langs.length === r.detail.split(',').length ? langs.map((l) => ENDONYM[l]).join(', ') : ''
+        const langDetail = langs.length && langs.length === r.detail.split(',').length ? langs : []
         return (
           <li key={r.id} className="flex flex-col gap-0.5 py-2 sm:flex-row sm:gap-4">
             <span className="shrink-0 text-sm text-ink-muted sm:w-48">{formatDate(r.at, lang, true)}</span>
-            <span>{action}: {target}{langDetail && <> · <bdi>{langDetail}</bdi></>}</span>
+            <span>
+              {action}: {target}
+              {langDetail.length > 0 && <> · {langDetail.map((l, i) => <span key={l}>{i > 0 && ', '}<bdi lang={l}>{ENDONYM[l]}</bdi></span>)}</>}
+            </span>
           </li>
         )
       })}
