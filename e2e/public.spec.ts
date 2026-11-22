@@ -58,12 +58,13 @@ test('/ falls back to Arabic for a language the site does not have', async ({ br
   await ctx.close()
 })
 
-test('the app is client-only: not pre-rendered, but opens in the browser with the right language', async ({ page, request, baseURL }) => {
+test('the app is client-only: not pre-rendered; signed out, it sends the visitor to sign-in in the right language', async ({ page, request, baseURL }) => {
   const raw = await (await request.get(`${baseURL}en/app/library`)).text()
   expect(raw).not.toContain('<h1') // the HTML is the empty SPA fallback, no page content
   const errors = watchErrors(page)
   await page.goto('he/app/library')
-  await expect(page.locator('h1')).toHaveText('הספרייה')
+  await expect(page).toHaveURL(/\/he\/sign-in\/\?next=/)
+  await expect(page.locator('h1')).toHaveText('כניסה')
   await expect(page.locator('html')).toHaveAttribute('dir', 'rtl')
   expect(errors).toEqual([])
 })

@@ -107,3 +107,12 @@ Other web-search candidates seen but not chosen:
 - **Why not Vidstack:** it is frozen (security fixes only), so starting a new product on it means a forced migration later.
 - **Why Media Chrome:** it is maintained, smaller, MIT-licensed and plain HTML elements. Its right-to-left gap is manageable: the controls are styled with our own CSS, and Hebrew labels are added as a custom language file.
 - **Look at before deciding:** Video.js 10 (`@videojs/react` 10.6.0, Apache-2.0, released 2026-11-20). It is the official successor to both players, but it is a bigger bundle (about 91 KB gzip) and only weeks old, so check its right-to-left support and stability before choosing it.
+
+## Packages added in Stage 4 part A (read 22 Nov 2026)
+
+| Package | Version (pinned) | Why | What was checked |
+|---|---|---|---|
+| `@supabase/supabase-js` (+ its `auth-js`, `postgrest-js`, `realtime-js`, `storage-js`, `functions-js`) | 2.119.0 (released 4 Nov 2026) | The Supabase data layer (`src/data/supabase/`) | No install scripts in any of the six packages. The only hosts written in the code are documentation examples (`xyzcompany.supabase.co`, `example.com`); requests go only to the project URL we configure. No reading of environment variables except in the admin API's own docs. |
+| `@electric-sql/pglite` | 0.5.15 (dev only, released 3 Nov 2026) | Real Postgres (18.6, WebAssembly) inside Vitest, to test the migrations and row-level security | No install scripts, no dependencies, no hard-coded hosts. Runs in memory. |
+
+Not the newest versions on purpose: each was out at least two weeks.

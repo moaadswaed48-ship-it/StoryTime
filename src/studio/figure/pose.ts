@@ -101,7 +101,9 @@ export type Pose = {
   lfy: number
   /** −1…1: which way the shoes (and knees) point. 0 = toward us. */
   toe: number
-  /** 0 standing … 1 sitting; `seat` is the height of what is sat on, in leg lengths (0 = on the ground, legs crossed). */
+  /** 0…1 up on the toes: heels lifted, the whole figure a little taller. */
+  tip: number
+  /** 0 standing … 1 sitting; `seat` is the height of what is sat on, in leg lengths (0 = on the ground, legs crossed; 0.5 = a chair of the sitter's own knee height). */
   sit: number
   seat: number
   /** Swing of whatever hangs (braids, ponytail, scarf, bag, skirt), radians. */
@@ -122,7 +124,7 @@ export function rest(x = 0, y = 0): Pose {
     rH: 0, rHx: 0, rHy: 0, lH: 0, lHx: 0, lHy: 0,
     rW: 0, rWx: 0, rWy: 0, lW: 0, lWx: 0, lWy: 0,
     rHand: 0, lHand: 0, rWrist: 0, lWrist: 0, rBack: 0, lBack: 0, rBend: -1, lBend: -1,
-    rfx: 0, rfy: 0, lfx: 0, lfy: 0, toe: 0,
+    rfx: 0, rfy: 0, lfx: 0, lfy: 0, toe: 0, tip: 0,
     sit: 0, seat: 0, swing: 0,
   }
 }
@@ -158,6 +160,8 @@ export function mixPose(a: Pose, b: Pose, k: number): Pose {
   const out = { ...a } as Record<string, number>
   const B = b as unknown as Record<string, number>
   for (const key in out) out[key] += (B[key] - out[key]) * k
+  // hand shapes and "behind the body" are choices, not amounts: they switch half-way
+  for (const key of ['rHand', 'lHand', 'rBack', 'lBack'] as const) out[key] = k < 0.5 ? a[key] : b[key]
   // a choice left to the rig stays left to the rig
   for (const key of ['rBend', 'lBend'] as const) if (a[key] < 0 || b[key] < 0) out[key] = -1
   return out as unknown as Pose

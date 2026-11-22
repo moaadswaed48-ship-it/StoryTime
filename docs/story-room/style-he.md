@@ -128,9 +128,9 @@ Hebrew marks gender in "you" and in verbs. Project rule 5 requires that we never
 
 1. In story text, numbers are words, pointed, with correct gender (a feminine noun: שָׁלֹשׁ סִירוֹת; a masculine noun:
    שְׁלֹשָׁה דְּגִים). Counting aloud uses the feminine forms: אַחַת, שְׁתַּיִם, שָׁלֹשׁ [D, editor to confirm].
-2. Where digits are needed (a clock face, an activity), use Western digits 0 to 9, as Hebrew print does. Never Hebrew
-   letters as numbers.
-3. Films carry no digits or words inside the picture (master plan §7).
+2. Digits never appear in story text or inside any picture or film (master plan §7): clock faces carry twelve marks,
+   charts carry ticks, countdowns are shrinking dots. In adult-facing activity text, use Western digits 0 to 9, as
+   Hebrew print does. Never Hebrew letters as numbers.
 
 ---
 
@@ -141,6 +141,8 @@ Hebrew marks gender in "you" and in verbs. Project rule 5 requires that we never
 3. No abbreviations (no ״ inside words) in children's text.
 4. Text is real text, right-to-left, logical CSS (start and end), set with the rtl-typesetting skill and a font that
    places niqqud clearly; never letter-space Hebrew with niqqud (marks drift) [D].
+5. Exclamation marks: at most one exclamation mark per spread in groups B and C. In group A, sound words and short calls may each carry
+   one (Splash! Found you!), never more than one per sentence [D].
 
 ---
 
@@ -148,8 +150,8 @@ Hebrew marks gender in "you" and in verbs. Project rule 5 requires that we never
 
 - Slang and spoken fillers: סַבָּבָּה, אַחְלָה, יַאללָה, וַואלָה, אוֹקֵיי.
 - Religious formulas in narration or dialogue: בָּרוּךְ הַשֵּׁם, בְּעֶזְרַת הַשֵּׁם, אִם יִרְצֶה הַשֵּׁם [D].
-- Army, security and political words; names of real towns; days of the week that mark a sabbath (Friday, Saturday)
-  [D].
+- Army, security and political words; names of real towns; weekday names that mark a day of rest for one community
+  or another (Friday, Saturday, Sunday); write "one morning" [D].
 - Labels that shame a child: עַצְלָן, טִפֵּשׁ, יֶלֶד רַע; teasing about bodies, skin colour or accent [D].
 - Food that excludes some families: pork; meat with milk in one meal; wine [D].
 - Gender rules as morals ("בָּנִים לֹא בּוֹכִים") [D].

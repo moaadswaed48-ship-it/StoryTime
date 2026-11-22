@@ -4,7 +4,8 @@
  */
 import * as THREE from 'three'
 import type { Sheet } from '../cast/sheet.ts'
-import { Part, blob, grid, merge, mix, roundEnd, smooth, tube, type Station, type Weights } from './mesh.ts'
+import { Part, blob, crisp, grid, merge, mergeStatic, mix, roundEnd, smooth, tube, type Station, type Weights } from './mesh.ts'
+import { headSurface } from './head.ts'
 import { BONE_INDEX as B, type Rig } from './rig.ts'
 
 const X = new THREE.Vector3(1, 0, 0)
@@ -16,29 +17,40 @@ export const col = (hex: string) => new THREE.Color(hex)
 /** Lighter (t > 0, toward white) or darker (t < 0, toward a deep warm tone). */
 export const tone = (c: THREE.Color, t: number) => (t >= 0 ? c.clone().lerp(new THREE.Color(1, 1, 1), t) : c.clone().lerp(new THREE.Color(0.05, 0.03, 0.06), -t))
 
-/** Colours a sheet does not name are derived here, so the flat puppet and the 3D figure can agree on them. */
+/** Mixes two hex colours the way the flat puppet does (in display space), so both pictures derive the same tones. */
+export const mixHex = (a: string, b: string, t: number) => {
+  const ch = (h: string, i: number) => parseInt(h.slice(1 + i * 2, 3 + i * 2), 16)
+  return `#${[0, 1, 2].map((i) => Math.round(ch(a, i) + (ch(b, i) - ch(a, i)) * t).toString(16).padStart(2, '0')).join('')}`
+}
+
+/** Colours a sheet does not name. These rules match the flat puppet (src/studio/figure), so the two agree. */
 export function palette(sheet: Sheet) {
-  const skin = col(sheet.skin)
-  const top = col(sheet.top.color)
-  const trim = sheet.top.trim ? col(sheet.top.trim) : tone(top, top.getHSL({ h: 0, s: 0, l: 0 }).l > 0.6 ? -0.22 : 0.42)
-  const hair = col(sheet.hair.color)
-  const blush = sheet.blush ? col(sheet.blush) : skin.clone().lerp(col('#e2566b'), 0.34)
+  const x = sheet.extraColors ?? {}
+  const hat = x.hat ?? '#e7c583'
+  const bare = sheet.hair.style === 'none' || sheet.hair.style === 'covered'
   return {
-    skin,
-    blush,
-    hair,
-    cover: sheet.hair.cover ? col(sheet.hair.cover) : trim.clone(),
-    top,
-    trim,
+    skin: col(sheet.skin),
+    blush: col(sheet.blush ?? mixHex(sheet.skin, '#e9624e', 0.42)),
+    hair: col(sheet.hair.color),
+    cover: col(sheet.hair.cover ?? sheet.hair.color),
+    top: col(sheet.top.color),
+    /** Cuffs, collars, hems. */
+    trim: col(sheet.top.trim ?? mixHex(sheet.top.color, '#2a1830', 0.22)),
+    /** Stripes, dots and checks. */
+    print: col(sheet.top.trim ?? mixHex(sheet.top.color, '#fff6e6', 0.5)),
+    /** What is worn under an apron. */
+    under: col(sheet.top.trim ?? mixHex(sheet.top.color, '#fff6e6', 0.62)),
     bottom: col(sheet.bottom.color),
     shoes: col(sheet.shoes.color),
-    sole: tone(col(sheet.shoes.color), sheet.shoes.style === 'sandals' ? -0.25 : 0.55),
+    sole: col(sheet.shoes.style === 'sandals' ? sheet.shoes.color : mixHex(sheet.shoes.color, '#fff4e0', 0.72)),
     eye: col(sheet.eyes.color),
-    brow: sheet.brows ? col(sheet.brows.color) : tone(hair, sheet.hair.style === 'none' || sheet.hair.style === 'covered' ? -0.1 : -0.25),
-    hat: col('#e8c57c'),
-    scarf: trim.clone(),
-    bag: col('#a8683c'),
-    wood: col('#8a5a3a'),
+    brow: col(sheet.brows?.color ?? mixHex(bare ? mixHex(sheet.skin, '#3a2420', 0.7) : sheet.hair.color, '#2a1a1c', 0.25)),
+    hat: col(hat),
+    hatBand: col(sheet.top.trim ?? mixHex(hat, '#8a4a3a', 0.6)),
+    scarf: col(x.scarf ?? sheet.top.trim ?? '#d9573f'),
+    bag: col(x.bag ?? '#a9683c'),
+    wood: col(x.cane ?? '#8a5a3a'),
+    glasses: col(x.glasses ?? '#4b3040'),
     ink: col('#33262b'),
     white: col('#fffaf2'),
   }
@@ -74,7 +86,7 @@ type Section = { p: THREE.Vector3; r: number; rv?: number }
  * A tube whose surface changes colour and thickness where clothes begin and end (a small rolled hem at each edge).
  * Returns the part and, per row, whether that row is patterned cloth.
  */
-function dressedTube(samples: number[], at: (t: number) => Section, base: THREE.Color, covers: Cover[], around: number, side: THREE.Vector3, ends: { start?: THREE.Vector3; end?: THREE.Vector3 }) {
+function dressedTube(samples: number[], at: (t: number) => Section, base: THREE.Color, covers: Cover[], around: number, side: THREE.Vector3, ends: { start?: THREE.Vector3; end?: THREE.Vector3; startDepth?: number }) {
   const lo = samples[0]
   const hi = samples[samples.length - 1]
   const cuts = covers.flatMap((c) => [c.a, c.b]).filter((t) => t > lo + 1e-4 && t < hi - 1e-4)
@@ -102,7 +114,7 @@ function dressedTube(samples: number[], at: (t: number) => Section, base: THREE.
     if (first && ends.start) {
       const c = s1?.color ?? base
       const pad = s1?.pad ?? 0
-      for (const e of roundEnd(sec.p, ends.start, sec.r + pad, c, true, sec.rv === undefined ? undefined : sec.rv + pad).slice(0, -1)) {
+      for (const e of roundEnd(sec.p, ends.start, sec.r + pad, c, true, sec.rv === undefined ? undefined : sec.rv + pad, 4, ends.startDepth ?? sec.r + pad).slice(0, -1)) {
         st.push(e)
         patterned.push(false)
       }
@@ -149,6 +161,8 @@ function applyPattern(part: Part, patterned: boolean[], pattern: Sheet['top']['p
 
 export type Built = {
   geometry: THREE.BufferGeometry
+  /** A walking stick, if the sheet has one: built around its grip, pointing down, to hang from the left hand. */
+  cane: { geometry: THREE.BufferGeometry; grip: THREE.Vector3 } | null
   /** Trunk surface: half-widths and centre at a height (for parts that sit on it). */
   trunk: (y: number) => { rx: number; rz: number; zc: number; pad: number }
 }
@@ -192,10 +206,11 @@ export function buildBody(sheet: Sheet, rig: Rig, pal: Palette): Built {
   const g = rig.girth
   const fy = (f: number) => hipY + torso * f
   const neckTop = rig.chinY + headH * 0.16
+  const yLow = hipY - rig.thighR * 0.8
   const rxAt = spline([
-    [fy(-0.2), rig.pelvisX * 0.55],
-    [fy(-0.1), rig.pelvisX * 0.92],
-    [fy(0.02), rig.pelvisX],
+    [yLow, rig.pelvisX * 0.8],
+    [hipY - rig.thighR * 0.25, rig.pelvisX * 0.97],
+    [fy(0.05), rig.pelvisX],
     [fy(0.36), rig.waistX],
     [fy(0.68), rig.chestX],
     [fy(0.9), rig.chestX * 0.97],
@@ -205,9 +220,9 @@ export function buildBody(sheet: Sheet, rig: Rig, pal: Palette): Built {
     [neckTop, rig.neckR],
   ])
   const rzAt = spline([
-    [fy(-0.2), rig.pelvisX * 0.5 * rig.depth],
-    [fy(-0.1), rig.pelvisX * 0.9 * rig.depth],
-    [fy(0.02), rig.pelvisX * rig.depth],
+    [yLow, rig.pelvisX * 0.78 * rig.depth],
+    [hipY - rig.thighR * 0.25, rig.pelvisX * 0.96 * rig.depth],
+    [fy(0.05), rig.pelvisX * rig.depth],
     [fy(0.3), rig.waistX * (rig.depth + 0.1 * g)],
     [fy(0.68), rig.chestX * rig.depth * 0.95],
     [fy(0.9), rig.chestX * rig.depth * 0.88],
@@ -217,7 +232,7 @@ export function buildBody(sheet: Sheet, rig: Rig, pal: Palette): Built {
     [neckTop, rig.neckR],
   ])
   const zcAt = spline([
-    [fy(-0.1), 0],
+    [yLow, 0],
     [fy(0.28), rig.waistX * 0.13 * g],
     [fy(0.7), 0.004],
     [j.neck.y, -headH * 0.01],
@@ -227,9 +242,8 @@ export function buildBody(sheet: Sheet, rig: Rig, pal: Palette): Built {
   const longTop = top === 'dress' || top === 'tunic' || top === 'coat'
   const padTop = rig.armR * ({ tee: 0.1, shirt: 0.11, jumper: 0.22, dress: 0.1, tunic: 0.14, coat: 0.28, apron: 0.1 } as const)[top]
   const padBottom = rig.thighR * 0.12
-  const underTop = top === 'apron' ? pal.trim : pal.top
+  const underTop = top === 'apron' ? pal.under : pal.top
   const hemY = top === 'jumper' ? fy(0.14) : fy(0.24)
-  const yBottomEnd = fy(-0.2)
   const trunkCovers: Cover[] = []
   if (longTop) trunkCovers.push({ a: -9, b: yCollar, color: pal.top, pad: padTop, pattern: true })
   else {
@@ -252,9 +266,9 @@ export function buildBody(sheet: Sheet, rig: Rig, pal: Palette): Built {
   }
 
   {
-    const rows = range(yBottomEnd, neckTop, 26)
-    const { part, patterned } = dressedTube(rows, (y) => ({ p: new THREE.Vector3(0, y, zcAt(y)), r: rxAt(y), rv: rzAt(y) }), pal.skin, trunkCovers, 24, X, { start: new THREE.Vector3(0, -1, 0) })
-    parts.push(applyPattern(part, patterned, sheet.top.pattern, pal.top, pal.trim, 24).skin(trunkW))
+    const rows = range(yLow, neckTop, 26)
+    const { part, patterned } = dressedTube(rows, (y) => ({ p: new THREE.Vector3(0, y, zcAt(y)), r: rxAt(y), rv: rzAt(y) }), pal.skin, trunkCovers, 24, X, { start: new THREE.Vector3(0, -1, 0), startDepth: rig.thighR * 0.5 })
+    parts.push(applyPattern(part, patterned, sheet.top.pattern, pal.top, pal.print, 24).skin(trunkW))
   }
 
   // dots: little raised spots on the top
@@ -266,7 +280,7 @@ export function buildBody(sheet: Sheet, rig: Rig, pal: Palette): Built {
       for (let a = 0; a < 6; a++) {
         const ang = ((a + (k % 2) * 0.5) / 6) * Math.PI * 2
         const c = onTrunk(y, ang, -rig.line * 1.2)
-        parts.push(blob(c, rig.line * 2.6, rig.line * 2.6, rig.line * 2.6, pal.trim, 7, 4).skin(trunkW))
+        parts.push(blob(c, rig.line * 2.6, rig.line * 2.6, rig.line * 2.6, pal.print, 7, 4).skin(trunkW))
       }
     }
   }
@@ -287,20 +301,23 @@ export function buildBody(sheet: Sheet, rig: Rig, pal: Palette): Built {
       const y = mix(yTop, flare.to, u)
       const e = Math.pow(u, 0.8)
       // follow the body down to the hips, then open out
-      const body = trunk(Math.max(y, fy(-0.08)))
-      const rx = mix(Math.max(t0.rx, body.rx) + pad0, hemRx, e)
-      const rz = mix(Math.max(t0.rz, body.rz) + pad0, hemRz, e)
+      const body = trunk(Math.max(y, yLow))
+      // never narrower than the hips and thighs it covers
+      const low = smooth(hipY + rig.thighR * 1.6, hipY + rig.thighR * 0.2, y)
+      const rx = Math.max(mix(Math.max(t0.rx, body.rx) + pad0, hemRx, e), low * (rig.pelvisX * 1.03 + padBottom * 2.2 + rig.line))
+      const rz = Math.max(mix(Math.max(t0.rz, body.rz) + pad0, hemRz, e), low * (Math.max(rig.pelvisX * rig.depth, rig.thighR) + padBottom * 2.2 + rig.line))
       const isTrim = sheet.top.trim && top !== 'coat' && flare.color === pal.top && u > 0.86
       st.push({ p: new THREE.Vector3(0, y, mix(t0.zc, 0, u)), r: rx, rv: rz, c: isTrim ? pal.trim : flare.color })
     }
     const last = st[st.length - 1]
     st.push({ p: last.p.clone(), r: last.r * 0.97, rv: last.rv! * 0.97, c: under })
     st.push({ p: last.p.clone().setY(last.p.y + rig.line), r: last.r * 0.5, rv: last.rv! * 0.5, c: under })
-    const part = tube(st, 24, X)
-    const patterned = st.map((s) => s.c === flare.color)
+    const sharp = crisp(st)
+    const part = tube(sharp, 24, X)
+    const patterned = sharp.map((s) => s.c === flare.color)
     const hipX = j.leftUpperLeg.x
     parts.push(
-      applyPattern(part, flare.color === pal.top ? patterned : [], sheet.top.pattern, pal.top, pal.trim, 24).skin((x, y) => {
+      applyPattern(part, flare.color === pal.top ? patterned : [], sheet.top.pattern, pal.top, pal.print, 24).skin((x, y) => {
         const k = 0.62 * smooth(hipY + torso * 0.05, flare.to, y)
         const l = smooth(-hipX, hipX, x)
         const w = trunkW(x, y).map(([b, v]) => [b, v * (1 - k)] as [number, number])
@@ -324,7 +341,6 @@ export function buildBody(sheet: Sheet, rig: Rig, pal: Palette): Built {
         out.y = yy
       },
       () => c,
-      { keepWinding: true },
     )
   }
   if (top === 'jumper') parts.push(ringAround(yCollar, rig.line, headH * 0.035, pal.trim, headH * 0.02).skin(trunkW))
@@ -356,7 +372,7 @@ export function buildBody(sheet: Sheet, rig: Rig, pal: Palette): Built {
           const y = mix(yEnd, yTop, row / (rows - 1))
           const edge = row === 0 || row === rows - 1 || cc === 0 || cc === cols - 1
           const ang = (cc / (cols - 1) - 0.5) * 2 * half(y)
-          const yy = Math.max(y, fy(-0.12))
+          const yy = Math.max(y, yLow)
           onTrunk(yy, ang, edge ? rig.line * 0.2 : lift, out)
           if (y < yy) {
             // below the trunk the panel hangs straight, a little forward
@@ -367,7 +383,7 @@ export function buildBody(sheet: Sheet, rig: Rig, pal: Palette): Built {
         () => pal.top,
         { wrap: false, keepWinding: true },
       )
-        .flip()
+        .faceOutwardFrom(new THREE.Vector3(0, yWaist, 0))
         .computeNormals()
         .skin((x, y) => {
           const k = 0.45 * smooth(hipY, yEnd, y)
@@ -386,7 +402,7 @@ export function buildBody(sheet: Sheet, rig: Rig, pal: Palette): Built {
   }
 
   /* ───────── arms and hands ───────── */
-  const sleeve = ({ tee: 0.25, shirt: 0.96, jumper: 0.96, dress: 0.2, tunic: 0.8, coat: 0.96, apron: 0.55 } as const)[top]
+  const sleeve = ({ tee: 0.28, shirt: 0.95, jumper: 0.95, dress: 0.28, tunic: 0.95, coat: 0.95, apron: 0.95 } as const)[top]
   const sleevePad = Math.max(padTop, rig.armR * 0.1)
   for (const s of [1, -1]) {
     const side = s > 0 ? 'left' : 'right'
@@ -405,7 +421,7 @@ export function buildBody(sheet: Sheet, rig: Rig, pal: Palette): Built {
     const iu = B[`${side}UpperArm`]
     const il = B[`${side}LowerArm`]
     parts.push(
-      applyPattern(part, patterned, sheet.top.pattern, pal.top, pal.trim, 14).skin((x) => {
+      applyPattern(part, patterned, sheet.top.pattern, pal.top, pal.print, 14).skin((x) => {
         const t = smooth(-w, w, s * (x - elbowX))
         return [
           [iu, 1 - t],
@@ -417,8 +433,8 @@ export function buildBody(sheet: Sheet, rig: Rig, pal: Palette): Built {
     const wrist = j[`${side}Hand`]
     const r = rig.handR
     const ih = B[`${side}Hand`]
-    parts.push(blob(new THREE.Vector3(wrist.x + s * r * 1.05, wrist.y, 0), r * 1.3, r * 0.66, r * 1.02, pal.skin, 12, 7).skin(() => [[ih, 1]]))
-    parts.push(blob(new THREE.Vector3(wrist.x + s * r * 0.75, wrist.y - r * 0.05, r * 0.92), r * 0.6, r * 0.4, r * 0.48, pal.skin, 8, 5).skin(() => [[ih, 1]]))
+    parts.push(blob(new THREE.Vector3(wrist.x + s * r * 0.95, wrist.y, 0), r * 1.22, r * 0.78, r * 1.02, pal.skin, 12, 7).skin(() => [[ih, 1]]))
+    parts.push(blob(new THREE.Vector3(wrist.x + s * r * 0.7, wrist.y - r * 0.05, r * 0.9), r * 0.62, r * 0.46, r * 0.52, pal.skin, 8, 5).skin(() => [[ih, 1]]))
   }
 
   /* ───────── legs and feet ───────── */
@@ -507,20 +523,7 @@ export function buildBody(sheet: Sheet, rig: Rig, pal: Palette): Built {
   /* ───────── head ───────── */
   const C = rig.headC
   const hr = rig.head
-  /** Radius of the head in a direction (an ellipsoid with fuller cheeks for the young). */
-  const headR = (dx: number, dy: number, dz: number) => {
-    const base = 1 / Math.sqrt((dx / hr.x) ** 2 + (dy / hr.y) ** 2 + (dz / hr.z) ** 2)
-    const cheek = rig.stage === 'toddler' ? 0.05 : rig.stage === 'child' ? 0.035 : 0.012
-    const low = Math.exp(-(((dy + 0.42) / 0.3) ** 2))
-    return base * (1 + cheek * low * (0.6 + 0.4 * Math.abs(dx)))
-  }
-  const onHead = (lat: number, lon: number, add: number, out: THREE.Vector3) => {
-    const dx = Math.cos(lat) * Math.sin(lon)
-    const dy = Math.sin(lat)
-    const dz = Math.cos(lat) * Math.cos(lon)
-    const r = headR(dx, dy, dz) + add
-    return out.set(C.x + dx * r, C.y + dy * r, C.z + dz * r)
-  }
+  const { onHead, onFace } = headSurface(rig)
   parts.push(
     grid(
       13,
@@ -537,7 +540,7 @@ export function buildBody(sheet: Sheet, rig: Rig, pal: Palette): Built {
   const hairC = covered ? pal.cover : pal.hair
   type Shell = { edge: (lon: number) => number; thick: (lon: number, s: number) => number; flare?: (drop: number, lon: number) => number }
   /** A shell over the skull: from the crown (s = 0) down to the hairline `edge(lon)`; s > 1 hangs below the ears. */
-  const shell = (sh: Shell, c: THREE.Color, rows = 12, around = 26, weights: (x: number, y: number, z: number) => Weights = hangW) => {
+  const shell = (sh: Shell, c: THREE.Color, rows = 12, around = 26, weights: (x: number, y: number, z: number) => Weights = hangW, tint?: (v: number) => THREE.Color) => {
     const at = (s: number, lon: number, th: number, out: THREE.Vector3) => {
       if (s <= 1) return onHead((1 - s) * (Math.PI / 2), lon, th, out)
       const d = (s - 1) * headH
@@ -560,7 +563,7 @@ export function buildBody(sheet: Sheet, rig: Rig, pal: Palette): Built {
         const th = sh.thick(lon, s) * headH * Math.min(1, 0.55 + v * 6)
         at(s, lon, th, out)
       },
-      () => c,
+      (row) => (tint ? tint((row - 1) / rows) : c),
       { capEnd: true, keepWinding: true },
     )
       .faceOutwardFrom(C)
@@ -603,7 +606,7 @@ export function buildBody(sheet: Sheet, rig: Rig, pal: Palette): Built {
         if (extras.has('hat') && latDeg > 30) continue
         const r = headH * (0.085 + rnd() * 0.03)
         onHead((latDeg + rnd() * 8) * DEG, lon, headH * 0.03, v)
-        parts.push(blob(v.clone(), r, r, r, hairC, 8, 5).skin(headW))
+        parts.push(blob(v.clone(), r, r, r, hairC, 7, 4).skin(headW))
       }
     }
   }
@@ -612,36 +615,55 @@ export function buildBody(sheet: Sheet, rig: Rig, pal: Palette): Built {
     parts.push(shell({ edge: (lon) => base(lon) + fringe(0.03, 7)(lon), thick: () => 0.06, flare: (d) => 1 + 0.07 * Math.sin(Math.min(1, d / 0.46) * Math.PI * 0.9) }, hairC, 14))
   }
   if (hair === 'long') {
-    const base = (lon: number) => line(0.5, 1.6, 2.0, 52, 16)(lon)
+    const base = (lon: number) => line(0.5, 1.72, 2.05, 52, 16)(lon)
     parts.push(shell({ edge: (lon) => base(lon) + fringe(0.04, 2)(lon), thick: () => 0.055, flare: (d) => 1 + 0.05 * Math.min(1, d) }, hairC, 16))
   }
   if (covered) {
     // head cover: a wrap with an opening for the face, falling to the shoulders, closed under the chin
-    const base = line(0.44, 1.78, 1.84, 50, 14)
-    parts.push(shell({ edge: base, thick: () => 0.05, flare: (d) => 1 + 0.16 * smooth(0.25, 0.8, d) }, hairC, 16))
+    // one draped form: over the head, round the face, down onto the shoulders; the front closes under the chin
+    const drop = Math.max(0.78, (C.y - shoulderY) / headH + 0.06)
+    const wide = Math.max(1.12, (rig.chestX * 0.96) / hr.x)
+    const drape = (d: number) => 1 - 0.07 * smooth(0.2, 0.52, d) * smooth(drop, 0.52, d) + (wide - 1) * smooth(0.5, drop, d)
+    const base = line(0.5, 1 + drop, 1 + drop + 0.06, 43, 12)
+    const th = 0.05
+    parts.push(shell({ edge: base, thick: () => th, flare: (d) => drape(d) }, hairC, 16))
+    const st: Station[] = []
+    const n = 8
+    for (let i = 0; i <= n; i++) {
+      const d = mix(0.36, drop + 0.06, i / n)
+      const k = drape(d) * (i === 0 ? 0.55 : i === n ? 0.9 : 1)
+      st.push({ p: new THREE.Vector3(C.x, C.y - d * headH, C.z), r: (hr.x + th * headH) * k, rv: (hr.z + th * headH) * k, c: hairC })
+    }
+    parts.push(tube(st, 26, X).skin(hangW))
+    // the cloth's rounded edge around the face: makes the opening an oval
+    const oval = { cy: rig.eyeY * 0.5 - 0.06, rx: 0.68, ry: 0.72 }
+    const rim = [
+      { f: 1, add: -0.004 },
+      { f: 1.02, add: th * 0.95 },
+      { f: 1.22, add: th * 0.88 },
+      { f: 1.55, add: th * 0.72 },
+    ]
     parts.push(
       grid(
-        9,
-        20,
+        rim.length,
+        28,
         (row, cc, out) => {
-          const u = row / 8
-          const ang = (cc / 20) * Math.PI * 2
-          const y = mix(rig.chinY + headH * 0.2, yCollar - headH * 0.12, u)
-          const k = 1 + 0.5 * Math.sin(u * Math.PI * 0.5)
-          const rx = mix(hr.x * 0.74, Math.max(rig.neckR * 2.1, rig.chestX * 0.8), u) * (u === 0 ? 0.6 : 1)
-          const rz = mix(hr.z * 0.86, Math.max(rig.neckR * 1.9, rig.chestX * rig.depth * 0.86), u) * (u === 0 ? 0.6 : 1)
-          out.set(Math.sin(ang) * rx, y, Math.cos(ang) * rz * (Math.cos(ang) > 0 ? 1 : 0.9) + headH * 0.02 * k)
+          const a = (cc / 28) * Math.PI * 2
+          let fx = Math.cos(a) * oval.rx * rim[row].f
+          let fy = oval.cy + Math.sin(a) * oval.ry * rim[row].f
+          const far = Math.hypot(fx, fy)
+          if (far > 0.96) {
+            fx *= 0.96 / far
+            fy *= 0.96 / far
+          }
+          onFace(fx, fy, rim[row].add * headH, out)
         },
         () => hairC,
-        { capStart: true, capEnd: true },
-      ).skin((x, y) => {
-        const k = smooth(rig.chinY + headH * 0.12, yCollar, y)
-        return [
-          [B.head, (1 - k) * 0.7],
-          [B.neck, 0.3 * (1 - k) + 0.3 * k],
-          [B.chest, 0.7 * k],
-        ]
-      }),
+        { keepWinding: true },
+      )
+        .faceOutwardFrom(C)
+        .computeNormals()
+        .skin(headW),
     )
   }
   if (hair === 'ponytail') {
@@ -693,7 +715,7 @@ export function buildBody(sheet: Sheet, rig: Rig, pal: Palette): Built {
           const a = Math.abs(lon) / span
           const topLat = mix(-37, -4, Math.pow(a, 1.6)) * DEG
           const lat = mix(topLat, -84 * DEG, row / (rows - 1))
-          const edge = row === 0 || cc === 0 || cc === cols - 1
+          const edge = row === 0 || row === rows - 1 || cc === 0 || cc === cols - 1
           const depthK = Math.sin((row / (rows - 1)) * Math.PI * 0.75)
           const th = edge ? -headH * 0.003 : headH * (0.03 + 0.11 * depthK * (1 - a * 0.75))
           onHead(lat, lon, th, out)
@@ -709,7 +731,7 @@ export function buildBody(sheet: Sheet, rig: Rig, pal: Palette): Built {
   }
   if (extras.has('hat')) {
     const brimLat = 33 * DEG
-    parts.push(shell({ edge: () => 1 - brimLat / (Math.PI / 2), thick: (_l, s) => 0.1 + 0.03 * (1 - s) }, pal.hat, 8, 24, headW))
+    parts.push(shell({ edge: () => 1 - brimLat / (Math.PI / 2), thick: (_l, s) => 0.1 + 0.03 * (1 - s) }, pal.hat, 9, 24, headW, (v) => (v > 0.02 && v < 0.2 ? pal.hatBand : pal.hat)))
     const v = new THREE.Vector3()
     const ringRows = 8
     parts.push(
@@ -731,8 +753,6 @@ export function buildBody(sheet: Sheet, rig: Rig, pal: Palette): Built {
         .computeNormals()
         .skin(headW),
     )
-    // band
-    parts.push(shell({ edge: () => 1 - (brimLat + 3 * DEG) / (Math.PI / 2), thick: () => 0.118 }, pal.top, 2, 24, headW))
   }
   if (extras.has('scarf')) {
     parts.push(ringAround(yCollar + headH * 0.02, headH * 0.035, headH * 0.075, pal.scarf, headH * 0.03, 0.85).skin(trunkW))
@@ -744,7 +764,7 @@ export function buildBody(sheet: Sheet, rig: Rig, pal: Palette): Built {
       const p = onTrunk(y, 24 * DEG, headH * 0.035)
       st.push({ p, r: headH * 0.085 * (i === 6 || i === 0 ? 0.7 : 1), rv: headH * 0.03, c: i >= 5 ? tone(pal.scarf, -0.18) : pal.scarf })
     }
-    parts.push(tube(st, 10, X).skin(trunkW))
+    parts.push(tube(crisp(st), 10, X).skin(trunkW))
   }
   if (extras.has('bag')) {
     // a satchel on the left hip with a cord over the right shoulder
@@ -757,9 +777,9 @@ export function buildBody(sheet: Sheet, rig: Rig, pal: Palette): Built {
       const k = Math.pow(1 - Math.pow(Math.abs(2 * u - 1), 4), 0.5)
       st.push({ p: new THREE.Vector3(bx, yBag + (u - 0.5) * size * 1.1, 0.01), r: size * 0.26 * (0.4 + 0.6 * k), rv: size * 0.62 * (0.5 + 0.5 * k), c: u > 0.62 ? tone(pal.bag, -0.2) : pal.bag })
     }
-    parts.push(tube(st, 12, X, { shape: (ang) => [Math.sign(Math.cos(ang)) * Math.pow(Math.abs(Math.cos(ang)), 0.6), Math.sign(Math.sin(ang)) * Math.pow(Math.abs(Math.sin(ang)), 0.6)] }).skin(() => [[B.hips, 1]]))
+    parts.push(tube(crisp(st), 12, X, { shape: (ang) => [Math.sign(Math.cos(ang)) * Math.pow(Math.abs(Math.cos(ang)), 0.6), Math.sign(Math.sin(ang)) * Math.pow(Math.abs(Math.sin(ang)), 0.6)] }).skin(() => [[B.hips, 1]]))
     parts.push(blob(new THREE.Vector3(bx + size * 0.27, yBag + size * 0.1, 0.01), rig.line * 2.2, rig.line * 2.2, rig.line * 2.2, pal.hat, 7, 4).skin(() => [[B.hips, 1]]))
-    const yTop = shoulderY + rig.armR * 0.55
+    const yTop = shoulderY + rig.armR * 0.95
     const cord: Station[] = []
     const n = 28
     for (let i = 0; i <= n; i++) {
@@ -770,26 +790,24 @@ export function buildBody(sheet: Sheet, rig: Rig, pal: Palette): Built {
     }
     parts.push(tube(cord, 6, Y).skin(trunkW))
   }
+  let cane: Built['cane'] = null
   if (extras.has('cane')) {
-    // held in the left hand; in the bind pose the arm points along +x, so the stick does too
+    // hangs from the left hand: built around the grip (the origin), pointing straight down
     const wrist = j.leftHand
     const grip = new THREE.Vector3(wrist.x + rig.handR * 1.0, wrist.y - rig.handR * 0.2, rig.handR * 0.25)
     const len = shoulderY - rig.arm * 0.955 - rig.handR * 1.0
     const r = rig.line * 2.6
-    const st: Station[] = []
-    // crook
-    for (let i = 0; i <= 5; i++) {
-      const a = (i / 5) * Math.PI * 0.9
-      st.push({ p: new THREE.Vector3(grip.x - rig.handR * 0.9 - Math.sin(a) * rig.handR * 0.9, grip.y, grip.z + rig.handR * 0.9 - Math.cos(a) * rig.handR * 0.9 + rig.handR * 0.9), r: r * (i === 0 ? 0.7 : 1), c: pal.wood })
-    }
-    st.reverse()
-    st.push({ p: grip.clone(), r, c: pal.wood })
-    st.push({ p: new THREE.Vector3(grip.x + len * 0.5, grip.y, grip.z), r, c: pal.wood })
-    st.push({ p: new THREE.Vector3(grip.x + len * 0.93, grip.y, grip.z), r: r * 0.9, c: pal.wood })
-    st.push({ p: new THREE.Vector3(grip.x + len * 0.93, grip.y, grip.z), r: r * 1.15, c: pal.ink })
-    st.push({ p: new THREE.Vector3(grip.x + len, grip.y, grip.z), r: r * 1.05, c: pal.ink })
-    parts.push(tube(st, 8, Y).skin(() => [[B.leftHand, 1]]))
+    const h = rig.handR
+    const handle: Station[] = [-0.75, -0.4, 0.3, 1.0, 1.35].map((k, i, all) => ({ p: new THREE.Vector3(0, h * 0.15, h * k), r: r * (i === 0 || i === all.length - 1 ? 0.75 : 1.1), c: pal.wood }))
+    const st: Station[] = [
+      { p: new THREE.Vector3(0, h * 0.15, 0), r, c: pal.wood },
+      { p: new THREE.Vector3(0, -len * 0.5, 0), r, c: pal.wood },
+      { p: new THREE.Vector3(0, -len * 0.93, 0), r: r * 0.9, c: pal.wood },
+      { p: new THREE.Vector3(0, -len * 0.93, 0), r: r * 1.15, c: pal.ink },
+      { p: new THREE.Vector3(0, -len, 0), r: r * 1.05, c: pal.ink },
+    ]
+    cane = { geometry: mergeStatic([tube(handle, 8, Y), tube(st, 8, X)]), grip }
   }
 
-  return { geometry: merge(parts), trunk }
+  return { geometry: merge(parts), trunk, cane }
 }

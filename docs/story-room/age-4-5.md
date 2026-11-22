@@ -58,10 +58,10 @@ because their words carry attached prefixes and endings [D].
 |---|---|---|
 | Total words | 200 to 450 | [D] from the single publishing source: picture books for 4 to 8 at or under 500 words (ages §G); writing guides disagree (200 to 1,000) and are weak sources [U] |
 | Spreads | 12 to 14, plus a cover | [D] from the 32-page picture book (ages §G) |
-| Words per spread | 15 to 40 | [D] |
+| Words per spread | 15 to 40 | [D]. When this and the total disagree, the total wins: 14 spreads of 40 words would break the 450-word cap |
 | Sentence length | usually 5 to 10 words; never more than 14; "because" and "but" sentences welcome | [D] from four-to-six-word sentences with "because" at about 4 (ages §D1) |
 | Plot | one problem, one feeling, one turn, one warm ending; at most one surprise | [D] |
-| Named characters | at most 4; the main child is in every spread | [D] |
+| Characters | at most 4 who speak or move the plot; one named main child who is in every spread (a whole class is never the hero) | [D] |
 | Repetition | a refrain or a pattern of three (three tries, three animals, three days) | [S] AAP: text children can start to memorise and fill in (ages §G) |
 | Rhyme | welcome; when used, place the word to be learned at the rhyme and leave a natural pause before it so the child can guess it | [S] the "Seuss boost" study, 3 to 5 year olds, English: rhyme that made the target word predictable helped word learning, and pausing before it helped most (ages §H; paper read only as a summary, U). Transfer to Arabic, Hebrew and Danish is U: write rhyme natively, never translate it |
 | Questions to the child | one "why", "how" or "what would you do?" moment per story, built into the text or the parent note | [S] ages §G, Reach Out and Read at 4 |
@@ -141,7 +141,8 @@ From the research list (ages §J2, 36 goals). Each group-B story takes exactly o
 | Difference | families and children who look different (34) [S] |
 
 The owner's lessons at this age: **respect for classmates** (B02, listening while a classmate speaks); **respect for
-the elderly** (B14, greeting and giving a seat); **numbers** (B01, counting to ten). As noted in the research, no
+the elderly** (B14, greeting and giving a seat); **numbers** (B01, counting to ten). **Being good to one's mother**
+has no group-B story: it is in A03 and C03, and a third "help Mama" plot would repeat their shape. As noted in the research, no
 trusted source names respect for elders or for classmates as a goal by itself [ages §M]; at this age we build them on
 "kindness and respect for others" and "constructive and respectful relationships", which are sourced [S, ages §J2
 item 10].
@@ -168,11 +169,13 @@ allergens.
 - [ ] Dyes or inks that stain the mouth [S, safety §3]
 - [ ] Chicks, reptiles, frogs, rodents [S, safety §1.11]
 - [ ] Plastic bags; string tied to anything a child can pull around a body part [S, safety §3; D for the string rule]
+- [ ] Raw flour and raw-flour dough, including craft and play dough [S, CDC "Raw Flour and Dough": untreated flour can carry E. coli; checked in the review, outside our research files]
 
 **Safe materials for group B** (everything in the group-A list, plus) [D, safety §2]
 Blunt child scissors with thick paper, washable glue stick or white glue with the AP seal, cardboard offcuts,
 yoghurt pots, paper cups, egg cartons (rinsed; check egg allergy), leaves, sticks and pebbles the size of a fist or
-bigger collected with an adult, homemade dough (flour and salt; wheat allergy note; not for eating), washable markers,
+bigger collected with an adult, dough only when the adult has cooked it or heat-treated the flour beforehand (never
+raw-flour dough: CDC "Raw Flour and Dough"; wheat allergy note; not for eating), washable markers,
 chalk, coloured tape, sponges, spoons and funnels, cotton wool, string no longer than a hand span tied only by the
 adult, clothes pegs.
 

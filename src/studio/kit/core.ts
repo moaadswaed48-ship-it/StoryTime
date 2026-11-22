@@ -9,7 +9,7 @@
  * air). Drawings hand it plain shapes and sheet colours; it decides how they look.
  */
 import { mulberry32 } from '@/lib/seeded'
-import { mixHex, mulHex } from '../style/color'
+import { luma, mixHex, mulHex } from '../style/color'
 import { GOUACHE, MOODS, tune, type Mood, type StyleProfile } from '../style/profile'
 
 export { mixHex }
@@ -236,6 +236,23 @@ export function limbPath(a: Pt, j: Pt, b: Pt, w0: number, wj: number, w1: number
     L.push(pts[i].x + nx * h, pts[i].y + ny * h)
     R.push(pts[i].x - nx * h, pts[i].y - ny * h)
   }
+  // at a sharp bend the inner edge would double back on itself and leave a loop: any point that goes backwards
+  // along the limb is pulled onto the last good one, so the inside of an elbow is a clean corner
+  for (const side of [L, R]) {
+    let kx = side[0]
+    let ky = side[1]
+    for (let i = 1; i < n; i++) {
+      const p = pts[Math.max(0, i - 1)]
+      const q = pts[Math.min(n - 1, i + 1)]
+      if ((side[i * 2] - kx) * (q.x - p.x) + (side[i * 2 + 1] - ky) * (q.y - p.y) <= 0) {
+        side[i * 2] = kx
+        side[i * 2 + 1] = ky
+      } else {
+        kx = side[i * 2]
+        ky = side[i * 2 + 1]
+      }
+    }
+  }
   const out = new Path2D()
   out.moveTo(L[0], L[1])
   for (let i = 1; i < n; i++) out.lineTo(L[i * 2], L[i * 2 + 1])
@@ -261,6 +278,8 @@ export type ShapeOpts = {
   hi?: number
   /** A contour colour other than the one the profile derives. */
   ink?: string
+  /** false = no paint texture (tiny things, eyes). */
+  tex?: boolean
   /** Drawn inside the shape, over the fill and under the shadow (patterns, markings). */
   over?: () => void
 }
@@ -384,6 +403,16 @@ export class Painter {
     }
     c.fillStyle = this.col(color)
     c.fill(path)
+    if (st.texture.speckle > 0 && o.tex !== false) {
+      // the paint itself: dry-brush streaks that belong to the shape and move with it
+      const pat = brushPattern(c)
+      if (pat) {
+        c.globalAlpha = st.texture.speckle * (1 - 0.5 * this.depth) * (0.3 + 0.7 * luma(c.fillStyle as string))
+        c.fillStyle = pat
+        c.fill(path)
+        c.globalAlpha = 1
+      }
+    }
     const d = st.shade.model === 'crescent' ? (o.shade ?? 1) * st.shade.offset * (1 - 0.5 * this.depth) : 0
     const hi = d > 0 ? (o.hi ?? 1) * st.shade.hi : 0
     if (!o.over && d <= 0) return
@@ -574,7 +603,7 @@ export class Painter {
       const px = x + r[i * 4] * w
       const py = y + r[i * 4 + 1] * h
       const len = (5 + r[i * 4 + 2] * 16) * size
-      c.globalAlpha = 0.16 + 0.2 * r[i * 4 + 3]
+      c.globalAlpha = 0.08 + 0.13 * r[i * 4 + 3]
       c.strokeStyle = r[i * 4 + 3] > 0.5 ? light : dark
       c.lineWidth = (1.6 + r[i * 4 + 2] * 2.4) * size
       c.beginPath()
@@ -584,6 +613,41 @@ export class Painter {
     }
     c.restore()
   }
+}
+
+let brushTile: HTMLCanvasElement | null = null
+const PATTERNS = new WeakMap<CanvasRenderingContext2D, CanvasPattern>()
+/** A tile of dry-brush streaks (lighter and darker dabs, mostly along one direction), used inside every painted shape. */
+function brushPattern(c: CanvasRenderingContext2D): CanvasPattern | null {
+  let pat = PATTERNS.get(c)
+  if (pat) return pat
+  if (!brushTile) {
+    const n = 320
+    brushTile = document.createElement('canvas')
+    brushTile.width = brushTile.height = n
+    const g = brushTile.getContext('2d')!
+    const r = mulberry32(9041)
+    g.lineCap = 'round'
+    for (let i = 0; i < 520; i++) {
+      const x = r() * n
+      const y = r() * n
+      const len = 14 + r() * 46
+      const a = -0.2 + (r() - 0.5) * 1.1
+      const light = r() > 0.5
+      g.strokeStyle = light ? `rgba(255,246,222,${0.05 + r() * 0.1})` : `rgba(70,40,90,${0.04 + r() * 0.08})`
+      g.lineWidth = 1.5 + r() * 5
+      // drawn nine times round the tile so streaks cross its edges and the tile repeats without a seam
+      for (const ox of [-n, 0, n]) for (const oy of [-n, 0, n]) {
+        g.beginPath()
+        g.moveTo(x + ox, y + oy)
+        g.lineTo(x + ox + Math.cos(a) * len, y + oy + Math.sin(a) * len)
+        g.stroke()
+      }
+    }
+  }
+  pat = c.createPattern(brushTile, 'repeat') ?? undefined
+  if (pat) PATTERNS.set(c, pat)
+  return pat ?? null
 }
 
 // ── paper ─────────────────────────────────────────────────────────────────────

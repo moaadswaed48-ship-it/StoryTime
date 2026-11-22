@@ -69,11 +69,13 @@ Danish "du" is neutral and is the normal way to address any adult.
 
 ## 5. Numerals
 
-1. In story text, numbers are words ("tre både"). Note the Danish tens from fifty upward (halvtreds, tres, halvfjerds,
-   firs, halvfems): in group C maths stories above twenty, write digits and check how the voice reads them [D].
+1. In story text, numbers are words ("tre både"), in every group; no story counts above thirty. If a later story goes
+   past fifty, the Danish tens (halvtreds, tres, halvfjerds, firs, halvfems) are still written as words and checked
+   with the voice [D].
 2. Clock times in group C: words in the text ("klokken fire", "halv fem"). Warn the writer: Danish "halv fem" means
    4:30, which differs from English "half five" in some regions; the picture must show the same time as the text [D].
-3. Films carry no digits or words inside the picture (master plan §7).
+3. Digits never appear inside any picture or film (master plan §7): clock faces carry twelve marks, countdowns are
+   shrinking dots. Digits appear only in adult-facing activity text.
 
 ---
 
@@ -82,7 +84,8 @@ Danish "du" is neutral and is the normal way to address any adult.
 1. Dialogue in »guillemets pointing inward«, with the speaker named when needed ("sagde Lina") [D].
 2. Commas follow Dansk Sprognævn's current rules; we write without the optional start comma [U: confirm the current
    rule with the editor].
-3. No semicolons in groups A and B; at most one exclamation mark per spread.
+3. No semicolons in groups A and B. Exclamation marks: at most one exclamation mark per spread in groups B and C. In group A, sound words and short calls may each carry
+   one (Splash! Found you!), never more than one per sentence [D].
 4. No hyphenation across lines in the book.
 
 ---
@@ -126,6 +129,6 @@ picture world built for Israel's landscapes; the Danish text does not explain or
 - [ ] 5. Every line of dialogue has a clear speaker; »guillemets« used.
 - [ ] 6. Adults are addressed with du, I, "den voksne" or "forælder eller pædagog"; no assumed mother or father.
 - [ ] 7. Names match the ledger, with the Danish spelling adaptations (J for Y).
-- [ ] 8. Numbers are words; group-C digits only where the digits are the lesson; clock times match the pictures.
+- [ ] 8. Numbers are words in every group; clock times are words and match the twelve-mark clock in the picture.
 - [ ] 9. Punctuation follows section 6.
 - [ ] 10. Nothing in sections 7 and 8 is broken: no holiday, no excluded food, no shaming label, no "klog" praise.

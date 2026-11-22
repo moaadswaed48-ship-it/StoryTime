@@ -93,7 +93,7 @@ Start from the full layer and delete, in this order:
 | L5 | All marks on the article ال, and the shadda on the sun letter right after it. | |
 | L6 | The vowel that sits on a shadda. | The shadda itself (everywhere except L5). |
 | L7 | The kasra under إ. | The fatha or damma on أ (it tells أَ from أُ). |
-| L8 | All marks on these function words and on one-letter prefixes (وَ فَ بِ لِ كَ): في، على، إلى، عن، مع، هو، هي، هم، هما، أنا، نحن، أنتم، هذا، هذه، ذلك، تلك، هنا، هناك، كان، كانت، قال، قالت، يا، لا، ما، لم، لن، أن، إن، ثم، أو، كل، الذي، التي، قد، حتى | A shadda (ثمّ، كلّ، أنّ، إنّ) and the L2 gender endings (أنتِ). **من is not on the list:** it keeps its first vowel, because مِن (from) and مَن (who) differ. |
+| L8 | All marks on these function words and on one-letter prefixes (وَ فَ بِ لِ كَ): في، على، إلى، عن، مع، هو، هي، هم، هما، أنا، نحن، أنتَ، أنتِ، أنتم، هذا، هذه، ذلك، تلك، هنا، هناك، كان، كانت، قال، قالت، يا، لا، ما، لم، لن، أن، إن، ثم، أو، كل، الذي، التي، قد، حتى | A shadda (ثمّ، كلّ، أنّ، إنّ) and the L2 gender endings (أنتِ). **من is not on the list:** it keeps its first vowel, because مِن (from) and مَن (who) differ. |
 
 Everything else stays: the short vowels inside each word, every other shadda, and every hamza with its seat.
 
@@ -118,7 +118,7 @@ the shadda, L3 deletes the fatha before ا. إِلَى: L8. السُّوقْ: L5
 |---|---|---|
 | A (2 to 3) | light | an adult reads aloud; the child does not read [S, ages §H inference by the researcher] |
 | B (4 to 5) | light | the same |
-| C (6 to 8) | light by default, plus an "I read by myself" switch (أَقْرَأُ وَحْدي) that shows the full layer | children begin to read at 6 and full marks help beginners [S, vowels §1]; the owner does not want mosquito-covered pages [owner F4]. **This default is one of the decisions most in need of the native editor's view.** |
+| C (6 to 8) | light by default, plus an "I read by myself" switch (أَقْرَأُ وَحْدي) that shows the full layer | children begin to read at 6 and full marks help beginners [S, vowels §1]; the owner does not want mosquito-covered pages [owner F4]. **This default is one of the decisions most in need of the native editor's view.** The research's own working convention recommends the full layer for beginning readers in grades 1 and 2 (vowels §1; ages §H), so this default departs from it on purpose, for the owner's request (F4). If the editor sides with the research, flip the default to the full layer; nothing else changes. |
 
 The voice always reads the full layer (master plan §6, Stage 6).
 
@@ -182,9 +182,10 @@ Arabic marks gender in "you". Project rule 5 requires that we never assume the r
 ## 6. Numerals
 
 1. In story text, numbers are words, fully marked (F10). This helps the voice and teaches the number words [D].
-2. Digits appear only where digits are the point (a clock face, a counting activity). Which digit shapes to use,
-   Eastern Arabic (٣) or Western (3), is an open question for the native editor; until it is decided, book pictures
-   show quantities as objects, not digits, and films carry no words or digits inside the picture (master plan §7).
+2. Digits never appear in story text or inside any picture or film (master plan §7): clock faces carry twelve marks,
+   charts carry ticks, countdowns are shrinking dots. Digits appear only in adult-facing activity text ("10 to 20
+   cups"). Which digit shapes that text uses, Eastern Arabic (٣) or Western (3), is an open question for the native
+   editor.
 3. Counting aloud in a refrain uses the counting forms: واحِد، اثْنان، ثَلاثَة... [D, editor to confirm].
 
 ---
@@ -199,6 +200,8 @@ Arabic marks gender in "you". Project rule 5 requires that we never assume the r
 4. Text is real text (never an image), right-to-left, with logical CSS (start and end), set with the rtl-typesetting
    skill and a font whose marks sit clearly above and below the letters.
 5. Never insert anything between a letter and its marks.
+6. Exclamation marks: at most one exclamation mark per spread in groups B and C. In group A, sound words and short calls may each carry
+   one (Splash! Found you!), never more than one per sentence [D].
 
 ---
 
@@ -231,7 +234,8 @@ in Arabic, Hebrew, English and Danish (master plan §3.7).
 5. **Families** are mother and father, single parent, grandparents raising a child, big families, small families [S,
    ages §J2 item 34 for "families that look different"; the limits of what to show are our judgement, D].
 6. **Animals:** no pigs; dogs appear outdoors and are not shown licking faces [D].
-7. **Nature and seasons** follow the local year: rain in winter, anemones in spring, sea and heat in summer, first
+7. **No weekday names** (الجمعة، السبت، الأحد mark a day of rest for one community or another); write "one morning" [D].
+8. **Nature and seasons** follow the local year: rain in winter, anemones in spring, sea and heat in summer, first
    rain and migrating birds in autumn. Snow only in the hills, rarely.
 
 ---

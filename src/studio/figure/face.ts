@@ -37,9 +37,9 @@ type HairCtx = { P: Painter; s: Sheet; g: Rig; p: Pose; R: number; Ry: number; f
 function cap(h: HairCtx, side: number, line: number[], lift = 1.07): Path2D {
   const { R, Ry } = h
   const p = new Path2D()
-  p.moveTo(R * 1.05, side)
-  p.bezierCurveTo(R * 1.16, -Ry * 0.66, R * 0.66, -Ry * lift, 0, -Ry * lift)
-  p.bezierCurveTo(-R * 0.66, -Ry * lift, -R * 1.16, -Ry * 0.66, -R * 1.05, side)
+  p.moveTo(-R * 1.05, side)
+  p.bezierCurveTo(-R * 1.16, -Ry * 0.66, -R * 0.66, -Ry * lift, 0, -Ry * lift)
+  p.bezierCurveTo(R * 0.66, -Ry * lift, R * 1.16, -Ry * 0.66, R * 1.05, side)
   for (let i = 0; i < line.length; i += 4) p.quadraticCurveTo(line[i], line[i + 1], line[i + 2], line[i + 3])
   p.closePath()
   return p

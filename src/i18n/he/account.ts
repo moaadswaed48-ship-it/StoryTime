@@ -62,7 +62,7 @@ export default {
   },
   errors: {
     emailTaken: 'כבר קיים חשבון עם כתובת הדוא״ל הזו.',
-    invalidEmail: 'יש להזין כתובת דוא״ל, למשל name@example.com.',
+    invalidEmail: 'יש להזין כתובת דוא״ל, למשל ⁨name@example.com⁩.',
     weakPassword: 'יש להשתמש ב־8 תווים לפחות.',
     wrongCredentials: 'כתובת הדוא״ל או הסיסמה שגויות. כדאי לבדוק את שתיהן ולנסות שוב.',
     unconfirmed: 'כתובת הדוא״ל עדיין לא אושרה. יש לפתוח את הקישור ששלחנו, או לבקש קישור חדש.',
@@ -99,7 +99,6 @@ export default {
   onboarding: {
     stepOf: 'שלב {n} מתוך {total}',
     skip: 'דילוג',
-    roleTitle: 'מי ישתמש ב־StoryTime?',
     languageTitle: 'באיזו שפה יוצגו הסיפורים?',
     languageLead: 'טקסט הסיפור, הקול והכתוביות יהיו בשפה הזו. אפשר לשנות אחר כך בהגדרות.',
     ageTitle: 'איזו קבוצת גיל?',

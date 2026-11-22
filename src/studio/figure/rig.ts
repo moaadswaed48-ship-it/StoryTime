@@ -185,8 +185,9 @@ function ik(sx: number, sy: number, tx: number, ty: number, l1: number, l2: numb
 /** Where every joint is. `sc` is the scale the figure is drawn at (needed to bring world targets into local units). */
 export function solve(g: Rig, p: Pose, sc = 1): Skeleton {
   const legLen = g.legU + g.legL
-  const stand = g.footH + legLen * (1 - 0.42 * p.crouch)
-  const seated = p.seat > 0.02 ? p.seat * legLen + g.legW0 * 0.25 : g.legW0 * 0.52
+  const heel = p.tip * g.footL * 0.36
+  const stand = g.footH + heel + legLen * (1 - 0.42 * p.crouch)
+  const seated = p.seat > 0.02 ? g.footH + p.seat * legLen + g.legW0 * 0.3 : g.legW0 * 0.52
   const hipH = stand + (seated - stand) * p.sit
   const hip = { x: p.hipx * g.shW, y: -hipH }
   const sl = Math.sin(p.lean)
@@ -196,8 +197,8 @@ export function solve(g: Rig, p: Pose, sc = 1): Skeleton {
   const shR = { x: chest.x - cl * g.shJ - sl * g.shDrop, y: chest.y - sl * g.shJ + cl * g.shDrop }
   const shL = { x: chest.x + cl * g.shJ - sl * g.shDrop, y: chest.y + sl * g.shJ + cl * g.shDrop }
   const headAngle = p.lean * 0.5 + p.tilt
-  const nk = g.neck * (1 - 0.5 * p.pitch)
-  const head = { x: chest.x + Math.sin(headAngle) * nk, y: chest.y - Math.cos(headAngle) * nk + p.pitch * g.headRy * 0.7 }
+  const nk = g.neck * (1 - 0.3 * p.pitch)
+  const head = { x: chest.x + Math.sin(headAngle) * nk, y: chest.y - Math.cos(headAngle) * nk + p.pitch * g.headRy * 0.42 }
   const ch = Math.cos(headAngle)
   const sh = Math.sin(headAngle)
 
@@ -249,13 +250,13 @@ export function solve(g: Rig, p: Pose, sc = 1): Skeleton {
   const leg = (hj: Pt, side: number, fx: number, fy: number) => {
     if (p.sit > 0.5) {
       // on a seat: the thigh comes toward the viewer (short), the shin hangs from the knee; feet dangle if they do not reach
-      const kn = { x: hj.x + side * g.legW0 * 0.3, y: hj.y + g.legU * 0.26 }
+      const kn = { x: hj.x + side * g.legW0 * 0.4, y: hj.y + g.legW0 * 0.45 }
       return { j: kn, e: { x: kn.x + fx * legLen, y: Math.min(-g.footH, kn.y + g.legL) - fy * legLen } }
     }
     // knees point the way the shoes do; facing us, each knee goes out to its own side
     const d = Math.max(-1, Math.min(1, p.toe * 3.3))
     const dir = d + side * (1 - Math.abs(d))
-    return ik(hj.x, hj.y, side * g.stance + fx * legLen, -g.footH - fy * legLen, g.legU * 1.03, g.legL * 1.03, -1, legLen * 0.3, (jx, _jy, mx) => dir * (jx - mx))
+    return ik(hj.x, hj.y, side * g.stance + fx * legLen, -g.footH - heel - fy * legLen, g.legU * 1.03, g.legL * 1.03, -1, legLen * 0.3, (jx, _jy, mx) => dir * (jx - mx))
   }
   const LR = leg(hjR, -1, p.rfx, p.rfy)
   const LL = leg(hjL, 1, p.lfx, p.lfy)

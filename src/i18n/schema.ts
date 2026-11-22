@@ -156,7 +156,6 @@ export type AccountDict = {
   onboarding: {
     stepOf: string
     skip: string
-    roleTitle: string
     languageTitle: string
     languageLead: string
     ageTitle: string

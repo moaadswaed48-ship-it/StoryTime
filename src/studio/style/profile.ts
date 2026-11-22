@@ -85,9 +85,9 @@ export const GOUACHE: StyleProfile = {
   line: { weight: 2.1, heavy: 0.75, ink: '#3a2238', mix: 0.6, detail: 0.85, scaling: 0.62 },
   shade: { model: 'crescent', offset: 7, tint: '#8c6fa3', depth: 0.62, hi: 0.34, light: '#fff3d6', lift: 0.3 },
   light: { x: -0.74, y: -0.67 },
-  cast: { tint: '#6b4f8f', alpha: 0.3, skew: 0.5, flat: 0.2 },
+  cast: { tint: '#6b4f8f', alpha: 0.3, skew: 0.42, flat: 0.13 },
   texture: { grain: 0.55, mottle: 0.5, speckle: 0.6 },
-  proportions: { head: 1.16, eyes: 1, hands: 1.08, feet: 1.05, limb: 1, cheeks: 1 },
+  proportions: { head: 1.16, eyes: 1.04, hands: 0.94, feet: 1, limb: 1, cheeks: 1 },
   palette: { paper: '#f8efdc', saturation: 0.94, warm: '#f2c58c', warmth: 0.06, floor: 0.14, ceil: 0.95, haze: '#dfe6e6', hazeK: 0.62 },
 }
 
@@ -101,7 +101,7 @@ export const INK: StyleProfile = {
   line: { weight: 3.4, heavy: 0.2, ink: '#221a2c', mix: 0.96, detail: 0.7, scaling: 0.8 },
   shade: { model: 'flat', offset: 0, tint: '#7a6a9a', depth: 0, hi: 0, light: '#ffffff', lift: 0 },
   light: { x: -0.74, y: -0.67 },
-  cast: { tint: '#3f3a6b', alpha: 0.22, skew: 0.5, flat: 0.2 },
+  cast: { tint: '#3f3a6b', alpha: 0.22, skew: 0.42, flat: 0.13 },
   texture: { grain: 0.25, mottle: 0.1, speckle: 0.2 },
   proportions: { head: 1.3, eyes: 1.25, hands: 1.15, feet: 1.15, limb: 0.92, cheeks: 0.8 },
   palette: { paper: '#fbf7ee', saturation: 1.12, warm: '#ffe9c9', warmth: 0.02, floor: 0.12, ceil: 0.97, haze: '#e7ecef', hazeK: 0.55 },

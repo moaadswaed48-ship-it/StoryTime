@@ -67,21 +67,27 @@ export class Part {
     return this
   }
 
-  /** Turns the triangles to face outward (closed or nearly closed forms only). */
-  faceOutward() {
+  /** Turns the triangles to face outward. Closed forms need no origin; an open shell is judged from `origin` (a point inside it). */
+  faceOutward(origin?: THREE.Vector3) {
     const p = this.pos
     let cx = 0
     let cy = 0
     let cz = 0
-    for (let i = 0; i < p.length; i += 3) {
-      cx += p[i]
-      cy += p[i + 1]
-      cz += p[i + 2]
+    if (origin) {
+      cx = origin.x
+      cy = origin.y
+      cz = origin.z
+    } else {
+      for (let i = 0; i < p.length; i += 3) {
+        cx += p[i]
+        cy += p[i + 1]
+        cz += p[i + 2]
+      }
+      const n = this.count || 1
+      cx /= n
+      cy /= n
+      cz /= n
     }
-    const n = this.count || 1
-    cx /= n
-    cy /= n
-    cz /= n
     let vol = 0
     for (let t = 0; t < this.idx.length; t += 3) {
       const a = this.idx[t] * 3
@@ -100,6 +106,10 @@ export class Part {
     }
     if (vol < 0) this.flip()
     return this
+  }
+
+  faceOutwardFrom(origin: THREE.Vector3) {
+    return this.faceOutward(origin)
   }
 
   flip() {
@@ -128,23 +138,27 @@ export class Part {
     return this
   }
 
-  /** Gives every triangle its own flat colour (cloth patterns); normals stay smooth. */
+  /** Gives the triangles of chosen cells their own flat colour (cloth patterns); normals stay smooth. */
   paintCells(colorOf: (row: number, col: number) => THREE.Color | null) {
-    const out = new Part()
-    out.nrm = []
+    const idx: number[] = []
     for (let t = 0; t < this.idx.length; t += 3) {
       const [r, c] = this.cells[t / 3] ?? [0, 0]
       const paint = colorOf(r, c)
+      if (!paint) {
+        idx.push(this.idx[t], this.idx[t + 1], this.idx[t + 2])
+        continue
+      }
       for (let k = 0; k < 3; k++) {
         const v = this.idx[t + k] * 3
-        out.pos.push(this.pos[v], this.pos[v + 1], this.pos[v + 2])
-        out.nrm.push(this.nrm[v], this.nrm[v + 1], this.nrm[v + 2])
-        if (paint) out.col.push(paint.r, paint.g, paint.b)
-        else out.col.push(this.col[v], this.col[v + 1], this.col[v + 2])
-        out.idx.push(out.count - 1)
+        this.pos.push(this.pos[v], this.pos[v + 1], this.pos[v + 2])
+        this.nrm.push(this.nrm[v], this.nrm[v + 1], this.nrm[v + 2])
+        this.col.push(paint.r, paint.g, paint.b)
+        idx.push(this.count - 1)
       }
     }
-    return out
+    this.idx = idx
+    this.cells = []
+    return this
   }
 }
 
@@ -248,12 +262,23 @@ export function tube(st: Station[], around: number, side: THREE.Vector3, opts: {
   )
 }
 
+/** Makes colour changes along a tube sharp: where two neighbours differ in colour, the edge sits at the later one. */
+export function crisp(st: Station[]): Station[] {
+  const out: Station[] = []
+  st.forEach((s, i) => {
+    const prev = st[i - 1]
+    if (prev && prev.c !== s.c && !prev.c.equals(s.c) && prev.p.distanceToSquared(s.p) > 1e-10) out.push({ ...s, c: prev.c })
+    out.push(s)
+  })
+  return out
+}
+
 /** Stations that round a tube end at `p`: from the tip (`dir` points out of the tube) back to the full radius. */
-export function roundEnd(p: THREE.Vector3, dir: THREE.Vector3, r: number, c: THREE.Color, start: boolean, rv?: number, steps = 4): Station[] {
+export function roundEnd(p: THREE.Vector3, dir: THREE.Vector3, r: number, c: THREE.Color, start: boolean, rv?: number, steps = 4, depth = r): Station[] {
   const out: Station[] = []
   for (let i = 0; i < steps; i++) {
     const a = ((i + 0.35) / (steps + 0.35)) * (Math.PI / 2)
-    out.push({ p: p.clone().addScaledVector(dir, Math.cos(a) * r), r: Math.sin(a) * r, rv: rv === undefined ? undefined : Math.sin(a) * rv, c })
+    out.push({ p: p.clone().addScaledVector(dir, Math.cos(a) * depth), r: Math.sin(a) * r, rv: rv === undefined ? undefined : Math.sin(a) * rv, c })
   }
   out.push({ p: p.clone(), r, rv, c })
   return start ? out : out.reverse()
@@ -308,6 +333,27 @@ export function merge(parts: Part[]): THREE.BufferGeometry {
   g.setAttribute('skinIndex', new THREE.BufferAttribute(si, 4))
   g.setAttribute('skinWeight', new THREE.BufferAttribute(sw, 4))
   g.setIndex(new THREE.BufferAttribute(idx, 1))
+  return g
+}
+
+/** Merges parts into one plain (unskinned) geometry: props and face details. */
+export function mergeStatic(parts: Part[]): THREE.BufferGeometry {
+  const pos: number[] = []
+  const nrm: number[] = []
+  const col: number[] = []
+  const idx: number[] = []
+  for (const p of parts) {
+    const base = pos.length / 3
+    pos.push(...p.pos)
+    nrm.push(...p.nrm)
+    col.push(...p.col)
+    for (const i of p.idx) idx.push(i + base)
+  }
+  const g = new THREE.BufferGeometry()
+  g.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3))
+  g.setAttribute('normal', new THREE.Float32BufferAttribute(nrm, 3))
+  g.setAttribute('color', new THREE.Float32BufferAttribute(col, 3))
+  g.setIndex(idx)
   return g
 }
 

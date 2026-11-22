@@ -1,37 +1,21 @@
 /**
- * What every scene of a film is made with, beyond the puppets and the set: the shape of a scene, its words on
- * screen, blinks, the smoothing of elbows and knees, and the one routine that draws a world under hard lights
- * (day and night either side of a line, with warm pools of lamp- or eye-light inside the night).
- * Carried from the old build's Moon film kit; the Moon story and its rover character were left behind.
+ * Acting helpers every scene shares: blinks, hops, laughter, walking, the smoothing of elbows, and the words of a
+ * narrator's line cut into phrases. Carried from the old build's film kit and rewritten for the character builder
+ * (any sheet, poses in the figure's own proportions); the Moon film's day-and-night lighting was left behind.
  */
-import { Painter, STAGE_W, ellipse, hopArc, ramp, type Light } from './core'
-import { drawPerson, skeleton, type PersonOpts, type Pose, type Who } from './people'
-import { dayRegion, lineX, nightRegion, type Terminator } from './world'
+import type { Sheet } from '@/cast/sheet'
+import type { Pose } from '../figure/pose'
+import { rigOf, solve } from '../figure/rig'
+import type { StyleProfile } from '../style/profile'
+import { Painter, hopArc, ramp } from './core'
 
 /** Words on screen at one moment: how visible the line is, and each of its phrases (0…1), all from the time alone. */
 export type Caption = { id: string; words: string[]; alpha: number; alphas: number[] }
-/** One note of the score, in scene time. */
+/** One note of a score, in scene time. */
 export type Note = { t: number; f: number; d: number; v: number; wave?: OscillatorType; to?: number; attack?: number }
-export type Joints = Record<string, { x: number; y: number }>
-
-/** A scene: a pure function of its own time (seconds from its first frame). */
-export type SceneDef = {
-  /** Scene number in the story (1-based). */
-  n: number
-  duration: number
-  /** Where each shot starts (the first is 0). */
-  shots: number[]
-  render: (P: Painter, t: number) => void
-  caption: (t: number) => Caption | null
-  /** Where every joint is, for the pop check. */
-  joints: (t: number) => Joints
-  score: Note[]
-  /** true = the next scene carries straight on from this one's last frame: a plain cut, no dip to black. */
-  joins?: boolean
-}
 
 // ── words ─────────────────────────────────────────────────────────────────────
-/** A cue line (the narrator's line, verbatim from the story), cut into phrases of the given word counts. */
+/** A narrator's line (verbatim from the story), cut into phrases of the given word counts. */
 export function cuePhrases(line: string, counts: number[]): string[] {
   const words = line.split(' ')
   const out: string[] = []
@@ -51,16 +35,16 @@ export function phraseCaption(id: string, phrases: string[], at: number[], t: nu
   return { id, words: phrases, alpha: ramp(t, at[0] - 0.1, at[0] + 0.2) * out, alphas: at.map((a) => ramp(t, a, a + 0.3)) }
 }
 
-// ── acting helpers ────────────────────────────────────────────────────────────
+// ── acting ────────────────────────────────────────────────────────────────────
 /** 0 → open, 1 → shut: a quick blink at each of the given times. */
 export const blinkAt = (times: number[], t: number) => {
-  for (const b of times) if (t >= b && t < b + 0.15) return 1 - Math.abs(((t - b) / 0.15) * 2 - 1) > 0.3 ? 1 : 0.5
+  for (const b of times) if (t >= b && t < b + 0.17) return 1
   return 0
 }
 
 /**
- * Add low-gravity hops to a pose: each is [take-off time, seconds in the air, height, anticipation]. `give` scales
- * the crouch and squash that go with them (the teacher, twice the children's height, bends far less).
+ * Add hops to a pose: each is [take-off time, seconds in the air, height in body heights, anticipation].
+ * `give` scales the crouch and squash that go with them (a grown-up bends far less than a child).
  */
 export function addHops(p: Pose, t: number, hops: [number, number, number, number?][], give = 1) {
   for (const [t0, air, h, ant] of hops) {
@@ -72,103 +56,47 @@ export function addHops(p: Pose, t: number, hops: [number, number, number, numbe
 }
 
 /** Shoulders shaking with laughter between t0 and t1 (multiply a pose's `sq` by this). */
-export const laugh = (t: number, t0: number, t1: number, f = 23) => 1 + 0.032 * ramp(t, t0, t0 + 0.2) * (1 - ramp(t, t1 - 0.3, t1)) * Math.sin((t - t0) * f)
+export const laugh = (t: number, t0: number, t1: number, f = 23) => 1 + 0.03 * ramp(t, t0, t0 + 0.2) * (1 - ramp(t, t1 - 0.3, t1)) * Math.sin((t - t0) * f)
+
+/**
+ * Walking: lays one step cycle over a pose. `phase` counts steps (it rises by 1 for each stride), `dir` is +1
+ * toward screen right or −1; `stride` is the reach of a step in leg lengths. The feet swap, the arms swing against
+ * them, the body dips a little at each footfall.
+ */
+export function addWalk(p: Pose, phase: number, dir: number, stride = 0.26, amount = 1) {
+  const a = phase * Math.PI * 2
+  const s = Math.sin(a)
+  const c = Math.cos(a)
+  p.toe = dir * amount
+  p.rfx += s * stride * dir * amount
+  p.lfx += -s * stride * dir * amount
+  p.rfy += Math.max(0, c) * 0.12 * amount
+  p.lfy += Math.max(0, -c) * 0.12 * amount
+  p.crouch += 0.05 * (0.5 - 0.5 * Math.cos(a * 2)) * amount
+  p.rx += -s * 0.16 * dir * amount * -1
+  p.lx += -s * 0.16 * dir * amount
+  p.lean += dir * 0.04 * amount
+  p.turn += dir * 0.45 * amount
+  p.swing += s * 0.25 * amount
+}
 
 const NEAR = [-0.1, -0.05, 0, 0.05, 0.1]
 /**
- * Everyone's pose at time t, with each elbow and knee bent the way the rig would choose averaged over a fifth of a
- * second around t: when a moving arm makes the choice switch sides, the joint glides across instead of flipping.
+ * A pose at time t with each elbow bent the way the rig would choose averaged over a fifth of a second around t:
+ * when a moving arm makes the choice switch sides, the elbow glides across instead of flipping.
  */
-export function smoothBends<C extends Partial<Record<Who, Pose>>>(raw: (t: number) => C, t: number): C {
-  const c = raw(t)
-  const near = NEAR.map((d) => (d === 0 ? c : raw(t + d)))
-  for (const who of ['sari', 'amir', 'layla'] as const) {
-    const p = c[who]
-    if (!p) continue
-    const sum = [0, 0, 0, 0]
-    for (const n of near) skeleton(who, n[who] as Pose).choice.forEach((v, i) => (sum[i] += v / near.length))
-    p.bendA = sum[0]
-    p.bendB = sum[1]
-    p.kneeA = sum[2]
-    p.kneeB = sum[3]
-  }
-  return c
-}
-
-/** Joint positions of a cast, for the pop check. */
-export function jointsOf(c: Partial<Record<Who, Pose>>): Joints {
-  const out: Joints = {}
-  for (const who of ['sari', 'amir', 'layla'] as const) {
-    const p = c[who]
-    if (!p) continue
-    const s = skeleton(who, p)
-    for (const j of ['head', 'elA', 'elB', 'haA', 'haB', 'knA', 'knB', 'ftA', 'ftB'] as const) out[`${who}.${j}`] = s.world(s[j])
-  }
-  return out
-}
-
-/** The long shadow of a person standing in the Sun (`len`: how many times their height it is). */
-export function personShadow(P: Painter, who: Who, p: Pose, opts: PersonOpts = {}, len = 4.2) {
-  P.shadow(p.x, p.y, () => drawPerson(P, who, { ...p, x: 0, y: 0, lift: 0, aw: 0, bw: 0 }, { basket: opts.basket, basketOn: opts.basketOn, helmet: opts.helmet }), p.lift, len)
+export function smoothBends(st: StyleProfile, sheet: Sheet, raw: (t: number) => Pose, t: number, scale = 1): Pose {
+  const p = raw(t)
+  const g = rigOf(sheet, st)
+  const sum = [0, 0]
+  for (const d of NEAR) solve(g, d === 0 ? p : raw(t + d), scale).choice.forEach((v, i) => (sum[i] += v / NEAR.length))
+  p.rBend = sum[0]
+  p.lBend = sum[1]
+  return p
 }
 
 /** The world's left and right edge inside the frame (with a margin), for drawing only what can be seen. */
 export function frameRange(P: Painter): [number, number] {
-  const half = STAGE_W / 2 / P.cam.zoom + 80
+  const half = P.W / 2 / P.cam.zoom + 80
   return [P.cam.x - half, P.cam.x + half]
-}
-
-// ── light ─────────────────────────────────────────────────────────────────────
-/** A warm pool of light inside the night: an ellipse and the light it gives. */
-export type Pool = { x: number; y: number; rx: number; ry: number; light: 'lamp' | 'glow' }
-/** "Is a thing standing at x (half-width w, from `top` down to `bottom`) touched by the light being drawn?" */
-export type Ok = (x: number, w: number, top: number, bottom: number) => boolean
-
-/**
- * Draws a world under the Moon's hard lights. `set` paints the ground and everything fixed, `figures` the cast,
- * `front` whatever lies nearest the camera; each is called once per light that can be seen (`P.light` is set).
- *  - no `line`: all daylight, or all night with `dark`
- *  - with a `line`: daylight to its right, night to its left, each clipped hard along it
- *  - `pools`: lamp- or eye-light inside the night
- */
-export function litWorld(
-  P: Painter,
-  o: { x0: number; x1: number; line?: Terminator | null; dark?: boolean; pools?: Pool[]; set: () => void; shadows?: (ok: Ok) => void; figures: (ok: Ok) => void; front?: () => void },
-) {
-  const L = o.line ?? null
-  const pools = (o.pools ?? []).filter((p) => p.rx > 1 && p.ry > 1)
-  const inDay: Ok = L ? (x, w, a, b) => x + w > Math.min(lineX(L, a), lineX(L, b)) : () => !o.dark
-  const inNight: Ok = L ? (x, w, a, b) => x - w < Math.max(lineX(L, a), lineX(L, b)) : () => !!o.dark
-  const touches = (e: Pool, x: number, w: number, a: number, b: number) => {
-    const dx = Math.max(x - w - e.x, 0, e.x - (x + w)) / e.rx
-    const dy = Math.max(a - e.y, 0, e.y - b) / e.ry
-    return dx * dx + dy * dy < 1
-  }
-  const within = (e: Pool, x: number, w: number, a: number, b: number) => {
-    const dx = Math.max(Math.abs(x - w - e.x), Math.abs(x + w - e.x)) / e.rx
-    const dy = Math.max(Math.abs(a - e.y), Math.abs(b - e.y)) / e.ry
-    return dx * dx + dy * dy < 1
-  }
-  const pass = (light: Light, ok: Ok) => {
-    P.light = light
-    o.set()
-    if (light === 'day') o.shadows?.(ok)
-    o.figures(ok)
-    o.front?.()
-  }
-  if (!o.dark && (!L || o.x1 > lineX(L, -600))) {
-    if (L) P.clip(dayRegion(L), () => pass('day', inDay))
-    else pass('day', inDay)
-  }
-  if (o.dark || (L && o.x0 < lineX(L, 2600))) {
-    const night = () => {
-      // plain night is not needed where a warm pool covers the whole figure
-      pass('night', (x, w, a, b) => inNight(x, w, a, b) && !pools.some((p) => within(p, x, w, a, b)))
-      for (const pool of pools) P.clip(ellipse(pool.x, pool.y, pool.rx, pool.ry), () => pass(pool.light, (x, w, a, b) => inNight(x, w, a, b) && touches(pool, x, w, a, b)))
-    }
-    if (L) P.clip(nightRegion(L), night)
-    else night()
-  }
-  P.light = 'day'
-  P.world()
 }

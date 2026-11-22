@@ -21,6 +21,8 @@ export type FigureOpts = {
   hold?: { r?: Held; l?: Held }
   /** 'body' leaves the front arms out, 'arms' draws only them (to pass something between body and arms). */
   pass?: 'all' | 'body' | 'arms'
+  /** false = a character whose sheet has a walking stick has put it down. */
+  cane?: boolean
 }
 
 const sleeveEnd = (s: Sheet) => (s.top.style === 'tee' || s.top.style === 'dress' ? 0.3 : 0.95)
@@ -156,7 +158,7 @@ function drawArm(P: Painter, s: Sheet, g: Rig, sh: Pt, el: Pt, ha: Pt, code: num
   drawHand(P, s, g, ha, ang, code, clamp01(Math.abs(dot) * 3) * (dot < 0 ? -1 : 1) * flip * flip, side, held)
 }
 
-function drawFoot(P: Painter, s: Sheet, g: Rig, ft: Pt, side: number, toe: number, air: number) {
+function drawFoot(P: Painter, s: Sheet, g: Rig, ft: Pt, side: number, toe: number, air: number, tip = 0) {
   const c = P.ctx
   const L = g.footL
   const h = g.footH * 2
@@ -171,8 +173,9 @@ function drawFoot(P: Painter, s: Sheet, g: Rig, ft: Pt, side: number, toe: numbe
   const pts = front.map((v, i) => lerp(v, i % 2 ? sideV[i] : sideV[i] * d, k))
   c.save()
   c.translate(ft.x + side * L * 0.07 * (1 - k), ft.y + g.footH)
-  // toes hang when the foot is off the ground
-  c.rotate(k > 0.3 ? d * air * 0.5 : side * air * 0.2)
+  // toes hang when the foot is off the ground; on tiptoe the heel comes up and the foot stands on its front
+  c.rotate(k > 0.3 ? d * Math.max(air * 0.5, tip * 0.6) : side * air * 0.2)
+  if (tip > 0 && k <= 0.3) c.scale(1 - 0.12 * tip, 1 + 0.5 * tip)
   P.shape(blob(pts), col, { shade: 0.6 })
   if (!P.sil) {
     const x0 = pts[0]
@@ -217,7 +220,7 @@ export function drawFigure(P: Painter, sheet: Sheet, pose: Pose, o: FigureOpts =
   const legLen = g.legU + g.legL
   const hold = { ...o.hold }
   let rCode = pose.rHand
-  if (s.extras?.includes('cane') && !hold.r) {
+  if (s.extras?.includes('cane') && !hold.r && o.cane !== false) {
     hold.r = cane(s, g)
     if (rCode < 0.5) rCode = 6
   }
@@ -267,10 +270,12 @@ export function drawFigure(P: Painter, sheet: Sheet, pose: Pose, o: FigureOpts =
     } else {
       for (const [hj, kn, ft, side, fy] of [[k.hjR, k.knR, k.ftR, -1, pose.rfy], [k.hjL, k.knL, k.ftL, 1, pose.lfy]] as const) {
         const hemW = trousers ? g.legW1 * 1.22 : g.legW1
-        P.shape(limbPath(hj, kn, { x: ft.x, y: ft.y + (trousers ? g.footH * 0.2 : g.footH * 0.4) }, g.legW0, g.legWj * (trousers ? 1.06 : 1), hemW, 0.45), legCol, { shade: 0.9 })
+        // on a seat the thigh comes toward us: short, and as wide at the knee as at the hip
+        const seatK = pose.sit > 0.5 ? 1.3 : 1
+        P.shape(limbPath(hj, kn, { x: ft.x, y: ft.y + (trousers ? g.footH * 0.2 : g.footH * 0.4) }, g.legW0 * (seatK > 1 ? 1.1 : 1), g.legWj * (trousers ? 1.06 : 1) * seatK, hemW, seatK > 1 ? 0.25 : 0.45), legCol, { shade: 0.9 })
         if (s.bottom.style === 'shorts' && !sil) P.shape(limbPath(hj, kn, ft, g.legW0 * 1.14, g.legWj * 1.24, g.legW1, 0.45, 0.42), s.bottom.color, { shade: 0.8 })
         if (s.shoes.style === 'boots' && !sil) P.shape(limbPath({ x: lerp(kn.x, ft.x, 0.42), y: lerp(kn.y, ft.y, 0.42) }, { x: lerp(kn.x, ft.x, 0.7), y: lerp(kn.y, ft.y, 0.7) }, { x: ft.x, y: ft.y + g.footH * 0.3 }, g.legW1 * 1.34, g.legW1 * 1.3, g.legW1 * 1.26, 0.2, 0.96), s.shoes.color, { shade: 0.6 })
-        drawFoot(P, s, g, ft, side, pose.toe, clamp01(air + fy * 5))
+        drawFoot(P, s, g, ft, side, pose.toe, clamp01(air + fy * 5), pose.tip)
       }
     }
 
@@ -281,7 +286,7 @@ export function drawFigure(P: Painter, sheet: Sheet, pose: Pose, o: FigureOpts =
     c.scale(1 / Math.sqrt(pose.sq), 1)
     const T = k.T
     const ground = -k.hip.y
-    const hemMax = ground * (pose.sit > 0.5 ? 0.9 : 0.8)
+    const hemMax = pose.sit > 0.5 ? (pose.seat > 0.02 ? g.legW0 * 1.05 : ground * 0.9) : ground * 0.8
     const sw = pose.swing * g.hipW * 0.5
     const tx = back ? 0 : pose.turn * g.shW * 0.14
     if (s.bottom.style !== 'skirt') {
@@ -319,6 +324,7 @@ export function drawFigure(P: Painter, sheet: Sheet, pose: Pose, o: FigureOpts =
     top.quadraticCurveTo(sx * 0.98, -T - g.shDrop * 0.3, sx * 0.46, -T - g.shDrop * 0.5)
     top.closePath()
     P.shape(top, topCol, { shade: 1.25, over: () => pattern(P, s, -hemW - 20, -T - 10, hemW + 20, hem + 20, g.shW) })
+    const topM = c.getTransform()
 
     if (!sil) {
       const trim = s.top.trim ?? mixHex(topCol, '#2a1830', 0.22)
@@ -405,7 +411,18 @@ export function drawFigure(P: Painter, sheet: Sheet, pose: Pose, o: FigureOpts =
       }
     }
 
-    // 5 ─ head
+    // 5 ─ head (first, the shadow it throws on the chest and shoulders)
+    if (!sil && P.style.shade.model !== 'flat') {
+      const cur = c.getTransform()
+      c.save()
+      c.setTransform(topM)
+      c.clip(top)
+      c.setTransform(cur)
+      c.globalAlpha = 0.85
+      c.fillStyle = P.shadeOf(style === 'apron' ? underTop(s) : s.top.color)
+      c.fill(ellipse(k.head.x - P.style.light.x * g.headRx * 0.36, k.head.y - P.style.light.y * g.headRy * 0.5, g.headRx * 0.96, g.headRy * 0.94, k.headAngle))
+      c.restore()
+    }
     c.save()
     c.translate(k.head.x, k.head.y)
     c.rotate(k.headAngle)

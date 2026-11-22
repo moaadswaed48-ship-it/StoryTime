@@ -32,7 +32,14 @@ export class DataError extends Error {
   }
 }
 
-export const codeOf = (e: unknown): ErrorCode => (e instanceof DataError ? e.code : 'unknown')
+export function codeOf(e: unknown): ErrorCode {
+  if (e instanceof DataError) return e.code
+  // A request or a code chunk that could not be fetched: the connection, not our server.
+  const msg = String((e as { message?: string })?.message ?? e)
+  if (/fetch|network|Load failed|dynamically imported module|Importing a module script failed/i.test(msg)) return 'network'
+  if (typeof navigator !== 'undefined' && navigator.onLine === false) return 'network'
+  return 'unknown'
+}
 
 /** Database functions raise their reason as the message ("trial_used"); find a known code in any text. */
 export function codeFromText(text: string | undefined | null): ErrorCode | null {

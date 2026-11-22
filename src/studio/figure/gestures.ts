@@ -142,7 +142,7 @@ const TRACKS: Record<Gesture, (t: number) => Pose> = {
 
   bow: (() => {
     const k = keys([
-      [0.15, 0.4, { rB: 1, rBx: 0.12, rBy: 0.42, lx: -0.12, ly: 0.82, ...FACES.smile }],
+      [0.15, 0.4, { rB: 1, rBx: 0.2, rBy: 0.7, lx: -0.12, ly: 0.82, ...FACES.smile }],
       [0.15, 0, { lBack: 1 }],
       [0.5, 0.55, { pitch: 1, nod: 1, blink: 1, crouch: 0.08 }, 'io'],
       [1.5, 0.5, { pitch: 0, nod: 0, blink: 0, crouch: 0 }, 'io'],
@@ -176,8 +176,8 @@ const TRACKS: Record<Gesture, (t: number) => Pose> = {
 
   think: (() => {
     const k = keys([
-      [0.15, 0.5, { rH: 1, rHx: 0.34, rHy: 1.3, lB: 1, lBx: -0.42, lBy: 0.6, tilt: -0.11, turn: -0.15, hipx: 0.14, ...FACES.think }],
-      [0.4, 0, { rHand: 1 }],
+      [0.15, 0.5, { rH: 1, rHx: 0.3, rHy: 1.62, lB: 1, lBx: -0.42, lBy: 0.6, tilt: -0.11, turn: -0.15, hipx: 0.14, ...FACES.think }],
+      [0.4, 0, { rHand: 6 }],
       [2.0, 0.3, { brow: 0.9, browTilt: 0, lookX: 0, lookY: -0.2, smile: 0.6, wob: 0, lids: 0, wide: 0.5, tilt: 0 }, 'back'],
       [2.55, 0.55, { rH: 0, lB: 0, tilt: 0, turn: 0, hipx: 0, ...FACES.calm, lookX: 0, lookY: 0 }],
       [2.7, 0, { rHand: 0 }],

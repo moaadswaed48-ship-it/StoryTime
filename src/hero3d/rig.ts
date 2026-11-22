@@ -90,7 +90,8 @@ export function makeRig(sheet: Sheet): Rig {
   const b = { ...BUILDS[sheet.stage], ...sheet.build }
   const s = BY_STAGE[sheet.stage]
   const H = b.height * 1.7
-  const headH = H / b.heads
+  // a toy carries a slightly bigger head than the flat drawing: it keeps the face readable at hero size
+  const headH = H / (b.heads * 0.92)
   const headW = headH * s.headW
   const head = new THREE.Vector3(headW / 2, headH / 2, (headH * s.headD) / 2)
   const headC = new THREE.Vector3(0, H - headH / 2, 0)
@@ -102,13 +103,13 @@ export function makeRig(sheet: Sheet): Rig {
   const girth = Math.min(1, Math.max(0, b.girth))
 
   const width = b.shoulders * headW
-  const armR = width * 0.115 * s.chunk * (0.9 + 0.25 * girth)
+  const armR = width * 0.145 * s.chunk * (0.9 + 0.25 * girth)
   const shoulderX = width / 2 - armR * 0.9
   const chestX = shoulderX + armR * 0.15
-  const waistX = chestX * (0.8 + 0.32 * girth)
-  const pelvisX = chestX * (0.88 + 0.24 * girth)
+  const waistX = chestX * (0.86 + 0.3 * girth)
+  const pelvisX = chestX * (0.93 + 0.22 * girth)
   const depth = 0.66 + 0.2 * girth
-  const thighR = pelvisX * 0.47
+  const thighR = pelvisX * 0.49
   const hipX = pelvisX * 0.5
   const ankleY = H * 0.042 + 0.012
   const leg = hipY - ankleY
@@ -116,7 +117,7 @@ export function makeRig(sheet: Sheet): Rig {
   const arm = torso * 1.0
   const armU = arm * 0.52
   const armL = arm - armU
-  const wristR = armR * 0.74
+  const wristR = armR * 0.8
   const neckR = Math.min(headW * 0.24, chestX * 0.5)
 
   const j = {} as Record<Bone, THREE.Vector3>
@@ -166,15 +167,15 @@ export function makeRig(sheet: Sheet): Rig {
     armR,
     wristR,
     thighR,
-    ankleR: thighR * 0.66,
+    ankleR: thighR * 0.72,
     chestX,
     waistX,
     pelvisX,
     depth,
     torso,
-    handR: wristR * 1.32,
+    handR: wristR * 1.5,
     footLen: H * 0.105 + headH * 0.2,
-    footW: thighR * 0.95,
+    footW: thighR * 1.05,
     footH: ankleY * 1.25,
     line: 0.0026 + H * 0.0016,
   }

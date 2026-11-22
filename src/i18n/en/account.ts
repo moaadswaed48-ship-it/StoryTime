@@ -98,7 +98,6 @@ export default {
   onboarding: {
     stepOf: 'Step {n} of {total}',
     skip: 'Skip',
-    roleTitle: 'Who will use StoryTime?',
     languageTitle: 'Which language should the stories use?',
     languageLead: 'Story text, voice and captions follow this choice. You can change it later in Settings.',
     ageTitle: 'Which age group?',

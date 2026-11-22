@@ -13,7 +13,7 @@ export default {
     perMonth: 'לחודש: {price}',
     total: 'סך הכול: {price}',
     paidOnce: 'תשלום חד־פעמי. לא מתחדש.',
-    choose: 'בחירה ב{length}',
+    choose: 'בחירה: {length}',
     allFeatures: 'בכל מסלול יש את כל האפשרויות. ההבדל היחיד הוא משך הזמן.',
     factsTitle: 'לפני הרכישה',
     factInstant: 'הגישה נפתחת באתר מיד אחרי התשלום.',

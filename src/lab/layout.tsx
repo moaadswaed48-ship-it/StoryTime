@@ -9,7 +9,8 @@ export const meta = () => privateMeta('Lab · StoryTime')
 
 const PAGES = [
   ['curl', 'Page curl'],
-  ['kit', 'Puppet kit'],
+  ['kit', 'Character builder'],
+  ['studio', 'Studio scenes'],
   ['shelf', 'Shelf'],
 ] as const
 

@@ -66,9 +66,9 @@ not become a template the others translate word for word (master plan §10, Stag
 ## 5. Numerals
 
 1. In story text, numbers are words ("three boats"), which helps the voice and teaches number words [D].
-2. Group C may use digits for clock times and for numbers above twenty when the digits are the lesson; read them
-   aloud first to make sure the voice will say them right [D].
-3. Films carry no digits or words inside the picture (master plan §7).
+2. Digits never appear in story text or inside any picture or film, in any group (master plan §7): clock times are
+   words ("half past three"); clock faces carry twelve marks; charts carry ticks; countdowns are shrinking dots.
+   Digits appear only in adult-facing activity text ("10 to 20 cups").
 
 ---
 
@@ -76,7 +76,8 @@ not become a template the others translate word for word (master plan §10, Stag
 
 1. Double quotation marks for dialogue (“...”), curly, not straight. The speaker is named in a tag ("said Lina") when
    it is not obvious [D; the voice stage must know who speaks].
-2. One space after a full stop. No semicolons in groups A and B. Exclamation marks: at most one per spread.
+2. One space after a full stop. No semicolons in groups A and B. Exclamation marks: at most one exclamation mark per spread in groups B and C. In group A, sound words and short calls may each carry
+   one (Splash! Found you!), never more than one per sentence [D].
 3. The em dash only in group C; use a full stop instead where possible.
 4. No hyphenation across lines in the book.
 
@@ -121,6 +122,6 @@ English readers in Israel may be Jewish, Arab, or from any other background; som
 - [ ] 5. Every line of dialogue has a clear speaker.
 - [ ] 6. Adults are "the grown-up", "parent or teacher", "they"; no assumed mum or dad.
 - [ ] 7. Names match the ledger exactly.
-- [ ] 8. Numbers are words (group C digits only where the digits are the lesson).
+- [ ] 8. Numbers are words in every group; no digits in the story text.
 - [ ] 9. Punctuation follows section 6.
 - [ ] 10. Nothing in sections 7 and 8 is broken: no shaming label, no "smart" praise, no religion or politics, no excluded food.

@@ -62,7 +62,7 @@ export default {
   },
   errors: {
     emailTaken: 'هناك حساب يستخدم هذا البريد الإلكتروني.',
-    invalidEmail: 'يُرجى إدخال عنوان بريد إلكتروني، مثل name@example.com.',
+    invalidEmail: 'يُرجى إدخال عنوان بريد إلكتروني، مثل ⁨name@example.com⁩.',
     weakPassword: 'يُرجى استخدام 8 أحرف على الأقل.',
     wrongCredentials: 'البريد الإلكتروني أو كلمة المرور غير صحيح. يُرجى التحقق من كليهما والمحاولة مجددًا.',
     unconfirmed: 'لم يُؤكَّد هذا البريد بعد. يُرجى فتح الرابط الذي أرسلناه، أو طلب رابط جديد.',
@@ -99,7 +99,6 @@ export default {
   onboarding: {
     stepOf: 'الخطوة {n} من {total}',
     skip: 'تخطٍّ',
-    roleTitle: 'من سيستخدم StoryTime؟',
     languageTitle: 'بأي لغة تُعرَض الحكايات؟',
     languageLead: 'نصّ الحكاية والصوت والترجمة المكتوبة تتبع هذا الاختيار. يمكن تغييره لاحقًا من الإعدادات.',
     ageTitle: 'أي فئة عمرية؟',

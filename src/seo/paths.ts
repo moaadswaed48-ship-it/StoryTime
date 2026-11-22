@@ -10,7 +10,7 @@ export type LegalDoc = (typeof LEGAL_DOCS)[number]
 export const isLegalDoc = (v: unknown): v is LegalDoc => typeof v === 'string' && (LEGAL_DOCS as readonly string[]).includes(v)
 
 /** Pages that exist in every language and are pre-rendered ('' is the language's landing page). */
-export const PUBLIC_PAGES = ['', 'plans', 'sign-in', 'sign-up', ...LEGAL_DOCS.map((d) => `legal/${d}`)] as const
+export const PUBLIC_PAGES = ['', 'plans', 'sign-in', 'sign-up', 'forgot-password', 'cancel-purchase', ...LEGAL_DOCS.map((d) => `legal/${d}`)] as const
 export type PublicPage = (typeof PUBLIC_PAGES)[number]
 
 /** Router paths to pre-render. The signed-in app (/:lang/app/*) and the lab are never in this list. */

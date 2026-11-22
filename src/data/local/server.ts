@@ -8,6 +8,8 @@ import {
   type AccessSnapshot, type Account, type AgeGroup, type Iso, type Learner, type LearnerKind, type Order, type OrderStatus,
   type Pass, type PassMonths, type PassStatus, type Price, type Role, type StoryContent, type StorySummary, type Trial,
 } from '../types'
+import { PRICES } from '../prices'
+import { isEmail, MIN_PASSWORD } from '../validate'
 import { SEED_STORIES, seedPages, seedTeaser, seedTitle } from './seed'
 
 /**
@@ -94,9 +96,6 @@ const emptyDb = (): LocalDb => ({
 })
 
 const uuid = () => (globalThis.crypto?.randomUUID?.() ?? `${Date.now().toString(16)}-${Math.random().toString(16).slice(2)}`)
-const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/
-export const isEmail = (v: string) => EMAIL_RE.test(v.trim())
-export const MIN_PASSWORD = 8
 const norm = (email: string) => email.trim().toLowerCase()
 
 async function hashPassword(password: string, salt: string): Promise<string> {
@@ -430,7 +429,7 @@ export class LocalServer {
 
   /** No prices are set yet: every price is a placeholder (null). */
   listPrices(): Price[] {
-    return (['2-3', '4-5', '6-8'] as const).flatMap((g) => ([1, 3, 12] as const).map((m) => ({ ageGroup: g, months: m, priceAgorot: null })))
+    return PRICES.map((p) => ({ ...p }))
   }
 
   createOrder(uid: string | null, input: { ageGroup: AgeGroup; months: PassMonths; provider: string; termsVersion: string }): Order {

@@ -16,6 +16,8 @@ export type Solved = {
   hipsS: THREE.Vector3
   /** Joint positions in figure space, plus fingertips, toes and the head centre (for pictograms and the shadow). */
   at: Record<Bone | 'leftTip' | 'rightTip' | 'leftToe' | 'rightToe' | 'crown', THREE.Vector3>
+  /** Hand orientations in figure space (for things held loosely). */
+  handQ: { left: THREE.Quaternion; right: THREE.Quaternion }
 }
 
 export function newSolved(): Solved {
@@ -26,7 +28,7 @@ export function newSolved(): Solved {
     at[b] = new THREE.Vector3()
   }
   for (const k of ['leftTip', 'rightTip', 'leftToe', 'rightToe', 'crown'] as const) at[k] = new THREE.Vector3()
-  return { q, hipsP: new THREE.Vector3(), hipsS: new THREE.Vector3(1, 1, 1), at }
+  return { q, hipsP: new THREE.Vector3(), hipsS: new THREE.Vector3(1, 1, 1), at, handQ: { left: new THREE.Quaternion(), right: new THREE.Quaternion() } }
 }
 
 const V = () => new THREE.Vector3()
@@ -47,6 +49,7 @@ const t0 = V()
 const t1 = V()
 const t2 = V()
 const t3 = V()
+const headCv = V()
 const tgt = V()
 const pole = V()
 const J = V()
@@ -104,8 +107,13 @@ export function solve(rig: Rig, p: Pose, out: Solved): Solved {
 
   rootQ.setFromAxisAngle(Y, p.yaw)
   const lift = p.lift * rig.leg
-  out.hipsP.set(joint.hips.x + p.hipX * rig.leg, joint.hips.y + p.hipY * rig.leg, joint.hips.z + p.hipZ * rig.leg).applyQuaternion(rootQ)
-  out.hipsP.y += lift
+  // the stand keeps a trace of bend in the knees, so a small rise of the hips never lifts the feet
+  out.hipsP.set(joint.hips.x + p.hipX * rig.leg, joint.hips.y + (p.hipY - 0.016) * rig.leg, joint.hips.z + p.hipZ * rig.leg).applyQuaternion(rootQ)
+  // squash and stretch act from the ground up: the hips sink or rise with the scaled legs, so the feet stay put
+  out.hipsP.y = rig.ankleY + (out.hipsP.y - rig.ankleY) * stretch
+  // standing on tiptoe lifts the body by as much as the lower heel rises, so the knees stay straight
+  const rise = (fp: number) => rig.footLen * 0.5 * Math.sin(fp) - rig.ankleY * (1 - Math.cos(fp))
+  out.hipsP.y += lift + Math.max(0, Math.min(rise(p.fpL) + p.fyL * rig.leg, rise(p.fpR) + p.fyR * rig.leg)) * 0.92
   hipsQ.copy(rootQ).multiply(euler(qa, p.hipRx, p.hipRy, p.hipRz))
   hipsQi.copy(hipsQ).invert()
   out.q.hips.copy(hipsQ)
@@ -132,7 +140,7 @@ export function solve(rig: Rig, p: Pose, out: Solved): Solved {
   place(lp.neck, out.at.neck)
   place(lp.head, out.at.head)
   // head centre (hips-local) and crown
-  const headC = t3.copy(rig.headC).sub(joint.head).applyQuaternion(lq.head).add(lp.head).clone()
+  const headC = headCv.copy(rig.headC).sub(joint.head).applyQuaternion(lq.head).add(lp.head)
   place(t2.set(0, rig.headH / 2, 0).applyQuaternion(lq.head).add(headC), out.at.crown)
 
   for (const side of ['left', 'right'] as const) {
@@ -180,6 +188,7 @@ export function solve(rig: Rig, p: Pose, out: Solved): Solved {
     place(E, out.at[lower])
     place(Wp, out.at[hand])
     qd.copy(qb).multiply(out.q[hand])
+    out.handQ[side].copy(hipsQ).multiply(qd)
     place(t0.set(s * rig.handR * 2.3, 0, 0).applyQuaternion(qd).add(Wp), out.at[`${side}Tip`])
 
     // ── leg ──

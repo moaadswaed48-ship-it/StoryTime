@@ -54,16 +54,17 @@ Limits are set on the English text. Arabic and Hebrew match the English in ideas
 |---|---|---|
 | Total words | 450 to 900 | [D] from the single publishing source: picture books for 4 to 8 at or under 500 words, for 7 to 10 at or under 1,000 words, 32 to 48 pages (ages §G) |
 | Spreads | 14 to 16, plus a cover | [D] from 32 to 48 pages (ages §G) |
-| Words per spread | 30 to 70 | [D] |
+| Words per spread | 30 to 70 | [D]. When this and the total disagree, the total wins: 16 spreads of 70 words would break the 900-word cap |
 | Sentence length | usually 8 to 14 words; never more than 20; vary short and long for rhythm | [D] |
 | Plot | a real problem that gets worse before it gets better; one main turn; the children solve it; a warm ending | [D] from "encourage solving small disagreements on their own" (ages §B) |
-| Named characters | at most 5 | [D] |
+| Characters | at most 5 who speak or move the plot | [D] |
 | Inner life | the main character may think and feel on the page ("Dana wasn't sure. What if they laughed?") | [S] better ways to talk about thoughts and feelings (ages §B) |
 | Dialogue | lively and frequent; tagged when more than two speak | [D] |
 | Repetition | a motif rather than a refrain: an object, a phrase or an action that returns three times and changes meaning | [D] |
 | Rhyme | optional: a rhyme, chant or song inside the story works well; a fully rhymed text is not required | [D] |
 | Read-alone layer | each spread has at least one short sentence (6 to 10 words, common words) that a beginning reader can manage | [D] from "take turns reading" (ages §B) |
-| Facts | any fact in the story (birds, clocks, water) must be checked and true; nothing invented about nature or the body | project rule 4 |
+| Facts | any fact in the story (birds, clocks, water) must be checked and true, with its source written in the outline; nothing invented about nature or the body | project rule 4 |
+| Numbers in pictures | none: clock faces carry twelve marks, charts carry ticks, countdowns are shrinking dots; numbers live only in the text, as words | master plan §7 (one picture for four languages) |
 
 **What the text may not contain.** A spoken moral, sarcasm aimed at a child, bullying shown without repair, real
 violence, romance, brand names, school grades as a measure of worth, praise for being "smart" (praise effort instead:
@@ -163,6 +164,7 @@ safety §1.9 and §3].
 - [ ] Rubber bands used to fling or shoot; more than one band at a time [D, safety §2]
 - [ ] String or yarn made into necklaces or loops around the neck; anything hung where a child could climb to it [D, safety §1.8 and §2]
 - [ ] Glass jars or glass bottles [D: breakage; not in the research]
+- [ ] Raw flour and raw-flour dough [S, CDC "Raw Flour and Dough": untreated flour can carry E. coli; checked in the review]
 - [ ] Animals not suited to children; touching wild or stray animals [S, safety §1.11]
 
 **Safe materials for group C** (everything in the group-A and group-B lists, plus) [D, safety §2]

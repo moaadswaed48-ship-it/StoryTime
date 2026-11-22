@@ -1,4 +1,5 @@
 import { data, Outlet } from 'react-router'
+import { SessionProvider } from '@/features/account/session'
 import { isLang } from '@/i18n/config'
 import { loadDict } from '@/i18n/load'
 import type { LangData } from '@/i18n/use-dict'
@@ -15,5 +16,9 @@ export const loader = ({ params }: Route.LoaderArgs) => load(params.lang)
 export const clientLoader = ({ params }: Route.ClientLoaderArgs) => load(params.lang)
 
 export default function LangLayout() {
-  return <Outlet />
+  return (
+    <SessionProvider>
+      <Outlet />
+    </SessionProvider>
+  )
 }

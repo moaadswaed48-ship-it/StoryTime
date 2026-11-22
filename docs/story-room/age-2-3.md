@@ -57,17 +57,18 @@ per spread, not in the number of words [D].
 |---|---|---|
 | Total words | 40 to 150 | [D] from the single publishing source: board books for 0 to 3 under 50 words, for 2 to 5 under 200 words (ages §G; the source itself is one professional article, so treat as a range, not a rule) |
 | Spreads (page openings) | 8 to 12, plus a cover | [D] from "8 to 24 pages" for board books (ages §G) |
-| Words per spread | 3 to 15 | [D] |
+| Words per spread | 3 to 15 | [D]. When this and the total disagree, the total wins: 12 spreads of 15 words would break the 150-word cap |
 | Sentence length | usually 2 to 6 words; never more than 8 | [D] from about 300 words and up-to-five-word phrases at age 3 (ages §D1) |
 | Ideas per spread | one action or one discovery | [D] from "understand what is happening with the help of the pictures" (ages §D1) |
-| Named characters | at most 3, and only one of them new to the child (others are a parent, a grandparent, a pet) | [D] |
-| Repetition | a refrain the child can predict and join, on most spreads; the same sentence frame each time ("One boat. Two boats. Where is three?") | [S] AAP: "repetitive phrases or rhymes that can help toddlers predict what comes next" (ages §G); KidsHealth: pause so the child finishes familiar phrases (ages §G) |
+| Characters | at most 3 characters who speak or move the plot, counting a toy or animal that acts; at most 2 of them children. Background figures (a bird flying past, a seller behind a stall) may appear but never change what happens | [D] |
+| Repetition | a refrain the child can predict and join, on at least two of every three spreads; the same sentence frame each time ("One! Two! Three! Wheee!") | [S] AAP: "repetitive phrases or rhymes that can help toddlers predict what comes next" (ages §G); KidsHealth: pause so the child finishes familiar phrases (ages §G) |
 | Rhyme | welcome, never forced; a rhyming refrain is better than a rhymed whole text. Write rhyme natively in each language; never translate a rhyme | [S] AAP ages §G for rhyme; the rhyme-and-word-learning study was on 3 to 5 year olds in English only, so its transfer is [U] (ages §H) |
 | Structure | a familiar routine, one small problem, a warm return to safety | [D] |
 | Questions to the child | at most one "Where is...?" or "What is...?" per spread, answered by the picture | [S] what and where questions at 24 to 30 months (ages §G, Reach Out and Read) |
 | Picture role | the picture carries the story; the text names what the child sees | [S] ages §D1 |
 
-**What the text may not contain.** Metaphors, irony, sarcasm, "yesterday" and "tomorrow" as plot devices, flashbacks,
+**What the text may not contain.** Metaphors ("flour is snow"); a comparison with "like" only when both things can be
+seen or heard in the same picture ("round, like the wheel"); irony, sarcasm, "yesterday" and "tomorrow" as plot devices, flashbacks,
 two things happening at once, a narrator's moral at the end.
 
 ---
@@ -108,7 +109,7 @@ is U]. So our film is a small part of that hour.
 ## 5. Tone, and what to avoid
 
 **Tone:** calm, warm, close. Funny in a physical way (a hat falls off, a camel sneezes). The grown-ups are kind and
-present. The world is safe. Small worries (a boat is late, thunder is loud, Mama has gone to work) are always solved
+present. The world is safe. Small worries (Papa is stuck on the slide, thunder is loud, Papa has gone to work) are always solved
 inside the story.
 
 **Avoid:**
@@ -145,8 +146,8 @@ From the research list (ages §J1, 31 goals). Each group-A story takes exactly o
 | Difference | notice that people look different and that this is fine (28) [S] |
 
 The owner's lessons at this age: **respect for the elderly** (as walking at an older person's pace, story A04);
-**being good to one's mother** (as noticing she is tired and comforting her, story A03); **numbers** (counting to
-three, story A01). There is no trusted source for "respect for elders" as a goal at any age (ages §J3 item 15 and
+**being good to one's mother** (as thanking her and giving back with a small help, story A03); **respect for
+classmates** (as taking turns with a classmate, story A15); **numbers** (counting to three, story A01). There is no trusted source for "respect for elders" as a goal at any age (ages §J3 item 15 and
 §M); at this age we build it on effortful control and noticing others, which are sourced [D].
 
 ---
@@ -175,16 +176,19 @@ children under 3 [S, safety §1.1].
 - [ ] Cotton wool, tissues or paper small enough to be pulled apart and put in the mouth [S, safety §3]
 - [ ] Chicks, reptiles, frogs, rodents [S, safety §1.11]
 - [ ] Plastic bags [S, safety §3]
+- [ ] Raw flour and raw-flour dough, including craft and play dough: the CDC advises that children should not play with or eat it, because untreated flour can carry E. coli [S, CDC "Raw Flour and Dough"; this source is outside our research files and was checked in the review]
+- [ ] Cardboard boxes with staples left in: take staples out and tape the edges [S, safety §3 for staples]
 
 **Safe materials for group A** (all pass the tube test) [D, safety §2]
 Large cardboard boxes, kitchen-roll tubes, paper plates, paper cups (large), paper bags, newspaper for tearing,
 washed cloth scraps without loops, washed socks, plastic tubs (without small lids), wooden spoons, pots and pans,
-chunky crayons, washable AP-seal paint and finger paint, water in a shallow tray, large leaves, large pinecones,
+chunky crayons, washable AP-seal paint and finger paint, water in a shallow tray, large leaves from a plant the adult
+knows (never oleander, arum or castor bean, safety §1.11), large pinecones,
 smooth stones bigger than the child's fist, sand or soil (hands washed after), short scarves, a soft toy, cushions,
 a blanket.
 
 **Allergy check before starting** [D, safety §1.10; no trusted source on allergens in craft was found, U]
-Wheat (flour dough), egg (egg cartons), milk (some paints and glues), nuts (never use), latex (never use).
+Wheat (bread; flour is never used raw), egg (egg cartons), milk (some paints and glues), nuts (never use), latex (never use).
 
 **Emergency line on every activity card:** the local emergency number. Israel 101 and Denmark 112 are from general
 knowledge; the Israeli poison centre number was not confirmed [U, safety §1.12]. Check both before publishing.

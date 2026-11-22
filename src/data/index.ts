@@ -16,6 +16,8 @@ export function getApi(): Promise<DataApi> {
     api = backendKind === 'supabase'
       ? import('./supabase/index.ts').then((m) => new m.SupabaseApi(url!, key!, linkBase))
       : import('./local/index.ts').then((m) => new m.LocalApi())
+    // A failed load (offline before the code arrived) is not kept: the next call tries again.
+    api.catch(() => void (api = null))
   }
   return api
 }
