@@ -58,6 +58,8 @@ export type OwnerDict = {
     noPicture: string
     zoneLegend: string
     zoneHint: string
+    zoneSideLegend: string
+    zoneVLegend: string
     zoneSide: { start: string; end: string; full: string }
     zoneV: { top: string; middle: string; bottom: string }
     zoneSizeLegend: string

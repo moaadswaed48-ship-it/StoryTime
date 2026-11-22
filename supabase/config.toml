@@ -1,0 +1,52 @@
+# Supabase settings the site's security depends on (review finding W10). Used by `supabase start` for a local
+# stack; a hosted project does NOT read this file: copy each setting to the dashboard before launch (Authentication
+# > Providers > Email, Authentication > URL Configuration, Authentication > Rate Limits, Edge Functions) and tick
+# it off in docs/HANDOFF.md. NOT VERIFIED: the Supabase CLI is not installed here and no project is approved yet.
+# PLACEHOLDER: the site's domain is not chosen; replace storytime.example everywhere below.
+
+project_id = "storytime"
+
+[api]
+# Only these schemas are reachable through the API. The private schema (settings, terms versions, trial record)
+# must never be listed here.
+schemas = ["public", "graphql_public"]
+
+[auth]
+site_url = "https://storytime.example"
+# Links in emails may return only to the site's own pages.
+additional_redirect_urls = ["https://storytime.example/**"]
+enable_signup = true
+# The screens and the local backend ask for 8 characters (src/data/validate.ts MIN_PASSWORD); Supabase's default is 6.
+minimum_password_length = 8
+
+[auth.rate_limit]
+# Emails sent per hour (confirmation, reset), per project.
+email_sent = 30
+# Sign-in and sign-up requests per 5 minutes, per IP address.
+sign_in_sign_ups = 30
+# Link and code checks per 5 minutes, per IP address.
+token_verifications = 30
+
+[auth.email]
+enable_signup = true
+# An account is used only after its owner opens the confirmation link.
+enable_confirmations = true
+# A change of email address is confirmed on both the old and the new address.
+double_confirm_changes = true
+# Changing the password needs a recent sign-in.
+secure_password_change = true
+# One email a minute per address (as the local backend's RESEND_COOLDOWN_S).
+max_frequency = "1m0s"
+# Confirmation links last 24 hours (as the local backend's CONFIRM_LINK_HOURS).
+otp_expiry = 86400
+
+[functions.payment-callback]
+# A real payment provider calls this without a Supabase sign-in. The function checks the caller itself: the test
+# provider needs the signed-in owner of the order; a real provider's message is verified with its signature.
+verify_jwt = false
+
+# Hosted-only settings to switch on in the dashboard (not in this file):
+#   - Leaked password protection (Authentication > Providers > Email > "Prevent use of leaked passwords").
+#   - Edge function secrets: SITE_ORIGINS="https://storytime.example" on payment-callback;
+#     ALLOW_TEST_PAYMENTS="1" on the preview project only.
+#   - On the preview project only, in SQL: update private.settings set allow_test_payments = true;

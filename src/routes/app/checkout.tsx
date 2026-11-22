@@ -3,13 +3,13 @@ import { useNavigate, useSearchParams } from 'react-router'
 import { getApi } from '@/data'
 import { codeOf, type ErrorCode } from '@/data/errors'
 import { activeProvider } from '@/data/payments/test-provider'
-import { PRICES } from '@/data/prices'
 import { passDates } from '@/data/rules'
 import { TERMS_VERSION } from '@/data/terms'
 import { isAgeGroup, isPassMonths } from '@/data/types'
 import { useAccess } from '@/features/access/useAccess'
 import { errorText } from '@/features/account/messages'
 import { ParentGate } from '@/features/account/ParentGate'
+import { usePrices } from '@/features/commerce/usePrices'
 import { formatDate, formatShekels } from '@/i18n/format'
 import { useLang } from '@/i18n/use-dict'
 import { privateMeta } from '@/seo/meta'
@@ -40,6 +40,7 @@ function Summary() {
   const group = params.get('group')
   const months = Number(params.get('months'))
   const { access, error: accessError, reload } = useAccess()
+  const { prices, error: pricesError, reload: reloadPrices } = usePrices()
   const [terms, setTerms] = useState(false)
   const [termsError, setTermsError] = useState<string | null>(null)
   const [error, setError] = useState<ErrorCode | null>(null)
@@ -49,11 +50,13 @@ function Summary() {
     return <Notice tone="error" action={<ButtonLink to={localPath(lang, 'app/plans')}>{dict.commerce.access.seePasses}</ButtonLink>}>{dict.account.errors.notFound}</Notice>
   }
   if (accessError) return <Notice tone="error" action={<Button onClick={reload}>{dict.account.errors.retry}</Button>}>{errorText(dict, accessError)}</Notice>
-  if (!access) return <Spinner label={dict.account.states.loading} />
+  if (pricesError) return <Notice tone="error" action={<Button onClick={reloadPrices}>{dict.account.errors.retry}</Button>}>{errorText(dict, pricesError)}</Notice>
+  if (!access || !prices) return <Spinner label={dict.account.states.loading} />
 
   const { startsAt, endsAt } = passDates(access.passes, group, months, access.now)
   const queued = new Date(startsAt).getTime() > new Date(access.now).getTime() + 1000
-  const price = PRICES.find((p) => p.ageGroup === group && p.months === months)?.priceAgorot ?? null
+  // The price create_order charges (review finding R8), not the static list of the public page.
+  const price = prices.find((p) => p.ageGroup === group && p.months === months)?.priceAgorot ?? null
   const total = formatShekels(price, lang)
 
   const pay = async () => {

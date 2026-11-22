@@ -127,6 +127,16 @@ No fresh-context reviewer has looked yet: none could be started from this helper
 - Owner writes go straight to tables under RLS (owner role); every content change lands in `audit_log`. Make an
   owner with SQL only: `update profiles set role = 'owner' where id = ...`.
 
+### Review fixes (22 Nov 2026): what changed for everyone
+- Fresh review and its fixes: `docs/reviews/stage4a-review.md` (section "Fixes"). New migration
+  `20261122110000_review_fixes.sql`.
+- **New tables, sequences and functions in `public` are closed by default.** Grant what each needs in your
+  migration, and add each new callable function to the list in `tests/db/catalogue.test.ts` after checking it.
+- Preview project setup: `update private.settings set allow_test_payments = true;` in SQL, and the payment-callback
+  secrets `SITE_ORIGINS` (the site's origins) and `ALLOW_TEST_PAYMENTS=1`. Production leaves both off.
+- A new terms version needs a row in `private.terms_versions` (a migration) or sign-ups and orders are refused.
+- DB tests: `freshDb()` is set up like the preview project; `freshDb({ preview: false })` is production-like.
+
 ## Studio (2D): the flat-drawing art engine (Stage 3 art engine + first style test)
 
 Status: BUILT, proofs rendered and looked at (22 Nov 2026). Not committed. Provisional look, waiting for the

@@ -3,7 +3,7 @@
  * Every thing takes a base point (where it stands), a size and its colours, and is drawn through the Painter so it
  * shares the figures' line, shading and texture. Nothing here is tied to one story.
  */
-import { Painter, TAU, blob, circle, curve, cutRect, ellipse, poly, rrect, seededList, wobble } from '../kit/core'
+import { Painter, Pen, TAU, blob, circle, curve, cutRect, ellipse, poly, rrect, seededList, wobble } from '../kit/core'
 import { mixHex } from '../style/color'
 
 const dark = (c: string, k = 0.25) => mixHex(c, '#2a1830', k)
@@ -79,7 +79,7 @@ export function stall(P: Painter, x: number, y: number, w: number, h: number, o:
   const ay = y - h
   const n = 7
   const aw = (w * 1.24) / n
-  const cloth = new Path2D()
+  const cloth = new Pen()
   cloth.moveTo(x - w * 0.5, ay - h * 0.1)
   cloth.lineTo(x + w * 0.5, ay - h * 0.1)
   cloth.lineTo(x + w * 0.62, ay + h * 0.14)
@@ -127,7 +127,7 @@ export function room(P: Painter, o: RoomOpts) {
   P.speckle(f, floor, 13, [0, o.floorY, P.W, P.H - o.floorY], 1.2, 1.8)
   // floor boards: lines that fan out toward the viewer
   const vx = P.W * 0.5
-  const lines = new Path2D()
+  const lines = new Pen()
   for (let i = -14; i <= 14; i++) {
     lines.moveTo(vx + i * 120, o.floorY)
     lines.lineTo(vx + i * 330, P.H + 60)
@@ -170,10 +170,10 @@ export function sunPatch(P: Painter, pts: number[], alpha = 0.3, color = '#fff2c
   c.globalCompositeOperation = 'soft-light'
   c.globalAlpha = alpha * 2
   c.fillStyle = color
-  c.fill(poly(pts))
+  c.fill(poly(pts).raw)
   c.globalCompositeOperation = 'source-over'
   c.globalAlpha = alpha * 0.5
-  c.fill(poly(pts))
+  c.fill(poly(pts).raw)
   c.restore()
 }
 
@@ -185,7 +185,7 @@ export function rug(P: Painter, x: number, y: number, rx: number, ry: number, co
   P.flat(ellipse(x, y, rx * 0.46, ry * 0.46), colors[1])
   P.flat(ellipse(x, y, rx * 0.34, ry * 0.34), colors[0])
   P.speckle(ellipse(x, y, rx, ry), colors[0], 21, [x - rx, y - ry, rx * 2, ry * 2], 1.4)
-  const fr = new Path2D()
+  const fr = new Pen()
   for (let i = 0; i < 40; i++) {
     const a = (i / 40) * TAU
     fr.moveTo(x + Math.cos(a) * rx, y + Math.sin(a) * ry)
@@ -286,11 +286,11 @@ export function bread(P: Painter, x: number, y: number, s: number, color = '#dba
   for (const u of [-0.5, 0, 0.5]) P.line(curve([x + u * s - s * 0.12, y - s * 0.6, x + u * s + s * 0.1, y - s * 0.3]), pale(color, 0.5), s * 0.07)
 }
 export function melonSlice(P: Painter, x: number, y: number, s: number) {
-  const p = new Path2D()
+  const p = new Pen()
   p.arc(x, y - s, s, 0, Math.PI)
   p.closePath()
   P.shape(p, '#5f9a52', { shade: 0.6 })
-  const q = new Path2D()
+  const q = new Pen()
   q.arc(x, y - s, s * 0.82, 0, Math.PI)
   q.closePath()
   P.flat(q, '#ee6a5f')
@@ -327,7 +327,7 @@ export function basket(P: Painter, x: number, y: number, w: number, color = '#d2
   P.shape(body, color, {
     shade: 0.9,
     over: () => {
-      const weave = new Path2D()
+      const weave = new Pen()
       for (let i = 1; i < 4; i++) {
         weave.moveTo(x - w / 2, y - h + (h * i) / 4)
         weave.lineTo(x + w / 2, y - h + (h * i) / 4)
@@ -459,7 +459,7 @@ export function openBook(P: Painter, s: number, color = '#e2674a') {
   // a picture on one page, lines of writing on the other (never real words)
   P.flat(blob([-s * 0.74, -s * 0.34, -s * 0.2, -s * 0.26, -s * 0.2, s * 0.12, -s * 0.74, s * 0.06]), '#8fc3c9')
   P.flat(circle(-s * 0.56, -s * 0.16, s * 0.07), '#f2c94c')
-  const w = new Path2D()
+  const w = new Pen()
   for (let i = 0; i < 4; i++) {
     w.moveTo(s * 0.18, -s * 0.24 + i * s * 0.12)
     w.lineTo(s * (i === 3 ? 0.5 : 0.74), -s * 0.3 + i * s * 0.12)
@@ -482,7 +482,7 @@ export function umbrella(P: Painter, x: number, y: number, s: number, colors = [
   c.translate(x, y)
   c.rotate(rot)
   P.line(curve([0, 0, 0, -s * 1.5]), '#6b4a55', s * 0.05)
-  const p = new Path2D()
+  const p = new Pen()
   p.moveTo(-s, -s * 1.2)
   p.bezierCurveTo(-s * 0.9, -s * 2.1, s * 0.9, -s * 2.1, s, -s * 1.2)
   for (let i = 3; i >= 0; i--) p.quadraticCurveTo(-s + (i + 0.5) * s * 0.5, -s * 1.36, -s + i * s * 0.5, -s * 1.2)
@@ -510,7 +510,7 @@ export function pinnedDrawing(P: Painter, x: number, y: number, w: number, h: nu
   if (!P.sil) {
     const s = Math.min(w, h) * 0.3
     if (kind === 'sun') {
-      const rays = new Path2D()
+      const rays = new Pen()
       for (let i = 0; i < 8; i++) {
         rays.moveTo(Math.cos((i / 8) * TAU) * s * 0.7, Math.sin((i / 8) * TAU) * s * 0.7)
         rays.lineTo(Math.cos((i / 8) * TAU) * s * 1.1, Math.sin((i / 8) * TAU) * s * 1.1)

@@ -4,7 +4,7 @@
  * so it takes the style profile's line, shading, texture and palette rules like the figures do.
  * Distance is made with overlap and air: draw far things inside `P.far(depth, …)`.
  */
-import { Painter, TAU, blob, circle, curve, ellipse, limbPath, seededList, wobble } from '../kit/core'
+import { Painter, Pen, TAU, blob, circle, curve, ellipse, limbPath, seededList, wobble } from '../kit/core'
 import { mixHex } from '../style/color'
 
 /** A sky of flat bands laid one over the other like washes of gouache: `colors` from the top down. Fixed to the screen. */
@@ -18,19 +18,19 @@ export function sky(P: Painter, colors: string[], horizon: number, seed = 5) {
     const pts = [-40, y0]
     for (let k = 0; k <= 8; k++) pts.push(-40 + ((P.W + 80) * k) / 8, y0 + (i === 0 ? 0 : (r[i * 12 + k] - 0.5) * 22))
     pts.push(P.W + 40, horizon + 60, -40, horizon + 60)
-    const p = new Path2D()
+    const p = new Pen()
     p.moveTo(pts[0], pts[1])
     for (let k = 2; k < pts.length; k += 2) p.lineTo(pts[k], pts[k + 1])
     p.closePath()
     c.fillStyle = P.col(colors[i])
-    c.fill(curveBand(pts))
+    c.fill(curveBand(pts).raw)
     P.speckle(p, colors[i], seed + i, [0, y0 - 20, P.W, horizon / n + 60], 0.35, 1.6)
   }
 }
-function curveBand(pts: number[]): Path2D {
+function curveBand(pts: number[]): Pen {
   // a band whose top edge is a soft curve through the points and whose other sides are straight
   const n = pts.length / 2
-  const p = new Path2D()
+  const p = new Pen()
   p.moveTo(pts[0], pts[1])
   for (let i = 1; i < n - 3; i++) p.quadraticCurveTo(pts[i * 2], pts[i * 2 + 1], (pts[i * 2] + pts[i * 2 + 2]) / 2, (pts[i * 2 + 1] + pts[i * 2 + 3]) / 2)
   p.lineTo(pts[(n - 3) * 2], pts[(n - 3) * 2 + 1])
@@ -42,7 +42,7 @@ function curveBand(pts: number[]): Path2D {
 
 /** The sun as a painted disc with one paler ring: no glow. */
 export function sun(P: Painter, x: number, y: number, r: number, color = '#ffd87a') {
-  const rays = new Path2D()
+  const rays = new Pen()
   for (let i = 0; i < 12; i++) {
     const a = (i / 12) * TAU + 0.2
     rays.moveTo(x + Math.cos(a) * r * 1.3, y + Math.sin(a) * r * 1.3)
@@ -64,7 +64,7 @@ export function stars(P: Painter, seed: number, n: number, bottom: number, color
 /** A cloud: a few rounded lumps on a flat base, cut from one piece. */
 export function cloud(P: Painter, x: number, y: number, w: number, seed = 1, color = '#fffaf0') {
   const r = seededList(seed, 12)
-  const parts: Path2D[] = []
+  const parts: Pen[] = []
   const n = 4 + Math.floor(r[0] * 2)
   for (let i = 0; i < n; i++) {
     const u = i / (n - 1)
@@ -80,7 +80,7 @@ export function rain(P: Painter, t: number, amount = 1, wind = 0.18, color = '#9
   P.screen()
   const n = Math.round(260 * amount)
   const r = seededList(77, n * 3)
-  const p = new Path2D()
+  const p = new Pen()
   for (let i = 0; i < n; i++) {
     const sp = 900 + r[i * 3 + 2] * 500
     const y = ((r[i * 3 + 1] * (P.H + 200) + t * sp) % (P.H + 200)) - 100
@@ -164,7 +164,7 @@ export function sea(P: Painter, y0: number, y1: number, t: number, colors = ['#3
     P.far(Math.max(0, 0.5 - i * 0.2), () => P.shape(p, colors[i], { line: i === 0 ? 0.5 : 0, shade: 0 }))
     if (i > 0) {
       // white caps riding each band's edge
-      const cap = new Path2D()
+      const cap = new Pen()
       const r = seededList(40 + i, 24)
       for (let k = 0; k < 8; k++) {
         const x = ((r[k * 3] * (P.W + 400) + t * (14 + i * 10)) % (P.W + 400)) - 200
@@ -232,7 +232,7 @@ export function tree(P: Painter, x: number, y: number, h: number, o: TreeOpts = 
         const side = (px - x) / rx + (py - cy) / ry
         P.flat(ellipse(px, py, h * 0.021, h * 0.01, -0.7 + r[(i * 3 + 5) % 60] * 1.0), side < 0.15 ? lit : dark, side < 0.15 ? 0.85 : 0.5)
       }
-      const arcs = new Path2D()
+      const arcs = new Pen()
       for (let i = 0; i < 7; i++) {
         const a = (i / 7) * TAU + r[i + 20] * 0.5
         const px = x + Math.cos(a) * rx * 0.52 + sw
@@ -261,7 +261,7 @@ function fruitShape(P: Painter, x: number, y: number, r: number, color: string) 
 /** A bush: leaf masses on the ground, with or without flowers. */
 export function bush(P: Painter, x: number, y: number, w: number, color = '#6a9a56', seed = 2, flowers?: string) {
   const r = seededList(seed, 40)
-  const parts: Path2D[] = []
+  const parts: Pen[] = []
   const n = 5
   for (let i = 0; i < n; i++) {
     const u = i / (n - 1)
@@ -286,7 +286,7 @@ export function flower(P: Painter, x: number, y: number, h: number, color = '#e2
   P.line(curve([x, y, x + Math.sin(sway) * h * 0.3, y - h * 0.5, tx, ty]), mixHex(stem, '#2a1830', 0.3), h * 0.07)
   P.shape(blob([x, y - h * 0.3, x + h * 0.22, y - h * 0.5, x + h * 0.3, y - h * 0.36, x + h * 0.1, y - h * 0.26]), stem, { shade: 0.3, line: 0.7 })
   const r = h * 0.16
-  const petals: Path2D[] = []
+  const petals: Pen[] = []
   for (let i = 0; i < 6; i++) petals.push(ellipse(tx + Math.cos((i / 6) * TAU) * r * 0.8, ty + Math.sin((i / 6) * TAU) * r * 0.8, r * 0.62, r * 0.42, (i / 6) * TAU))
   P.group(petals, color, { shade: 0.3, line: 0.7 })
   P.shape(circle(tx, ty, r * 0.48), '#ffd76a', { shade: 0.3, line: 0.6, tex: false })

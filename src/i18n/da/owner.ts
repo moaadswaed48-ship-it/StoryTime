@@ -62,6 +62,8 @@ export default {
     noPicture: 'Intet billede endnu',
     zoneLegend: 'Hvor ordene står på billedet',
     zoneHint: '"Læsesiden" er højre på arabisk og hebraisk og venstre på engelsk og dansk. Selve billedet vendes aldrig.',
+    zoneSideLegend: 'Side',
+    zoneVLegend: 'Højde',
     zoneSide: { start: 'Læsesiden', end: 'Den anden side', full: 'Hele bredden' },
     zoneV: { top: 'Øverst', middle: 'I midten', bottom: 'Nederst' },
     zoneSizeLegend: 'Plads til ordene',

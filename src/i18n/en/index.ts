@@ -4,5 +4,6 @@ import actions from './actions'
 import commerce from './commerce'
 import common from './common'
 import pages from './pages'
+import stories from './stories'
 
-export default { common, actions, pages, account, commerce } satisfies Dict
+export default { common, actions, pages, account, commerce, stories } satisfies Dict

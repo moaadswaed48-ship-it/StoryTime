@@ -200,6 +200,8 @@ export class LocalApi implements DataApi {
   sendTestProviderEvent(event: ProviderEvent) {
     if (event.provider !== 'test') return Promise.reject(new DataError('unknown', 'only the test provider calls from the browser'))
     return this.run(() => {
+      // As the payment-callback edge function: only the signed-in owner of the order (review finding W12).
+      this.server.getOrder(this.uid(), event.orderId)
       // A short delay, as with a real callback that arrives after the browser has returned.
       setTimeout(() => {
         try {

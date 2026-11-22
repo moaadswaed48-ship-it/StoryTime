@@ -128,7 +128,7 @@ describe('trial and passes', () => {
     const order = await api.createOrder({ ageGroup: '6-8', months: 1, provider: 'test', termsVersion: TERMS_VERSION })
     expect(order).toMatchObject({ status: 'pending', amountAgorot: 0, priceWasPlaceholder: true })
     expect((await api.getAccess()).passes).toEqual([]) // returning from the provider page alone unlocks nothing
-    expect(await codeOf(api.createOrder({ ageGroup: '6-8', months: 1, provider: 'cardcom', termsVersion: TERMS_VERSION }))).toBe('price_not_set')
+    expect(await codeOf(api.createOrder({ ageGroup: '6-8', months: 1, provider: 'cardcom', termsVersion: TERMS_VERSION }))).toBe('unknown') // provider_not_connected
     const paid = await buy('6-8')
     expect(paid.status).toBe('paid')
     expect((await api.getStoryContent('story-sample-68-2', 'en')).pages).toHaveLength(2)
@@ -158,7 +158,13 @@ describe('trial and passes', () => {
     const [a, b] = (await api.getAccess()).passes
     expect(b!.startsAt).toBe(a!.endsAt)
     await api.cancelPurchase(a!.id)
-    expect(await codeOf(api.getStoryContent('story-sample-45-1', 'en'))).toBe('locked')
+    // The queued pass moves forward to now (review finding W4), so the group stays open.
+    expect(await codeOf(api.getStoryContent('story-sample-45-1', 'en'))).toBe('ok')
+    const only = (await api.getAccess()).passes.length
+    await buy('6-8')
+    const c = (await api.getAccess()).passes[only]!
+    await api.cancelPurchase(c.id)
+    expect(await codeOf(api.getStoryContent('story-sample-68-2', 'en'))).toBe('locked')
     advance(15 * DAY)
     expect(await codeOf(api.cancelPurchase(b!.id))).toBe('cancel_window_closed')
   })

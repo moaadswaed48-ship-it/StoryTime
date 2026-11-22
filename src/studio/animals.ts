@@ -177,7 +177,7 @@ function sheep(P: Painter, a: AnimalPose, k: Coat) {
   const c = P.ctx
   const sw = Math.sin(a.walk * Math.PI * 2) * 10
   for (const [x, f] of [[-34, -1], [38, 1]] as const) leg(P, { x, y: -40 }, { x: x + f * sw, y: -3 }, 10, mixHex(k.mark, '#2a1830', 0.3))
-  const wool: Path2D[] = []
+  const wool: Pen[] = []
   const n = 13
   for (let i = 0; i < n; i++) {
     const t = (i / n) * Math.PI * 2

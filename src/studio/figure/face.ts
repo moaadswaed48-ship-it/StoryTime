@@ -3,7 +3,7 @@
  * the head. Drawn in the head's own frame: origin at the head's centre, already rotated by the head angle.
  */
 import type { Sheet } from '@/cast/sheet'
-import { Painter, TAU, blob, circle, clamp01, curve, ellipse, seededList } from '../kit/core'
+import { Painter, Pen, TAU, blob, circle, clamp01, curve, ellipse, seededList } from '../kit/core'
 import { mixHex } from '../style/color'
 import type { Pose } from './pose'
 import type { Rig } from './rig'
@@ -16,11 +16,11 @@ export const blushOf = (s: Sheet) => s.blush ?? mixHex(s.skin, '#e9624e', 0.42)
 const browOf = (s: Sheet) => s.brows?.color ?? mixHex(s.hair.style === 'none' || s.hair.style === 'covered' ? mixHex(s.skin, '#3a2420', 0.7) : s.hair.color, '#2a1a1c', 0.25)
 
 /** The outline of the head: a round skull over cheeks that are fuller the younger the character is. */
-export function headPath(g: Rig, turn = 0): Path2D {
+export function headPath(g: Rig, turn = 0): Pen {
   const R = g.headRx
   const Ry = g.headRy
   const j = g.jaw
-  const p = new Path2D()
+  const p = new Pen()
   const cx = turn * R * 0.06
   p.moveTo(0, -Ry)
   p.bezierCurveTo(R * 0.64, -Ry, R, -Ry * 0.62, R, -Ry * 0.06)
@@ -34,9 +34,9 @@ export function headPath(g: Rig, turn = 0): Path2D {
 type HairCtx = { P: Painter; s: Sheet; g: Rig; p: Pose; R: number; Ry: number; fx: number; hc: string; hl: string }
 
 /** A cap of hair over the skull: from temple to temple over the crown, closed along `line` (the hairline, left to right as x,y pairs). */
-function cap(h: HairCtx, side: number, line: number[], lift = 1.07): Path2D {
+function cap(h: HairCtx, side: number, line: number[], lift = 1.07): Pen {
   const { R, Ry } = h
-  const p = new Path2D()
+  const p = new Pen()
   p.moveTo(-R * 1.05, side)
   p.bezierCurveTo(-R * 1.16, -Ry * 0.66, -R * 0.66, -Ry * lift, 0, -Ry * lift)
   p.bezierCurveTo(R * 0.66, -Ry * lift, R * 1.16, -Ry * 0.66, R * 1.05, side)
@@ -53,7 +53,7 @@ function braid(h: HairCtx, x0: number, y0: number, len: number, w: number, ang: 
   c.translate(x0, y0)
   c.rotate(ang)
   const step = len / n
-  const parts: Path2D[] = []
+  const parts: Pen[] = []
   for (let i = 0; i < n; i++) {
     const k = 1 - (i / n) * 0.4
     parts.push(ellipse(((i % 2) - 0.5) * w * 0.18, step * (i + 0.5), (w / 2) * k, step * 0.66, ((i % 2) - 0.5) * 0.5))
@@ -97,7 +97,7 @@ export function drawHairBack(P: Painter, s: Sheet, g: Rig, p: Pose, back: boolea
     P.shape(circle(p.turn * -R * 0.1, -Ry * 1.18, R * 0.44), h.hc)
   } else if (style === 'curls') {
     const r = seededList(31, 24)
-    const parts: Path2D[] = []
+    const parts: Pen[] = []
     for (let i = 0; i < 11; i++) {
       const a = Math.PI * (0.94 + (i / 10) * 1.12)
       parts.push(circle(Math.cos(a) * R * 1.02, Math.sin(a) * Ry * 0.98 + Ry * 0.02, R * (0.3 + r[i] * 0.1)))
@@ -142,7 +142,7 @@ export function drawHairFront(P: Painter, s: Sheet, g: Rig, p: Pose, back: boole
       P.shape(circle(0, -Ry * 0.72, R * 0.46), h.hc)
     } else if (style === 'curls') {
       const r = seededList(32, 20)
-      const parts: Path2D[] = []
+      const parts: Pen[] = []
       for (let i = 0; i < 9; i++) parts.push(circle((r[i] - 0.5) * R * 1.5, -Ry * 0.5 + r[i + 9] * Ry * 1.1, R * 0.3))
       P.group(parts, h.hc, { shade: 0.5 })
     }
@@ -165,7 +165,7 @@ export function drawHairFront(P: Painter, s: Sheet, g: Rig, p: Pose, back: boole
     }
     case 'curls': {
       const r = seededList(33, 24)
-      const parts: Path2D[] = []
+      const parts: Pen[] = []
       for (let i = 0; i < 7; i++) parts.push(circle(-R * 0.84 + (i / 6) * R * 1.68 + fx * 0.3, line - Ry * 0.16 - Math.sin((i / 6) * Math.PI) * Ry * 0.2 + (r[i] - 0.5) * R * 0.1, R * (0.27 + r[i + 7] * 0.07)))
       for (let i = 0; i < 5; i++) parts.push(circle(-R * 0.56 + (i / 4) * R * 1.12, -Ry * 0.86 + (r[i + 14] - 0.5) * R * 0.1, R * 0.3))
       P.group(parts, h.hc, { shade: 0.6 })
@@ -238,7 +238,7 @@ export function drawHead(P: Painter, s: Sheet, g: Rig, p: Pose, back: boolean) {
   if (covered && !back) {
     // the headscarf, then the face showing through its opening
     const cc = s.hair.cover ?? s.hair.color
-    const hood = new Path2D()
+    const hood = new Pen()
     hood.moveTo(0, -Ry * 1.12)
     hood.bezierCurveTo(R * 0.8, -Ry * 1.12, R * 1.2, -Ry * 0.6, R * 1.16, 0)
     hood.bezierCurveTo(R * 1.14, Ry * 0.7, R * 0.7, Ry * 1.24, 0, Ry * 1.28)
@@ -246,7 +246,7 @@ export function drawHead(P: Painter, s: Sheet, g: Rig, p: Pose, back: boolean) {
     hood.bezierCurveTo(-R * 1.2, -Ry * 0.6, -R * 0.8, -Ry * 1.12, 0, -Ry * 1.12)
     P.shape(hood, cc)
     const fx = p.turn * R * 0.2
-    const face = new Path2D()
+    const face = new Pen()
     face.moveTo(fx, -Ry * 0.7)
     face.bezierCurveTo(R * 0.7 + fx, -Ry * 0.7, R * 0.88 + fx, -Ry * 0.2, R * 0.86 + fx, Ry * 0.2)
     face.bezierCurveTo(R * 0.84 + fx, Ry * 0.7, R * 0.4 + fx, Ry * 0.96, fx, Ry * 0.96)
@@ -291,7 +291,7 @@ function drawFace(P: Painter, s: Sheet, g: Rig, p: Pose, fit: number) {
   for (const side of [-1, 1]) {
     const cx = fx + side * gap
     if (arcs) {
-      const q = new Path2D()
+      const q = new Pen()
       if (p.blink > 0.82) {
         q.moveTo(cx - ew * 1.05, ey + eh * 0.05)
         q.quadraticCurveTo(cx, ey + eh * 0.95, cx + ew * 1.05, ey + eh * 0.05)
@@ -310,7 +310,7 @@ function drawFace(P: Painter, s: Sheet, g: Rig, p: Pose, fit: number) {
     const ix = cx + p.lookX * (ew - ir * 0.72) + p.turn * ew * 0.12
     const iy = ey + p.lookY * eh * 0.3 + (upper - lower) * eh * 0.18
     c.save()
-    c.clip(eye)
+    c.clip(eye.raw)
     P.flat(circle(ix, iy, ir), mixHex(s.eyes.color, '#20130f', 0.38))
     P.flat(circle(ix, iy, ir * 0.56), '#1c1210')
     P.flat(circle(ix - ir * 0.36, iy - ir * 0.4, ir * 0.3), '#ffffff')
@@ -318,7 +318,7 @@ function drawFace(P: Painter, s: Sheet, g: Rig, p: Pose, fit: number) {
     // lids are skin closing over the eye
     const ly = ey - eh + 2 * eh * upper
     if (upper > 0.02) {
-      const q = new Path2D()
+      const q = new Pen()
       q.moveTo(cx - ew * 1.2, ey - eh * 1.3)
       q.lineTo(cx + ew * 1.2, ey - eh * 1.3)
       q.lineTo(cx + ew * 1.2, ly - eh * 0.1)
@@ -328,30 +328,30 @@ function drawFace(P: Painter, s: Sheet, g: Rig, p: Pose, fit: number) {
     }
     if (lower > 0.02) {
       const by = ey + eh - 2 * eh * lower
-      const q = new Path2D()
+      const q = new Pen()
       q.moveTo(cx - ew * 1.2, ey + eh * 1.3)
       q.lineTo(cx + ew * 1.2, ey + eh * 1.3)
       q.lineTo(cx + ew * 1.2, by + eh * 0.2)
       q.quadraticCurveTo(cx, by - eh * 0.34, cx - ew * 1.2, by + eh * 0.2)
       q.closePath()
       P.flat(q, s.skin)
-      const e2 = new Path2D()
+      const e2 = new Pen()
       e2.moveTo(cx - ew, by + eh * 0.14)
       e2.quadraticCurveTo(cx, by - eh * 0.3, cx + ew, by + eh * 0.14)
       P.line(e2, skinInk, lw * 0.7)
     }
     if (upper > 0.02) {
-      const e2 = new Path2D()
+      const e2 = new Pen()
       e2.moveTo(cx - ew * 1.1, ly - eh * 0.08)
       e2.quadraticCurveTo(cx, ly + eh * 0.2, cx + ew * 1.1, ly - eh * 0.08)
       P.line(e2, lash, lw * 1.5)
     }
     c.restore()
     // the drawn upper lash line, and a faint lower rim
-    const top = new Path2D()
+    const top = new Pen()
     top.ellipse(cx, ey, ew, eh, 0, Math.PI * 1.06, Math.PI * 1.94)
     P.line(top, lash, lw * 1.3)
-    const bot = new Path2D()
+    const bot = new Pen()
     bot.ellipse(cx, ey, ew, eh, 0, Math.PI * 0.14, Math.PI * 0.86)
     P.line(bot, skinInk, lw * 0.5, 0.7)
   }
@@ -362,7 +362,7 @@ function drawFace(P: Painter, s: Sheet, g: Rig, p: Pose, fit: number) {
     const cx = fx + side * gap
     const by = ey - eh * (arcs ? 0.8 : 1) - R * 0.13 - p.brow * R * 0.11
     const half = R * 0.21
-    const q = new Path2D()
+    const q = new Pen()
     q.moveTo(cx - side * half * 0.95, by - p.browTilt * R * 0.1)
     q.quadraticCurveTo(cx + side * half * 0.1, by - R * 0.06 - Math.max(0, p.brow) * R * 0.04 - Math.max(0, p.browTilt) * R * 0.02, cx + side * half * 1.1, by + p.browTilt * R * 0.07 + R * 0.025)
     P.line(q, browOf(s), bw)
@@ -372,7 +372,7 @@ function drawFace(P: Painter, s: Sheet, g: Rig, p: Pose, fit: number) {
   const nx = fx + p.turn * R * 0.12
   const ny = ey + eh * 0.55 + R * (young ? 0.17 : 0.24)
   const d = p.turn < 0 ? -1 : 1
-  const nose = new Path2D()
+  const nose = new Pen()
   if (young) {
     const k = R * 0.065
     nose.moveTo(nx - k, ny - k * 0.5)
@@ -399,7 +399,7 @@ function drawFace(P: Painter, s: Sheet, g: Rig, p: Pose, fit: number) {
   const my = Math.min(Ry * 0.74, ey + eh * 0.55 + R * (young ? 0.42 : 0.5)) + nod * 0.2
   const hairC = s.hair.style === 'none' || s.hair.style === 'covered' ? mixHex(s.skin, '#3a2420', 0.75) : s.hair.color
   if (s.extras?.includes('beard')) {
-    const b = new Path2D()
+    const b = new Pen()
     b.moveTo(fx - R * 0.86, ey + R * 0.2)
     b.bezierCurveTo(fx - R * 0.9, Ry * 0.9, fx - R * 0.4, Ry * 1.24, mx, Ry * 1.26)
     b.bezierCurveTo(fx + R * 0.4, Ry * 1.24, fx + R * 0.9, Ry * 0.9, fx + R * 0.86, ey + R * 0.2)
@@ -422,11 +422,11 @@ function drawFace(P: Painter, s: Sheet, g: Rig, p: Pose, fit: number) {
     }
   } else {
     const hgt = R * (0.07 + 0.34 * p.open)
-    let q: Path2D
+    let q: Pen
     if (p.mWide < 0.26) q = ellipse(mx, my + hgt * 0.36, w * (0.9 + 0.5 * p.open), hgt * 0.62)
     else {
       const up = s2 * R * 0.07
-      q = new Path2D()
+      q = new Pen()
       q.moveTo(mx - w, my - up)
       q.quadraticCurveTo(mx, my + s2 * R * 0.045, mx + w, my - up)
       q.bezierCurveTo(mx + w * 0.96, my + hgt * 1.2, mx + w * 0.2, my + hgt * 1.26, mx, my + hgt * 1.26)
@@ -435,10 +435,10 @@ function drawFace(P: Painter, s: Sheet, g: Rig, p: Pose, fit: number) {
     }
     P.flat(q, MOUTH)
     c.save()
-    c.clip(q)
+    c.clip(q.raw)
     P.flat(ellipse(mx, my + hgt * (p.mWide < 0.26 ? 0.9 : 1.2), w * 0.62, hgt * 0.5), TONGUE)
     if (p.mWide >= 0.26 && s2 > 0.25 && p.open > 0.3) {
-      const teeth = new Path2D()
+      const teeth = new Pen()
       teeth.rect(mx - w * (young && g.stage === 'toddler' ? 0.3 : 0.74), my - R * 0.1, w * (g.stage === 'toddler' ? 0.6 : 1.48), R * 0.1 + hgt * 0.26)
       P.flat(teeth, WHITE)
     }

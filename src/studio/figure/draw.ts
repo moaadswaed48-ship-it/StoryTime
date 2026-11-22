@@ -5,7 +5,7 @@
  * clothes from the sheet, the look (line, shading, exaggeration) from the Painter's style profile.
  */
 import type { Sheet } from '@/cast/sheet'
-import { Painter, blob, circle, clamp01, curve, ellipse, lerp, limbPath, rrect, type Pt } from '../kit/core'
+import { Painter, Pen, blob, circle, clamp01, curve, ellipse, lerp, limbPath, rrect, type Pt } from '../kit/core'
 import { mixHex } from '../style/color'
 import { drawHairBack, drawHairFront, drawHead } from './face'
 import type { Pose } from './pose'
@@ -298,7 +298,7 @@ export function drawFigure(P: Painter, sheet: Sheet, pose: Pose, o: FigureOpts =
       const grown = g.stage !== 'toddler' && g.stage !== 'child'
       const hem = Math.min(hemMax, legLen * (grown ? 0.66 : 0.44))
       const hw = g.hipW * (grown ? 1.42 : 1.6)
-      const sk = new Path2D()
+      const sk = new Pen()
       sk.moveTo(-g.waistW * 0.94, -T * 0.16)
       sk.lineTo(g.waistW * 0.94, -T * 0.16)
       sk.quadraticCurveTo(g.hipW * 1.16, hem * 0.4, hw + sw, hem)
@@ -315,7 +315,7 @@ export function drawFigure(P: Painter, sheet: Sheet, pose: Pose, o: FigureOpts =
     const hem = long > 0 ? Math.min(hemMax, legLen * long) : g.legW0 * 0.3
     const hemW = style === 'dress' ? g.hipW * (1.36 + 0.5 * long) : long > 0 ? g.hipW * 1.16 : g.hipW * 1.04
     const sx = g.shW
-    const top = new Path2D()
+    const top = new Pen()
     top.moveTo(-sx * 0.46, -T - g.shDrop * 0.5)
     top.quadraticCurveTo(-sx * 0.98, -T - g.shDrop * 0.3, -sx * 1.02, -T + g.shDrop * 1.1)
     top.bezierCurveTo(-g.waistW * 1.04, -T * 0.6, -g.waistW * 1.02, -T * 0.2, -hemW + (long > 0 ? sw : 0), hem)
@@ -361,7 +361,7 @@ export function drawFigure(P: Painter, sheet: Sheet, pose: Pose, o: FigureOpts =
           // the bib and skirt of the apron over the jumper, a pocket, the neck strap
           const ah = Math.min(hemMax, legLen * 0.4)
           const bw = g.shW * 0.56
-          const ap = new Path2D()
+          const ap = new Pen()
           ap.moveTo(-bw, -T * 0.86)
           ap.lineTo(bw, -T * 0.86)
           ap.quadraticCurveTo(bw * 1.1, -T * 0.4, g.waistW * 1.0, -T * 0.34)
@@ -416,11 +416,11 @@ export function drawFigure(P: Painter, sheet: Sheet, pose: Pose, o: FigureOpts =
       const cur = c.getTransform()
       c.save()
       c.setTransform(topM)
-      c.clip(top)
+      c.clip(top.raw)
       c.setTransform(cur)
       c.globalAlpha = 0.85
       c.fillStyle = P.shadeOf(style === 'apron' ? underTop(s) : s.top.color)
-      c.fill(ellipse(k.head.x - P.style.light.x * g.headRx * 0.36, k.head.y - P.style.light.y * g.headRy * 0.5, g.headRx * 0.96, g.headRy * 0.94, k.headAngle))
+      c.fill(ellipse(k.head.x - P.style.light.x * g.headRx * 0.36, k.head.y - P.style.light.y * g.headRy * 0.5, g.headRx * 0.96, g.headRy * 0.94, k.headAngle).raw)
       c.restore()
     }
     c.save()

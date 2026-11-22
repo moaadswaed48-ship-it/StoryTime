@@ -5,7 +5,7 @@
  * All sizes follow the Painter's page (P.W × P.H) and the ground line `gy`, so one place serves film and book.
  */
 import { drawAnimal, restAnimal } from '../animals'
-import { Painter, blob, circle, curve, cutRect, ellipse, poly, seededList } from '../kit/core'
+import { Painter, Pen, blob, circle, curve, cutRect, ellipse, poly, seededList } from '../kit/core'
 import { mixHex } from '../style/color'
 import { bush, cloud, flower, grass, ground, hills, leafSpray, moon, pathway, potPlant, sea, sky, stars, sun, surf, tree } from './nature'
 import { ball, basket, bed, block, book, bucket, bunting, clock, crate, fence, fruit, house, lamp, pinnedDrawing, room, rug, shelf, stall, stoneWall, sunPatch, teddy, toyCar, umbrella, windowIn } from './things'
@@ -145,7 +145,7 @@ export function street(P: Painter, t: number, o: { gy: number }) {
   })
   P.world()
   ground(P, gy - 150, '#ecd6a8', { seed: 33, bow: 6 })
-  const tiles = new Path2D()
+  const tiles = new Pen()
   for (let i = -6; i <= 6; i++) {
     tiles.moveTo(P.W / 2 + i * 150, gy - 150)
     tiles.lineTo(P.W / 2 + i * 420, P.H + 40)

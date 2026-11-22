@@ -34,7 +34,7 @@ export type MediaRecord = {
   createdAt: Iso
 }
 
-export type UploadMeta = { kind: MediaKind; purpose: UploadPurpose; source: MediaSource; licence: string; credit: string | null }
+export type UploadMeta = { purpose: UploadPurpose; source: MediaSource; licence: string; credit: string | null }
 /** Decides the size and type limits: a book picture, a film, a caption file, a step picture or loop. */
 export type UploadPurpose = 'page' | 'film' | 'captions' | 'step'
 

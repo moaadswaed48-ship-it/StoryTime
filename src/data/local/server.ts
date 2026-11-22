@@ -92,6 +92,9 @@ export type LocalDb = {
   failedSignIns: Record<string, Iso[]>
   /** Added in part B1; older saved databases simply have none yet. */
   progress: ProgressRow[]
+  /** start_trial()'s private.trial_ledger: a salted hash of each email that started a trial, kept after deletion. */
+  trialLedger?: { emailHash: string; usedOn: string }[]
+  ledgerSalt?: string
 }
 
 /**
@@ -186,7 +189,7 @@ export class LocalServer {
     const email = norm(input.email)
     if (!isEmail(email)) throw new DataError('invalid_email')
     if (input.password.length < MIN_PASSWORD) throw new DataError('weak_password')
-    if (!input.termsVersion || !input.adult) throw new DataError('terms_required')
+    if (input.termsVersion !== TERMS_VERSION || !input.adult) throw new DataError('terms_required')
     const salt = uuid()
     const hash = await hashPassword(input.password, salt)
     return this.tx((db) => {
@@ -369,10 +372,11 @@ export class LocalServer {
     const orders = db.orders.filter((o) => o.accountId === id)
     const orderIds = new Set(orders.map((o) => o.id))
     return {
+      // The same keys as export_my_data() in SQL (review finding W6; tests/export-shape.ts).
       exported_at: this.now(),
-      note: 'Test mode: this data lives only in this browser.',
-      account: this.getAccount(id),
-      profiles: this.listLearners(id),
+      email: db.users.find((u) => u.id === id)!.email,
+      profile: (({ email: _e, ...p }) => p)(this.getAccount(id)),
+      children: this.listLearners(id),
       consents: db.consents.filter((c) => c.accountId === id),
       trial: db.trials.find((t) => t.accountId === id) ?? null,
       orders,
@@ -380,6 +384,7 @@ export class LocalServer {
       passes: db.passes.filter((p) => p.accountId === id),
       refunds: db.refunds.filter((r) => orderIds.has(r.orderId)),
       progress: db.progress.filter((p) => p.accountId === id).map(({ accountId: _a, ...p }) => p),
+      note: 'Test mode: this data lives only in this browser.',
     }
   }
 
@@ -485,12 +490,15 @@ export class LocalServer {
     })
   }
 
-  /** start_trial(): one per account, 3 days, the group's trial stories copied at start. */
-  startTrial(uid: string | null, group: AgeGroup): Trial {
+  /** start_trial(): one per account and one per email address (also after deletion), 3 days, the stories copied at start. */
+  async startTrial(uid: string | null, group: AgeGroup): Promise<Trial> {
     const id = this.requireUser(uid)
     if (!isAgeGroup(group)) throw new DataError('unknown', 'bad_age_group')
+    const salt = this.tx((db) => (db.ledgerSalt ??= uuid()))
+    const emailHash = await hashPassword(norm(this.read().users.find((u) => u.id === id)!.email), salt)
     return this.tx((db) => {
       if (db.trials.some((t) => t.accountId === id)) throw new DataError('trial_used')
+      if (db.trialLedger?.some((x) => x.emailHash === emailHash)) throw new DataError('trial_used')
       const storyIds = CATALOGUE.filter((s) => s.status === 'published')
         .flatMap((s) => s.groups.filter((g) => g.group === group && g.trial).map((g) => ({ id: s.id, pos: g.position })))
         .sort((a, b) => a.pos - b.pos)
@@ -500,6 +508,7 @@ export class LocalServer {
       const now = this.now()
       const trial: TrialRow = { id: uuid(), accountId: id, ageGroup: group, startedAt: now, endsAt: addDays(now, TRIAL_DAYS), storyIds }
       db.trials.push(trial)
+      ;(db.trialLedger ??= []).push({ emailHash, usedOn: now.slice(0, 10) })
       return { id: trial.id, ageGroup: group, startedAt: trial.startedAt, endsAt: trial.endsAt, storyIds }
     })
   }
@@ -514,11 +523,14 @@ export class LocalServer {
   createOrder(uid: string | null, input: { ageGroup: AgeGroup; months: PassMonths; provider: string; termsVersion: string }): Order {
     const id = this.requireUser(uid)
     if (!isAgeGroup(input.ageGroup) || !isPassMonths(input.months)) throw new DataError('unknown', 'bad_plan')
-    if (!input.termsVersion) throw new DataError('terms_required')
+    if (input.termsVersion !== TERMS_VERSION) throw new DataError('terms_required')
+    // As create_order(): test mode always allows the test provider; no real provider is connected (R5).
+    if (input.provider !== 'test') throw new DataError('unknown', 'provider_not_connected')
     const price = this.listPrices().find((p) => p.ageGroup === input.ageGroup && p.months === input.months)!.priceAgorot
-    if (price === null && input.provider !== 'test') throw new DataError('price_not_set')
     return this.tx((db) => {
       const now = this.now()
+      const hourAgo = new Date(now).getTime() - 3_600_000
+      if (db.orders.filter((o) => o.accountId === id && o.status === 'pending' && new Date(o.createdAt).getTime() > hourAgo).length >= 5) throw new DataError('rate_limited')
       const o: OrderRow = {
         id: uuid(), accountId: id, ageGroup: input.ageGroup, months: input.months, amountAgorot: price ?? 0, priceWasPlaceholder: price === null,
         provider: input.provider, status: 'pending', createdAt: now, paidAt: null, termsVersion: input.termsVersion,
@@ -552,7 +564,9 @@ export class LocalServer {
    */
   handleProviderEvent(e: ProviderEvent, lang: Lang = 'en') {
     this.tx((db) => {
-      if (db.providerEvents.some((x) => x.provider === e.provider && x.eventId === e.eventId)) return
+      const seen = db.providerEvents.find((x) => x.provider === e.provider && x.eventId === e.eventId)
+      if (seen && seen.orderId !== e.orderId) throw new DataError('unknown', 'event_order_mismatch')
+      if (seen) return
       db.providerEvents.push({ provider: e.provider, eventId: e.eventId, orderId: e.orderId, kind: e.kind, receivedAt: this.now() })
       const o = db.orders.find((x) => x.id === e.orderId)
       if (!o) throw new DataError('not_found', 'order')
@@ -562,7 +576,8 @@ export class LocalServer {
         return
       }
       if (o.status === 'paid') return
-      if (o.status !== 'pending') throw new DataError('unknown', 'order_not_pending')
+      // As confirm_payment(): a verified success after a "failed" or "cancelled" event still makes the pass (R2).
+      if (o.status !== 'pending' && o.status !== 'failed' && o.status !== 'cancelled') throw new DataError('unknown', 'order_not_pending')
       if (e.amountAgorot !== o.amountAgorot) throw new DataError('unknown', 'amount_mismatch')
       if (!o.accountId) throw new DataError('unknown', 'account_gone')
       const now = this.now()
@@ -587,6 +602,15 @@ export class LocalServer {
       if (!canCancel(pass, this.now())) throw new DataError('cancel_window_closed')
       row.status = 'cancelled'
       row.cancelledAt = this.now()
+      // As cancel_purchase(): passes queued behind this one move earlier by the time it had left (W4).
+      const unused = new Date(row.endsAt).getTime() - Math.max(new Date(this.now()).getTime(), new Date(row.startsAt).getTime())
+      if (unused > 0) {
+        for (const q of db.passes) {
+          if (q.id === row.id || q.accountId !== id || q.ageGroup !== row.ageGroup || q.status !== 'active' || q.startsAt < row.endsAt) continue
+          q.startsAt = new Date(new Date(q.startsAt).getTime() - unused).toISOString()
+          q.endsAt = new Date(new Date(q.endsAt).getTime() - unused).toISOString()
+        }
+      }
       db.refunds.push({ id: uuid(), orderId: row.orderId!, passId: row.id, amountAgorot: pass.amountAgorot, feeAgorot: null, status: 'requested', requestedAt: this.now() })
       const u = db.users.find((x) => x.id === id)!
       db.outbox.push({ id: uuid(), to: u.email, template: 'cancellation', lang, link: null, createdAt: this.now() })
@@ -596,7 +620,12 @@ export class LocalServer {
   requestCancellation(input: { email: string; orderRef: string; message?: string }) {
     if (!isEmail(input.email)) throw new DataError('invalid_email')
     if (!input.orderRef.trim()) throw new DataError('unknown', 'order_ref_required')
-    this.tx((db) => void db.cancellationRequests.push({ id: uuid(), email: input.email.trim(), orderRef: input.orderRef.trim(), message: input.message?.trim() || null, createdAt: this.now() }))
+    this.tx((db) => {
+      // As request_cancellation(): at most 3 an hour for one address (R6).
+      const hourAgo = new Date(this.now()).getTime() - 3_600_000
+      if (db.cancellationRequests.filter((r) => norm(r.email) === norm(input.email) && new Date(r.createdAt).getTime() > hourAgo).length >= 3) throw new DataError('rate_limited')
+      db.cancellationRequests.push({ id: uuid(), email: input.email.trim(), orderRef: input.orderRef.trim(), message: input.message?.trim() || null, createdAt: this.now() })
+    })
   }
 
   /** Whether any pass of this account opens content right now (used by tests). */

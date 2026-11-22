@@ -243,3 +243,54 @@ Count: **BROKEN 2 · RISK 8 · WEAK 14 · FINE 12**
 12. Sign-in uses one message for wrong password and unknown email; reset and resend say nothing either way;
     sign-up says "email already used" as the checklist decided. The local seed holds only placeholder text, so no
     paid text ships in the bundle (rule 6).
+
+---
+
+## Fixes (22 Nov 2026)
+
+By a builder, after this review. Database changes are in a new migration,
+`supabase/migrations/20261122110000_review_fixes.sql` (earlier migrations untouched). New tests: 42 in
+`tests/db/review-fixes.test.ts` (18), `tests/db/catalogue.test.ts` (5), `tests/db/supabase-data-layer.test.ts` (3),
+`tests/payment-callback.test.ts` (6), `tests/local-review-fixes.test.ts` (10). Checked that they fail before the fix:
+20 of the 23 database tests fail without the new migration (the other 3 are standing guards that were already true:
+every table has RLS, the function allow-list, the price-list match); the 3 data-layer tests' 2 owner cases fail
+without the account filters; all 10 local tests fail on the previous local backend. Three existing tests changed
+because the rule they pinned changed: `access.test.ts` (a `cardcom` order now needs the provider to be connected
+first; unlocking the author's text in the clean-up now needs a consent reference) and `local-data.test.ts` (a
+`cardcom` order is refused as "not connected"; cancelling a pass now moves the queued pass forward, so access stays).
+
+New in the database: a `private` schema that no API role can reach (`private.settings`: test payments switch,
+connected providers, the trial-record salt; `private.terms_versions`; `private.trial_ledger`). On the preview
+project run `update private.settings set allow_test_payments = true;`. Production leaves it off.
+
+| # | Status | What was done | Proof |
+|---|---|---|---|
+| B1 | Fixed (needs a real project to run) | Request handling moved to `supabase/functions/payment-callback/handler.ts` (no Deno imports); `index.ts` only wires it. OPTIONS answered with 204 and allow headers; every response carries `Access-Control-Allow-*` and `Vary: Origin`, but only for origins listed in the `SITE_ORIGINS` function secret (exact origins; `*` and malformed entries are dropped); other origins get no allow headers (403 on preflight). | `payment-callback.test.ts`: preflight from the site, refused preflight from elsewhere, headers on 405/400/401/422/200, no headers without Origin |
+| B2 | Fixed | `src/data/supabase/index.ts`: trials, passes, orders and `getOrder` filtered by the signed-in account. Better than changing the policies, which part B's owner area relies on. The class now takes an optional client, so it can be tested. | `supabase-data-layer.test.ts`: the data layer runs against the real policies through a small query-builder stand-in; the owner gets no trial, passes or orders of others, and another account's order is "not found" |
+| R1 | Fixed | `handle_new_user` raises `terms_required` unless `terms_accepted` and `adult` are JSON `true` and `terms_version` is in `private.terms_versions` (seeded with `draft-2026-11-22`). `create_order` checks the version too. Local backend: sign-up and orders accept only `TERMS_VERSION`. Side effect: users added in the dashboard or by a future social sign-in are refused unless their metadata carries the same fields. | `review-fixes.test.ts` R1 (role-only metadata, no adult, no terms, `"true"` as text, unknown and null version; plus the site's `TERMS_VERSION` is published); `local-review-fixes.test.ts` R1 |
+| R2 | Fixed | `confirm_payment` accepts a verified success for a `failed` or `cancelled` order (amount still checked); the same in the local backend. | `review-fixes.test.ts` R2 (cancelled then paid; failed, wrong amount refused, then paid); local R2 |
+| R3 | Fixed | `start_trial` writes a salted SHA-256 of the lower-cased, trimmed email and the day into `private.trial_ledger`, kept after deletion, and refuses a trial for a hash already there. Local backend keeps the same record. Noted for the lawyer in `docs/LEGAL-CHECKLIST.md` question 10. Not caught: a different address (including `+tag` aliases). Reading `auth.users.email` from the function is not proven on Supabase. | `review-fixes.test.ts` R3 (delete, re-sign-up with `" Again@Example.test "`, refused; another address allowed; the record holds no email and is not the plain hash); local R3 |
+| R4 | Fixed | Default privileges for `postgres` in `public`: nothing for anon/authenticated on new tables, sequences and functions; no EXECUTE for PUBLIC on new functions. Tables made earlier keep their grants, so anon's privileges on every public table except `age_groups` and `pass_prices` are revoked (this closed anon's default grant on part B's `email_suppressions`). | `catalogue.test.ts`: every table has RLS and a policy; anon touches only the two tables; anon and authenticated can call only the reviewed functions (a new one fails until listed); a table, function and sequence created afterwards are closed; the private schema is unreachable |
+| R5 | Fixed | `create_order` refuses `test` unless `private.settings.allow_test_payments`, and any other provider not in `private.settings.payment_providers` (`provider_not_connected`); `confirm_payment` and `record_payment_failure` refuse `test` when the switch is off. Local backend (always test mode) refuses every provider but `test`. | `review-fixes.test.ts` R5 on a production-like database (test off: order and confirm refused; `zzz` and unconnected `cardcom` refused; connected `cardcom` takes the database price); local R5 |
+| R6 | Partly fixed | `request_cancellation` (and the local backend) allow 3 requests an hour per email address. NOT fixed: the CAPTCHA and per-IP limit through an edge function, which needs a CAPTCHA account (for example Cloudflare Turnstile): an account needs the owner's yes. A flood with many different addresses is still possible until then. | `review-fixes.test.ts` R6; local R6 |
+| R7 | Needs a real Supabase project | Not changed. Whether the function owner may delete from `auth.users` on Supabase can only be shown on a project (the same question applies to R3's read of `auth.users.email`). The code comment in `delete_my_account` already names the fallback (an edge function with `auth.admin.deleteUser`). Other devices: deleting the user removes its sessions and refresh tokens; an access token lives until it expires and can write nothing (reviewer confirmed). | none possible here |
+| R8 | Fixed (screens checked by typecheck only) | New `src/features/commerce/usePrices.ts` loads `api.listPrices()`; checkout (`src/routes/app/checkout.tsx`) shows that price (the one `create_order` charges) and the in-app plans page passes it to `PlanCards`. The pre-rendered public plans page keeps the static list. | `review-fixes.test.ts` R8: the static list equals the database's prices. The e2e walk-through was not re-run |
+| W1 | Fixed | Consent insert policy: only `kind = 'marketing'`, `source = 'settings'`, no terms version. | `review-fixes.test.ts` W1 |
+| W2 | Fixed | `record_payment_failure` checks the order's provider (`provider_mismatch`). | `review-fixes.test.ts` W2 |
+| W3 | Fixed | A repeated event id naming another order raises `event_order_mismatch`; same in the local backend. | `review-fixes.test.ts` W3; local W3 |
+| W4 | Fixed | Cancelling a pass moves the same group's queued passes earlier by the time it had left (SQL and local). | `review-fixes.test.ts` W4; local W4 |
+| W5 | Fixed, not testable here | `limit_children` locks the account's profile row before counting. PGlite has one connection, so two parallel transactions cannot be run. | none |
+| W6 | Fixed | One shape for both backends (`tests/export-shape.ts`): `exported_at, email, profile, children, progress, consents, trial (with story_ids), orders, payments, passes, refunds`. SQL takes the email from the JWT. Not added: deletion and cancellation requests and email log (owner-only tables). | `review-fixes.test.ts` W6; local W6 |
+| W7 | Partly fixed | The callback now stores only the six fields it understands in `provider_events.payload`. Not done: scrubbing `audit_log` and `email_log` on deletion (the audit rows keep a bare account id that no longer leads to a person; `email_log` belongs to part B's email work). The privacy-policy list of what is kept is for the lawyer. | `payment-callback.test.ts` (extra fields dropped) |
+| W8 | Fixed | A trigger refuses a fee above the lower of 5% of the price paid or 100 shekels (`fee_over_cap`), measured on the order's amount rather than the refund's (which the owner may lower). | `review-fixes.test.ts` W8 |
+| W9 | Fixed | New column `stories.text_unlock_consent_ref`; a trigger refuses `text_locked` true to false without a new, non-empty reference. | `review-fixes.test.ts` W9 |
+| W10 | Fixed (not verified) | `supabase/config.toml`: only `public` exposed, email confirmation, 8-character passwords, secure password change, double-confirmed email change, redirect allow-list, auth rate limits, 24-hour links, `verify_jwt = false` for payment-callback; hosted-only settings listed at its end. The domain is a marked placeholder. The CLI is not installed here. | none |
+| W11 | Fixed | At most 5 unpaid orders an hour per account (`rate_limited`), SQL and local. | `review-fixes.test.ts` W11; local W11 |
+| W12 | Fixed except the shared scenario file | Each named divergence now has the same rule on both sides (R1, B2, W1, W2, test event for another account's order: local now refuses it, R5, R8, W6). Deletion and sign-in limits stay as they were (R7, W10). Not built: one scenario file run against both backends through a SQL adapter: a larger piece of work than a fix. | `local-review-fixes.test.ts` W12 and the rows above |
+| W13 | Fixed in part | Added: the data layer test (B2), the edge function test (B1), and every missing case listed except parallel profile inserts (W5) and PostgREST embedding (needs a real project). | the files above |
+| W14 | Not fixed here | Change of email and confirmation emails belong to part B's email work. Terms and adult (R1), one trial per person (R3) and the real total before paying (R8) are now covered. | n/a |
+
+Test run after the fixes: `npm test` 153 tests, 151 pass. The 2 failures are in `tests/local-data.test.ts` and come
+from another builder's half-written story folder `content/stories/b02/` ("no language file"), not from these fixes.
+`npm run typecheck`: no errors in the files touched here; the only errors are in `src/studio/` (another builder's
+work in progress).

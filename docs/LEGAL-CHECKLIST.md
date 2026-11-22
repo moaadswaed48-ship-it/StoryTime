@@ -279,6 +279,14 @@ callbacks on lower plans are reported only by a third party (UNVERIFIED).
 8. The current wording of Privacy Law sections 11, 13 and 14 and the deadlines for answering requests.
 9. Is a child's nickname plus age group outside the sensitive categories, and is a parent's consent for it enough?
 10. What may be kept after an account is deleted (tax records, a trial record to stop repeat trials)?
+    - **Built, waiting for this answer (22 Nov 2026):** a trial record now exists so that deleting an account and
+      signing up again with the same email does not give a second free trial (product checklist: "trial is one per
+      account", "no second trial after deletion"). It holds no email and no name: only a salted SHA-256 of the
+      address (lower case, trimmed; the salt is secret and never leaves the database) and the day the trial started.
+      It is kept when the account is deleted, is reachable by no user or by the owner's screens, and is used only to
+      refuse a second trial. Where: `private.trial_ledger` (migration `20261122110000_review_fixes.sql`). For the
+      lawyer: is this personal data (a hash of an email is still linkable by someone who knows the address), how
+      long may it be kept (proposal: 2 years, not yet enforced), and what must the privacy policy say about it?
 11. Are the accessibility exemption figures (100,000 shekels, 500 participants, 60 days) current, and is there an amendment after 2020?
 12. Cookie rules and unfair-terms rules for the terms of use.
 13. Copyright: the sections on written assignment and employee works; what the sale of the site must include.

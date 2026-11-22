@@ -63,6 +63,8 @@ export default {
     noPicture: 'لا توجد صورة بعد',
     zoneLegend: 'مكان الكلمات على الصورة',
     zoneHint: '«جهة القراءة» هي اليمين في العربية والعبرية واليسار في الإنجليزية والدنماركية. الصورة نفسها لا تُقلب أبدًا.',
+    zoneSideLegend: 'الجهة',
+    zoneVLegend: 'الارتفاع',
     zoneSide: { start: 'جهة القراءة', end: 'الجهة الأخرى', full: 'على العرض كله' },
     zoneV: { top: 'أعلى', middle: 'وسط', bottom: 'أسفل' },
     zoneSizeLegend: 'المساحة المخصصة للكلمات',

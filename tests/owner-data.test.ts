@@ -27,7 +27,7 @@ function draftOf(s: OwnerStory): StoryDraft {
 
 async function complete(group: '2-3' | '4-5' | '6-8' = '4-5', trial = false): Promise<OwnerStory> {
   const s = srv.createStory(OWNER)
-  const pic = await srv.upload(OWNER, file(PNG, 'page.png', 'image/png'), { kind: 'image', purpose: 'page', ...own })
+  const pic = await srv.upload(OWNER, file(PNG, 'page.png', 'image/png'), { purpose: 'page', ...own })
   const d = draftOf(s)
   d.groups = [{ group, trial }]
   d.pages[0]!.pictureId = pic.id
@@ -158,7 +158,7 @@ describe('publish rules', () => {
   it('the fingerprint covers the film and captions too', async () => {
     const s = await complete()
     const before = fingerprint(s, 'en')
-    const film = await srv.upload(OWNER, file(MP4, 'film.mp4'), { kind: 'video', purpose: 'film', ...own })
+    const film = await srv.upload(OWNER, file(MP4, 'film.mp4'), { purpose: 'film', ...own })
     const d = draftOf(s)
     d.films.en.videoId = film.id
     expect(fingerprint(srv.saveStory(OWNER, s.id, d), 'en')).not.toBe(before)
@@ -190,7 +190,7 @@ describe('uploads', () => {
   it('checks type, real content, size and licence, and records source and licence', async () => {
     const bad = async (f: File, purpose: 'page' | 'film' | 'captions', meta = own) => {
       try {
-        await srv.upload(OWNER, f, { kind: 'image', purpose, ...meta })
+        await srv.upload(OWNER, f, { purpose, ...meta })
         return null
       } catch (e) {
         return (e as OwnerError).refusal
@@ -202,10 +202,10 @@ describe('uploads', () => {
     expect(await bad(file(PNG, 'page.png'), 'page', { source: 'third_party', licence: 'CC BY 4.0', credit: null } as never)).toBe('licence')
     expect(await bad(file(VTT, 'en.vtt'), 'film')).toBe('type')
     expect(checkUpload('page', { name: 'big.png', size: UPLOAD_LIMITS.page.maxBytes + 1, head: PNG }, own)).toEqual({ ok: false, reason: 'size' })
-    const cap = await srv.upload(OWNER, file(VTT, 'en.vtt'), { kind: 'captions', purpose: 'captions', ...own })
+    const cap = await srv.upload(OWNER, file(VTT, 'en.vtt'), { purpose: 'captions', ...own })
     expect(cap).toMatchObject({ kind: 'captions', mimeType: 'text/vtt', source: 'upload', licence: 'own work' })
     expect(await (await srv.mediaBlob(OWNER, cap.id)).text()).toContain('WEBVTT')
-    await expect(srv.upload(PARENT, file(PNG, 'p.png'), { kind: 'image', purpose: 'page', ...own })).rejects.toMatchObject({ code: 'not_owner' })
+    await expect(srv.upload(PARENT, file(PNG, 'p.png'), { purpose: 'page', ...own })).rejects.toMatchObject({ code: 'not_owner' })
   })
 })
 

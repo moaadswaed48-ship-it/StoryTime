@@ -1,0 +1,143 @@
+{
+  "id": "b02",
+  "ageGroups": ["4-5"],
+  "owner": "storytime",
+  "lesson": "Respect a classmate by listening quietly while they speak.",
+  "cast": ["b02-dalia", "b02-drum-boy", "b02-duck-girl", "b02-teacher", "b02-whistle-boy", "b02-bell-girl", "b02-rattle-boy"],
+  "pages": [
+    {
+      "n": 1,
+      "art": "A kindergarten room on a grey winter morning. A big window on one side shows rain as slanted grey-blue streaks; drops run down the glass. Inside it is warm: yellow lamplight, a round rug, coat hooks. Dalia stands by the hooks in her red boots, one hand closed in a small fist held against her jumper, looking at it with a secret little smile. Feeling: cosy, a small private treasure. Calm area: the plain wall above the hooks, across the top of the picture.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 2,
+      "art": "Seen from a little above: six children sit in a circle on the round rug, the teacher sitting on the rug with them, not on a chair. The boy with the drum sits in his wheelchair at the far side of the circle, a toy drum on his lap. The girl with the yellow duck sits beside him. The other three hold a whistle, a little bell and a rattle. Dalia sits nearest us, hand still closed. Rain on the window behind. Feeling: expectant, a bit fizzy. Calm area: the floor in the bottom band, below the rug.",
+      "zone": { "side": "full", "v": "bottom", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 3,
+      "art": "The boy with the drum, in his wheelchair, beating his toy drum with both sticks raised high and a huge grin; beside him the girl with the duck squeezes it, cheeks puffed. Little curved 'sound lines' (no letters) spring from the drum and the duck. The other children lean back, laughing. Dalia, at the edge of the picture, laughs a little too, her fist still closed. Feeling: noisy fun. Calm area: the wall across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 4,
+      "art": "The whole circle at full volume: the whistle blown with red cheeks, the bell shaken, the rattle rattled, the drum and the duck still going; children with hands over their ears, laughing. The rain is heavier on the window. Dalia is the only still one, small in the middle of the noise. Feeling: loud and getting louder. Calm area: the window wall across the top, kept to flat rain bands.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 5,
+      "art": "Dalia stands up in the circle and opens her hand towards the others: on her palm lies a curly white-and-pink sea shell, drawn larger than life so the child reading can see it clearly. A soft light seems to catch it. The teacher looks at her, warm and attentive; the others are still fidgeting with their noisy things. Feeling: brave, hopeful. Calm area: the wall across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 6,
+      "art": "Dalia speaking, her mouth small; around her the noise has started again: the drum sticks up, the duck squeezed, the whistle at a mouth. Her words are not drawn. The other children are looking at their own toys, not at her. Feeling: lost in the noise; nobody means harm. Calm area: the floor in the bottom band.",
+      "zone": { "side": "full", "v": "bottom", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 7,
+      "art": "Close on Dalia: her fist closed tight around the shell, her head bowed, looking down at her red boots; her shoulders a little hunched. The noisy circle behind her is blurred and faded. Feeling: small, sad, about to give up. Calm area: the faded background across the top.",
+      "zone": { "side": "full", "v": "top", "size": "l" },
+      "image": null
+    },
+    {
+      "n": 8,
+      "art": "Across the circle, the boy with the drum has stopped. His drumsticks rest across his lap, on the drum; his eyes are on Dalia's closed hand; one finger is raised to his lips. The rest of the circle is still noisy around him. Feeling: the turn of the story; a quiet, kind decision. Calm area: the wall across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 9,
+      "art": "The girl with the duck copies him: duck lowered into her lap, finger on her lips. Next to her the whistle drops from a mouth, the bell is held still, the rattle is laid on the rug. One child after another has a finger to their lips, like a wave travelling round the circle. Feeling: something spreading, a game of quiet. Calm area: the floor in the bottom band.",
+      "zone": { "side": "full", "v": "bottom", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 10,
+      "art": "The whole circle is quiet. The teacher, smiling, has a finger to her lips too. Every face turns towards Dalia. The window shows the rain clearly now: it is the only thing moving in the picture. Feeling: hush, waiting. Calm area: the wall across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 11,
+      "art": "Dalia opens her hand again and lifts the shell to her ear, eyes half closed, whispering. The others lean in towards her, very still. Feeling: a secret being shared. Calm area: the wall across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 12,
+      "art": "The boy with the drum leans forward in his wheelchair; Dalia holds the shell to his ear. His eyes are wide, his mouth an O. Behind the shell, faint and dreamlike, a few flat bands of blue sea curl out of the spiral (an imagined picture, soft and pale). Feeling: wonder. Calm area: the wall across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 13,
+      "art": "Seen from above again: the shell travels round the circle from hand to hand. Each child holds it to an ear in turn: one listening with eyes shut, one smiling, the girl with the duck with a hand over her own mouth to stay quiet. Drum, duck, whistle, bell and rattle lie still on the rug. Feeling: calm, shared delight. Calm area: the floor in the bottom band.",
+      "zone": { "side": "full", "v": "bottom", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 14,
+      "art": "The shell is back in Dalia's open hand. She sits up straight, chin lifted, smiling, talking; everybody in the circle is looking at her and listening, the teacher too. Outside, the rain still falls. Last picture of the book: warm and bright. Calm area: the wall across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    }
+  ],
+  "film": {
+    "targetSeconds": 265,
+    "shots": [
+      { "n": 1, "page": 1, "action": "10 s. Scene 1, the rainy morning. Start on black with only the sound of rain, 3 s. Fade up on the kindergarten window: rain streaks slide down as flat bands. Slow push in. Keep the lower fifth calm for captions in every shot.", "sound": ["steady rain", "rain drumming on a roof"], "lines": ["f01"] },
+      { "n": 2, "page": 1, "action": "7 s. Inside, by the coat hooks: Dalia hangs up her coat with one hand; the other hand stays closed in a fist.", "sound": ["rain, softer, from inside", "a coat hook clink"], "lines": ["f02"] },
+      { "n": 3, "page": 1, "action": "8 s. Close on Dalia's fist. She opens it a crack: a glimpse of pink-white shell. She whispers to it, then closes her hand again with a small smile.", "sound": ["a tiny chime when the shell shows"], "lines": ["f03"] },
+      { "n": 4, "page": 2, "action": "8 s. Wide from above: the children come to the round rug and sit in a circle; the boy with the drum wheels himself into his place; the teacher sits down on the rug with them. No words: let the music and the room settle.", "sound": ["children's chatter, soft", "wheelchair wheels on the floor", "light, curious music"], "lines": [] },
+      { "n": 5, "page": 2, "action": "9 s. The teacher, cross-legged, smiles round the circle and opens her hands.", "sound": ["the music settles"], "lines": ["f04", "f05"] },
+      { "n": 6, "page": 3, "action": "6 s. Scene 2, the loud circle. The boy with the drum lifts both sticks high, grinning.", "sound": ["a drumroll starting"], "lines": ["f06"] },
+      { "n": 7, "page": 3, "action": "6 s. Bum, bum, BUM: the sticks bounce, the drum skin jumps, two children flinch and then laugh. A sound joke: no words.", "sound": ["toy drum: bum, bum, BUM", "laughter"], "lines": [] },
+      { "n": 8, "page": 3, "action": "6 s. The girl with the duck squeezes it twice and laughs.", "sound": ["rubber duck: squeak, squeak"], "lines": ["f07"] },
+      { "n": 9, "page": 4, "action": "5 s. The whistle: a boy blows it with red cheeks; the others cover their ears, giggling.", "sound": ["a long whistle: peeeep"], "lines": [] },
+      { "n": 10, "page": 4, "action": "8 s. The camera circles slowly round the rug while every sound plays at once: drum, duck, whistle, bell, rattle, laughter, rain. Each new sound adds to the pile.", "sound": ["drum", "squeak", "whistle", "little bell", "rattle", "laughter", "rain"], "lines": ["f08"] },
+      { "n": 11, "page": 4, "action": "6 s. Wide: everyone laughing. Dalia laughs a little too, her fist still closed. The noise holds; no words.", "sound": ["the whole noisy room"], "lines": [] },
+      { "n": 12, "page": 5, "action": "7 s. Scene 3, Dalia's turn. The teacher turns to Dalia and nods. The noise drops a little, but does not stop.", "sound": ["the noise, a little lower"], "lines": ["f09"] },
+      { "n": 13, "page": 5, "action": "9 s. Dalia stands and opens her hand slowly. Close-up: the shell on her palm; light runs along its curl. Hold 2 s of quiet on the shell before the shot ends.", "sound": ["a soft chime", "the room noise ducks under it"], "lines": [] },
+      { "n": 14, "page": 6, "action": "7 s. Dalia speaks, very small. Halfway through her line, the drum and the duck start again and cover the end of it.", "sound": ["drum", "squeak"], "lines": ["f10"] },
+      { "n": 15, "page": 6, "action": "6 s. Dalia's mouth moves; we hear only the noise of the room. Nobody looks at her; nobody is unkind, they are just busy with their toys.", "sound": ["drum", "squeak", "whistle", "laughter"], "lines": ["f11"] },
+      { "n": 16, "page": 7, "action": "9 s. Close on Dalia: her hand closes round the shell; she looks down at her red boots. The room's noise fades under a single low, sad note. No words: let the feeling land.", "sound": ["one low note", "the room noise, muffled, far away"], "lines": [] },
+      { "n": 17, "page": 7, "action": "8 s. Hold on Dalia. Her line is her thought, spoken softly over the shot (her lips do not move). Hold 2 s after it.", "sound": ["the low note fades"], "lines": ["f12"] },
+      { "n": 18, "page": 8, "action": "7 s. Scene 4, the hush. Across the circle, the boy with the drum stops mid-beat, sticks still in the air. He is looking at Dalia's closed hand. The drum sound is the first to leave the room.", "sound": ["the drum stops", "the other sounds go on"], "lines": [] },
+      { "n": 19, "page": 8, "action": "7 s. He lays the sticks across his lap and raises one finger to his lips.", "sound": ["sticks laid on the drum, a soft tap"], "lines": ["f13"] },
+      { "n": 20, "page": 9, "action": "6 s. The girl with the duck sees him, lowers her duck and copies him. The squeak leaves the sound.", "sound": ["the squeaking stops"], "lines": ["f14"] },
+      { "n": 21, "page": 9, "action": "6 s. Round the circle, one by one: the whistle drops, the bell is held still, the rattle is laid down. Each sound stops exactly when its toy stops. Fingers go to lips like a wave.", "sound": ["whistle stops", "bell stops", "rattle stops"], "lines": ["f15"] },
+      { "n": 22, "page": 10, "action": "6 s. The teacher smiles and puts a finger to her lips too. No words.", "sound": ["only the rain"], "lines": [] },
+      { "n": 23, "page": 10, "action": "12 s. Wide and still: six quiet children, every face towards Dalia. Only the rain moves, on the window. Hold 5 s of nothing but rain before the line, and 3 s after it.", "sound": ["rain on the roof", "rain on the window"], "lines": ["f16"] },
+      { "n": 24, "page": 11, "action": "7 s. Scene 5, the shell sings. Dalia opens her hand again and lifts the shell to her ear; the others lean in.", "sound": ["rain, soft"], "lines": [] },
+      { "n": 25, "page": 11, "action": "8 s. Close on Dalia, eyes half closed. She whispers her two lines with a breath between them.", "sound": ["rain, softer still"], "lines": ["f17", "f18"] },
+      { "n": 26, "page": 11, "action": "10 s. The camera moves into the shell's spiral, which opens into a pale, dreamlike sea: flat blue bands gently rising and falling. Pure sound, no words.", "sound": ["a faint sea hush, like breath", "the rain fades under it"], "lines": [] },
+      { "n": 27, "page": 12, "action": "7 s. Back in the room: the boy with the drum leans forward in his wheelchair; Dalia holds the shell to his ear. His eyes go wide.", "sound": ["faint sea hush"], "lines": [] },
+      { "n": 28, "page": 12, "action": "7 s. He whispers, amazed. Hold 2 s on his face after the line.", "sound": ["faint sea hush"], "lines": ["f19"] },
+      { "n": 29, "page": 13, "action": "10 s. The shell travels round the circle, hand to hand: short close-ups of each face listening (about 1.5 s each). With each face the sea sound swells a little.", "sound": ["the sea hush, a little louder each time", "gentle music returns"], "lines": ["f20"] },
+      { "n": 30, "page": 13, "action": "6 s. The girl with the duck listens and giggles without a sound, a hand over her mouth. No words.", "sound": ["sea hush", "a tiny muffled giggle"], "lines": [] },
+      { "n": 31, "page": 14, "action": "7 s. Scene 6, heard. The shell comes back to Dalia. She sits up straight, chin lifted, and asks the circle.", "sound": ["rain", "warm music"], "lines": ["f21"] },
+      { "n": 32, "page": 14, "action": "6 s. The children nod; the boy with the drum answers, then taps a tiny, soft rain rhythm on his chair arm with one finger.", "sound": ["a soft finger tap, tap, tap, in time with the rain"], "lines": ["f22"] },
+      { "n": 33, "page": 14, "action": "6 s. Wide: Dalia talking, everyone looking at her.", "sound": ["warm music"], "lines": ["f23"] },
+      { "n": 34, "page": 14, "action": "8 s. The teacher catches Dalia's eye and nods. Dalia begins her story; her voice goes on softly under the music.", "sound": ["music, warm", "rain"], "lines": ["f24"] },
+      { "n": 35, "page": 14, "action": "12 s. Closing image, from above: the circle, quiet and listening, the shell in Dalia's open hand at its centre; rain on the window. Nothing moves except the rain. Hold the still picture 6 s while the music ends, then stop. No autoplay.", "sound": ["the last notes of the music", "rain"], "lines": [] }
+    ]
+  },
+  "activity": {
+    "minutes": 15,
+    "materials": ["short-smooth-stick-or-wooden-spoon"],
+    "steps": [
+      { "n": 1, "picture": "A grown-up and two children sit in a small circle on the floor. One child holds a short, smooth stick and is talking; the other two look at the speaker with closed mouths and still hands.", "loop": false },
+      { "n": 2, "picture": "The stick passes to the next child. That child turns to the first child and says something back (a speech bubble with a small drawing of what the first child talked about, no letters).", "loop": true },
+      { "n": 3, "picture": "The same child now talks about their own thing (a second speech bubble with a different small drawing); the others listen. An arrow shows the stick will go on round the circle.", "loop": false }
+    ],
+    "checkedAgainst": "docs/story-room/age-4-5.md section 7 (red list) and section 4 (activity limits), 22 Nov 2026"
+  }
+}

@@ -62,6 +62,8 @@ export default {
     noPicture: 'No picture yet',
     zoneLegend: 'Where the words sit on the picture',
     zoneHint: '"Reading side" is the right in Arabic and Hebrew and the left in English and Danish. The picture itself is never flipped.',
+    zoneSideLegend: 'Side',
+    zoneVLegend: 'Height',
     zoneSide: { start: 'Reading side', end: 'Other side', full: 'Full width' },
     zoneV: { top: 'Top', middle: 'Middle', bottom: 'Bottom' },
     zoneSizeLegend: 'Space for the words',

@@ -1,0 +1,309 @@
+[
+  {
+    "id": "b02-dalia",
+    "name": {
+      "ar": "دالْيا",
+      "he": "דַּלְיָה",
+      "en": "Dalia",
+      "da": "Dalia"
+    },
+    "stage": "child",
+    "build": {
+      "height": 0.58,
+      "heads": 4.5,
+      "girth": 0.4,
+      "shoulders": 1.1
+    },
+    "skin": "#d8a27a",
+    "hair": {
+      "style": "long",
+      "color": "#2e1c16"
+    },
+    "eyes": {
+      "color": "#3a2418",
+      "size": 0.88
+    },
+    "brows": {
+      "color": "#2e1c16",
+      "weight": 0.4
+    },
+    "top": {
+      "style": "jumper",
+      "color": "#f2a98f",
+      "trim": "#fff3e6",
+      "pattern": "plain"
+    },
+    "bottom": {
+      "style": "trousers",
+      "color": "#5b6f9e"
+    },
+    "shoes": {
+      "style": "boots",
+      "color": "#c8453a"
+    },
+    "manner": "Small and careful; holds precious things close to her chest; speaks to the floor at first, and lifts her chin, slowly, once she knows she is being heard."
+  },
+  {
+    "id": "b02-drum-boy",
+    "name": {
+      "ar": "صاحِب الطَبلة",
+      "he": "הַיֶּלֶד עִם הַתֹּף",
+      "en": "the boy with the drum",
+      "da": "drengen med trommen"
+    },
+    "stage": "child",
+    "build": {
+      "height": 0.62,
+      "heads": 4.5,
+      "girth": 0.55,
+      "shoulders": 1.2
+    },
+    "skin": "#7a4a30",
+    "hair": {
+      "style": "short",
+      "color": "#1c1210"
+    },
+    "eyes": {
+      "color": "#2a1a12",
+      "size": 0.8
+    },
+    "brows": {
+      "color": "#1c1210",
+      "weight": 0.7
+    },
+    "top": {
+      "style": "jumper",
+      "color": "#2f8f83",
+      "trim": "#ffd34d",
+      "pattern": "stripes"
+    },
+    "bottom": {
+      "style": "trousers",
+      "color": "#3d3a5c"
+    },
+    "shoes": {
+      "style": "shoes",
+      "color": "#e8e4da"
+    },
+    "manner": "Uses a wheelchair, which he steers himself with quick, sure pushes (the Sheet type has no wheelchair yet: the Studio must add one). Big and bouncy; drums on everything, the chair arms included; notices things before anyone else and goes completely still when he does."
+  },
+  {
+    "id": "b02-duck-girl",
+    "name": {
+      "ar": "صاحِبة البَطّة",
+      "he": "הַיַּלְדָּה עִם הַבַּרְוָז",
+      "en": "the girl with the duck",
+      "da": "pigen med gummianden"
+    },
+    "stage": "child",
+    "build": {
+      "height": 0.6,
+      "heads": 4.5,
+      "girth": 0.48,
+      "shoulders": 1.12
+    },
+    "skin": "#f1c9a5",
+    "hair": {
+      "style": "ponytail",
+      "color": "#8a4a26"
+    },
+    "eyes": {
+      "color": "#4f7a5a",
+      "size": 0.82
+    },
+    "top": {
+      "style": "dress",
+      "color": "#f4d35e",
+      "trim": "#ffffff",
+      "pattern": "dots"
+    },
+    "bottom": {
+      "style": "trousers",
+      "color": "#7a4f9a"
+    },
+    "shoes": {
+      "style": "boots",
+      "color": "#3f6e8c"
+    },
+    "extras": [
+      "freckles"
+    ],
+    "manner": "Giggly and quick; copies whatever she sees, first and fastest; covers her mouth with both hands when she is trying very hard to be quiet."
+  },
+  {
+    "id": "b02-teacher",
+    "name": {
+      "ar": "المُعَلّمة",
+      "he": "הַגַּנֶּנֶת",
+      "en": "the teacher",
+      "da": "pædagogen"
+    },
+    "stage": "adult",
+    "build": {
+      "height": 0.98,
+      "heads": 6,
+      "girth": 0.52,
+      "shoulders": 1.5
+    },
+    "skin": "#c08a62",
+    "hair": {
+      "style": "curls",
+      "color": "#4a3a32"
+    },
+    "eyes": {
+      "color": "#3a2418",
+      "size": 0.6
+    },
+    "brows": {
+      "color": "#4a3a32",
+      "weight": 0.6
+    },
+    "top": {
+      "style": "jumper",
+      "color": "#8fb7a8",
+      "trim": "#f4ecd8",
+      "pattern": "plain"
+    },
+    "bottom": {
+      "style": "trousers",
+      "color": "#4a4a5e"
+    },
+    "shoes": {
+      "style": "shoes",
+      "color": "#6b4030"
+    },
+    "extras": [
+      "glasses"
+    ],
+    "extraColors": {
+      "glasses": "#b0563a"
+    },
+    "manner": "Sits on the rug with the children, never above them; listens with her whole face; says more with a nod than with words."
+  },
+  {
+    "id": "b02-whistle-boy",
+    "name": {
+      "ar": "صاحِب الصَفّارة",
+      "he": "הַיֶּלֶד עִם הַמַּשְׁרוֹקִית",
+      "en": "the boy with the whistle",
+      "da": "drengen med fløjten"
+    },
+    "stage": "child",
+    "build": {
+      "height": 0.64,
+      "heads": 4.5,
+      "girth": 0.4,
+      "shoulders": 1.15
+    },
+    "skin": "#e9c2a0",
+    "hair": {
+      "style": "tuft",
+      "color": "#c98a3a"
+    },
+    "eyes": {
+      "color": "#5a7aa0",
+      "size": 0.75
+    },
+    "top": {
+      "style": "jumper",
+      "color": "#d9603f",
+      "trim": "#f4e3bd",
+      "pattern": "plain"
+    },
+    "bottom": {
+      "style": "trousers",
+      "color": "#4f6a4a"
+    },
+    "shoes": {
+      "style": "shoes",
+      "color": "#3a3a44"
+    },
+    "manner": "Background figure. Puffs his cheeks before anything he does; red in the face with effort and with laughing."
+  },
+  {
+    "id": "b02-bell-girl",
+    "name": {
+      "ar": "صاحِبة الجَرَس",
+      "he": "הַיַּלְדָּה עִם הַפַּעֲמוֹן",
+      "en": "the girl with the bell",
+      "da": "pigen med klokken"
+    },
+    "stage": "child",
+    "build": {
+      "height": 0.6,
+      "heads": 4.5,
+      "girth": 0.44,
+      "shoulders": 1.12
+    },
+    "skin": "#9a6240",
+    "hair": {
+      "style": "braids",
+      "color": "#1f1416"
+    },
+    "eyes": {
+      "color": "#2e1c14",
+      "size": 0.8
+    },
+    "top": {
+      "style": "jumper",
+      "color": "#7a8fd0",
+      "trim": "#ffe9c4",
+      "pattern": "plain"
+    },
+    "bottom": {
+      "style": "skirt",
+      "color": "#e48a9e"
+    },
+    "shoes": {
+      "style": "boots",
+      "color": "#5b3420"
+    },
+    "manner": "Background figure. Rings her little bell in time with everything; sways from side to side when she is happy."
+  },
+  {
+    "id": "b02-rattle-boy",
+    "name": {
+      "ar": "صاحِب الخَشخاشة",
+      "he": "הַיֶּלֶד עִם הָרַעֲשָׁן",
+      "en": "the boy with the rattle",
+      "da": "drengen med ranglen"
+    },
+    "stage": "child",
+    "build": {
+      "height": 0.6,
+      "heads": 4.5,
+      "girth": 0.6,
+      "shoulders": 1.15
+    },
+    "skin": "#e0ae86",
+    "hair": {
+      "style": "curls",
+      "color": "#5b3420"
+    },
+    "eyes": {
+      "color": "#4a2f22",
+      "size": 0.85
+    },
+    "top": {
+      "style": "jumper",
+      "color": "#e9c46a",
+      "trim": "#3f7f8c",
+      "pattern": "check"
+    },
+    "bottom": {
+      "style": "trousers",
+      "color": "#3f7f8c"
+    },
+    "shoes": {
+      "style": "shoes",
+      "color": "#c8553d"
+    },
+    "extras": [
+      "glasses"
+    ],
+    "extraColors": {
+      "glasses": "#2a3a5a"
+    },
+    "manner": "Background figure. Round and calm; shakes his rattle slowly, then very fast, then looks surprised at himself."
+  }
+]

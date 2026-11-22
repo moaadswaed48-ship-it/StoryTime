@@ -1,0 +1,67 @@
+{
+  "title": "The Shell That Sings",
+  "names": {
+    "b02-dalia": "Dalia",
+    "b02-drum-boy": "the boy with the drum",
+    "b02-duck-girl": "the girl with the duck",
+    "b02-teacher": "the teacher",
+    "b02-whistle-boy": "the boy with the whistle",
+    "b02-bell-girl": "the girl with the bell",
+    "b02-rattle-boy": "the boy with the rattle"
+  },
+  "pages": [
+    { "n": 1, "text": "Rain drummed on the kindergarten roof. Tap, tap, tap. It was bring-something day. Dalia had brought something small from home. She kept it hidden in her hand.", "speech": "Rain drummed on the kindergarten roof. Tap, tap, tap. It was bring-something day. Dalia had brought something small from home. She kept it hidden in her hand." },
+    { "n": 2, "text": "Six children sat in a circle on the rug. The teacher sat down with them. “Show us what you brought,” she said.", "speech": "Six children sat in a circle on the rug. The teacher sat down with them. “Show us what you brought,” she said." },
+    { "n": 3, "text": "The boy with the drum went first. Bum, bum, BUM went his drum. The girl with the duck went next. Squeak, squeak went her duck.", "speech": "The boy with the drum went first. Bum, bum, BUM went his drum. The girl with the duck went next. Squeak, squeak went her duck." },
+    { "n": 4, "text": "Then came a whistle. Peeeep. Everybody laughed, and the room got louder and louder. And the rain went tap, tap, tap.", "speech": "Then came a whistle. Peeeep. Everybody laughed, and the room got louder and louder. And the rain went tap, tap, tap." },
+    { "n": 5, "text": "Then it was Dalia’s turn. She stood up and opened her hand. Inside was a shell, white and pink and curly.", "speech": "Then it was Dalia’s turn. She stood up and opened her hand. Inside was a shell, white and pink and curly." },
+    { "n": 6, "text": "“This is my shell,” said Dalia. But her voice was very small, and the room was very loud. Bum went the drum. Squeak went the duck. Nobody heard her.", "speech": "“This is my shell,” said Dalia. But her voice was very small, and the room was very loud. Bum went the drum. Squeak went the duck. Nobody heard her." },
+    { "n": 7, "text": "Dalia closed her hand around the shell. She looked down at her boots. Maybe I’ll just sit down, she thought. What would you do?", "speech": "Dalia closed her hand around the shell. She looked down at her boots. Maybe I’ll just sit down, she thought. What would you do?" },
+    { "n": 8, "text": "The boy with the drum saw Dalia’s closed hand. He put his drumsticks down. He put one finger to his lips. “Shhh,” he said.", "speech": "The boy with the drum saw Dalia’s closed hand. He put his drumsticks down. He put one finger to his lips. “Shhh,” he said." },
+    { "n": 9, "text": "The girl with the duck saw him. She put her duck in her lap. “Shhh.” Then the whistle stopped too. Shhh, shhh, all around the circle.", "speech": "The girl with the duck saw him. She put her duck in her lap. “Shhh.” Then the whistle stopped too. Shhh, shhh, all around the circle." },
+    { "n": 10, "text": "The teacher put a finger to her lips too. Soon there was only one sound left. The rain went tap, tap, tap.", "speech": "The teacher put a finger to her lips too. Soon there was only one sound left. The rain went tap, tap, tap." },
+    { "n": 11, "text": "Dalia opened her hand again. She lifted the shell to her ear. “If you are very quiet,” she whispered, “it sings the sea.”", "speech": "Dalia opened her hand again. She lifted the shell to her ear. “If you are very quiet,” she whispered, “it sings the sea.”" },
+    { "n": 12, "text": "The boy with the drum leaned close. Dalia held the shell to his ear. He listened. His eyes grew wide. “I can hear it,” he whispered. “Like little waves.”", "speech": "The boy with the drum leaned close. Dalia held the shell to his ear. He listened. His eyes grew wide. “I can hear it,” he whispered. “Like little waves.”" },
+    { "n": 13, "text": "One by one, the shell went around the circle. Everybody listened. Nobody squeaked. Nobody drummed. Nobody whistled.", "speech": "One by one, the shell went around the circle. Everybody listened. Nobody squeaked. Nobody drummed. Nobody whistled." },
+    { "n": 14, "text": "When the shell came back to Dalia, she smiled. “Shall I tell you where I found it?” she asked. And this time, everybody heard her.", "speech": "When the shell came back to Dalia, she smiled. “Shall I tell you where I found it?” she asked. And this time, everybody heard her." }
+  ],
+  "film": [
+    { "id": "f01", "speaker": "narrator", "text": "Rain on the kindergarten roof.", "speech": "Rain on the kindergarten roof.", "emotion": "calm and cosy, a grey morning" },
+    { "id": "f02", "speaker": "narrator", "text": "Tap, tap, tap.", "speech": "Tap, tap, tap.", "emotion": "soft, in time with the rain" },
+    { "id": "f03", "speaker": "b02-dalia", "text": "Shh. You stay hidden.", "speech": "Shh. You stay hidden.", "emotion": "a tiny secret whisper to her shell, smiling" },
+    { "id": "f04", "speaker": "b02-teacher", "text": "Good morning, everyone!", "speech": "Good morning, everyone!", "emotion": "warm and bright" },
+    { "id": "f05", "speaker": "b02-teacher", "text": "What did you bring today?", "speech": "What did you bring today?", "emotion": "curious, inviting" },
+    { "id": "f06", "speaker": "b02-drum-boy", "text": "Me first! Listen!", "speech": "Me first! Listen!", "emotion": "loud, excited, bouncing" },
+    { "id": "f07", "speaker": "b02-duck-girl", "text": "My duck can sing!", "speech": "My duck can sing!", "emotion": "giggly, proud" },
+    { "id": "f08", "speaker": "narrator", "text": "The room got louder… and louder.", "speech": "The room got louder… and louder.", "emotion": "playful, rising in volume and speed" },
+    { "id": "f09", "speaker": "b02-teacher", "text": "Dalia, it’s your turn.", "speech": "Dalia, it’s your turn.", "emotion": "gentle, encouraging" },
+    { "id": "f10", "speaker": "b02-dalia", "text": "This is my shell…", "speech": "This is my shell…", "emotion": "very small, shy, hopeful; the end is swallowed by the noise" },
+    { "id": "f11", "speaker": "narrator", "text": "But nobody heard her.", "speech": "But nobody heard her.", "emotion": "quiet and sad, slower" },
+    { "id": "f12", "speaker": "b02-dalia", "text": "Maybe I’ll just sit down.", "speech": "Maybe I’ll just sit down.", "emotion": "a sad inner voice, close to tears but not crying" },
+    { "id": "f13", "speaker": "b02-drum-boy", "text": "Shhh.", "speech": "Shhh.", "emotion": "soft and kind, a decision" },
+    { "id": "f14", "speaker": "b02-duck-girl", "text": "Shhh.", "speech": "Shhh.", "emotion": "copying him at once, eager, a little giggly" },
+    { "id": "f15", "speaker": "narrator", "text": "Shhh… shhh… all around the circle.", "speech": "Shhh… shhh… all around the circle.", "emotion": "hushed, travelling, getting quieter with each shhh" },
+    { "id": "f16", "speaker": "narrator", "text": "Only the rain was left. Tap, tap, tap.", "speech": "Only the rain was left. Tap, tap, tap.", "emotion": "very soft, full of wonder" },
+    { "id": "f17", "speaker": "b02-dalia", "text": "If you are very quiet…", "speech": "If you are very quiet…", "emotion": "whispering, a secret, growing braver" },
+    { "id": "f18", "speaker": "b02-dalia", "text": "…it sings the sea.", "speech": "…it sings the sea.", "emotion": "whispering, magical" },
+    { "id": "f19", "speaker": "b02-drum-boy", "text": "I can hear it… like little waves.", "speech": "I can hear it… like little waves.", "emotion": "amazed, a whisper full of delight" },
+    { "id": "f20", "speaker": "narrator", "text": "One by one, everyone listened.", "speech": "One by one, everyone listened.", "emotion": "calm, warm, slow" },
+    { "id": "f21", "speaker": "b02-dalia", "text": "Shall I tell you where I found it?", "speech": "Shall I tell you where I found it?", "emotion": "clear and warm, still soft, but sure of herself now" },
+    { "id": "f22", "speaker": "b02-drum-boy", "text": "Yes, tell us!", "speech": "Yes, tell us!", "emotion": "eager, but in a quiet voice" },
+    { "id": "f23", "speaker": "narrator", "text": "And this time, everybody heard her.", "speech": "And this time, everybody heard her.", "emotion": "warm, satisfied, a smile in the voice" },
+    { "id": "f24", "speaker": "b02-dalia", "text": "I found it by the sea, one morning…", "speech": "I found it by the sea, one morning…", "emotion": "happy storytelling, fading softly under the music" }
+  ],
+  "activity": {
+    "title": "The Talking Stick",
+    "goal": "Listen to a friend and say back what they said.",
+    "materials": ["A short, smooth stick from the garden, or a wooden spoon"],
+    "steps": [
+      { "n": 1, "caption": "Only the one with the stick talks." },
+      { "n": 2, "caption": "Pass it on. Say back one thing you heard." },
+      { "n": 3, "caption": "Now say your own thing." }
+    ],
+    "safety": "Use a short, smooth stick with no sharp ends or splinters. We hold it and pass it; we don’t wave it or poke with it. Emergency: 101 in Israel, 112 in Denmark.",
+    "forAdult": "In the story, Dalia is only heard when everyone stops and listens. This game practises that, and one step more: showing someone you really heard them by saying back what they said. Listening like this is how we show respect to the person who is speaking, and it is a skill children can learn and practise. Sit in a circle on the floor (two people are enough; three or four is better). Choose an easy topic for the first round, such as ‘an animal I like’ or ‘something that made me laugh today’. Whoever holds the stick talks; everyone else listens with closed mouths and still hands. Then the stick passes on. Before the next person says their own thing, they say back one thing they heard: ‘You like cats, because they are soft.’ Go first yourself, so your child hears how it sounds, and help with the first words: ‘You said…’. Praise the listening, not only the talking: ‘You remembered exactly what Grandma said!’. Ten to twenty minutes, or two or three rounds, is plenty. To make it easier, the listener says back only the speaker’s name and one word. To make it harder, say back two things, or ask the speaker one question about what they said before taking your turn. If a child forgets, the speaker simply says it again: forgetting is part of learning.",
+    "inClass": "Make circles of six children with one adult in each, and one stick per circle. The teacher holds the stick first, then passes it, and repeats what the first child said before the second child speaks, so everyone hears how it is done. Keep the same topic for the whole round. Notice good listening out loud: ‘You heard every word.’"
+  }
+}

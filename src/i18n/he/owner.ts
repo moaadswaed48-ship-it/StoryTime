@@ -63,6 +63,8 @@ export default {
     noPicture: 'עדיין אין תמונה',
     zoneLegend: 'איפה המילים יושבות על התמונה',
     zoneHint: '"צד הקריאה" הוא ימין בערבית ובעברית ושמאל באנגלית ובדנית. התמונה עצמה אף פעם לא מתהפכת.',
+    zoneSideLegend: 'צד',
+    zoneVLegend: 'גובה',
     zoneSide: { start: 'צד הקריאה', end: 'הצד השני', full: 'לכל הרוחב' },
     zoneV: { top: 'למעלה', middle: 'באמצע', bottom: 'למטה' },
     zoneSizeLegend: 'מקום למילים',

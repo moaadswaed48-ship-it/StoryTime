@@ -1,3 +1,5 @@
+import type { StoriesDict } from './stories-schema'
+
 /**
  * The shape every language's dictionary must have. Each language file is checked with `satisfies`, so a key
  * that is missing (or misspelt, or extra) in any of the four languages fails `npm run typecheck`.
@@ -362,4 +364,5 @@ export type Dict = {
   pages: PagesDict
   account: AccountDict
   commerce: CommerceDict
+  stories: StoriesDict
 }
