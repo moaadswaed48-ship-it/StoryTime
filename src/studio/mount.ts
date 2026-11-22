@@ -90,8 +90,8 @@ export function mountScene(root: HTMLElement, id: string, o: MountOpts = {}): Mo
     }
     renderScene(scene, canvas.getContext('2d')!, pw, t, { lang, style })
     if (cap) {
-      const line = captionAt(scene, t)
-      cap.textContent = line ? line.text[lang] : ''
+      const line = captionAt(scene, t, lang)
+      cap.textContent = line ? line.text : ''
     }
   }
   const onResize = () => draw(last)

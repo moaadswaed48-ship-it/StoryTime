@@ -1,4 +1,6 @@
 /** Tiny WebAudio synth: no audio files. Created on the first user gesture (iOS unlock). */
+import { SFX, SR, type SfxName, type SfxOpts } from './sfx'
+
 let ctx: AudioContext | null = null
 let master: GainNode | null = null
 let musicTimer: number | null = null
@@ -64,6 +66,30 @@ export const sfx = {
     src.connect(f).connect(g).connect(master)
     src.start()
   },
+}
+
+const RENDERED = new Map<string, AudioBuffer>()
+/**
+ * Plays one effect of the code-made library (`sfx.ts`: footsteps, a door, rain, birds, a bell…) through the same
+ * output as the rest. `vol` 0…1. The samples are worked out once per effect and kept.
+ */
+export function playSfx(name: SfxName, opts: SfxOpts = {}, vol = 0.6) {
+  const c = ensure()
+  if (!c || !master) return
+  const key = name + JSON.stringify(opts)
+  let b = RENDERED.get(key)
+  if (!b) {
+    const x = SFX[name](opts)
+    b = c.createBuffer(1, x.length, SR)
+    b.getChannelData(0).set(x)
+    RENDERED.set(key, b)
+  }
+  const src = c.createBufferSource()
+  src.buffer = b
+  const g = c.createGain()
+  g.gain.value = vol
+  src.connect(g).connect(master)
+  src.start()
 }
 
 const SCALE = [523.25, 587.33, 659.25, 783.99, 880, 1046.5]

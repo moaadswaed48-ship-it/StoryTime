@@ -10,7 +10,7 @@ try {
   const id = q.get('scene')
   if (id) {
     const m = mountScene(document.getElementById('stage')!, id, { lang: (q.get('lang') ?? 'en') as Lang, style: q.get('style') ?? 'gouache', captions: q.get('captions') === '1', dpr: window.devicePixelRatio, page: q.get('page') === '1' ? 1 : q.get('page') === '2' ? 2 : undefined })
-    Object.assign(api, { W: m.scene.W, H: m.scene.H, duration: m.scene.duration, shots: m.scene.shots ?? [0], loop: !!m.scene.loop, seek: m.seek, vtt: (l: Lang) => toVtt(m.scene, l) })
+    Object.assign(api, { W: m.scene.W, H: m.scene.H, duration: m.scene.duration, shots: m.scene.shots ?? [0], loop: !!m.scene.loop, seek: m.seek, vtt: (l: Lang) => toVtt(m.scene, l), sound: m.scene.sound ?? [] })
     if (q.get('t')) m.seek(Number(q.get('t')))
   }
   api.ready = true

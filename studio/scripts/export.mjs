@@ -3,7 +3,7 @@
 //   node studio/scripts/export.mjs list
 //   node studio/scripts/export.mjs still <scene> [--t=0] [--scale=2] [--format=png|webp|jpg] [--out=file]
 //   node studio/scripts/export.mjs sheet <scene> --times=0,1,2.5 | --every=1 [--cols=4] [--tile=480] [--out=file.jpg]
-//   node studio/scripts/export.mjs video <scene> [--from=0 --to=10] [--fps=24] [--scale=1] [--shots=2,3] [--captions=burn|none]
+//   node studio/scripts/export.mjs video <scene> [--from=0 --to=10] [--fps=24] [--scale=1] [--shots=2,3] [--captions=burn|none] [--sound=on|off] [--lufs=-16]
 //   node studio/scripts/export.mjs loop  <scene> [--fps=24] [--scale=0.5] [--format=mp4|webp] [--out=file]
 //
 // Options for all: --lang=en|ar|he|da  --style=gouache|ink  --width=<CSS px> (the page width the picture is laid out
@@ -15,10 +15,13 @@
 // (12 drawings a second) while the camera moves on every frame (24 a second).
 // A film is rendered shot by shot into studio/out/<scene>/shot-NN.mp4 and joined without re-encoding, so a retime
 // re-renders only the shots named with --shots.
+// Sound: a scene's `sound` cues (effects made in code, src/audio/sfx.ts) are mixed by src/audio/mix.ts, brought to
+// --lufs (default -16 LUFS integrated, peaks under -1.5 dBFS), and muxed into the MP4 as AAC. The mix is also left
+// beside the film as <scene>.wav. Captions are written beside it as WebVTT in four languages.
 import { execFileSync } from 'node:child_process'
 import { existsSync, mkdirSync, rmSync, statSync, writeFileSync } from 'node:fs'
 import { dirname, resolve } from 'node:path'
-import { fileURLToPath } from 'node:url'
+import { fileURLToPath, pathToFileURL } from 'node:url'
 import { createServer } from 'vite'
 import { chromium } from 'playwright'
 
@@ -179,7 +182,21 @@ async function main() {
       mkdirSync(dirname(file), { recursive: true })
       const listFile = resolve(work, 'concat.txt')
       writeFileSync(listFile, parts.map((p) => `file '${p}'`).join('\n'))
-      ff(['-f', 'concat', '-safe', '0', '-i', listFile, '-c', 'copy', '-movflags', '+faststart', file])
+      // the sound track: the scene's cues mixed in code, brought to the target loudness, muxed in as AAC
+      const probe = (await make()).page
+      const cues = (await probe.evaluate(() => window.__studio.sound)) ?? []
+      await probe.context().close()
+      if (cues.length && opt.sound !== 'off') {
+        const { mixCues, wav } = await import(pathToFileURL(resolve(REPO, 'src/audio/mix.ts')).href)
+        const mix = mixCues(cues.filter((c) => c.t < to).map((c) => ({ ...c, t: c.t - from })), to - from, Number(opt.lufs ?? -16))
+        const wavFile = file.replace(/\.mp4$/, '.wav')
+        writeFileSync(wavFile, wav(mix.L, mix.R))
+        const silent = resolve(work, 'silent.mp4')
+        ff(['-f', 'concat', '-safe', '0', '-i', listFile, '-c', 'copy', silent])
+        ff(['-i', silent, '-i', wavFile, '-map', '0:v:0', '-map', '1:a:0', '-c:v', 'copy', '-c:a', 'aac', '-b:a', '160k', '-ar', '48000', '-shortest', '-movflags', '+faststart', file])
+        rmSync(silent, { force: true })
+        console.log(`sound: ${cues.length} cues · ${mix.lufs.toFixed(1)} LUFS · peak ${mix.peakDb.toFixed(1)} dBFS · ${wavFile}`)
+      } else ff(['-f', 'concat', '-safe', '0', '-i', listFile, '-c', 'copy', '-movflags', '+faststart', file])
       // captions as WebVTT for every language, beside the film
       const page = (await make()).page
       for (const l of ['ar', 'he', 'en', 'da']) {

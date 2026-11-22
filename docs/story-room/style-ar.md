@@ -97,6 +97,10 @@ Start from the full layer and delete, in this order:
 
 Everything else stays: the short vowels inside each word, every other shadda, and every hamza with its seat.
 
+**Final doubled letter (decided in the pilot review, 22 Nov 2026):** when the last letter of a word is doubled, the
+light layer keeps its shadda even though the case or pausal vowel on it is dropped: عَدّ، ظَلّ، لَكِنّ، أَيّ. Without
+it a child reads a different, shorter word. The tool `docs/story-room/pilots/tools/storytool.py` applies this rule.
+
 **Worked example 1**
 - Full: ذَهَبَتْ لِينَا مَعَ جَدَّتِهَا إِلَى السُّوقْ.
 - Light: ذَهَبَت لينا مع جَدّتِها إلى السوق.
