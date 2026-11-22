@@ -1,0 +1,11 @@
+node_modules/
+build/
+dist/
+.react-router/
+qa/out/
+test-results/
+playwright-report/
+studio/out/
+studio/.cache/
+.DS_Store
+*.log
