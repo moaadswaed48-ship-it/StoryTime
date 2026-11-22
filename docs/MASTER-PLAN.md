@@ -235,3 +235,10 @@ Each stage ends with a check I run myself and a short note saved in the project,
 **i18n.** Typed dictionaries per language and feature (the old `copy.ts` pattern, where the compiler rejects a missing key), loaded per language.
 
 **Verification, end to end.** Type check and unit tests; Playwright walk-throughs at 390, 768 and 1440 px in Chromium and WebKit for all four languages; Lighthouse mobile 90+ (performance, accessibility, SEO); `impeccable detect`; security audit of the code and Supabase advisors; a test that a signed-out or expired account cannot fetch any paid text, picture or film; curl check that public pages carry real text, title, canonical and hreflang; film checks: contact sheets, no frozen or black stretches, loudness, caption reading time; text checks: length and vocabulary limits, vowel-mark rule, duplicate-lesson and duplicate-activity detector; a fresh-context reviewer before every report.
+
+---
+
+## 14. Changes since approval
+- **22 Nov, skills safety read** (details in `docs/SKILLS.md`): 28 skills copied in. Rejected: HyperFrames (hidden usage reporting, runs unpinned code) and the ElevenLabs skills (they tell the assistant to run an unpinned installer); the voice stage uses the official ElevenLabs documentation directly. Remotion's skill is read only (no licence in its repository).
+- **Film player:** Media Chrome replaces Vidstack, which has stopped active development. Right-to-left layout and Hebrew and Arabic labels are added by us.
+- **Legal and ease-of-use skills:** one community skill of each kind passed the read and is used with caution, next to the Israel-specific checklist from the Stage 1 research.
