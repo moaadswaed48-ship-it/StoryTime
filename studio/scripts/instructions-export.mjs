@@ -103,8 +103,9 @@ async function loop(dir, act, key, lang) {
   const stem = resolve(OUT, dir, `${short(act)}-${key}-${lang}`)
   mkdirSync(dirname(stem), { recursive: true })
   ff(['-framerate', String(fps), '-i', resolve(tmp, 'f%04d.png'), ...X264, '-crf', '21', `${stem}.mp4`])
-  // the drawings change 12 (or 8) times a second, so the WebP keeps every second frame
-  ff(['-framerate', String(fps), '-i', resolve(tmp, 'f%04d.png'), '-vf', 'fps=12', '-c:v', 'libwebp', '-loop', '0', '-q:v', '74', '-compression_level', '6', '-an', `${stem}.webp`])
+  // the drawings change 12 times a second (8 in the stop-motion direction), so the WebP keeps only those frames
+  const drawn = dir === 'above' ? 8 : 12
+  ff(['-framerate', String(fps), '-i', resolve(tmp, 'f%04d.png'), '-vf', `fps=${drawn},scale=480:-1:flags=lanczos`, '-c:v', 'libwebp', '-loop', '0', '-q:v', '68', '-compression_level', '6', '-an', `${stem}.webp`])
   rmSync(tmp, { recursive: true, force: true })
   console.log(`${stem}.mp4 ${mb(`${stem}.mp4`)} · .webp ${mb(`${stem}.webp`)} · ${n} frames, ${seconds} s`)
 }
