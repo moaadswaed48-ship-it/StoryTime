@@ -14,7 +14,7 @@ const STAND_IN: Sheet = {
   id: 'pictogram',
   name: { ar: '', he: '', en: '', da: '' },
   stage: 'child',
-  build: { ...BUILDS.child, heads: 3.5, shoulders: 1.5, girth: 0.9 },
+  build: { ...BUILDS.child, heads: 3.4, shoulders: 1.35, girth: 0.6 },
   skin: '#000000',
   hair: { style: 'none', color: '#000000' },
   eyes: { color: '#000000', size: 0.5 },
@@ -38,7 +38,7 @@ const VIEW: Record<Act, { yaw: number; at?: number }> = {
   hug: { yaw: 0 },
 }
 
-type Drawn = { d: string[]; head: [number, number, number]; marks: ReactNode }
+type Drawn = { body: string[]; arms: string[]; head: [number, number, number]; marks: ReactNode }
 const cache = new Map<Act, Drawn>()
 
 function draw(act: Act): Drawn {
@@ -51,26 +51,26 @@ function draw(act: Act): Drawn {
   if (act === 'spin') pose.yaw = 0
   const s = solve(rig, pose, newSolved())
   const yaw = (view.yaw * Math.PI) / 180
-  // 100 × 100 picture: the ground is at y = 90; the stand-in is about 62 tall
-  const k = 66 / rig.H
-  const pt = (v: { x: number; y: number; z: number }): [number, number] => [50 + (v.x * Math.cos(yaw) + v.z * Math.sin(yaw)) * k, 90 - v.y * k]
+  // 100 × 100 picture, ground at y = 92; the figure is drawn as large as its pose allows
+  const flat = (v: { x: number; y: number; z: number }): [number, number] => [v.x * Math.cos(yaw) + v.z * Math.sin(yaw), v.y]
+  const all = Object.values(s.at).map(flat)
+  const top = Math.max(...all.map((p) => p[1])) + rig.headH * 0.12
+  const xs = all.map((p) => p[0])
+  const k = Math.min(80 / top, 84 / (Math.max(...xs) - Math.min(...xs) + rig.headH * 0.4), 74 / rig.H)
+  const cx = act === 'think' || act === 'hug' || act === 'wave' ? 0 : (Math.max(...xs) + Math.min(...xs)) / 2
+  const pt = (v: { x: number; y: number; z: number }): [number, number] => {
+    const [x, y] = flat(v)
+    return [50 + (x - cx) * k, 92 - y * k]
+  }
   const line = (...names: (keyof typeof s.at)[]) => names.map((n, i) => `${i ? 'L' : 'M'}${pt(s.at[n]).map((c) => c.toFixed(1)).join(' ')}`).join('')
-  // body first (drawn lighter), then the arms on top, so hands in front of the chest still read
-  const d = [
-    line('hips', 'spine', 'chest', 'neck'),
-    line('leftUpperArm', 'rightUpperArm'),
-    line('leftUpperLeg', 'leftLowerLeg', 'leftFoot', 'leftToe'),
-    line('rightUpperLeg', 'rightLowerLeg', 'rightFoot', 'rightToe'),
-    line('leftUpperLeg', 'rightUpperLeg'),
-    line('leftUpperArm', 'leftLowerArm', 'leftHand', 'leftTip'),
-    line('rightUpperArm', 'rightLowerArm', 'rightHand', 'rightTip'),
-  ]
-  const top = pt(s.at.crown)
+  const body = [line('hips', 'spine', 'chest', 'neck'), line('leftUpperLeg', 'leftLowerLeg', 'leftFoot', 'leftToe'), line('rightUpperLeg', 'rightLowerLeg', 'rightFoot', 'rightToe')]
+  const arms = [line('chest', 'leftUpperArm', 'leftLowerArm', 'leftHand', 'leftTip'), line('chest', 'rightUpperArm', 'rightLowerArm', 'rightHand', 'rightTip')]
+  const crown = pt(s.at.crown)
   const base = pt(s.at.head)
-  const r = Math.hypot(top[0] - base[0], top[1] - base[1]) * 0.56
-  const head: [number, number, number] = [(top[0] + base[0]) / 2, (top[1] + base[1]) / 2 - r * 0.1, r]
+  const r = Math.hypot(crown[0] - base[0], crown[1] - base[1]) * 0.54
+  const head: [number, number, number] = [(crown[0] + base[0]) / 2, (crown[1] + base[1]) / 2 - r * 0.1, r]
   const hands = [pt(s.at.leftTip), pt(s.at.rightTip)]
-  const out = { d, head, marks: marks(act, head, hands) }
+  const out = { body, arms, head, marks: marks(act, head, hands) }
   cache.set(act, out)
   return out
 }
@@ -103,7 +103,7 @@ function marks(act: Act, head: [number, number, number], hands: [number, number]
     case 'jump':
       return (
         <>
-          <path d="M34 84l-3 5M50 86v5M66 84l3 5" {...thin} />
+          <path d="M30 86l-4 5M50 88v5M70 86l4 5" {...thin} />
         </>
       )
     case 'clap': {
@@ -148,23 +148,29 @@ function marks(act: Act, head: [number, number, number], hands: [number, number]
   }
 }
 
-/** The picture for a gesture button. Decorative: the button carries the label. */
+/**
+ * The picture for a gesture button. Decorative: the button carries the label.
+ * Arms are drawn over the body with a rim in the button's own colour (CSS variable --icon-bg), so a hand in front
+ * of the chest or face still reads.
+ */
 export function GestureIcon({ act, className }: { act: Act; className?: string }) {
   const g = draw(act)
+  const round = { fill: 'none', strokeLinecap: 'round' as const, strokeLinejoin: 'round' as const }
   return (
     <svg viewBox="0 0 100 100" className={className} aria-hidden="true" focusable="false">
-      <path d="M22 92h56" fill="none" stroke="currentColor" strokeWidth={3} strokeLinecap="round" opacity={0.25} />
+      <path d="M18 94h64" fill="none" stroke="currentColor" strokeWidth={3} strokeLinecap="round" opacity={0.22} />
       {g.marks}
-      <g fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round">
-        <path d={g.d[0]} strokeWidth={15} opacity={0.42} />
-        {g.d.slice(1, 5).map((d, i) => (
-          <path key={i} d={d} strokeWidth={7.5} opacity={0.42} />
-        ))}
-        {g.d.slice(5).map((d, i) => (
-          <path key={i} d={d} strokeWidth={6.5} />
-        ))}
-      </g>
+      <path d={g.body[0]} {...round} stroke="currentColor" strokeWidth={17} />
+      <path d={g.body[1]} {...round} stroke="currentColor" strokeWidth={8.5} />
+      <path d={g.body[2]} {...round} stroke="currentColor" strokeWidth={8.5} />
+      <circle cx={g.head[0]} cy={g.head[1]} r={g.head[2] + 2.2} fill="var(--icon-bg, #fff)" />
       <circle cx={g.head[0]} cy={g.head[1]} r={g.head[2]} fill="currentColor" />
+      {g.arms.map((d, i) => (
+        <g key={i}>
+          <path d={d} {...round} stroke="var(--icon-bg, #fff)" strokeWidth={12} />
+          <path d={d} {...round} stroke="currentColor" strokeWidth={7.5} />
+        </g>
+      ))}
     </svg>
   )
 }

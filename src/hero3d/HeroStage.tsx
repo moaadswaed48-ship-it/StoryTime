@@ -347,9 +347,9 @@ export function HeroStage({ sheets, lang = 'en', initial, labels, mode: forced, 
             aria-label={L.gestures[g]}
             aria-pressed={active === g}
             data-gesture={g}
-            className="grid aspect-square min-h-14 place-items-center rounded-2xl border border-line bg-surface text-ink shadow-sm transition-transform duration-150 aria-pressed:bg-ink aria-pressed:text-paper active:scale-95 motion-reduce:transition-none"
+            className="grid aspect-square min-h-14 place-items-center rounded-2xl border border-line bg-[var(--icon-bg)] text-ink shadow-sm transition-transform duration-150 [--icon-bg:var(--color-surface)] aria-pressed:text-paper aria-pressed:[--icon-bg:var(--color-ink)] active:scale-95 motion-reduce:transition-none"
           >
-            <GestureIcon act={g} className="size-[78%]" />
+            <GestureIcon act={g} className="size-[86%]" />
           </button>
         ))}
       </div>

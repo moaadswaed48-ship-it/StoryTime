@@ -29,7 +29,7 @@ const TX = TABLE.x + 10
 const RELEASE = 2.55
 
 /** How far the tower leans at time t (radians at its top). It is pushed as the hand lets go, sways, and settles. */
-const sway = (t: number) => (t < RELEASE ? 0 : 0.17 * Math.exp(-(t - RELEASE) * 0.45) * Math.sin((t - RELEASE) * 5.1) * (1 - ramp(t, 5.0, 5.9)))
+const sway = (t: number) => (t < RELEASE ? 0 : 0.23 * Math.exp(-(t - RELEASE) * 0.42) * Math.sin((t - RELEASE) * 5.1) * (1 - ramp(t, 5.0, 5.9)))
 
 /** Where block `i` is: each block leans a little more than the one under it. */
 function blockAt(i: number, t: number) {
