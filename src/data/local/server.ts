@@ -6,10 +6,11 @@ import { TERMS_VERSION } from '../terms'
 import {
   isAgeGroup, isPassMonths, learnerKindFor,
   type AccessSnapshot, type Account, type AgeGroup, type Iso, type Learner, type LearnerKind, type Order, type OrderStatus,
-  type Pass, type PassMonths, type PassStatus, type Price, type Role, type StoryContent, type StorySummary, type Trial,
+  type Pass, type PassMonths, type PassStatus, type Price, type Progress, type ProgressPatch, type Role, type StoryContent, type StorySummary, type Trial,
 } from '../types'
 import { PRICES } from '../prices'
 import { isEmail, MIN_PASSWORD } from '../validate'
+import { CONTENT_STORIES, loadContent, summaryFacts } from './content'
 import { SEED_STORIES, seedPages, seedTeaser, seedTitle } from './seed'
 
 /**
@@ -68,6 +69,7 @@ type PaymentRow = { id: string; orderId: string; provider: string; providerPayme
 type PassRow = { id: string; accountId: string; orderId: string | null; ageGroup: AgeGroup; months: PassMonths; startsAt: Iso; endsAt: Iso; status: PassStatus; cancelledAt: Iso | null }
 type RefundRow = { id: string; orderId: string; passId: string; amountAgorot: number; feeAgorot: number | null; status: 'requested' | 'issued' | 'declined'; requestedAt: Iso }
 type EventRow = { provider: string; eventId: string; orderId: string; kind: string; receivedAt: Iso }
+type ProgressRow = Progress & { learnerId: string; accountId: string }
 type TokenRow = { token: string; userId: string; kind: 'signup' | 'recovery'; createdAt: Iso; expiresAt: Iso; usedAt: Iso | null }
 export type OutboxRow = { id: string; to: string; template: 'confirm' | 'reset' | 'purchase' | 'cancellation' | 'deleted'; lang: Lang; link: string | null; createdAt: Iso }
 
@@ -88,11 +90,47 @@ export type LocalDb = {
   tokens: TokenRow[]
   deletionRequests: { id: string; requestedAt: Iso; completedAt: Iso | null }[]
   failedSignIns: Record<string, Iso[]>
+  /** Added in part B1; older saved databases simply have none yet. */
+  progress: ProgressRow[]
 }
+
+/**
+ * One catalogue row: a story from content/stories/ (the real format) or one of the text-only seed samples that
+ * exercise the access rules. In each age group the first TRIAL_STORIES eligible stories by position are that
+ * group's trial stories: real stories first, then the content samples, then the seeds.
+ */
+type CatalogueRow = {
+  id: string
+  slug: string
+  status: 'published' | 'draft'
+  groups: { group: AgeGroup; trial: boolean; position: number }[]
+  source: 'content' | 'seed'
+}
+
+function buildCatalogue(): CatalogueRow[] {
+  const rows: (CatalogueRow & { eligible: Set<AgeGroup> })[] = []
+  CONTENT_STORIES.forEach((c, i) => {
+    const position = (c.isSample ? -50 : -100) + i
+    rows.push({ id: c.id, slug: c.id, status: 'published', source: 'content', groups: c.story.ageGroups.map((group) => ({ group, trial: false, position })), eligible: new Set(c.story.ageGroups) })
+  })
+  for (const s of SEED_STORIES) {
+    rows.push({ id: s.id, slug: s.slug, status: s.status, source: 'seed', groups: s.groups.map((g) => ({ ...g, trial: false })), eligible: new Set(s.groups.filter((g) => g.trial).map((g) => g.group)) })
+  }
+  for (const group of ['2-3', '4-5', '6-8'] as const) {
+    rows
+      .filter((r) => r.status === 'published' && r.eligible.has(group))
+      .map((r) => ({ r, g: r.groups.find((g) => g.group === group)! }))
+      .sort((a, b) => a.g.position - b.g.position)
+      .slice(0, TRIAL_STORIES)
+      .forEach(({ g }) => (g.trial = true))
+  }
+  return rows.map(({ eligible: _e, ...r }) => r)
+}
+export const CATALOGUE: CatalogueRow[] = buildCatalogue()
 
 const emptyDb = (): LocalDb => ({
   version: 1, users: [], profiles: {}, learners: [], consents: [], trials: [], orders: [], payments: [], passes: [], refunds: [],
-  providerEvents: [], cancellationRequests: [], outbox: [], tokens: [], deletionRequests: [], failedSignIns: {},
+  providerEvents: [], cancellationRequests: [], outbox: [], tokens: [], deletionRequests: [], failedSignIns: {}, progress: [],
 })
 
 const uuid = () => (globalThis.crypto?.randomUUID?.() ?? `${Date.now().toString(16)}-${Math.random().toString(16).slice(2)}`)
@@ -341,6 +379,7 @@ export class LocalServer {
       payments: db.payments.filter((p) => orderIds.has(p.orderId)),
       passes: db.passes.filter((p) => p.accountId === id),
       refunds: db.refunds.filter((r) => orderIds.has(r.orderId)),
+      progress: db.progress.filter((p) => p.accountId === id).map(({ accountId: _a, ...p }) => p),
     }
   }
 
@@ -357,6 +396,7 @@ export class LocalServer {
       db.consents = db.consents.filter((c) => c.accountId !== id)
       db.trials = db.trials.filter((t) => t.accountId !== id)
       db.passes = db.passes.filter((p) => p.accountId !== id)
+      db.progress = db.progress.filter((p) => p.accountId !== id)
       db.tokens = db.tokens.filter((t) => t.userId !== id)
       for (const o of db.orders) if (o.accountId === id) o.accountId = null
     })
@@ -381,29 +421,68 @@ export class LocalServer {
     return { id: p.id, orderId: p.orderId, ageGroup: p.ageGroup, months: p.months, startsAt: p.startsAt, endsAt: p.endsAt, status: p.status, paidAt: o?.paidAt ?? null, amountAgorot: o?.amountAgorot ?? 0 }
   }
 
-  /** Catalogue facts for signed-in users: published stories only (the owner sees drafts too). */
-  listStories(uid: string | null, lang: Lang, group?: AgeGroup): StorySummary[] {
+  /** Catalogue facts for signed-in users: published stories only (the owner sees drafts too). Never story text. */
+  async listStories(uid: string | null, lang: Lang, group?: AgeGroup): Promise<StorySummary[]> {
     const id = this.requireUser(uid)
     const owner = this.read().profiles[id]!.role === 'owner'
-    return SEED_STORIES.filter((s) => (s.status === 'published' || owner) && (!group || s.groups.some((g) => g.group === group)))
+    const rows = CATALOGUE.filter((s) => (s.status === 'published' || owner) && (!group || s.groups.some((g) => g.group === group)))
       .sort((a, b) => {
-        const pa = a.groups.find((g) => g.group === group)?.position ?? 0
-        const pb = b.groups.find((g) => g.group === group)?.position ?? 0
+        const pa = a.groups.find((g) => g.group === group)?.position ?? Math.min(...a.groups.map((g) => g.position))
+        const pb = b.groups.find((g) => g.group === group)?.position ?? Math.min(...b.groups.map((g) => g.position))
         return pa - pb
       })
-      .map((s) => ({
-        id: s.id, slug: s.slug, title: seedTitle(s, lang), teaser: seedTeaser(lang), ageGroups: s.groups.map((g) => g.group),
-        trialIn: s.groups.filter((g) => g.trial).map((g) => g.group), isSample: true, credit: 'storytime', coverUrl: null,
-      }))
+    return Promise.all(rows.map(async (s): Promise<StorySummary> => {
+      const base = { id: s.id, slug: s.slug, ageGroups: s.groups.map((g) => g.group), trialIn: s.groups.filter((g) => g.trial).map((g) => g.group) }
+      const c = s.source === 'content' ? CONTENT_STORIES.find((x) => x.id === s.id) : undefined
+      if (c) return { ...base, ...(await summaryFacts(c, lang)), isSample: c.isSample, credit: c.story.owner === 'author' ? 'author' : 'storytime', features: c.features }
+      const seed = SEED_STORIES.find((x) => x.id === s.id)!
+      return { ...base, title: seedTitle(seed, lang), teaser: seedTeaser(lang), isSample: true, credit: 'storytime', coverUrl: null, features: { listen: false, film: false, activity: false } }
+    }))
   }
 
-  getStoryContent(uid: string | null, storyId: string, lang: Lang): StoryContent {
+  /** Paid content, only past the same check as has_access_to_story(). The content is loaded after the check. */
+  async getStoryContent(uid: string | null, storyId: string, lang: Lang): Promise<StoryContent> {
     const id = this.requireUser(uid)
-    const s = SEED_STORIES.find((x) => x.id === storyId)
+    const s = CATALOGUE.find((x) => x.id === storyId)
     if (!s) throw new DataError('not_found')
     const facts = { id: s.id, published: s.status === 'published', ageGroups: s.groups.map((g) => g.group) }
     if (!hasAccessToStory(this.access(id), facts)) throw new DataError('locked')
-    return { id: s.id, lang, pages: seedPages(lang) }
+    const c = s.source === 'content' ? CONTENT_STORIES.find((x) => x.id === s.id) : undefined
+    if (c) return loadContent(c, lang)
+    const seed = SEED_STORIES.find((x) => x.id === s.id)!
+    return { id: s.id, lang, title: seedTitle(seed, lang), credit: 'storytime', isSample: true, pages: seedPages(lang), film: null, activity: null }
+  }
+
+  // ---- progress (the progress table: one row per profile and story) --------------------------------------------
+
+  private ownLearner(db: LocalDb, accountId: string, learnerId: string) {
+    if (!db.learners.some((l) => l.id === learnerId && l.accountId === accountId)) throw new DataError('not_found')
+  }
+
+  listProgress(uid: string | null, learnerId: string): Progress[] {
+    const id = this.requireUser(uid)
+    const db = this.read()
+    this.ownLearner(db, id, learnerId)
+    return db.progress.filter((p) => p.learnerId === learnerId).map(({ learnerId: _l, accountId: _a, ...p }) => p)
+  }
+
+  saveProgress(uid: string | null, learnerId: string, storyId: string, patch: ProgressPatch): Progress {
+    const id = this.requireUser(uid)
+    if (!CATALOGUE.some((s) => s.id === storyId)) throw new DataError('not_found')
+    return this.tx((db) => {
+      this.ownLearner(db, id, learnerId)
+      let row = db.progress.find((p) => p.learnerId === learnerId && p.storyId === storyId)
+      if (!row) {
+        row = { learnerId, accountId: id, storyId, lastPage: null, filmWatched: false, activityDone: false, updatedAt: this.now() }
+        db.progress.push(row)
+      }
+      if (patch.lastPage !== undefined) row.lastPage = patch.lastPage === null ? null : Math.max(1, Math.round(patch.lastPage))
+      if (patch.filmWatched !== undefined) row.filmWatched = row.filmWatched || patch.filmWatched
+      if (patch.activityDone !== undefined) row.activityDone = patch.activityDone
+      row.updatedAt = this.now()
+      const { learnerId: _l, accountId: _a, ...out } = row
+      return out
+    })
   }
 
   /** start_trial(): one per account, 3 days, the group's trial stories copied at start. */
@@ -412,7 +491,7 @@ export class LocalServer {
     if (!isAgeGroup(group)) throw new DataError('unknown', 'bad_age_group')
     return this.tx((db) => {
       if (db.trials.some((t) => t.accountId === id)) throw new DataError('trial_used')
-      const storyIds = SEED_STORIES.filter((s) => s.status === 'published')
+      const storyIds = CATALOGUE.filter((s) => s.status === 'published')
         .flatMap((s) => s.groups.filter((g) => g.group === group && g.trial).map((g) => ({ id: s.id, pos: g.position })))
         .sort((a, b) => a.pos - b.pos)
         .slice(0, TRIAL_STORIES)

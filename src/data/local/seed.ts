@@ -66,4 +66,4 @@ export const SEED_STORIES: SeedStory[] = [
 
 export const seedTitle = (s: SeedStory, lang: Lang) => L[lang].title(s.number, s.home.replace('-', '–'))
 export const seedTeaser = (lang: Lang) => L[lang].teaser
-export const seedPages = (lang: Lang) => [1, 2].map((n) => ({ pageNo: n, display: L[lang].page(n), speech: L[lang].page(n), pictureUrl: null }))
+export const seedPages = (lang: Lang) => [1, 2].map((n) => ({ pageNo: n, display: L[lang].page(n), speech: L[lang].page(n), pictureUrl: null, zone: null, readAlong: null }))

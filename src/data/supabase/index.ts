@@ -5,7 +5,7 @@ import { codeFromText, DataError, type ErrorCode } from '../errors'
 import {
   learnerKindFor,
   type AccessSnapshot, type Account, type AgeGroup, type Learner, type Order, type Pass, type PassMonths, type Price, type Role,
-  type Session, type StoryContent, type StorySummary, type Trial,
+  type Progress, type ProgressPatch, type Session, type StoryContent, type StorySummary, type Trial,
 } from '../types'
 
 /**
@@ -90,6 +90,10 @@ const toOrder = (r: Row): Order => ({
   createdAt: r.created_at as string, paidAt: (r.paid_at as string) ?? null,
 })
 const toLearner = (r: Row): Learner => ({ id: r.id as string, kind: r.kind as Learner['kind'], name: r.name as string, ageGroup: r.age_group as AgeGroup })
+
+const progressOut = (r: Row): Progress => ({
+  storyId: r.story_id as string, lastPage: (r.last_page as number | null) ?? null, filmWatched: !!r.film_watched, activityDone: !!r.activity_done, updatedAt: r.updated_at as string,
+})
 
 export class SupabaseApi implements DataApi {
   readonly kind = 'supabase' as const
@@ -256,13 +260,33 @@ export class SupabaseApi implements DataApi {
     const ok = await must(this.sb.rpc('has_access_to_story', { p_story: id }))
     if (!ok) throw new DataError('locked')
     const pages = (await must(this.sb.from('pages').select('page_no, picture_media_id, story_texts(lang, display, speech)').eq('story_id', id).order('page_no'))) as Row[]
+    const listing = (await must(this.sb.from('story_listings').select('title').eq('story_id', id).eq('lang', lang).maybeSingle())) as Row | null
+    const story = (await must(this.sb.from('stories').select('is_sample, credit').eq('id', id).maybeSingle())) as Row | null
+    // NOT wired yet (part B1 keeps to the local backend): page zones from pages.layout, signed media links for
+    // pictures, read-along audio, films and activity steps. Each comes back empty, and the screens say so.
     return {
-      id, lang,
+      id, lang, title: (listing?.title as string) ?? '', credit: (story?.credit as StoryContent['credit']) ?? 'storytime', isSample: !!story?.is_sample,
       pages: pages.map((p) => {
         const text = ((p.story_texts as Row[]) ?? []).find((t) => t.lang === lang)
-        return { pageNo: p.page_no as number, display: (text?.display as string) ?? '', speech: (text?.speech as string) ?? '', pictureUrl: null }
+        return { pageNo: p.page_no as number, display: (text?.display as string) ?? '', speech: (text?.speech as string) ?? '', pictureUrl: null, zone: null, readAlong: null }
       }),
+      film: null,
+      activity: null,
     }
+  }
+
+  async listProgress(learnerId: string): Promise<Progress[]> {
+    const rows = (await must(this.sb.from('progress').select('story_id, last_page, film_watched, activity_done, updated_at').eq('child_id', learnerId))) as Row[]
+    return rows.map(progressOut)
+  }
+
+  async saveProgress(learnerId: string, storyId: string, patch: ProgressPatch): Promise<Progress> {
+    const row: Row = { child_id: learnerId, story_id: storyId, updated_at: new Date().toISOString() }
+    if (patch.lastPage !== undefined) row.last_page = patch.lastPage
+    if (patch.filmWatched) row.film_watched = true
+    if (patch.activityDone !== undefined) row.activity_done = patch.activityDone
+    const r = await must(this.sb.from('progress').upsert(row, { onConflict: 'child_id,story_id' }).select('story_id, last_page, film_watched, activity_done, updated_at').single())
+    return progressOut(r as Row)
   }
 
   async getAccess(): Promise<AccessSnapshot> {

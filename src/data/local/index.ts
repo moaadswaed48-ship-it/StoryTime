@@ -172,6 +172,14 @@ export class LocalApi implements DataApi {
     return this.run(() => this.server.startTrial(this.uid(), ageGroup))
   }
 
+  listProgress(learnerId: string) {
+    return this.run(() => this.server.listProgress(this.uid(), learnerId))
+  }
+
+  saveProgress(learnerId: string, storyId: string, patch: Parameters<DataApi['saveProgress']>[2]) {
+    return this.run(() => this.server.saveProgress(this.uid(), learnerId, storyId, patch))
+  }
+
   listPrices() {
     return this.run(() => this.server.listPrices())
   }
