@@ -15,6 +15,8 @@ export type CaptionStyle = {
   place: 'over' | 'below'
   /** For 'over': the label's box in the picture's own units, as for a left-to-right page (the picture draws the label, the page sets the words in it; a right-to-left page mirrors the box). */
   box?: { x: number; y: number; w: number; h: number }
+  /** The box on a card that has no step number beside the words (the materials card), when that differs. */
+  box0?: { x: number; y: number; w: number; h: number }
   /** For 'below': the band's colour and its height as a fraction of the picture's width. */
   band?: string
   bandH?: number
@@ -123,7 +125,7 @@ export const INSTRUCTION_PROFILES: Record<DirectionId, InstructionProfile> = {
     H: 1140,
     radius: 0.05,
     holdFps: 12,
-    caption: { place: 'over', box: { x: 250, y: 918, w: 916, h: 204 }, color: '#22203a', size: 0.06, weight: 800 },
+    caption: { place: 'over', box: { x: 250, y: 918, w: 916, h: 204 }, box0: { x: 60, y: 918, w: 1080, h: 204 }, color: '#22203a', size: 0.06, weight: 800 },
     c: {
       ink: '#22203a', paper: '#fbf5e8', fieldA: '#f6b93b', fieldA2: '#fbd06a', fieldB: '#5cb8ae', fieldB2: '#86cfc4', arrow: '#fbf5e8', accent: '#e4572e',
     },

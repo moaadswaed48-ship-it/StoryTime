@@ -146,6 +146,8 @@ type CapOpts = {
   /** Temples: how far round the head and how far forward the hair starts. */
   tx?: number
   tz?: number
+  /** How squarely the hair hangs beside the face: 2.4 = a hairline that slopes to the temples, 8 = a curtain that falls straight down each cheek. */
+  hang?: number
 }
 /** A cap of hair over the skull, cut away where the face shows. In back views it covers the whole head. */
 function cap(h: HairCtx, o: CapOpts): Pen {
@@ -198,7 +200,7 @@ function cap(h: HairCtx, o: CapOpts): Pen {
       const u = 1 - (i / m) * 2 // +1 at screen right … −1 at screen left
       const x = mid + (u * wide) / 2
       // the hairline drops toward the temples
-      const y = yLine + Ry * o.fringe(u) + Math.pow(Math.abs(u), 2.4) * (Math.min(u > 0 ? yr : yl, Ry * o.temple) - yLine) * (1 - (u > 0 ? t.openR : t.openL))
+      const y = yLine + Ry * o.fringe(u) + Math.pow(Math.abs(u), o.hang ?? 2.4) * (Math.min(u > 0 ? yr : yl, Ry * o.temple) - yLine) * (1 - (u > 0 ? t.openR : t.openL))
       if (x >= xl - 1e-3 && x <= xr + 1e-3) inner.push(x, y)
     }
     if (t.xl > ax + R * 0.04) inner.push(xl, yl, xl + (ax - xl) * 0.5, yl + Ry * 0.05)
@@ -322,7 +324,7 @@ function hairOver(h: HairCtx) {
     }
     case 'short': {
       P.shape(cap(h, { lift: 1.07, temple: line + 0.3, nape: 0.5, line: line - 0.1, fringe: (u) => 0.08 * Math.sin(u * 4.2 + 0.6) + 0.06 * u }), h.hc)
-      if (!back) P.detail(curve([fx - R * 0.3, Ry * (line - 0.04), fx * 0.6 + R * 0.1, -Ry * 0.86, fx * 0.3 + R * 0.6, -Ry * 0.74]), h.hc, 0.7)
+      if (!back && Math.abs(v.s) < 0.6) P.detail(curve([fx - R * 0.3, Ry * (line - 0.04), fx * 0.6 + R * 0.1, -Ry * 0.86, fx * 0.3 + R * 0.6, -Ry * 0.74]), h.hc, 0.7)
       break
     }
     case 'curls': {
@@ -351,14 +353,14 @@ function hairOver(h: HairCtx) {
     }
     case 'bob': {
       // a straight fringe, and hair down both cheeks to the jaw
-      P.shape(cap(h, { lift: 1.07, temple: 0.9, nape: 0.98, line: line + 0.12, fringe: (u) => 0.03 * Math.cos(u * 9), tx: 0.76, tz: 0.5 }), h.hc)
-      if (!back) for (const k of [-0.3, 0.32]) P.detail(curve([fx * 0.4 + k * R * 0.7, -Ry * 0.95, fx + k * R, Ry * (line - 0.3), fx + k * R * 0.9, Ry * (line + 0.08)]), h.hc, 0.7)
+      P.shape(cap(h, { lift: 1.07, temple: 0.9, nape: 0.98, line: line + 0.12, fringe: (u) => 0.03 * Math.cos(u * 9), tx: 0.8, tz: 0.5, hang: 9 }), h.hc)
+      if (!back && Math.abs(v.s) < 0.5) for (const k of [-0.3, 0.32]) P.detail(curve([fx * 0.4 + k * R * 0.7, -Ry * 0.95, fx + k * R, Ry * (line - 0.3), fx + k * R * 0.9, Ry * (line + 0.08)]), h.hc, 0.7)
       break
     }
     case 'long': {
       // a side parting, one sweep across the forehead, a lock down each cheek
-      P.shape(cap(h, { lift: 1.07, temple: 0.98, nape: 1.0, line: line + 0.04, fringe: (u) => -0.22 * Math.exp(-Math.pow((u + 0.45) / 0.3, 2)) + 0.08 * u, tx: 0.78, tz: 0.46 }), h.hc)
-      if (!back) P.detail(curve([fx - R * 0.38, Ry * (line - 0.24), fx + R * 0.3, Ry * (line - 0.14), fx + R * 0.66, Ry * (line + 0.06)]), h.hc, 0.7)
+      P.shape(cap(h, { lift: 1.07, temple: 0.98, nape: 1.0, line: line + 0.04, fringe: (u) => -0.22 * Math.exp(-Math.pow((u + 0.45) / 0.3, 2)) + 0.08 * u, tx: 0.82, tz: 0.46, hang: 8 }), h.hc)
+      if (!back && Math.abs(v.s) < 0.5) P.detail(curve([fx - R * 0.38, Ry * (line - 0.24), fx + R * 0.3, Ry * (line - 0.14), fx + R * 0.66, Ry * (line + 0.06)]), h.hc, 0.7)
       break
     }
     case 'braids': {
@@ -376,7 +378,7 @@ function hairOver(h: HairCtx) {
     case 'bun': {
       // pulled back smooth off the forehead
       P.shape(cap(h, { lift: 1.06, temple: line + 0.34, nape: 0.5, line: line - 0.16, fringe: (u) => -0.04 * Math.cos(u * 3) }), h.hc)
-      if (!back) P.detail(curve([fx - R * 0.5, Ry * (line - 0.1), fx * 0.6 - R * 0.2, -Ry * 0.9, fx * 0.2 + R * 0.3, -Ry * 1.0]), h.hc, 0.7)
+      if (!back && Math.abs(v.s) < 0.6) P.detail(curve([fx - R * 0.5, Ry * (line - 0.1), fx * 0.6 - R * 0.2, -Ry * 0.9, fx * 0.2 + R * 0.3, -Ry * 1.0]), h.hc, 0.7)
       else P.detail(curve([-R * 0.4, Ry * 0.2, 0, -Ry * 0.5, R * 0.4, Ry * 0.2]), h.hc, 0.7)
       if (style === 'ponytail' && v.d(0.3, -0.9) >= 0) tail(h)
       if (style === 'bun' && v.d(0, -0.45) >= 0) P.shape(circle(v.x(0, -0.45), -Ry * 0.8, R * 0.46), h.hc)

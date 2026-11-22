@@ -57,7 +57,7 @@ export function mountCard(root: HTMLElement, dirId: DirectionId, activityId: Act
   const type = `margin:0;font-family:${fontFor(lang)};font-weight:${cap.weight};color:${cap.color};line-height:${rtl ? 1.4 : 1.16};text-align:center;text-wrap:balance;letter-spacing:${rtl ? 'normal' : '-0.005em'}`
   let zone: HTMLElement
   if (cap.place === 'over' && cap.box) {
-    const b = cap.box
+    const b = card.n === 0 && cap.box0 ? cap.box0 : cap.box
     zone = document.createElement('div')
     const bx = rtl ? pr.W - b.x - b.w : b.x
     zone.style.cssText = `position:absolute;left:${(bx / pr.W) * 100}%;top:${(b.y / pr.H) * 100}%;width:${(b.w / pr.W) * 100}%;height:${(b.h / pr.H) * 100}%;display:flex;align-items:center;justify-content:center;padding:0 2.4cqw;box-sizing:border-box`
