@@ -79,4 +79,52 @@ describe('hero3d figures', () => {
       f.dispose()
     }
   })
+
+  it('blends gestures in and out of idle without pops, even when one interrupts another', () => {
+    const sheet = HERO_SAMPLES[0]
+    const f = buildFigure(sheet)
+    const keys = Object.keys(f.solved.at) as (keyof typeof f.solved.at)[]
+    const last = Object.fromEntries(keys.map((k) => [k, f.solved.at[k].clone()])) as typeof f.solved.at
+    const speed = Object.fromEntries(keys.map((k) => [k, 0])) as Record<(typeof keys)[number], number>
+    let worst = 0
+    let worstAt = ''
+    let frame = 0
+    const pops: string[] = []
+    // A pop is a jolt: a joint that suddenly moves (or stops) far faster than in the frame before, by a visible
+    // part of the body. Fast but smooth moves (a spin, a flung arm) change speed gradually and are fine.
+    const step = (label: string) => {
+      f.update(1 / 60, { x: Math.sin(frame / 40), y: Math.cos(frame / 55) })
+      frame++
+      for (const k of keys) {
+        const d = f.solved.at[k].distanceTo(last[k]) / f.rig.H
+        const jolt = Math.abs(d - speed[k])
+        if (jolt > worst) {
+          worst = jolt
+          worstAt = `${label} ${k} frame ${frame}`
+        }
+        if (jolt > LIMIT) pops.push(`${label} ${k} frame ${frame}: speed ${(speed[k] * 100).toFixed(1)} → ${(d * 100).toFixed(1)}% of height per frame`)
+        if (d > 0.2) pops.push(`${label} ${k} frame ${frame}: moved ${(d * 100).toFixed(0)}% of height in one frame`)
+        speed[k] = d
+        last[k].copy(f.solved.at[k])
+      }
+    }
+    const LIMIT = 0.035
+    for (let i = 0; i < 30; i++) step('idle')
+    // each gesture in full, then each one cut short by the next at an awkward moment
+    for (const act of ACTS) {
+      f.play(act)
+      for (let i = 0; i < GESTURE_DEFS[act].duration * 60 + 20; i++) step(act)
+    }
+    ACTS.forEach((act, n) => {
+      f.play(act)
+      for (let i = 0; i < 25 + n * 9; i++) step(`${act} (cut)`)
+    })
+    f.rest()
+    for (let i = 0; i < 60; i++) step('rest')
+    expect(f.playing).toBe('idle')
+    expect(pops, pops.join('\n')).toEqual([])
+    expect(worst, worstAt).toBeLessThan(LIMIT)
+    console.log(`largest change of speed between two frames: ${(worst * 100).toFixed(1)}% of body height (${worstAt})`)
+    f.dispose()
+  })
 })

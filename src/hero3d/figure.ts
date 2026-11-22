@@ -9,12 +9,14 @@ import { buildBody, palette } from './body.ts'
 import { buildFace, type Face } from './face.ts'
 import { GESTURE_DEFS, gesturePose, idlePose, type Act } from './gestures.ts'
 import { contactShadow, outlineMaterial, toonMaterial } from './materials.ts'
-import { REST, copyPose, lerpPose, wrapAngle, type Pose } from './pose.ts'
+import { CHANNELS, REST, copyPose, lerpPose, wrapAngle, type Pose } from './pose.ts'
 import { makeBones, makeRig, type Rig } from './rig.ts'
 import { newSolved, solve, type Solved } from './solver.ts'
 
-const BLEND_IN = 0.2
 const BLEND_OUT = 0.34
+/** How fast a carried-over pose dies away (per second) and when it is fully gone (seconds). */
+const CARRY_RATE = 9
+const CARRY_FOR = 0.7
 const io = (t: number) => {
   const u = Math.min(1, Math.max(0, t))
   return u * u * (3 - 2 * u)
@@ -41,9 +43,15 @@ export class Figure {
   private act: Act | null = null
   private actT = 0
   private clock = 0
-  private from: Pose = copyPose(REST)
   private idle: Pose = copyPose(REST)
   private tmp: Pose = copyPose(REST)
+  private base: Pose = copyPose(REST)
+  private before: Pose = copyPose(REST)
+  private carry: Pose = copyPose(REST)
+  private carrySpeed: Pose = copyPose(REST)
+  private carryT = 99
+  private rebase = false
+  private lastStep = 1 / 60
   private nextBlink = 1.2
   private blinkT = -1
   private lookX = 0
@@ -99,12 +107,11 @@ export class Figure {
     return this.act ?? 'idle'
   }
 
-  /** Starts a gesture; it blends in from whatever is shown now and back out to idle at its end. */
+  /** Starts a gesture; it takes over smoothly from whatever is shown now and blends back to idle at its end. */
   play(gesture: Gesture) {
-    copyPose(this.pose, this.from)
-    this.from.yaw = wrapAngle(this.from.yaw)
     this.act = gesture === 'idle' ? null : gesture
     this.actT = 0
+    this.rebase = true
   }
 
   /** Advances time and shows the new pose. `look` is where the viewer's pointer is, if anywhere. */
@@ -122,40 +129,45 @@ export class Figure {
         const g = gesturePose(this.act, this.actT, this.tmp)
         const out = 1 - io((this.actT - (def.duration - BLEND_OUT)) / BLEND_OUT)
         if (out < 1) g.yaw = wrapAngle(g.yaw)
-        // the pointer steers the head only as far as the gesture allows
-        const attend = g.attend
-        lerpPose(this.from, g, io(this.actT / BLEND_IN), g)
         lerpPose(idle, g, out, g)
-        g.headRy += this.lookX * 0.42 * attend * out
-        g.headRx += -this.lookY * 0.22 * attend * out
-        g.lookX += this.lookX * 0.8 * attend * out
-        g.lookY += this.lookY * 0.7 * attend * out
         g.blink = Math.max(g.blink, idle.blink * (g.happy > 0.5 ? 0 : 1))
         pose = g
       }
     }
-    if (pose === idle) {
-      idle.headRy += this.lookX * 0.42
-      idle.headRx += -this.lookY * 0.22
-      idle.lookX += this.lookX * 0.8
-      idle.lookY += this.lookY * 0.7
-      if (this.settle > 0) {
-        this.settle = Math.max(0, this.settle - step / BLEND_OUT)
-        lerpPose(idle, this.from, io(this.settle), idle)
+    // A change of gesture carries the old pose and its speed over and lets them die away (an inertial blend),
+    // so nothing jumps and nothing stops dead, whenever a button is pressed.
+    if (this.rebase) {
+      this.rebase = false
+      this.carryT = 0
+      for (const k of CHANNELS) {
+        const speed = (this.base[k] - this.before[k]) / this.lastStep
+        this.carry[k] = this.base[k] + speed * step - pose[k]
+        this.carrySpeed[k] = speed
       }
+      this.carry.yaw = wrapAngle(this.carry.yaw)
+      this.carry.blink = this.carrySpeed.blink = 0
     }
+    copyPose(this.base, this.before)
+    this.lastStep = step
+    if (this.carryT < CARRY_FOR) {
+      const fade = Math.exp(-CARRY_RATE * this.carryT) * (1 - io((this.carryT - CARRY_FOR * 0.6) / (CARRY_FOR * 0.4)))
+      for (const k of CHANNELS) pose[k] += (this.carry[k] + (this.carrySpeed[k] + CARRY_RATE * this.carry[k]) * this.carryT) * fade
+      this.carryT += step
+    }
+    // remember the pose before the glance is added: the next gesture blends in from here
+    copyPose(pose, this.base)
+    // the pointer steers the head and eyes only as far as the pose allows
+    const attend = Math.min(1, Math.max(0, pose.attend))
+    pose.headRy += this.lookX * 0.42 * attend
+    pose.headRx += -this.lookY * 0.22 * attend
+    pose.lookX += this.lookX * 0.8 * attend
+    pose.lookY += this.lookY * 0.7 * attend
     this.show(pose)
   }
 
-  private settle = 0
-
   /** Stops any gesture and eases back to idle. */
   rest() {
-    if (!this.act) return
-    copyPose(this.pose, this.from)
-    this.from.yaw = wrapAngle(this.from.yaw)
-    this.act = null
-    this.settle = 1
+    if (this.act) this.play('idle')
   }
 
   /** Shows one exact moment of a gesture (still pictures, tests). No time passes. */

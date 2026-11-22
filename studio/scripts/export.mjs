@@ -170,7 +170,7 @@ async function main() {
           console.log(`shot ${i + 1}: ${start.toFixed(2)}…${end.toFixed(2)} s · ${n} frames at ${fps}/s · scale ${scale}`)
           const dir = resolve(work, `frames-${i + 1}`)
           await frames(make, dir, Array.from({ length: n }, (_, f) => (first + f) / fps))
-          ff(['-framerate', String(fps), '-i', resolve(dir, 'f%05d.jpg'), ...X264, '-crf', String(opt.crf ?? 17), '-tune', 'animation', '-r', String(fps), part])
+          ff(['-framerate', String(fps), '-i', resolve(dir, 'f%05d.jpg'), ...X264, '-crf', String(opt.crf ?? 22), '-tune', 'animation', '-r', String(fps), part])
           if (!opt.keep) rmSync(dir, { recursive: true, force: true })
         }
         start = end

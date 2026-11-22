@@ -3,6 +3,7 @@ import { GESTURES, type Gesture } from '@/cast/sheet'
 import { CAST, castById } from '@/cast/cast'
 import { drawFigure, drawFigureShadow } from '@/studio/figure/draw'
 import { GESTURE_SECONDS, gesturePose } from '@/studio/figure/gestures'
+import { rigOf } from '@/studio/figure/rig'
 import { Painter, STAGE_H, STAGE_W, ellipse, paperGrain } from '@/studio/kit/core'
 import { PROFILES } from '@/studio/style/profile'
 import { LabButton } from './Button'
@@ -20,8 +21,10 @@ function render(ctx: CanvasRenderingContext2D, w: number, t: number, who: string
   P.flat(ellipse(STAGE_W / 2, 930, 620, 70), '#f0d9a8')
   const sheet = castById(who)
   const pose = gesturePose(gesture, P.held(t), STAGE_W / 2, 930)
-  drawFigureShadow(P, sheet, pose, { scale: 1.3 }, 0.7)
-  drawFigure(P, sheet, pose, { scale: 1.3 })
+  // every character fills the frame, whatever its height
+  const scale = 640 / rigOf(sheet, P.style).H
+  drawFigureShadow(P, sheet, pose, { scale }, 0.7)
+  drawFigure(P, sheet, pose, { scale })
   paperGrain(P)
 }
 

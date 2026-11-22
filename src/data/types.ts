@@ -45,14 +45,73 @@ export type StorySummary = {
   isSample: boolean
   credit: 'storytime' | 'author'
   coverUrl: string | null
+  /**
+   * What the story has (catalogue facts, not content), so the collections can list films and activities without
+   * fetching paid content. Undefined = not known by this backend yet: the screens then assume it exists.
+   */
+  features?: { listen: boolean; film: boolean; activity: boolean }
+}
+
+/** Where the calm area for words sits on a page (content/SCHEMA.md). "start" is the reading side. */
+export type PageZone = { side: 'start' | 'end' | 'full'; v: 'top' | 'middle' | 'bottom'; size: 's' | 'm' | 'l' }
+
+/** A page's recording and when each word of its text is spoken (see WordTiming in src/content/schema.ts). */
+export type ReadAlong = { audioUrl: string; timing: { duration: number; words: [number, number][] } }
+
+export type StoryPage = {
+  pageNo: number
+  display: string
+  speech: string
+  pictureUrl: string | null
+  /** null: no zone known (the reader uses a full-width band at the bottom). */
+  zone: PageZone | null
+  /** null: no recording for this page in this language yet. */
+  readAlong: ReadAlong | null
+}
+
+export type FilmContent = {
+  /** The film file; null while the film is not made yet. */
+  videoUrl: string | null
+  posterUrl: string | null
+  /** WebVTT captions in the language of the voice; null when there are none. */
+  captionsUrl: string | null
+  captionsLang: Lang
+}
+
+export type ActivityContent = {
+  title: string
+  goal: string
+  minutes: number | null
+  materials: { id: string; label: string; pictureUrl: string | null }[]
+  steps: { n: number; caption: string; pictureUrl: string | null; loopUrl: string | null }[]
+  safety: string
+  forAdult: string
+  inClass: string
 }
 
 /** Paid content: returned only with access to the story. */
 export type StoryContent = {
   id: string
+  /** The language of the text returned (the one asked for, or the nearest one the story has). */
   lang: Lang
-  pages: { pageNo: number; display: string; speech: string; pictureUrl: string | null }[]
+  title: string
+  credit: 'storytime' | 'author'
+  isSample: boolean
+  pages: StoryPage[]
+  film: FilmContent | null
+  activity: ActivityContent | null
 }
+
+/** One profile's progress in one story (the progress table). */
+export type Progress = {
+  storyId: string
+  /** Last page shown (1-based); null when the book was never opened. */
+  lastPage: number | null
+  filmWatched: boolean
+  activityDone: boolean
+  updatedAt: Iso
+}
+export type ProgressPatch = Partial<Pick<Progress, 'lastPage' | 'filmWatched' | 'activityDone'>>
 
 export type Trial = { id: string; ageGroup: AgeGroup; startedAt: Iso; endsAt: Iso; storyIds: string[] }
 

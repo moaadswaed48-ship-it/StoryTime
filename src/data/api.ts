@@ -1,5 +1,5 @@
 import type { Lang } from '@/i18n/config'
-import type { AccessSnapshot, Account, AgeGroup, Learner, Order, PassMonths, Price, Session, StoryContent, StorySummary, Trial } from './types'
+import type { AccessSnapshot, Account, AgeGroup, Learner, Order, PassMonths, Price, Progress, ProgressPatch, Session, StoryContent, StorySummary, Trial } from './types'
 
 /**
  * The one interface the screens use. Two implementations:
@@ -68,6 +68,11 @@ export interface DataApi {
   getStoryContent(id: string, lang: Lang): Promise<StoryContent>
   getAccess(): Promise<AccessSnapshot>
   startTrial(ageGroup: AgeGroup): Promise<Trial>
+
+  // Progress, per profile (a child or a class)
+  listProgress(learnerId: string): Promise<Progress[]>
+  /** Merges the patch into the profile's progress in the story; returns the row as saved. */
+  saveProgress(learnerId: string, storyId: string, patch: ProgressPatch): Promise<Progress>
 
   // Money
   listPrices(): Promise<Price[]>

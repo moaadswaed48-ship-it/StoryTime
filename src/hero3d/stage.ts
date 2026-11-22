@@ -131,7 +131,10 @@ export class StageRuntime {
   }
 
   dispose() {
-    for (const f of this.figures.values()) f.dispose()
+    for (const f of this.figures.values()) {
+      this.group.remove(f.root)
+      f.dispose()
+    }
     this.figures.clear()
     this.current = this.leaving = this.waiting = null
   }

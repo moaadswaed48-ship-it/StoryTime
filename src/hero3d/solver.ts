@@ -78,7 +78,7 @@ const basis = (out: THREE.Quaternion, x: THREE.Vector3, y: THREE.Vector3) => {
  * Two-bone IK. From joint `j` toward `target` with lengths l1, l2; the middle joint bends toward `poleDir`.
  * Writes the middle joint to E, the (reachable) end to Wp, bone directions to u and f, the hinge axis to h.
  */
-function twoBone(j: THREE.Vector3, target: THREE.Vector3, l1: number, l2: number, poleDir: THREE.Vector3) {
+function twoBone(j: THREE.Vector3, target: THREE.Vector3, l1: number, l2: number, poleDir: THREE.Vector3, soft = false) {
   t0.subVectors(target, j)
   let d = t0.length()
   if (d < 1e-6) {
@@ -86,7 +86,10 @@ function twoBone(j: THREE.Vector3, target: THREE.Vector3, l1: number, l2: number
     d = 1e-6
   }
   t0.divideScalar(d)
-  const reach = Math.min(Math.max(d, Math.abs(l1 - l2) + 1e-4), (l1 + l2) * 0.998)
+  const full = l1 + l2
+  let reach = Math.min(Math.max(d, Math.abs(l1 - l2) + 1e-4), full * 0.998)
+  // arms straighten softly: close to full stretch the reach eases off, so an elbow never snaps straight
+  if (soft && d > full * 0.92) reach = full * (0.92 + 0.076 * (1 - Math.exp(-(d / full - 0.92) / 0.076)))
   const cos = Math.min(1, Math.max(-1, (l1 * l1 + reach * reach - l2 * l2) / (2 * l1 * reach)))
   const sin = Math.sqrt(1 - cos * cos)
   t1.copy(poleDir).addScaledVector(t0, -poleDir.dot(t0))
@@ -176,7 +179,7 @@ export function solve(rig: Rig, p: Pose, out: Solved): Solved {
     place(t0, out.at[shoulder])
     J.copy(o[upper]).applyQuaternion(sq).add(t0)
     pole.set(s * p[`ex${c}`], p[`ey${c}`], p[`ez${c}`]).applyQuaternion(lq.chest)
-    twoBone(J, tgt, rig.armU, rig.armL, pole)
+    twoBone(J, tgt, rig.armU, rig.armL, pole, true)
     // upper arm: local x runs along the arm (left) or against it (right); the elbow hinges about local y
     basis(qa, bx.copy(u).multiplyScalar(s), by.copy(h).multiplyScalar(-s))
     basis(qb, bx.copy(f).multiplyScalar(s), by.copy(h).multiplyScalar(-s))

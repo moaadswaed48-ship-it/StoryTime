@@ -45,6 +45,12 @@ const toHead = (p: Pose, s: S, w: number, x: number, y: number, z: number) => {
   p[`ahz${s}`] = z
 }
 const TAU = Math.PI * 2
+/** A smooth bump: 0 at a and b, 1 half-way, starting and ending gently. */
+const bump = (t: number, a: number, b: number) => {
+  const u = (t - a) / (b - a)
+  return u <= 0 || u >= 1 ? 0 : Math.sin(Math.PI * u) ** 2
+}
+/** A thrown arc (a jump): 0 at a and b, 1 half-way. */
 const arc = (t: number, a: number, b: number) => {
   const u = (t - a) / (b - a)
   return u <= 0 || u >= 1 ? 0 : 4 * u * (1 - u)
@@ -56,7 +62,7 @@ export const GESTURE_DEFS: Record<Act, GestureDef> = {
     duration: 2.8,
     apex: 1.18,
     pose(t, p) {
-      const u = key(t, [[0, 0], [0.18, -0.16], [0.62, 1.1, 'out'], [0.86, 1], [2.05, 1], [2.45, -0.07], [2.8, 0]])
+      const u = key(t, [[0, 0], [0.2, -0.16], [0.66, 1.1], [0.9, 1], [2.05, 1], [2.45, -0.07], [2.8, 0]])
       const w = win(t, 0.72, 2.1, 0.16, 0.22)
       const osc = Math.sin((t - 0.72) * TAU * 2.25)
       reach(p, 'R', u, 0.56, 0.66, 0.22)
@@ -86,7 +92,7 @@ export const GESTURE_DEFS: Record<Act, GestureDef> = {
     duration: 3.7,
     apex: 1.55,
     pose(t, p) {
-      const w = key(t, [[0, 0], [0.12, -0.08], [0.5, 1, 'out'], [3.0, 1], [3.35, -0.05], [3.7, 0]])
+      const w = key(t, [[0, 0], [0.14, -0.08], [0.56, 1], [3.0, 1], [3.35, -0.05], [3.7, 0]])
       const g = Math.max(0, w)
       const b = (t - 0.3) / 0.5
       const sx = Math.sin(Math.PI * b)
@@ -130,20 +136,25 @@ export const GESTURE_DEFS: Record<Act, GestureDef> = {
     duration: 2.3,
     apex: 0.98,
     pose(t, p) {
-      const c = key(t, [[0, 0], [0.42, 1], [0.58, 0, 'in']])
-      const l = key(t, [[1.34, 0], [1.46, 1, 'out'], [1.78, -0.12], [2.08, 0.02], [2.3, 0]])
+      const c = key(t, [[0, 0], [0.42, 1], [0.64, 0]])
+      const l = key(t, [[1.3, 0], [1.5, 1], [1.8, -0.12], [2.08, 0.02], [2.3, 0]])
+      // the arms swing round the front on their way up, never through the shoulder
+      const swing = bump(t, 0.36, 0.84)
       const air = arc(t, 0.55, 1.37)
-      const up = win(t, 0.5, 1.34, 0.16, 0.14)
+      const up = win(t, 0.44, 1.42, 0.34, 0.36)
+      const la = key(t, [[1.16, 0], [1.5, 1], [1.85, 0.5], [2.25, 0]])
       p.lift = 0.5 * air
       p.hipY = -0.3 * c - 0.2 * l
       p.spineRx = 0.3 * c + 0.2 * Math.max(0, l) - 0.08 * up
       p.hipRx = 0.14 * c + 0.1 * Math.max(0, l)
       p.headRx = -0.12 * c - 0.2 * up + 0.1 * Math.max(0, l)
-      p.squash = -0.09 * c + 0.1 * win(t, 0.52, 0.95, 0.08, 0.3) - 0.1 * Math.max(0, l)
+      p.squash = -0.09 * c + 0.1 * win(t, 0.5, 0.98, 0.18, 0.3) - 0.1 * Math.max(0, l)
       for (const s of ['L', 'R'] as const) {
         reach(p, s, c, 0.22, -0.72, -0.5)
         reach(p, s, up, 0.42, 0.9, 0.08)
-        reach(p, s, Math.max(0, l), 0.66, -0.5, 0.22)
+        p[`az${s}`] += 0.55 * swing
+        p[`ax${s}`] += 0.15 * swing
+        reach(p, s, la, 0.66, -0.5, 0.22)
         elbow(p, s, up, 1, -0.2, -0.4)
         p[`sh${s}`] = 0.12 * up
         p[`tw${s}`] = -1.2 * up
@@ -166,14 +177,14 @@ export const GESTURE_DEFS: Record<Act, GestureDef> = {
     duration: 2.9,
     apex: 1.02,
     pose(t, p) {
-      const w = Math.min(key(t, [[0, 0], [0.12, -0.1], [0.5, 1, 'out']]), key(t, [[2.2, 1], [2.55, -0.06], [2.9, 0]]))
+      const w = Math.min(key(t, [[0, 0], [0.14, -0.1], [0.5, 1]]), key(t, [[2.2, 1], [2.55, -0.06], [2.9, 0]]))
       const g = Math.max(0, w)
-      const ph = (t - 0.54) / 0.32
-      const live = t > 0.54 && t < 2.14 ? 1 : 0
-      const gap = live ? Math.pow(Math.abs(Math.sin(Math.PI * ph)), 0.75) : 1
-      const hit = live ? 1 - gap : 0
-      const side = live ? Math.sin(Math.PI * ph * 0.5) : 0
-      const open = key(t, [[0.1, 0.1], [0.42, 0.62, 'out'], [0.54, 0], [2.14, 0], [2.3, 0.3, 'out'], [2.9, 0.1]])
+      const ph = (t - 0.56) / 0.32
+      const live = win(t, 0.56, 2.16, 0.02, 0.12)
+      const gap = Math.pow(Math.abs(Math.sin(Math.PI * ph)), 0.75)
+      const hit = (1 - gap) * live
+      const side = Math.sin(Math.PI * ph * 0.5) * live
+      const open = key(t, [[0.1, 0.1], [0.4, 0.6], [0.56, 0], [2.14, 0], [2.4, 0.3], [2.9, 0.1]])
       for (const s of ['L', 'R'] as const) {
         toMid(p, s, g, 0.01 + 0.25 * gap * live + open, -0.2 + 0.05 * side * (s === 'L' ? 1 : -1), 0.6 - 0.25 * open)
         elbow(p, s, g, 0.9, -0.75, 0.15)
@@ -199,11 +210,11 @@ export const GESTURE_DEFS: Record<Act, GestureDef> = {
     duration: 2.5,
     apex: 1.0,
     pose(t, p) {
-      const a = key(t, [[0, 0], [0.4, 1], [0.58, 0.5, 'in'], [0.8, 0]])
+      const a = key(t, [[0, 0], [0.4, 1], [0.84, 0]])
       const tau = Math.min(1, Math.max(0, (t - 0.56) / 0.86))
       const air = arc(t, 0.56, 1.42)
-      const fly = win(t, 0.56, 1.42, 0.14, 0.14)
-      const l = key(t, [[1.4, 0], [1.52, 1, 'out'], [1.86, -0.1], [2.2, 0]])
+      const fly = win(t, 0.5, 1.48, 0.24, 0.26)
+      const l = key(t, [[1.36, 0], [1.56, 1], [1.88, -0.1], [2.2, 0]])
       const dizzy = t > 1.5 ? Math.exp(-2.6 * (t - 1.5)) * Math.sin((t - 1.5) * 9) : 0
       p.yaw = TAU * (tau * tau * (3 - 2 * tau))
       p.lift = 0.3 * air
@@ -269,8 +280,8 @@ export const GESTURE_DEFS: Record<Act, GestureDef> = {
     duration: 2.7,
     apex: 0.98,
     pose(t, p) {
-      const c = key(t, [[0, 0], [0.28, 1], [0.48, 0, 'in']])
-      const u = key(t, [[0.3, 0], [0.62, 1.1, 'out'], [0.82, 1], [2.0, 1], [2.38, -0.06], [2.7, 0]])
+      const c = key(t, [[0, 0], [0.28, 1], [0.52, 0]])
+      const u = key(t, [[0.28, 0], [0.66, 1.1], [0.86, 1], [2.0, 1], [2.38, -0.06], [2.7, 0]])
       const g = Math.max(0, u)
       const hw = win(t, 0.95, 1.9, 0.05, 0.1)
       const hop = Math.max(0, Math.sin((t - 0.95) * TAU * 2.1)) * hw
@@ -303,9 +314,9 @@ export const GESTURE_DEFS: Record<Act, GestureDef> = {
     duration: 3.5,
     apex: 1.35,
     pose(t, p) {
-      const w = key(t, [[0, 0], [0.2, -0.05], [0.78, 1], [2.1, 1], [2.28, 0, 'in']])
+      const w = key(t, [[0, 0], [0.2, -0.05], [0.78, 1], [2.08, 1], [2.34, 0]])
       const g = Math.max(0, w)
-      const a = key(t, [[2.12, 0], [2.42, 1.1, 'out'], [2.6, 1], [3.0, 1], [3.5, 0]])
+      const a = key(t, [[2.1, 0], [2.44, 1.1], [2.62, 1], [3.0, 1], [3.5, 0]])
       toHead(p, 'R', g, 0.05, -0.58, 0.4)
       elbow(p, 'R', g, 0.25, -1, 0.3)
       p.wrR = mix(p.wrR, 0.5, g)
@@ -343,9 +354,9 @@ export const GESTURE_DEFS: Record<Act, GestureDef> = {
     duration: 3.1,
     apex: 0.95,
     pose(t, p) {
-      const c = key(t, [[0, 0], [0.15, -0.08], [0.6, 1], [1.5, 1], [1.66, 0, 'in']])
+      const c = key(t, [[0, 0], [0.15, -0.08], [0.6, 1], [1.48, 1], [1.72, 0]])
       const g = Math.max(0, c)
-      const bo = key(t, [[1.52, 0], [1.74, 1.14, 'out'], [1.98, 1], [2.5, 1], [3.1, 0]])
+      const bo = key(t, [[1.5, 0], [1.8, 1.14], [2.02, 1], [2.5, 1], [3.1, 0]])
       const look = win(t, 0.98, 1.32, 0.1, 0.1)
       for (const s of ['L', 'R'] as const) {
         toHead(p, s, g, 0.2 + (s === 'L' ? 0.2 * look : 0), -0.06, 0.6)
@@ -378,8 +389,8 @@ export const GESTURE_DEFS: Record<Act, GestureDef> = {
     duration: 3.1,
     apex: 1.4,
     pose(t, p) {
-      const o = key(t, [[0, 0], [0.45, 1], [0.78, 0, 'in']])
-      const h = key(t, [[0.6, 0], [1.0, 1.08, 'out'], [1.22, 1], [2.2, 1], [2.62, -0.06], [3.1, 0]])
+      const o = key(t, [[0, 0], [0.45, 1], [0.84, 0]])
+      const h = key(t, [[0.58, 0], [1.02, 1.08], [1.24, 1], [2.2, 1], [2.62, -0.06], [3.1, 0]])
       const g = Math.max(0, h)
       const rock = Math.sin((t - 1.0) * TAU * 0.85) * win(t, 1.0, 2.25, 0.2, 0.25)
       for (const s of ['L', 'R'] as const) {

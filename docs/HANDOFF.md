@@ -179,6 +179,37 @@ owner's reference cartoon. All drawing is code: no AI image tools.
 - `node studio/scripts/export.mjs list` · `… still spread-oranges --lang=ar` · `… video shot-tower`
 - `bash studio/scripts/proofs.sh` (about five minutes) · `npm run dev` then `/lab/studio`
 
+### Checks run (22 Nov 2026)
+- `npx tsc --noEmit`: 0 errors in the whole project. `npx vitest run --config studio/vitest.config.ts`: 12 pass.
+- Every proof was rendered and looked at as an image, the film as a 12-frame contact sheet and at 390 px, the
+  book page at 390 px in English and Arabic, the cast sheet at 390 px. `ffmpeg` found no black or frozen stretch.
+- Three rounds of faults found and fixed (hair covering faces, hands hiding faces, elbow loops, tree drawn as
+  discs, sitting pose, caption over a face, text wash larger than the words, export ignoring the 2x scale).
+- `/lab/studio` and `/lab/kit` opened in the dev server at 390 and 1440 px with no page errors.
+
+### What is still weak (honest list)
+- It reads as a well-made digital paper-cut, not as a hand-painted book: edges are too even, there is one form
+  shadow per shape and no brushwork that follows form. This is the ceiling the master plan names (risk 1).
+- Figures face the viewer (front, three-quarter by sliding the face, and back). There is no true side view, so
+  walking across the picture, kneeling and bending down to a child are faked or missing. `addWalk` is written
+  but not yet judged in motion.
+- A bow and a seated figure are foreshortened by rule of thumb; hands at rest are mittens; fingers cannot curl
+  round anything except through the grip shape.
+- Night and lamp light only tint the picture: a lamp does not light what is near it (the bedroom is the weakest
+  place). Rain, moon and stars exist but are not proven in a scene.
+- Animals have one view each and little acting (no walk cycle judged, no turned heads).
+- Street houses are plain; the market needs people and goods to feel alive.
+- Arabic and Hebrew are set in the container's fallback font (DejaVu Sans): correct, mirrored, but not beautiful.
+- The film has no sound yet; the wobble is physics by formula, not by feel.
+
+### What the next Studio job should do first
+1. Tune `GOUACHE` against the owner's reference cartoon (line, shading, head size, palette) and re-render
+   `bash studio/scripts/proofs.sh`: nothing else needs to change for a new look.
+2. Add the side view (profile head, walking legs) to `figure/`, then the walk, run, sit-down and pick-up shots.
+3. Start the shot library (about 40 reusable shots): each is a small function like `scenes/shot.ts`.
+4. Local light: a lamp or window pool that re-draws what stands inside it under a warmer mood.
+5. Three instruction-picture styles for the owner to choose from (Stage 3), using `loop-clap` as the base.
+
 ### Notes for the next Studio job
 - Never leave a bare `cat >` without input in a shell command here: it hangs the session.
 - The sample story lines in `spread-oranges` and `shot-tower` are StoryTime's own test text, not a story.
@@ -187,3 +218,29 @@ owner's reference cartoon. All drawing is code: no AI image tools.
 - CDP screenshots ignore the device scale unless `clip.scale` is set: the export script sets it.
 - This file is shared with other helpers: if this section goes missing, a copy of it is the comment block at the
   top of `studio/scripts/proofs.sh`'s neighbour `studio/README-HANDOFF.txt`.
+
+## Stage 4, part B2 (Builder): the owner's area and the emails
+
+Status: IN PROGRESS (22 Nov 2026). Not committed by the Builder.
+
+- [x] Packages: `react-email` 6.11.16 and `@react-email/render` 2.3.1 (pinned, installed with `--ignore-scripts`;
+      the only install script in the tree is esbuild's own binary check). The old `@react-email/components` and its
+      single-component packages are deprecated on npm, so the maintained `react-email` package is used.
+- [ ] Owner data layer (`src/features/owner/data/`), publish rules, local store, Supabase store
+- [ ] Owner screens (`src/routes/app/owner/*`)
+- [ ] Emails (`src/emails/`), transports, scheduler, edge functions
+- [ ] Tests, Playwright walks, email screenshots (`qa/out/stage4b2/`)
+
+## Stage 4, part B1 (Builder): the family side after sign-in
+
+Status: IN PROGRESS (22 Nov 2026). Not committed. This section is kept current while the work runs.
+
+Plan (ticked as each part lands):
+- [ ] Content types for `content/SCHEMA.md` + loader in the local data layer (access check first) + 3 sample stories
+- [ ] Library: bookshelf on `src/library/` engine, profile + age group, locked/open, continue, flat list
+- [ ] Collections: stories, films, activities; usable in place; link to the storybook
+- [ ] Storybook page: Read, Listen, Watch, Do doors
+- [ ] Reader: curl engine, zone layout, text size, listen + auto-flip, reduced-motion/no-WebGL book, progress
+- [ ] Film player: Media Chrome 4.19.4
+- [ ] Activity page
+- [ ] Tests: unit (zone, listen) + Playwright walks + screenshots in `qa/out/stage4b1/`

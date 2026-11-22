@@ -10,7 +10,8 @@ import { drawFigure, drawFigureShadow, type Held } from '../figure/draw'
 import { GESTURE_SECONDS, gesturePose } from '../figure/gestures'
 import { FACES, rest, type FaceName, type Pose } from '../figure/pose'
 import { ADULT, rigOf } from '../figure/rig'
-import { Painter, blob, circle, cutRect, wobble } from '../kit/core'
+import { Painter, blob, circle, cutRect, ellipse, wobble } from '../kit/core'
+import { table } from '../places/things'
 import type { Scene } from '../scene'
 
 const INK = '#3a2238'
@@ -90,22 +91,30 @@ export const castSheet: Scene = {
     }
     // the animals, at the feet of the people so their size is clear
     const animals: [AnimalKind, number, number, number, number, Partial<ReturnType<typeof restAnimal>>][] = [
-      ['cat', 150, 1520, 1, 1, { sit: 1, tail: 0.5 }],
-      ['dog', 400, 1520, 1, 1, { tail: 0.6, open: 0.7, happy: 1 }],
+      ['cat', 112, 1520, 1, 1, { sit: 1, tail: 0.5 }],
+      ['dog', 296, 1520, 1, 1, { tail: 0.6, open: 0.7, happy: 1 }],
       ['sheep', 150, 772, 1, 1, {}],
       ['bird', 1940, 660, 1, -1, { open: 0.4 }],
-      ['fish', 520, 1250, 1, 1, {}],
+      ['fish', 520, 1308, 0.9, 1, {}],
     ]
+    // the fish gets a bowl to swim in, on a little table
+    table(P, 520, 1524, 176, 150, '#d69a62', 6)
+    P.ctx.save()
+    P.ctx.translate(0, 38)
+    P.shape(blob([430, 1180, 610, 1180, 640, 1260, 600, 1340, 440, 1340, 400, 1260]), '#cfe9ec', { shade: 0.8, tex: false })
+    P.flat(blob([424, 1214, 616, 1214, 636, 1262, 598, 1334, 442, 1334, 404, 1262]), '#9fd3df', 0.9)
+    P.shape(ellipse(520, 1182, 86, 13), '#e9f5f4', { shade: 0, line: 0.8, tex: false })
+    P.ctx.restore()
     for (const [kind, x, y, s2, flip, over] of animals) {
       const a = { ...restAnimal(x, y), ...over, scale: s2, flip }
       if (kind !== 'fish' && kind !== 'bird') P.groundShadow(x, y, 80, 14)
       drawAnimal(P, kind, a)
     }
-    label(P, 'cat', 150, 1596, 22, 'center', 0.6)
-    label(P, 'dog', 400, 1596, 22, 'center', 0.6)
+    label(P, 'cat', 112, 1596, 22, 'center', 0.6)
+    label(P, 'dog', 296, 1596, 22, 'center', 0.6)
     label(P, 'sheep', 150, 836, 22, 'center', 0.6)
     label(P, 'bird', 1940, 700, 22, 'center', 0.6)
-    label(P, 'fish', 520, 1320, 22, 'center', 0.6)
+    label(P, 'fish', 520, 1596, 22, 'center', 0.6)
     void ADULT
     void cutRect
   },
