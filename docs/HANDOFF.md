@@ -46,3 +46,30 @@ Status: DONE (22 Nov 2026), not committed by the Builder. Checks below were run 
 - No fonts are bundled (system fonts); the container renders Arabic and Hebrew with DejaVu. Fonts are a Stage 2
   brand decision.
 - Lab pages carry a few English-only labels on purpose: they never ship.
+
+## Stage 4, part A (Builder): data layer, accounts, onboarding, plans and access
+
+Status: IN PROGRESS (22 Nov 2026). Not committed by the Builder.
+
+Plan of work (tick as done):
+- [x] Migrations `supabase/migrations/` (tables, RLS, access functions, RPCs) + PGlite tests in `tests/db/` (25 pass)
+- [x] Data layer `src/data/` (types, pure access rules, local backend, Supabase backend, payment adapter + test provider)
+- [ ] UI kit `src/ui/` (plain, token-based) and dictionaries `src/i18n/*/account.ts`, `commerce.ts`
+- [ ] Screens: sign-up, check email, confirm, sign-in, forgot/reset, onboarding, plans, checkout, settings, parent gate, cancel a purchase, lock states
+- [ ] Unit tests, Playwright walk-throughs (parent + teacher, en + ar, 390 + 1440), screenshots `qa/out/stage4a/`
+
+Packages added (read 22 Nov: no install scripts, no hard-coded hosts beyond documentation examples):
+`@supabase/supabase-js` 2.119.0 (dependency), `@electric-sql/pglite` 0.5.15 (dev only, runs Postgres 18.6 in WASM for tests).
+
+## 3D hero (Stage 3 helper): code-built characters and gestures
+
+Status: IN PROGRESS (22 Nov 2026). Not committed. This section is kept current while the work runs.
+
+Plan (all in `src/hero3d/`, nothing downloaded, nothing AI-made):
+- `rig.ts` proportions and the 19 standard bones from a `Sheet`; `mesh.ts` rounded-form builder; `body.ts` body,
+  clothes, hair, extras as ONE skinned mesh with vertex colours; `face.ts` eyes, brows, mouth (morph targets);
+  `materials.ts` flat toon shading + soft outline + contact shadow.
+- `pose.ts`, `solver.ts`, `gestures.ts`: gestures are written once as poses in body-relative units (hands by
+  two-bone IK relative to shoulder, chest midline or head; feet planted by IK), so they play unchanged on any sheet.
+- `figure.ts` `buildFigure(sheet)`; `bake.ts` + `glb.ts` export to GLB with all clips; `HeroStage.tsx` the React stage.
+- Lab page `/lab/hero`; sample sheets in `src/cast/samples.ts`.

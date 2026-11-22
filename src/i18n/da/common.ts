@@ -17,4 +17,5 @@ export default {
   placeholder: 'Midlertidig side: design og indhold er under udarbejdelse.',
   notFound: 'Siden blev ikke fundet',
   loading: 'Indlæser …',
+  footer: { label: 'Om siden', cancelPurchase: 'Fortryd et køb', business: 'Virksomhedsoplysninger: tilføjes, før salget åbner.' },
 } satisfies CommonDict

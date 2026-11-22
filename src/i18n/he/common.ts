@@ -17,4 +17,5 @@ export default {
   placeholder: 'עמוד זמני: העיצוב והתוכן עדיין בהכנה.',
   notFound: 'הדף לא נמצא',
   loading: 'בטעינה…',
+  footer: { label: 'מידע על האתר', cancelPurchase: 'ביטול רכישה', business: 'פרטי העסק: יתווספו לפני פתיחת המכירה.' },
 } satisfies CommonDict

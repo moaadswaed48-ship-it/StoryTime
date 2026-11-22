@@ -10,4 +10,6 @@ export default {
   signUp: { title: 'إنشاء حساب', description: 'صفحة مؤقتة لإنشاء حساب. التسجيل غير مفعّل بعد.' },
   legal: { terms: 'شروط الاستخدام', privacy: 'سياسة الخصوصية', description: 'صفحة مؤقتة. النص القانوني قيد الإعداد.' },
   app: { library: 'المكتبة', story: 'الحكاية', collections: 'المجموعات', settings: 'الإعدادات' },
+  forgotPassword: { title: 'إعادة تعيين كلمة المرور', description: 'الحصول على رابط لاختيار كلمة مرور جديدة لحساب StoryTime.' },
+  cancelPurchase: { title: 'إلغاء عملية شراء', description: 'كيفية إلغاء شراء باقة من StoryTime خلال 14 يومًا: عبر الموقع أو بالبريد الإلكتروني أو بالبريد العادي.' },
 } satisfies PagesDict

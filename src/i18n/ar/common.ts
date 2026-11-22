@@ -17,4 +17,5 @@ export default {
   placeholder: 'صفحة مؤقتة: التصميم والمحتوى قيد الإعداد.',
   notFound: 'الصفحة غير موجودة',
   loading: 'جارٍ التحميل…',
+  footer: { label: 'معلومات الموقع', cancelPurchase: 'إلغاء عملية شراء', business: 'بيانات المصلحة التجارية: تُضاف قبل بدء البيع.' },
 } satisfies CommonDict

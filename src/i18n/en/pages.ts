@@ -10,4 +10,6 @@ export default {
   signUp: { title: 'Create account', description: 'Placeholder sign-up page. Sign-up is not active yet.' },
   legal: { terms: 'Terms of use', privacy: 'Privacy policy', description: 'Placeholder page. The legal text is being prepared.' },
   app: { library: 'Library', story: 'Story', collections: 'Collections', settings: 'Settings' },
+  forgotPassword: { title: 'Reset your password', description: 'Get a link to choose a new password for your StoryTime account.' },
+  cancelPurchase: { title: 'Cancel a purchase', description: 'How to cancel a StoryTime pass within 14 days, online, by email or by post.' },
 } satisfies PagesDict

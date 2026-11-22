@@ -10,4 +10,6 @@ export default {
   signUp: { title: 'הרשמה', description: 'עמוד הרשמה זמני. ההרשמה עדיין לא פעילה.' },
   legal: { terms: 'תנאי שימוש', privacy: 'מדיניות פרטיות', description: 'עמוד זמני. הנוסח המשפטי בהכנה.' },
   app: { library: 'הספרייה', story: 'הסיפור', collections: 'אוספים', settings: 'הגדרות' },
+  forgotPassword: { title: 'איפוס סיסמה', description: 'קבלת קישור לבחירת סיסמה חדשה לחשבון StoryTime.' },
+  cancelPurchase: { title: 'ביטול רכישה', description: 'איך מבטלים רכישה של מסלול StoryTime תוך 14 יום: באתר, בדוא״ל או בדואר.' },
 } satisfies PagesDict

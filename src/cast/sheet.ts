@@ -55,6 +55,8 @@ export type Sheet = {
   bottom: { style: BottomStyle; color: string }
   shoes: { style: ShoeStyle; color: string }
   extras?: Extra[]
+  /** Colours for extras that have one (hat, scarf, bag, glasses frames, cane). Each has a sensible default when omitted. */
+  extraColors?: Partial<Record<Extra, string>>
   /** One line a writer or animator can act from: how this character moves and feels. */
   manner: string
 }
