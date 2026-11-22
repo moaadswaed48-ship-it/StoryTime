@@ -222,7 +222,9 @@ describe('passes', () => {
 
   it('a placeholder price can be bought only through the test provider', async () => {
     const uid = await signUp(db, 'price@example.test')
+    await db.query(`update private.settings set payment_providers = '{cardcom}'`) // a connected real provider
     await expect(rows(db, user(uid), `select create_order('4-5', 1, 'cardcom', 'terms-1')`)).rejects.toThrow(/price_not_set/)
+    await db.query(`update private.settings set payment_providers = '{}'`)
     const [o] = await rows<{ amount_agorot: number; price_was_placeholder: boolean }>(db, user(uid), `select * from create_order('4-5', 1, 'test', 'terms-1')`)
     expect(o).toMatchObject({ amount_agorot: 0, price_was_placeholder: true })
   })
@@ -250,7 +252,7 @@ describe('owner', () => {
   it('cannot change the author\'s locked text', async () => {
     await db.query(`update stories set text_locked = true where id = $1`, [ids['other-45']])
     await expect(rows(db, user(ids.owner!), `update story_texts set display = 'changed' where story_id = $1`, [ids['other-45']])).rejects.toThrow(/text_locked/)
-    await db.query(`update stories set text_locked = false where id = $1`, [ids['other-45']])
+    await db.query(`update stories set text_locked = false, text_unlock_consent_ref = 'test-consent' where id = $1`, [ids['other-45']])
   })
 })
 

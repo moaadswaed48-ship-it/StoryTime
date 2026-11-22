@@ -1,0 +1,32 @@
+{
+  "title": "Eksempel: Det lille frø",
+  "teaser": "En testhistorie fra StoryTime, ikke en rigtig historie.",
+  "names": { "maya": "Maja" },
+  "pages": [
+    { "n": 1, "text": "Maja finder et lille frø på stien.", "speech": "Maja finder et lille frø på stien." },
+    { "n": 2, "text": "Hun planter det i en potte med jord og klapper det blidt.", "speech": "Hun planter det i en potte med jord og klapper det blidt." },
+    { "n": 3, "text": "Hver morgen giver Maja frøet lidt vand.", "speech": "Hver morgen giver Maja frøet lidt vand." },
+    { "n": 4, "text": "En dag kigger et grønt skud op af jorden.", "speech": "En dag kigger et grønt skud op af jorden." },
+    { "n": 5, "text": "Skuddet vokser og folder to små blade ud.", "speech": "Skuddet vokser og folder to små blade ud." },
+    { "n": 6, "text": "Maja smiler. Det var værd at vente på.", "speech": "Maja smiler. Det var værd at vente på." }
+  ],
+  "film": [
+    { "id": "f01", "speaker": "narrator", "text": "Et lille frø lander i jorden.", "speech": "Et lille frø lander i jorden.", "emotion": "calm" },
+    { "id": "f02", "speaker": "narrator", "text": "Drip, drop. Lidt vand hver dag.", "speech": "Drip, drop. Lidt vand hver dag.", "emotion": "gentle" },
+    { "id": "f03", "speaker": "narrator", "text": "Se! Noget grønt kommer op.", "speech": "Se! Noget grønt kommer op.", "emotion": "excited" },
+    { "id": "f04", "speaker": "maya", "text": "Hej, lille plante!", "speech": "Hej, lille plante!", "emotion": "happy" }
+  ],
+  "activity": {
+    "title": "En bønne i et glas",
+    "goal": "At se et frø vokse, dag for dag.",
+    "materials": ["Et klart glas", "Vat", "En tørret bønne", "Vand"],
+    "steps": [
+      { "n": 1, "caption": "Vådt vat i glasset." },
+      { "n": 2, "caption": "Bønnen ovenpå, ved vinduet." },
+      { "n": 3, "caption": "Et par dråber hver dag." }
+    ],
+    "safety": "Bønner er små: den voksne holder dem, og de kommer ikke i munden.",
+    "forAdult": "Eksempeltekst til at teste layoutet. En bønne på vådt vat spirer på få dage, så barnet kan se roden og skuddet. Kig sammen hver morgen, og tal om, hvad der har ændret sig. Gør det lettere ved at markere dagen på glasset; gør det sværere ved at plante to bønner og kun vande den ene.",
+    "inClass": "Eksempeltekst. Ét glas til hvert barn med navn på, på række i vindueskarmen."
+  }
+}

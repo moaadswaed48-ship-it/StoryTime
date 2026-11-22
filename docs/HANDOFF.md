@@ -236,11 +236,81 @@ Status: IN PROGRESS (22 Nov 2026). Not committed by the Builder.
 Status: IN PROGRESS (22 Nov 2026). Not committed. This section is kept current while the work runs.
 
 Plan (ticked as each part lands):
-- [ ] Content types for `content/SCHEMA.md` + loader in the local data layer (access check first) + 3 sample stories
+- [x] Content types (`src/content/schema.ts`) + loader (`src/data/local/content.ts`, called by LocalServer only after the access check) + 3 sample stories `content/stories/sample-a|b|c` (media made by `node src/content/make-samples.mjs`); progress API `listProgress`/`saveProgress` (local + Supabase)
 - [ ] Library: bookshelf on `src/library/` engine, profile + age group, locked/open, continue, flat list
 - [ ] Collections: stories, films, activities; usable in place; link to the storybook
 - [ ] Storybook page: Read, Listen, Watch, Do doors
 - [ ] Reader: curl engine, zone layout, text size, listen + auto-flip, reduced-motion/no-WebGL book, progress
 - [ ] Film player: Media Chrome 4.19.4
 - [ ] Activity page
-- [ ] Tests: unit (zone, listen) + Playwright walks + screenshots in `qa/out/stage4b1/`
+- [x] Unit tests: `tests/zone.test.ts`, `tests/listen.test.ts`, `tests/content.test.ts` (137 pass in total)
+- [ ] Playwright walks + screenshots in `qa/out/stage4b1/`
+
+## 3D hero (Stage 3 helper): code-built characters and gestures
+
+Status: BUILT AND CHECKED (22 Nov 2026), not committed by this helper. Checks on the final code: 10 tests pass
+(`npx vitest run --config scripts/hero/vitest.config.ts`), `npx tsc --noEmit` clean, screenshots looked at.
+
+What exists (all in `src/hero3d/`, nothing downloaded, nothing AI-made):
+- `buildFigure(sheet)` (`figure.ts`): a character from any `Sheet`. `rig.ts` proportions and the 19 standard bones
+  (T-pose, unrotated); `mesh.ts` rounded-form builder; `body.ts` body, clothes, hair and extras as ONE skinned mesh
+  with vertex colours (no textures; 3,700 to 9,900 vertices); `head.ts` the head surface shared by skull, hair and
+  face; `face.ts` eyes, lids, brows, mouth (morph targets); `materials.ts` flat toon shading, soft outline
+  (inverted hull), contact shadow, key light. Every hair style, top, bottom, shoe and extra in the contract is built.
+- Gestures (`pose.ts`, `solver.ts`, `gestures.ts`): each of the ten is written once as a pose over time in
+  body-relative units (hands by two-bone IK relative to the shoulder, the chest midline or the head; feet planted
+  by IK; squash and stretch from the ground up), so it plays unchanged on every sheet. `idle` breathes, shifts
+  weight, blinks and glances at the pointer. A change of gesture is an inertial blend (old pose and speed die away).
+- `<HeroStage sheets lang labels mode>` (`HeroStage.tsx`, `stage.ts`, `icons.tsx`): one character at a time,
+  arrows and face chips to switch, ten picture buttons (pictograms are drawn from the gestures themselves), drag
+  to turn, tap the stage to wave, arrow keys along the button rows. Reduced motion: the same canvas shows still
+  poses. No WebGL (or a lost context): pictures from `src/hero3d/stills/`. The canvas draws only while on screen.
+- Game export (`bake.ts`, `glb.ts`): `node scripts/hero/export-glb.mjs` (or the GLB buttons on the lab page)
+  writes a figure with skeleton, face morphs and the 11 clips to GLB (about 1 MB each) and reads it back.
+- `src/cast/samples.ts`: the six hero characters, picked from the first cast (`cast.ts`) so 2D and 3D share sheets.
+- Lab page `/lab/hero` (`src/lab/hero.tsx`; `?cast=all` shows all thirteen sheets). Stand-alone copy that does
+  not need the rest of the app to compile: `node scripts/hero/serve.mjs`.
+
+How to re-check
+- `node scripts/hero/shots.mjs frames` → `qa/out/hero/sheet-<id>.png` (every gesture, five moments each) and
+  `qa/out/hero/frames/`; `... pages` → `qa/out/hero/pages/<width>-<n>-<gesture>.png` (live page, 390 and 1440);
+  `... stills` → rewrites `src/hero3d/stills/*.webp`. RUN `stills` AGAIN whenever a sample sheet or a gesture changes.
+- `qa/out/` is git-ignored: the screenshots are on this machine only.
+
+Decisions to know about
+- Colours a sheet does not name (hat, scarf, bag, trim, blush, brows) follow the flat puppet in
+  `src/studio/figure/` (`palette()` in `body.ts`), so both pictures agree. `sheet.ts` was not changed by this helper.
+- The 3D head is 9% larger than `build.heads` says (`rig.ts`), to keep faces readable at hero size.
+- The hero tests live in `src/hero3d/__tests__` with their own config (`scripts/hero/vitest.config.ts`) because the
+  main vitest config only looks in `tests/`. Adding `src/hero3d/**/*.test.ts` to its `include` puts them in `npm test`.
+- Screen-reader labels in `HeroStage` are English placeholders: pass `labels` from the dictionaries when the
+  landing page uses it. The stage disc and buttons use the neutral tokens; brand colours are Stage 2.
+
+Known weak points (honest list)
+- Hands are mittens with a thumb, no fingers. Faces are flat features on the head: fine from the front, flat in
+  profile (seen for a moment in the spin); the head cover looks boxy in profile.
+- Cloth and hair do not swing: skirts, coats and long hair are skinned, not simulated. In the jump the knees show
+  under a skirt; long hair can cut into the shoulders when the head tilts far.
+- The walking stick hangs upright from the hand instead of being leaned on.
+- Adults are drawn at the sheet's realistic 6 heads, so their faces are small on a phone.
+- Speed on a real phone is NOT measured (only a software renderer here), and Safari on iPhone is not tested
+  (no WebKit build in this container). Draw calls per figure: 2 skinned + about 9 small face meshes + shadow.
+- Pictograms for clap, think and peek read less clearly than wave, jump and spin.
+
+Next steps
+1. Test on a real iPhone and a mid-range Android (frame rate, touch, context loss).
+2. Put `<HeroStage sheets={HERO_SAMPLES} lang={lang} labels={...}/>` on the landing page; add the labels to the dictionaries.
+3. A fresh reviewer and the owner pick which characters and which 7 to 10 gestures stay.
+4. If wanted: fingers for counting and pointing, a little follow-through on hair and skirts, a leaned-on cane.
+
+## Instruction pictures (Studio helper): three directions for the activity pictures
+
+Status: IN PROGRESS (started 22 Nov 2026). Not committed.
+- Brief: a fixed instruction cast, three different visual directions, both example activities rendered in each
+  ("Here You Are, Thank You", ages 2-3, and "The Talking Stick", ages 4-5), a comparison page for the owner.
+- Note: the brief called the first activity "A04's"; in `outlines.md` today it belongs to A03 (A04 now has
+  "The Looking Frame"). The named activity, as written under A03 today, is the one drawn.
+- Files (only these are touched): `src/cast/instruction-cast.ts`, `src/studio/style/instruction-profiles.ts`,
+  `src/studio/instructions/`, `src/lab/instructions.tsx`, `studio/scripts/instructions*`,
+  `docs/previews/instructions/`, one line in `src/routes.ts`.
+- If this section still says IN PROGRESS, the work was interrupted: see the file list above for what exists.

@@ -1,5 +1,5 @@
 import type { Lang } from '@/i18n/config'
-import type { AgeGroup, Iso } from '@/data/types'
+import type { AgeGroup, Iso, PageZone } from '@/data/types'
 
 /**
  * The owner's view of a story: everything the owner's area reads and writes. It follows content/SCHEMA.md
@@ -11,7 +11,7 @@ import type { AgeGroup, Iso } from '@/data/types'
 export const ZONE_SIDES = ['start', 'end', 'full'] as const
 export const ZONE_VS = ['top', 'middle', 'bottom'] as const
 export const ZONE_SIZES = ['s', 'm', 'l'] as const
-export type TextZone = { side: (typeof ZONE_SIDES)[number]; v: (typeof ZONE_VS)[number]; size: (typeof ZONE_SIZES)[number] }
+export type TextZone = PageZone
 export const DEFAULT_ZONE: TextZone = { side: 'full', v: 'bottom', size: 'm' }
 
 /** What a stored file is for. A looping step clip is a short video. */

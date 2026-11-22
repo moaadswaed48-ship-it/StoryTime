@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1500" viewBox="0 0 1200 1500" preserveAspectRatio="xMidYMid slice"><defs>
+  <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f6e7cf"/><stop offset="1" stop-color="#f3efe4"/></linearGradient>
+  <radialGradient id="glow"><stop offset="0" stop-color="#fff6d8" stop-opacity=".95"/><stop offset=".45" stop-color="#ffe7a8" stop-opacity=".55"/><stop offset="1" stop-color="#ffe7a8" stop-opacity="0"/></radialGradient>
+  <radialGradient id="shine" cx=".35" cy=".3" r=".7"><stop offset="0" stop-color="#fff" stop-opacity=".55"/><stop offset=".5" stop-color="#fff" stop-opacity="0"/></radialGradient>
+  <filter id="paint" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency=".012" numOctaves="2" seed="7"/><feDisplacementMap in="SourceGraphic" scale="14"/></filter>
+  <filter id="grain"><feTurbulence type="fractalNoise" baseFrequency=".85" numOctaves="2" seed="4"/><feColorMatrix values="0 0 0 0 .35  0 0 0 0 .3  0 0 0 0 .25  0 0 0 .09 0"/></filter>
+</defs>
+<rect width="1200" height="1500" fill="url(#sky)"/>
+<g filter="url(#paint)"><rect x="0" y="0" width="1200" height="1500" fill="#efe4d2"/><rect x="0" y="1180" width="1200" height="1500" fill="#d8c3a2"/><ellipse cx="600" cy="1185" rx="200" ry="34" fill="#000" opacity=".12"/><path d="M430 970 L 770 970 L 730 1180 L 470 1180Z" fill="#c07650"/><rect x="410" y="930" width="380" height="70" rx="18" fill="#cd8460"/><ellipse cx="600" cy="932" rx="168" ry="26" fill="#5d4535"/><path d="M600 932 C 582 904 620 883 600 862" stroke="#5f9a4f" stroke-width="16" fill="none" stroke-linecap="round"/><ellipse cx="608" cy="862" rx="22" ry="14" fill="#86bd6d"/></g>
+<rect width="1200" height="1500" filter="url(#grain)"/>
+</svg>

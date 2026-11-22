@@ -1,0 +1,33 @@
+{
+  "id": "sample-b",
+  "ageGroups": ["4-5"],
+  "owner": "storytime",
+  "lesson": "SAMPLE for building and testing the site, not a real story: growing takes care and patience.",
+  "cast": ["maya"],
+  "pages": [
+    { "n": 1, "art": "Sample art: a path with a tiny seed shining on it.", "zone": { "side": "full", "v": "top", "size": "m" }, "image": null },
+    { "n": 2, "art": "Sample art: a clay pot of soil on a window sill.", "zone": { "side": "start", "v": "top", "size": "m" }, "image": null },
+    { "n": 3, "art": "Sample art: water drops falling on the pot in morning light.", "zone": { "side": "end", "v": "bottom", "size": "m" }, "image": null },
+    { "n": 4, "art": "Sample art: a small green shoot peeking out of the soil.", "zone": { "side": "full", "v": "bottom", "size": "s" }, "image": null },
+    { "n": 5, "art": "Sample art: the shoot taller, with two leaves.", "zone": { "side": "start", "v": "middle", "size": "m" }, "image": null },
+    { "n": 6, "art": "Sample art: the plant in sunshine, a warm sky.", "zone": { "side": "full", "v": "top", "size": "l" }, "image": null }
+  ],
+  "film": {
+    "targetSeconds": 24,
+    "shots": [
+      { "n": 1, "page": 1, "action": "Sample film: a seed drops onto the soil.", "sound": ["soft tap"], "lines": ["f01"] },
+      { "n": 2, "page": 3, "action": "Sample film: water drops fall.", "sound": ["drops"], "lines": ["f02"] },
+      { "n": 3, "page": 5, "action": "Sample film: a shoot rises and opens two leaves.", "sound": ["chime"], "lines": ["f03", "f04"] }
+    ]
+  },
+  "activity": {
+    "minutes": 15,
+    "materials": ["cup", "cotton", "bean", "water"],
+    "steps": [
+      { "n": 1, "picture": "Sample: wet cotton pressed into a clear cup.", "loop": false },
+      { "n": 2, "picture": "Sample: a bean placed on the cotton by the window.", "loop": false },
+      { "n": 3, "picture": "Sample: a few drops of water added each day.", "loop": true }
+    ],
+    "checkedAgainst": "SAMPLE: not checked, test content only"
+  }
+}

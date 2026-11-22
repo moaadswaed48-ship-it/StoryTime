@@ -1,0 +1,211 @@
+{
+  "id": "a04",
+  "ageGroups": ["2-3"],
+  "owner": "storytime",
+  "lesson": "Slow down and hold hands to walk at an older person's pace.",
+  "cast": ["a04-sami", "a04-grandpa"],
+  "pages": [
+    {
+      "n": 1,
+      "art": "Spring morning at the foot of a green hill made of three soft layered bands of green, lighter towards the top. Low, warm sunlight from the side; long soft shadows. At the very top, a small patch of red (the anemones, far away). Grandpa stands at the bottom, stick in his left hand, right arm raised, pointing up the hill. Sami stands beside him, looking up where he points, mouth a little open. Feeling: a promise, a little wonder. Calm area: the pale sky band across the whole top quarter, so the words can sit top left or top right.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 2,
+      "art": "Sami running up the slope, mid-stride, both feet off the ground, arms out, joyful. Grandpa small and still at the bottom edge of the picture. A few grass blades bend where Sami has passed. Same morning light. Feeling: pure speed and fun. Calm area: the sky band across the top.",
+      "zone": { "side": "full", "v": "top", "size": "s" },
+      "image": null
+    },
+    {
+      "n": 3,
+      "art": "Sami has stopped halfway up, on a little bump of the hill, turned round, one hand shading his eyes, looking back down. Far below, very small, Grandpa walks with his stick. The child reading can point to him: he must be easy to find (his rust jumper against the green). Feeling: a small surprise, a first moment of noticing. Calm area: the sky band across the top.",
+      "zone": { "side": "full", "v": "top", "size": "s" },
+      "image": null
+    },
+    {
+      "n": 4,
+      "art": "Closer on Grandpa coming up the slope: one foot forward, stick planted on a flat stone, a small puff of dust where the stick touches. He smiles up the hill and lifts his free hand in a little wave. Up the hill, small, Sami has his hands cupped round his mouth, calling. Feeling: warm, patient, unhurried. Calm area: the grass across the bottom quarter, kept plain.",
+      "zone": { "side": "full", "v": "bottom", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 5,
+      "art": "Sami has run back down and puts his small hand into Grandpa's big hand. The joined hands are the centre of the picture, a little larger than life. Grandpa bends slightly towards him; both smile. Feeling: the turn of the story; tenderness. Calm area: the sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 6,
+      "art": "The two walk slowly uphill, hand in hand, seen from the side, the same small size as each other in the frame's lower half. A yellow butterfly flutters at Sami's eye level, just in front of his nose; Sami stops to look at it, Grandpa stops with him. Feeling: discovery; the world opens up when you go slowly. Calm area: the sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 7,
+      "art": "Close-up at ground level: one big green leaf, and on it a red ladybird with black spots. Behind it, out of focus and large, the two faces bending down to look: Grandpa's glasses, Sami's wide eyes. Nobody touches the ladybird. Feeling: hush, wonder. Calm area: the plain soft background across the top.",
+      "zone": { "side": "full", "v": "top", "size": "s" },
+      "image": null
+    },
+    {
+      "n": 8,
+      "art": "A single red anemone at the edge of the path with a round, fuzzy bee in its middle. Sami crouches at a careful distance with his hands on his knees, giggling; Grandpa stands just behind, leaning on his stick, smiling down at Sami. Feeling: playful. Calm area: the sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "s" },
+      "image": null
+    },
+    {
+      "n": 9,
+      "art": "The top of the hill: the whole hilltop is red with anemones, one simple flower shape repeated many times in two or three reds. Sami and Grandpa have just arrived, still hand in hand, seen from behind and a little to the side so the red field fills the picture. Sami's free arm is flung wide. Feeling: joy, a big reveal. Calm area: the pale sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 10,
+      "art": "A big, flat, sun-warmed rock among the red flowers. Grandpa sits on it with his stick leaning beside him, eyes half-closed, breathing out. Sami sits close against his arm, legs dangling, copying him. Feeling: rest, contentment. Calm area: the sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 11,
+      "art": "Close on two hands resting side by side on the warm rock: Grandpa's big, wrinkled hand and Sami's small one. The red ladybird walks from Grandpa's hand onto Sami's, along the two fingers that touch. In the soft background, red flowers. Last picture of the book: still and warm. Calm area: the sky and blurred flowers across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    }
+  ],
+  "film": {
+    "targetSeconds": 160,
+    "shots": [
+      {
+        "n": 1,
+        "page": 1,
+        "action": "10 s. Scene 1, the foot of the hill. Wide, still camera on the layered green hill in morning light; the red patch at the top. Hold 3 s on the empty hill, then Grandpa and Sami walk in slowly from the side and stop at the bottom. Only one thing moves at a time: first the light brightens, then the two walk in. Keep the lower fifth of the frame calm for captions.",
+        "sound": ["morning birdsong, far", "soft wind in grass", "gentle music: a slow walking tune on a plucked string"],
+        "lines": ["f01"]
+      },
+      {
+        "n": 2,
+        "page": 1,
+        "action": "8 s. Medium shot. Grandpa lifts his arm and points up the hill; Sami's head turns slowly to follow. Hold 2 s after the line on Sami's open mouth.",
+        "sound": ["a single bird call"],
+        "lines": ["f02"]
+      },
+      {
+        "n": 3,
+        "page": 2,
+        "action": "7 s. Sami bursts off up the slope. The camera pans fast to keep up with him, the only fast move in the film so far. Grandpa stays still at the frame's edge.",
+        "sound": ["quick little footsteps on grass", "a soft whoosh", "the music speeds up and skips"],
+        "lines": ["f03"]
+      },
+      {
+        "n": 4,
+        "page": 2,
+        "action": "8 s. Side view, low: Sami's legs pump across the grass, blades flicking; the hill slides past behind him. The line falls on three footfall beats; 2 s of running with no words after it.",
+        "sound": ["footsteps in rhythm", "Sami's happy breathing"],
+        "lines": ["f04"]
+      },
+      {
+        "n": 5,
+        "page": 3,
+        "action": "9 s. Scene 2, two speeds. Sami stops dead on a bump and turns round. The camera stops with him. Music drops to one held note. Hold 2 s of stillness before his line and 2 s after it.",
+        "sound": ["footsteps stop", "wind", "one held note"],
+        "lines": ["f05"]
+      },
+      {
+        "n": 6,
+        "page": 3,
+        "action": "10 s. The frame splits in two, top and bottom: above, Sami small and still on the slope; below, Grandpa far down, stepping slowly, stick, step, stick, step. Each stick tap lands on a clear beat. The halves join again at the end.",
+        "sound": ["stick tap on stone", "slow footstep on grass", "stick tap"],
+        "lines": ["f06"]
+      },
+      {
+        "n": 7,
+        "page": 4,
+        "action": "8 s. Sami cups his hands round his mouth and calls down the hill. Cut to Grandpa looking up, smiling, lifting his free hand in a wave.",
+        "sound": ["a small echo on the call"],
+        "lines": ["f07"]
+      },
+      {
+        "n": 8,
+        "page": 4,
+        "action": "10 s. Close on Grandpa's feet and stick: step... tap... step... tap. Slow, even, untroubled. The line is spoken on the steps themselves; leave one full step and tap with no words before and after.",
+        "sound": ["footstep", "stick tap", "footstep", "stick tap"],
+        "lines": ["f08"]
+      },
+      {
+        "n": 9,
+        "page": 5,
+        "action": "8 s. Sami runs back down the hill to Grandpa and puts his hand into Grandpa's hand. Push in slowly on the joined hands and hold 2 s on them in silence before the line.",
+        "sound": ["footsteps downhill", "the music returns, warm and slow"],
+        "lines": ["f09"]
+      },
+      {
+        "n": 10,
+        "page": 5,
+        "action": "10 s. Scene 3, slow together. Wide, side-on: the two walk uphill hand in hand. From now on the camera moves only as fast as they walk. The line falls on three slow steps; 3 s of walking with no words after.",
+        "sound": ["two sets of slow footsteps", "stick tap on every second step", "the walking tune"],
+        "lines": ["f10"]
+      },
+      {
+        "n": 11,
+        "page": 6,
+        "action": "10 s. Because the camera is slow, something appears: a yellow butterfly lifts out of the grass and flutters beside Sami's face. Sami stops; Grandpa stops. Only the butterfly moves. Hold 2 s on Sami's face after the line.",
+        "sound": ["a soft flutter", "a light chime"],
+        "lines": ["f11"]
+      },
+      {
+        "n": 12,
+        "page": 7,
+        "action": "10 s. Low close-up on a leaf: a ladybird walks across it, slowly. The two faces lean in, out of focus behind it. No one touches it. Whispered line, then 3 s of the ladybird walking.",
+        "sound": ["a tiny tick of ladybird feet (very soft)", "birdsong far away"],
+        "lines": ["f12"]
+      },
+      {
+        "n": 13,
+        "page": 8,
+        "action": "9 s. A bee bumbles into a red flower and wiggles inside it; Sami giggles at a careful distance. The line plays with the buzz.",
+        "sound": ["a bee buzzing", "Sami's giggle"],
+        "lines": ["f13"]
+      },
+      {
+        "n": 14,
+        "page": 9,
+        "action": "11 s. Scene 4, the top. The camera rises slowly behind the two as they reach the top, and the whole hilltop of red anemones fills the frame (one flower shape, repeated, swaying a little in the wind). Music opens up softly. 2 s of the red field before the line.",
+        "sound": ["wind in flowers", "the music swells, gently, never loud"],
+        "lines": ["f14"]
+      },
+      {
+        "n": 15,
+        "page": 10,
+        "action": "10 s. They sit down on a big warm rock. Grandpa breathes out; Sami leans on his arm and breathes out too, copying him. Hold still 3 s after the line.",
+        "sound": ["a long, happy sigh", "bees far off"],
+        "lines": ["f15"]
+      },
+      {
+        "n": 16,
+        "page": 11,
+        "action": "12 s. Close on the two hands on the rock. The ladybird walks off Grandpa's hand and onto Sami's. Grandpa says the first half of the refrain, Sami finishes it. Then 3 s of silence with only the ladybird moving.",
+        "sound": ["the walking tune, very soft, on a single string"],
+        "lines": ["f16", "f17"]
+      },
+      {
+        "n": 17,
+        "page": 11,
+        "action": "10 s. Closing image. Wide: the two small figures on the red hilltop, side by side; the ladybird opens its wings and flies off. Then nothing moves. Hold the still picture 6 s while the music ends, then stop. No autoplay, no next film.",
+        "sound": ["the last note of the tune", "birdsong"],
+        "lines": []
+      }
+    ]
+  },
+  "activity": {
+    "minutes": 10,
+    "materials": ["paper-plate"],
+    "steps": [
+      { "n": 1, "picture": "A grown-up's hands tear the middle out of a paper plate; the child watches, holding the plate's edge. The torn-out middle goes into a bin.", "loop": true },
+      { "n": 2, "picture": "Grown-up and child walk slowly outside, hand in hand, the child holding the paper ring.", "loop": false },
+      { "n": 3, "picture": "They stop. The child holds the ring up in front of a flower, like a window. Only the flower is inside the ring.", "loop": true },
+      { "n": 4, "picture": "The child points into the ring and names what is there; the grown-up crouches beside them. Inside the ring: an ant on a stone (looked at, not touched).", "loop": false },
+      { "n": 5, "picture": "Back inside: the child washes hands at a sink with soap, the grown-up beside them.", "loop": false }
+    ],
+    "checkedAgainst": "docs/story-room/age-2-3.md section 7 (red list and tube test) and section 4 (activity limits), 22 Nov 2026"
+  }
+}

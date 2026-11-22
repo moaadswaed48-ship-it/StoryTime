@@ -318,7 +318,8 @@ export function buildBody(sheet: Sheet, rig: Rig, pal: Palette): Built {
     const hipX = j.leftUpperLeg.x
     parts.push(
       applyPattern(part, flare.color === pal.top ? patterned : [], sheet.top.pattern, pal.top, pal.print, 24).skin((x, y) => {
-        const k = 0.62 * smooth(hipY + torso * 0.05, flare.to, y)
+        // below the hips the cloth goes with the thighs, so a bent knee carries the hem instead of poking through it
+        const k = 0.94 * smooth(hipY + torso * 0.08, mix(hipY, flare.to, 0.75), y)
         const l = smooth(-hipX, hipX, x)
         const w = trunkW(x, y).map(([b, v]) => [b, v * (1 - k)] as [number, number])
         return [...w, [B.leftUpperLeg, k * l], [B.rightUpperLeg, k * (1 - l)]]
@@ -386,7 +387,7 @@ export function buildBody(sheet: Sheet, rig: Rig, pal: Palette): Built {
         .faceOutwardFrom(new THREE.Vector3(0, yWaist, 0))
         .computeNormals()
         .skin((x, y) => {
-          const k = 0.45 * smooth(hipY, yEnd, y)
+          const k = 0.9 * smooth(hipY + torso * 0.08, mix(hipY, yEnd, 0.75), y)
           const l = smooth(-j.leftUpperLeg.x, j.leftUpperLeg.x, x)
           const w = trunkW(x, y).map(([b, v]) => [b, v * (1 - k)] as [number, number])
           return [...w, [B.leftUpperLeg, k * l], [B.rightUpperLeg, k * (1 - l)]]

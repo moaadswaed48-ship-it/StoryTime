@@ -97,10 +97,12 @@ const progressOut = (r: Row): Progress => ({
 
 export class SupabaseApi implements DataApi {
   readonly kind = 'supabase' as const
-  private readonly sb: SupabaseClient
+  /** Shared with the owner's area (src/features/owner/data/supabase.ts): one client, one session. */
+  readonly sb: SupabaseClient
 
-  constructor(url: string, key: string, private readonly linkBase: string) {
-    this.sb = createClient(url, key, { auth: { flowType: 'pkce', detectSessionInUrl: false, persistSession: true, autoRefreshToken: true } })
+  /** `client` lets tests run this class against the real policies in PGlite (tests/db/supabase-data-layer.test.ts). */
+  constructor(url: string, key: string, private readonly linkBase: string, client?: SupabaseClient) {
+    this.sb = client ?? createClient(url, key, { auth: { flowType: 'pkce', detectSessionInUrl: false, persistSession: true, autoRefreshToken: true } })
   }
 
   private async uid(): Promise<string> {
@@ -291,8 +293,9 @@ export class SupabaseApi implements DataApi {
 
   async getAccess(): Promise<AccessSnapshot> {
     const a = await this.getAccount()
-    const t = (await must(this.sb.from('trials').select('id, age_group, started_at, ends_at, trial_items(story_id)').maybeSingle())) as Row | null
-    const passes = (await must(this.sb.from('passes').select('*, orders(paid_at, amount_agorot)'))) as Row[]
+    // Always "mine": the owner's role may read every account's rows (review finding B2), so filter by account.
+    const t = (await must(this.sb.from('trials').select('id, age_group, started_at, ends_at, trial_items(story_id)').eq('account_id', a.id).maybeSingle())) as Row | null
+    const passes = (await must(this.sb.from('passes').select('*, orders(paid_at, amount_agorot)').eq('account_id', a.id))) as Row[]
     const trial: Trial | null = t
       ? { id: t.id as string, ageGroup: t.age_group as AgeGroup, startedAt: t.started_at as string, endsAt: t.ends_at as string, storyIds: ((t.trial_items as Row[]) ?? []).map((x) => x.story_id as string) }
       : null
@@ -317,13 +320,13 @@ export class SupabaseApi implements DataApi {
   }
 
   async getOrder(id: string) {
-    const r = await must(this.sb.from('orders').select('*').eq('id', id).maybeSingle())
+    const r = await must(this.sb.from('orders').select('*').eq('id', id).eq('account_id', await this.uid()).maybeSingle())
     if (!r) throw new DataError('not_found')
     return toOrder(r as Row)
   }
 
   async listOrders() {
-    const rows = (await must(this.sb.from('orders').select('*').order('created_at', { ascending: false }))) as Row[]
+    const rows = (await must(this.sb.from('orders').select('*').eq('account_id', await this.uid()).order('created_at', { ascending: false }))) as Row[]
     return rows.map(toOrder)
   }
 

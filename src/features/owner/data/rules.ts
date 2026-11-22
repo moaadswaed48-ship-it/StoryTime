@@ -1,5 +1,6 @@
 import { LANGS, type Lang } from '@/i18n/config'
 import { AGE_GROUPS, type AgeGroup } from '@/data/types'
+import { wordsOf } from '@/content/schema'
 import type { ActivityText, LangContent, MediaKind, OwnerStory, UploadPurpose } from './types'
 
 /**
@@ -16,6 +17,7 @@ export const emptyLangContent = (): LangContent => ({ title: '', teaser: '', pag
 export type Gap =
   | { lang: Lang | null; kind: 'title' }
   | { lang: Lang | null; kind: 'pageText'; page: number }
+  | { lang: Lang; kind: 'speechWords'; page: number }
   | { lang: null; kind: 'noPages' | 'noGroup' }
   | { lang: null; kind: 'picture'; page: number }
   | { lang: Lang; kind: 'film' | 'captions' }
@@ -41,7 +43,10 @@ export function blockingGaps(s: OwnerStory, lang: Lang): Gap[] {
   const out: Gap[] = []
   if (blank(t.title)) out.push({ lang, kind: 'title' })
   s.pages.forEach((p, i) => {
-    if (blank(t.pages[p.key]?.text)) out.push({ lang, kind: 'pageText', page: i + 1 })
+    const words = t.pages[p.key]
+    if (blank(words?.text)) out.push({ lang, kind: 'pageText', page: i + 1 })
+    // content/SCHEMA.md: the voice's form has the same words as the shown text, only the vowel marks differ.
+    else if (!blank(words?.speech) && wordsOf(words!.speech).length !== wordsOf(words!.text).length) out.push({ lang, kind: 'speechWords', page: i + 1 })
   })
   return out
 }

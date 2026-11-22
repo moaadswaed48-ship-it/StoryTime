@@ -1,0 +1,33 @@
+{
+  "id": "sample-c",
+  "ageGroups": ["6-8"],
+  "owner": "storytime",
+  "lesson": "SAMPLE for building and testing the site, not a real story: when something fails, find out why and try again.",
+  "cast": ["omar", "lina"],
+  "pages": [
+    { "n": 1, "art": "Sample art: a blue rug, a pile of wooden blocks and a toy car.", "zone": { "side": "full", "v": "top", "size": "l" }, "image": null },
+    { "n": 2, "art": "Sample art: two block towers far apart, a plank falling between them.", "zone": { "side": "start", "v": "top", "size": "l" }, "image": null },
+    { "n": 3, "art": "Sample art: the towers moved closer together.", "zone": { "side": "full", "v": "bottom", "size": "m" }, "image": null },
+    { "n": 4, "art": "Sample art: the bridge standing, the car tipping on it.", "zone": { "side": "end", "v": "top", "size": "l" }, "image": null },
+    { "n": 5, "art": "Sample art: two planks stacked, a thicker bridge.", "zone": { "side": "full", "v": "bottom", "size": "l" }, "image": null },
+    { "n": 6, "art": "Sample art: the car crossing the bridge.", "zone": { "side": "start", "v": "bottom", "size": "l" }, "image": null }
+  ],
+  "film": {
+    "targetSeconds": 24,
+    "shots": [
+      { "n": 1, "page": 2, "action": "Sample film: a plank falls between two towers.", "sound": ["wooden clack"], "lines": ["f01"] },
+      { "n": 2, "page": 5, "action": "Sample film: a second plank slides under the first.", "sound": ["slide"], "lines": ["f02"] },
+      { "n": 3, "page": 6, "action": "Sample film: the car rolls across.", "sound": ["little wheels"], "lines": ["f03", "f04"] }
+    ]
+  },
+  "activity": {
+    "minutes": 20,
+    "materials": ["paper", "books", "coins"],
+    "steps": [
+      { "n": 1, "picture": "Sample: two piles of books a hand apart.", "loop": false },
+      { "n": 2, "picture": "Sample: a flat sheet of paper laid across, a coin on it, the paper sagging.", "loop": false },
+      { "n": 3, "picture": "Sample: the paper folded like a fan, holding several coins.", "loop": true }
+    ],
+    "checkedAgainst": "SAMPLE: not checked, test content only"
+  }
+}

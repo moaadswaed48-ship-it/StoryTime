@@ -1,0 +1,32 @@
+[
+  {
+    "id": "a04-sami",
+    "name": { "ar": "سامِي", "he": "סָאמִי", "en": "Sami", "da": "Sami" },
+    "stage": "toddler",
+    "build": { "height": 0.48, "heads": 3.5, "girth": 0.58, "shoulders": 1.05 },
+    "skin": "#c98b5f",
+    "hair": { "style": "curls", "color": "#2b1a14" },
+    "eyes": { "color": "#3b2618", "size": 0.95 },
+    "brows": { "color": "#2b1a14", "weight": 0.5 },
+    "top": { "style": "tee", "color": "#5aa7d6", "trim": "#ffffff", "pattern": "plain" },
+    "bottom": { "style": "shorts", "color": "#e8b84a" },
+    "shoes": { "style": "sandals", "color": "#8a5a3a" },
+    "manner": "Runs everywhere on his toes with his arms out; when something catches his eye he stops completely, mouth open, and stares; leans his whole body against Grandpa when he is happy."
+  },
+  {
+    "id": "a04-grandpa",
+    "name": { "ar": "جَدّي", "he": "סַבָּא", "en": "Grandpa", "da": "bedstefar" },
+    "stage": "elder",
+    "build": { "height": 0.96, "heads": 6, "girth": 0.42, "shoulders": 1.4 },
+    "skin": "#b47a52",
+    "hair": { "style": "short", "color": "#eeeae4" },
+    "eyes": { "color": "#4a3526", "size": 0.5 },
+    "brows": { "color": "#e2ddd6", "weight": 0.8 },
+    "top": { "style": "jumper", "color": "#b8643c", "trim": "#f2e6cf", "pattern": "plain" },
+    "bottom": { "style": "trousers", "color": "#d9cdb4" },
+    "shoes": { "style": "shoes", "color": "#5a3a2a" },
+    "extras": ["glasses", "beard", "cane"],
+    "extraColors": { "glasses": "#3a2a20", "cane": "#7a5236" },
+    "manner": "Tall, thin and unhurried; plants the stick, then the foot, always in that order; when he sees something small and lovely he stops, bends slowly and nods at it as if saying hello."
+  }
+]

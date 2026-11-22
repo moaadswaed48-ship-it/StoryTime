@@ -1,0 +1,32 @@
+{
+  "id": "sample-a",
+  "ageGroups": ["2-3"],
+  "owner": "storytime",
+  "lesson": "SAMPLE for building and testing the site, not a real story: objects still exist when hidden.",
+  "cast": [],
+  "pages": [
+    { "n": 1, "art": "Sample art: a red ball on green grass under a big sky.", "zone": { "side": "full", "v": "top", "size": "m" }, "image": null },
+    { "n": 2, "art": "Sample art: the ball rolling across the grass, motion lines.", "zone": { "side": "start", "v": "bottom", "size": "m" }, "image": null },
+    { "n": 3, "art": "Sample art: a round bush with a hint of red under it.", "zone": { "side": "full", "v": "bottom", "size": "s" }, "image": null },
+    { "n": 4, "art": "Sample art: the ball peeking out beside the bush.", "zone": { "side": "end", "v": "top", "size": "m" }, "image": null },
+    { "n": 5, "art": "Sample art: the ball high in the air against the sky.", "zone": { "side": "full", "v": "bottom", "size": "m" }, "image": null }
+  ],
+  "film": {
+    "targetSeconds": 20,
+    "shots": [
+      { "n": 1, "page": 1, "action": "Sample film: the ball rolls in from the side.", "sound": ["soft bounce"], "lines": ["f01"] },
+      { "n": 2, "page": 3, "action": "Sample film: the ball rolls under the bush.", "sound": ["leaves"], "lines": ["f02"] },
+      { "n": 3, "page": 5, "action": "Sample film: the ball bounces up high.", "sound": ["bounce"], "lines": ["f03"] }
+    ]
+  },
+  "activity": {
+    "minutes": 10,
+    "materials": ["soft-ball", "cushions"],
+    "steps": [
+      { "n": 1, "picture": "Sample: adult and child sit facing each other on the floor.", "loop": false },
+      { "n": 2, "picture": "Sample: the ball rolls from the adult to the child.", "loop": true },
+      { "n": 3, "picture": "Sample: the child catches the ball and rolls it back.", "loop": true }
+    ],
+    "checkedAgainst": "SAMPLE: not checked, test content only"
+  }
+}

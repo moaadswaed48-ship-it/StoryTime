@@ -5,29 +5,43 @@ import { PGlite, type Transaction } from '@electric-sql/pglite'
 const root = resolve(import.meta.dirname, '../..')
 const migrationsDir = resolve(root, 'supabase/migrations')
 
-/** A new embedded Postgres with the Supabase stand-in and every migration applied in order. */
-export async function freshDb(): Promise<PGlite> {
+/** The terms versions the tests sign up and order with (besides the real one the migrations publish). */
+export const TEST_TERMS = ['test-1', 'terms-1']
+
+/**
+ * A new embedded Postgres with the Supabase stand-in and every migration applied in order.
+ * `preview` (the default) sets it up like the preview project: test payments on and the tests' terms versions
+ * published. `preview: false` is the database exactly as the migrations leave it, as in production.
+ */
+export async function freshDb({ preview = true }: { preview?: boolean } = {}): Promise<PGlite> {
   const db = new PGlite()
   await db.exec(readFileSync(resolve(import.meta.dirname, 'supabase-stand-in.sql'), 'utf8'))
   for (const f of readdirSync(migrationsDir).filter((n) => n.endsWith('.sql')).sort()) {
     await db.exec(readFileSync(resolve(migrationsDir, f), 'utf8'))
   }
+  if (preview && (await db.query<{ t: string | null }>(`select to_regclass('private.settings')::text as t`)).rows[0]!.t) {
+    await db.exec(`update private.settings set allow_test_payments = true`)
+    for (const v of TEST_TERMS) await db.query(`insert into private.terms_versions (version) values ($1)`, [v])
+  }
   return db
 }
 
-export type Who = { role: 'anon' } | { role: 'authenticated'; uid: string } | { role: 'service_role' }
+export type Who = { role: 'anon' } | { role: 'authenticated'; uid: string; email?: string } | { role: 'service_role' }
 export const anon: Who = { role: 'anon' }
 export const service: Who = { role: 'service_role' }
-export const user = (uid: string): Who => ({ role: 'authenticated', uid })
+export const user = (uid: string, email?: string): Who => ({ role: 'authenticated', uid, email })
 
 /**
  * Runs `fn` as a Supabase request would: inside a transaction, with the database role switched (so row-level
- * security applies) and the JWT subject set for auth.uid(). Rolled back when `fn` throws.
+ * security applies) and the JWT subject set for auth.uid() (and the claims for auth.jwt()). Rolled back when `fn`
+ * throws.
  */
 export async function as<T>(db: PGlite, who: Who, fn: (tx: Transaction) => Promise<T>): Promise<T> {
   return db.transaction(async (tx) => {
     await tx.exec(`set local role ${who.role}`)
     await tx.query(`select set_config('request.jwt.claim.sub', $1, true)`, [who.role === 'authenticated' ? who.uid : ''])
+    const claims = who.role === 'authenticated' ? { sub: who.uid, email: who.email, role: who.role } : { role: who.role }
+    await tx.query(`select set_config('request.jwt.claims', $1, true)`, [JSON.stringify(claims)])
     return fn(tx)
   })
 }

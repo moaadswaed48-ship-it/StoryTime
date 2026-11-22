@@ -102,7 +102,8 @@ describe('trial and passes', () => {
     expect(await codeOf(api.listStories('en'))).toBe('not_signed_in')
     await newConfirmedUser()
     const list = await api.listStories('en', '4-5')
-    expect(list.map((s) => s.slug)).toEqual(['sample-45-1', 'sample-45-2', 'sample-45-3', 'sample-68-1'])
+    // Stories from content/stories (real ones first, then the sample) come before the text-only seed samples.
+    expect(list.map((s) => s.slug).filter((s) => s.startsWith('sample'))).toEqual(['sample-b', 'sample-45-1', 'sample-45-2', 'sample-45-3', 'sample-68-1'])
     expect(list.every((s) => s.isSample)).toBe(true)
     expect(await codeOf(api.getStoryContent(list[0]!.id, 'en'))).toBe('locked')
   })
@@ -110,13 +111,15 @@ describe('trial and passes', () => {
   it('the trial opens 3 stories for 3 days, once per account, then locks; profiles stay', async () => {
     await newConfirmedUser()
     await api.addLearner({ name: 'Noor', ageGroup: '4-5' })
+    const list = await api.listStories('en', '4-5')
     const t = await api.startTrial('4-5')
-    expect(t.storyIds).toEqual(['story-sample-45-1', 'story-sample-45-2', 'story-sample-45-3'])
-    expect((await api.getStoryContent('story-sample-45-1', 'ar')).pages[0]!.display).toMatch(/صفحة تجريبية/)
+    expect(t.storyIds).toEqual(list.slice(0, 3).map((s) => s.id)) // the group's first three
+    expect(list.filter((s) => s.trialIn.includes('4-5')).map((s) => s.id)).toEqual(t.storyIds)
+    expect((await api.getStoryContent(t.storyIds[0]!, 'ar')).lang).toBe('ar')
     expect(await codeOf(api.getStoryContent('story-sample-68-1', 'en'))).toBe('locked') // listed in 4-5 but not a trial story
     expect(await codeOf(api.startTrial('6-8'))).toBe('trial_used')
     advance(3 * DAY)
-    expect(await codeOf(api.getStoryContent('story-sample-45-1', 'en'))).toBe('locked')
+    expect(await codeOf(api.getStoryContent(t.storyIds[0]!, 'en'))).toBe('locked')
     expect((await api.listLearners()).map((l) => l.name)).toEqual(['Noor'])
   })
 
