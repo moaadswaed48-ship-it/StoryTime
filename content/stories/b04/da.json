@@ -1,0 +1,61 @@
+{
+  "title": "Lerfuglen",
+  "names": {
+    "b04-lara": "Lara",
+    "b04-grandma": "bedstemor",
+    "b04-potter": "pottemageren"
+  },
+  "pages": [
+    { "n": 1, "text": "En forårsmorgen tog bedstemor Lara med til pottemagerens værksted for enden af landsbyen. »Vi skal have en ny kande til vand,« sagde bedstemor.", "speech": "En forårsmorgen tog bedstemor Lara med til pottemagerens værksted for enden af landsbyen. »Vi skal have en ny kande til vand,« sagde bedstemor." },
+    { "n": 2, "text": "Derinde duftede der af våd jord. Der stod kander og skåle på alle hylder. Pottemageren sad ved sin drejeskive, og hans hænder var grå af ler.", "speech": "Derinde duftede der af våd jord. Der stod kander og skåle på alle hylder. Pottemageren sad ved sin drejeskive, og hans hænder var grå af ler." },
+    { "n": 3, "text": "På en lav hylde ved vinduet stod små lerfugle og tørrede i solen. »Man puster ind i halen,« sagde pottemageren, »så synger de.«", "speech": "På en lav hylde ved vinduet stod små lerfugle og tørrede i solen. »Man puster ind i halen,« sagde pottemageren, »så synger de.«" },
+    { "n": 4, "text": "Bedstemor kiggede på kander. Pottemageren gik tilbage til drejeskiven. Lara tog den mindste fugl. Den var kølig og glat. Og så … gled den.", "speech": "Bedstemor kiggede på kander. Pottemageren gik tilbage til drejeskiven. Lara tog den mindste fugl. Den var kølig og glat. Og så … gled den." },
+    { "n": 5, "text": "Knæk! Fuglen faldt ned på arbejdsbordet, og den ene vinge brækkede af. Lara kiggede sig omkring. Ingen havde set det. Hendes hjerte bankede: bank, bank, bank.", "speech": "Knæk! Fuglen faldt ned på arbejdsbordet, og den ene vinge brækkede af. Lara kiggede sig omkring. Ingen havde set det. Hendes hjerte bankede: bank, bank, bank." },
+    { "n": 6, "text": "Hun kunne stille fuglen tilbage på hylden med den knækkede side ind mod væggen. Ingen ville opdage det. Hvad tror du Lara gør?", "speech": "Hun kunne stille fuglen tilbage på hylden med den knækkede side ind mod væggen. Ingen ville opdage det. Hvad tror du Lara gør?" },
+    { "n": 7, "text": "Lara kiggede på den lille vinge i sin hånd. Så løftede hun fuglen, helt forsigtigt. Hun bar den hen til pottemageren.", "speech": "Lara kiggede på den lille vinge i sin hånd. Så løftede hun fuglen, helt forsigtigt. Hun bar den hen til pottemageren." },
+    { "n": 8, "text": "Drejeskiven gik langsommere og stoppede. »Jeg tabte den,« sagde Lara med en lille stemme. »Undskyld.«", "speech": "Drejeskiven gik langsommere og stoppede. »Jeg tabte den,« sagde Lara med en lille stemme. »Undskyld.«" },
+    { "n": 9, "text": "Pottemageren så længe på hende. Så smilede han. »Tak fordi du fortalte mig det,« sagde han. »Kom, så laver vi den sammen.«", "speech": "Pottemageren så længe på hende. Så smilede han. »Tak fordi du fortalte mig det,« sagde han. »Kom, så laver vi den sammen.«" },
+    { "n": 10, "text": "Han gav Lara en klump blødt, vådt ler. Sammen trykkede de leret ind i revnen. De glattede det med våde fingre, rundt og rundt.", "speech": "Han gav Lara en klump blødt, vådt ler. Sammen trykkede de leret ind i revnen. De glattede det med våde fingre, rundt og rundt." },
+    { "n": 11, "text": "Vingen sad på igen, lidt skævt. Pottemageren pustede forsigtigt ind i halen. Og fuglen sang en skæv og glad sang: fiu, fiu, fiu!", "speech": "Vingen sad på igen, lidt skævt. Pottemageren pustede forsigtigt ind i halen. Og fuglen sang en skæv og glad sang: fiu, fiu, fiu!" },
+    { "n": 12, "text": "Bedstemor kom hen med sin nye kande. »Sikke en glad sang!« sagde hun og lo. Lara pustede også ind i halen: fiu, fiu, fiu.", "speech": "Bedstemor kom hen med sin nye kande. »Sikke en glad sang!« sagde hun og lo. Lara pustede også ind i halen: fiu, fiu, fiu." },
+    { "n": 13, "text": "Pottemageren satte fuglen tilbage på hylden. »I morgen skal den i ovnen, så den bliver stærk,« sagde han. »Så venter den her på dig.«", "speech": "Pottemageren satte fuglen tilbage på hylden. »I morgen skal den i ovnen, så den bliver stærk,« sagde han. »Så venter den her på dig.«" }
+  ],
+  "film": [
+    { "id": "f01", "speaker": "narrator", "text": "En forårsmorgen for enden af landsbyen.", "speech": "En forårsmorgen for enden af landsbyen.", "emotion": "fresh and bright, unhurried" },
+    { "id": "f02", "speaker": "b04-grandma", "text": "Kom, Lara. Vi skal have en ny kande.", "speech": "Kom, Lara. Vi skal have en ny kande.", "emotion": "warm, a little brisk, enjoying the outing" },
+    { "id": "f03", "speaker": "narrator", "text": "Derinde duftede der af våd jord.", "speech": "Derinde duftede der af våd jord.", "emotion": "soft, breathing it in" },
+    { "id": "f04", "speaker": "b04-potter", "text": "Godmorgen! Kig bare rundt.", "speech": "Godmorgen! Kig bare rundt.", "emotion": "friendly, calm, a deep voice" },
+    { "id": "f05", "speaker": "b04-potter", "text": "Man puster ind i halen … så synger den.", "speech": "Man puster ind i halen … så synger den.", "emotion": "showing a little secret, pleased" },
+    { "id": "f06", "speaker": "b04-lara", "text": "Den synger!", "speech": "Den synger!", "emotion": "delighted, a whisper of wonder" },
+    { "id": "f07", "speaker": "b04-grandma", "text": "Den her kande? Eller den der?", "speech": "Den her kande? Eller den der?", "emotion": "talking to herself, choosing" },
+    { "id": "f08", "speaker": "narrator", "text": "Lara tog den mindste fugl.", "speech": "Lara tog den mindste fugl.", "emotion": "gentle, a little tense" },
+    { "id": "f09", "speaker": "narrator", "text": "Ingen havde set det.", "speech": "Ingen havde set det.", "emotion": "hushed" },
+    { "id": "f10", "speaker": "narrator", "text": "Bank, bank, sagde Laras hjerte.", "speech": "Bank, bank, sagde Laras hjerte.", "emotion": "quiet, in time with the heartbeat" },
+    { "id": "f11", "speaker": "b04-lara", "text": "Jeg kunne bare stille den tilbage …", "speech": "Jeg kunne bare stille den tilbage …", "emotion": "a small inner voice, unsure" },
+    { "id": "f12", "speaker": "narrator", "text": "Lara kiggede på den lille vinge.", "speech": "Lara kiggede på den lille vinge.", "emotion": "slow, thoughtful" },
+    { "id": "f13", "speaker": "b04-lara", "text": "Jeg tabte den.", "speech": "Jeg tabte den.", "emotion": "small and honest, scared but clear" },
+    { "id": "f14", "speaker": "b04-lara", "text": "Undskyld.", "speech": "Undskyld.", "emotion": "very soft, looking down" },
+    { "id": "f15", "speaker": "b04-potter", "text": "Tak fordi du fortalte mig det.", "speech": "Tak fordi du fortalte mig det.", "emotion": "warm and serious, then smiling" },
+    { "id": "f16", "speaker": "b04-potter", "text": "Kom, så laver vi den sammen.", "speech": "Kom, så laver vi den sammen.", "emotion": "kind, practical" },
+    { "id": "f17", "speaker": "b04-potter", "text": "Tryk forsigtigt … og glat det så ud.", "speech": "Tryk forsigtigt … og glat det så ud.", "emotion": "calm, teaching, slow" },
+    { "id": "f18", "speaker": "b04-lara", "text": "Kan den synge?", "speech": "Kan den synge?", "emotion": "hopeful, holding her breath" },
+    { "id": "f19", "speaker": "b04-potter", "text": "Lad os høre.", "speech": "Lad os høre.", "emotion": "playful, a twinkle" },
+    { "id": "f20", "speaker": "b04-lara", "text": "Den synger! En skæv sang.", "speech": "Den synger! En skæv sang.", "emotion": "laughing with joy" },
+    { "id": "f21", "speaker": "b04-grandma", "text": "Sikke en glad sang!", "speech": "Sikke en glad sang!", "emotion": "laughing, delighted" },
+    { "id": "f22", "speaker": "b04-potter", "text": "I morgen i ovnen. Så er den klar.", "speech": "I morgen i ovnen. Så er den klar.", "emotion": "warm, a promise" },
+    { "id": "f23", "speaker": "b04-lara", "text": "Fiu, fiu, fiu!", "speech": "Fiu, fiu, fiu!", "emotion": "a happy, wobbly whistle in words" }
+  ],
+  "activity": {
+    "title": "Reparationsbordet",
+    "goal": "At reparere noget der er gået i stykker, et skridt ad gangen.",
+    "materials": ["En gammel tegning eller en side fra et blad", "Tape"],
+    "steps": [
+      { "n": 1, "caption": "Riv siden i fire store stykker." },
+      { "n": 2, "caption": "Læg stykkerne sammen som et puslespil." },
+      { "n": 3, "caption": "Tape revnerne. Den er hel igen!" }
+    ],
+    "safety": "Den voksne river tapestykkerne af, og en tapeholder med metaltænder bliver hos den voksne. Sker der et uheld, så ring til det lokale alarmnummer.",
+    "forAdult": "I historien taber Lara en lerfugl og fortæller det til pottemageren. Han takker hende, og så laver de den sammen. Det er lettere at sige sandheden når den bliver mødt med et tak og ikke med vrede. Aktiviteten her øver den anden halvdel af historien: Det der er gået i stykker, kan tit repareres, et skridt ad gangen. Riv en gammel tegning eller en side fra et blad i fire eller fem store stykker. Barnet lægger stykkerne sammen som et puslespil og taper revnerne. Bliv tæt på, og hjælp med et spørgsmål i stedet for svaret: »Hvor tror du det her hjørne skal være?« Mens I arbejder, kan I snakke: »Har vi nogensinde ødelagt noget? Hvad skete der så?« Og når barnet fortæller om en rigtig fejl, så sig tak først, ligesom pottemageren, og lav det så sammen. Gør det lettere: Brug tre stykker. Gør det sværere: Brug otte stykker, eller riv to sider i stykker og bland dem. Ti til femten minutter er rigeligt.",
+    "inClass": "Børnene arbejder to og to. De voksne river gamle sider i stykker på forhånd og giver hvert par to sider. Hvert barn reparerer makkerens side, og bagefter bytter de tilbage og fortæller hinanden hvad billedet viser. Tapen bliver hos de voksne, som deler stykkerne ud."
+  }
+}
