@@ -1,0 +1,46 @@
+[
+  {
+    "id": "c14-celine",
+    "name": { "ar": "سِيلِين", "he": "סֶלִין", "en": "Celine", "da": "Celine" },
+    "stage": "child",
+    "build": { "height": 0.66, "heads": 4.7, "girth": 0.42, "shoulders": 1.12 },
+    "skin": "#e7b48a",
+    "hair": { "style": "long", "color": "#a0522d" },
+    "eyes": { "color": "#4f7a5a", "size": 0.8 },
+    "brows": { "color": "#a0522d", "weight": 0.55 },
+    "top": { "style": "tee", "color": "#f2c94c", "trim": "#e2674a", "pattern": "plain" },
+    "bottom": { "style": "shorts", "color": "#3f7f8c" },
+    "shoes": { "style": "sandals", "color": "#8a4a3a" },
+    "manner": "A dreamer who thinks tall: reaches her arms up when she explains an idea; sticks her chin out when she disagrees; goes quiet and small-voiced when something fails, then lights up the moment someone listens."
+  },
+  {
+    "id": "c14-rani",
+    "name": { "ar": "رانِي", "he": "רָנִי", "en": "Rani", "da": "Rani" },
+    "stage": "child",
+    "build": { "height": 0.67, "heads": 4.7, "girth": 0.47, "shoulders": 1.18 },
+    "skin": "#b97a50",
+    "hair": { "style": "curls", "color": "#1f1416" },
+    "eyes": { "color": "#2e1c14", "size": 0.78 },
+    "brows": { "color": "#1f1416", "weight": 0.7 },
+    "top": { "style": "shirt", "color": "#6aa56f", "trim": "#f4ecd8", "pattern": "check" },
+    "bottom": { "style": "shorts", "color": "#8a6f5c" },
+    "shoes": { "style": "sandals", "color": "#5a3a2a" },
+    "manner": "A builder who thinks wide and steady: spreads his arms flat when he explains; presses things with one finger to test them; folds his arms when cross, but he is the first to ask a question again."
+  },
+  {
+    "id": "c14-father",
+    "name": { "ar": "والِد رانِي", "he": "אַבָּא שֶׁל רָנִי", "en": "Rani's father", "da": "Ranis far" },
+    "stage": "adult",
+    "build": { "height": 1.02, "heads": 6.1, "girth": 0.55, "shoulders": 1.6 },
+    "skin": "#b97a50",
+    "hair": { "style": "short", "color": "#2a1714" },
+    "eyes": { "color": "#2e1c14", "size": 0.55 },
+    "brows": { "color": "#2a1714", "weight": 0.8 },
+    "top": { "style": "shirt", "color": "#f1ead8", "trim": "#5a79c4", "pattern": "stripes" },
+    "bottom": { "style": "trousers", "color": "#5b6a9a" },
+    "shoes": { "style": "sandals", "color": "#6b4030" },
+    "extras": ["glasses", "beard"],
+    "extraColors": { "glasses": "#2a3a5a" },
+    "manner": "Relaxed and watchful: reads on a folding stool by the water and looks up over his glasses every few lines; never steps in to fix things; claps slowly and warmly at the end."
+  }
+]
