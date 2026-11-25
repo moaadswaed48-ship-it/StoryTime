@@ -30,8 +30,8 @@
     { "id": "f13", "speaker": "a09-uncle", "speech": "עוֹד חַם. מְ%חַכִּים קְצָת.", "emotion": "gentle, patient, smiling" },
     { "id": "f14", "speaker": "narrator", "speech": "בַּחוּץ, הַשָּׁמַ@יִם נַעֲשִׂים וְרֻדִּים.", "emotion": "slow and dreamy, time passing" },
     { "id": "f15", "speaker": "a09-uncle", "speech": "עַכְשָׁו הוּא חָמִים.", "emotion": "pleased, a little reveal" },
-    { "id": "f16", "speaker": "a09-dina", "speech": "אֵיזֶה רֵיחַ. לֶ@חֶם חָמִים.", "emotion": "eyes closed, blissful, quiet" },
-    { "id": "f17", "speaker": "a09-neighbour", "speech": "בֹּ@קֶר טוֹב! אֵיזֶה קֹר.", "emotion": "cheerful, shivering a little" },
+    { "id": "f16", "speaker": "a09-dina", "speech": "אֵ@יזֶה רֵ@יחַ. לֶ@חֶם חָמִים.", "emotion": "eyes closed, blissful, quiet" },
+    { "id": "f17", "speaker": "a09-neighbour", "speech": "בֹּ@קֶר טוֹב! אֵ@יזֶה קֹר.", "emotion": "cheerful, shivering a little" },
     { "id": "f18", "speaker": "a09-dina", "speech": "לֶ@חֶם חָמִים!", "emotion": "bright and proud, showing it off" }
   ],
   "activity": {

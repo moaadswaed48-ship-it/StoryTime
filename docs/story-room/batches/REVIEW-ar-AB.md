@@ -28,3 +28,10 @@ Working notes, saved as the review goes (the container can restart). The final r
 - B06: p4 «لِيُرِيَهُ لِأَبِيهْ» → «لِيُرِيَهُ أَبَاهْ» (أرى); forAdult «يَقُولُ لَهَا» (pronoun had no feminine antecedent) → «يَقُولُ لِلْعَامِلَةِ».
 - B07: p11 one dual verb fewer (three nouns joined to the same جَعَلَا); p13 «وَصَفَّقَتْ: «…»» → «وَصَفَّقَتْ وَقَالَتْ: «…»».
 - B08: no change (song pauses at the rhymes kept on purpose).
+- NOTE: the shared scratchpad helper was overwritten by another agent mid-review; all edits from A07 on were re-applied with a private helper (scratchpad/arrev/) and verified; build + check: no errors (25 Nov, after B13).
+- B09: p3 «وَرَكَضَتْ أَسْرَعْ» → «… أَسْرَعَ مِنْ قَبْلْ».
+- B10: inClass «يَنْتَبِهُ أَنَّ» → «يَتَأَكَّدُ أَنَّ». Content note (all languages, not mine): the doll is covered with a blanket "no higher than its shoulders"; AAP 2022 advises no soft bedding at all.
+- B11: no change.
+- B12: activity title not pausal before ؟ (يُرَصُّ؟ → يُرَصّْ؟). A02 بَنْدُورَة → بَنَدُورَة to match B12 (one spelling in the library).
+- B13: DECISIONS applied: tiles زَرْقَاء/بَيْضَاء → صَفْرَاء/خَضْرَاء (every place, incl. «خَضْرَاءُ بَعْدَ خَضْرَاءْ», «الْبَلَاطَةَ الْخَضْرَاءَ»); door الْأَخْضَر → الْأَحْمَر (3). Safety «الْحِجَارَةِ الْأَكْبَرِ مِنْ» (أفعل with ال and مِن, a grammar error) → «وَحِجَارَةٍ أَكْبَرَ مِنْ».
+- A15: DECISIONS applied: crab → snail: «سَلْطَعُونٌ صَغِيرٌ يُطِلُّ مِنْ جُحْرِهْ» → «حَلَزُونٌ صَغِيرٌ يُطِلُّ مِنْ قَوْقَعَتِهْ» (p5); «السَّلْطَعُونُ» → «الْحَلَزُونُ» (p10, f15).
