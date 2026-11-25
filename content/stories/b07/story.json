@@ -1,0 +1,131 @@
+{
+  "id": "b07",
+  "ageGroups": ["4-5"],
+  "owner": "storytime",
+  "lesson": "Say \"Stop, I don't like that\" clearly, and stop when someone says it to you.",
+  "cast": ["b07-yousef", "b07-alma", "b07-grandma"],
+  "pages": [
+    {
+      "n": 1,
+      "art": "A small hill town on a winter morning after a rare snowfall: stone houses with white roofs, a big bare tree, the hillside softly white under a pale sky, a few flakes still falling. Inside a window, Yousef presses his nose to the glass, eyes wide; behind him his grandmother smiles. Feeling: wonder, a special day. Calm area: the pale sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 2,
+      "art": "In the open doorway, Grandma tugs the second mitten onto Yousef's hand; he is already bundled in coat, hat and boots, leaning towards the snow. Outside, his first footprints; Alma from next door waves from her garden gate in a red scarf. Breath clouds. Feeling: eager, cosy. Calm area: the white ground in the bottom band.",
+      "zone": { "side": "full", "v": "bottom", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 3,
+      "art": "Yousef and Alma throw snowballs at the big bare tree; one bursts against the trunk in a puff of white dust (a few short lines, no letters). Both are laughing, cheeks pink with cold. Feeling: pure fun. Calm area: the pale sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 4,
+      "art": "Alma, laughing, has thrown a soft snowball at Yousef; it bursts on his face in a cartoon puff of snow (soft and silly, never violent). Yousef's eyes are squeezed shut, shoulders up. Feeling: a cold shock; for Alma still a game. Calm area: the white ground in the bottom band.",
+      "zone": { "side": "full", "v": "bottom", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 5,
+      "art": "Alma winds up to throw again, laughing hard, two more snowballs ready at her feet. Yousef stands with snow on his hat, his cheeks bright red and stinging, his mouth turned down. Feeling: the joke has stopped being funny for one of them. Calm area: the pale sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 6,
+      "art": "Close on Yousef: his chin trembles, his eyes are wet; he glances towards his house, where Grandma stands watching in the doorway (she stays where she is). Feeling: hurt, about to cry, a moment of choice. Calm area: the white ground in the bottom band.",
+      "zone": { "side": "full", "v": "bottom", "size": "l" },
+      "image": null
+    },
+    {
+      "n": 7,
+      "art": "Yousef stands with his feet planted wide in the snow, one mittened hand held up flat in front of him, palm out, like a 'stop' sign; his face is serious and clear. Alma's next snowball is still in her raised hand. Feeling: strong, calm, brave. Calm area: the pale sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 8,
+      "art": "Alma frozen mid-throw, the snowball still in her hand, her laugh gone; she looks at Yousef's red cheeks and her face softens with understanding. Feeling: a pause; she sees him. Calm area: the white ground in the bottom band.",
+      "zone": { "side": "full", "v": "bottom", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 9,
+      "art": "The snowball drops from Alma's open hand into the snow. She points at the big tree with a questioning smile; Yousef nods, a small smile coming back. Feeling: making up, a new agreement. Calm area: the pale sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 10,
+      "art": "Together the two children push a big snowball across the garden, leaving a wide track; a middle ball and a small ball wait nearby. The tree trunk in the background has white snowball marks on it. Feeling: teamwork, effort, laughing. Calm area: the white ground in the bottom band.",
+      "zone": { "side": "full", "v": "bottom", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 11,
+      "art": "The snow lady stands finished: three balls, a pinecone nose, two dark stones for eyes, two twig arms. Yousef pats the last bit of snow smooth; Alma steps back to look. The snow lady looks a little forlorn and cold. Feeling: proud, then a tender thought. Calm area: the pale sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 12,
+      "art": "Alma unwinds her own red scarf and wraps it twice round the snow lady's neck; the red is bright against all the white. Yousef watches, smiling. Feeling: kindness, warmth. Calm area: the white ground in the bottom band.",
+      "zone": { "side": "full", "v": "bottom", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 13,
+      "art": "Grandma in the doorway clapping her hands; Yousef and Alma stand side by side beside the snow lady in her red scarf, mittened hands touching; snow falls softly over everything. Last picture of the book: quiet, bright, friends again. Calm area: the pale sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    }
+  ],
+  "film": {
+    "targetSeconds": 245,
+    "shots": [
+      { "n": 1, "page": 1, "action": "14 s. Scene 1, snow. Slow-motion flakes fall over the white roofs of the hill town and the big bare tree. Very slow push in. Keep the lower fifth calm for captions in every shot.", "sound": ["a deep, soft winter hush", "gentle music"], "lines": ["f01"] },
+      { "n": 2, "page": 1, "action": "9 s. Yousef at the window, nose on the glass; he spins round to his grandmother.", "sound": ["a delighted gasp"], "lines": ["f02"] },
+      { "n": 3, "page": 2, "action": "9 s. Grandma pulls on his coat and mittens; the door opens on white.", "sound": ["a zip", "the door opening", "cold wind, soft"], "lines": ["f03"] },
+      { "n": 4, "page": 2, "action": "10 s. Yousef's first steps in the snow; breath clouds. No words: let the crunch play.", "sound": ["boots crunching in snow"], "lines": [] },
+      { "n": 5, "page": 2, "action": "5 s. Alma waves from her gate next door.", "sound": ["a gate creak"], "lines": ["f04"] },
+      { "n": 6, "page": 2, "action": "5 s. They run to meet each other.", "sound": ["crunching footsteps"], "lines": ["f05"] },
+      { "n": 7, "page": 3, "action": "10 s. Scene 2, snowballs. They scoop and pat snowballs; Alma points at the big tree.", "sound": ["snow patted between mittens"], "lines": ["f06"] },
+      { "n": 8, "page": 3, "action": "5 s. A snowball bursts on the trunk in a puff of white dust.", "sound": ["a soft thwack"], "lines": ["f07"] },
+      { "n": 9, "page": 3, "action": "9 s. More throws at the tree, both laughing. No words.", "sound": ["thwacks", "laughter", "bouncy music"], "lines": [] },
+      { "n": 10, "page": 4, "action": "5 s. Alma turns, grinning, with a snowball aimed at Yousef.", "sound": ["the music hesitates"], "lines": ["f08"] },
+      { "n": 11, "page": 4, "action": "5 s. A soft cartoon splat on Yousef's face. Not loud, not violent.", "sound": ["a soft splat"], "lines": ["f09"] },
+      { "n": 12, "page": 5, "action": "6 s. Alma laughs and throws again.", "sound": ["laughter"], "lines": ["f10"] },
+      { "n": 13, "page": 5, "action": "8 s. Splat again. Yousef's cheeks turn red; the bouncy music drops away. No words.", "sound": ["a soft splat", "the music fading"], "lines": [] },
+      { "n": 14, "page": 5, "action": "6 s. Close on his stinging red cheeks.", "sound": ["a cold wind"], "lines": ["f11"] },
+      { "n": 15, "page": 6, "action": "12 s. Breathing moment: Yousef's chin trembles. He glances at the doorway, where Grandma watches and stays. Then he takes a breath. No words.", "sound": ["a single low note", "one deep breath"], "lines": [] },
+      { "n": 16, "page": 7, "action": "9 s. Scene 3, stop. He plants his feet and lifts his hand, palm out, as Alma's next snowball leaves her hand. The snowball stops in mid-air and hangs there, a playful film moment.", "sound": ["a sudden soft silence", "a small chime as the snowball stops"], "lines": [] },
+      { "n": 17, "page": 7, "action": "6 s. Yousef speaks, clear and steady.", "sound": ["silence"], "lines": ["f12"] },
+      { "n": 18, "page": 8, "action": "10 s. The snowball drops gently into the snow. Alma stands frozen and looks at Yousef's red cheeks; her face softens.", "sound": ["a soft plop", "a tender note"], "lines": ["f13"] },
+      { "n": 19, "page": 9, "action": "5 s. Alma lowers her hand.", "sound": ["quiet"], "lines": ["f14"] },
+      { "n": 20, "page": 9, "action": "5 s. She points at the big tree, eyebrows raised.", "sound": ["a hopeful note"], "lines": ["f15"] },
+      { "n": 21, "page": 9, "action": "7 s. Yousef nods and a smile comes back.", "sound": ["the music returns, warm"], "lines": ["f16"] },
+      { "n": 22, "page": 10, "action": "10 s. Scene 4, the snow lady. Thwack, thwack: two snowballs hit the tree, both children laughing. No words.", "sound": ["thwacks", "laughter"], "lines": [] },
+      { "n": 23, "page": 10, "action": "14 s. They roll a big ball, a middle ball and a small ball, puffing, and lift them into a stack.", "sound": ["snow crunching as the balls roll", "puffing", "bouncy music"], "lines": ["f17", "f18"] },
+      { "n": 24, "page": 11, "action": "12 s. Pinecone nose, stone eyes, twig arms, one by one. No words.", "sound": ["a small chime for each new part"], "lines": [] },
+      { "n": 25, "page": 11, "action": "5 s. They step back; the snow lady looks cold.", "sound": ["a cold little wind"], "lines": ["f19"] },
+      { "n": 26, "page": 12, "action": "12 s. Alma unwinds her red scarf and wraps it twice round the snow lady's neck.", "sound": ["soft wool sounds", "warm music"], "lines": ["f20"] },
+      { "n": 27, "page": 13, "action": "7 s. Scene 5, friends. Grandma claps in the doorway.", "sound": ["clapping"], "lines": ["f21"] },
+      { "n": 28, "page": 13, "action": "10 s. Yousef and Alma stand side by side by the snow lady; their mittened hands touch. No words.", "sound": ["warm music"], "lines": [] },
+      { "n": 29, "page": 13, "action": "16 s. Closing image: snow falls slowly over the garden, the snow lady's red scarf the brightest thing in the picture. Hold the still picture 6 s while the music ends, then stop. No autoplay.", "sound": ["the last notes of the music", "the winter hush"], "lines": ["f22"] }
+    ]
+  },
+  "activity": {
+    "minutes": 15,
+    "materials": ["cushions-or-outdoor-chalk"],
+    "steps": [
+      { "n": 1, "picture": "Two children each sit inside their own ring of floor cushions, with space between the rings; each ring is a 'bubble'.", "loop": false },
+      { "n": 2, "picture": "One child stands at the edge of the other child's ring and asks (a speech bubble with a small drawing of a door and a question shape, no letters); the asker waits with hands behind their back.", "loop": true },
+      { "n": 3, "picture": "Two small pictures side by side: in one, the sitting child nods and the other steps in, smiling; in the other, the sitting child shakes their head kindly and the other steps back, smiling too.", "loop": false }
+    ],
+    "checkedAgainst": "docs/story-room/age-4-5.md section 7 (red list) and section 4 (activity limits), 25 Nov 2026"
+  }
+}

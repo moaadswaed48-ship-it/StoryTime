@@ -1,0 +1,60 @@
+{
+  "title": "Snedag",
+  "names": {
+    "b07-yousef": "Josef",
+    "b07-alma": "Alma",
+    "b07-grandma": "bedstemor"
+  },
+  "pages": [
+    { "n": 1, "text": "En morgen kiggede Josef ud ad vinduet. Alt var hvidt. »Sne!« råbte han. Der faldt næsten aldrig sne på deres bakke.", "speech": "En morgen kiggede Josef ud ad vinduet. Alt var hvidt. »Sne!« råbte han. Der faldt næsten aldrig sne på deres bakke." },
+    { "n": 2, "text": "Bedstemor hjalp ham i frakken og vanterne. Udenfor knasede sneen under hans støvler: knas, knas. Alma fra nabohuset var der allerede.", "speech": "Bedstemor hjalp ham i frakken og vanterne. Udenfor knasede sneen under hans støvler: knas, knas. Alma fra nabohuset var der allerede." },
+    { "n": 3, "text": "Josef og Alma lavede snebolde og kastede dem mod det store træ. Bump! Sneen sprang ud i hvidt støv. De grinede og kastede igen.", "speech": "Josef og Alma lavede snebolde og kastede dem mod det store træ. Bump! Sneen sprang ud i hvidt støv. De grinede og kastede igen." },
+    { "n": 4, "text": "Så kastede Alma en snebold på Josef. Splat, lige i ansigtet! Den var kold. Alma grinede.", "speech": "Så kastede Alma en snebold på Josef. Splat, lige i ansigtet! Den var kold. Alma grinede." },
+    { "n": 5, "text": "Splat, en til. Splat, og en til, og Alma grinede og grinede. Det sved i Josefs kinder. De blev knaldrøde.", "speech": "Splat, en til. Splat, og en til, og Alma grinede og grinede. Det sved i Josefs kinder. De blev knaldrøde." },
+    { "n": 6, "text": "Josef havde lyst til at græde. Han havde lyst til at løbe ind til bedstemor. Hvad kunne Josef sige til Alma?", "speech": "Josef havde lyst til at græde. Han havde lyst til at løbe ind til bedstemor. Hvad kunne Josef sige til Alma?" },
+    { "n": 7, "text": "Men Josef stod fast i sneen. Han holdt hånden op, sådan her. »Stop,« sagde han. »Det kan jeg ikke lide.«", "speech": "Men Josef stod fast i sneen. Han holdt hånden op, sådan her. »Stop,« sagde han. »Det kan jeg ikke lide.«" },
+    { "n": 8, "text": "Alma stivnede med en snebold i hånden. Hun kiggede på Josef. Hun kiggede på hans røde kinder.", "speech": "Alma stivnede med en snebold i hånden. Hun kiggede på Josef. Hun kiggede på hans røde kinder." },
+    { "n": 9, "text": "Plump. Snebolden faldt ned i sneen. »Undskyld,« sagde Alma. »Kun på træet?« Josef nikkede. »Kun på træet.«", "speech": "Plump. Snebolden faldt ned i sneen. »Undskyld,« sagde Alma. »Kun på træet?« Josef nikkede. »Kun på træet.«" },
+    { "n": 10, "text": "Bump, bump, sagde træet. Så trillede de en stor kugle, en mellemstor kugle og en lille kugle. De byggede en snedame.", "speech": "Bump, bump, sagde træet. Så trillede de en stor kugle, en mellemstor kugle og en lille kugle. De byggede en snedame." },
+    { "n": 11, "text": "De gav hende en næse af en kogle og to sten som øjne. De gav hende to kviste som arme. Hun så vældig kold ud.", "speech": "De gav hende en næse af en kogle og to sten som øjne. De gav hende to kviste som arme. Hun så vældig kold ud." },
+    { "n": 12, "text": "Alma tog sit eget røde halstørklæde af. Hun viklede det om snedamens hals, én gang, to gange. »Sådan,« sagde hun. »Nu fryser du ikke.«", "speech": "Alma tog sit eget røde halstørklæde af. Hun viklede det om snedamens hals, én gang, to gange. »Sådan,« sagde hun. »Nu fryser du ikke.«" },
+    { "n": 13, "text": "Bedstemor stod i døren og klappede. »Sikke en flot snedame!« Josef og Alma stod side om side. Og sneen blev ved med at falde, blødt og langsomt.", "speech": "Bedstemor stod i døren og klappede. »Sikke en flot snedame!« Josef og Alma stod side om side. Og sneen blev ved med at falde, blødt og langsomt." }
+  ],
+  "film": [
+    { "id": "f01", "speaker": "narrator", "text": "En morgen var bakken hvid.", "speech": "En morgen var bakken hvid.", "emotion": "hushed wonder, slow" },
+    { "id": "f02", "speaker": "b07-yousef", "text": "Bedstemor, det sner!", "speech": "Bedstemor, det sner!", "emotion": "bursting with excitement" },
+    { "id": "f03", "speaker": "b07-grandma", "text": "Frakken først. Og vanterne.", "speech": "Frakken først. Og vanterne.", "emotion": "warm, amused, practical" },
+    { "id": "f04", "speaker": "b07-alma", "text": "Josef, kom og leg!", "speech": "Josef, kom og leg!", "emotion": "loud and cheerful across the garden" },
+    { "id": "f05", "speaker": "narrator", "text": "Knas, knas, sagde sneen.", "speech": "Knas, knas, sagde sneen.", "emotion": "playful, in step with the footsteps" },
+    { "id": "f06", "speaker": "b07-alma", "text": "Mod det store træ!", "speech": "Mod det store træ!", "emotion": "bossy in a fun way, ready to throw" },
+    { "id": "f07", "speaker": "narrator", "text": "Bump!", "speech": "Bump!", "emotion": "a cheerful sound word" },
+    { "id": "f08", "speaker": "narrator", "text": "Men så …", "speech": "Men så …", "emotion": "a small warning in the voice, not scary" },
+    { "id": "f09", "speaker": "b07-yousef", "text": "Av … koldt!", "speech": "Av … koldt!", "emotion": "surprised, a little hurt" },
+    { "id": "f10", "speaker": "b07-alma", "text": "En gang til!", "speech": "En gang til!", "emotion": "laughing, still thinks it is a game" },
+    { "id": "f11", "speaker": "narrator", "text": "Det sved i Josefs kinder.", "speech": "Det sved i Josefs kinder.", "emotion": "quiet, sorry for him" },
+    { "id": "f12", "speaker": "b07-yousef", "text": "Stop. Det kan jeg ikke lide.", "speech": "Stop. Det kan jeg ikke lide.", "emotion": "clear, steady and firm, not shouting; a little shaky underneath" },
+    { "id": "f13", "speaker": "narrator", "text": "Alma stod helt stille.", "speech": "Alma stod helt stille.", "emotion": "soft, a pause" },
+    { "id": "f14", "speaker": "b07-alma", "text": "Undskyld.", "speech": "Undskyld.", "emotion": "sincere, quiet" },
+    { "id": "f15", "speaker": "b07-alma", "text": "Kun på træet?", "speech": "Kun på træet?", "emotion": "hopeful, offering a new rule" },
+    { "id": "f16", "speaker": "b07-yousef", "text": "Kun på træet.", "speech": "Kun på træet.", "emotion": "agreeing, smiling again" },
+    { "id": "f17", "speaker": "b07-alma", "text": "En stor kugle … en mellemstor …", "speech": "En stor kugle … en mellemstor …", "emotion": "puffing while rolling, cheerful" },
+    { "id": "f18", "speaker": "b07-yousef", "text": "… og en lille en!", "speech": "… og en lille en!", "emotion": "triumphant, finishing the pattern" },
+    { "id": "f19", "speaker": "b07-yousef", "text": "Hun ser ud til at fryse.", "speech": "Hun ser ud til at fryse.", "emotion": "tender, a little worried for her" },
+    { "id": "f20", "speaker": "b07-alma", "text": "Her. Mit halstørklæde.", "speech": "Her. Mit halstørklæde.", "emotion": "generous, warm" },
+    { "id": "f21", "speaker": "b07-grandma", "text": "Sikke en flot snedame!", "speech": "Sikke en flot snedame!", "emotion": "delighted, clapping" },
+    { "id": "f22", "speaker": "narrator", "text": "Og sneen blev ved med at falde, blødt og langsomt.", "speech": "Og sneen blev ved med at falde, blødt og langsomt.", "emotion": "very soft and slow, the end" }
+  ],
+  "activity": {
+    "title": "Min boble",
+    "goal": "At forstå at alle har deres eget rum, og at spørge før man går ind i en andens.",
+    "materials": ["Puder, eller kridt udenfor"],
+    "steps": [
+      { "n": 1, "caption": "Lav en cirkel til hver: din boble." },
+      { "n": 2, "caption": "Spørg: »Må jeg komme ind?« Vent så." },
+      { "n": 3, "caption": "Øv »Ja« og »Nej tak«." }
+    ],
+    "safety": "Brug bløde puder på et ryddet gulv, væk fra hjørner og møbelkanter. Udenfor: et fladt og sikkert sted, hvor en voksen holder øje. Ingen skubber sig ind i en boble. Sker der et uheld, så ring til det lokale alarmnummer.",
+    "forAdult": "I historien bliver Alma ved med at kaste snebolde i ansigtet på Josef og grine, og det kan han ikke lide. Han står fast, holder hånden op og siger: »Stop. Det kan jeg ikke lide.« Alma stopper, siger undskyld, og de finder en leg som de begge kan lide. Aktiviteten her øver begge sider: at spørge før man går ind i en andens rum, og at sige ja eller nej tydeligt. Lav en cirkel til hver af puder på gulvet, eller tegn en med kridt udenfor, så stor at man kan sidde i den. Cirklen er din boble. Vil man ind i en andens boble, stiller man sig ved kanten, spørger »Må jeg komme ind?« og venter på svaret. Øv begge svar, »Ja« og »Nej tak«, og sørg for at hvert »nej« bliver respekteret, uden surhed og uden skub. Sig tydeligt at begge svar er i orden. De voksne kan også vise det: »Må jeg komme ind i din boble og give dig et kram?« Gør det lettere: Leg med kun to bobler. Gør det sværere: Tilføj et tredje svar, »Ikke nu, måske senere«, og tal om hvad man så gør. Ti til femten minutter er rigeligt.",
+    "inClass": "Børnene tegner kridtcirkler i gården eller sidder på måtter, én boble til hver og med plads imellem. Pædagogen råber: »Spørg en nabo!« og hvert barn går hen til kanten af en boble tæt ved og spørger. Bagefter taler gruppen om hvordan det føltes at få et ja, og hvordan det føltes at få et nej."
+  }
+}

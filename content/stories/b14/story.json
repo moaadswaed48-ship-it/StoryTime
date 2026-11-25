@@ -1,0 +1,123 @@
+{
+  "id": "b14",
+  "ageGroups": ["4-5"],
+  "owner": "storytime",
+  "lesson": "Show respect to older people by greeting them and offering your seat.",
+  "cast": ["b14-amin", "b14-dad", "b14-old-woman", "b14-driver"],
+  "pages": [
+    {
+      "n": 1,
+      "art": "Inside a city bus on a rainy winter morning. Through the big front windscreen, two wipers sweep the rain away; through the side windows, the street is a blur of grey-blue rain bands and round car lights. Amin (5) sits in a window seat, cosy in his coat; his father stands in the aisle right beside him, holding the upright pole. Two or three other passengers sit further back as simple, quiet shapes. Feeling: warm inside, wet outside. Calm area: the bus ceiling across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 2,
+      "art": "Close on the steamy window: Amin's finger draws a big round sun with long rays in the mist (the lines are clear, bright gaps in the steam, no letters). Raindrops run down the outside of the glass. Amin's face is reflected faintly, tongue out in concentration. Feeling: absorbed, happy. Calm area: the plain steam across the top of the window.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 3,
+      "art": "The bus at a stop, its front door folded open. An old woman in a wet coat and a headscarf climbs the step slowly, one hand on the rail, two heavy shopping bags in the other. Rain behind her. The driver, in an ordinary jacket (no uniform badges), watches kindly from his seat. Feeling: a slow, careful moment. Calm area: the bus ceiling across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 4,
+      "art": "The driver turns his head to greet the old woman, his hand resting on the wheel, waiting; she grips the pole. Every seat is filled: Amin by the window, the other passengers as simple shapes. Feeling: a small problem: no place to sit. Calm area: the bus ceiling across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 5,
+      "art": "The bus moving: the old woman holds the pole with one hand, leaning to one side, her bags swinging against her knees; small curved lines show the sway (no letters). Amin's father steadies himself on another pole. Feeling: wobbly, a little hard for her, not dangerous. Calm area: the floor of the bus along the bottom.",
+      "zone": { "side": "full", "v": "bottom", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 6,
+      "art": "Two halves of one picture: on one side, Amin looking at his sun on the window; on the other, close on the old woman's wrinkled hand on the pole, trembling a little. Amin's eyes move between them. Feeling: a choice. Calm area: the steamy window across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 7,
+      "art": "Amin stands up in the aisle, smiling up at the old woman, one hand open towards his empty window seat. His father, behind him, smiles. Feeling: brave, kind, polite. Calm area: the bus ceiling across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 8,
+      "art": "The old woman sinks into the window seat with eyes closed and a happy sigh, hands on her lap. Amin's father sets her two bags by her feet and winks at Amin, who now stands beside her holding the pole. Feeling: relief, warmth. Calm area: the bus ceiling across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 9,
+      "art": "The old woman leans towards the steamy window and, with one finger, draws little curling waves under Amin's sun. Amin watches over her shoulder, delighted. Feeling: a game shared across generations. Calm area: the plain steam across the top of the window.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 10,
+      "art": "The old woman tells her story, eyes faraway. In the steam above the drawn waves, a faint memory picture (drawn in finger-lines, white on mist): a little girl with bare feet running down to the waves. Rain streams outside. Feeling: remembering, tender. Calm area: the bus floor along the bottom.",
+      "zone": { "side": "full", "v": "bottom", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 11,
+      "art": "On the window, beside the sun and waves, Amin draws a seagull with very long, wide wings and a tiny body; the old woman laughs, hand over her mouth. Little drawn boats sail on the window waves. Feeling: funny, close. Calm area: the bus ceiling across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 12,
+      "art": "Last picture of the book: through the bus window, the old woman stands on the pavement at her stop with her bags, waving; inside, Amin waves back, his father's hand on his shoulder. On the steamy glass between them: the sun shining over her little sea, with the seagull. Feeling: warm goodbye. Calm area: the bus ceiling across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    }
+  ],
+  "film": {
+    "targetSeconds": 255,
+    "shots": [
+      { "n": 1, "page": 1, "action": "16 s. Scene 1, the bus in the rain. Outside: a city street in grey-blue rain bands; a simple bus drives through shallow puddles towards us and stops filling the frame. Keep the lower fifth calm for captions in every shot.", "sound": ["steady rain", "a bus engine, low", "soft, warm music"], "lines": ["f01"] },
+      { "n": 2, "page": 1, "action": "8 s. Inside, the big wipers sweep the windscreen back and forth.", "sound": ["swish, swish of the wipers"], "lines": ["f02"] },
+      { "n": 3, "page": 1, "action": "9 s. Amin in the window seat; his father stands beside him holding the pole.", "sound": ["rain on the roof", "wipers"], "lines": ["f03"] },
+      { "n": 4, "page": 2, "action": "14 s. Amin draws a sun on the steamy window; the drawing appears line by line; rain trickles down outside.", "sound": ["a finger squeaking on glass", "rain"], "lines": [] },
+      { "n": 5, "page": 2, "action": "6 s. He adds the last ray and leans back to admire it.", "sound": ["a satisfied little hum"], "lines": [] },
+      { "n": 6, "page": 3, "action": "10 s. Scene 2, the full bus. The bus stops; the door hisses open; the old woman climbs on slowly with her wet coat and two bags.", "sound": ["the door hiss", "rain louder through the open door"], "lines": [] },
+      { "n": 7, "page": 4, "action": "7 s. The driver turns and greets her, and waits.", "sound": ["the engine idling"], "lines": ["f04"] },
+      { "n": 8, "page": 4, "action": "8 s. She looks along the bus: every seat is taken.", "sound": ["rain", "the door closing"], "lines": ["f05"] },
+      { "n": 9, "page": 5, "action": "12 s. The bus moves off; she sways left and right, her bags bumping her knees. Gentle movement, never frightening.", "sound": ["the engine", "the bags rustling"], "lines": [] },
+      { "n": 10, "page": 6, "action": "8 s. Close on Amin looking at his sun on the window.", "sound": ["rain", "a soft held note"], "lines": [] },
+      { "n": 11, "page": 6, "action": "8 s. Close on her hand on the pole, trembling a little. Amin's eyes go from the hand to the sun and back.", "sound": ["the held note"], "lines": ["f06"] },
+      { "n": 12, "page": 6, "action": "5 s. Hold on Amin's face: the viewer's moment to decide.", "sound": ["only the rain"], "lines": [] },
+      { "n": 13, "page": 7, "action": "8 s. Amin stands up and turns to her.", "sound": ["the music returns, warm"], "lines": ["f07"] },
+      { "n": 14, "page": 8, "action": "10 s. She sits down with a long sigh, eyes closed.", "sound": ["a long happy sigh", "the seat creaking"], "lines": ["f08"] },
+      { "n": 15, "page": 8, "action": "7 s. His father sets her bags by her feet and winks at Amin; Amin grins.", "sound": ["bags set down"], "lines": [] },
+      { "n": 16, "page": 8, "action": "7 s. A breathing moment: Amin stands holding the pole beside her; the rain runs down the glass.", "sound": ["rain", "wipers, far off"], "lines": [] },
+      { "n": 17, "page": 9, "action": "10 s. Scene 3, the sea on the window. She looks at the sun on the glass.", "sound": ["the music, playful"], "lines": ["f09"] },
+      { "n": 18, "page": 9, "action": "10 s. Her finger draws little waves under the sun.", "sound": ["a finger on glass"], "lines": [] },
+      { "n": 19, "page": 10, "action": "9 s. She begins her story, eyes faraway.", "sound": ["the music softens"], "lines": ["f10"] },
+      { "n": 20, "page": 10, "action": "14 s. The window drawing comes alive: the drawn waves begin to roll, and a little girl, drawn in finger-lines, runs down into them. Everything stays white lines on mist.", "sound": ["soft waves", "a child's far-off laugh"], "lines": ["f11"] },
+      { "n": 21, "page": 11, "action": "12 s. In the drawing, white boats sail and seagulls circle over the waves.", "sound": ["seagulls, faint", "waves"], "lines": [] },
+      { "n": 22, "page": 11, "action": "8 s. Amin draws a seagull with very long wings; it flaps once in the drawing.", "sound": ["a squeak of finger on glass", "one flap"], "lines": ["f12"] },
+      { "n": 23, "page": 11, "action": "6 s. She laughs.", "sound": ["laughter"], "lines": [] },
+      { "n": 24, "page": 12, "action": "9 s. Scene 4, goodbye. Her stop: she gathers her bags; the driver waits until she is down the step.", "sound": ["the door hiss", "rain"], "lines": ["f13"] },
+      { "n": 25, "page": 12, "action": "8 s. Through the window: she waves from the pavement; Amin waves back.", "sound": ["rain", "the engine starting"], "lines": [] },
+      { "n": 26, "page": 12, "action": "9 s. Close on the window: the sun over her little sea, with the seagull.", "sound": ["the warm tune"], "lines": ["f14"] },
+      { "n": 27, "page": 12, "action": "16 s. Closing image: the bus drives on through the rain; in its window glows a little drawn sun. Hold the still picture 6 s while the music ends, then stop. No autoplay.", "sound": ["the last notes", "rain"], "lines": [] }
+    ]
+  },
+  "activity": {
+    "minutes": 20,
+    "materials": ["chalk", "rolled-up-sock"],
+    "steps": [
+      { "n": 1, "picture": "A child sits beside a grandparent on a bench, listening; the grandparent draws a hopscotch shape in the air with one finger (a small floating sketch of squares, no numbers).", "loop": false },
+      { "n": 2, "picture": "On a flat yard, the child draws the grandparent's grid with chalk while the grandparent points to where the next square goes.", "loop": false },
+      { "n": 3, "picture": "The child throws a rolled-up sock into a square and hops along the grid on one foot; the grandparent watches and claps, keeping the rules.", "loop": true }
+    ],
+    "checkedAgainst": "docs/story-room/age-4-5.md section 7 (red list) and section 4 (activity limits), 25 Nov 2026"
+  }
+}

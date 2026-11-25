@@ -1,0 +1,50 @@
+[
+  {
+    "id": "b07-yousef",
+    "name": { "ar": "يُوسُف", "he": "יוֹסֵף", "en": "Yousef", "da": "Josef" },
+    "stage": "child",
+    "build": { "height": 0.63, "heads": 4.5, "girth": 0.46, "shoulders": 1.15 },
+    "skin": "#d29a70",
+    "hair": { "style": "short", "color": "#3a2520" },
+    "eyes": { "color": "#3a2418", "size": 0.86 },
+    "brows": { "color": "#3a2520", "weight": 0.6 },
+    "top": { "style": "coat", "color": "#3f7f8c", "trim": "#f4e3bd" },
+    "bottom": { "style": "trousers", "color": "#4a4a5e" },
+    "shoes": { "style": "boots", "color": "#6b4030" },
+    "extras": ["hat"],
+    "extraColors": { "hat": "#e9c46a" },
+    "manner": "Gentle and excitable; his feelings show in his cheeks and chin; when he decides to be brave he plants his feet wide and speaks slowly and clearly, one hand up."
+  },
+  {
+    "id": "b07-alma",
+    "name": { "ar": "أَلْما", "he": "אַלְמָה", "en": "Alma", "da": "Alma" },
+    "stage": "child",
+    "build": { "height": 0.62, "heads": 4.5, "girth": 0.44, "shoulders": 1.12 },
+    "skin": "#f1c9a5",
+    "hair": { "style": "braids", "color": "#5b3420" },
+    "eyes": { "color": "#4a3020", "size": 0.84 },
+    "brows": { "color": "#5b3420", "weight": 0.5 },
+    "top": { "style": "coat", "color": "#7a4f9a", "trim": "#f6e3c0" },
+    "bottom": { "style": "trousers", "color": "#3d3a5c" },
+    "shoes": { "style": "boots", "color": "#2f3a4a" },
+    "extras": ["scarf"],
+    "extraColors": { "scarf": "#d8453a" },
+    "manner": "Bold, quick and full of laughter; throws with her whole body; when she understands she has hurt someone she goes completely still, then makes it right at once and generously."
+  },
+  {
+    "id": "b07-grandma",
+    "name": { "ar": "جَدّة يُوسُف", "he": "סַבְתָּא", "en": "Grandma", "da": "bedstemor" },
+    "stage": "elder",
+    "build": { "height": 0.92, "heads": 5.8, "girth": 0.62, "shoulders": 1.45 },
+    "skin": "#c98e62",
+    "hair": { "style": "bun", "color": "#e6e1da" },
+    "eyes": { "color": "#4a3a2c", "size": 0.48 },
+    "brows": { "color": "#d9d4cc", "weight": 0.6 },
+    "top": { "style": "jumper", "color": "#b0563a", "trim": "#f4ecd8", "pattern": "plain" },
+    "bottom": { "style": "skirt", "color": "#4a5a6a" },
+    "shoes": { "style": "shoes", "color": "#4a3028" },
+    "extras": ["glasses", "scarf"],
+    "extraColors": { "glasses": "#7a4a2c", "scarf": "#8fb7a8" },
+    "manner": "Watches from the doorway with her arms folded against the cold; lets the children sort things out; claps with delight at anything they build."
+  }
+]

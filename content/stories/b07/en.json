@@ -1,0 +1,60 @@
+{
+  "title": "Snow Day",
+  "names": {
+    "b07-yousef": "Yousef",
+    "b07-alma": "Alma",
+    "b07-grandma": "Grandma"
+  },
+  "pages": [
+    { "n": 1, "text": "One morning, Yousef looked out of the window. Everything was white. “Snow!” he shouted. It almost never snowed on their hill.", "speech": "One morning, Yousef looked out of the window. Everything was white. “Snow!” he shouted. It almost never snowed on their hill." },
+    { "n": 2, "text": "Grandma helped him into his coat and mittens. Outside, the snow went crunch, crunch under his boots. Alma from next door was already there.", "speech": "Grandma helped him into his coat and mittens. Outside, the snow went crunch, crunch under his boots. Alma from next door was already there." },
+    { "n": 3, "text": "Yousef and Alma made snowballs and threw them at the big tree. Thwack! The snow burst into white dust. They laughed and threw again.", "speech": "Yousef and Alma made snowballs and threw them at the big tree. Thwack! The snow burst into white dust. They laughed and threw again." },
+    { "n": 4, "text": "Then Alma threw a snowball at Yousef. Splat, right on his face! It was cold. Alma laughed.", "speech": "Then Alma threw a snowball at Yousef. Splat, right on his face! It was cold. Alma laughed." },
+    { "n": 5, "text": "Splat, another one. Splat, and another, and Alma laughed and laughed. Yousef’s cheeks stung. They went bright red.", "speech": "Splat, another one. Splat, and another, and Alma laughed and laughed. Yousef’s cheeks stung. They went bright red." },
+    { "n": 6, "text": "Yousef wanted to cry. He wanted to run inside to Grandma. What could Yousef say to Alma?", "speech": "Yousef wanted to cry. He wanted to run inside to Grandma. What could Yousef say to Alma?" },
+    { "n": 7, "text": "But Yousef planted his feet in the snow. He held up his hand, like this. “Stop,” he said. “I don’t like that.”", "speech": "But Yousef planted his feet in the snow. He held up his hand, like this. “Stop,” he said. “I don’t like that.”" },
+    { "n": 8, "text": "Alma froze, a snowball in her hand. She looked at Yousef. She looked at his red cheeks.", "speech": "Alma froze, a snowball in her hand. She looked at Yousef. She looked at his red cheeks." },
+    { "n": 9, "text": "Plop. The snowball fell into the snow. “Sorry,” said Alma. “Only the tree?” Yousef nodded. “Only the tree.”", "speech": "Plop. The snowball fell into the snow. “Sorry,” said Alma. “Only the tree?” Yousef nodded. “Only the tree.”" },
+    { "n": 10, "text": "Thwack, thwack went the snowballs on the tree. Then they rolled a big ball, a middle ball and a small ball. They built a snow lady.", "speech": "Thwack, thwack went the snowballs on the tree. Then they rolled a big ball, a middle ball and a small ball. They built a snow lady." },
+    { "n": 11, "text": "They gave her a pinecone nose and two stones for eyes. They gave her two twigs for arms. She looked very cold.", "speech": "They gave her a pinecone nose and two stones for eyes. They gave her two twigs for arms. She looked very cold." },
+    { "n": 12, "text": "Alma took off her own red scarf. She wrapped it round the snow lady’s neck, once, twice. “There,” she said. “Now you’re warm.”", "speech": "Alma took off her own red scarf. She wrapped it round the snow lady’s neck, once, twice. “There,” she said. “Now you’re warm.”" },
+    { "n": 13, "text": "Grandma stood at the door and clapped. “What a fine snow lady!” she called. Yousef and Alma stood side by side. And the snow kept falling, soft and slow.", "speech": "Grandma stood at the door and clapped. “What a fine snow lady!” she called. Yousef and Alma stood side by side. And the snow kept falling, soft and slow." }
+  ],
+  "film": [
+    { "id": "f01", "speaker": "narrator", "text": "One morning, the hill was white.", "speech": "One morning, the hill was white.", "emotion": "hushed wonder, slow" },
+    { "id": "f02", "speaker": "b07-yousef", "text": "Grandma, it’s snowing!", "speech": "Grandma, it’s snowing!", "emotion": "bursting with excitement" },
+    { "id": "f03", "speaker": "b07-grandma", "text": "Coat first. And mittens.", "speech": "Coat first. And mittens.", "emotion": "warm, amused, practical" },
+    { "id": "f04", "speaker": "b07-alma", "text": "Yousef, come and play!", "speech": "Yousef, come and play!", "emotion": "loud and cheerful across the garden" },
+    { "id": "f05", "speaker": "narrator", "text": "Crunch, crunch, went the snow.", "speech": "Crunch, crunch, went the snow.", "emotion": "playful, in step with the footsteps" },
+    { "id": "f06", "speaker": "b07-alma", "text": "At the big tree!", "speech": "At the big tree!", "emotion": "bossy in a fun way, ready to throw" },
+    { "id": "f07", "speaker": "narrator", "text": "Thwack!", "speech": "Thwack!", "emotion": "a cheerful sound word" },
+    { "id": "f08", "speaker": "narrator", "text": "But then…", "speech": "But then…", "emotion": "a small warning in the voice, not scary" },
+    { "id": "f09", "speaker": "b07-yousef", "text": "Ow… cold!", "speech": "Ow… cold!", "emotion": "surprised, a little hurt" },
+    { "id": "f10", "speaker": "b07-alma", "text": "Again!", "speech": "Again!", "emotion": "laughing, still thinks it is a game" },
+    { "id": "f11", "speaker": "narrator", "text": "Yousef’s cheeks stung.", "speech": "Yousef’s cheeks stung.", "emotion": "quiet, sorry for him" },
+    { "id": "f12", "speaker": "b07-yousef", "text": "Stop. I don’t like that.", "speech": "Stop. I don’t like that.", "emotion": "clear, steady and firm, not shouting; a little shaky underneath" },
+    { "id": "f13", "speaker": "narrator", "text": "Alma stood very still.", "speech": "Alma stood very still.", "emotion": "soft, a pause" },
+    { "id": "f14", "speaker": "b07-alma", "text": "Sorry.", "speech": "Sorry.", "emotion": "sincere, quiet" },
+    { "id": "f15", "speaker": "b07-alma", "text": "Only the tree?", "speech": "Only the tree?", "emotion": "hopeful, offering a new rule" },
+    { "id": "f16", "speaker": "b07-yousef", "text": "Only the tree.", "speech": "Only the tree.", "emotion": "agreeing, smiling again" },
+    { "id": "f17", "speaker": "b07-alma", "text": "A big ball… a middle ball…", "speech": "A big ball… a middle ball…", "emotion": "puffing while rolling, cheerful" },
+    { "id": "f18", "speaker": "b07-yousef", "text": "…and a small one!", "speech": "…and a small one!", "emotion": "triumphant, finishing the pattern" },
+    { "id": "f19", "speaker": "b07-yousef", "text": "She looks cold.", "speech": "She looks cold.", "emotion": "tender, a little worried for her" },
+    { "id": "f20", "speaker": "b07-alma", "text": "Here. My scarf.", "speech": "Here. My scarf.", "emotion": "generous, warm" },
+    { "id": "f21", "speaker": "b07-grandma", "text": "What a fine snow lady!", "speech": "What a fine snow lady!", "emotion": "delighted, clapping" },
+    { "id": "f22", "speaker": "narrator", "text": "And the snow kept falling, soft and slow.", "speech": "And the snow kept falling, soft and slow.", "emotion": "very soft and slow, the end" }
+  ],
+  "activity": {
+    "title": "My Bubble",
+    "goal": "Understand personal space, and ask before coming into someone else’s.",
+    "materials": ["Cushions, or chalk outside"],
+    "steps": [
+      { "n": 1, "caption": "Make a circle each: your bubble." },
+      { "n": 2, "caption": "Ask: “Can I come in?” Then wait." },
+      { "n": 3, "caption": "Practise “Yes” and “No, thank you”." }
+    ],
+    "safety": "Use soft cushions on a clear floor, away from corners and furniture edges. Outside, choose a flat, safe spot with an adult watching. Nobody pushes into a bubble. If there is an accident, call your local emergency number.",
+    "forAdult": "In the story, Alma keeps throwing snowballs at Yousef’s face and laughing, and he does not like it. He stands firm, holds up his hand and says, “Stop. I don’t like that.” Alma stops, says sorry, and they find a game they both enjoy. This activity practises both sides: asking before you come into someone’s space, and saying yes or no clearly. Make a circle for each player with cushions on the floor, or draw one in chalk outside, big enough to sit in. That circle is your bubble. To come into someone else’s bubble, stand at the edge, ask “Can I come in?” and wait for the answer. Practise both answers, “Yes” and “No, thank you”, and make sure every “no” is respected, with no sulking and no pushing. Say clearly that both answers are fine. Grown-ups can show it too: “Can I come into your bubble for a hug?” To make it easier, play with only two bubbles. To make it harder, add a third answer, “Not now, maybe later”, and talk about what to do next. Ten to fifteen minutes is plenty.",
+    "inClass": "Children draw chalk circles in the yard, or sit on mats, one bubble each with space in between. The teacher calls “Ask a neighbour!” and each child goes to the edge of a nearby bubble and asks. Afterwards, the group talks about how it felt to hear yes, and how it felt to hear no."
+  }
+}

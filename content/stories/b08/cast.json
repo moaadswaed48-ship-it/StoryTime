@@ -1,0 +1,32 @@
+[
+  {
+    "id": "b08-tamir",
+    "name": { "ar": "تامِر", "he": "תָּמִיר", "en": "Tamir", "da": "Tamir" },
+    "stage": "child",
+    "build": { "height": 0.57, "heads": 4.3, "girth": 0.5, "shoulders": 1.1 },
+    "skin": "#c48a5e",
+    "hair": { "style": "curls", "color": "#3a2418" },
+    "eyes": { "color": "#3a2418", "size": 0.92 },
+    "brows": { "color": "#3a2418", "weight": 0.5 },
+    "top": { "style": "tee", "color": "#f2c94c", "trim": "#3f7f8c", "pattern": "stripes" },
+    "bottom": { "style": "shorts", "color": "#5a6a4a" },
+    "shoes": { "style": "boots", "color": "#3f6e8c" },
+    "manner": "Four years old and into everything; copies the grown-ups' hands exactly; very proud of anything he has just learned and keen to teach it straight back."
+  },
+  {
+    "id": "b08-grandma",
+    "name": { "ar": "جَدّة تامِر", "he": "סַבְתָּא", "en": "Grandma", "da": "bedstemor" },
+    "stage": "elder",
+    "build": { "height": 0.9, "heads": 5.8, "girth": 0.62, "shoulders": 1.45 },
+    "skin": "#b98058",
+    "hair": { "style": "bun", "color": "#cfc8c0" },
+    "eyes": { "color": "#3a2418", "size": 0.5 },
+    "brows": { "color": "#b0aaa4", "weight": 0.5 },
+    "top": { "style": "apron", "color": "#8fb7a8", "trim": "#f4ecd8", "pattern": "dots" },
+    "bottom": { "style": "skirt", "color": "#6b5a4a" },
+    "shoes": { "style": "boots", "color": "#5b3420" },
+    "extras": ["hat"],
+    "extraColors": { "hat": "#e9d8b4" },
+    "manner": "A gardener with earth on her knees; sings while she works; stops Tamir gently, never sharply, and laughs loudest at herself."
+  }
+]

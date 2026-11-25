@@ -1,0 +1,63 @@
+[
+  {
+    "id": "b14-amin",
+    "name": { "ar": "أَمِين", "he": "אָמִין", "en": "Amin", "da": "Amin" },
+    "stage": "child",
+    "build": { "height": 0.62, "heads": 4.5, "girth": 0.45, "shoulders": 1.15 },
+    "skin": "#c98e62",
+    "hair": { "style": "short", "color": "#1f1416" },
+    "eyes": { "color": "#2e1c14", "size": 0.85 },
+    "brows": { "color": "#1f1416", "weight": 0.6 },
+    "top": { "style": "coat", "color": "#3f7f8c", "trim": "#f0c23c", "pattern": "plain" },
+    "bottom": { "style": "trousers", "color": "#4a4a5e" },
+    "shoes": { "style": "boots", "color": "#c8453a" },
+    "manner": "Thoughtful and a little shy; draws on anything that will take a line; looks twice before he acts, then acts clearly; stands very straight when he is being polite."
+  },
+  {
+    "id": "b14-dad",
+    "name": { "ar": "أَبو أَمِين", "he": "אַבָּא", "en": "Dad", "da": "far" },
+    "stage": "adult",
+    "build": { "height": 1.02, "heads": 6, "girth": 0.55, "shoulders": 1.6 },
+    "skin": "#b98058",
+    "hair": { "style": "short", "color": "#2a1a12" },
+    "eyes": { "color": "#3a2418", "size": 0.5 },
+    "brows": { "color": "#2a1a12", "weight": 0.8 },
+    "top": { "style": "coat", "color": "#6b6a8a", "trim": "#e8dcc0", "pattern": "plain" },
+    "bottom": { "style": "trousers", "color": "#39384f" },
+    "shoes": { "style": "shoes", "color": "#4a3028" },
+    "extras": ["glasses"],
+    "extraColors": { "glasses": "#2a3a5a" },
+    "manner": "Quiet and proud; lets Amin decide for himself; says the most with a wink or a hand on Amin's shoulder."
+  },
+  {
+    "id": "b14-old-woman",
+    "name": { "ar": "السَيِّدة", "he": "הַגְּבֶרֶת", "en": "the old woman", "da": "den gamle dame" },
+    "stage": "elder",
+    "build": { "height": 0.88, "heads": 5.8, "girth": 0.65, "shoulders": 1.4 },
+    "skin": "#d9a47c",
+    "hair": { "style": "covered", "color": "#d9d4cf", "cover": "#8a6fa8" },
+    "eyes": { "color": "#4a3a2c", "size": 0.5 },
+    "brows": { "color": "#a9a29c", "weight": 0.4 },
+    "top": { "style": "coat", "color": "#a0522d", "trim": "#f4ecd8", "pattern": "plain" },
+    "bottom": { "style": "skirt", "color": "#3d4f7c" },
+    "shoes": { "style": "shoes", "color": "#4a3028" },
+    "extras": ["bag"],
+    "extraColors": { "bag": "#e9c46a" },
+    "manner": "Moves slowly and carefully, but her eyes are quick and full of fun; sighs with her whole body; when she remembers the sea, she looks young for a moment."
+  },
+  {
+    "id": "b14-driver",
+    "name": { "ar": "السائِق", "he": "הַנֶּהָג", "en": "the driver", "da": "chaufføren" },
+    "stage": "adult",
+    "build": { "height": 1.0, "heads": 6, "girth": 0.7, "shoulders": 1.65 },
+    "skin": "#8a5636",
+    "hair": { "style": "none", "color": "#1c1210" },
+    "eyes": { "color": "#2a1a12", "size": 0.5 },
+    "brows": { "color": "#1c1210", "weight": 0.9 },
+    "top": { "style": "shirt", "color": "#7fb0d8", "trim": "#ffffff", "pattern": "plain" },
+    "bottom": { "style": "trousers", "color": "#39384f" },
+    "shoes": { "style": "shoes", "color": "#1c1210" },
+    "extras": ["beard"],
+    "manner": "Background figure who speaks once. Big, calm and patient; never drives off until everyone is holding on; wears an ordinary shirt, no uniform or badges."
+  }
+]

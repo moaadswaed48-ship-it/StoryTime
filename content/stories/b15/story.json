@@ -1,0 +1,123 @@
+{
+  "id": "b15",
+  "ageGroups": ["4-5"],
+  "owner": "storytime",
+  "lesson": "A seed needs water and time to sprout, and a young plant needs light to grow green.",
+  "cast": ["b15-noor", "b15-teacher", "b15-boy"],
+  "pages": [
+    {
+      "n": 1,
+      "art": "A kindergarten room on a bright spring morning. A long windowsill full of sunlight; a row of small cups of brown soil along it (drawn as repeated simple shapes, about eight cups). Noor (4) presses one finger into her cup, eyes shut, whispering; two other children plant theirs beside her; the teacher holds a little watering can. At the far end of the sill hangs a curtain. Outside, a garden. Feeling: hopeful, sunny. Calm area: the plain wall across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 2,
+      "art": "Three small moments in one picture, left to right with no frames or letters: Noor pours a few drops from a tiny jug into her cup; Noor peers at the flat soil, chin on the sill; Noor peers again, frowning. Outside the window, a garden snail creeps up the wall, a little higher in each moment. Feeling: patient, a bit impatient, a little funny. Calm area: the wall below the sill, along the bottom.",
+      "zone": { "side": "full", "v": "bottom", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 3,
+      "art": "The teacher kneels beside Noor at the windowsill, one hand on the sill, explaining kindly; Noor looks past her, out of the window, at the snail on the wall. Feeling: calm, a gentle lesson. Calm area: the wall across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 4,
+      "art": "Close on the sunny cups: little pale-green shoots have pushed up through the soil, each bent like a tiny hook. Behind them, children's faces lean in, cheering, one boy pointing. Feeling: surprise and joy. Calm area: the wall across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 5,
+      "art": "Noor runs along the windowsill, looking into each cup, one finger counting; there is a gap in the row where her cup should be. Feeling: a small worry. Calm area: the floor along the bottom.",
+      "zone": { "side": "full", "v": "bottom", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 6,
+      "art": "Noor on hands and knees looks under the table; then (in the same picture) she stands and stares at the curtain at the far end of the sill. Behind the curtain's edge, a dark shadowed corner. Feeling: searching, a small mystery, never scary. Calm area: the wall across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 7,
+      "art": "Noor pulls the curtain aside. In the dim corner stands her cup: out of it rises a long, thin, pale shoot, almost white, leaning towards the light coming in. Noor's face: glad and puzzled. Feeling: discovery. Calm area: the curtain fabric across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 8,
+      "art": "Noor walks very slowly into a patch of sunlight, holding the cup in both hands, eyes on the pale shoot; the teacher walks beside her, smiling. Feeling: careful, tender. Calm area: the floor along the bottom.",
+      "zone": { "side": "full", "v": "bottom", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 9,
+      "art": "Three views of Noor's cup in the sun, side by side like days (no frames, no letters): the shoot pale and bent; then straighter and pale yellow-green; then upright and green. Outside, the snail is higher on the wall each time. Feeling: slow change, quiet pride. Calm area: the sky outside the window across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 10,
+      "art": "Noor waters her seedling, now green all over with small, soft, feathery leaves; she kneels at the sill, nose almost touching it. The other seedlings stand in their cups beside it. Feeling: care, closeness. Calm area: the wall across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 11,
+      "art": "The kindergarten garden on the last day of spring: the teacher and five children (Noor among them) kneel at a dug bed and plant the seedlings in a row in soft brown earth. Small trowels, a watering can. Feeling: busy, together, a celebration. Calm area: the sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 12,
+      "art": "Last picture of the book: the row of green plants in the garden, Noor's right in the middle, green and strong. Noor kneels beside it, smiling at it, hands on her knees. Along the edge of the bed the garden snail slides slowly past. Feeling: warm, patient, proud. Calm area: the sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    }
+  ],
+  "film": {
+    "targetSeconds": 255,
+    "shots": [
+      { "n": 1, "page": 1, "action": "16 s. Scene 1, planting. A kindergarten room on a spring morning; sunlight on the long windowsill; children press chickpeas into their cups of soil, one by one. Keep the lower fifth calm for captions in every shot.", "sound": ["morning birdsong outside", "children's soft chatter", "a light, curious tune"], "lines": ["f01"] },
+      { "n": 2, "page": 1, "action": "8 s. Close on Noor pushing her chickpea into the soil with one finger and whispering to it.", "sound": ["a soft press into soil"], "lines": ["f02"] },
+      { "n": 3, "page": 1, "action": "6 s. She gives it a few drops from a tiny jug.", "sound": ["three small drips"], "lines": [] },
+      { "n": 4, "page": 2, "action": "12 s. Days pass: the light swings across the sill; Noor looks into her cup each day; the soil stays flat.", "sound": ["the tune, ticking like a slow clock"], "lines": ["f03"] },
+      { "n": 5, "page": 2, "action": "8 s. Outside the window, a snail creeps up the wall. Between cuts it has hardly moved: a gentle joke.", "sound": ["a slow, sliding note"], "lines": [] },
+      { "n": 6, "page": 3, "action": "7 s. Noor frowns at her cup.", "sound": ["a puzzled little rise"], "lines": ["f04"] },
+      { "n": 7, "page": 3, "action": "8 s. The teacher kneels beside her.", "sound": ["the tune, calm"], "lines": ["f05"] },
+      { "n": 8, "page": 3, "action": "6 s. Noor looks at the snail; it has moved one tiny bit. A breath.", "sound": ["birdsong"], "lines": [] },
+      { "n": 9, "page": 4, "action": "12 s. Scene 2, sprouting. Time-lapse in the sunny cups: the soil cracks and little shoots push up as tiny hooks.", "sound": ["soft rising pizzicato, one pluck per shoot"], "lines": ["f06"] },
+      { "n": 10, "page": 4, "action": "6 s. A boy spots them and points.", "sound": ["a shout"], "lines": ["f07"] },
+      { "n": 11, "page": 4, "action": "7 s. The children cheer and clap.", "sound": ["cheering", "clapping"], "lines": [] },
+      { "n": 12, "page": 5, "action": "9 s. Noor runs along the sill counting cups; there is a gap where hers should be.", "sound": ["quick footsteps", "the music stops on a question"], "lines": ["f08"] },
+      { "n": 13, "page": 6, "action": "11 s. She searches: under the table, by the door.", "sound": ["a searching tune"], "lines": [] },
+      { "n": 14, "page": 6, "action": "8 s. She sees the curtain at the end of the sill. Slow push towards it.", "sound": ["one held note"], "lines": ["f09"] },
+      { "n": 15, "page": 7, "action": "12 s. She pulls the curtain aside: in the dim corner, a long, thin, pale shoot leans towards the light. A gentle surprise, never scary.", "sound": ["a soft swish of curtain", "a bright, wondering chord"], "lines": ["f10"] },
+      { "n": 16, "page": 7, "action": "5 s. Hold on the pale shoot: the viewer's moment to wonder why.", "sound": ["silence"], "lines": [] },
+      { "n": 17, "page": 8, "action": "9 s. The teacher kneels and explains.", "sound": ["the calm tune"], "lines": ["f11"] },
+      { "n": 18, "page": 8, "action": "9 s. Noor carries the cup into the sunshine, very slowly, in both hands.", "sound": ["slow footsteps", "the tune warming"], "lines": [] },
+      { "n": 19, "page": 8, "action": "7 s. A breathing moment: Noor sets the cup in the sun and sits watching it, chin on her hands.", "sound": ["birdsong"], "lines": [] },
+      { "n": 20, "page": 9, "action": "16 s. Scene 3, greening. Time-lapse in the sun: the pale shoot straightens and turns from white to yellow to green as days of light sweep past.", "sound": ["a slow, swelling melody"], "lines": ["f12"] },
+      { "n": 21, "page": 9, "action": "8 s. Outside, the snail is a little higher on the wall.", "sound": ["the sliding note"], "lines": ["f13"] },
+      { "n": 22, "page": 10, "action": "12 s. Noor waters and watches; small soft leaves unfold one by one.", "sound": ["drips", "tiny bright notes as each leaf opens"], "lines": [] },
+      { "n": 23, "page": 11, "action": "14 s. Scene 4, the garden. On the last day of spring, the children carry their seedlings outside and plant them in a row.", "sound": ["outdoor birdsong", "trowels in soft earth", "the happy tune"], "lines": [] },
+      { "n": 24, "page": 12, "action": "9 s. Noor's plant stands in the middle of the row, green and strong.", "sound": ["the tune"], "lines": [] },
+      { "n": 25, "page": 12, "action": "6 s. The teacher and the children stand round the row, admiring it.", "sound": ["soft laughter"], "lines": [] },
+      { "n": 26, "page": 12, "action": "8 s. The snail slides slowly past; Noor smiles at her plant and whispers.", "sound": ["the sliding note, gentle"], "lines": ["f14"] },
+      { "n": 27, "page": 12, "action": "16 s. Closing image: the row of green plants, Noor kneeling by hers, the snail at the edge of the bed. Hold the still picture 6 s while the music ends, then stop. No autoplay.", "sound": ["the last notes", "birdsong"], "lines": [] }
+    ]
+  },
+  "activity": {
+    "minutes": 15,
+    "materials": ["two-clear-plastic-cups", "kitchen-paper", "dry-chickpeas-adult-only", "paper-strip", "crayons"],
+    "steps": [
+      { "n": 1, "picture": "A grown-up's hands tuck damp kitchen paper into two clear plastic cups and slip a few chickpeas between the paper and the side of each cup; the child watches with hands on the table.", "loop": false },
+      { "n": 2, "picture": "One cup stands on a sunny windowsill; the other goes into a dark cupboard, the child closing the cupboard door.", "loop": false },
+      { "n": 3, "picture": "The child, at a table, draws both cups side by side in the next box of a long paper strip; earlier boxes show the shoots growing day by day (pale in one cup, green in the other); no letters or digits.", "loop": true }
+    ],
+    "checkedAgainst": "docs/story-room/age-4-5.md section 7 (red list: seeds not for tasting, choking foods, water) and section 4 (activity limits), 25 Nov 2026"
+  }
+}

@@ -1,0 +1,148 @@
+{
+  "id": "c13",
+  "ageGroups": ["6-8"],
+  "owner": "storytime",
+  "lesson": "Notice people in need and help them as a team.",
+  "cast": ["c13-diana", "c13-corner-girl", "c13-twins", "c13-bakery-boy", "c13-mother", "c13-teacher"],
+  "pages": [
+    {
+      "n": 1,
+      "art": "Night in a village in winter: a row of small stone houses on a sloping street, seen from inside Diana's bedroom. Through her window, the dark trees bend hard in the wind (shown by curved sweeping lines), a shutter across the street swings. Diana lies in bed with the blanket pulled up to her nose, eyes wide, listening. A small night light glows. Feeling: wild weather outside, safe inside. Calm area: the dark wall above the bed, across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 2,
+      "art": "Morning, clean pale sky. View from Diana's window down the village street: branches and twigs of all sizes scattered over the road, puddles shining. At the far end, a small kindergarten with a low fence and a green gate; right across the gate lies one huge pine branch, long and thick, with dark green needles. An old pine tree stands beside it with a pale torn place where the branch broke off. Feeling: the morning after, quiet and a little sad. Calm area: the pale sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 3,
+      "art": "At the kindergarten gate: four or five little children in bright raincoats and boots (repeated simple shapes) stand in a line behind their teacher. The teacher, in a long coat and scarf, grips the pine branch with both hands and leans back, pulling; it does not move. One little one at the front has a crumpled, crying face. Feeling: stuck, a small trouble getting bigger. Calm area: the sky above the fence, across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 4,
+      "art": "Diana, eight, in a red coat and green boots, has run down the street and is pushing the branch with her shoulder, cheeks red, feet slipping on the wet road. The teacher stands beside her shaking her head kindly. Feeling: brave effort that is not enough. Calm area: the sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 5,
+      "art": "A house with a blue door: the door is open and the twins stand in it, two boys of about seven who look exactly alike, in matching yellow boots and matching sleepy faces, hair sticking up. Diana, on the step, points back down the street. Feeling: comic, the team beginning. Calm area: the wall above the door, across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 6,
+      "art": "Two moments in one picture: at the back door of the bakery, a boy of eight comes out still holding a broom; and from the corner house, a girl of eight rolls down the ramp in her wheelchair, zipping up her coat, eyes bright and determined. Diana and the twins wait in the street. Feeling: gathering, purpose. Calm area: the sky over the rooftops, across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 7,
+      "art": "Diana's mother, in a warm jacket, stands in the middle of the street with one hand shading her eyes, looking up at the wires that run between two wooden poles: every wire is in place, none hanging down, and the branch lies well away from the poles. The five children wait behind her, watching her face. Feeling: careful, then permission. Calm area: the sky around the wires, across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 8,
+      "art": "The muddle: the twins tug the thick end one way, the bakery boy pushes the other way, Diana tugs a twig; the branch rocks but stays. The girl in the wheelchair watches from the side with her chin in her hand. The little ones peer over the fence. Feeling: comic chaos, frustration. Calm area: the sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 9,
+      "art": "The girl in the wheelchair has rolled forward and raised one hand like a conductor; with the other she points to places along the branch. Everyone has stopped and turned to her. Feeling: a leader appears, calm and clear. Calm area: the sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 10,
+      "art": "The lift: the twins at the thick end, Diana and the bakery boy in the middle, all four with bent knees and hands under the branch; the girl in the wheelchair calls out with her hand coming down like a signal. The great branch rises a hand's width off the ground. Behind the fence, the little ones hold their breath with their hands on their cheeks. Feeling: the turn, strength together. Calm area: the sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 11,
+      "art": "The four children carry the branch, step by step, to the grass at the side of the road; the girl in the wheelchair rolls alongside, still calling. Behind the fence the little ones cheer with arms in the air; a startled cat leaps off a wall. Feeling: triumph, laughter. Calm area: the sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 12,
+      "art": "Everyone at work: the twins stack small branches in a neat pile; the bakery boy sweeps the path to the gate with his broom; the girl in the wheelchair has a lapful of pine cones; Diana puts both hands on the green gate, ready to push it open. Diana's mother watches from the pavement, smiling. Feeling: busy, proud teamwork. Calm area: the sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 13,
+      "art": "The gate stands wide open. The little ones march in through it in a line, waving as they go; the teacher shakes the bakery boy's hand while the muddy-handed twins wait their turn, grinning. The girl in the wheelchair hands pine cones to the last little one. Feeling: joy and gratitude. Calm area: the sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 14,
+      "art": "Last picture of the book: the next morning, bright and still. Diana, with her school bag, stops at the kindergarten gate. Five crayon drawings hang on the gate (no words in them): a boy with a broom; a girl in a wheelchair calling with her mouth wide open; two drawings of a boy in yellow boots that look exactly the same; and a girl in a red coat pushing a giant branch. Diana is smiling at the last one. Feeling: warm pride. Calm area: the pale sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    }
+  ],
+  "film": {
+    "targetSeconds": 363,
+    "shots": [
+      { "n": 1, "page": 1, "action": "12 s. Scene 1, the storm night. The village at night: trees bending in the wind as sweeping shapes, shadows of branches swaying across the house fronts, a shutter banging. The power of the storm is carried by sound and moving shadows; nothing breaks on screen. No words. Keep the lower fifth calm for captions in every shot.", "sound": ["a howling wind, deep and long", "a shutter banging", "rain gusts"], "lines": [] },
+      { "n": 2, "page": 1, "action": "11 s. Inside: Diana in bed, blanket up to her nose, the night light glowing; branch shadows sway over her wall.", "sound": ["the wind, muffled", "a soft low drone"], "lines": ["f01"] },
+      { "n": 3, "page": 1, "action": "8 s. The wind slowly dies down. The shadows stop moving. Diana's eyes close. A breath, no words.", "sound": ["the wind fading to nothing"], "lines": [] },
+      { "n": 4, "page": 2, "action": "10 s. Scene 2, the morning. Still and clean: drops falling from the gutter, puddles shining, branches scattered over the street.", "sound": ["drips", "a single bird", "a calm piano tune"], "lines": ["f02"] },
+      { "n": 5, "page": 2, "action": "8 s. Diana opens her window and leans out into the cold, clean air, looking down the street. No words.", "sound": ["a window opening", "a cold breeze"], "lines": [] },
+      { "n": 6, "page": 2, "action": "10 s. The camera travels slowly down the street to the kindergarten and stops on the huge pine branch lying across its green gate.", "sound": ["the piano tune, a low note"], "lines": ["f03"] },
+      { "n": 7, "page": 3, "action": "11 s. The little ones in raincoats wait in a line. The teacher grips the branch and pulls with all her might; it does not move.", "sound": ["a strained grunt", "a creak of wood"], "lines": ["f04"] },
+      { "n": 8, "page": 3, "action": "7 s. Close on one little one's face crumpling into tears. Gentle, never frightening. No words.", "sound": ["a small sniffle"], "lines": [] },
+      { "n": 9, "page": 4, "action": "10 s. Diana at her window sees it all; she pulls on her boots on the stairs and runs out down the street.", "sound": ["boots on stairs", "a door opening", "splashy running steps"], "lines": ["f05"] },
+      { "n": 10, "page": 4, "action": "10 s. Diana pushes the branch with her hands, then her shoulder, feet slipping on the wet road. Nothing moves.", "sound": ["puffing", "boots skidding"], "lines": ["f06"] },
+      { "n": 11, "page": 4, "action": "7 s. Diana stops, panting, and looks at her red hands; the little ones look at her hopefully. No words.", "sound": ["panting", "a small hopeful note"], "lines": [] },
+      { "n": 12, "page": 4, "action": "9 s. The teacher shakes her head kindly.", "sound": ["the piano, a soft chord"], "lines": ["f07"] },
+      { "n": 13, "page": 5, "action": "10 s. Diana stands still, thinking; then her face lights up.", "sound": ["a rising two-note idea"], "lines": ["f08"] },
+      { "n": 14, "page": 5, "action": "11 s. Scene 3, the team. Diana knocks at the blue door. It opens: the twins, identical, sleepy, in matching yellow boots.", "sound": ["three knocks", "a door creak", "two identical yawns"], "lines": ["f09", "f10"] },
+      { "n": 15, "page": 6, "action": "10 s. At the back of the bakery, a boy steps out still holding his broom.", "sound": ["a door bell", "a cheerful whistle"], "lines": ["f11"] },
+      { "n": 16, "page": 6, "action": "11 s. From the corner house, the girl in the wheelchair rolls down her ramp, zipping up her coat.", "sound": ["wheels on a ramp", "a zip"], "lines": ["f12"] },
+      { "n": 17, "page": 6, "action": "8 s. The five children walk and roll down the street together, a little procession. No words.", "sound": ["footsteps and wheels", "the tune, picking up a beat"], "lines": [] },
+      { "n": 18, "page": 7, "action": "10 s. Diana's mother stands in the street and looks up at the wires between the poles, one by one, then at the branch, well away from them.", "sound": ["a careful, quiet tune"], "lines": ["f13"] },
+      { "n": 19, "page": 7, "action": "8 s. Diana's mother checks that the branch lies well away from the poles, then steps back onto the pavement and folds her arms, watching. No words.", "sound": ["a reassuring chord"], "lines": [] },
+      { "n": 20, "page": 8, "action": "10 s. Scene 4, the muddle. The five children take hold of the branch.", "sound": ["hands on wood"], "lines": ["f14"] },
+      { "n": 21, "page": 8, "action": "10 s. Everyone pulls a different way: the twins one way, the bakery boy the other, Diana tugging a twig. The branch rocks and creaks and stays. Comic.", "sound": ["tug-of-war grunts", "a creaking rock", "a comic trombone slide"], "lines": ["f15"] },
+      { "n": 22, "page": 9, "action": "9 s. The girl in the wheelchair rolls forward and raises her hand.", "sound": ["the music stops"], "lines": ["f16"] },
+      { "n": 23, "page": 9, "action": "10 s. She points to places along the branch like a conductor; everyone takes their place and bends their knees.", "sound": ["one note per place, rising"], "lines": ["f17"] },
+      { "n": 24, "page": 10, "action": "6 s. Silence. Behind the fence the little ones hold their breath, hands on their cheeks. No words.", "sound": ["silence", "a single drip"], "lines": [] },
+      { "n": 25, "page": 10, "action": "11 s. The call, and the lift in one rhythm: four children rise together and the branch comes up off the ground.", "sound": ["three drum beats and a big chord on 'lift'"], "lines": ["f18"] },
+      { "n": 26, "page": 10, "action": "9 s. Close on the branch moving sideways, needles trembling.", "sound": ["the scrape of a branch lifting"], "lines": ["f19"] },
+      { "n": 27, "page": 11, "action": "11 s. Again, in rhythm: step, step, step, they carry the branch to the grass at the side of the road and lay it down.", "sound": ["three drum beats and a chord", "heavy steps in rhythm"], "lines": ["f20"] },
+      { "n": 28, "page": 11, "action": "8 s. The little ones cheer so loudly that a cat jumps off a wall. No words.", "sound": ["cheering", "a startled cat's mew"], "lines": [] },
+      { "n": 29, "page": 12, "action": "11 s. Scene 5, the jobs. Quick cheerful cuts: the twins stack small branches, the bakery boy sweeps the path, the girl in the wheelchair gathers pine cones on her lap.", "sound": ["sweeping", "twigs clicking", "the tune, bright"], "lines": ["f21"] },
+      { "n": 30, "page": 12, "action": "7 s. Diana puts both hands on the green gate. Hold. No words.", "sound": ["a held note"], "lines": [] },
+      { "n": 31, "page": 13, "action": "9 s. The gate swings wide open. The little ones march in, one by one, waving.", "sound": ["the gate creaking open", "little marching feet", "the tune full and happy"], "lines": [] },
+      { "n": 32, "page": 13, "action": "11 s. The teacher shakes every helper's hand, even the twins' muddy ones.", "sound": ["handshakes", "laughter"], "lines": ["f22"] },
+      { "n": 33, "page": 13, "action": "8 s. The girl in the wheelchair gives a pine cone to the last little one, who holds it up like treasure. No words.", "sound": ["a tiny delighted squeal"], "lines": [] },
+      { "n": 34, "page": 14, "action": "11 s. Scene 6, the next morning. Bright and still. Diana walks to the kindergarten with her school bag.", "sound": ["morning birds", "a calm version of the tune"], "lines": ["f23"] },
+      { "n": 35, "page": 14, "action": "8 s. Close on the drawing of the twins: two identical boys in two identical drawings, side by side. A small visual joke. No words.", "sound": ["a playful two-note echo"], "lines": [] },
+      { "n": 36, "page": 14, "action": "11 s. The camera moves slowly along the gate, past each crayon drawing in turn: the broom, the wheelchair, the two identical yellow-boot boys, the red coat.", "sound": ["one soft chime per drawing"], "lines": ["f24"] },
+      { "n": 37, "page": 14, "action": "8 s. Diana stops at the red coat drawing and smiles. No words.", "sound": ["a warm chord"], "lines": [] },
+      { "n": 38, "page": 14, "action": "14 s. Closing image: the kindergarten gate with five drawings, the cleared street behind, the old pine tree standing. Nothing moves but the drawings stirring a little in the breeze. Hold the still picture 6 s while the music ends, then stop. No autoplay.", "sound": ["the last notes of the piano", "a gentle breeze"], "lines": [] }
+    ]
+  },
+  "activity": {
+    "minutes": 25,
+    "materials": ["paper", "pencils", "crayons"],
+    "steps": [
+      { "n": 1, "picture": "A child and a grown-up look out of a window at the street, where a street cleaner is sweeping; a small thought bubble beside the child shows a bus driver, a school crossing guard and a nurse.", "loop": false },
+      { "n": 2, "picture": "The child folds a sheet of paper in half to make a card, pressing the fold with the side of a hand.", "loop": false },
+      { "n": 3, "picture": "On the front of the card, the child draws the street cleaner at work with a broom and a cart, in crayon.", "loop": false },
+      { "n": 4, "picture": "Inside the card, the child writes a short message, shown as grey lines (no real letters), and signs it with a small heart.", "loop": false },
+      { "n": 5, "picture": "The child and the grown-up together hand the card to the street cleaner, who has stopped and is smiling; the broom leans on the cart.", "loop": false }
+    ],
+    "checkedAgainst": "docs/story-room/age-6-8.md section 7 (red list) and section 4 (activity limits), 25 Nov 2026"
+  }
+}

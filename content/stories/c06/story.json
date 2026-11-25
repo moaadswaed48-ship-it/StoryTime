@@ -1,0 +1,150 @@
+{
+  "id": "c06",
+  "ageGroups": ["6-8"],
+  "owner": "storytime",
+  "lesson": "Reach a goal by practising a little every day.",
+  "cast": ["c06-lily", "c06-grandmother", "c06-brother", "c06-music-teacher"],
+  "pages": [
+    {
+      "n": 1,
+      "art": "A school hall on a rainy winter morning: tall windows streaked with rain, a small stage with a piano at one side, a row of children sitting on the floor. The music teacher (a woman with short grey hair and round glasses, a mustard cardigan) stands in front. Lily (eight, two dark plaits, a red jumper) has her hand shooting up, the first and highest. Feeling: excitement, a decision. Calm area: the plain upper wall across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 2,
+      "art": "A warm living room in lamplight. Grandma (soft white bun, glasses, a long cardigan) sits in an armchair, unfolding an embroidered cloth: inside lies a slim, old wooden flute, worn smooth. Lily kneels beside her, eyes shining. Grandma hums, eyes half closed; a few soft curving lines in the air stand for the tune (no musical notation). Feeling: treasure, love. Calm area: the plain wall across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 3,
+      "art": "Comedy: Lily blows the flute with puffed cheeks; a jagged zigzag line bursts from its end to show the squeak. Her little brother (four, curly hair, dinosaur-green T-shirt) clamps both hands over his ears with his eyes squeezed shut. Feeling: funny, a little hopeless. Calm area: the wall across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 4,
+      "art": "Lily at a small desk drawing a grid of empty boxes on a big sheet of paper (five rows of six squares, no numbers), tongue out in concentration. Next to her bed a pin board waits. The flute lies on its cloth. Feeling: making a plan. Calm area: the floor across the bottom.",
+      "zone": { "side": "full", "v": "bottom", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 5,
+      "art": "One picture showing days passing, as three small scenes side by side: Lily playing by a rainy window; Lily yawning but playing in the evening; Lily ticking a box on the chart. On the chart above her bed, the first few boxes now hold ticks. Feeling: steady, patient. Calm area: the plain wall across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 6,
+      "art": "Lily sits slumped on her bed, the flute tossed onto the blanket, arms crossed, cross and close to tears. Grandma sits down beside her, one arm round her shoulders, and blows gently over an imaginary spoon to show how. Feeling: frustration met by warmth. Calm area: the wall across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 7,
+      "art": "Lily blows softly, eyes wide with surprise; from the flute floats one smooth, round curving line, and on the windowsill outside a sparrow tilts its head as if answering. Feeling: the first real note, wonder. Calm area: the sky in the window across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 8,
+      "art": "Lily playing in her room; her little brother in the doorway has taken one hand off one ear and is listening with his head on one side. The chart on the wall is now about half full of ticks, a few drawn crooked. Feeling: progress, a small audience. Calm area: the wall across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 9,
+      "art": "The school hall again: Lily on the small stage, flute raised, a jagged squeak line bursting out; a few children in the front row sit very still, watching. Lily's cheeks are red, her shoulders hunched. Nobody is laughing. Feeling: embarrassment, the low point. Calm area: the plain upper wall across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 10,
+      "art": "Evening, Lily's room in lamplight. She stands in front of the chart: most boxes ticked, the last row and a half still empty. She holds the flute again, about to play, her face calm and determined. Feeling: picking herself up. Calm area: the floor across the bottom.",
+      "zone": { "side": "full", "v": "bottom", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 11,
+      "art": "The living room: Lily plays standing in the middle of the rug; her little brother claps, bouncing on the sofa; Grandma in her armchair hums along with her eyes closed. On the wall behind, the chart has only a few empty boxes left. Feeling: joy, nearly there. Calm area: the wall across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 12,
+      "art": "Concert night in the school hall, warm stage light, rows of chairs with families seen from behind as a few figures and repeated shapes. In the front row, Grandma in her best flowered scarf, Lily's brother beside her. On the side of the stage, Lily waits, holding the flute, her hands trembling (small motion lines). Feeling: nerves and expectation. Calm area: the dark upper hall across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 13,
+      "art": "Lily alone in the stage light, eyes closed for a moment, the flute at her lips; one round, smooth line floats from it out over the dark hall. Her fingers rest calmly on the holes. Feeling: courage, focus. Calm area: the dark hall above her, across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 14,
+      "art": "Two moments in one last picture: in front, Grandma in the front row with her eyes closed and a deep smile, hands folded; behind, through a soft frame, that night at home Lily ticks the very last box while her little brother tugs her sleeve and reaches for the flute. Feeling: pride, love, a beginning for someone else. Calm area: the dark hall across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    }
+  ],
+  "film": {
+    "targetSeconds": 370,
+    "shots": [
+      { "n": 1, "page": 1, "action": "14 s. Scene 1, the announcement. Rain on the tall windows of a school hall; children file in and sit on the floor. No words. Keep the lower fifth calm for captions in every shot.", "sound": ["rain on windows", "children shuffling", "a few piano notes"], "lines": [] },
+      { "n": 2, "page": 1, "action": "9 s. The music teacher stands in front of the children.", "sound": ["the room going quiet"], "lines": ["f01"] },
+      { "n": 3, "page": 1, "action": "6 s. Lily's hand shoots up, first and highest.", "sound": ["a bright plink"], "lines": ["f02"] },
+      { "n": 4, "page": 2, "action": "12 s. Scene 2, the flute. At home in lamplight, Grandma slowly unfolds an embroidered cloth: a worn wooden flute. No words.", "sound": ["cloth unfolding", "a clock ticking", "rain outside"], "lines": [] },
+      { "n": 5, "page": 2, "action": "8 s. Grandma holds the flute out to Lily.", "sound": ["a warm low note"], "lines": ["f03"] },
+      { "n": 6, "page": 2, "action": "12 s. Grandma hums her old song, eyes half closed: this is the film's melody, heard here for the first time, hummed. No words.", "sound": ["Grandma humming the melody"], "lines": [] },
+      { "n": 7, "page": 2, "action": "6 s. Lily, eyes shining.", "sound": ["the melody fades"], "lines": ["f04"] },
+      { "n": 8, "page": 3, "action": "8 s. Lily blows hard: a shrill squeak; her little brother clamps his hands over his ears. A sound joke, no words.", "sound": ["a shrill flute squeak", "a comic thud"], "lines": [] },
+      { "n": 9, "page": 3, "action": "7 s. She tries again: the same squeak.", "sound": ["a smaller squeak"], "lines": ["f05"] },
+      { "n": 10, "page": 4, "action": "10 s. Scene 3, the plan. Lily draws a grid of thirty empty boxes (no numbers) and pins it next to her bed. No words.", "sound": ["a pencil on paper", "a pin pressed in"], "lines": [] },
+      { "n": 11, "page": 4, "action": "7 s. She makes her promise to herself.", "sound": ["a determined little drum roll"], "lines": ["f06"] },
+      { "n": 12, "page": 5, "action": "16 s. Scene 4, the days. A montage on a steady beat: rain on the window, a squeak, a tick in a box; a grey evening, a yawn, a squeak, a tick; the brother's ears covered, a tick.", "sound": ["squeaks", "a pencil tick on each beat"], "lines": ["f07"] },
+      { "n": 13, "page": 6, "action": "8 s. Scene 5, the tenth day. Lily throws the flute onto her bed.", "sound": ["a soft thump on the blanket"], "lines": ["f08"] },
+      { "n": 14, "page": 6, "action": "8 s. Grandma sits down beside her and puts an arm round her. Breathing room, no words.", "sound": ["the bed creaks", "rain"], "lines": [] },
+      { "n": 15, "page": 6, "action": "9 s. Grandma blows gently over an imaginary spoon to show how.", "sound": ["a soft breath"], "lines": ["f09"] },
+      { "n": 16, "page": 7, "action": "10 s. Lily blows softly: a round, clear note at last. On the windowsill a sparrow tilts its head and chirps back.", "sound": ["one clear flute note", "a sparrow chirp"], "lines": ["f10"] },
+      { "n": 17, "page": 7, "action": "10 s. She finds the next note, and the one after: three notes climbing. No words.", "sound": ["three clear notes, slowly"], "lines": [] },
+      { "n": 18, "page": 8, "action": "9 s. Day twelve: the first line of the melody, slow and careful; the brother takes one hand off one ear.", "sound": ["the first line of the melody on the flute"], "lines": ["f11"] },
+      { "n": 19, "page": 8, "action": "12 s. Montage: good notes and bad notes; ticks fill the boxes row by row (shown on the chart, never with digits).", "sound": ["a mix of clean notes and small squeaks", "pencil ticks"], "lines": ["f12"] },
+      { "n": 20, "page": 9, "action": "8 s. Scene 6, the rehearsal. The school hall; children watching; Lily on the little stage.", "sound": ["the hall's echo", "a cough"], "lines": ["f13"] },
+      { "n": 21, "page": 9, "action": "6 s. Close on her stiff fingers on the flute. No words.", "sound": ["a heartbeat"], "lines": [] },
+      { "n": 22, "page": 9, "action": "6 s. The squeak comes back, loud and shrill. Nobody laughs; the hall is just very quiet.", "sound": ["a shrill squeak", "silence"], "lines": ["f14"] },
+      { "n": 23, "page": 9, "action": "10 s. Lily walks home slowly through light rain, the flute case hugged to her chest. No words.", "sound": ["rain", "slow footsteps", "a sad two-note phrase"], "lines": [] },
+      { "n": 24, "page": 10, "action": "10 s. Scene 7, again. Evening; Lily looks at the chart: most boxes ticked, some still empty. She picks up the flute. No words.", "sound": ["a clock ticking"], "lines": [] },
+      { "n": 25, "page": 10, "action": "8 s. She whispers to herself, then plays one soft, clear note.", "sound": ["one clear note"], "lines": ["f15"] },
+      { "n": 26, "page": 10, "action": "5 s. She ticks the box. No words.", "sound": ["a pencil tick"], "lines": [] },
+      { "n": 27, "page": 11, "action": "14 s. Scene 8, the whole song. The living room: Lily plays the whole melody, slowly, from start to end.", "sound": ["the melody on the flute, slow and whole"], "lines": ["f16"] },
+      { "n": 28, "page": 11, "action": "7 s. Her little brother bounces on the sofa, clapping.", "sound": ["clapping"], "lines": ["f17"] },
+      { "n": 29, "page": 11, "action": "8 s. Grandma hums along with her eyes closed. No words.", "sound": ["the melody, flute and humming together"], "lines": [] },
+      { "n": 30, "page": 12, "action": "12 s. Scene 9, concert night. The school hall full of chairs and families in warm light; Grandma in the front row in her best scarf. No words.", "sound": ["a buzz of whispering", "chairs scraping"], "lines": [] },
+      { "n": 31, "page": 12, "action": "7 s. The lights dim over the hall.", "sound": ["the whispering stops"], "lines": ["f18"] },
+      { "n": 32, "page": 12, "action": "7 s. The music teacher steps forward and calls Lily.", "sound": ["a few claps"], "lines": ["f19"] },
+      { "n": 33, "page": 12, "action": "6 s. Close on Lily's hands, shaking a little on the flute. No words.", "sound": ["a heartbeat"], "lines": [] },
+      { "n": 34, "page": 13, "action": "8 s. She closes her eyes and whispers to herself.", "sound": ["silence"], "lines": ["f20"] },
+      { "n": 35, "page": 13, "action": "18 s. She plays: the first note round and clear, then the whole melody floats over the dark hall; between her fingers we glimpse the chart filling with ticks.", "sound": ["the melody on the flute, sure and warm"], "lines": ["f21"] },
+      { "n": 36, "page": 14, "action": "10 s. In the front row, Grandma closes her eyes and smiles. No words.", "sound": ["the melody's last phrase"], "lines": [] },
+      { "n": 37, "page": 14, "action": "8 s. The hall bursts into applause; Lily bows, beaming. No words.", "sound": ["warm applause"], "lines": [] },
+      { "n": 38, "page": 14, "action": "9 s. Home that night: Lily ticks the very last box. No words.", "sound": ["a pencil tick", "a soft chime"], "lines": [] },
+      { "n": 39, "page": 14, "action": "9 s. Her little brother tugs her sleeve and reaches for the flute; Lily answers with a smile.", "sound": ["the melody, hummed softly"], "lines": ["f22", "f23"] },
+      { "n": 40, "page": 14, "action": "14 s. Closing image: the chart full of ticks pinned by the bed, the wooden flute resting on its cloth below. Hold the still picture 6 s while the music ends, then stop. No autoplay.", "sound": ["the last notes of the melody, hummed"], "lines": [] }
+    ]
+  },
+  "activity": {
+    "minutes": 25,
+    "materials": ["four-same-size-plastic-bottles-caps-off", "water", "jug", "towel"],
+    "steps": [
+      { "n": 1, "picture": "Four identical plastic bottles in a row on a towel; a grown-up kneels beside them while a child pours water from a jug, a different amount into each bottle.", "loop": false },
+      { "n": 2, "picture": "The child points at one bottle with a questioning face; a small thought cloud shows a high, thin curving line.", "loop": false },
+      { "n": 3, "picture": "The child holds a bottle upright and blows gently across its open top, lips just touching the rim at one side.", "loop": true },
+      { "n": 4, "picture": "The four bottles rearranged in order from the least water to the most, like steps.", "loop": false },
+      { "n": 5, "picture": "Four children, each with their own bottle, playing in turn; one breathes in, resting, between notes.", "loop": false }
+    ],
+    "checkedAgainst": "docs/story-room/age-6-8.md section 7 (red list: water only with an adult watching, plastic not glass, no shared mouthpieces) and section 4, 25 Nov 2026"
+  }
+}

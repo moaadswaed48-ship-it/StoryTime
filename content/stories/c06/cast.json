@@ -1,0 +1,62 @@
+[
+  {
+    "id": "c06-lily",
+    "name": { "ar": "لِيلِي", "he": "לִילִי", "en": "Lily", "da": "Lily" },
+    "stage": "child",
+    "build": { "height": 0.67, "heads": 4.9, "girth": 0.42, "shoulders": 1.12 },
+    "skin": "#dca077",
+    "hair": { "style": "braids", "color": "#2a1714" },
+    "eyes": { "color": "#4a2f22", "size": 0.74 },
+    "brows": { "color": "#2a1714", "weight": 0.6 },
+    "top": { "style": "jumper", "color": "#c8473a", "trim": "#f4e3bd", "pattern": "plain" },
+    "bottom": { "style": "trousers", "color": "#3d4f7c" },
+    "shoes": { "style": "boots", "color": "#6b4030" },
+    "manner": "Eager and determined; her hand goes up before she has finished deciding; scrunches her whole face when a note squeaks; when she is calm and focused she closes her eyes and her shoulders drop."
+  },
+  {
+    "id": "c06-grandmother",
+    "name": { "ar": "جَدَّتها", "he": "סַבְתָּא", "en": "Grandma", "da": "bedstemor" },
+    "stage": "elder",
+    "build": { "height": 0.88, "heads": 5.8, "girth": 0.62, "shoulders": 1.4 },
+    "skin": "#d9a47c",
+    "hair": { "style": "bun", "color": "#e6e1da" },
+    "eyes": { "color": "#5a4636", "size": 0.5 },
+    "brows": { "color": "#c9c2ba", "weight": 0.4 },
+    "top": { "style": "tunic", "color": "#8fb7a8", "trim": "#f4ecd8", "pattern": "plain" },
+    "bottom": { "style": "skirt", "color": "#5b6a9a" },
+    "shoes": { "style": "shoes", "color": "#6b4030" },
+    "extras": ["glasses", "scarf"],
+    "extraColors": { "glasses": "#8a6a4a", "scarf": "#e2674a" },
+    "manner": "Gentle and unhurried; hums with her eyes half closed; sits down beside you instead of standing over you; shows things with her hands rather than explaining them."
+  },
+  {
+    "id": "c06-brother",
+    "name": { "ar": "أَخوها الصَغير", "he": "אָחִיהָ הַקָּטָן", "en": "her little brother", "da": "hendes lillebror" },
+    "stage": "toddler",
+    "build": { "height": 0.5, "heads": 3.8, "girth": 0.55, "shoulders": 1.05 },
+    "skin": "#dca077",
+    "hair": { "style": "curls", "color": "#2a1714" },
+    "eyes": { "color": "#4a2f22", "size": 0.9 },
+    "brows": { "color": "#2a1714", "weight": 0.4 },
+    "top": { "style": "tee", "color": "#6aa56f", "trim": "#fff3d6", "pattern": "plain" },
+    "bottom": { "style": "shorts", "color": "#8a6f5c" },
+    "shoes": { "style": "shoes", "color": "#f0b63c" },
+    "manner": "Four years old and very honest: claps his hands over his ears at every squeak, uncovers one ear when it gets better, bounces on the sofa when he likes something and always wants a turn."
+  },
+  {
+    "id": "c06-music-teacher",
+    "name": { "ar": "مُعَلِّمة الموسيقى", "he": "הַמּוֹרָה לְמוּזִיקָה", "en": "the music teacher", "da": "musiklæreren" },
+    "stage": "adult",
+    "build": { "height": 0.96, "heads": 6, "girth": 0.55, "shoulders": 1.5 },
+    "skin": "#f0cfae",
+    "hair": { "style": "short", "color": "#a9a29c" },
+    "eyes": { "color": "#4f7a5a", "size": 0.55 },
+    "brows": { "color": "#8a837c", "weight": 0.5 },
+    "top": { "style": "jumper", "color": "#e0a83c", "trim": "#f4ecd8", "pattern": "plain" },
+    "bottom": { "style": "trousers", "color": "#4a4a5e" },
+    "shoes": { "style": "shoes", "color": "#5a3a2a" },
+    "extras": ["glasses"],
+    "extraColors": { "glasses": "#2a3a5a" },
+    "manner": "Brisk and kind; claps once to get attention; nods encouragingly from the side of the stage; announces each child as if they were famous."
+  }
+]

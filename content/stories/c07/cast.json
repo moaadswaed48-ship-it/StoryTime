@@ -1,0 +1,48 @@
+[
+  {
+    "id": "c07-noah",
+    "name": { "ar": "نُوح", "he": "נֹחַ", "en": "Noah", "da": "Noah" },
+    "stage": "child",
+    "build": { "height": 0.57, "heads": 4.4, "girth": 0.48, "shoulders": 1.08 },
+    "skin": "#b97a50",
+    "hair": { "style": "curls", "color": "#241715" },
+    "eyes": { "color": "#3a2418", "size": 0.84 },
+    "brows": { "color": "#241715", "weight": 0.6 },
+    "top": { "style": "tee", "color": "#f2c94c", "trim": "#ffffff", "pattern": "plain" },
+    "bottom": { "style": "shorts", "color": "#36507e" },
+    "shoes": { "style": "shoes", "color": "#d8563e" },
+    "extras": ["bag"],
+    "extraColors": { "bag": "#3f9a8f" },
+    "manner": "Six, new at big school and very proud of it; puffs out his chest when he gets something right; cups his hand to his ear to listen; when he is serious, his whole body turns with his head as he looks."
+  },
+  {
+    "id": "c07-cousin",
+    "name": { "ar": "ابنة خالته", "he": "בַּת הַדּוֹדָה", "en": "his big cousin", "da": "hans store kusine" },
+    "stage": "child",
+    "build": { "height": 0.78, "heads": 5.2, "girth": 0.42, "shoulders": 1.25 },
+    "skin": "#c98e62",
+    "hair": { "style": "ponytail", "color": "#2a1714" },
+    "eyes": { "color": "#3a2418", "size": 0.66 },
+    "brows": { "color": "#2a1714", "weight": 0.6 },
+    "top": { "style": "coat", "color": "#5a79c4", "trim": "#f4ecd8", "pattern": "plain" },
+    "bottom": { "style": "trousers", "color": "#3a3a44" },
+    "shoes": { "style": "shoes", "color": "#f4f0e6" },
+    "manner": "Ten, calm and playful; makes deep comic knight's bows; walks one step behind so Noah can lead; a hand on his shoulder says more than words; crouches to his level when something matters."
+  },
+  {
+    "id": "c07-rider",
+    "name": { "ar": "راكِبة الدَرّاجة", "he": "הָרוֹכֶבֶת", "en": "the rider", "da": "cyklisten" },
+    "stage": "adult",
+    "build": { "height": 0.98, "heads": 6, "girth": 0.45, "shoulders": 1.5 },
+    "skin": "#e6b58c",
+    "hair": { "style": "ponytail", "color": "#8a5632" },
+    "eyes": { "color": "#4f7a5a", "size": 0.55 },
+    "brows": { "color": "#8a5632", "weight": 0.6 },
+    "top": { "style": "coat", "color": "#f0c23c", "trim": "#3a3a44", "pattern": "plain" },
+    "bottom": { "style": "trousers", "color": "#3d4f7c" },
+    "shoes": { "style": "shoes", "color": "#3a3a44" },
+    "extras": ["hat"],
+    "extraColors": { "hat": "#e2674a" },
+    "manner": "Rides an electric bicycle, leaning forward, in a helmet (drawn as the hat) and a bright yellow jacket; quick to apologise over her shoulder; the next day slows down and waves the children across with a smile."
+  }
+]

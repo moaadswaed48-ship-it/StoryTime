@@ -1,0 +1,43 @@
+[
+  {
+    "id": "b15-noor",
+    "name": { "ar": "نُور", "he": "נוּר", "en": "Noor", "da": "Noor" },
+    "stage": "child",
+    "build": { "height": 0.56, "heads": 4.3, "girth": 0.44, "shoulders": 1.08 },
+    "skin": "#b97a50",
+    "hair": { "style": "ponytail", "color": "#2a1714" },
+    "eyes": { "color": "#3a2418", "size": 0.9 },
+    "brows": { "color": "#2a1714", "weight": 0.5 },
+    "top": { "style": "dress", "color": "#f2c94c", "trim": "#3f9a8f", "pattern": "dots" },
+    "bottom": { "style": "trousers", "color": "#3f9a8f" },
+    "shoes": { "style": "shoes", "color": "#e2674a" },
+    "manner": "A gentle, patient four-year-old who talks to things in a whisper; puts her chin on the windowsill to look closely; carries anything precious with both hands and tiny steps. (Not the activity-cast sheet 'noor' in src/cast/cast.ts: this is a separate character with her own sheet id.)"
+  },
+  {
+    "id": "b15-teacher",
+    "name": { "ar": "المُعَلّمة", "he": "הַגַּנֶּנֶת", "en": "the teacher", "da": "pædagogen" },
+    "stage": "adult",
+    "build": { "height": 0.96, "heads": 6, "girth": 0.55, "shoulders": 1.5 },
+    "skin": "#e6b58c",
+    "hair": { "style": "curls", "color": "#8a4a26" },
+    "eyes": { "color": "#4f7a5a", "size": 0.55 },
+    "brows": { "color": "#8a4a26", "weight": 0.5 },
+    "top": { "style": "shirt", "color": "#8fb7a8", "trim": "#f4ecd8", "pattern": "check" },
+    "bottom": { "style": "trousers", "color": "#5b6f9e" },
+    "shoes": { "style": "shoes", "color": "#6b4030" },
+    "manner": "Kneels to talk at the children's height; never hurries; answers a question with a short, true sentence and lets the child look."
+  },
+  {
+    "id": "b15-boy",
+    "name": { "ar": "وَلَد مِن الرَوضة", "he": "יֶלֶד מֵהַגַּן", "en": "a boy in her class", "da": "en dreng fra børnehaven" },
+    "stage": "child",
+    "build": { "height": 0.6, "heads": 4.5, "girth": 0.5, "shoulders": 1.15 },
+    "skin": "#7a4a30",
+    "hair": { "style": "short", "color": "#1c1210" },
+    "eyes": { "color": "#2a1a12", "size": 0.8 },
+    "top": { "style": "tee", "color": "#d9603f", "trim": "#ffffff", "pattern": "stripes" },
+    "bottom": { "style": "shorts", "color": "#3d4f7c" },
+    "shoes": { "style": "shoes", "color": "#f4f0e6" },
+    "manner": "Background figure who speaks once. Quick and loud; always first to notice anything new; points with his whole arm."
+  }
+]

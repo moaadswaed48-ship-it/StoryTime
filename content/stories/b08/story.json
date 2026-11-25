@@ -1,0 +1,129 @@
+{
+  "id": "b08",
+  "ageGroups": ["4-5"],
+  "owner": "storytime",
+  "lesson": "Wash hands with soap, every part of them, before eating and after playing outside.",
+  "cast": ["b08-tamir", "b08-grandma"],
+  "pages": [
+    {
+      "n": 1,
+      "art": "A village garden in spring sunshine: a fig tree with new green leaves, low stone walls, beds of dark earth, a few red poppies at the edge. Tamir kneels in a bed, digging with an old spoon, earth flying. Behind a low fence, a grey donkey watches. Feeling: happy, busy, outdoors. Calm area: the sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 2,
+      "art": "Grandma and Tamir kneel side by side along a long straight row in the earth, pushing small onion bulbs into the soil and patting them down; a basket of onion sets between them. Tamir copies Grandma's hands exactly. Feeling: a shared rhythm. Calm area: the plain earth in the bottom band.",
+      "zone": { "side": "full", "v": "bottom", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 3,
+      "art": "Tamir stands on tiptoe by the low fence, scratching the grey donkey behind its long ears; the donkey leans its big head against him, eyes blissfully shut. Feeling: tenderness and fun. Calm area: the sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 4,
+      "art": "Close on Tamir's two hands held up to the reader, palms out: brown mud on the palms, dark earth under every fingernail, a few grey donkey hairs stuck to the fingers. Tamir's grinning face peeks over them. Feeling: proud of a muddy morning, a bit funny. Calm area: the plain background in the bottom band.",
+      "zone": { "side": "full", "v": "bottom", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 5,
+      "art": "Under the fig tree, a small table with a cloth: a round loaf of warm bread (a little curl of steam drawn as lines), a bowl of olives, cucumbers and tomatoes. Grandma calls, one hand cupped. Tamir runs towards the table, both muddy hands stretched out for the bread. Feeling: hungry hurry. Calm area: the sky and leaves across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 6,
+      "art": "Grandma gently catches Tamir's muddy fingers just before they touch the bread, smiling, eyebrows raised. Tamir looks down at his own hands as if seeing them for the first time. Feeling: a gentle stop, a little surprise. Calm area: the plain ground in the bottom band.",
+      "zone": { "side": "full", "v": "bottom", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 7,
+      "art": "An outside tap on the garden wall over a small drain; water runs in a flat stream. Grandma holds a bar of soap; four hands are covered in white bubbles, palms rubbing together. Grandma and Tamir sing, mouths open. Feeling: a game, a song. Calm area: the plain wall across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 8,
+      "art": "Close on Tamir's soapy hands, drawn as a little sequence in one picture: fingers knotted together, a thumb turning inside the other hand, fingertips scratching on a palm. The bubbles are turning brown. Feeling: rhythmic, silly, thorough. Calm area: the plain wall across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 9,
+      "art": "The water from the tap runs into the drain in three flat bands: brown, then grey, then clear. Tamir shakes his clean pink hands, drops flying off like little sparks. Feeling: satisfying, fresh. Calm area: the plain ground in the bottom band.",
+      "zone": { "side": "full", "v": "bottom", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 10,
+      "art": "Back at the table under the fig tree: Tamir sits up straight with his clean hands folded in his lap, staring at the bread, very hungry; a towel hangs over the back of his chair. Feeling: patient for one more second. Calm area: the leaves across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 11,
+      "art": "Grandma, sitting down, reaches for the bread with her own hands, which are muddy from the onion bed. Tamir's small clean hand shoots out and gently catches her fingers. Feeling: the turn, a comic reversal. Calm area: the plain ground in the bottom band.",
+      "zone": { "side": "full", "v": "bottom", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 12,
+      "art": "Grandma holds up her muddy hands and looks at them, then throws her head back laughing; Tamir laughs too, pointing towards the tap. Feeling: shared laughter. Calm area: the leaves across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 13,
+      "art": "Grandma and Tamir at the outside tap together, four soapy hands, both singing; over the fence the donkey stretches its neck and brays along, mouth open. The table with the bread waits under the fig tree. Last picture of the book: joyful and warm. Calm area: the sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    }
+  ],
+  "film": {
+    "targetSeconds": 244,
+    "shots": [
+      { "n": 1, "page": 1, "action": "14 s. Scene 1, the garden. Spring morning: fig leaves, poppies, the donkey behind the fence. Tamir digs with an old spoon. Keep the lower fifth calm for captions in every shot.", "sound": ["birdsong", "a spoon scraping earth", "light, bouncy music"], "lines": ["f01"] },
+      { "n": 2, "page": 1, "action": "9 s. Close on the spoon: earth flies in little arcs.", "sound": ["scrape, scrape"], "lines": ["f02"] },
+      { "n": 3, "page": 2, "action": "12 s. Grandma and Tamir plant onions in a row, pushing and patting in time with the music.", "sound": ["soft pats on earth", "music on the beat"], "lines": ["f03"] },
+      { "n": 4, "page": 2, "action": "8 s. A worm peeks out of the soil, looks around and wriggles back down. Nobody touches it. No words.", "sound": ["a tiny comic wiggle sound"], "lines": [] },
+      { "n": 5, "page": 3, "action": "6 s. Tamir runs to the fence.", "sound": ["running footsteps"], "lines": ["f04"] },
+      { "n": 6, "page": 3, "action": "11 s. He scratches the donkey behind its ears; the donkey leans in and shuts its eyes.", "sound": ["a contented donkey snort"], "lines": ["f05"] },
+      { "n": 7, "page": 3, "action": "5 s. The donkey gives a soft, happy bray. No words.", "sound": ["a soft donkey bray"], "lines": [] },
+      { "n": 8, "page": 4, "action": "10 s. Close on Tamir's hands: mud on the palms, earth under the nails, donkey hairs on the fingers. A sly little tune. No words.", "sound": ["a sly, comic tune"], "lines": [] },
+      { "n": 9, "page": 5, "action": "9 s. Scene 2, lunchtime. Under the fig tree Grandma sets warm bread on the table and calls.", "sound": ["a plate set down", "music brightens"], "lines": ["f06"] },
+      { "n": 10, "page": 5, "action": "6 s. Tamir runs to the table, both muddy hands reaching for the bread.", "sound": ["running footsteps"], "lines": ["f07"] },
+      { "n": 11, "page": 6, "action": "7 s. Grandma gently catches his fingers just in time.", "sound": ["the music stops on a funny note"], "lines": ["f08"] },
+      { "n": 12, "page": 6, "action": "7 s. Tamir looks at his hands and makes a face. Breathing moment, no words.", "sound": ["quiet", "a little 'ew' tune"], "lines": [] },
+      { "n": 13, "page": 7, "action": "10 s. Scene 3, the soap song. At the outside tap Grandma turns on the water and lathers the soap. No words.", "sound": ["running water", "soap squelching"], "lines": [] },
+      { "n": 14, "page": 7, "action": "12 s. Four hands dance to the song: palm on palm, back on back.", "sound": ["a simple clapping rhythm", "running water"], "lines": ["f09"] },
+      { "n": 15, "page": 8, "action": "10 s. Fingers knot, thumbs turn.", "sound": ["the song's rhythm"], "lines": ["f10"] },
+      { "n": 16, "page": 8, "action": "9 s. Fingertips scratch on palms; the bubbles turn brown.", "sound": ["a scratchy shaker in rhythm"], "lines": ["f11"] },
+      { "n": 17, "page": 9, "action": "14 s. Close on the drain: the water runs brown, then grey, then clear, as flat bands of colour.", "sound": ["water gurgling", "three rising notes"], "lines": ["f12"] },
+      { "n": 18, "page": 9, "action": "5 s. Tamir shakes his clean hands; drops fly.", "sound": ["drops pattering"], "lines": ["f13"] },
+      { "n": 19, "page": 10, "action": "10 s. He dries his hands on the towel, runs back and sits very straight, hands in his lap. No words.", "sound": ["a towel rub", "a chair scrape"], "lines": [] },
+      { "n": 20, "page": 11, "action": "9 s. Scene 4, the turn. Grandma sits and reaches for the bread with her muddy hands.", "sound": ["music, sly again"], "lines": ["f14"] },
+      { "n": 21, "page": 11, "action": "4 s. Freeze: Tamir's small hand catches her fingers. No words.", "sound": ["a comic freeze chime"], "lines": [] },
+      { "n": 22, "page": 12, "action": "5 s. Tamir says it, very pleased with himself.", "sound": ["quiet"], "lines": ["f15"] },
+      { "n": 23, "page": 12, "action": "8 s. Grandma looks at her hands and bursts out laughing.", "sound": ["big warm laughter"], "lines": ["f16"] },
+      { "n": 24, "page": 12, "action": "5 s. She stands up and holds out her elbow for him to take.", "sound": ["laughter"], "lines": ["f17"] },
+      { "n": 25, "page": 13, "action": "14 s. Scene 5, together. Back at the tap: four soapy hands, both singing the soap song.", "sound": ["running water", "two voices singing"], "lines": ["f18"] },
+      { "n": 26, "page": 13, "action": "9 s. Over the fence the donkey stretches its neck and brays along in rhythm.", "sound": ["a donkey bray in time with the song"], "lines": ["f19"] },
+      { "n": 27, "page": 13, "action": "16 s. Closing image: Grandma and Tamir at the table under the fig tree, clean hands breaking the warm bread; the donkey behind them. Hold the still picture 6 s while the music ends, then stop. No autoplay.", "sound": ["the last notes of the music", "birdsong"], "lines": [] }
+    ]
+  },
+  "activity": {
+    "minutes": 15,
+    "materials": ["few-drops-cooking-oil-not-peanut-or-sesame", "pinch-plain-cocoa-powder", "soap", "towel"],
+    "steps": [
+      { "n": 1, "picture": "A grown-up drips a few drops of oil onto a child's open palms and sprinkles a pinch of brown cocoa powder over them; the child's hands look smeared and brown.", "loop": false },
+      { "n": 2, "picture": "The child holds the hands under a running tap at a sink, with no soap; afterwards the hands still show brown smears, and the child looks puzzled.", "loop": false },
+      { "n": 3, "picture": "The child rubs soap into a white lather, singing (small music notes, no letters), palm on palm and back on back; then holds up clean hands, smiling.", "loop": false }
+    ],
+    "checkedAgainst": "docs/story-room/age-4-5.md section 7 (red list, food and allergy rules) and section 4 (activity limits), 25 Nov 2026"
+  }
+}
