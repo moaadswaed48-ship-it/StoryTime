@@ -67,13 +67,13 @@
     },
     {
       "n": 11,
-      "art": "The whole family on the big bed in moonlight: Dad leans in, whispering; Mum smiles at Zaki with tired, shining eyes, one hand on his back; the baby is calm, still holding Zaki's finger. Feeling: warm, together. Calm area: the wall across the top.",
+      "art": "The whole family on the big bed in moonlight: Dad leans in, whispering; Mum smiles at Zaki with tired, shining eyes, one hand on his back; the baby is awake and calm, eyes open, still holding Zaki's finger. Feeling: warm, together. Calm area: the wall across the top.",
       "zone": { "side": "full", "v": "top", "size": "m" },
       "image": null
     },
     {
       "n": 12,
-      "art": "Last picture of the book, another evening: Zaki stands proudly beside the baby's cot, one hand resting on its side rail, singing; the baby lies asleep on her back in her cot; Mum leans in the doorway, smiling and resting. The moon in the open window. Feeling: proud, peaceful, needed. Calm area: the wall across the top.",
+      "art": "Last picture of the book, another evening: Zaki stands proudly beside the baby's cot, one hand resting on its side rail, singing; the baby lies asleep on her back in her own cot, on a flat mattress with nothing else in the cot (no pillow, loose blanket or toy); Mum leans in the doorway, smiling and resting. The moon in the open window. Feeling: proud, peaceful, needed. Calm area: the wall across the top.",
       "zone": { "side": "full", "v": "top", "size": "m" },
       "image": null
     }
@@ -105,19 +105,19 @@
       { "n": 22, "page": 11, "action": "7 s. Dad leans in and whispers.", "sound": ["cicadas"], "lines": ["f13"] },
       { "n": 23, "page": 11, "action": "7 s. Mum smiles at Zaki, her eyes shining.", "sound": ["the lullaby tune, very soft"], "lines": ["f14"] },
       { "n": 24, "page": 11, "action": "6 s. Mum's hand rests on Zaki's back.", "sound": ["the lullaby tune"], "lines": ["f15"] },
-      { "n": 25, "page": 11, "action": "8 s. A breathing moment: the family on the bed in moonlight; nobody moves; only the curtain stirs.", "sound": ["cicadas", "the curtain"], "lines": [] },
-      { "n": 26, "page": 12, "action": "10 s. Scene 4, the big brother's job. Another evening: the baby cries in her cot; Mum calls from the doorway; Zaki runs in and stands by the cot.", "sound": ["a small cry", "quick footsteps"], "lines": [] },
+      { "n": 25, "page": 11, "action": "8 s. A breathing moment: the family on the bed in moonlight, the baby awake and calm with her eyes open; nobody moves; only the curtain stirs.", "sound": ["cicadas", "the curtain"], "lines": [] },
+      { "n": 26, "page": 12, "action": "10 s. Scene 4, the big brother's job. Another evening: the baby cries in her cot (nothing else in the cot, as on page 12); Mum calls from the doorway; Zaki runs in and stands by the cot.", "sound": ["a small cry", "quick footsteps"], "lines": [] },
       { "n": 27, "page": 12, "action": "8 s. Zaki hums the song at the cot side; the baby calms; Mum and Dad sit down together and rest.", "sound": ["Zaki humming the tune"], "lines": ["f16"] },
-      { "n": 28, "page": 12, "action": "16 s. Closing image: the baby asleep on her back in her cot, Zaki beside it, the moon in the open window. Hold the still picture 6 s while the music ends, then stop. No autoplay.", "sound": ["the last notes of the lullaby", "cicadas"], "lines": [] }
+      { "n": 28, "page": 12, "action": "16 s. Closing image: the baby asleep on her back in her own cot, nothing else in it, Zaki beside it, the moon in the open window. Hold the still picture 6 s while the music ends, then stop. No autoplay.", "sound": ["the last notes of the lullaby", "cicadas"], "lines": [] }
     ]
   },
   "activity": {
     "minutes": 15,
-    "materials": ["doll-or-soft-toy", "small-blanket"],
+    "materials": ["doll-or-soft-toy", "box-or-flat-floor-spot"],
     "steps": [
       { "n": 1, "picture": "A child sits on a sofa holding a doll the right way: one hand under its head and neck, one under its bottom, the doll close to the chest. A grown-up sits beside them, showing the same hold with their own hands.", "loop": false },
       { "n": 2, "picture": "The child, still sitting, rocks the doll gently from side to side and sings; small curved lines show the slow rocking and soft musical curls float up (no notes, no letters).", "loop": true },
-      { "n": 3, "picture": "The child lays the doll on its back on a small blanket on the floor, the blanket's edge below the doll's shoulders, and whispers to it.", "loop": false }
+      { "n": 3, "picture": "The child lays the doll on its back in a shallow open box on the floor, its pretend bed, with nothing else in the box (no blanket, pillow or toy), and whispers to it.", "loop": false }
     ],
     "checkedAgainst": "docs/story-room/age-4-5.md section 7 (red list) and section 4 (activity limits), 25 Nov 2026"
   }

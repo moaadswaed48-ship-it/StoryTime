@@ -9,8 +9,8 @@
   "pages": [
     {
       "n": 1,
-      "text": "On summer evenings, Leo stayed at Grandpa’s house in the village. From the kitchen, Leo called, “Grandpa, do you want some lemonade?” From the porch, Grandpa called back, “Lemons? No, the lemon tree isn’t ready yet!”",
-      "speech": "On summer evenings, Leo stayed at Grandpa’s house in the village. From the kitchen, Leo called, “Grandpa, do you want some lemonade?” From the porch, Grandpa called back, “Lemons? No, the lemon tree isn’t ready yet!”"
+      "text": "On summer evenings, Leo stayed at Grandpa’s house in the village. From the kitchen, Leo called, “Grandpa, do you want some lemonade?” From the porch, Grandpa called back, “Lemons? No, the lemons aren’t ripe yet!”",
+      "speech": "On summer evenings, Leo stayed at Grandpa’s house in the village. From the kitchen, Leo called, “Grandpa, do you want some lemonade?” From the porch, Grandpa called back, “Lemons? No, the lemons aren’t ripe yet!”"
     },
     {
       "n": 2,
@@ -96,8 +96,8 @@
     {
       "id": "f03",
       "speaker": "c04-grandpa",
-      "text": "Lemons? No, the lemon tree isn’t ready yet!",
-      "speech": "Lemons? No, the lemon tree isn’t ready yet!",
+      "text": "Lemons? No, the lemons aren’t ripe yet!",
+      "speech": "Lemons? No, the lemons aren’t ripe yet!",
       "emotion": "cheerful, friendly, sure of himself"
     },
     {

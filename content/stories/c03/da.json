@@ -9,8 +9,8 @@
   "pages": [
     {
       "n": 1,
-      "text": "Det var en grå vintermorgen, og regnen trommede blidt på ruden. Mors frakke hang ved døren, stadig våd. Mor var læge, og hun havde arbejdet på hospitalet hele natten, helt til morgen. Nu sov hun, og hele lejligheden var meget stille.",
-      "speech": "Det var en grå vintermorgen, og regnen trommede blidt på ruden. Mors frakke hang ved døren, stadig våd. Mor var læge, og hun havde arbejdet på hospitalet hele natten, helt til morgen. Nu sov hun, og hele lejligheden var meget stille."
+      "text": "Det var en grå vintermorgen, og regnen trommede blidt på ruden. Mors frakke hang ved døren, stadig våd. Mor var læge, og hun havde arbejdet på hospitalet hele natten. Nu sov hun, og hele lejligheden var meget stille.",
+      "speech": "Det var en grå vintermorgen, og regnen trommede blidt på ruden. Mors frakke hang ved døren, stadig våd. Mor var læge, og hun havde arbejdet på hospitalet hele natten. Nu sov hun, og hele lejligheden var meget stille."
     },
     {
       "n": 2,
@@ -24,18 +24,18 @@
     },
     {
       "n": 4,
-      "text": "Emil tog to skåle og hældte havregryn op, meget langsomt. Posen raslede som en lille tromme! De stod helt stille begge to og stirrede på mors dør. Den blev ved med at være lukket. Så hældte Emil kold mælk op til dem begge, og de spiste uden at en eneste ske klirrede.",
-      "speech": "Emil tog to skåle og hældte havregryn op, meget langsomt. Posen raslede som en lille tromme! De stod helt stille begge to og stirrede på mors dør. Den blev ved med at være lukket. Så hældte Emil kold mælk op til dem begge, og de spiste uden at en eneste ske klirrede."
+      "text": "Emil tog to skåle og hældte havregryn op, meget langsomt. Posen raslede som en lille tromme! De stod helt stille begge to og stirrede på mors dør. Den gik ikke op. Så hældte Emil kold mælk op til dem begge, og de spiste uden at en eneste ske klirrede.",
+      "speech": "Emil tog to skåle og hældte havregryn op, meget langsomt. Posen raslede som en lille tromme! De stod helt stille begge to og stirrede på mors dør. Den gik ikke op. Så hældte Emil kold mælk op til dem begge, og de spiste uden at en eneste ske klirrede."
     },
     {
       "n": 5,
-      "text": "»Min strømpe,« hviskede hans søster. »Jeg kan kun finde den ene.« De kiggede under hendes seng. De kiggede i hendes sko. De kiggede bag gardinet. Der var ingen strømpe nogen steder. Hendes underlæbe begyndte at dirre.",
-      "speech": "»Min strømpe,« hviskede hans søster. »Jeg kan kun finde den ene.« De kiggede under hendes seng. De kiggede i hendes sko. De kiggede bag gardinet. Der var ingen strømpe nogen steder. Hendes underlæbe begyndte at dirre."
+      "text": "»Min strømpe,« hviskede hans søster. »Jeg kan kun finde den ene.« De kiggede under hendes seng. De kiggede i hendes sko. De kiggede bag gardinet. Der var ingen strømpe nogen steder. Hendes underlæbe begyndte at bæve.",
+      "speech": "»Min strømpe,« hviskede hans søster. »Jeg kan kun finde den ene.« De kiggede under hendes seng. De kiggede i hendes sko. De kiggede bag gardinet. Der var ingen strømpe nogen steder. Hendes underlæbe begyndte at bæve."
     },
     {
       "n": 6,
-      "text": "Emil åbnede brødkurven for at smøre madpakker. Dér lå den, krøllet sammen ved siden af rundstykkerne: én lille stribet strømpe. Hans søster klappede begge hænder for munden. Det gjorde Emil også. De grinede uden en lyd, til de fik tårer i øjnene.",
-      "speech": "Emil åbnede brødkurven for at smøre madpakker. Dér lå den, krøllet sammen ved siden af rundstykkerne: én lille stribet strømpe. Hans søster klappede begge hænder for munden. Det gjorde Emil også. De grinede uden en lyd, til de fik tårer i øjnene."
+      "text": "Emil åbnede brødkurven for at smøre madpakker. Dér lå den, krøllet sammen ved siden af rundstykkerne: én lille stribet strømpe. Hans søster slog begge hænder for munden. Det gjorde Emil også. De grinede uden en lyd, til de fik tårer i øjnene.",
+      "speech": "Emil åbnede brødkurven for at smøre madpakker. Dér lå den, krøllet sammen ved siden af rundstykkerne: én lille stribet strømpe. Hans søster slog begge hænder for munden. Det gjorde Emil også. De grinede uden en lyd, til de fik tårer i øjnene."
     },
     {
       "n": 7,
@@ -282,7 +282,7 @@
         "caption": "Bær den langsomt med to hænder."
       }
     ],
-    "safety": "Tjek allergier først. Ingen nødder og ingen sesam, altså ingen peanutbutter, hummus eller tahin. Kun kold mad: ingen komfur, ingen elkedel og ingen brødrister. Barnet bruger en afrundet smørekniv til blød mad. En voksen skærer agurken med en skarp kniv. Fyld kun kruset halvt op. Sker der et uheld, så ring til det lokale alarmnummer.",
+    "safety": "Tjek allergier først. Ingen nødder og ingen sesam, altså intet jordnøddesmør, ingen hummus og ingen tahin. Kun kold mad: ingen komfur, ingen elkedel og ingen brødrister. Barnet bruger en afrundet smørekniv til blød mad. En voksen skærer agurken med en skarp kniv. Fyld kun kruset halvt op. Sker der et uheld, så ring til det lokale alarmnummer.",
     "forAdult": "I historien kigger Emil rundt i det stille køkken og spørger sig selv hvad hans mor ville gøre nu. Så gør han det, uden at nogen har bedt ham om det. Denne aktivitet giver barnet den samme følelse af at planlægge og passe på en anden. Spørg før I går i gang: »Hvem er bakken til? Hvad kan de lide til morgenmad?« Lad barnet bestemme, og hvis barnet har lyst, så tegn en hurtig plan over bakken først: hvor tallerkenen skal stå, og hvor kruset skal stå. Vask så hænder sammen. Barnet smører smøreost eller syltetøj på brødet med en afrundet smørekniv. Læg brødet fladt på en tallerken, så det ikke glider. En voksen skærer agurken i skiver, og barnet lægger skiverne på tallerkenen i et mønster det selv vælger. Barnet hælder vand i et plastikkrus, kun halvt op, og folder en serviet. Så kommer det sværeste: at bære bakken langsomt med begge hænder og begge øjne på kruset. Lad barnet selv servere og se den andens ansigt. Spørg bagefter: »Hvad var nemt? Hvad ville du gøre anderledes næste gang?« Ros omtanken og planlægningen (»du tænkte på hvad den anden kan lide«), ikke farten. Femogtyve minutter passer fint. Gør det lettere med kun én skive brød og intet krus. Gør det sværere ved at lade barnet planlægge en bakke til to, eller skrive en lille seddel der kan ligge ved siden af.",
     "inClass": "Par laver én bakke sammen til en hjælper på skolen, for eksempel rengøringsassistenten, pedellen eller vagten. Det ene barn smører, og det andet dækker bakken. Til den næste skive bytter de. Læreren skærer al agurken på forhånd og tjekker alle allergier i klassen. Hvert par bærer sin bakke sammen og serverer den. Bagefter fortæller parret klassen hvad de planlagde, og hvorfor."
   }

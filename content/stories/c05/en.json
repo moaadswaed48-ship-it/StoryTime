@@ -3,8 +3,8 @@
   "names": {
     "c05-julia": "Julia",
     "c05-alex": "Alex",
-    "c05-teacher": "Julia's teacher",
-    "c05-classmate": "a boy in Julia's class"
+    "c05-teacher": "Julia’s teacher",
+    "c05-classmate": "a boy in Julia’s class"
   },
   "pages": [
     {
@@ -29,8 +29,8 @@
     },
     {
       "n": 5,
-      "text": "Julia saw them. A boy in her class saw them too. “They’re ours,” he muttered, holding the crate tight. “We picked them.” Julia knew what he meant. She remembered the tree and the ladder and her sticky hands. They were ours, she thought.",
-      "speech": "Julia saw them. A boy in her class saw them too. “They’re ours,” he muttered, holding the crate tight. “We picked them.” Julia knew what he meant. She remembered the tree and the ladder and her sticky hands. They were ours, she thought."
+      "text": "Julia saw them. A boy in her class saw them too. “They’re ours,” he muttered, holding the crate tight. “We picked them.” Julia knew what he meant. She remembered the tree, the warm sun and her sticky hands. They were ours, she thought.",
+      "speech": "Julia saw them. A boy in her class saw them too. “They’re ours,” he muttered, holding the crate tight. “We picked them.” Julia knew what he meant. She remembered the tree, the warm sun and her sticky hands. They were ours, she thought."
     },
     {
       "n": 6,
@@ -64,8 +64,8 @@
     },
     {
       "n": 12,
-      "text": "They ate their oranges in the sun, green T-shirts and blue T-shirts side by side. Alex wiped his sticky chin. “Thank you,” he said. “Next time, the snack’s on us.” Everybody laughed with their mouths full.",
-      "speech": "They ate their oranges in the sun, green T-shirts and blue T-shirts side by side. Alex wiped his sticky chin. “Thank you,” he said. “Next time, the snack’s on us.” Everybody laughed with their mouths full."
+      "text": "They ate their oranges in the sun, green T-shirts and blue T-shirts side by side. Alex wiped his sticky chin. “Thank you,” he said. “Next time, we’ll share ours.” Everybody laughed with their mouths full.",
+      "speech": "They ate their oranges in the sun, green T-shirts and blue T-shirts side by side. Alex wiped his sticky chin. “Thank you,” he said. “Next time, we’ll share ours.” Everybody laughed with their mouths full."
     },
     {
       "n": 13,
@@ -208,8 +208,8 @@
     {
       "id": "f19",
       "speaker": "c05-alex",
-      "text": "Thank you. Next time, the snack’s on us.",
-      "speech": "Thank you. Next time, the snack’s on us.",
+      "text": "Thank you. Next time, we’ll share ours.",
+      "speech": "Thank you. Next time, we’ll share ours.",
       "emotion": "grateful, a joke in it"
     },
     {

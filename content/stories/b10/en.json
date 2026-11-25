@@ -41,14 +41,14 @@
   "activity": {
     "title": "Gentle Hands",
     "goal": "Practise gentle, safe ways to hold and soothe a baby.",
-    "materials": ["A doll or a soft toy", "A small blanket"],
+    "materials": ["A doll or a soft toy", "A box, or a clear flat spot on the floor, for its bed"],
     "steps": [
       { "n": 1, "caption": "Sit down. Hold the head and the bottom." },
       { "n": 2, "caption": "Rock slowly. Sing softly." },
-      { "n": 3, "caption": "Lay the doll on its back." }
+      { "n": 3, "caption": "Lay the doll on its back. Nothing else in its bed." }
     ],
-    "safety": "Practise on a doll or a soft toy. A child holds a real baby only when sitting down, with a grown-up right beside them. Keep the blanket away from the face. If there is an accident, call your local emergency number.",
-    "forAdult": "In the story, Zaki feels left out when the new baby comes, until he finds something only he can do for her. This activity gives a child a gentle role with a baby, practised first on a doll or a soft toy. Sit down together on the floor or a sofa. Show the hold: one hand under the head and neck, one under the bottom, the baby close to the chest. Then rock slowly and talk or sing in a quiet voice. Ask: “What does a baby like? What might scare a baby?” Let the child make up a song of their own for the doll. Finish by laying the doll on its back on the blanket, with the blanket no higher than its shoulders, because babies sleep on their backs. If there is a real baby in the family, the child holds the baby only when sitting down, with an adult right there. Ten to fifteen minutes is enough. To make it easier, just rock and sing. To make it harder, add a pretend nappy change, step by step.",
+    "safety": "Practise on a doll or a soft toy. A child holds a real baby only when sitting down, with a grown-up right beside them. If there is an accident, call your local emergency number.",
+    "forAdult": "In the story, Zaki feels left out when the new baby comes, until he finds something only he can do for her. This activity gives a child a gentle role with a baby, practised first on a doll or a soft toy. Sit down together on the floor or a sofa. Show the hold: one hand under the head and neck, one under the bottom, the baby close to the chest. Then rock slowly and talk or sing in a quiet voice. Ask: “What does a baby like? What might scare a baby?” Let the child make up a song of their own for the doll. Finish by laying the doll on its back in its pretend bed, with nothing else in it. Real babies sleep the same way: on their back, in their own bed, with nothing soft around them, so no pillows, blankets or toys. If there is a real baby in the family, the child holds the baby only when sitting down, with an adult right there. Ten to fifteen minutes is enough. To make it easier, just rock and sing. To make it harder, add a pretend nappy change, step by step.",
     "inClass": "One doll or soft toy for each pair of children. The teacher shows the hold slowly, then the pairs take turns: one holds and rocks, the other watches that the head is supported. While the pairs rock, the whole group sings a quiet lullaby together, such as the moon song from the story."
   }
 }

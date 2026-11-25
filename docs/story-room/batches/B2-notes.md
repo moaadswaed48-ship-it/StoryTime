@@ -79,6 +79,19 @@ set up, then a few minutes a day for one or two weeks).
   Environment", *Pediatrics* 2022;150(1):e2022057990 (Moon, Carlin, Hand; PMID 35726558, checked on PubMed): place every baby on the back for every sleep. The activity line
   "because babies sleep on their backs" matches it. Note: the same statement advises no soft bedding for a real
   baby; the blanket "no higher than the shoulders" in the doll activity is UK-style advice, fine for doll play.
+  **Corrected 25 Nov 2026 (safe-sleep fix, all four languages):** the blanket line taught a real-baby habit the AAP
+  advises against, so it is gone. Source checked: the same AAP 2022 statement, as explained on HealthyChildren.org
+  ("How to Keep Your Sleeping Baby Safe: AAP Policy Explained", Rachel Y. Moon, updated 11 Sep 2026): back for all
+  naps and at night; a firm, flat surface; the baby's own sleep space, never the parents' bed; "nothing else should
+  be in the crib", no pillows, blankets, stuffed toys or bumper pads. Changes in `en`, `da`, `ar`, `he` (Arabic and
+  Hebrew through `src/b10.*.json`, rebuilt) and `story.json`: materials are now a doll or soft toy and a box or a clear
+  flat spot on the floor as its bed (no blanket); step 3 says the doll sleeps on its back with nothing else in its
+  bed, and its instruction picture matches; the safety line drops "keep the blanket away from the face" and keeps the
+  sitting-down rule and the emergency line; the adult note now says real babies sleep on their back, in their own
+  bed, with nothing soft around them (no pillows, blankets or toys), citing nothing on screen. Art notes: page 11 and
+  shot 25 now say the baby on the big bed is awake with her eyes open; page 12, shot 26 and shot 28 say her cot holds
+  nothing but her. The story text and film lines never show a baby asleep with loose bedding or in an adult bed (on
+  the big bed she is awake and crying or calm). Check tool: `check b10`, no errors.
 - **B13 colours (please decide).** In Hebrew, "כחול-לבן" (blue-white) is the fixed phrase for the Israeli flag and
   national identity; in English for Israeli readers it can carry the same echo. That clashes with the neutrality
   rule. I kept the outline's blue and white tiles, but gave the Hebrew and Arabic books neutral titles ("שביל

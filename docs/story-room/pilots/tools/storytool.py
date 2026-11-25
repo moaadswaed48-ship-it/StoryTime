@@ -62,6 +62,8 @@ def ar_light_word(word):
     prefixes, stem = parts[:-1], parts[-1]
     pre = [[c, []] for p in prefixes for c, _ in ar_clusters(p)]  # L8: one-letter prefixes lose every mark
     cl = ar_clusters(stem)
+    if not cl:  # a "|" right before a non-letter such as « (وَ|«...): the prefix stands alone, so only L8 applies
+        return ar_join(pre)
     skel = ''.join(c for c, _ in cl)
     if skel in L8_WORDS:  # L8: function words keep only a shadda (and the gender ending of أنتَ أنتِ)
         for i, (c, m) in enumerate(cl):

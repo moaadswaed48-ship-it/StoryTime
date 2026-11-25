@@ -13,7 +13,7 @@
   "pages": [
     {
       "n": 1,
-      "art": "A city street on a warm early-autumn morning: low blocks of flats with balconies, a few street trees, shop awnings. Noah (six, short curly hair, a school bag almost as big as his back) walks beside his big cousin (ten, long ponytail, denim jacket). She bows to him playfully, one hand on her chest, like a knight. Feeling: a new school year, a game beginning. Calm area: the sky across the top.",
+      "art": "A city street on a warm early-autumn morning: low blocks of flats with balconies, a few street trees, shop awnings. Noah (six, short curly hair, a school bag almost as big as his back) walks beside his big cousin (ten, long ponytail, denim jacket). Noah's aunt (the cousin's mother, an adult in a long green cardigan and flat shoes, a shopping bag on one arm; no cast sheet, a silent background figure) walks with them and holds Noah's hand at every crossing. She bows to him playfully, one hand on her chest, like a knight. Feeling: a new school year, a game beginning. Calm area: the sky across the top.",
       "zone": {
         "side": "full",
         "v": "top",
@@ -23,7 +23,7 @@
     },
     {
       "n": 2,
-      "art": "A crossing with a pedestrian light (shown as a small glowing walking figure, no words or numbers) and white stripes. Noah stands at the kerb, his toes right at the edge, his head turned to look along the road; his cousin stands one step behind him. A car waits at the stop line. Traffic drives on the right, as in Israel. Feeling: careful, proud. Calm area: the sky across the top.",
+      "art": "A crossing with a pedestrian light (shown as a small glowing walking figure, no words or numbers) and white stripes. Noah stands at the kerb, his toes right at the edge, his head turned to look along the road; he holds his aunt's hand; his cousin stands one step behind him. A car waits at the stop line. Traffic drives on the right, as in Israel. Feeling: careful, proud. Calm area: the sky across the top.",
       "zone": {
         "side": "full",
         "v": "top",
@@ -33,7 +33,7 @@
     },
     {
       "n": 3,
-      "art": "A wider street: a simple bus passing, one car behind it. Noah waits at the kerb with his chest puffed out and his chin up, feeling very tall; his cousin hides a smile behind her hand. Feeling: confidence, almost too much. Calm area: the sky across the top.",
+      "art": "A wider street: a simple bus passing, one car behind it. Noah waits at the kerb, holding his aunt's hand, with his chest puffed out and his chin up, feeling very tall; his cousin hides a smile behind her hand. Feeling: confidence, almost too much. Calm area: the sky across the top.",
       "zone": {
         "side": "full",
         "v": "top",
@@ -43,7 +43,7 @@
     },
     {
       "n": 4,
-      "art": "Noah walks along the pavement with one hand cupped to his ear, eyes half closed, listening; small curved lines from a bus round the corner and a motorbike show the sounds reaching him before the vehicles appear. His cousin watches him, eyebrows raised. Feeling: clever-feeling, a little too sure. Calm area: the sky across the top.",
+      "art": "Noah walks along the pavement with one hand cupped to his ear, eyes half closed, listening; small curved lines from a bus round the corner and a motorbike show the sounds reaching him before the vehicles appear. His cousin and his aunt, a step behind, watch him, eyebrows raised. Feeling: clever-feeling, a little too sure. Calm area: the sky across the top.",
       "zone": {
         "side": "full",
         "v": "top",
@@ -53,7 +53,7 @@
     },
     {
       "n": 5,
-      "art": "A small, quiet side street: a little bakery with bread in the window and a curl of warm steam from a vent. White stripes cross the narrow road; there is no traffic light. Noah stands at the kerb with his eyes closed, listening. The street looks empty. Feeling: quiet, peaceful, a held breath. Calm area: the plain wall above the bakery across the top.",
+      "art": "A small, quiet side street: a little bakery with bread in the window and a curl of warm steam from a vent. White stripes cross the narrow road; there is no traffic light. Noah stands at the kerb with his eyes closed, listening, his hand in his aunt's. The street looks empty. Feeling: quiet, peaceful, a held breath. Calm area: the plain wall above the bakery across the top.",
       "zone": {
         "side": "full",
         "v": "top",
@@ -63,7 +63,7 @@
     },
     {
       "n": 6,
-      "art": "Noah has one foot lifted to step off the kerb, arms out, face happy and sure. His cousin's hand has just landed on his shoulder. Far down the street, very small and easy to miss, there is a bicycle coming. Feeling: the moment before. Calm area: the wall above across the top.",
+      "art": "Noah has one foot lifted to step off the kerb, arms out, face happy and sure. His aunt's hand holds his firmly, keeping him on the kerb, and his cousin's hand has just landed on his shoulder. Far down the street, very small and easy to miss, there is a bicycle coming. Feeling: the moment before. Calm area: the wall above across the top.",
       "zone": {
         "side": "full",
         "v": "top",
@@ -73,7 +73,7 @@
     },
     {
       "n": 7,
-      "art": "The bicycle with a small electric motor box glides past right in front of the kerb, quick and smooth, its rider (a woman in a helmet and a yellow jacket) leaning forward; only two soft lines behind the tyres, no sound lines at all. Noah, back on the kerb with his cousin's hand on his shoulder, has his mouth open in surprise. Nobody is hurt; the bicycle is past. Feeling: a fright, safely over. Calm area: the wall across the top.",
+      "art": "The bicycle with a small electric motor box glides past right in front of the kerb, quick and smooth, its rider (a woman in a helmet and a yellow jacket) leaning forward; only two soft lines behind the tyres, no sound lines at all. Noah, back on the kerb, his aunt holding his hand and his cousin's hand on his shoulder, has his mouth open in surprise. Nobody is hurt; the bicycle is past. Feeling: a fright, safely over. Calm area: the wall across the top.",
       "zone": {
         "side": "full",
         "v": "top",
@@ -83,7 +83,7 @@
     },
     {
       "n": 8,
-      "art": "The rider, already further down the road, turns her head and lifts one hand in an apology. On the kerb, Noah stands very still, small, his cousin's hand still on his shoulder; both look after the bicycle. Feeling: shaken, quiet. Calm area: the sky across the top.",
+      "art": "The rider, already further down the road, turns her head and lifts one hand in an apology. On the kerb, Noah stands very still, small, his aunt holding his hand, his cousin's hand still on his shoulder; all three look after the bicycle. Feeling: shaken, quiet. Calm area: the sky across the top.",
       "zone": {
         "side": "full",
         "v": "top",
@@ -93,7 +93,7 @@
     },
     {
       "n": 9,
-      "art": "Noah looks up at his cousin, eyes wide; she crouches beside him so their faces are level, serious and kind. Behind them the empty, quiet street and the bakery. Feeling: understanding, comfort. Calm area: the plain wall across the top.",
+      "art": "Noah looks up at his cousin, eyes wide; she crouches beside him so their faces are level, serious and kind. His aunt stands beside them, nodding, still holding Noah's hand. Behind them the empty, quiet street and the bakery. Feeling: understanding, comfort. Calm area: the plain wall across the top.",
       "zone": {
         "side": "full",
         "v": "top",
@@ -103,7 +103,7 @@
     },
     {
       "n": 10,
-      "art": "Noah at the kerb, turning his head very carefully, his whole body following the look; his cousin beside him. Then, in the same picture, the two of them walking across the white stripes together, holding hands, past the bakery window. Feeling: careful, calm, trust. Calm area: the sky across the top.",
+      "art": "Noah at the kerb, turning his head very carefully, his whole body following the look; his aunt holding his hand and his cousin beside him. Then, in the same picture, the three of them walking across the white stripes together, Noah holding his aunt's hand, past the bakery window. Feeling: careful, calm, trust. Calm area: the sky across the top.",
       "zone": {
         "side": "full",
         "v": "top",
@@ -113,7 +113,7 @@
     },
     {
       "n": 11,
-      "art": "The school gate with a few children going in. Noah's cousin grins down at him with her hands on her knees; Noah stands very straight, his chin up, a serious little smile. Feeling: pride, a promise. Calm area: the sky above the gate across the top.",
+      "art": "The school gate with a few children going in; Noah's aunt stands a little behind, smiling. Noah's cousin grins down at him with her hands on her knees; Noah stands very straight, his chin up, a serious little smile. Feeling: pride, a promise. Calm area: the sky above the gate across the top.",
       "zone": {
         "side": "full",
         "v": "top",
@@ -123,7 +123,7 @@
     },
     {
       "n": 12,
-      "art": "The next morning: Noah walks in front, his cousin one step behind, humming with her eyes on him. At a quiet corner with no cars in sight, Noah has stopped at the kerb anyway and is looking carefully along the road. Feeling: a leader, calm and sure. Calm area: the sky across the top.",
+      "art": "The next morning: Noah walks in front, his cousin one step behind, humming with her eyes on him. At a quiet corner with no cars in sight, Noah has stopped at the kerb anyway, holding his aunt's hand, and is looking carefully along the road. Feeling: a leader, calm and sure. Calm area: the sky across the top.",
       "zone": {
         "side": "full",
         "v": "top",
@@ -133,7 +133,7 @@
     },
     {
       "n": 13,
-      "art": "The bakery crossing again. Noah stands at the kerb, looking, and this time he sees the electric bicycle in good time, still far up the street. The rider (the same woman in the yellow jacket) has stopped before the white stripes, one foot on the ground, and waves them across with a smile. Feeling: everything working as it should, friendly. Calm area: the wall across the top.",
+      "art": "The bakery crossing again. Noah stands at the kerb holding his aunt's hand, looking, and this time he sees the electric bicycle in good time, still far up the street. The rider (the same woman in the yellow jacket) has stopped before the white stripes, one foot on the ground, and waves the three of them across with a smile. Feeling: everything working as it should, friendly. Calm area: the wall across the top.",
       "zone": {
         "side": "full",
         "v": "top",
@@ -143,7 +143,7 @@
     },
     {
       "n": 14,
-      "art": "At the school gate: the cousin makes a deep, comic knight's bow to Noah, one hand sweeping out; Noah laughs with his head back. Behind them, far off, the little bakery crossing with its white stripes in the morning light. Last picture of the book: joy, safety, a promise kept. Calm area: the sky across the top.",
+      "art": "At the school gate: the cousin makes a deep, comic knight's bow to Noah, one hand sweeping out; Noah laughs with his head back; his aunt smiles beside them. Behind them, far off, the little bakery crossing with its white stripes in the morning light. Last picture of the book: joy, safety, a promise kept. Calm area: the sky across the top.",
       "zone": {
         "side": "full",
         "v": "top",
@@ -177,7 +177,7 @@
       {
         "n": 3,
         "page": 1,
-        "action": "9 s. Noah and his cousin walk side by side along the pavement.",
+        "action": "9 s. Noah, his cousin and his aunt walk along the pavement (the aunt is a silent adult figure with no cast sheet; she holds Noah's hand at every crossing in every shot).",
         "sound": [
           "the tune"
         ],
@@ -199,7 +199,7 @@
       {
         "n": 5,
         "page": 2,
-        "action": "12 s. Scene 2, the first crossing. Noah stops at the kerb, toes at the edge, and turns his head one way, the other way, the first way again, on three soft beats. No words.",
+        "action": "12 s. Scene 2, the first crossing. Noah stops at the kerb, toes at the edge, takes his aunt's hand and turns his head one way, the other way, the first way again, on three soft beats. No words.",
         "sound": [
           "three soft woodblock beats"
         ],
@@ -218,7 +218,7 @@
       {
         "n": 7,
         "page": 2,
-        "action": "8 s. He walks across the stripes, not running, proud.",
+        "action": "8 s. He walks across the stripes with his aunt, hand in hand, not running, proud.",
         "sound": [
           "the beeping",
           "footsteps"
@@ -230,7 +230,7 @@
       {
         "n": 8,
         "page": 3,
-        "action": "10 s. The second crossing: a bus rumbles past and a car hoots. Noah does it all again, quicker.",
+        "action": "10 s. The second crossing: a bus rumbles past and a car hoots. Noah takes his aunt's hand and does it all again, quicker.",
         "sound": [
           "a bus rumbling",
           "a short car hoot"
@@ -242,7 +242,7 @@
       {
         "n": 9,
         "page": 3,
-        "action": "6 s. His cousin smiles and walks one step behind him. No words.",
+        "action": "6 s. His aunt smiles; his cousin walks one step behind. No words.",
         "sound": [
           "the tune"
         ],
@@ -304,7 +304,7 @@
       {
         "n": 15,
         "page": 5,
-        "action": "12 s. Noah stops at the kerb and closes his eyes to listen: the sound track drops to almost nothing.",
+        "action": "12 s. Noah stops at the kerb, takes his aunt's hand and closes his eyes to listen: the sound track drops to almost nothing.",
         "sound": [
           "near silence",
           "one bird"
@@ -316,7 +316,7 @@
       {
         "n": 16,
         "page": 6,
-        "action": "7 s. He opens his eyes, smiles and lifts his foot.",
+        "action": "7 s. He opens his eyes, smiles and lifts his foot; his aunt's hand holds him back on the kerb.",
         "sound": [
           "the tune starts up brightly"
         ],
@@ -347,7 +347,7 @@
       {
         "n": 19,
         "page": 7,
-        "action": "14 s. In real time, not slowed down: the electric bicycle glides past right in front of the kerb, quick and silent; the picture shows it clearly, the sound track has only a soft hiss of tyres. Noah is safe on the kerb. No words.",
+        "action": "14 s. In real time, not slowed down: the electric bicycle glides past right in front of the kerb, quick and silent; the picture shows it clearly, the sound track has only a soft hiss of tyres. Noah is safe on the kerb, his hand in his aunt's. No words.",
         "sound": [
           "a soft tyre hiss, nothing else"
         ],
@@ -367,7 +367,7 @@
       {
         "n": 21,
         "page": 8,
-        "action": "14 s. Noah stands very still on the kerb, his cousin's hand on his shoulder. Breathing room. No words.",
+        "action": "14 s. Noah stands very still on the kerb, his aunt holding his hand, his cousin's hand on his shoulder. Breathing room. No words.",
         "sound": [
           "a heartbeat, slowing",
           "one bird"
@@ -388,7 +388,7 @@
       {
         "n": 23,
         "page": 9,
-        "action": "9 s. She crouches down to his level.",
+        "action": "9 s. She crouches down to his level; his aunt nods.",
         "sound": [
           "a soft chord"
         ],
@@ -420,7 +420,7 @@
       {
         "n": 26,
         "page": 10,
-        "action": "8 s. Nothing is coming. They walk across together, holding hands, past the smell of bread.",
+        "action": "8 s. Nothing is coming. The three of them walk across together, Noah holding his aunt's hand, past the smell of bread.",
         "sound": [
           "footsteps",
           "the tune, gentle"
@@ -464,7 +464,7 @@
       {
         "n": 30,
         "page": 12,
-        "action": "18 s. Scene 7, the next morning. A montage of crossings with Noah in front: stop, look, look, look, wait, walk; his cousin humming one step behind.",
+        "action": "18 s. Scene 7, the next morning. A montage of crossings with Noah in front: stop, take his aunt's hand, look, look, look, wait, walk; his cousin humming one step behind.",
         "sound": [
           "the tune, confident",
           "the cousin humming",
@@ -477,7 +477,7 @@
       {
         "n": 31,
         "page": 12,
-        "action": "8 s. A silent side street: Noah stops and looks anyway; his cousin nods. No words.",
+        "action": "8 s. A silent side street: Noah stops, takes his aunt's hand and looks anyway; his cousin nods. No words.",
         "sound": [
           "quiet",
           "one bird"
@@ -496,7 +496,7 @@
       {
         "n": 33,
         "page": 13,
-        "action": "8 s. The rider stops before the stripes, puts a foot down and waves them across with a smile.",
+        "action": "8 s. The rider stops before the stripes, puts a foot down and waves the three of them across with a smile.",
         "sound": [
           "a gentle brake squeak"
         ],
@@ -507,7 +507,7 @@
       {
         "n": 34,
         "page": 14,
-        "action": "8 s. Noah looks the other way too, then walks across, waving to the rider.",
+        "action": "8 s. Noah looks the other way too, then walks across hand in hand with his aunt, waving to the rider with his free hand.",
         "sound": [
           "footsteps",
           "the tune"

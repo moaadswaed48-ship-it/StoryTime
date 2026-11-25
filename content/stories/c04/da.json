@@ -9,8 +9,8 @@
   "pages": [
     {
       "n": 1,
-      "text": "Om sommeren boede Leo hos bedstefar i landsbyen. Ude fra køkkenet råbte Leo: »Bedstefar, vil du have citronvand?« Fra verandaen råbte bedstefar tilbage: »Citroner? Nej, citrontræet er ikke klar endnu!«",
-      "speech": "Om sommeren boede Leo hos bedstefar i landsbyen. Ude fra køkkenet råbte Leo: »Bedstefar, vil du have citronvand?« Fra verandaen råbte bedstefar tilbage: »Citroner? Nej, citrontræet er ikke klar endnu!«"
+      "text": "Om sommeren boede Leo hos bedstefar i landsbyen. Ude fra køkkenet råbte Leo: »Bedstefar, vil du have citronvand?« Fra verandaen råbte bedstefar tilbage: »Citroner? Nej, de er ikke modne endnu!«",
+      "speech": "Om sommeren boede Leo hos bedstefar i landsbyen. Ude fra køkkenet råbte Leo: »Bedstefar, vil du have citronvand?« Fra verandaen råbte bedstefar tilbage: »Citroner? Nej, de er ikke modne endnu!«"
     },
     {
       "n": 2,
@@ -96,8 +96,8 @@
     {
       "id": "f03",
       "speaker": "c04-grandpa",
-      "text": "Citroner? Nej, citrontræet er ikke klar endnu!",
-      "speech": "Citroner? Nej, citrontræet er ikke klar endnu!",
+      "text": "Citroner? Nej, de er ikke modne endnu!",
+      "speech": "Citroner? Nej, de er ikke modne endnu!",
       "emotion": "cheerful, friendly, sure of himself"
     },
     {

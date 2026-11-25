@@ -1166,6 +1166,27 @@ girls, 7 boys; C 7 girls, 6 boys (one of them the stork), 2 mixed pairs.
 Cloud the cat (A10: suggested غَيْمة, עָנָן, Cloud, Sky); Speckle the goat (B01); Little Camel and Mother Camel (A05);
 Little Hippo and Papa Hippo (A06); Little Hedgehog and Mama Hedgehog (A13); Long-Legs the stork (C10).
 
+**Characters named by a word or a role, groups A and B** (added 25 Nov 2026 from the A and B reviews and writers'
+notes; copied from each story's `names` list, or from the story text where the character has no sheet). These are
+not personal names, so they are outside the count of 47 above and the "no name used twice" rule.
+
+| Story | English | Arabic | Hebrew | Danish | Note |
+|---|---|---|---|---|---|
+| A02 | the sparrow | العُصفورة | צִפּוֹר הַדְּרוֹר | spurven | she; צִפּוֹר keeps her feminine |
+| A02 | the old man (the knitter) | العَجوز الطَيِّب | הָאִישׁ הַזָּקֵן | den gamle mand | |
+| A05 | Little Camel | الجَمَل الصَغير | הַגָּמָל הַקָּטָן | Lille Kamel | |
+| A05 | Mother Camel | ماما | אִמָּא | Mor Kamel | |
+| A06 | Little Hippo | فَرَس النَهر الصَغيرة | הִיפּוֹ הַקְּטַנָּה | Lille Flodhest | she |
+| A06 | Papa Hippo | بابا | אַבָּא הִיפּוֹ | Far Flodhest | |
+| A10 | Cloud (the cat) | غَيْمة | עֲנָנָה | Sky | she; Hebrew עֲנָנָה chosen over the suggested עָנָן |
+| A12 | Teddy | دُبْدوب | דֻּבִּי | Bamse | a toy bear |
+| A13 | Little Hedgehog | القُنْفُذ الصَّغير | קִפּוֹד קָטָן | Lille Pindsvin | |
+| A13 | Mama Hedgehog | ماما قُنْفُذة | אִמָּא קִפּוֹדָה | Mor Pindsvin | |
+| B01 | Speckle (the goat) | نُقْطَة | נְקֻדָּה | Prik | she; no sheet, name taken from the story text |
+| B11 | a boy | وَلَد | יֶלֶד | en dreng | role only; DECISIONS asks for a real name in four languages |
+| B11 | Tala's mum | أُمّ تالا | אִמָּא שֶׁל טָלָה | Talas mor | role only; DECISIONS asks for a real name in four languages |
+| B15 | a boy in her class | وَلَد مِن الرَوضة | יֶלֶד מֵהַגַּן | en dreng fra børnehaven | role only; DECISIONS asks for a real name in four languages |
+
 **Names avoided on purpose, with the reason:**
 - Tom (close to the spoken Arabic word for garlic); Sara and Sari (the owner's family); Hanna (in Arabic هَنا reads as
   "here", and حَنّا is a man's name); Noa (confusable with Noah across languages); names tied to only one community's

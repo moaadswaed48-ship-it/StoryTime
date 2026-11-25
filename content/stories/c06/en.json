@@ -29,8 +29,8 @@
     },
     {
       "n": 5,
-      "text": "On the first day, the note squeaked. On the second day, it squeaked again. Lily ticked the box anyway. On rainy days she practised by the window. On tired days she practised anyway, just for ten minutes. Tick. Tick. Tick.",
-      "speech": "On the first day, the note squeaked. On the second day, it squeaked again. Lily ticked the box anyway. On rainy days she practised by the window. On tired days she practised anyway, just for ten minutes. Tick. Tick. Tick."
+      "text": "On the first day, the note squeaked. On the second day, it squeaked again. Lily ticked the box anyway. On rainy days she practised by the window. On tired days she still practised, just for ten minutes. Tick. Tick. Tick.",
+      "speech": "On the first day, the note squeaked. On the second day, it squeaked again. Lily ticked the box anyway. On rainy days she practised by the window. On tired days she still practised, just for ten minutes. Tick. Tick. Tick."
     },
     {
       "n": 6,
@@ -208,8 +208,8 @@
     {
       "id": "f19",
       "speaker": "c06-music-teacher",
-      "text": "And now, Lily, with her grandmother’s flute.",
-      "speech": "And now, Lily, with her grandmother’s flute.",
+      "text": "And now, here is Lily, with her grandmother’s flute.",
+      "speech": "And now, here is Lily, with her grandmother’s flute.",
       "emotion": "proud, announcing"
     },
     {

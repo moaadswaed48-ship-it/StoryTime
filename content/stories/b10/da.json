@@ -41,14 +41,14 @@
   "activity": {
     "title": "Bløde hænder",
     "goal": "At øve sig i at holde og trøste en baby på en blid og sikker måde.",
-    "materials": ["En dukke eller et tøjdyr", "Et lille tæppe"],
+    "materials": ["En dukke eller et tøjdyr", "En kasse eller en fri, flad plads på gulvet som seng"],
     "steps": [
       { "n": 1, "caption": "Sæt dig ned. Støt hovedet og numsen." },
       { "n": 2, "caption": "Vug langsomt. Syng stille." },
-      { "n": 3, "caption": "Læg dukken på ryggen." }
+      { "n": 3, "caption": "Læg dukken på ryggen. Intet andet i sengen." }
     ],
-    "safety": "Øv med en dukke eller et tøjdyr. Et barn holder kun en rigtig baby når det sidder ned, med en voksen lige ved siden af. Hold tæppet væk fra ansigtet. Sker der et uheld, så ring til det lokale alarmnummer.",
-    "forAdult": "I historien føler Zaki sig glemt da den nye baby kommer. Men så finder han noget som kun han kan gøre for hende. Legen her giver barnet en blid rolle over for en baby, først øvet med en dukke eller et tøjdyr. Sæt jer sammen på gulvet eller i sofaen. Vis grebet: én hånd under hovedet og nakken, én hånd under numsen, babyen tæt ind til brystet. Vug så langsomt, og tal eller syng med en stille stemme. Spørg: »Hvad kan en baby lide? Hvad kan gøre en baby bange?« Lad barnet finde på sin egen sang til dukken. Slut med at lægge dukken på ryggen på tæppet, med tæppet højst op til skuldrene, for babyer sover på ryggen. Er der en rigtig baby i familien, holder barnet kun babyen når det sidder ned, med en voksen lige ved siden af. Ti til femten minutter er nok. Gør det lettere: Bare vug og syng. Gør det sværere: Lad som om I skifter ble på dukken, trin for trin.",
+    "safety": "Øv med en dukke eller et tøjdyr. Et barn holder kun en rigtig baby når det sidder ned, med en voksen lige ved siden af. Sker der et uheld, så ring til det lokale alarmnummer.",
+    "forAdult": "I historien føler Zaki sig glemt da den nye baby kommer. Men så finder han noget som kun han kan gøre for hende. Legen her giver barnet en blid rolle over for en baby, først øvet med en dukke eller et tøjdyr. Sæt jer sammen på gulvet eller i sofaen. Vis grebet: én hånd under hovedet og nakken, én hånd under numsen, babyen tæt ind til brystet. Vug så langsomt, og tal eller syng med en stille stemme. Spørg: »Hvad kan en baby lide? Hvad kan gøre en baby bange?« Lad barnet finde på sin egen sang til dukken. Slut med at lægge dukken på ryggen i dens legeseng, uden noget andet i sengen. Sådan sover rigtige babyer også: på ryggen, i deres egen seng og uden noget blødt omkring sig, altså ingen puder, tæpper eller legetøj. Er der en rigtig baby i familien, holder barnet kun babyen når det sidder ned, med en voksen lige ved siden af. Ti til femten minutter er nok. Gør det lettere: Bare vug og syng. Gør det sværere: Lad som om I skifter ble på dukken, trin for trin.",
     "inClass": "Én dukke eller ét tøjdyr til hvert par børn. Pædagogen viser grebet langsomt, og så skiftes parrene: Den ene holder og vugger, den anden holder øje med at hovedet bliver støttet. Mens parrene vugger, synger hele gruppen stille en vuggevise sammen, for eksempel månesangen fra historien."
   }
 }
