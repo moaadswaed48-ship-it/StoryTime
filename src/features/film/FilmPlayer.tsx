@@ -29,13 +29,17 @@ type Props = {
   onWatched: () => void
   /** Try to start at once (the person just pressed Watch). Browsers may refuse; the big play button stays. */
   autoStart?: boolean
+  /** The position saved with the account (progress.film_position_s), used when this device has none. */
+  savedAt?: number | null
+  /** Saves the position with the account (about every 10 seconds, on pause, and null at the end). */
+  onPosition?: (seconds: number | null) => void
 }
 
 type LockableOrientation = ScreenOrientation & { lock?: (o: string) => Promise<void> }
 /** Plain HTML attributes the React wrappers do not type (Media Chrome reads them as attributes). */
 const attrs = (a: Record<string, string>) => a as object
 
-export default function FilmPlayer({ film, title, lang, memoryKey, captions, onCaptions, onWatched, autoStart }: Props) {
+export default function FilmPlayer({ film, title, lang, memoryKey, captions, onCaptions, onWatched, autoStart, savedAt, onPosition }: Props) {
   const { lang: siteLang, dict } = useLang()
   const t = dict.stories.film
   const ids = useId().replace(/[^a-zA-Z0-9]/g, '')
@@ -46,6 +50,8 @@ export default function FilmPlayer({ film, title, lang, memoryKey, captions, onC
   const [track, setTrack] = useState<string | null>(null)
   const [attempt, setAttempt] = useState(0)
   const watched = useRef(false)
+  const account = useRef({ savedAt, onPosition })
+  account.current = { savedAt, onPosition }
 
   // Our labels for Media Chrome, in the site language (the controller's `lang` picks them).
   addTranslation(siteLang, chromeLabels(t.chrome))
@@ -74,22 +80,34 @@ export default function FilmPlayer({ film, title, lang, memoryKey, captions, onC
     const v = video.current
     if (!v) return
     const restore = () => {
+      // This device's own place first; else the place saved with the account (another device).
       let at = 0
       try { at = Number(localStorage.getItem(memoryKey)) || 0 } catch { /* private mode */ }
+      if (!at) at = account.current.savedAt ?? 0
       if (at > 3 && Number.isFinite(v.duration) && at < v.duration - 3) v.currentTime = at
     }
     let last = 0
+    let sent = -1
+    const toAccount = (force = false) => {
+      const at = Math.floor(v.currentTime)
+      if (!force && Math.abs(at - sent) < 10) return
+      sent = at
+      account.current.onPosition?.(at)
+    }
     const save = () => {
       if (Math.abs(v.currentTime - last) < 2) return
       last = v.currentTime
       try { localStorage.setItem(memoryKey, String(Math.floor(v.currentTime))) } catch { /* private mode */ }
+      toAccount()
       if (!watched.current && Number.isFinite(v.duration) && v.currentTime > v.duration * 0.9) {
         watched.current = true
         onWatched()
       }
     }
+    const paused = () => !v.ended && toAccount(true)
     const ended = () => {
       try { localStorage.removeItem(memoryKey) } catch { /* private mode */ }
+      account.current.onPosition?.(null)
       if (!watched.current) {
         watched.current = true
         onWatched()
@@ -99,12 +117,14 @@ export default function FilmPlayer({ film, title, lang, memoryKey, captions, onC
     v.addEventListener('loadedmetadata', restore)
     v.addEventListener('timeupdate', save)
     v.addEventListener('ended', ended)
+    v.addEventListener('pause', paused)
     v.addEventListener('error', fail)
     if (v.readyState >= 1) restore()
     return () => {
       v.removeEventListener('loadedmetadata', restore)
       v.removeEventListener('timeupdate', save)
       v.removeEventListener('ended', ended)
+      v.removeEventListener('pause', paused)
       v.removeEventListener('error', fail)
     }
   }, [memoryKey, onWatched, attempt])

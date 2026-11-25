@@ -41,7 +41,7 @@ for (const m of readFileSync(resolve(repo, 'src/data/local/seed.ts'), 'utf8').ma
 const appRoutes = ['', 'welcome', 'library', 'collections', 'collections/stories', 'collections/films', 'collections/activities',
   'settings', 'owner', 'owner/dashboard', 'owner/changes', 'plans', 'checkout', 'checkout/done', 'test-pay']
 for (const id of storyIds) for (const sub of ['', '/read', '/watch', '/do']) appRoutes.push(`story/${id}${sub}`)
-const clientRoutes = [...appRoutes.map((r) => `app/${r}`), 'auth/check-email', 'auth/confirm', 'auth/reset', 'auth/deleted']
+const clientRoutes = [...appRoutes.map((r) => `app/${r}`), 'auth/check-email', 'auth/confirm', 'auth/confirm-email', 'auth/reset', 'auth/deleted']
 let written = 0
 for (const lang of LANGS) {
   for (const r of clientRoutes) {

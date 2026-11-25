@@ -3,4 +3,4 @@
  * export_my_data() in SQL and LocalServer.exportMyData. Checked by tests/db/review-fixes.test.ts and
  * tests/local-data.test.ts.
  */
-export const EXPORT_KEYS = ['children', 'consents', 'email', 'exported_at', 'orders', 'passes', 'payments', 'profile', 'progress', 'refunds', 'trial']
+export const EXPORT_KEYS = ['children', 'consents', 'email', 'exported_at', 'favourites', 'orders', 'passes', 'payments', 'profile', 'progress', 'refunds', 'trial']

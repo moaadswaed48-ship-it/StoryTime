@@ -31,7 +31,8 @@ export type ContentStory = {
   story: StoryJson
   /** Folders named sample-* hold StoryTime's test stories, marked as samples on screen. */
   isSample: boolean
-  features: { listen: boolean; film: boolean; activity: boolean }
+  /** film: a film file exists; filmSoon: the story has a film plan (story.json "film") but no file yet. */
+  features: { listen: boolean; film: boolean; activity: boolean; filmSoon: boolean }
 }
 
 function parse<T>(raw: string, where: string): T | null {
@@ -72,6 +73,7 @@ function readStories(): ContentStory[] {
         listen: keys.some((k) => k.startsWith(`${dir}audio/`)),
         film: keys.some((k) => k.startsWith(`${dir}film/`) && k.endsWith('.mp4')),
         activity: !!story.activity,
+        filmSoon: !!story.film && !keys.some((k) => k.startsWith(`${dir}film/`) && k.endsWith('.mp4')),
       },
     })
   }
@@ -134,10 +136,11 @@ export async function loadContent(c: ContentStory, want: Lang): Promise<StoryCon
   if (!picked) throw new DataError('not_found', `${c.id}: no language file`)
   const { lang, json } = picked
   const problems = checkStory(c.story, { [lang]: json })
-  if (problems.length) {
-    console.warn(`[content] ${c.id}: ${problems.join('; ')}`)
-    throw new DataError('not_found', `${c.id}: ${problems[0]}`)
-  }
+  if (problems.length) console.warn(`[content] ${c.id}: ${problems.join('; ')}`)
+  // Only a problem with the book itself stops it opening. A mismatch in the activity's list (a14 has three material
+  // ids in story.json and two lines in every language) is shown as the language file has it.
+  const fatal = problems.filter((p) => !p.includes('activity') && !p.includes('film line'))
+  if (fatal.length) throw new DataError('not_found', `${c.id}: ${fatal[0]}`)
   const dir = `${ROOT}${c.folder}/`
   const pages: StoryPage[] = await Promise.all(
     c.story.pages.map(async (p) => {
@@ -174,7 +177,11 @@ export async function loadContent(c: ContentStory, want: Lang): Promise<StoryCon
       title: t.title,
       goal: t.goal,
       minutes: a.minutes ?? null,
-      materials: await Promise.all(a.materials.map(async (id, i) => ({ id, label: t.materials[i] ?? id, pictureUrl: await url(firstExisting(`${dir}activity/material-${id}`, PICTURE)) }))),
+      // The language file's lines are what the family reads; story.json's ids (same order) name the pictures.
+      materials: await Promise.all(t.materials.map(async (label, i) => {
+        const id = a.materials[i] ?? `m${i + 1}`
+        return { id, label, pictureUrl: await url(firstExisting(`${dir}activity/material-${id}`, PICTURE)) }
+      })),
       steps: await Promise.all(
         a.steps.map(async (s) => ({
           n: s.n,

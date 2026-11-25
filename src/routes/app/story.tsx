@@ -2,9 +2,9 @@ import type { ComponentType, ReactNode, SVGProps } from 'react'
 import { Link, useParams } from 'react-router'
 import { errorText } from '@/features/account/messages'
 import { Cover } from '@/features/family/Cover'
-import { DoorDo, DoorListen, DoorRead, DoorWatch, IconArrow, IconCheck, IconLock } from '@/features/family/icons'
+import { DoorDo, DoorListen, DoorRead, DoorWatch, IconArrow, IconCheck, IconHeart, IconLock } from '@/features/family/icons'
 import { usePrefs } from '@/features/family/prefs'
-import { useLearners, useProgress } from '@/features/family/useFamily'
+import { useFavourites, useLearners, useProgress } from '@/features/family/useFamily'
 import { useStory } from '@/features/family/useStory'
 import { fmt } from '@/i18n/format'
 import { useLang } from '@/i18n/use-dict'
@@ -29,6 +29,7 @@ export default function Storybook() {
   const { active } = useLearners()
   const progress = useProgress(active?.id ?? null)
   const [prefs, setPrefs] = usePrefs()
+  const favourites = useFavourites(active?.id ?? null)
   const p = progress.byStory[id]
 
   if (loading && !summary) return <Spinner label={dict.account.states.loading} />
@@ -64,6 +65,16 @@ export default function Storybook() {
             {summary.isSample && <PlaceholderTag>{dict.commerce.access.sample}</PlaceholderTag>}
           </p>
           {summary.teaser && <p className="max-w-prose text-lg" lang={storyLang}>{summary.teaser}</p>}
+          {active && favourites.ids && (() => {
+            const on = favourites.ids.includes(id)
+            return (
+              <button type="button" aria-pressed={on} onClick={() => void favourites.toggle(id)} data-testid="favourite"
+                className="inline-flex min-h-12 items-center gap-2 self-center rounded-full border-2 border-ink/20 bg-surface px-4 font-medium aria-pressed:border-ink sm:self-start">
+                <IconHeart filled={on} className={`size-6 ${on ? 'text-[#b3261e]' : ''}`} />
+                {on ? t.onShelf : dict.stories.library.addFavourite}
+              </button>
+            )
+          })()}
           {p && !locked && (
             <ul className="flex flex-wrap justify-center gap-x-4 gap-y-1 text-sm text-ink-muted sm:justify-start" data-testid="story-progress">
               {p.lastPage && <li className="inline-flex items-center gap-1"><IconCheck className="size-4" />{fmt(t.progressRead, { n: p.lastPage })}</li>}

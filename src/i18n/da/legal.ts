@@ -274,7 +274,7 @@ export default {
             list: [
               'Bilag for køb og refusioner, uden dit navn, fordi skattereglerne kræver dem. [[Hvor længe: den periode, skattereglerne kræver]]',
               'En prøveperiode-registrering: en envejskode lavet ud fra din e-mailadresse (en hash med et hemmeligt "salt") og dagen, prøveperioden startede. Den indeholder ingen e-mail og intet navn, ingen kan åbne den via siden, og den bruges kun til at afvise en ny gratis prøveperiode til samme adresse. [[Hvor længe: foreslået 2 år, bekræftes af vores advokat]]',
-              'Loggen over e-mails, der allerede er sendt til dig, og adressen, hvis den afviste en e-mail eller markerede os som spam. [[Hvor længe: fastsættes senere]]',
+              'Loggen over e-mails, der allerede er sendt til dig (hvilken e-mail, på hvilket sprog, hvornår, og om den kom frem), uden din adresse: i hver registrering erstattes adressen af samme slags envejskode, straks for tidligere e-mails og så snart e-mailen, der bekræfter sletningen, er sendt. Kun hvis en e-mail til dig blev afvist, eller du markerede en som spam, bliver adressen stående på vores liste over adresser, vi ikke skriver til. [[Hvor længe: fastsættes senere]]',
               'En fortrydelsesanmodning, du har sendt via formularen. [[Hvor længe: fastsættes senere]]',
               'En note om, at kontoen er slettet og hvornår, uden din e-mail.',
             ],

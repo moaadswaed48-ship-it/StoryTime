@@ -32,6 +32,7 @@ export default [
     // Pages opened from email links and after leaving: client-only, never pre-rendered.
     route('auth/check-email', 'routes/auth/check-email.tsx'),
     route('auth/confirm', 'routes/auth/confirm.tsx'),
+    route('auth/confirm-email', 'routes/auth/confirm-email.tsx'),
     route('auth/reset', 'routes/auth/reset.tsx'),
     route('auth/deleted', 'routes/auth/deleted.tsx'),
     route('app', 'routes/app/layout.tsx', [

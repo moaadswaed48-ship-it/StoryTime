@@ -33,7 +33,7 @@ export default function Do() {
       {content && !content.activity && <Notice title={dict.stories.doors.noActivity} />}
       {content?.activity && (
         <ActivityView activity={content.activity} lang={content.lang} done={!!progress.byStory[id]?.activityDone} learnerName={active?.name ?? null}
-          onDone={active ? (done) => void progress.save(id, { activityDone: done }) : null} />
+          onDone={active ? (done) => void progress.save(id, { activityDone: done }) : null} printable />
       )}
     </div>
   )

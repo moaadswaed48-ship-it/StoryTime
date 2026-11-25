@@ -5,6 +5,7 @@ import { LocalApi } from '@/data/local'
 import { CONTENT_STORIES } from '@/data/local/content'
 import { memoryKv } from '@/data/local/server'
 import { DataError } from '@/data/errors'
+import { testProvider } from '@/data/payments/test-provider'
 import { TERMS_VERSION } from '@/data/terms'
 import { LANGS } from '@/i18n/config'
 
@@ -72,6 +73,11 @@ describe('the loader serves content only through the access check', () => {
     expect(refused).toBe('locked')
     await api.addLearner({ name: 'Noor', ageGroup: '4-5' })
     await api.startTrial('4-5')
+    // The samples are never trial stories (the trial is three real stories: src/data/local/trial-picks.ts).
+    expect(await api.getStoryContent('sample-b', 'ar').then(() => null, (e: DataError) => e.code)).toBe('locked')
+    const order = await api.createOrder({ ageGroup: '4-5', months: 1, provider: 'test', termsVersion: TERMS_VERSION })
+    await testProvider.pay(api, order, 'succeeded')
+    for (let i = 0; i < 20 && (await api.getOrder(order.id)).status === 'pending'; i++) await new Promise((r) => setTimeout(r, 10))
     const c = await api.getStoryContent('sample-b', 'ar')
     expect(c).toMatchObject({ lang: 'ar', title: 'عيّنة: البذرة الصغيرة', isSample: true })
     expect(c.pages).toHaveLength(6)

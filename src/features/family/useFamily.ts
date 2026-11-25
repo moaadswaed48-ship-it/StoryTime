@@ -78,6 +78,33 @@ export function useProgress(learnerId: string | null) {
   return { byStory, loaded, save }
 }
 
+/** "My shelf": the active profile's favourite stories, with an optimistic toggle (undone if the save fails). */
+export function useFavourites(learnerId: string | null) {
+  const [ids, setIds] = useState<string[] | null>(null)
+  const [error, setError] = useState<ErrorCode | null>(null)
+  useEffect(() => {
+    setIds(null)
+    setError(null)
+    if (!learnerId) return
+    let alive = true
+    getApi().then((a) => a.listFavourites(learnerId)).then((r) => alive && setIds(r), (e) => alive && setError(codeOf(e)))
+    return () => void (alive = false)
+  }, [learnerId])
+  const toggle = useCallback(async (storyId: string) => {
+    if (!learnerId || !ids) return
+    const on = !ids.includes(storyId)
+    const before = ids
+    setIds(on ? [storyId, ...ids] : ids.filter((x) => x !== storyId))
+    try {
+      await (await getApi()).setFavourite(learnerId, storyId, on)
+    } catch (e) {
+      setIds(before)
+      setError(codeOf(e))
+    }
+  }, [learnerId, ids])
+  return { ids, error, toggle }
+}
+
 /** The language stories are read in: the account's story language, else the site language. */
 export function useStoryLang(): Lang {
   const { lang } = useLang()

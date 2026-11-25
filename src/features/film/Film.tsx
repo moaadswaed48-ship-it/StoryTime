@@ -9,7 +9,18 @@ import { useLang } from '@/i18n/use-dict'
  */
 const Player = lazy(() => import('./FilmPlayer'))
 
-export function Film(props: { film: FilmContent; title: string; lang: Lang; memoryKey: string; captions: boolean; onCaptions: (on: boolean) => void; onWatched: () => void; autoStart?: boolean }) {
+export function Film(props: {
+  film: FilmContent
+  title: string
+  lang: Lang
+  memoryKey: string
+  captions: boolean
+  onCaptions: (on: boolean) => void
+  onWatched: () => void
+  autoStart?: boolean
+  savedAt?: number | null
+  onPosition?: (seconds: number | null) => void
+}) {
   const { dict } = useLang()
   const poster = (
     <div className="relative aspect-video w-full overflow-hidden rounded-[1rem] bg-[#111]" role="status" aria-label={dict.account.states.loading}>

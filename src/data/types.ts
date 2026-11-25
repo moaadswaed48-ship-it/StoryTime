@@ -20,6 +20,32 @@ export type Iso = string
 
 export type Session = { userId: string; email: string }
 
+/**
+ * Reading and film settings kept with the account (profiles.prefs), so they follow it to another device. Only these
+ * keys; the database refuses any other (supabase/migrations/20261125130000_family_prefs_favourites.sql).
+ */
+export type AccountPrefs = {
+  autoFlip?: boolean
+  captions?: boolean
+  /** Index into TEXT_SCALES (src/reader/zone.ts). */
+  textScale?: number
+  view?: 'shelf' | 'list' | null
+  hintSeen?: boolean
+}
+export const PREF_KEYS = ['autoFlip', 'captions', 'textScale', 'view', 'hintSeen'] as const
+
+/** Keeps only the known keys with the right types (both backends store only this). */
+export function cleanPrefs(v: unknown): AccountPrefs {
+  const o = (v && typeof v === 'object' ? v : {}) as Record<string, unknown>
+  const out: AccountPrefs = {}
+  if (typeof o.autoFlip === 'boolean') out.autoFlip = o.autoFlip
+  if (typeof o.captions === 'boolean') out.captions = o.captions
+  if (typeof o.hintSeen === 'boolean') out.hintSeen = o.hintSeen
+  if (typeof o.textScale === 'number' && o.textScale >= 0 && o.textScale <= 3) out.textScale = Math.round(o.textScale)
+  if (o.view === 'shelf' || o.view === 'list' || o.view === null) out.view = o.view
+  return out
+}
+
 export type Account = {
   id: string
   email: string
@@ -29,6 +55,8 @@ export type Account = {
   onboardedAt: Iso | null
   marketingOptIn: boolean
   createdAt: Iso
+  /** Reading and film settings (empty until one is changed). */
+  prefs: AccountPrefs
 }
 
 export type Learner = { id: string; kind: LearnerKind; name: string; ageGroup: AgeGroup }
@@ -49,7 +77,7 @@ export type StorySummary = {
    * What the story has (catalogue facts, not content), so the collections can list films and activities without
    * fetching paid content. Undefined = not known by this backend yet: the screens then assume it exists.
    */
-  features?: { listen: boolean; film: boolean; activity: boolean }
+  features?: { listen: boolean; film: boolean; activity: boolean; filmSoon?: boolean }
 }
 
 /** Where the calm area for words sits on a page (content/SCHEMA.md). "start" is the reading side. */
@@ -109,9 +137,12 @@ export type Progress = {
   lastPage: number | null
   filmWatched: boolean
   activityDone: boolean
+  /** Where this profile stopped in the story's film, in whole seconds; null = from the start. */
+  filmPositionS: number | null
   updatedAt: Iso
 }
-export type ProgressPatch = Partial<Pick<Progress, 'lastPage' | 'filmWatched' | 'activityDone'>>
+export type ProgressPatch = Partial<Pick<Progress, 'lastPage' | 'filmWatched' | 'activityDone' | 'filmPositionS'>>
+export const MAX_FILM_POSITION_S = 36_000
 
 export type Trial = { id: string; ageGroup: AgeGroup; startedAt: Iso; endsAt: Iso; storyIds: string[] }
 
@@ -147,4 +178,11 @@ export type Order = {
 export type Price = { ageGroup: AgeGroup; months: PassMonths; priceAgorot: number | null }
 
 /** What the app needs to decide what is open: the clock the server used, the trial and the passes. */
-export type AccessSnapshot = { now: Iso; role: Role; trial: Trial | null; passes: Pass[] }
+export type AccessSnapshot = {
+  now: Iso
+  role: Role
+  trial: Trial | null
+  passes: Pass[]
+  /** The trial's stories that a profile of this account has opened (read, watched or done), for "1 of 3 opened". */
+  trialOpened?: string[]
+}

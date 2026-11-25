@@ -5,12 +5,14 @@ import { addDays, canCancel, hasAccessToStory, isPassCurrent, passDates, TRIAL_D
 import { TERMS_VERSION } from '../terms'
 import {
   isAgeGroup, isPassMonths, learnerKindFor,
-  type AccessSnapshot, type Account, type AgeGroup, type Iso, type Learner, type LearnerKind, type Order, type OrderStatus,
+  cleanPrefs, MAX_FILM_POSITION_S,
+  type AccessSnapshot, type Account, type AccountPrefs, type AgeGroup, type Iso, type Learner, type LearnerKind, type Order, type OrderStatus,
   type Pass, type PassMonths, type PassStatus, type Price, type Progress, type ProgressPatch, type Role, type StoryContent, type StorySummary, type Trial,
 } from '../types'
 import { PRICES } from '../prices'
 import { isEmail, MIN_PASSWORD } from '../validate'
-import { CONTENT_STORIES, loadContent, summaryFacts } from './content'
+import { CONTENT_STORIES, loadContent, summaryFacts, type ContentStory } from './content'
+import { TRIAL_PICKS } from './trial-picks'
 import { SEED_STORIES, seedPages, seedTeaser, seedTitle } from './seed'
 
 /**
@@ -60,7 +62,7 @@ export const RESEND_COOLDOWN_S = 60
 const MAX_FAILED_SIGN_INS = 10
 
 type UserRow = { id: string; email: string; salt: string; hash: string; confirmedAt: Iso | null; createdAt: Iso }
-type ProfileRow = { role: Role; language: Lang; storyLanguage: Lang | null; onboardedAt: Iso | null; createdAt: Iso }
+type ProfileRow = { role: Role; language: Lang; storyLanguage: Lang | null; onboardedAt: Iso | null; createdAt: Iso; prefs?: AccountPrefs }
 type LearnerRow = Learner & { accountId: string; createdAt: Iso }
 type ConsentRow = { id: string; accountId: string; kind: 'terms' | 'adult' | 'marketing'; granted: boolean; termsVersion: string | null; source: 'sign-up' | 'settings' | 'checkout'; createdAt: Iso }
 type TrialRow = Trial & { accountId: string }
@@ -70,8 +72,19 @@ type PassRow = { id: string; accountId: string; orderId: string | null; ageGroup
 type RefundRow = { id: string; orderId: string; passId: string; amountAgorot: number; feeAgorot: number | null; status: 'requested' | 'issued' | 'declined'; requestedAt: Iso }
 type EventRow = { provider: string; eventId: string; orderId: string; kind: string; receivedAt: Iso }
 type ProgressRow = Progress & { learnerId: string; accountId: string }
-type TokenRow = { token: string; userId: string; kind: 'signup' | 'recovery'; createdAt: Iso; expiresAt: Iso; usedAt: Iso | null }
-export type OutboxRow = { id: string; to: string; template: 'confirm' | 'reset' | 'purchase' | 'cancellation' | 'deleted'; lang: Lang; link: string | null; createdAt: Iso }
+type TokenRow = { token: string; userId: string; kind: 'signup' | 'recovery' | 'email_change'; createdAt: Iso; expiresAt: Iso; usedAt: Iso | null; newEmail?: string }
+export type OutboxRow = {
+  id: string
+  /** The address; null once the account is deleted and the email has gone out (then only `toHash` is kept). */
+  to: string | null
+  /** As email_log.to_email_hash: the salted SHA-256 of the address, the same formula as the trial ledger. */
+  toHash?: string
+  template: OutboxTemplate
+  lang: Lang
+  link: string | null
+  createdAt: Iso
+}
+export type OutboxTemplate = 'confirm' | 'reset' | 'purchase' | 'cancellation' | 'deleted' | 'email_change' | 'email_changed'
 
 export type LocalDb = {
   version: 1
@@ -95,12 +108,15 @@ export type LocalDb = {
   /** start_trial()'s private.trial_ledger: a salted hash of each email that started a trial, kept after deletion. */
   trialLedger?: { emailHash: string; usedOn: string }[]
   ledgerSalt?: string
+  /** Added in part C: "my shelf", per profile (the favourites table). */
+  favourites?: { learnerId: string; accountId: string; storyId: string; createdAt: Iso }[]
 }
 
 /**
  * One catalogue row: a story from content/stories/ (the real format) or one of the text-only seed samples that
- * exercise the access rules. In each age group the first TRIAL_STORIES eligible stories by position are that
- * group's trial stories: real stories first, then the content samples, then the seeds.
+ * exercise the access rules. Real stories come first, in folder order (a01..c15), then the content samples, then the
+ * seeds. Each age group's trial stories are its TRIAL_PICKS (./trial-picks.ts), placed first on the shelf; a group
+ * without its picks (a test build with other content) falls back to its first TRIAL_STORIES stories.
  */
 type CatalogueRow = {
   id: string
@@ -110,9 +126,9 @@ type CatalogueRow = {
   source: 'content' | 'seed'
 }
 
-function buildCatalogue(): CatalogueRow[] {
+export function buildCatalogue(stories: ContentStory[] = CONTENT_STORIES, picks: Record<AgeGroup, readonly string[]> = TRIAL_PICKS): CatalogueRow[] {
   const rows: (CatalogueRow & { eligible: Set<AgeGroup> })[] = []
-  CONTENT_STORIES.forEach((c, i) => {
+  stories.forEach((c, i) => {
     const position = (c.isSample ? -50 : -100) + i
     rows.push({ id: c.id, slug: c.id, status: 'published', source: 'content', groups: c.story.ageGroups.map((group) => ({ group, trial: false, position })), eligible: new Set(c.story.ageGroups) })
   })
@@ -120,8 +136,18 @@ function buildCatalogue(): CatalogueRow[] {
     rows.push({ id: s.id, slug: s.slug, status: s.status, source: 'seed', groups: s.groups.map((g) => ({ ...g, trial: false })), eligible: new Set(s.groups.filter((g) => g.trial).map((g) => g.group)) })
   }
   for (const group of ['2-3', '4-5', '6-8'] as const) {
-    rows
-      .filter((r) => r.status === 'published' && r.eligible.has(group))
+    const listed = rows.filter((r) => r.status === 'published' && r.groups.some((g) => g.group === group))
+    const picked = picks[group].map((id) => listed.find((r) => r.id === id)).filter((r): r is (typeof rows)[number] => !!r)
+    if (picked.length === TRIAL_STORIES) {
+      picked.forEach((r, i) => {
+        const g = r.groups.find((x) => x.group === group)!
+        g.trial = true
+        g.position = -200 + i // the open books lead the shelf
+      })
+      continue
+    }
+    listed
+      .filter((r) => r.eligible.has(group))
       .map((r) => ({ r, g: r.groups.find((g) => g.group === group)! }))
       .sort((a, b) => a.g.position - b.g.position)
       .slice(0, TRIAL_STORIES)
@@ -239,12 +265,23 @@ export class LocalServer {
   }
 
   /** Uses a link's token once. Returns the user it belongs to. */
-  completeLink(kind: 'signup' | 'recovery', token: string | null): { userId: string; email: string } {
+  completeLink(kind: 'signup' | 'recovery' | 'email_change', token: string | null): { userId: string; email: string } {
     return this.tx((db) => {
       const row = db.tokens.find((t) => t.token === token && t.kind === kind)
       const user = row && db.users.find((u) => u.id === row.userId)
       if (!row || !user || row.usedAt || new Date(this.now()) >= new Date(row.expiresAt)) throw new DataError('link_expired')
       row.usedAt = this.now()
+      if (kind === 'email_change') {
+        const next = norm(row.newEmail ?? '')
+        if (!isEmail(next)) throw new DataError('link_expired')
+        if (db.users.some((u) => u.id !== user.id && u.email === next)) throw new DataError('email_taken')
+        const old = user.email
+        user.email = next
+        // Older links for the old address stop working; a notice goes to the old address (the real owner hears).
+        for (const t of db.tokens) if (t.userId === user.id && t.kind === 'email_change' && !t.usedAt) t.usedAt = this.now()
+        db.outbox.push({ id: uuid(), to: old, template: 'email_changed', lang: db.profiles[user.id]?.language ?? 'en', link: null, createdAt: this.now() })
+        return { userId: user.id, email: user.email }
+      }
       if (kind === 'signup' || !user.confirmedAt) user.confirmedAt = user.confirmedAt ?? this.now()
       return { userId: user.id, email: user.email }
     })
@@ -281,6 +318,27 @@ export class LocalServer {
     })
   }
 
+  /**
+   * As supabase.auth.updateUser({ email }): a link to the new address; nothing changes until it is opened.
+   * One link a minute; an address that already has an account is refused.
+   */
+  requestEmailChange(uid: string | null, newEmail: string, lang: Lang, linkBase: string) {
+    const id = this.requireUser(uid)
+    const next = norm(newEmail)
+    if (!isEmail(next)) throw new DataError('invalid_email')
+    this.tx((db) => {
+      const u = db.users.find((x) => x.id === id)!
+      if (next === u.email) throw new DataError('unknown', 'same_email')
+      if (db.users.some((x) => x.email === next)) throw new DataError('email_taken')
+      const now = this.now()
+      const recent = db.tokens.filter((t) => t.userId === id && t.kind === 'email_change').at(-1)
+      if (recent && new Date(now).getTime() - new Date(recent.createdAt).getTime() < RESEND_COOLDOWN_S * 1000) throw new DataError('rate_limited')
+      const token = uuid().replace(/-/g, '')
+      db.tokens.push({ token, userId: id, kind: 'email_change', newEmail: next, createdAt: now, expiresAt: new Date(new Date(now).getTime() + CONFIRM_LINK_HOURS * 3_600_000).toISOString(), usedAt: null })
+      db.outbox.push({ id: uuid(), to: next, template: 'email_change', lang, link: `${linkBase}${lang}/auth/confirm-email/?token=${token}`, createdAt: now })
+    })
+  }
+
   /** The user still exists (a deleted account's session is dead). */
   userExists(uid: string): boolean {
     return this.read().users.some((u) => u.id === uid)
@@ -299,13 +357,15 @@ export class LocalServer {
     const u = db.users.find((x) => x.id === id)!
     const p = db.profiles[id]!
     const marketing = db.consents.filter((c) => c.accountId === id && c.kind === 'marketing').at(-1)
-    return { id, email: u.email, role: p.role, language: p.language, storyLanguage: p.storyLanguage, onboardedAt: p.onboardedAt, marketingOptIn: !!marketing?.granted, createdAt: p.createdAt }
+    return { id, email: u.email, role: p.role, language: p.language, storyLanguage: p.storyLanguage, onboardedAt: p.onboardedAt, marketingOptIn: !!marketing?.granted, createdAt: p.createdAt, prefs: cleanPrefs(p.prefs) }
   }
 
-  updateAccount(uid: string | null, patch: { language?: Lang; storyLanguage?: Lang; onboarded?: true }): Account {
+  updateAccount(uid: string | null, patch: { language?: Lang; storyLanguage?: Lang; onboarded?: true; prefs?: AccountPrefs }): Account {
     const id = this.requireUser(uid)
     this.tx((db) => {
       const p = db.profiles[id]!
+      // As the profiles_prefs_check constraint: only the known settings, with their types.
+      if (patch.prefs) p.prefs = cleanPrefs({ ...cleanPrefs(p.prefs), ...cleanPrefs(patch.prefs) })
       if (patch.language && isLang(patch.language)) p.language = patch.language
       if (patch.storyLanguage && isLang(patch.storyLanguage)) p.storyLanguage = patch.storyLanguage
       if (patch.onboarded) p.onboardedAt = p.onboardedAt ?? this.now()
@@ -363,7 +423,13 @@ export class LocalServer {
 
   removeLearner(uid: string | null, learnerId: string) {
     const id = this.requireUser(uid)
-    this.tx((db) => void (db.learners = db.learners.filter((l) => !(l.id === learnerId && l.accountId === id))))
+    this.tx((db) => {
+      if (!db.learners.some((l) => l.id === learnerId && l.accountId === id)) return
+      db.learners = db.learners.filter((l) => l.id !== learnerId)
+      // As the foreign keys (on delete cascade): the profile's progress and shelf go with it.
+      db.progress = db.progress.filter((p) => p.learnerId !== learnerId)
+      db.favourites = (db.favourites ?? []).filter((f) => f.learnerId !== learnerId)
+    })
   }
 
   exportMyData(uid: string | null): unknown {
@@ -384,17 +450,37 @@ export class LocalServer {
       passes: db.passes.filter((p) => p.accountId === id),
       refunds: db.refunds.filter((r) => orderIds.has(r.orderId)),
       progress: db.progress.filter((p) => p.accountId === id).map(({ accountId: _a, ...p }) => p),
+      favourites: (db.favourites ?? []).filter((f) => f.accountId === id).map(({ accountId: _a, ...f }) => f),
       note: 'Test mode: this data lives only in this browser.',
     }
   }
 
-  /** Same effect as delete_my_account(): everything goes except orders and payments, which lose the name. */
-  deleteAccount(uid: string | null, lang: Lang) {
+  /** The salted hash of an address (private.email_hash() in SQL; the trial ledger uses the same salt and formula). */
+  private async emailHash(email: string): Promise<string> {
+    const salt = this.tx((db) => (db.ledgerSalt ??= uuid()))
+    return hashPassword(norm(email), salt)
+  }
+
+  /**
+   * Same effect as delete_my_account(): everything goes except orders and payments, which lose the name. The
+   * outbox (this backend's email log) keeps no address of the account: earlier emails keep only the hash, and the
+   * account-deleted email, which in test mode counts as sent the moment it is written, too
+   * (supabase/migrations/20261125120000_email_log_privacy.sql).
+   */
+  async deleteAccount(uid: string | null, lang: Lang) {
     const id = this.requireUser(uid)
+    const toHash = await this.emailHash(this.read().users.find((x) => x.id === id)!.email)
     this.tx((db) => {
       const u = db.users.find((x) => x.id === id)!
       db.deletionRequests.push({ id: uuid(), requestedAt: this.now(), completedAt: this.now() })
-      db.outbox.push({ id: uuid(), to: u.email, template: 'deleted', lang, link: null, createdAt: this.now() })
+      for (const m of db.outbox) {
+        if (m.to !== null && norm(m.to) === norm(u.email)) {
+          m.to = null
+          m.toHash = toHash
+          m.link = null
+        }
+      }
+      db.outbox.push({ id: uuid(), to: null, toHash, template: 'deleted', lang, link: null, createdAt: this.now() })
       db.users = db.users.filter((x) => x.id !== id)
       delete db.profiles[id]
       db.learners = db.learners.filter((l) => l.accountId !== id)
@@ -402,6 +488,7 @@ export class LocalServer {
       db.trials = db.trials.filter((t) => t.accountId !== id)
       db.passes = db.passes.filter((p) => p.accountId !== id)
       db.progress = db.progress.filter((p) => p.accountId !== id)
+      db.favourites = (db.favourites ?? []).filter((f) => f.accountId !== id)
       db.tokens = db.tokens.filter((t) => t.userId !== id)
       for (const o of db.orders) if (o.accountId === id) o.accountId = null
     })
@@ -413,11 +500,13 @@ export class LocalServer {
     const id = this.requireUser(uid)
     const db = this.read()
     const t = db.trials.find((x) => x.accountId === id)
+    const opened = new Set(db.progress.filter((p) => p.accountId === id && (p.lastPage !== null || p.filmWatched || p.activityDone)).map((p) => p.storyId))
     return {
       now: this.now(),
       role: db.profiles[id]!.role,
       trial: t ? { id: t.id, ageGroup: t.ageGroup, startedAt: t.startedAt, endsAt: t.endsAt, storyIds: t.storyIds } : null,
       passes: db.passes.filter((p) => p.accountId === id).map((p) => this.passOut(db, p)),
+      trialOpened: t ? t.storyIds.filter((s) => opened.has(s)) : [],
     }
   }
 
@@ -468,7 +557,8 @@ export class LocalServer {
     const id = this.requireUser(uid)
     const db = this.read()
     this.ownLearner(db, id, learnerId)
-    return db.progress.filter((p) => p.learnerId === learnerId).map(({ learnerId: _l, accountId: _a, ...p }) => p)
+    // Rows saved before part C have no film position.
+    return db.progress.filter((p) => p.learnerId === learnerId).map(({ learnerId: _l, accountId: _a, ...p }) => ({ ...p, filmPositionS: p.filmPositionS ?? null }))
   }
 
   saveProgress(uid: string | null, learnerId: string, storyId: string, patch: ProgressPatch): Progress {
@@ -478,15 +568,41 @@ export class LocalServer {
       this.ownLearner(db, id, learnerId)
       let row = db.progress.find((p) => p.learnerId === learnerId && p.storyId === storyId)
       if (!row) {
-        row = { learnerId, accountId: id, storyId, lastPage: null, filmWatched: false, activityDone: false, updatedAt: this.now() }
+        row = { learnerId, accountId: id, storyId, lastPage: null, filmWatched: false, activityDone: false, filmPositionS: null, updatedAt: this.now() }
         db.progress.push(row)
       }
       if (patch.lastPage !== undefined) row.lastPage = patch.lastPage === null ? null : Math.max(1, Math.round(patch.lastPage))
       if (patch.filmWatched !== undefined) row.filmWatched = row.filmWatched || patch.filmWatched
       if (patch.activityDone !== undefined) row.activityDone = patch.activityDone
+      if (patch.filmPositionS !== undefined) {
+        const v = patch.filmPositionS === null ? null : Math.round(patch.filmPositionS)
+        if (v !== null && !(v >= 0 && v <= MAX_FILM_POSITION_S)) throw new DataError('unknown', 'bad_film_position')
+        row.filmPositionS = v
+      }
       row.updatedAt = this.now()
       const { learnerId: _l, accountId: _a, ...out } = row
-      return out
+      return { ...out, filmPositionS: out.filmPositionS ?? null }
+    })
+  }
+
+  // ---- favourites ("my shelf", per profile) --------------------------------------------------------------------
+
+  listFavourites(uid: string | null, learnerId: string): string[] {
+    const id = this.requireUser(uid)
+    const db = this.read()
+    this.ownLearner(db, id, learnerId)
+    return (db.favourites ?? []).filter((f) => f.learnerId === learnerId).sort((a, b) => b.createdAt.localeCompare(a.createdAt)).map((f) => f.storyId)
+  }
+
+  setFavourite(uid: string | null, learnerId: string, storyId: string, on: boolean) {
+    const id = this.requireUser(uid)
+    if (!CATALOGUE.some((s) => s.id === storyId)) throw new DataError('not_found')
+    this.tx((db) => {
+      this.ownLearner(db, id, learnerId)
+      const list = (db.favourites ??= [])
+      const i = list.findIndex((f) => f.learnerId === learnerId && f.storyId === storyId)
+      if (on && i < 0) list.push({ learnerId, accountId: id, storyId, createdAt: this.now() })
+      if (!on && i >= 0) list.splice(i, 1)
     })
   }
 

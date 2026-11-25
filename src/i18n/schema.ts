@@ -98,6 +98,10 @@ export type AccountDict = {
     checkWait: string
     checkWrong: string
     confirmWorking: string
+    testOpenEmailChange: string
+    emailChangedTitle: string
+    emailChangedLead: string
+    emailChangedContinue: string
     linkExpiredTitle: string
     linkExpiredLead: string
     linkExpiredEmail: string
@@ -237,6 +241,11 @@ export type AccountDict = {
     deleteType: string
     deleteMismatch: string
     deleteSubmit: string
+    changeEmail: string
+    newEmail: string
+    sendEmailLink: string
+    emailLinkSent: string
+    emailChangeNote: string
     deletedTitle: string
     deletedLead: string
     signOut: string

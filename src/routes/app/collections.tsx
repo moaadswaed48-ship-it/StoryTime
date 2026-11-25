@@ -44,7 +44,8 @@ export default function Collections() {
 
   const list = useMemo(() => {
     const inGroup = (stories ?? []).filter((s) => group === 'all' || s.ageGroups.includes(group))
-    if (kind === 'films') return inGroup.filter((s) => s.features?.film ?? true)
+    // Every story with a film, made or planned: a planned one says "Film coming soon" and has no player.
+    if (kind === 'films') return inGroup.filter((s) => (s.features?.film || s.features?.filmSoon) ?? true)
     if (kind === 'activities') return inGroup.filter((s) => s.features?.activity ?? true)
     return inGroup
   }, [stories, group, kind])
@@ -120,7 +121,10 @@ export default function Collections() {
                   {!open && <span className="text-sm font-medium text-ink-muted">{dict.commerce.access.locked} · {fmt(dict.stories.library.lockedBy, { group: groups })}</span>}
                 </div>
                 <div className="flex w-full flex-wrap gap-2 sm:w-auto">
-                  {open && kind === 'films' && (
+                  {kind === 'films' && s.features && !s.features.film && (
+                    <span className="inline-flex min-h-11 items-center rounded-full border border-dashed border-ink-muted px-3 text-sm text-ink-muted" data-testid="film-soon">{dict.stories.doors.noFilm}</span>
+                  )}
+                  {open && kind === 'films' && (s.features?.film ?? true) && (
                     <Button onClick={() => toggle(s)} aria-expanded={expanded} data-testid="play-here" className="flex-1 sm:flex-none">{expanded ? t.close : t.playHere}</Button>
                   )}
                   {open && kind === 'activities' && (
@@ -139,7 +143,8 @@ export default function Collections() {
                   {typeof c === 'string' && <Notice tone="error" action={<Button onClick={() => { setContents((m) => { const n = { ...m }; delete n[s.id]; return n }); setOpenId(null) }}>{dict.account.errors.retry}</Button>}>{errorText(dict, c)}</Notice>}
                   {c && typeof c !== 'string' && kind === 'films' && (c.film?.videoUrl
                     ? <Film film={c.film} title={c.title} lang={c.film.captionsLang} memoryKey={`storytime.film.${active?.id ?? 'account'}.${s.id}`} captions={prefs.captions}
-                        onCaptions={(on) => setPrefs({ captions: on })} onWatched={() => void progress.save(s.id, { filmWatched: true })} autoStart />
+                        onCaptions={(on) => setPrefs({ captions: on })} onWatched={() => void progress.save(s.id, { filmWatched: true })} autoStart
+                        savedAt={progress.byStory[s.id]?.filmPositionS ?? null} onPosition={active ? (at) => void progress.save(s.id, { filmPositionS: at }) : undefined} />
                     : <Notice title={dict.stories.film.notReady} />)}
                   {c && typeof c !== 'string' && kind === 'activities' && (c.activity
                     ? <ActivityView activity={c.activity} lang={c.lang} headingLevel={2} done={!!progress.byStory[s.id]?.activityDone} learnerName={active?.name ?? null}

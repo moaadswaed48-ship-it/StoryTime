@@ -22,6 +22,15 @@ export default {
     lockedBy: 'Opens with a pass for {group}',
     emptyGroup: 'No stories in this age group yet.',
     samplesNote: 'Books marked "Sample" are test books for building the site. The real stories will replace them.',
+    myShelf: 'My shelf',
+    myShelfEmpty: 'No favourites yet. Tap the heart on a book to keep it here.',
+    addFavourite: 'Add to my shelf',
+    removeFavourite: 'Remove from my shelf',
+    trialOpened: '{n} of {total} trial stories opened',
+  },
+  placeholder: {
+    picture: 'Placeholder: this picture is not drawn yet',
+    cover: 'No cover yet',
   },
   doors: {
     legend: 'What would you like to do?',
@@ -34,8 +43,8 @@ export default {
     do: 'Do',
     doHint: 'An activity together',
     testRecording: 'Test recording: soft ticks, not a voice yet',
-    noRecording: 'No recording yet',
-    noFilm: 'The film is not ready yet',
+    noRecording: 'Voice coming soon',
+    noFilm: 'Film coming soon',
     noActivity: 'This story has no activity.',
     hintTitle: 'Four ways into every story',
     hintLead: 'Read it, listen to it, watch its film, or do its activity. All four are always here.',
@@ -79,7 +88,7 @@ export default {
   film: {
     label: 'Film: {title}',
     close: 'Close the film',
-    notReady: 'The film of this story is not ready yet.',
+    notReady: 'The film of this story is coming soon. It is not made yet.',
     error: 'The film did not load.',
     captionsNote: 'Captions are in the language of the voice.',
     chrome: {
@@ -125,6 +134,8 @@ export default {
     undo: 'Not done yet',
     moving: 'Moving picture',
     still: 'Picture',
+    print: 'Print',
+    printNote: 'Prints the activity on paper, with still pictures.',
   },
   collections: {
     stories: 'All stories',

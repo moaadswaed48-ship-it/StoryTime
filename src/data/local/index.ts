@@ -116,8 +116,12 @@ export class LocalApi implements DataApi {
     return this.run(() => this.server.getAccount(this.uid()))
   }
 
-  updateAccount(patch: { language?: Lang; storyLanguage?: Lang; onboarded?: true }) {
+  updateAccount(patch: Parameters<DataApi['updateAccount']>[0]) {
     return this.run(() => this.server.updateAccount(this.uid(), patch))
+  }
+
+  requestEmailChange(newEmail: string, language: Lang) {
+    return this.run(() => this.server.requestEmailChange(this.uid(), newEmail, language, this.linkBase))
   }
 
   setRole(role: 'parent' | 'teacher') {
@@ -149,9 +153,9 @@ export class LocalApi implements DataApi {
   }
 
   deleteAccount() {
-    return this.run(() => {
+    return this.run(async () => {
       const uid = this.uid()
-      this.server.deleteAccount(uid, this.server.getAccount(uid).language)
+      await this.server.deleteAccount(uid, this.server.getAccount(uid).language)
       this.setSession(null)
     })
   }
@@ -178,6 +182,14 @@ export class LocalApi implements DataApi {
 
   saveProgress(learnerId: string, storyId: string, patch: Parameters<DataApi['saveProgress']>[2]) {
     return this.run(() => this.server.saveProgress(this.uid(), learnerId, storyId, patch))
+  }
+
+  listFavourites(learnerId: string) {
+    return this.run(() => this.server.listFavourites(this.uid(), learnerId))
+  }
+
+  setFavourite(learnerId: string, storyId: string, on: boolean) {
+    return this.run(() => this.server.setFavourite(this.uid(), learnerId, storyId, on))
   }
 
   listPrices() {

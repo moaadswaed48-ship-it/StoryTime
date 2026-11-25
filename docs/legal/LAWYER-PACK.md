@@ -62,8 +62,10 @@ when no text existed).
 - No name and no phone number are collected; a child is a first name or nickname plus an age group; a teacher's
   class has no children's names. No ads, analytics or tracking cookies.
 - Account deletion removes the account, profiles, progress, consents, trial and passes. Kept: orders and payments
-  without the account link; the trial hash; **the email log still holds the address**; cancellation-form requests;
-  a deletion record. The privacy page says so; set periods (Q10) or ask us to anonymise the email log.
+  without the account link; the trial hash; the email log **without the address** (each row keeps the same salted
+  hash as the trial record, which email, language, time, status and the sending service's message id; the address
+  of the goodbye email is replaced as soon as it has gone out; since 25 Nov 2026); the do-not-send list (addresses
+  that bounced or complained); cancellation-form requests; a deletion record. Set periods (Q10).
 - The in-app "Cancel this purchase" button closes 14 days after payment. A later start date (receipt of the
   confirmation) is served by the form, email and post routes.
 - Cancelling ends access at once and records a refund request for the full amount; the database refuses any fee

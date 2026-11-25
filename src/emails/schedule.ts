@@ -201,9 +201,10 @@ export function reminderParams(d: DueEmail, siteUrl: string, unsubscribeUrl?: st
  * today only "account deleted", queued by delete_my_account() with the address captured before the account went.
  * Returns what to send, or null when it must not go (unknown template or language, a suppressed address).
  */
-export type QueuedRow = { id: string; to_email: string; template: string; lang: string; created_at: Iso }
+export type QueuedRow = { id: string; to_email: string | null; template: string; lang: string; created_at: Iso }
 export function queuedEmail(row: QueuedRow, suppressed: ReadonlySet<string>): { template: 'account_deleted'; lang: Lang; to: string; params: Params['account_deleted']; idempotencyKey: string } | null {
-  const to = row.to_email.trim().toLowerCase()
+  // A row whose address was already replaced by its hash (20261125120000_email_log_privacy.sql) cannot be sent.
+  const to = (row.to_email ?? '').trim().toLowerCase()
   if (row.template !== 'account_deleted' || !to || suppressed.has(to)) return null
   if (!['ar', 'he', 'en', 'da'].includes(row.lang)) return null
   return { template: 'account_deleted', lang: row.lang as Lang, to, params: { deletedAt: row.created_at }, idempotencyKey: `queued:${row.id}` }

@@ -3,8 +3,8 @@ import type { Lang } from '@/i18n/config'
 import type { DataApi, LinkKind, ProviderEvent, SignUpInput } from '../api'
 import { codeFromText, DataError, type ErrorCode } from '../errors'
 import {
-  learnerKindFor,
-  type AccessSnapshot, type Account, type AgeGroup, type Learner, type Order, type Pass, type PassMonths, type Price, type Role,
+  cleanPrefs, learnerKindFor,
+  type AccessSnapshot, type Account, type AccountPrefs, type AgeGroup, type Learner, type Order, type Pass, type PassMonths, type Price, type Role,
   type Progress, type ProgressPatch, type Session, type StoryContent, type StorySummary, type Trial,
 } from '../types'
 
@@ -92,8 +92,10 @@ const toOrder = (r: Row): Order => ({
 const toLearner = (r: Row): Learner => ({ id: r.id as string, kind: r.kind as Learner['kind'], name: r.name as string, ageGroup: r.age_group as AgeGroup })
 
 const progressOut = (r: Row): Progress => ({
-  storyId: r.story_id as string, lastPage: (r.last_page as number | null) ?? null, filmWatched: !!r.film_watched, activityDone: !!r.activity_done, updatedAt: r.updated_at as string,
+  storyId: r.story_id as string, lastPage: (r.last_page as number | null) ?? null, filmWatched: !!r.film_watched, activityDone: !!r.activity_done,
+  filmPositionS: (r.film_position_s as number | null) ?? null, updatedAt: r.updated_at as string,
 })
+const PROGRESS_COLUMNS = 'story_id, last_page, film_watched, activity_done, film_position_s, updated_at'
 
 export class SupabaseApi implements DataApi {
   readonly kind = 'supabase' as const
@@ -152,7 +154,7 @@ export class SupabaseApi implements DataApi {
     if (err) throw new DataError('link_expired', err)
     const tokenHash = params.get('token_hash')
     const code = params.get('code')
-    if (tokenHash) await must(this.sb.auth.verifyOtp({ token_hash: tokenHash, type: kind === 'signup' ? 'email' : 'recovery' }))
+    if (tokenHash) await must(this.sb.auth.verifyOtp({ token_hash: tokenHash, type: kind === 'signup' ? 'email' : kind === 'recovery' ? 'recovery' : 'email_change' }))
     else if (code) await must(this.sb.auth.exchangeCodeForSession(code))
     else throw new DataError('link_expired', 'no token in link')
     const s = await this.getSession()
@@ -186,17 +188,32 @@ export class SupabaseApi implements DataApi {
     return {
       id: s.userId, email: s.email, role: r.role as Role, language: r.language as Lang, storyLanguage: (r.story_language as Lang) ?? null,
       onboardedAt: (r.onboarded_at as string) ?? null, marketingOptIn: !!(m as Row[])[0]?.granted, createdAt: r.created_at as string,
+      prefs: cleanPrefs(r.prefs),
     }
   }
 
-  async updateAccount(patch: { language?: Lang; storyLanguage?: Lang; onboarded?: true }) {
+  async updateAccount(patch: { language?: Lang; storyLanguage?: Lang; onboarded?: true; prefs?: AccountPrefs }) {
     const uid = await this.uid()
     const row: Row = {}
+    if (patch.prefs) {
+      // Read, merge, write: only the keys given change (the profiles_prefs_check constraint guards the shape).
+      const cur = (await must(this.sb.from('profiles').select('prefs').eq('id', uid).single())) as Row
+      row.prefs = cleanPrefs({ ...cleanPrefs(cur?.prefs), ...cleanPrefs(patch.prefs) })
+    }
     if (patch.language) row.language = patch.language
     if (patch.storyLanguage) row.story_language = patch.storyLanguage
     if (patch.onboarded) row.onboarded_at = new Date().toISOString()
     if (Object.keys(row).length) await must(this.sb.from('profiles').update(row).eq('id', uid))
     return this.getAccount()
+  }
+
+  /**
+   * Supabase Auth sends the confirmation (through the auth-email-hook, to the new address, and to the old one too
+   * when "secure email change" is on) and changes the address only when the link is opened. NOT RUN against a real
+   * project.
+   */
+  async requestEmailChange(newEmail: string, language: Lang) {
+    await must(this.sb.auth.updateUser({ email: newEmail.trim() }, { emailRedirectTo: this.link(language, 'auth/confirm-email') }))
   }
 
   async setRole(role: 'parent' | 'teacher') {
@@ -278,7 +295,7 @@ export class SupabaseApi implements DataApi {
   }
 
   async listProgress(learnerId: string): Promise<Progress[]> {
-    const rows = (await must(this.sb.from('progress').select('story_id, last_page, film_watched, activity_done, updated_at').eq('child_id', learnerId))) as Row[]
+    const rows = (await must(this.sb.from('progress').select(PROGRESS_COLUMNS).eq('child_id', learnerId))) as Row[]
     return rows.map(progressOut)
   }
 
@@ -287,8 +304,19 @@ export class SupabaseApi implements DataApi {
     if (patch.lastPage !== undefined) row.last_page = patch.lastPage
     if (patch.filmWatched) row.film_watched = true
     if (patch.activityDone !== undefined) row.activity_done = patch.activityDone
-    const r = await must(this.sb.from('progress').upsert(row, { onConflict: 'child_id,story_id' }).select('story_id, last_page, film_watched, activity_done, updated_at').single())
+    if (patch.filmPositionS !== undefined) row.film_position_s = patch.filmPositionS === null ? null : Math.round(patch.filmPositionS)
+    const r = await must(this.sb.from('progress').upsert(row, { onConflict: 'child_id,story_id' }).select(PROGRESS_COLUMNS).single())
     return progressOut(r as Row)
+  }
+
+  async listFavourites(learnerId: string): Promise<string[]> {
+    const rows = (await must(this.sb.from('favourites').select('story_id, created_at').eq('child_id', learnerId).order('created_at', { ascending: false }))) as Row[]
+    return rows.map((r) => r.story_id as string)
+  }
+
+  async setFavourite(learnerId: string, storyId: string, on: boolean) {
+    if (on) await must(this.sb.from('favourites').upsert({ child_id: learnerId, story_id: storyId }, { onConflict: 'child_id,story_id', ignoreDuplicates: true }))
+    else await must(this.sb.from('favourites').delete().eq('child_id', learnerId).eq('story_id', storyId))
   }
 
   async getAccess(): Promise<AccessSnapshot> {
@@ -299,7 +327,14 @@ export class SupabaseApi implements DataApi {
     const trial: Trial | null = t
       ? { id: t.id as string, ageGroup: t.age_group as AgeGroup, startedAt: t.started_at as string, endsAt: t.ends_at as string, storyIds: ((t.trial_items as Row[]) ?? []).map((x) => x.story_id as string) }
       : null
-    return { now: new Date().toISOString(), role: a.role, trial, passes: passes.map(toPass) }
+    let trialOpened: string[] = []
+    if (trial?.storyIds.length) {
+      // Row-level security returns only this account's profiles' progress (the owner's role cannot read progress).
+      const opened = (await must(this.sb.from('progress').select('story_id, last_page, film_watched, activity_done').in('story_id', trial.storyIds))) as Row[]
+      const ids = new Set(opened.filter((p) => p.last_page !== null || p.film_watched || p.activity_done).map((p) => p.story_id as string))
+      trialOpened = trial.storyIds.filter((id) => ids.has(id))
+    }
+    return { now: new Date().toISOString(), role: a.role, trial, passes: passes.map(toPass), trialOpened }
   }
 
   async startTrial(ageGroup: AgeGroup) {

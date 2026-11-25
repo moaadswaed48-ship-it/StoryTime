@@ -1,6 +1,7 @@
 import { memo, type CSSProperties, type ReactNode } from 'react'
 import { dirOf, type Lang } from '@/i18n/config'
 import type { ZoneLayout } from '@/reader/zone'
+import { ArtPlaceholder } from '@/features/family/Placeholder'
 import { INK, PAPER, TEXT_WEIGHT, washStyle } from './paint'
 
 /**
@@ -16,7 +17,7 @@ export type PageModel =
 
 type Box = { left: number; top: number; width: number; height: number }
 
-export const PageView = memo(function PageView({ page, box, lang, activeWord, end, onImageError, hidden }: {
+export const PageView = memo(function PageView({ page, box, lang, activeWord, end, onImageError, hidden, placeholderLabel }: {
   page: PageModel
   box: Box
   lang: Lang
@@ -26,6 +27,8 @@ export const PageView = memo(function PageView({ page, box, lang, activeWord, en
   end?: ReactNode
   onImageError?: (url: string) => void
   hidden?: boolean
+  /** The words on the marked stand-in shown while a page has no picture yet. */
+  placeholderLabel?: string
 }) {
   const dir = dirOf(lang)
   const common = 'absolute overflow-hidden'
@@ -54,6 +57,7 @@ export const PageView = memo(function PageView({ page, box, lang, activeWord, en
   return (
     <div className={common} style={style} data-page-no={page.pageNo}>
       {page.picture && <img src={page.picture} alt="" draggable={false} className="absolute inset-0 size-full object-cover" onError={() => onImageError?.(page.picture!)} />}
+      {!page.picture && <ArtPlaceholder label={placeholderLabel} tagAt={l.v === 'top' ? 'bottom' : 'top'} />}
       <div aria-hidden="true" className="absolute" style={washStyle(l)} />
       <div
         className="pointer-events-auto absolute select-text"

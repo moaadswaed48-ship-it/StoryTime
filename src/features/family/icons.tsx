@@ -52,6 +52,11 @@ export const IconAutoFlip = (p: P) => (
     <path d="M15.5 13.5c1.5-1.8 3.4-2.3 5.3-1.6M20.8 9.8v2.4h-2.4" />
   </svg>
 )
+export const IconHeart = ({ filled, ...p }: P & { filled?: boolean }) => (
+  <svg viewBox="0 0 24 24" strokeWidth={2} {...base(p)}>
+    <path d="M12 20s-7.5-4.6-7.5-10.2A4.3 4.3 0 0 1 12 7.3a4.3 4.3 0 0 1 7.5 2.5C19.5 15.4 12 20 12 20Z" fill={filled ? 'currentColor' : 'none'} />
+  </svg>
+)
 export const IconCheck = (p: P) => <svg viewBox="0 0 24 24" strokeWidth={2.6} {...base(p)}><path d="m5 12.5 4.5 4.5L19 7.5" /></svg>
 export const IconShelf = (p: P) => <svg viewBox="0 0 24 24" strokeWidth={2} {...base(p)}><path d="M3 20h18M6 19V7M10 19V5M14 19V8l4-1 2 12" /></svg>
 export const IconList = (p: P) => <svg viewBox="0 0 24 24" strokeWidth={2} {...base(p)}><path d="M9 6h11M9 12h11M9 18h11M4 6h1M4 12h1M4 18h1" /></svg>

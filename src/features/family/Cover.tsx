@@ -4,6 +4,7 @@ import { hashString } from '@/lib/seeded'
 import { emblemMask, emblemPattern } from '@/library/emblems'
 import { mix } from '@/library/engine'
 import type { Emblem, ShelfBook } from '@/library/types'
+import { useLang } from '@/i18n/use-dict'
 import { IconLock } from './icons'
 
 /**
@@ -27,16 +28,20 @@ export function shelfBookOf(s: Pick<StorySummary, 'id'>): ShelfBook {
 }
 
 export function Cover({ story, locked, className = '', style }: { story: Pick<StorySummary, 'id' | 'coverUrl'>; locked?: boolean; className?: string; style?: CSSProperties }) {
+  const { dict } = useLang()
   const b = shelfBookOf(story)
   const mask = emblemMask(b.emblem)
   return (
-    <span className={`relative block overflow-hidden rounded-[6px] shadow-[0_1px_2px_rgb(0_0_0/0.18),0_6px_18px_-8px_rgb(0_0_0/0.35)] ${className}`} style={{ background: b.palette.cloth, ...style }} aria-hidden="true">
+    <span className={`@container relative block overflow-hidden rounded-[6px] shadow-[0_1px_2px_rgb(0_0_0/0.18),0_6px_18px_-8px_rgb(0_0_0/0.35)] ${className}`} style={{ background: b.palette.cloth, ...style }} aria-hidden="true">
       {story.coverUrl ? (
         <img src={story.coverUrl} alt="" draggable={false} className="absolute inset-0 size-full object-cover" loading="lazy" decoding="async" />
       ) : (
         <>
           <span className="absolute inset-0" style={{ backgroundImage: emblemPattern(b.emblem, mix(b.palette.cloth, b.palette.foil, 0.3), b.palette.cloth), backgroundSize: '33%', opacity: 0.45 }} />
           <span className="absolute inset-x-[24%] top-[26%] aspect-square" style={{ background: b.palette.foil, maskImage: mask, WebkitMaskImage: mask, maskSize: 'contain', WebkitMaskSize: 'contain', maskRepeat: 'no-repeat', WebkitMaskRepeat: 'no-repeat' } as CSSProperties} />
+          {/* Marked as a stand-in: a dashed inner frame and, where the board is big enough, the words. */}
+          <span className="absolute inset-[6%] rounded-[3px] border border-dashed" style={{ borderColor: b.palette.foil, opacity: 0.7 }} data-testid="cover-placeholder" />
+          <span className="absolute inset-x-[8%] bottom-[9%] hidden text-center text-[0.65rem] leading-tight font-medium @[6rem]:block" style={{ color: b.palette.ink }}>{dict.stories.placeholder.cover}</span>
         </>
       )}
       {/* The spine's shadow, on the binding side. */}

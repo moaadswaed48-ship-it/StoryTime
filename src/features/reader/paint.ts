@@ -63,6 +63,39 @@ export function drawCover(g: CanvasRenderingContext2D, img: CanvasImageSource & 
   g.drawImage(img, (w - dw) / 2, (h - dh) / 2, dw, dh)
 }
 
+/** The stand-in for a page with no picture yet, as ArtPlaceholder draws it in the DOM (hatching and a picture sign). */
+function drawPlaceholder(g: CanvasRenderingContext2D, w: number, h: number) {
+  g.save()
+  g.fillStyle = '#f3eee3'
+  g.fillRect(0, 0, w, h)
+  g.strokeStyle = '#e9e3d5'
+  g.lineWidth = 12
+  for (let x = -h; x < w + h; x += 34) {
+    g.beginPath()
+    g.moveTo(x, 0)
+    g.lineTo(x + h, h)
+    g.stroke()
+  }
+  const s = Math.max(40, Math.min(96, w * 0.22)) / 48
+  g.translate(w / 2 - 24 * s, h / 2 - 20 * s)
+  g.scale(s, s)
+  g.strokeStyle = 'rgba(38,34,29,0.35)'
+  g.lineWidth = 2.5
+  g.lineJoin = 'round'
+  g.lineCap = 'round'
+  g.beginPath()
+  g.roundRect(3, 3, 42, 34, 4)
+  g.moveTo(37, 13)
+  g.arc(33, 13, 4, 0, Math.PI * 2)
+  g.moveTo(5, 33)
+  g.lineTo(18, 19)
+  g.lineTo(27, 28)
+  g.lineTo(32, 23)
+  g.lineTo(43, 34)
+  g.stroke()
+  g.restore()
+}
+
 function drawWash(g: CanvasRenderingContext2D, l: ZoneLayout) {
   const { x, y, w, h } = l.wash
   if (w <= 0 || h <= 0) return
@@ -114,6 +147,7 @@ export function paintPage(spec: PaintSpec, w: number, h: number, scale: number):
   const family = readerFont()
   if (spec.kind === 'story') {
     if (spec.img?.complete && spec.img.naturalWidth) drawCover(g, spec.img, cw, ch)
+    else if (!spec.img) drawPlaceholder(g, cw, ch)
     const l = spec.layout
     drawWash(g, l)
     g.fillStyle = INK

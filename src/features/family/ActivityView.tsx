@@ -6,6 +6,7 @@ import { fmt } from '@/i18n/format'
 import { useLang } from '@/i18n/use-dict'
 import { Button } from '@/ui/controls'
 import { IconCheck } from './icons'
+import { ArtPlaceholder } from './Placeholder'
 import { useReducedMotion } from './prefs'
 
 /**
@@ -14,7 +15,7 @@ import { useReducedMotion } from './prefs'
  * loop; with reduced motion it shows its still picture), the whole idea for the grown-up, the class note, and a
  * "We did it!" mark saved to the reader's progress. Used on the activity page and inside the collection.
  */
-export function ActivityView({ activity, lang, done, onDone, learnerName, headingLevel = 1 }: {
+export function ActivityView({ activity, lang, done, onDone, learnerName, headingLevel = 1, printable = false }: {
   activity: ActivityContent
   /** The language the activity text is in (may differ from the site language). */
   lang: Lang
@@ -22,17 +23,28 @@ export function ActivityView({ activity, lang, done, onDone, learnerName, headin
   onDone: ((done: boolean) => void) | null
   learnerName: string | null
   headingLevel?: 1 | 2
+  /** Shows the Print button (the activity page; not inside a collection list, where the whole list would print). */
+  printable?: boolean
 }) {
   const { dict } = useLang()
   const t = dict.stories.activity
   const H = headingLevel === 1 ? 'h1' : 'h2'
   const S = headingLevel === 1 ? 'h2' : 'h3'
   return (
-    <div className="flex flex-col gap-8" data-testid="activity">
+    <div className="flex flex-col gap-8" data-testid="activity" {...(printable ? { 'data-print-root': '' } : {})}>
       <header className="flex flex-col gap-2">
         <p className="text-sm font-medium tracking-wide text-ink-muted uppercase rtl:tracking-normal rtl:normal-case">{t.label}</p>
         <H className="text-3xl font-semibold" lang={lang} dir={dirOf(lang)}>{activity.title}</H>
         {activity.minutes && <p className="text-ink-muted">{fmt(t.minutes, { n: num(activity.minutes) })}</p>}
+        {printable && (
+          <div className="flex flex-wrap items-center gap-3" data-no-print>
+            <Button variant="secondary" onClick={() => window.print()} data-testid="activity-print">
+              <svg viewBox="0 0 24 24" className="size-5" aria-hidden="true" fill="none" stroke="currentColor" strokeWidth="2" strokeLinejoin="round"><path d="M7 9V3h10v6M7 17H4v-7h16v7h-3M7 14h10v7H7z" /></svg>
+              {t.print}
+            </Button>
+            <span className="text-sm text-ink-muted">{t.printNote}</span>
+          </div>
+        )}
       </header>
 
       <section className="flex flex-col gap-2 rounded-control bg-surface p-5 ring-1 ring-line">
@@ -53,7 +65,9 @@ export function ActivityView({ activity, lang, done, onDone, learnerName, headin
         <ul className="grid grid-cols-2 gap-3 sm:grid-cols-4" data-testid="activity-materials">
           {activity.materials.map((m) => (
             <li key={m.id} className="flex flex-col items-center gap-2 rounded-control bg-surface p-3 text-center ring-1 ring-line">
-              {m.pictureUrl ? <img src={m.pictureUrl} alt="" className="aspect-square w-full max-w-28 rounded-[0.6rem] object-cover" loading="lazy" /> : <span className="aspect-square w-full max-w-28 rounded-[0.6rem] bg-line/40" />}
+              {m.pictureUrl
+                ? <img src={m.pictureUrl} alt="" className="aspect-square w-full max-w-28 rounded-[0.6rem] object-cover" loading="lazy" />
+                : <span className="relative block aspect-square w-full max-w-28 overflow-hidden rounded-[0.6rem]"><ArtPlaceholder compact /></span>}
               <span className="font-medium" lang={lang} dir={dirOf(lang)}>{m.label}</span>
             </li>
           ))}
@@ -65,7 +79,7 @@ export function ActivityView({ activity, lang, done, onDone, learnerName, headin
         <ol className="grid gap-4 sm:grid-cols-3" data-testid="activity-steps">
           {activity.steps.map((s) => (
             <li key={s.n} className="flex flex-col gap-3">
-              <StepPicture still={s.pictureUrl} loop={s.loopUrl} label={fmt(t.step, { n: num(s.n) })} />
+              <StepPicture still={s.pictureUrl} loop={s.loopUrl} label={fmt(t.step, { n: num(s.n) })} placeholder={dict.stories.placeholder.picture} />
               <p className="flex items-start gap-3 text-lg font-medium" lang={lang} dir={dirOf(lang)}>
                 <span aria-hidden="true" className="grid size-8 shrink-0 place-items-center rounded-full bg-ink text-base text-paper">{num(s.n)}</span>
                 <span><span className="sr-only">{fmt(t.step, { n: num(s.n) })}: </span>{s.caption}</span>
@@ -85,7 +99,7 @@ export function ActivityView({ activity, lang, done, onDone, learnerName, headin
       </section>
 
       {onDone && (
-        <div className="flex flex-col items-center gap-3 py-2" aria-live="polite">
+        <div className="flex flex-col items-center gap-3 py-2" aria-live="polite" data-no-print>
           {done ? (
             <>
               <p className="inline-flex items-center gap-2 text-lg font-semibold text-green-900" data-testid="activity-done">
@@ -107,7 +121,7 @@ export function ActivityView({ activity, lang, done, onDone, learnerName, headin
 }
 
 /** A step's picture: its silent loop when it has one and motion is welcome, else the still. */
-function StepPicture({ still, loop, label }: { still: string | null; loop: string | null; label: string }) {
+function StepPicture({ still, loop, label, placeholder }: { still: string | null; loop: string | null; label: string; placeholder: string }) {
   const { dict } = useLang()
   const reduced = useReducedMotion()
   const video = useRef<HTMLVideoElement>(null)
@@ -120,11 +134,15 @@ function StepPicture({ still, loop, label }: { still: string | null; loop: strin
   return (
     <figure className="relative overflow-hidden rounded-control bg-surface ring-1 ring-line">
       {moving ? (
-        <video ref={video} src={loop!} poster={still ?? undefined} muted loop playsInline autoPlay preload="metadata" aria-label={label} onError={() => setFailed(true)} className="aspect-[4/3] w-full object-cover" data-testid="step-loop" />
+        <>
+          <video ref={video} src={loop!} poster={still ?? undefined} muted loop playsInline autoPlay preload="metadata" aria-label={label} onError={() => setFailed(true)} className="aspect-[4/3] w-full object-cover print:hidden" data-testid="step-loop" />
+          {/* On paper a moving picture prints as its still. */}
+          {still && <img src={still} alt="" className="hidden aspect-[4/3] w-full object-cover print:block" loading="lazy" />}
+        </>
       ) : still ? (
         <img src={still} alt="" className="aspect-[4/3] w-full object-cover" loading="lazy" />
       ) : (
-        <span className="block aspect-[4/3] w-full bg-line/40" />
+        <span className="relative block aspect-[4/3] w-full"><ArtPlaceholder label={placeholder} /></span>
       )}
       {loop && (
         <figcaption className="absolute start-2 top-2 rounded-full bg-black/55 px-2.5 py-0.5 text-xs font-medium text-white">

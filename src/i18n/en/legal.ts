@@ -295,7 +295,7 @@ export default {
             list: [
               'Purchase and refund records, without your name, because tax law requires them. [[How long: period required by tax law]]',
               'A trial record: a scrambled code made from your email address (a salted hash) and the day your trial started. It holds no email and no name, nobody can open it through the site, and it is used only to refuse a second free trial to the same address. [[How long: proposed 2 years, to be confirmed by our lawyer]]',
-              'The record of emails already sent to you, and the address if it bounced or marked us as spam. [[How long: to be set]]',
+              'The record of emails already sent to you (which email, in which language, when, and whether it arrived), without your address: in each record the address is replaced by the same kind of scrambled code, at once for earlier emails and as soon as the email confirming the deletion has gone out. Only if an email to you bounced or you marked one as spam does the address stay, on our do-not-send list. [[How long: to be set]]',
               'A cancellation request you sent by the form. [[How long: to be set]]',
               'A note that the account was deleted and when, without your email.',
             ],

@@ -30,16 +30,19 @@ class Query implements PromiseLike<Res> {
   constructor(private db: PGlite, private uid: string, private table: string) {}
   select(_columns?: string) { return this }
   eq(column: string, value: unknown) { this.filters.push([column, value]); return this }
+  in(column: string, values: unknown[]) { this.filters.push([column, { any: values }]); return this }
   order(column: string, o?: { ascending?: boolean }) { this.orderBy = [column, o?.ascending !== false]; return this }
   limit(n: number) { this.max = n; return this }
   single() { this.one = 'single'; return this }
   maybeSingle() { this.one = 'maybe'; return this }
   private async run(): Promise<Res> {
-    const where = this.filters.length ? ` where ${this.filters.map(([c], i) => `${ident(c)} = $${i + 1}`).join(' and ')}` : ''
+    const isAny = (v: unknown): v is { any: unknown[] } => !!v && typeof v === 'object' && 'any' in v
+    const cond = ([c, v]: [string, unknown], i: number) => (isAny(v) ? `${ident(c)}::text = any($${i + 1}::text[])` : `${ident(c)} = $${i + 1}`)
+    const where = this.filters.length ? ` where ${this.filters.map(cond).join(' and ')}` : ''
     const order = this.orderBy ? ` order by ${ident(this.orderBy[0])} ${this.orderBy[1] ? 'asc' : 'desc'}` : ''
     const limit = this.max === null ? '' : ` limit ${Number(this.max)}`
     try {
-      const r = await rows(this.db, user(this.uid), `select * from public.${ident(this.table)}${where}${order}${limit}`, this.filters.map(([, v]) => v))
+      const r = await rows(this.db, user(this.uid), `select * from public.${ident(this.table)}${where}${order}${limit}`, this.filters.map(([, v]) => (isAny(v) ? v.any : v)))
       if (!this.one) return { data: r, error: null }
       // PostgREST's answer when one row was asked for and several (or, for single(), none) came back.
       if (r.length > 1 || (this.one === 'single' && r.length === 0)) return { data: null, error: { message: 'JSON object requested, multiple (or no) rows returned', code: 'PGRST116' } }

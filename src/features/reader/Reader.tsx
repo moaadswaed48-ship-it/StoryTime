@@ -436,6 +436,7 @@ export function Reader({ content, group, startPage, listen, closeTo, onPage, acc
         <div key={mode === 'flat' ? pos : 'curl'} className={`pointer-events-none absolute inset-0 ${mode === 'flat' && !reduced ? 'reader-fade' : ''}`}>
           {mode && boxes.map((b) => (
             <PageView key={`${b.index}-${spread}`} page={models[b.index]!} box={b} lang={lang} activeWord={activeFor(b.index)} hidden={turning}
+              placeholderLabel={dict.stories.placeholder.picture}
               onImageError={(u) => setFailedImages((s) => new Set(s).add(u))}
               end={models[b.index]?.kind === 'end' ? (
                 <>

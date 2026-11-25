@@ -512,3 +512,7 @@ stories in `content/stories/` (a12, c03, another helper) push `sample-b` out of 
 - Terms version bumped to `draft-2026-11-25` (`src/data/terms.ts`, with `TERMS_HISTORY` recording that the old
   `draft-2026-11-22` had no text); new migration `20261125100000_terms_draft_2026_11_25.sql` keeps the old version.
 - Found while checking: account deletion keeps the address in `email_log` (the privacy page says so; lawyer Q10).
+
+## Stage 4, part C (Builder, 25 Nov 2026): gaps that do not depend on the look
+
+Status: IN PROGRESS. If this line is still here, the job was cut short; see the list below for what is done.

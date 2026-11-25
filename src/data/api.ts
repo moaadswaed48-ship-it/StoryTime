@@ -1,5 +1,5 @@
 import type { Lang } from '@/i18n/config'
-import type { AccessSnapshot, Account, AgeGroup, Learner, Order, PassMonths, Price, Progress, ProgressPatch, Session, StoryContent, StorySummary, Trial } from './types'
+import type { AccessSnapshot, Account, AccountPrefs, AgeGroup, Learner, Order, PassMonths, Price, Progress, ProgressPatch, Session, StoryContent, StorySummary, Trial } from './types'
 
 /**
  * The one interface the screens use. Two implementations:
@@ -29,8 +29,8 @@ export type ProviderEvent = {
   amountAgorot: number
 }
 
-/** A link from an email: confirming the address, or resetting the password. */
-export type LinkKind = 'signup' | 'recovery'
+/** A link from an email: confirming the address, resetting the password, or confirming a new address. */
+export type LinkKind = 'signup' | 'recovery' | 'email_change'
 
 export interface DataApi {
   readonly kind: 'local' | 'supabase'
@@ -52,7 +52,13 @@ export interface DataApi {
 
   // Account
   getAccount(): Promise<Account>
-  updateAccount(patch: { language?: Lang; storyLanguage?: Lang; onboarded?: true }): Promise<Account>
+  /** `prefs` is merged into the stored settings (only the keys given change). */
+  updateAccount(patch: { language?: Lang; storyLanguage?: Lang; onboarded?: true; prefs?: AccountPrefs }): Promise<Account>
+  /**
+   * Starts a change of the sign-in address: a confirmation link goes to the new address; the address changes only
+   * when that link is opened (completeLink('email_change')), and then a notice goes to the old address.
+   */
+  requestEmailChange(newEmail: string, language: Lang): Promise<void>
   setRole(role: 'parent' | 'teacher'): Promise<void>
   setMarketing(optIn: boolean): Promise<void>
   listLearners(): Promise<Learner[]>
@@ -73,6 +79,9 @@ export interface DataApi {
   listProgress(learnerId: string): Promise<Progress[]>
   /** Merges the patch into the profile's progress in the story; returns the row as saved. */
   saveProgress(learnerId: string, storyId: string, patch: ProgressPatch): Promise<Progress>
+  /** "My shelf": the profile's favourite stories, newest first. */
+  listFavourites(learnerId: string): Promise<string[]>
+  setFavourite(learnerId: string, storyId: string, on: boolean): Promise<void>
 
   // Money
   listPrices(): Promise<Price[]>

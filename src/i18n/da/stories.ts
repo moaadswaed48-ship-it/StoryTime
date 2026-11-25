@@ -22,6 +22,15 @@ export default {
     lockedBy: 'Åbner med et pas til {group}',
     emptyGroup: 'Der er ingen historier i denne aldersgruppe endnu.',
     samplesNote: 'Bøger mærket »Eksempel« er testbøger til at bygge siden. De rigtige historier erstatter dem.',
+    myShelf: 'Min hylde',
+    myShelfEmpty: 'Ingen favoritter endnu. Tryk på hjertet på en bog for at gemme den her.',
+    addFavourite: 'Læg på min hylde',
+    removeFavourite: 'Fjern fra min hylde',
+    trialOpened: '{n} af {total} prøvehistorier åbnet',
+  },
+  placeholder: {
+    picture: 'Pladsholder: billedet er ikke tegnet endnu',
+    cover: 'Intet omslag endnu',
   },
   doors: {
     legend: 'Hvad vil I gøre?',
@@ -34,8 +43,8 @@ export default {
     do: 'Gør',
     doHint: 'En aktivitet sammen',
     testRecording: 'Testoptagelse: bløde klik, ikke en stemme endnu',
-    noRecording: 'Ingen optagelse endnu',
-    noFilm: 'Filmen er ikke klar endnu',
+    noRecording: 'Stemmen kommer snart',
+    noFilm: 'Filmen kommer snart',
     noActivity: 'Denne historie har ingen aktivitet.',
     hintTitle: 'Fire veje ind i hver historie',
     hintLead: 'Læs den, lyt til den, se filmen, eller lav aktiviteten. Alle fire er her altid.',
@@ -79,7 +88,7 @@ export default {
   film: {
     label: 'Film: {title}',
     close: 'Luk filmen',
-    notReady: 'Filmen til denne historie er ikke klar endnu.',
+    notReady: 'Filmen til denne historie kommer snart. Den er ikke lavet endnu.',
     error: 'Filmen blev ikke hentet.',
     captionsNote: 'Underteksterne er på stemmens sprog.',
     chrome: {
@@ -125,6 +134,8 @@ export default {
     undo: 'Ikke gjort endnu',
     moving: 'Levende billede',
     still: 'Billede',
+    print: 'Udskriv',
+    printNote: 'Udskriver aktiviteten på papir med stillbilleder.',
   },
   collections: {
     stories: 'Alle historier',

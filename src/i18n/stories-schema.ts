@@ -26,6 +26,15 @@ export type StoriesDict = {
     lockedBy: string
     emptyGroup: string
     samplesNote: string
+    myShelf: string
+    myShelfEmpty: string
+    addFavourite: string
+    removeFavourite: string
+    trialOpened: string
+  }
+  placeholder: {
+    picture: string
+    cover: string
   }
   doors: {
     legend: string
@@ -130,6 +139,8 @@ export type StoriesDict = {
     undo: string
     moving: string
     still: string
+    print: string
+    printNote: string
   }
   collections: {
     stories: string

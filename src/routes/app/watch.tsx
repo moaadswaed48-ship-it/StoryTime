@@ -24,6 +24,7 @@ export default function Watch() {
   const save = progress.save
   const onWatched = useCallback(() => void save(id, { filmWatched: true }), [save, id])
   const onCaptions = useCallback((on: boolean) => setPrefs({ captions: on }), [setPrefs])
+  const onPosition = useCallback((at: number | null) => void save(id, { filmPositionS: at }), [save, id])
   const title = content?.title ?? summary?.title ?? ''
 
   return (
@@ -36,10 +37,12 @@ export default function Watch() {
       {loading && <Spinner label={dict.account.states.loading} />}
       {error === 'locked' && <Notice title={dict.stories.doors.lockedTitle} action={<ButtonLink to={localPath(lang, 'app/plans')}>{dict.commerce.access.seePasses}</ButtonLink>}><p>{dict.stories.doors.lockedLead}</p></Notice>}
       {error && error !== 'locked' && <Notice tone="error" action={<Button onClick={reload}>{dict.account.errors.retry}</Button>}>{errorText(dict, error)}</Notice>}
-      {content && !content.film && <Notice title={dict.stories.film.notReady} />}
-      {content?.film && (
+      {/* No film file yet: an honest note and no player (a player without a file would only show an error). */}
+      {content && !content.film?.videoUrl && <Notice title={dict.stories.film.notReady} />}
+      {content?.film?.videoUrl && (
         <Film film={content.film} title={title} lang={content.film.captionsLang} memoryKey={`storytime.film.${active?.id ?? 'account'}.${id}`}
-          captions={prefs.captions} onCaptions={onCaptions} onWatched={onWatched} autoStart />
+          captions={prefs.captions} onCaptions={onCaptions} onWatched={onWatched} autoStart
+          savedAt={progress.byStory[id]?.filmPositionS ?? null} onPosition={active ? onPosition : undefined} />
       )}
     </div>
   )
