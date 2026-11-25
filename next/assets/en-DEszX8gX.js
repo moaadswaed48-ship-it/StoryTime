@@ -1,0 +1,216 @@
+var e=`{
+  "title": "Little Hippo’s Big Yawn",
+  "names": {
+    "a06-little-hippo": "Little Hippo",
+    "a06-papa-hippo": "Papa Hippo"
+  },
+  "pages": [
+    {
+      "n": 1,
+      "text": "Night is coming to the river. The water turns dark and still.",
+      "speech": "Night is coming to the river. The water turns dark and still."
+    },
+    {
+      "n": 2,
+      "text": "Papa Hippo opens his mouth wide. “Brush time!”",
+      "speech": "Papa Hippo opens his mouth wide. “Brush time!”"
+    },
+    {
+      "n": 3,
+      "text": "Little Hippo opens her mouth too. Just a little.",
+      "speech": "Little Hippo opens her mouth too. Just a little."
+    },
+    {
+      "n": 4,
+      "text": "Papa’s brush is big, big, big. Little Hippo’s brush is tiny.",
+      "speech": "Papa’s brush is big, big, big. Little Hippo’s brush is tiny."
+    },
+    {
+      "n": 5,
+      "text": "Brush, brush, top teeth. Brush, brush, bottom teeth.",
+      "speech": "Brush, brush, top teeth. Brush, brush, bottom teeth."
+    },
+    {
+      "n": 6,
+      "text": "Brush, brush… Little Hippo giggles. It tickles!",
+      "speech": "Brush, brush… Little Hippo giggles. It tickles!"
+    },
+    {
+      "n": 7,
+      "text": "“Open wide!” says Papa. Wider… and wider… and wider…",
+      "speech": "“Open wide!” says Papa. Wider… and wider… and wider…"
+    },
+    {
+      "n": 8,
+      "text": "Aaaah! The biggest yawn on the whole river!",
+      "speech": "Aaaah! The biggest yawn on the whole river!"
+    },
+    {
+      "n": 9,
+      "text": "Papa yawns too. Aaaaaah! An even bigger yawn!",
+      "speech": "Papa yawns too. Aaaaaah! An even bigger yawn!"
+    },
+    {
+      "n": 10,
+      "text": "Swish, spit, splash. Brush, brush, all clean.",
+      "speech": "Swish, spit, splash. Brush, brush, all clean."
+    },
+    {
+      "n": 11,
+      "text": "Two clean smiles in the moonlight. Little Hippo leans on Papa, sleepy.",
+      "speech": "Two clean smiles in the moonlight. Little Hippo leans on Papa, sleepy."
+    }
+  ],
+  "film": [
+    {
+      "id": "f01",
+      "speaker": "narrator",
+      "text": "Night is coming to the river.",
+      "speech": "Night is coming to the river.",
+      "emotion": "slow and soft, the day winding down"
+    },
+    {
+      "id": "f02",
+      "speaker": "narrator",
+      "text": "Time to get ready for bed.",
+      "speech": "Time to get ready for bed.",
+      "emotion": "cosy and gentle"
+    },
+    {
+      "id": "f03",
+      "speaker": "a06-papa-hippo",
+      "text": "Brush time!",
+      "speech": "Brush time!",
+      "emotion": "big, deep and cheerful, a playful announcement"
+    },
+    {
+      "id": "f04",
+      "speaker": "a06-little-hippo",
+      "text": "Like this?",
+      "speech": "Like this?",
+      "emotion": "small and a little shy, mouth only a bit open"
+    },
+    {
+      "id": "f05",
+      "speaker": "narrator",
+      "text": "A big, big brush… and a tiny one.",
+      "speech": "A big, big brush… and a tiny one.",
+      "emotion": "big voice for the big brush, tiny voice for the tiny one"
+    },
+    {
+      "id": "f06",
+      "speaker": "a06-papa-hippo",
+      "text": "Brush, brush, top teeth.",
+      "speech": "Brush, brush, top teeth.",
+      "emotion": "sing-song, steady rhythm"
+    },
+    {
+      "id": "f07",
+      "speaker": "a06-little-hippo",
+      "text": "Brush, brush, top teeth!",
+      "speech": "Brush, brush, top teeth!",
+      "emotion": "copying Papa, proud, a little higher"
+    },
+    {
+      "id": "f08",
+      "speaker": "a06-papa-hippo",
+      "text": "Brush, brush, bottom teeth.",
+      "speech": "Brush, brush, bottom teeth.",
+      "emotion": "sing-song, steady rhythm"
+    },
+    {
+      "id": "f09",
+      "speaker": "a06-little-hippo",
+      "text": "Brush, brush, bottom teeth!",
+      "speech": "Brush, brush, bottom teeth!",
+      "emotion": "copying Papa, proud, a little higher"
+    },
+    {
+      "id": "f10",
+      "speaker": "a06-little-hippo",
+      "text": "Hee hee! It tickles!",
+      "speech": "Hee hee! It tickles!",
+      "emotion": "giggling, ticklish"
+    },
+    {
+      "id": "f11",
+      "speaker": "a06-papa-hippo",
+      "text": "Open wide!",
+      "speech": "Open wide!",
+      "emotion": "encouraging, opening his own mouth to show her"
+    },
+    {
+      "id": "f12",
+      "speaker": "narrator",
+      "text": "Wider… and wider…",
+      "speech": "Wider… and wider…",
+      "emotion": "slow and stretching, building up"
+    },
+    {
+      "id": "f13",
+      "speaker": "a06-little-hippo",
+      "text": "Aaaah!",
+      "speech": "Aaaah!",
+      "emotion": "a long, sleepy, comic yawn"
+    },
+    {
+      "id": "f14",
+      "speaker": "a06-papa-hippo",
+      "text": "Aaaaaaah!",
+      "speech": "Aaaaaaah!",
+      "emotion": "an even longer, deeper yawn, very funny, never loud"
+    },
+    {
+      "id": "f15",
+      "speaker": "narrator",
+      "text": "Swish, spit, splash.",
+      "speech": "Swish, spit, splash.",
+      "emotion": "playful, one beat per sound"
+    },
+    {
+      "id": "f16",
+      "speaker": "a06-papa-hippo",
+      "text": "Two clean smiles.",
+      "speech": "Two clean smiles.",
+      "emotion": "proud and soft, nearly whispering"
+    },
+    {
+      "id": "f17",
+      "speaker": "a06-little-hippo",
+      "text": "Night-night, Papa.",
+      "speech": "Night-night, Papa.",
+      "emotion": "very sleepy, half asleep already"
+    }
+  ],
+  "activity": {
+    "title": "Brush to the Song",
+    "goal": "Keep going at a task until a song ends: a song as a timer.",
+    "materials": [
+      "Everyone’s own toothbrush",
+      "Toothpaste, as much as your dentist or child health clinic advises",
+      "A mirror"
+    ],
+    "steps": [
+      {
+        "n": 1,
+        "caption": "Own brushes. Side by side."
+      },
+      {
+        "n": 2,
+        "caption": "Sing! Brush the top teeth."
+      },
+      {
+        "n": 3,
+        "caption": "Sing! Brush the bottom teeth."
+      },
+      {
+        "n": 4,
+        "caption": "Song over? Spit, and smile!"
+      }
+    ],
+    "safety": "Everyone uses only their own toothbrush. Use as much toothpaste as your clinic advises. The child stands still while brushing: no walking or running with a brush in the mouth. If there is an accident, call your local emergency number.",
+    "forAdult": "In the story, Little Hippo brushes her top teeth and her bottom teeth side by side with Papa. This activity turns brushing into a song with a clear end: you brush while you sing, and you stop when the song stops. A song is a timer a toddler can hear. Sing the book’s refrain twice, to any tune you like: “Brush, brush, top teeth. Brush, brush, bottom teeth.” Stand side by side at a mirror, each with your own brush, and brush your own teeth as you sing, so the child can copy you. Then brush the child’s teeth too, as your clinic advises. To make it easier, sing it once, slowly. To make it harder, let the child lead the song. If the child does not want to open wide, play Little Hippo’s yawning game: who can open the widest?",
+    "inClass": "No shared brushes, and no real brushing at kindergarten. After washing hands, children sit in a circle of up to four with one adult and “brush” with a clean finger while everyone sings the song twice: top teeth first, then bottom teeth. Real brushing stays at home."
+  }
+}
+`;export{e as default};

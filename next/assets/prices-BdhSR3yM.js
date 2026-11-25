@@ -1,1 +1,0 @@
-import{n as e,t}from"./types-B8AleBgb.js";var n=t.flatMap(t=>e.map(e=>({ageGroup:t,months:e,priceAgorot:null})));export{n as t};

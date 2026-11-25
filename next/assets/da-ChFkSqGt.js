@@ -1,0 +1,208 @@
+var e=`{
+  "title": "Bamse skal også tisse",
+  "names": {
+    "a12-nadia": "Nadja",
+    "a12-mum": "mor",
+    "a12-teddy": "Bamse"
+  },
+  "pages": [
+    {
+      "n": 1,
+      "text": "Nadja bygger med klodser. Op, op, op! Bamse hjælper også.",
+      "speech": "Nadja bygger med klodser. Op, op, op! Bamse hjælper også."
+    },
+    {
+      "n": 2,
+      "text": "Pludselig stopper Nadja. En lille følelse, langt nede i maven.",
+      "speech": "Pludselig stopper Nadja. En lille følelse, langt nede i maven."
+    },
+    {
+      "n": 3,
+      "text": "Hun skal tisse! »Bamse skal også tisse!« siger Nadja.",
+      "speech": "Hun skal tisse! »Bamse skal også tisse!« siger Nadja."
+    },
+    {
+      "n": 4,
+      "text": "Løb, Nadja, løb! Forbi klodserne. Forbi sofaen. Bamse med!",
+      "speech": "Løb, Nadja, løb! Forbi klodserne. Forbi sofaen. Bamse med!"
+    },
+    {
+      "n": 5,
+      "text": "Ud på badeværelset! Bamse sidder på kanten af badekarret.",
+      "speech": "Ud på badeværelset! Bamse sidder på kanten af badekarret."
+    },
+    {
+      "n": 6,
+      "text": "Nadja sidder på potten. Vent … vent … Bamse venter også.",
+      "speech": "Nadja sidder på potten. Vent … vent … Bamse venter også."
+    },
+    {
+      "n": 7,
+      "text": "Plip, plip! »Jeg har tisset!« siger Nadja.",
+      "speech": "Plip, plip! »Jeg har tisset!« siger Nadja."
+    },
+    {
+      "n": 8,
+      "text": "Tør dig. Op med trusserne. Vask hænder med mor. Bobler, bobler!",
+      "speech": "Tør dig. Op med trusserne. Vask hænder med mor. Bobler, bobler!"
+    },
+    {
+      "n": 9,
+      "text": "Mor klapper. Klap, klap! Nadja får Bamse til at klappe med.",
+      "speech": "Mor klapper. Klap, klap! Nadja får Bamse til at klappe med."
+    },
+    {
+      "n": 10,
+      "text": "Tilbage til klodserne. Op, op, op! Det højeste tårn hele formiddagen.",
+      "speech": "Tilbage til klodserne. Op, op, op! Det højeste tårn hele formiddagen."
+    }
+  ],
+  "film": [
+    {
+      "id": "f01",
+      "speaker": "narrator",
+      "text": "Det er morgen. Nadja bygger et tårn.",
+      "speech": "Det er morgen. Nadja bygger et tårn.",
+      "emotion": "bright and easy, a sunny morning"
+    },
+    {
+      "id": "f02",
+      "speaker": "a12-nadia",
+      "text": "Op, op! Hjælp mig, Bamse.",
+      "speech": "Op, op! Hjælp mig, Bamse.",
+      "emotion": "busy and bossy, playing"
+    },
+    {
+      "id": "f03",
+      "speaker": "narrator",
+      "text": "En lille følelse, langt nede i maven.",
+      "speech": "En lille følelse, langt nede i maven.",
+      "emotion": "slow and quiet, noticing"
+    },
+    {
+      "id": "f04",
+      "speaker": "a12-nadia",
+      "text": "Jeg skal tisse!",
+      "speech": "Jeg skal tisse!",
+      "emotion": "a sudden discovery, eyes wide"
+    },
+    {
+      "id": "f05",
+      "speaker": "a12-nadia",
+      "text": "Bamse skal også tisse!",
+      "speech": "Bamse skal også tisse!",
+      "emotion": "decided and funny"
+    },
+    {
+      "id": "f06",
+      "speaker": "narrator",
+      "text": "Løb, Nadja, løb! Forbi sofaen!",
+      "speech": "Løb, Nadja, løb! Forbi sofaen!",
+      "emotion": "quick and bouncy, cheering her on"
+    },
+    {
+      "id": "f07",
+      "speaker": "a12-nadia",
+      "text": "Sid her, Bamse.",
+      "speech": "Sid her, Bamse.",
+      "emotion": "kind and fussy, like a little mother"
+    },
+    {
+      "id": "f08",
+      "speaker": "narrator",
+      "text": "Vent … vent …",
+      "speech": "Vent … vent …",
+      "emotion": "slow, patient, a little sleepy"
+    },
+    {
+      "id": "f09",
+      "speaker": "a12-nadia",
+      "text": "Jeg har tisset, Bamse!",
+      "speech": "Jeg har tisset, Bamse!",
+      "emotion": "bursting with pride"
+    },
+    {
+      "id": "f10",
+      "speaker": "a12-mum",
+      "text": "Nu vasker vi hænder.",
+      "speech": "Nu vasker vi hænder.",
+      "emotion": "warm and calm"
+    },
+    {
+      "id": "f11",
+      "speaker": "narrator",
+      "text": "Bobler, bobler!",
+      "speech": "Bobler, bobler!",
+      "emotion": "light and bubbly"
+    },
+    {
+      "id": "f12",
+      "speaker": "a12-mum",
+      "text": "Du klarede det, Nadja!",
+      "speech": "Du klarede det, Nadja!",
+      "emotion": "proud, delighted"
+    },
+    {
+      "id": "f13",
+      "speaker": "a12-nadia",
+      "text": "Bamse klapper også!",
+      "speech": "Bamse klapper også!",
+      "emotion": "giggling"
+    },
+    {
+      "id": "f14",
+      "speaker": "narrator",
+      "text": "Tilbage til klodserne.",
+      "speech": "Tilbage til klodserne.",
+      "emotion": "cheerful"
+    },
+    {
+      "id": "f15",
+      "speaker": "a12-nadia",
+      "text": "Op, op, op!",
+      "speech": "Op, op, op!",
+      "emotion": "building up, higher and higher"
+    },
+    {
+      "id": "f16",
+      "speaker": "narrator",
+      "text": "Det højeste tårn hele formiddagen.",
+      "speech": "Det højeste tårn hele formiddagen.",
+      "emotion": "slow and satisfied, the last words"
+    }
+  ],
+  "activity": {
+    "title": "Bamse af og på",
+    "goal": "At øve sig i selv at trække bukserne ned og op.",
+    "materials": [
+      "En stor bamse",
+      "Løse bukser med elastik i livet"
+    ],
+    "steps": [
+      {
+        "n": 1,
+        "caption": "Bamse har bukser på."
+      },
+      {
+        "n": 2,
+        "caption": "Bukserne ned til knæene."
+      },
+      {
+        "n": 3,
+        "caption": "Bukserne op til maven."
+      },
+      {
+        "n": 4,
+        "caption": "Nu dig: ned … og op!"
+      },
+      {
+        "n": 5,
+        "caption": "Klap! Du klarede det."
+      }
+    ],
+    "safety": "Brug bukser med elastik i livet og uden snøre. Barnet sidder på gulvet når det trækker bukserne ned og op, så ingen falder. I en gruppe øver I kun på bamser og dukker. Sker der et uheld, så ring til det lokale alarmnummer.",
+    "forAdult": "I historien mærker Nadja tissetrangen i tide, når hen til potten og trækker selv trusserne op. At trække tøjet ned og op er en af de små færdigheder der gør det lettere at blive tør, og når man øver på en bamse først, forsvinder presset. Tag løse bukser med elastik på en stor bamse. Vis barnet hvordan man holder om linningen med begge hænder, tommelfingrene indenfor, og trækker ned til Bamses knæ og op til hans mave. Sig ordene hver gang: »Ned … op!« Så prøver barnet med sine egne bukser, siddende på gulvet, og kommer så langt det kan selv. Hjælp kun med det sidste stykke, og regn hvert forsøg for en succes. Gør det lettere ved at starte med bukserne nede ved knæene, så der kun skal trækkes op. Gør det sværere med endnu et stykke tøj, for eksempel strømper. Fem til ti minutter er rigeligt. Hold det som en leg: Selve potten er ikke en del af aktiviteten.",
+    "inClass": "Øv kun på store bamser og dukker, aldrig på børnene. Én voksen med højst fire børn, og hvert barn har en bamse eller dukke i løse bukser. Den voksne viser »ned til knæene … op til maven«, og alle gør det sammen. Bagefter viser bamserne stolt deres bukser frem."
+  }
+}
+`;export{e as default};

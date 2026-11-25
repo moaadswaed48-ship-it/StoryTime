@@ -1,0 +1,208 @@
+var e=`{
+  "title": "Spurvens varme rede",
+  "names": {
+    "a02-sparrow": "spurven",
+    "a02-knitter": "den gamle mand"
+  },
+  "pages": [
+    {
+      "n": 1,
+      "text": "En kold vintermorgen. En lille spurv vågner på taget over markedet.",
+      "speech": "En kold vintermorgen. En lille spurv vågner på taget over markedet."
+    },
+    {
+      "n": 2,
+      "text": "Hendes rede er tynd og grå. Brrr! Hun fryser.",
+      "speech": "Hendes rede er tynd og grå. Brrr! Hun fryser."
+    },
+    {
+      "n": 3,
+      "text": "Hop, hop, ned til boderne. Gule citroner! For tunge.",
+      "speech": "Hop, hop, ned til boderne. Gule citroner! For tunge."
+    },
+    {
+      "n": 4,
+      "text": "Hop, hop. Grønne agurker! For kolde.",
+      "speech": "Hop, hop. Grønne agurker! For kolde."
+    },
+    {
+      "n": 5,
+      "text": "Hop, hop. Røde tomater! For bløde.",
+      "speech": "Hop, hop. Røde tomater! For bløde."
+    },
+    {
+      "n": 6,
+      "text": "Ikke gul. Ikke grøn. Ikke rød. Den lille spurv fryser stadig.",
+      "speech": "Ikke gul. Ikke grøn. Ikke rød. Den lille spurv fryser stadig."
+    },
+    {
+      "n": 7,
+      "text": "Hop, hop, hen til den allersidste bod. En gammel mand sidder og strikker. Klik, klik.",
+      "speech": "Hop, hop, hen til den allersidste bod. En gammel mand sidder og strikker. Klik, klik."
+    },
+    {
+      "n": 8,
+      "text": "Små stykker garn falder ned ved hans fødder. Rødt, gult, grønt … og ét langt blåt!",
+      "speech": "Små stykker garn falder ned ved hans fødder. Rødt, gult, grønt … og ét langt blåt!"
+    },
+    {
+      "n": 9,
+      "text": "Hun flyver op med dem, ét ad gangen. Rødt, gult, grønt, blåt.",
+      "speech": "Hun flyver op med dem, ét ad gangen. Rødt, gult, grønt, blåt."
+    },
+    {
+      "n": 10,
+      "text": "Rødt, gult, grønt og blåt. Nu er reden varm og fuld af farver.",
+      "speech": "Rødt, gult, grønt og blåt. Nu er reden varm og fuld af farver."
+    },
+    {
+      "n": 11,
+      "text": "Hun sidder på det blå og synger. Pip, pip! Den gamle mand vinker med pindene.",
+      "speech": "Hun sidder på det blå og synger. Pip, pip! Den gamle mand vinker med pindene."
+    }
+  ],
+  "film": [
+    {
+      "id": "f01",
+      "speaker": "narrator",
+      "text": "En kold morgen på taget over markedet.",
+      "speech": "En kold morgen på taget over markedet.",
+      "emotion": "hushed and wintry, slow"
+    },
+    {
+      "id": "f02",
+      "speaker": "a02-sparrow",
+      "text": "Brrr! Koldt, koldt!",
+      "speech": "Brrr! Koldt, koldt!",
+      "emotion": "small and shivery, a little comic"
+    },
+    {
+      "id": "f03",
+      "speaker": "narrator",
+      "text": "Hendes rede er tynd og grå.",
+      "speech": "Hendes rede er tynd og grå.",
+      "emotion": "gentle, a touch of pity"
+    },
+    {
+      "id": "f04",
+      "speaker": "a02-sparrow",
+      "text": "Gule citroner!",
+      "speech": "Gule citroner!",
+      "emotion": "hopeful, excited"
+    },
+    {
+      "id": "f05",
+      "speaker": "narrator",
+      "text": "For tunge!",
+      "speech": "For tunge!",
+      "emotion": "playful, straining with her"
+    },
+    {
+      "id": "f06",
+      "speaker": "a02-sparrow",
+      "text": "Grønne agurker! For kolde!",
+      "speech": "Grønne agurker! For kolde!",
+      "emotion": "pleased, then a shiver"
+    },
+    {
+      "id": "f07",
+      "speaker": "a02-sparrow",
+      "text": "Røde tomater! For bløde!",
+      "speech": "Røde tomater! For bløde!",
+      "emotion": "curious, then a surprised little squeal"
+    },
+    {
+      "id": "f08",
+      "speaker": "narrator",
+      "text": "Ikke gul. Ikke grøn. Ikke rød.",
+      "speech": "Ikke gul. Ikke grøn. Ikke rød.",
+      "emotion": "soft and slow, a small sigh"
+    },
+    {
+      "id": "f09",
+      "speaker": "narrator",
+      "text": "Og ved den allersidste bod …",
+      "speech": "Og ved den allersidste bod …",
+      "emotion": "curious, leaning in"
+    },
+    {
+      "id": "f10",
+      "speaker": "narrator",
+      "text": "Klik, klik, siger pindene.",
+      "speech": "Klik, klik, siger pindene.",
+      "emotion": "cosy, in time with the needles"
+    },
+    {
+      "id": "f11",
+      "speaker": "a02-sparrow",
+      "text": "Rødt! Gult! Grønt!",
+      "speech": "Rødt! Gult! Grønt!",
+      "emotion": "delighted, one colour per falling piece"
+    },
+    {
+      "id": "f12",
+      "speaker": "a02-sparrow",
+      "text": "Og blåt!",
+      "speech": "Og blåt!",
+      "emotion": "breathless wonder"
+    },
+    {
+      "id": "f13",
+      "speaker": "narrator",
+      "text": "Ét ad gangen, op på taget.",
+      "speech": "Ét ad gangen, op på taget.",
+      "emotion": "busy and happy, light"
+    },
+    {
+      "id": "f14",
+      "speaker": "narrator",
+      "text": "Rødt, gult, grønt, blåt. En varm rede.",
+      "speech": "Rødt, gult, grønt, blåt. En varm rede.",
+      "emotion": "warm and satisfied, slowing down"
+    },
+    {
+      "id": "f15",
+      "speaker": "a02-sparrow",
+      "text": "Pip, pip!",
+      "speech": "Pip, pip!",
+      "emotion": "a happy song, bright"
+    },
+    {
+      "id": "f16",
+      "speaker": "a02-knitter",
+      "text": "Godmorgen, lille fugl.",
+      "speech": "Godmorgen, lille fugl.",
+      "emotion": "kind and smiling, an old, soft voice"
+    }
+  ],
+  "activity": {
+    "title": "Sokkepar",
+    "goal": "At finde to ting der er helt ens, og sige farven.",
+    "materials": [
+      "Rene sokker i forskellige farver, i par (gerne røde, gule, grønne og blå)",
+      "En kurv"
+    ],
+    "steps": [
+      {
+        "n": 1,
+        "caption": "Hæld sokkerne ud."
+      },
+      {
+        "n": 2,
+        "caption": "Find to der er ens."
+      },
+      {
+        "n": 3,
+        "caption": "Læg dem sammen. Sig farven!"
+      },
+      {
+        "n": 4,
+        "caption": "Alle par i kurven!"
+      }
+    ],
+    "safety": "Kun rene sokker i børne- eller voksenstørrelse: ingen bittesmå babysokker og ingen strømpebukser (de kan lave en løkke). Intet om halsen eller over ansigtet. Sker der et uheld, så ring til det lokale alarmnummer.",
+    "forAdult": "I historien leder spurven efter farver til sin rede og finder dem én ad gangen: rød, gul, grøn og blå. I denne leg leder barnet efter to sokker der er helt ens, og hører farvens navn ved hvert par. At finde to ens ting er en øvelse i at se godt efter. Hæld kurven ud på gulvet. Hold én sok op og spørg: »Hvor er dens makker?« Når barnet har fundet den, lægger I de to sokker ved siden af hinanden, og du siger farven tydeligt: »Rød!« Gør det lettere med kun tre par i meget forskellige farver. Gør det sværere med sokker i farver der ligner hinanden, eller ved at lade barnet sige farven. Fem til ti minutter er rigeligt. Til sidst lægger I parrene i kurven sammen.",
+    "inClass": "Hvert barn tager én sok fra kurven og går rundt for at finde det barn der har makkeren. Når de to mødes, holder de sokkerne op og siger farven sammen. Én voksen for hver fire børn."
+  }
+}
+`;export{e as default};

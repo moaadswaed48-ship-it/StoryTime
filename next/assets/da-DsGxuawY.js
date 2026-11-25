@@ -1,0 +1,208 @@
+var e=`{
+  "title": "Alting har et hjem",
+  "names": {
+    "a14-rayan": "Rayan",
+    "a14-dad": "far",
+    "a14-sister": "storesøster"
+  },
+  "pages": [
+    {
+      "n": 1,
+      "text": "Skovtur i fyrreskoven! Rayans familie spiser og leger.",
+      "speech": "Skovtur i fyrreskoven! Rayans familie spiser og leger."
+    },
+    {
+      "n": 2,
+      "text": "Nu skal de hjem. Men tingene ligger alle vegne!",
+      "speech": "Nu skal de hjem. Men tingene ligger alle vegne!"
+    },
+    {
+      "n": 3,
+      "text": "»Kopperne skal hjem i kurven,« siger far. Ind, ind, ind!",
+      "speech": "»Kopperne skal hjem i kurven,« siger far. Ind, ind, ind!"
+    },
+    {
+      "n": 4,
+      "text": "»Bolden skal hjem i tasken,« siger far. Ind!",
+      "speech": "»Bolden skal hjem i tasken,« siger far. Ind!"
+    },
+    {
+      "n": 5,
+      "text": "»Tæppet skal hjem …« siger storesøster. Hun ruller det sammen. Rul, rul, rul.",
+      "speech": "»Tæppet skal hjem …« siger storesøster. Hun ruller det sammen. Rul, rul, rul."
+    },
+    {
+      "n": 6,
+      "text": "Rayan ruller sig også ind i det! Kun hans ansigt kigger ud.",
+      "speech": "Rayan ruller sig også ind i det! Kun hans ansigt kigger ud."
+    },
+    {
+      "n": 7,
+      "text": "Alle griner. »Rayan skal hjem i tæppet!« siger storesøster.",
+      "speech": "Alle griner. »Rayan skal hjem i tæppet!« siger storesøster."
+    },
+    {
+      "n": 8,
+      "text": "Til sidst skrællerne. De skal hjem i skraldespanden ved stien. Ind!",
+      "speech": "Til sidst skrællerne. De skal hjem i skraldespanden ved stien. Ind!"
+    },
+    {
+      "n": 9,
+      "text": "Jorden er ren. En skovskade synger på en gren.",
+      "speech": "Jorden er ren. En skovskade synger på en gren."
+    },
+    {
+      "n": 10,
+      "text": "Familien går hjem. Alting er kommet hjem.",
+      "speech": "Familien går hjem. Alting er kommet hjem."
+    }
+  ],
+  "film": [
+    {
+      "id": "f01",
+      "speaker": "narrator",
+      "text": "Skovtur i fyrreskoven.",
+      "speech": "Skovtur i fyrreskoven.",
+      "emotion": "warm and easy, a sunny day"
+    },
+    {
+      "id": "f02",
+      "speaker": "a14-sister",
+      "text": "Rayan! Grib!",
+      "speech": "Rayan! Grib!",
+      "emotion": "playful, calling"
+    },
+    {
+      "id": "f03",
+      "speaker": "a14-dad",
+      "text": "Nu skal vi hjem!",
+      "speech": "Nu skal vi hjem!",
+      "emotion": "cheerful, clapping his hands"
+    },
+    {
+      "id": "f04",
+      "speaker": "narrator",
+      "text": "Men tingene ligger alle vegne!",
+      "speech": "Men tingene ligger alle vegne!",
+      "emotion": "a comic 'oh dear', smiling"
+    },
+    {
+      "id": "f05",
+      "speaker": "a14-dad",
+      "text": "Kopperne skal hjem i kurven.",
+      "speech": "Kopperne skal hjem i kurven.",
+      "emotion": "sing-song, making it a game"
+    },
+    {
+      "id": "f06",
+      "speaker": "a14-rayan",
+      "text": "Ind, ind, ind!",
+      "speech": "Ind, ind, ind!",
+      "emotion": "bouncy, one word per cup"
+    },
+    {
+      "id": "f07",
+      "speaker": "a14-dad",
+      "text": "Bolden skal hjem i tasken.",
+      "speech": "Bolden skal hjem i tasken.",
+      "emotion": "sing-song"
+    },
+    {
+      "id": "f08",
+      "speaker": "a14-rayan",
+      "text": "Ind!",
+      "speech": "Ind!",
+      "emotion": "proud"
+    },
+    {
+      "id": "f09",
+      "speaker": "a14-sister",
+      "text": "Tæppet skal hjem …",
+      "speech": "Tæppet skal hjem …",
+      "emotion": "sing-song, slowing down"
+    },
+    {
+      "id": "f10",
+      "speaker": "narrator",
+      "text": "Rul, rul, rul.",
+      "speech": "Rul, rul, rul.",
+      "emotion": "soft and rolling"
+    },
+    {
+      "id": "f11",
+      "speaker": "a14-rayan",
+      "text": "Mig med!",
+      "speech": "Mig med!",
+      "emotion": "giggly, muffled"
+    },
+    {
+      "id": "f12",
+      "speaker": "a14-sister",
+      "text": "Rayan skal hjem i tæppet!",
+      "speech": "Rayan skal hjem i tæppet!",
+      "emotion": "laughing out loud"
+    },
+    {
+      "id": "f13",
+      "speaker": "a14-dad",
+      "text": "Til sidst skrællerne.",
+      "speech": "Til sidst skrællerne.",
+      "emotion": "warm"
+    },
+    {
+      "id": "f14",
+      "speaker": "a14-rayan",
+      "text": "I skraldespanden!",
+      "speech": "I skraldespanden!",
+      "emotion": "proud and quick"
+    },
+    {
+      "id": "f15",
+      "speaker": "narrator",
+      "text": "Jorden er ren.",
+      "speech": "Jorden er ren.",
+      "emotion": "calm and pleased"
+    },
+    {
+      "id": "f16",
+      "speaker": "narrator",
+      "text": "Alting er hjemme.",
+      "speech": "Alting er hjemme.",
+      "emotion": "slow and content, the last words"
+    }
+  ],
+  "activity": {
+    "title": "Stor kasse, lille kasse",
+    "goal": "At sammenligne og sortere ting efter størrelse: stor og lille.",
+    "materials": [
+      "Én stor og én lille kasse uden hæfteklammer",
+      "Sikre ting fra hjemmet, som alle er for store til at komme igennem en tom toiletrulle"
+    ],
+    "steps": [
+      {
+        "n": 1,
+        "caption": "En stor kasse. En lille kasse."
+      },
+      {
+        "n": 2,
+        "caption": "Find én ting."
+      },
+      {
+        "n": 3,
+        "caption": "Stor? Lille?"
+      },
+      {
+        "n": 4,
+        "caption": "Ind med den!"
+      },
+      {
+        "n": 5,
+        "caption": "Alting har et hjem!"
+      }
+    ],
+    "safety": "Alle ting skal være for store til at komme igennem en tom toiletrulle. Ingen sko med snørebånd og ingen plastikposer. Tag hæfteklammerne ud af kasserne. Sker der et uheld, så ring til det lokale alarmnummer.",
+    "forAdult": "I historien hjælper Rayan med at rydde op efter skovturen, og hver ting kommer hjem på sin egen plads. At sortere efter størrelse er den samme idé for et lille barn: Store ting skal hjem i den store kasse, små ting i den lille. Stil de to kasser ved siden af hinanden, og find nogle sikre ting rundt omkring i hjemmet: en sko, en strømpe, en gryde, en træske, en bamse. Hold én ting op og spørg: »Stor eller lille?« Lad barnet bestemme og lægge den i. Hvis et valg overrasker dig, så spørg til det i stedet for at rette: En strømpe er faktisk lille ved siden af en gryde. Sig hver gang: »Ind med den! Strømpen er hjemme.« Gør det lettere ved kun at bruge meget store og meget små ting. Gør det sværere med en mellemstor kasse, eller let sammen efter den største ting i rummet. Til sidst lægger I alt tilbage på sin rigtige plads sammen. Fem til ti minutter er rigeligt.",
+    "inClass": "Stil en stor og en lille kasse midt i rummet. Hvert barn henter én ting i rummet, viser den til gruppen og lægger den i den store eller den lille kasse, mens gruppen råber »Stor!« eller »Lille!« Til sidst hjælper alle med at lægge tingene på plads. Én voksen med højst fire børn ad gangen."
+  }
+}
+`;export{e as default};

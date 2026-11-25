@@ -1,0 +1,57 @@
+var e=`{
+  "title": "Sæbesangen",
+  "names": {
+    "b08-tamir": "Tamir",
+    "b08-grandma": "bedstemor"
+  },
+  "pages": [
+    { "n": 1, "text": "Hele formiddagen legede Tamir i bedstemors have. Han gravede i den bløde jord med en gammel ske. Grav, grav, grav.", "speech": "Hele formiddagen legede Tamir i bedstemors have. Han gravede i den bløde jord med en gammel ske. Grav, grav, grav." },
+    { "n": 2, "text": "Han hjalp bedstemor med at sætte løg i en lang række. »Tryk dem ned, klap dem til,« sang bedstemor. »Tryk dem ned, klap dem til.«", "speech": "Han hjalp bedstemor med at sætte løg i en lang række. »Tryk dem ned, klap dem til,« sang bedstemor. »Tryk dem ned, klap dem til.«" },
+    { "n": 3, "text": "Så kløede han æslet bag ørerne. Æslet lænede sig ind mod ham og lukkede øjnene. »I-a,« sagde det stille.", "speech": "Så kløede han æslet bag ørerne. Æslet lænede sig ind mod ham og lukkede øjnene. »I-a,« sagde det stille." },
+    { "n": 4, "text": "Ved middagstid var Tamirs hænder dækket af mudder. Der var jord under hans negle. Der var æselhår på hans fingre.", "speech": "Ved middagstid var Tamirs hænder dækket af mudder. Der var jord under hans negle. Der var æselhår på hans fingre." },
+    { "n": 5, "text": "»Frokost!« kaldte bedstemor. Varmt brød ventede på bordet under figentræet. Tamirs hænder gik lige mod brødet.", "speech": "»Frokost!« kaldte bedstemor. Varmt brød ventede på bordet under figentræet. Tamirs hænder gik lige mod brødet." },
+    { "n": 6, "text": "Men bedstemor greb forsigtigt hans fingre. »Først sæbesangen,« sagde hun. Hvorfor tror du bedstemor stoppede ham?", "speech": "Men bedstemor greb forsigtigt hans fingre. »Først sæbesangen,« sagde hun. Hvorfor tror du bedstemor stoppede ham?" },
+    { "n": 7, "text": "Ved hanen i haven åbnede bedstemor for vandet. Sæbe og masser af bobler. Så sang de: »Håndflade, håndflade, håndryg, håndryg …«", "speech": "Ved hanen i haven åbnede bedstemor for vandet. Sæbe og masser af bobler. Så sang de: »Håndflade, håndflade, håndryg, håndryg …«" },
+    { "n": 8, "text": "»Fingrene flettet, tommeltot rundt, neglene skrab, skrab, skrab!« Boblerne var hvide, og så blev de brune.", "speech": "»Fingrene flettet, tommeltot rundt, neglene skrab, skrab, skrab!« Boblerne var hvide, og så blev de brune." },
+    { "n": 9, "text": "Vandet løb brunt, så gråt, så klart. Tamir rystede hænderne. Dryp, dryp. De var rene og duftede af sæbe.", "speech": "Vandet løb brunt, så gråt, så klart. Tamir rystede hænderne. Dryp, dryp. De var rene og duftede af sæbe." },
+    { "n": 10, "text": "Han tørrede dem i håndklædet og løb tilbage til bordet. Han satte sig med de rene hænder i skødet. Han var rigtig, rigtig sulten.", "speech": "Han tørrede dem i håndklædet og løb tilbage til bordet. Han satte sig med de rene hænder i skødet. Han var rigtig, rigtig sulten." },
+    { "n": 11, "text": "Bedstemor satte sig også. Hun rakte ud efter brødet med sine egne mudrede hænder. Og Tamir greb forsigtigt hendes fingre.", "speech": "Bedstemor satte sig også. Hun rakte ud efter brødet med sine egne mudrede hænder. Og Tamir greb forsigtigt hendes fingre." },
+    { "n": 12, "text": "»Bedstemor,« sagde Tamir. »Sæbesangen!« Bedstemor kiggede på sine hænder. De var lige så mudrede som løgbedet. Hun lo og lo.", "speech": "»Bedstemor,« sagde Tamir. »Sæbesangen!« Bedstemor kiggede på sine hænder. De var lige så mudrede som løgbedet. Hun lo og lo." },
+    { "n": 13, "text": "Så gik de sammen tilbage til hanen. »Håndflade, håndflade, håndryg, håndryg …« sang bedstemor og Tamir. Og æslet sang med: »I-a!«", "speech": "Så gik de sammen tilbage til hanen. »Håndflade, håndflade, håndryg, håndryg …« sang bedstemor og Tamir. Og æslet sang med: »I-a!«" }
+  ],
+  "film": [
+    { "id": "f01", "speaker": "narrator", "text": "Forår i bedstemors have.", "speech": "Forår i bedstemors have.", "emotion": "bright and cheerful" },
+    { "id": "f02", "speaker": "b08-tamir", "text": "Grav, grav, grav!", "speech": "Grav, grav, grav!", "emotion": "busy and happy, in rhythm" },
+    { "id": "f03", "speaker": "b08-grandma", "text": "Tryk dem ned, klap dem til …", "speech": "Tryk dem ned, klap dem til …", "emotion": "half singing, a gardening rhythm" },
+    { "id": "f04", "speaker": "narrator", "text": "Og så … æslet.", "speech": "Og så … æslet.", "emotion": "playful, a little pause for fun" },
+    { "id": "f05", "speaker": "b08-tamir", "text": "Søde æsel. Bløde æsel.", "speech": "Søde æsel. Bløde æsel.", "emotion": "tender, cooing" },
+    { "id": "f06", "speaker": "b08-grandma", "text": "Frokost!", "speech": "Frokost!", "emotion": "calling across the garden, warm" },
+    { "id": "f07", "speaker": "b08-tamir", "text": "Brød!", "speech": "Brød!", "emotion": "hungry and excited" },
+    { "id": "f08", "speaker": "b08-grandma", "text": "Vent. Først sæbesangen.", "speech": "Vent. Først sæbesangen.", "emotion": "gentle, amused, not cross" },
+    { "id": "f09", "speaker": "b08-tamir", "text": "Håndflade, håndflade, håndryg, håndryg …", "speech": "Håndflade, håndflade, håndryg, håndryg …", "emotion": "sung, bouncy" },
+    { "id": "f10", "speaker": "b08-grandma", "text": "Fingrene flettet, tommeltot rundt …", "speech": "Fingrene flettet, tommeltot rundt …", "emotion": "sung, joining in" },
+    { "id": "f11", "speaker": "b08-tamir", "text": "Neglene skrab, skrab, skrab!", "speech": "Neglene skrab, skrab, skrab!", "emotion": "sung, giggling on the scratches" },
+    { "id": "f12", "speaker": "narrator", "text": "Brunt … gråt … klart.", "speech": "Brunt … gråt … klart.", "emotion": "slow, satisfied" },
+    { "id": "f13", "speaker": "b08-tamir", "text": "Rene!", "speech": "Rene!", "emotion": "proud" },
+    { "id": "f14", "speaker": "narrator", "text": "Bedstemor rakte ud efter brødet …", "speech": "Bedstemor rakte ud efter brødet …", "emotion": "sly, leading up to a joke" },
+    { "id": "f15", "speaker": "b08-tamir", "text": "Bedstemor, sæbesangen!", "speech": "Bedstemor, sæbesangen!", "emotion": "delighted to be the one who remembers" },
+    { "id": "f16", "speaker": "b08-grandma", "text": "Åh … se mine hænder!", "speech": "Åh … se mine hænder!", "emotion": "surprised, then laughing" },
+    { "id": "f17", "speaker": "b08-grandma", "text": "Kom så. Syng med.", "speech": "Kom så. Syng med.", "emotion": "laughing, warm" },
+    { "id": "f18", "speaker": "b08-tamir", "text": "Håndflade, håndflade, håndryg, håndryg …", "speech": "Håndflade, håndflade, håndryg, håndryg …", "emotion": "sung, happy" },
+    { "id": "f19", "speaker": "narrator", "text": "Og æslet sang med.", "speech": "Og æslet sang med.", "emotion": "amused, the end" }
+  ],
+  "activity": {
+    "title": "Sæbe eller bare vand?",
+    "goal": "At sammenligne vand alene med vand og sæbe: et første forsøg hvor kun én ting er forskellig.",
+    "materials": ["Et par dråber madolie (ikke jordnøddeolie eller sesamolie)", "Et nip almindeligt kakaopulver", "Sæbe", "Et håndklæde"],
+    "steps": [
+      { "n": 1, "caption": "Olie og kakao på hænderne: det er »snavset«." },
+      { "n": 2, "caption": "Skyl kun med vand. Hvad er der tilbage?" },
+      { "n": 3, "caption": "Nu sæbe og sæbesangen. Er det hele væk?" }
+    ],
+    "safety": "Brug almindelig madolie og almindeligt kakaopulver. Har nogen allergi, så læs varedeklarationen: Kakao kan indeholde spor af mælk eller nødder. Hold olie og kakao væk fra ansigt, øjne og mund. En voksen bliver ved vasken hele tiden, og ingen står på en vaklende skammel. Sker der et uheld, så ring til det lokale alarmnummer.",
+    "forAdult": "I historien lærer Tamir sæbesangen af sin bedstemor før frokost, og bagefter minder han hende om at vaske hænder. Forsøget her viser barnet hvorfor sæbe er vigtig. Gnid et par dråber madolie ud over barnets håndflader og håndrygge, og drys et nip kakaopulver ovenpå. Det er legesnavs, fedtet ligesom rigtigt snavs. Skyl først kun med vand, så længe sangen varer, og kig på hænderne sammen: Det meste af det brune sidder der stadig. Vask så med sæbe, mens I synger sæbesangen fra historien: håndflade, håndryg, fingrene flettet, tommeltot rundt, neglene skrab. Skyl og kig igen. Sæben løsner fedt og snavs fra huden, så vandet kan skylle det væk. Spørg: »Hvad kunne sæben som vandet ikke kunne?« Det er et rigtigt forsøg: samme snavs, samme vand, og kun én ting er ændret. Slut med at vaske og tørre hænderne ordentligt. Gør det lettere: Lav kun sæbedelen, med sangen. Gør det sværere: Lad barnet gætte før hver skylning hvad der vil ske, og bagefter forklare resultatet med sine egne ord.",
+    "inClass": "Ved vasken to og to, med én voksen for hver seks børn. De voksne kommer olie og kakao på. Det ene barn skyller kun med vand, mens makkeren siger hvad der er tilbage. Så vasker begge med sæbe og synger sangen sammen. Slut af med en kort snak: Hvad gjorde sæben?"
+  }
+}
+`;export{e as default};

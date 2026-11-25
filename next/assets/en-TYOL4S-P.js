@@ -1,0 +1,53 @@
+var e=`{
+  "title": "Hot, Hot, Hands Back!",
+  "names": { "a09-dina": "Dina", "a09-uncle": "Uncle", "a09-neighbour": "the neighbour" },
+  "pages": [
+    { "n": 1, "text": "It is early. The sky is still dark. Dina helps Uncle in the bakery.", "speech": "It is early. The sky is still dark. Dina helps Uncle in the bakery." },
+    { "n": 2, "text": "Pat, pat, pat. Dina pats the dough. Dina helps Uncle!", "speech": "Pat, pat, pat. Dina pats the dough. Dina helps Uncle!" },
+    { "n": 3, "text": "Puff! Dina sprinkles flour. Flour on the table… and flour on her nose.", "speech": "Puff! Dina sprinkles flour. Flour on the table… and flour on her nose." },
+    { "n": 4, "text": "Uncle opens the big oven. Hot air rolls out. The bread is ready!", "speech": "Uncle opens the big oven. Hot air rolls out. The bread is ready!" },
+    { "n": 5, "text": "Dina reaches out. “Hot, hot!” says Uncle. “Hands back!”", "speech": "Dina reaches out. “Hot, hot!” says Uncle. “Hands back!”" },
+    { "n": 6, "text": "Dina’s hands fly back. Hands back, hands on the table.", "speech": "Dina’s hands fly back. Hands back, hands on the table." },
+    { "n": 7, "text": "Uncle puts the loaves on the shelf. Hot, hot! Hands back!", "speech": "Uncle puts the loaves on the shelf. Hot, hot! Hands back!" },
+    { "n": 8, "text": "Dina waits. She blows: whoo, whoo. Hands back, hands on the table.", "speech": "Dina waits. She blows: whoo, whoo. Hands back, hands on the table." },
+    { "n": 9, "text": "Outside, the sky turns pink. Uncle touches a loaf. “Warm now.”", "speech": "Outside, the sky turns pink. Uncle touches a loaf. “Warm now.”" },
+    { "n": 10, "text": "A warm piece for Dina. She holds it in both hands. Mmm.", "speech": "A warm piece for Dina. She holds it in both hands. Mmm." },
+    { "n": 11, "text": "The door opens. The neighbours come in from the cold. “Warm bread!” says Dina.", "speech": "The door opens. The neighbours come in from the cold. “Warm bread!” says Dina." }
+  ],
+  "film": [
+    { "id": "f01", "speaker": "narrator", "text": "Early, early. The village is still asleep.", "speech": "Early, early. The village is still asleep.", "emotion": "hushed and warm, like a secret" },
+    { "id": "f02", "speaker": "a09-uncle", "text": "Good morning, little helper.", "speech": "Good morning, little helper.", "emotion": "deep, soft, smiling" },
+    { "id": "f03", "speaker": "narrator", "text": "Pat, pat, pat.", "speech": "Pat, pat, pat.", "emotion": "light and bouncy, one word on each pat" },
+    { "id": "f04", "speaker": "a09-dina", "text": "Puff!", "speech": "Puff!", "emotion": "delighted, a little surprised" },
+    { "id": "f05", "speaker": "a09-uncle", "text": "Flour on your nose!", "speech": "Flour on your nose!", "emotion": "laughing gently" },
+    { "id": "f06", "speaker": "narrator", "text": "The big oven opens. Hot air rolls out.", "speech": "The big oven opens. Hot air rolls out.", "emotion": "slow, full of wonder" },
+    { "id": "f07", "speaker": "a09-uncle", "text": "Hot!", "speech": "Hot!", "emotion": "firm and clear, calm, never angry or loud" },
+    { "id": "f08", "speaker": "a09-uncle", "text": "Hot, hot! Hands back.", "speech": "Hot, hot! Hands back.", "emotion": "steady and kind, explaining" },
+    { "id": "f09", "speaker": "a09-dina", "text": "Hands back.", "speech": "Hands back.", "emotion": "small and serious, proud of herself" },
+    { "id": "f10", "speaker": "narrator", "text": "Hands back, hands on the table.", "speech": "Hands back, hands on the table.", "emotion": "warm, rhythmic, like a little song" },
+    { "id": "f11", "speaker": "narrator", "text": "Steam goes up, up, up.", "speech": "Steam goes up, up, up.", "emotion": "soft and floating, rising with the steam" },
+    { "id": "f12", "speaker": "a09-dina", "text": "Whoo, whoo. Still hot?", "speech": "Whoo, whoo. Still hot?", "emotion": "playful blowing, then a hopeful question" },
+    { "id": "f13", "speaker": "a09-uncle", "text": "Still hot. We wait.", "speech": "Still hot. We wait.", "emotion": "gentle, patient, smiling" },
+    { "id": "f14", "speaker": "narrator", "text": "Outside, the sky turns pink.", "speech": "Outside, the sky turns pink.", "emotion": "slow and dreamy, time passing" },
+    { "id": "f15", "speaker": "a09-uncle", "text": "Warm now.", "speech": "Warm now.", "emotion": "pleased, a little reveal" },
+    { "id": "f16", "speaker": "a09-dina", "text": "Mmm. Warm bread.", "speech": "Mmm. Warm bread.", "emotion": "eyes closed, blissful, quiet" },
+    { "id": "f17", "speaker": "a09-neighbour", "text": "Good morning! Brr, it’s cold.", "speech": "Good morning! Brr, it’s cold.", "emotion": "cheerful, shivering a little" },
+    { "id": "f18", "speaker": "a09-dina", "text": "Warm bread!", "speech": "Warm bread!", "emotion": "bright and proud, showing it off" }
+  ],
+  "activity": {
+    "title": "Little Loaves",
+    "goal": "Strengthen little hands by squeezing, rolling and patting.",
+    "materials": ["Two slices of soft bread (gluten-free if needed)", "A bowl", "A plate", "A spoon of water"],
+    "steps": [
+      { "n": 1, "caption": "Wash hands." },
+      { "n": 2, "caption": "Tear the bread into the bowl." },
+      { "n": 3, "caption": "The grown-up adds one spoon of water." },
+      { "n": 4, "caption": "Squeeze, roll, pat. A little loaf!" },
+      { "n": 5, "caption": "Hot, hot! Hands back. Then wash hands." }
+    ],
+    "safety": "Ask about wheat allergy first. Bread only: never raw flour or play dough. A taste is fine: a small flat piece, eaten sitting down. If there is an accident, call your local emergency number.",
+    "forAdult": "In the story, Dina pulls her hands back and waits when Uncle says “Hot!” This activity keeps the bakery feeling with no heat at all, because the bread is already baked. Squeezing, rolling and patting work the small muscles of the hand, the same muscles a child uses to hold a spoon or a crayon. Let the child tear the bread into the bowl. Add one spoon of water yourself, then squeeze, roll and pat each piece into a little loaf, saying each action aloud. Then play the story together: “These loaves are hot, hot! Hands back!” Pull your hands back, blow “whoo, whoo”, and say “Warm now!” We never use raw flour or play dough, because raw flour can carry germs. A small flat taste, eaten sitting down, is fine. A whole ball in the mouth is not. To make it easier, make one big loaf with your hands over the child’s hands. To make it harder, make a big loaf and a little loaf. Five to ten minutes is plenty. Wash hands before and after.",
+    "inClass": "One adult sits at a table with up to four children. Ask about allergies first. Each child gets one slice of bread on a plate. The adult says one action at a time and everyone does it together: tear, squeeze, roll, pat. Then everyone plays “Hot, hot! Hands back!” together. Everyone washes hands before and after."
+  }
+}
+`;export{e as default};

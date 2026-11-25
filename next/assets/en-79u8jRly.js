@@ -1,0 +1,205 @@
+var e=`{
+  "title": "Where Is Little Hedgehog?",
+  "names": {
+    "a13-little-hedgehog": "Little Hedgehog",
+    "a13-mama-hedgehog": "Mama Hedgehog"
+  },
+  "pages": [
+    {
+      "n": 1,
+      "text": "The hot day is over. The garden is cool. Stars come out.",
+      "speech": "The hot day is over. The garden is cool. Stars come out."
+    },
+    {
+      "n": 2,
+      "text": "“Let’s play hide-and-seek!” says Little Hedgehog. Mama Hedgehog closes her eyes.",
+      "speech": "“Let’s play hide-and-seek!” says Little Hedgehog. Mama Hedgehog closes her eyes."
+    },
+    {
+      "n": 3,
+      "text": "One, two, three… Where is Little Hedgehog?",
+      "speech": "One, two, three… Where is Little Hedgehog?"
+    },
+    {
+      "n": 4,
+      "text": "Where is Little Hedgehog? Under the bench? No! That’s a beetle.",
+      "speech": "Where is Little Hedgehog? Under the bench? No! That’s a beetle."
+    },
+    {
+      "n": 5,
+      "text": "Where is Little Hedgehog? Behind the watering can? No! That’s a snail.",
+      "speech": "Where is Little Hedgehog? Behind the watering can? No! That’s a snail."
+    },
+    {
+      "n": 6,
+      "text": "Where is Little Hedgehog? On the wall? No! That’s an owl. Blink, blink.",
+      "speech": "Where is Little Hedgehog? On the wall? No! That’s an owl. Blink, blink."
+    },
+    {
+      "n": 7,
+      "text": "Mama Hedgehog sniffs this way. Sniff, sniff. She sniffs that way. Sniff, sniff.",
+      "speech": "Mama Hedgehog sniffs this way. Sniff, sniff. She sniffs that way. Sniff, sniff."
+    },
+    {
+      "n": 8,
+      "text": "Hee-hee! A tiny giggle. Where is Little Hedgehog?",
+      "speech": "Hee-hee! A tiny giggle. Where is Little Hedgehog?"
+    },
+    {
+      "n": 9,
+      "text": "In the old boot! “Found you!” says Mama Hedgehog.",
+      "speech": "In the old boot! “Found you!” says Mama Hedgehog."
+    },
+    {
+      "n": 10,
+      "text": "Little Hedgehog is curled up tight. Round and prickly.",
+      "speech": "Little Hedgehog is curled up tight. Round and prickly."
+    },
+    {
+      "n": 11,
+      "text": "Mama Hedgehog curls up beside the boot. “Hoo-hoo,” says the owl. Goodnight.",
+      "speech": "Mama Hedgehog curls up beside the boot. “Hoo-hoo,” says the owl. Goodnight."
+    }
+  ],
+  "film": [
+    {
+      "id": "f01",
+      "speaker": "narrator",
+      "text": "The hot day is over. Now it’s cool.",
+      "speech": "The hot day is over. Now it’s cool.",
+      "emotion": "slow and soft, a cool evening"
+    },
+    {
+      "id": "f02",
+      "speaker": "narrator",
+      "text": "Stars come out, one by one.",
+      "speech": "Stars come out, one by one.",
+      "emotion": "hushed wonder"
+    },
+    {
+      "id": "f03",
+      "speaker": "a13-little-hedgehog",
+      "text": "Mama! Let’s play hide-and-seek!",
+      "speech": "Mama! Let’s play hide-and-seek!",
+      "emotion": "bouncy and excited"
+    },
+    {
+      "id": "f04",
+      "speaker": "a13-mama-hedgehog",
+      "text": "One… two… three…",
+      "speech": "One… two… three…",
+      "emotion": "slow and playful, counting"
+    },
+    {
+      "id": "f05",
+      "speaker": "a13-mama-hedgehog",
+      "text": "Where is Little Hedgehog?",
+      "speech": "Where is Little Hedgehog?",
+      "emotion": "curious, a sing-song question"
+    },
+    {
+      "id": "f06",
+      "speaker": "a13-mama-hedgehog",
+      "text": "Under the bench? No, a beetle!",
+      "speech": "Under the bench? No, a beetle!",
+      "emotion": "playful surprise, a little laugh"
+    },
+    {
+      "id": "f07",
+      "speaker": "a13-mama-hedgehog",
+      "text": "Behind the watering can? No, a snail!",
+      "speech": "Behind the watering can? No, a snail!",
+      "emotion": "playful surprise"
+    },
+    {
+      "id": "f08",
+      "speaker": "a13-mama-hedgehog",
+      "text": "On the wall? No, an owl!",
+      "speech": "On the wall? No, an owl!",
+      "emotion": "playful, then a soft laugh"
+    },
+    {
+      "id": "f09",
+      "speaker": "narrator",
+      "text": "Blink, blink.",
+      "speech": "Blink, blink.",
+      "emotion": "slow and sleepy, like the owl"
+    },
+    {
+      "id": "f10",
+      "speaker": "narrator",
+      "text": "Sniff, sniff, this way. Sniff, sniff, that way.",
+      "speech": "Sniff, sniff, this way. Sniff, sniff, that way.",
+      "emotion": "soft and close, sniffing along"
+    },
+    {
+      "id": "f11",
+      "speaker": "a13-little-hedgehog",
+      "text": "Hee-hee!",
+      "speech": "Hee-hee!",
+      "emotion": "a tiny, muffled giggle"
+    },
+    {
+      "id": "f12",
+      "speaker": "a13-mama-hedgehog",
+      "text": "In the old boot! Found you!",
+      "speech": "In the old boot! Found you!",
+      "emotion": "delighted, warm"
+    },
+    {
+      "id": "f13",
+      "speaker": "a13-little-hedgehog",
+      "text": "You found me!",
+      "speech": "You found me!",
+      "emotion": "giggling, proud of his hiding place"
+    },
+    {
+      "id": "f14",
+      "speaker": "a13-mama-hedgehog",
+      "text": "Goodnight, little one.",
+      "speech": "Goodnight, little one.",
+      "emotion": "tender, almost a whisper"
+    },
+    {
+      "id": "f15",
+      "speaker": "narrator",
+      "text": "Hoo-hoo. Goodnight, garden.",
+      "speech": "Hoo-hoo. Goodnight, garden.",
+      "emotion": "very soft, the last words"
+    }
+  ],
+  "activity": {
+    "title": "The Box Tunnel",
+    "goal": "Move the whole body through, in, around and over things.",
+    "materials": [
+      "A large cardboard box, staples taken out, edges taped",
+      "A cushion"
+    ],
+    "steps": [
+      {
+        "n": 1,
+        "caption": "Through the box! Crawl."
+      },
+      {
+        "n": 2,
+        "caption": "In the box. Sit!"
+      },
+      {
+        "n": 3,
+        "caption": "Around the box. Walk!"
+      },
+      {
+        "n": 4,
+        "caption": "Over the cushion. Climb!"
+      },
+      {
+        "n": 5,
+        "caption": "Again! Through, in, around, over."
+      }
+    ],
+    "safety": "Take out every staple and tape the edges of the box. Keep both ends open and never close the flaps over a child. Use a soft floor, with the grown-up right beside the box. If there is an accident, call your local emergency number.",
+    "forAdult": "In the story, Mama Hedgehog looks under, behind and on things, and finds Little Hedgehog in the old boot. Small children get a feel for words like these when their own bodies go through, in, around and over things. Open both ends of a big cardboard box, take out every staple and tape the edges. Put a cushion beside it. Say one word at a time and do it with the child: “Through!” as they crawl through, “In!” as they sit inside, “Around!” as you walk round it together, “Over!” as they climb over the cushion. Say the word while the body moves, every time. Then hide a soft toy under, behind, on or in the box and ask “Where is Teddy?” To make it easier, use only “in” and “through”. To make it harder, let the child say the word while you do the moving. Five to ten minutes is plenty.",
+    "inClass": "Two or three boxes in a line make a little course on a soft floor, with one adult beside it and up to four children. One child goes at a time while the others wait their turn. The group calls each word together: “Through! In! Around! Over!”"
+  }
+}
+`;export{e as default};

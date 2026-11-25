@@ -1,0 +1,52 @@
+var e=`{
+  "title": "The Seed That Took Its Time",
+  "names": {
+    "b15-noor": "Noor",
+    "b15-teacher": "the teacher",
+    "b15-boy": "a boy in her class"
+  },
+  "pages": [
+    { "n": 1, "text": "In the kindergarten, every child planted one chickpea in a little cup of soil. Noor pushed hers in with one finger. “Grow,” she whispered. The cups stood in a row on the sunny windowsill.", "speech": "In the kindergarten, every child planted one chickpea in a little cup of soil. Noor pushed hers in with one finger. “Grow,” she whispered. The cups stood in a row on the sunny windowsill." },
+    { "n": 2, "text": "Every day, Noor gave her chickpea a little water. Every day, she looked. On the second day: nothing. On the fourth day: nothing. Outside, a snail crept slowly up the wall.", "speech": "Every day, Noor gave her chickpea a little water. Every day, she looked. On the second day: nothing. On the fourth day: nothing. Outside, a snail crept slowly up the wall." },
+    { "n": 3, "text": "“Why doesn’t it grow?” asked Noor. “Seeds need water,” said the teacher. “And they need time.” Noor looked at the snail. It was taking its time too.", "speech": "“Why doesn’t it grow?” asked Noor. “Seeds need water,” said the teacher. “And they need time.” Noor looked at the snail. It was taking its time too." },
+    { "n": 4, "text": "Then, one morning, the children shouted. “Look!” Little shoots had pushed up in the sunny cups. They were bent like tiny hooks. Everyone cheered.", "speech": "Then, one morning, the children shouted. “Look!” Little shoots had pushed up in the sunny cups. They were bent like tiny hooks. Everyone cheered." },
+    { "n": 5, "text": "Noor ran to the windowsill. She looked at every cup. One, two, three… Where was hers? Her cup was not there.", "speech": "Noor ran to the windowsill. She looked at every cup. One, two, three… Where was hers? Her cup was not there." },
+    { "n": 6, "text": "Noor looked under the table. She looked by the door. Then she saw the curtain at the end of the windowsill. Someone had pushed her cup behind it, into the dark corner.", "speech": "Noor looked under the table. She looked by the door. Then she saw the curtain at the end of the windowsill. Someone had pushed her cup behind it, into the dark corner." },
+    { "n": 7, "text": "Noor pulled the curtain open. There was her cup! Her chickpea had grown too. But it was long and thin and pale, almost white. Why do you think it was so pale?", "speech": "Noor pulled the curtain open. There was her cup! Her chickpea had grown too. But it was long and thin and pale, almost white. Why do you think it was so pale?" },
+    { "n": 8, "text": "“It grew in the dark,” said the teacher. “A little plant needs light to turn green.” Very carefully, Noor carried her cup into the sun.", "speech": "“It grew in the dark,” said the teacher. “A little plant needs light to turn green.” Very carefully, Noor carried her cup into the sun." },
+    { "n": 9, "text": "Day by day, Noor’s seedling stood up straighter. Day by day, it turned a little greener. Slowly, slowly, like the snail.", "speech": "Day by day, Noor’s seedling stood up straighter. Day by day, it turned a little greener. Slowly, slowly, like the snail." },
+    { "n": 10, "text": "Noor gave it water every day, and every day she looked. Soon it was green from top to bottom, with small, soft leaves.", "speech": "Noor gave it water every day, and every day she looked. Soon it was green from top to bottom, with small, soft leaves." },
+    { "n": 11, "text": "On the last day of spring, all the seedlings went out into the garden. The children planted them in a row in the soft earth.", "speech": "On the last day of spring, all the seedlings went out into the garden. The children planted them in a row in the soft earth." },
+    { "n": 12, "text": "Noor’s plant stood right in the middle, green and strong. The snail came slowly by to see. Noor smiled at her plant. “You took your time,” she whispered.", "speech": "Noor’s plant stood right in the middle, green and strong. The snail came slowly by to see. Noor smiled at her plant. “You took your time,” she whispered." }
+  ],
+  "film": [
+    { "id": "f01", "speaker": "narrator", "text": "Every child planted one chickpea.", "speech": "Every child planted one chickpea.", "emotion": "bright spring morning, gentle" },
+    { "id": "f02", "speaker": "b15-noor", "text": "Grow, little chickpea.", "speech": "Grow, little chickpea.", "emotion": "a hopeful whisper" },
+    { "id": "f03", "speaker": "narrator", "text": "The second day: nothing. The fourth day: nothing.", "speech": "The second day: nothing. The fourth day: nothing.", "emotion": "patient, a little comic" },
+    { "id": "f04", "speaker": "b15-noor", "text": "Why doesn’t it grow?", "speech": "Why doesn’t it grow?", "emotion": "puzzled, a bit impatient" },
+    { "id": "f05", "speaker": "b15-teacher", "text": "Seeds need water. And time.", "speech": "Seeds need water. And time.", "emotion": "calm, kind, unhurried" },
+    { "id": "f06", "speaker": "narrator", "text": "Then, one morning…", "speech": "Then, one morning…", "emotion": "a soft build of excitement" },
+    { "id": "f07", "speaker": "b15-boy", "text": "Look! They’re growing!", "speech": "Look! They’re growing!", "emotion": "excited, shouting to everyone" },
+    { "id": "f08", "speaker": "b15-noor", "text": "Where is my cup?", "speech": "Where is my cup?", "emotion": "worried, searching" },
+    { "id": "f09", "speaker": "narrator", "text": "Behind the curtain, in the dark corner…", "speech": "Behind the curtain, in the dark corner…", "emotion": "hushed, a small mystery" },
+    { "id": "f10", "speaker": "b15-noor", "text": "It grew too! But it’s so pale.", "speech": "It grew too! But it’s so pale.", "emotion": "glad, then puzzled" },
+    { "id": "f11", "speaker": "b15-teacher", "text": "It grew in the dark. Plants need light to turn green.", "speech": "It grew in the dark. Plants need light to turn green.", "emotion": "warm, explaining simply" },
+    { "id": "f12", "speaker": "narrator", "text": "Day by day, it turned greener.", "speech": "Day by day, it turned greener.", "emotion": "slow, warm, growing" },
+    { "id": "f13", "speaker": "narrator", "text": "Slowly, slowly, like the snail.", "speech": "Slowly, slowly, like the snail.", "emotion": "playful and slow" },
+    { "id": "f14", "speaker": "b15-noor", "text": "You took your time.", "speech": "You took your time.", "emotion": "a fond, proud whisper" }
+  ],
+  "activity": {
+    "title": "Watch It Grow",
+    "goal": "Watch a change and draw it every day, like a diary.",
+    "materials": ["Two clear plastic cups", "Kitchen paper", "A few dry chickpeas (the adult handles them)", "A strip of paper and crayons"],
+    "steps": [
+      { "n": 1, "caption": "The grown-up puts chickpeas on damp paper." },
+      { "n": 2, "caption": "One cup in the light. One in a dark cupboard." },
+      { "n": 3, "caption": "Every day: look, then draw both cups." }
+    ],
+    "safety": "Only the adult handles the dry chickpeas: they are a choking risk and are never for eating. Check for legume allergies first. Keep the paper damp, with no standing water, and start again if it smells or grows mould. Wash hands after touching seeds or paper. If there is an accident, call your local emergency number.",
+    "forAdult": "In the story, Noor learns that a seed needs water and time to sprout, and that a young plant needs light to turn green. This activity lets the child see it happen. Fold a piece of kitchen paper into each clear cup and dampen it. Then slip three or four dry chickpeas between the paper and the side of the cup, where they can be seen. Do this part yourself: dry chickpeas are a choking risk and are not for eating. Put one cup on a sunny windowsill and the other in a dark cupboard, and keep both papers damp. Each day, look at the two cups together and let the child draw them side by side on a strip of paper, one box for each day. Ask: “What do you think will happen in the dark cupboard?” Most seeds sprout in the dark too, but the shoot comes out long, thin and pale. A few days in the light turn it green. Setting up takes about fifteen minutes, then a few minutes a day for a week or two. To make it easier, look and talk instead of drawing. To make it harder, measure the shoots each day against a strip of paper.",
+    "inClass": "One pair of cups for each group of four to six children: one cup in the light, one in a cupboard. Each day a different child draws both cups on the group’s strip, so everyone has a turn. At the end, lay the strips side by side and talk about what changed, and when."
+  }
+}
+`;export{e as default};

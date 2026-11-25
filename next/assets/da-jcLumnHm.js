@@ -1,0 +1,55 @@
+var e=`{
+  "title": "Storebrorsangen",
+  "names": {
+    "b10-zaki": "Zaki",
+    "b10-baby": "babyen",
+    "b10-mum": "mor",
+    "b10-dad": "far"
+  },
+  "pages": [
+    { "n": 1, "text": "Zaki havde fået en lillesøster. Nu hvor hun var kommet hjem, kiggede alle på babyen. Mor kiggede på babyen. Far kiggede på babyen. Ingen kiggede på Zaki.", "speech": "Zaki havde fået en lillesøster. Nu hvor hun var kommet hjem, kiggede alle på babyen. Mor kiggede på babyen. Far kiggede på babyen. Ingen kiggede på Zaki." },
+    { "n": 2, "text": "Babyen græd ved morgenmaden. Uææ. Hun græd ved frokosten. Uææ. Hun græd hele natten. UÆÆÆ! Mor og far var trætte, trætte, trætte.", "speech": "Babyen græd ved morgenmaden. Uææ. Hun græd ved frokosten. Uææ. Hun græd hele natten. UÆÆÆ! Mor og far var trætte, trætte, trætte." },
+    { "n": 3, "text": "»Ikke nu, Zaki,« sagde mor. »Senere, Zaki,« sagde far. Zaki sad på trappen med hagen i hænderne. Ingen har brug for en stor dreng, tænkte han.", "speech": "»Ikke nu, Zaki,« sagde mor. »Senere, Zaki,« sagde far. Zaki sad på trappen med hagen i hænderne. Ingen har brug for en stor dreng, tænkte han." },
+    { "n": 4, "text": "Så kom sommeren, og nætterne blev varme. En nat stod vinduet helt åbent. En stor, rund måne kiggede ind.", "speech": "Så kom sommeren, og nætterne blev varme. En nat stod vinduet helt åbent. En stor, rund måne kiggede ind." },
+    { "n": 5, "text": "Så vågnede babyen. Uææ! Mor tog hende op og vuggede hende, frem og tilbage, frem og tilbage. Og babyen græd og græd.", "speech": "Så vågnede babyen. Uææ! Mor tog hende op og vuggede hende, frem og tilbage, frem og tilbage. Og babyen græd og græd." },
+    { "n": 6, "text": "Far tog hende og gik rundt i stuen med hende, rundt og rundt. Ingenting hjalp. Og babyen græd og græd.", "speech": "Far tog hende og gik rundt i stuen med hende, rundt og rundt. Ingenting hjalp. Og babyen græd og græd." },
+    { "n": 7, "text": "Zaki stod i døren i sin pyjamas. Han kom i tanke om en sang. Mor plejede at synge den for ham da han var lille. Hvad tror du Zaki gør nu?", "speech": "Zaki stod i døren i sin pyjamas. Han kom i tanke om en sang. Mor plejede at synge den for ham da han var lille. Hvad tror du Zaki gør nu?" },
+    { "n": 8, "text": "Zaki kravlede op i den store seng, helt hen til sin lillesøster. Han trak vejret dybt. Så begyndte han at synge, helt stille.", "speech": "Zaki kravlede op i den store seng, helt hen til sin lillesøster. Han trak vejret dybt. Så begyndte han at synge, helt stille." },
+    { "n": 9, "text": "»Lille måne, rund og stor. Lille fisk der i havet bor. Luk dine øjne, lille ven. Sov nu sødt, og sov igen.«", "speech": "»Lille måne, rund og stor. Lille fisk der i havet bor. Luk dine øjne, lille ven. Sov nu sødt, og sov igen.«" },
+    { "n": 10, "text": "Babyen holdt op med at græde. Hun åbnede øjnene og kiggede på Zaki. Så fandt en bitte lille hånd hans finger og holdt godt fast.", "speech": "Babyen holdt op med at græde. Hun åbnede øjnene og kiggede på Zaki. Så fandt en bitte lille hånd hans finger og holdt godt fast." },
+    { "n": 11, "text": "»Hun kan lide din stemme,« hviskede far. Mor smilede. »Det var min sang til dig,« sagde hun stille. »Nu er det din sang til hende.«", "speech": "»Hun kan lide din stemme,« hviskede far. Mor smilede. »Det var min sang til dig,« sagde hun stille. »Nu er det din sang til hende.«" },
+    { "n": 12, "text": "Og hver gang babyen græd efter den nat, kaldte mor på Zaki. »Vi skal bruge storebrorsangen!« Så sang Zaki. Ingen andre kunne synge den helt som han.", "speech": "Og hver gang babyen græd efter den nat, kaldte mor på Zaki. »Vi skal bruge storebrorsangen!« Så sang Zaki. Ingen andre kunne synge den helt som han." }
+  ],
+  "film": [
+    { "id": "f01", "speaker": "narrator", "text": "Nu hvor babyen var kommet hjem, kiggede alle kun på hende.", "speech": "Nu hvor babyen var kommet hjem, kiggede alle kun på hende.", "emotion": "warm, a little wistful" },
+    { "id": "f02", "speaker": "b10-mum", "text": "Ikke nu, Zaki.", "speech": "Ikke nu, Zaki.", "emotion": "tired and kind, not cross; busy with the baby" },
+    { "id": "f03", "speaker": "b10-dad", "text": "Senere, Zaki.", "speech": "Senere, Zaki.", "emotion": "tired, distracted, gentle" },
+    { "id": "f04", "speaker": "b10-zaki", "text": "Ingen har brug for en stor dreng.", "speech": "Ingen har brug for en stor dreng.", "emotion": "a small sad thought, spoken inside his head" },
+    { "id": "f05", "speaker": "narrator", "text": "En varm sommernat stod vinduet åbent.", "speech": "En varm sommernat stod vinduet åbent.", "emotion": "calm and slow, night air" },
+    { "id": "f06", "speaker": "narrator", "text": "Og babyen græd og græd.", "speech": "Og babyen græd og græd.", "emotion": "patient, a little weary, with a hint of humour" },
+    { "id": "f07", "speaker": "b10-mum", "text": "Hys, hys … sov nu, lille skat.", "speech": "Hys, hys … sov nu, lille skat.", "emotion": "very tired, loving, almost pleading" },
+    { "id": "f08", "speaker": "narrator", "text": "Ingenting hjalp.", "speech": "Ingenting hjalp.", "emotion": "quiet, a pause before the turn" },
+    { "id": "f09", "speaker": "b10-zaki", "text": "Jeg kan en sang.", "speech": "Jeg kan en sang.", "emotion": "a whisper to himself, an idea" },
+    { "id": "f10", "speaker": "b10-zaki", "text": "Lille måne, rund og stor. Lille fisk der i havet bor.", "speech": "Lille måne, rund og stor. Lille fisk der i havet bor.", "emotion": "sung very softly, a little shy, slow lullaby tune" },
+    { "id": "f11", "speaker": "b10-zaki", "text": "Luk dine øjne, lille ven. Sov nu sødt, og sov igen.", "speech": "Luk dine øjne, lille ven. Sov nu sødt, og sov igen.", "emotion": "sung, softer and surer, fading at the end" },
+    { "id": "f12", "speaker": "narrator", "text": "Gråden holdt op.", "speech": "Gråden holdt op.", "emotion": "hushed wonder" },
+    { "id": "f13", "speaker": "b10-dad", "text": "Hun kan lide din stemme.", "speech": "Hun kan lide din stemme.", "emotion": "a whisper, amazed and proud" },
+    { "id": "f14", "speaker": "b10-mum", "text": "Det var min sang til dig.", "speech": "Det var min sang til dig.", "emotion": "soft, moved, smiling" },
+    { "id": "f15", "speaker": "b10-mum", "text": "Nu er det din sang til hende.", "speech": "Nu er det din sang til hende.", "emotion": "warm, giving him something precious" },
+    { "id": "f16", "speaker": "narrator", "text": "Nu havde Zaki en opgave som ingen andre kunne klare.", "speech": "Nu havde Zaki en opgave som ingen andre kunne klare.", "emotion": "warm and satisfied, a smile in the voice" }
+  ],
+  "activity": {
+    "title": "Bløde hænder",
+    "goal": "At øve sig i at holde og trøste en baby på en blid og sikker måde.",
+    "materials": ["En dukke eller et tøjdyr", "En kasse eller en fri, flad plads på gulvet som seng"],
+    "steps": [
+      { "n": 1, "caption": "Sæt dig ned. Støt hovedet og numsen." },
+      { "n": 2, "caption": "Vug langsomt. Syng stille." },
+      { "n": 3, "caption": "Læg dukken på ryggen. Intet andet i sengen." }
+    ],
+    "safety": "Øv med en dukke eller et tøjdyr. Et barn holder kun en rigtig baby når det sidder ned, med en voksen lige ved siden af. Sker der et uheld, så ring til det lokale alarmnummer.",
+    "forAdult": "I historien føler Zaki sig glemt da den nye baby kommer. Men så finder han noget som kun han kan gøre for hende. Legen her giver barnet en blid rolle over for en baby, først øvet med en dukke eller et tøjdyr. Sæt jer sammen på gulvet eller i sofaen. Vis grebet: én hånd under hovedet og nakken, én hånd under numsen, babyen tæt ind til brystet. Vug så langsomt, og tal eller syng med en stille stemme. Spørg: »Hvad kan en baby lide? Hvad kan gøre en baby bange?« Lad barnet finde på sin egen sang til dukken. Slut med at lægge dukken på ryggen i dens legeseng, uden noget andet i sengen. Sådan sover rigtige babyer også: på ryggen, i deres egen seng og uden noget blødt omkring sig, altså ingen puder, tæpper eller legetøj. Er der en rigtig baby i familien, holder barnet kun babyen når det sidder ned, med en voksen lige ved siden af. Ti til femten minutter er nok. Gør det lettere: Bare vug og syng. Gør det sværere: Lad som om I skifter ble på dukken, trin for trin.",
+    "inClass": "Én dukke eller ét tøjdyr til hvert par børn. Pædagogen viser grebet langsomt, og så skiftes parrene: Den ene holder og vugger, den anden holder øje med at hovedet bliver støttet. Mens parrene vugger, synger hele gruppen stille en vuggevise sammen, for eksempel månesangen fra historien."
+  }
+}
+`;export{e as default};

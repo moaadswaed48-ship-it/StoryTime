@@ -1,0 +1,52 @@
+var e=`{
+  "title": "Drum My Name",
+  "names": {
+    "b11-tala": "Tala",
+    "b11-drummer": "the drummer",
+    "b11-boy": "a boy",
+    "b11-mum": "Tala’s mum"
+  },
+  "pages": [
+    { "n": 1, "text": "Every spring evening, the lamps came on in the square. And every evening, the drummer came too. He sat on the steps with his big round drum.", "speech": "Every spring evening, the lamps came on in the square. And every evening, the drummer came too. He sat on the steps with his big round drum." },
+    { "n": 2, "text": "Children ran to sit around him. Tala sat right at the front. Her mum sat on a bench nearby. Pigeons walked between their feet, pecking at crumbs.", "speech": "Children ran to sit around him. Tala sat right at the front. Her mum sat on a bench nearby. Pigeons walked between their feet, pecking at crumbs." },
+    { "n": 3, "text": "“Tonight we’ll play a game,” said the drummer. “I drum a word. You guess it.” He looked at the wall, where a cat was dozing. Boom.", "speech": "“Tonight we’ll play a game,” said the drummer. “I drum a word. You guess it.” He looked at the wall, where a cat was dozing. Boom." },
+    { "n": 4, "text": "“Cat!” shouted a boy. “Yes,” said the drummer. “Cat has one beat.” Then he looked down at the pigeons. Boom-boom.", "speech": "“Cat!” shouted a boy. “Yes,” said the drummer. “Cat has one beat.” Then he looked down at the pigeons. Boom-boom." },
+    { "n": 5, "text": "“Pigeon!” shouted Tala. Pi-geon: two beats. The drummer nodded and smiled. Then the pigeons flapped up into the air, all at once.", "speech": "“Pigeon!” shouted Tala. Pi-geon: two beats. The drummer nodded and smiled. Then the pigeons flapped up into the air, all at once." },
+    { "n": 6, "text": "Next the drummer played a long one. Boom-boom-boom-boom. Four beats. The children looked at each other. Nobody knew.", "speech": "Next the drummer played a long one. Boom-boom-boom-boom. Four beats. The children looked at each other. Nobody knew." },
+    { "n": 7, "text": "The drummer pointed at the fruit cart in the corner. “Watermelon!” the children shouted. They clapped it together: wa-ter-mel-on. Four claps.", "speech": "The drummer pointed at the fruit cart in the corner. “Watermelon!” the children shouted. They clapped it together: wa-ter-mel-on. Four claps." },
+    { "n": 8, "text": "Then the drummer looked straight at Tala. Everyone went quiet. He drummed very, very softly. Boom-boom. Two beats.", "speech": "Then the drummer looked straight at Tala. Everyone went quiet. He drummed very, very softly. Boom-boom. Two beats." },
+    { "n": 9, "text": "Pigeon? thought Tala. No, the pigeons had flown away. Two beats… and he was looking at her. Can you guess the word?", "speech": "Pigeon? thought Tala. No, the pigeons had flown away. Two beats… and he was looking at her. Can you guess the word?" },
+    { "n": 10, "text": "“Ta-la,” she shouted. “It’s my name!” The drummer laughed and drummed it again, softly. Boom-boom. Ta-la.", "speech": "“Ta-la,” she shouted. “It’s my name!” The drummer laughed and drummed it again, softly. Boom-boom. Ta-la." },
+    { "n": 11, "text": "Everyone clapped Tala’s name together. Ta-la, Ta-la. Then they clapped their own names too. Some names had one beat. Some had two, or three.", "speech": "Everyone clapped Tala’s name together. Ta-la, Ta-la. Then they clapped their own names too. Some names had one beat. Some had two, or three." },
+    { "n": 12, "text": "Tala walked home with her mum under the street lamps. She clapped everything she saw. “Lamp.” One clap. “Win-dow.” Two claps. At her door, she clapped one last word. “Home.”", "speech": "Tala walked home with her mum under the street lamps. She clapped everything she saw. “Lamp.” One clap. “Win-dow.” Two claps. At her door, she clapped one last word. “Home.”" }
+  ],
+  "film": [
+    { "id": "f01", "speaker": "narrator", "text": "Every spring evening, the drummer came to the square.", "speech": "Every spring evening, the drummer came to the square.", "emotion": "warm, evening calm, a smile in the voice" },
+    { "id": "f02", "speaker": "b11-drummer", "text": "I drum a word, and you guess it!", "speech": "I drum a word, and you guess it!", "emotion": "playful, a showman, inviting" },
+    { "id": "f03", "speaker": "b11-boy", "text": "Cat!", "speech": "Cat!", "emotion": "quick, sure, shouted" },
+    { "id": "f04", "speaker": "b11-drummer", "text": "Yes! One beat.", "speech": "Yes! One beat.", "emotion": "delighted, encouraging" },
+    { "id": "f05", "speaker": "b11-tala", "text": "Pigeon!", "speech": "Pigeon!", "emotion": "bursting out, proud" },
+    { "id": "f06", "speaker": "narrator", "text": "Four beats… and nobody knew.", "speech": "Four beats… and nobody knew.", "emotion": "puzzled, playful, slowing down" },
+    { "id": "f07", "speaker": "b11-boy", "text": "Watermelon!", "speech": "Watermelon!", "emotion": "shouted, with all the other children joining in" },
+    { "id": "f08", "speaker": "narrator", "text": "Then he looked at Tala.", "speech": "Then he looked at Tala.", "emotion": "hushed, a little mysterious" },
+    { "id": "f09", "speaker": "b11-tala", "text": "Two beats… pigeon? No…", "speech": "Two beats… pigeon? No…", "emotion": "thinking aloud, slow, puzzled" },
+    { "id": "f10", "speaker": "b11-tala", "text": "Ta-la… that’s my name!", "speech": "Ta-la… that’s my name!", "emotion": "dawning surprise, then pure joy" },
+    { "id": "f11", "speaker": "narrator", "text": "And everyone clapped her name.", "speech": "And everyone clapped her name.", "emotion": "warm, rhythmic, happy" },
+    { "id": "f12", "speaker": "narrator", "text": "All the way home, Tala clapped.", "speech": "All the way home, Tala clapped.", "emotion": "gentle, night-time, fond" },
+    { "id": "f13", "speaker": "b11-tala", "text": "Lamp. Win-dow. Home.", "speech": "Lamp. Win-dow. Home.", "emotion": "a sleepy, happy chant, one clap per beat" }
+  ],
+  "activity": {
+    "title": "The Name Drum",
+    "goal": "Compare which word is longer by counting its beats.",
+    "materials": ["A pot or a plastic bowl", "A wooden spoon"],
+    "steps": [
+      { "n": 1, "caption": "Turn the pot over. Drum your name." },
+      { "n": 2, "caption": "Drum every name in the family." },
+      { "n": 3, "caption": "Whose name has the most beats?" }
+    ],
+    "safety": "Use an empty, cold pot that has not been on the stove, or a plastic bowl. Drum gently, and only on the pot. If there is an accident, call your local emergency number.",
+    "forAdult": "In the story, Tala finds out that words have beats, and that her own name has two. Hearing the beats (syllables) in a word is one of the first steps towards reading. Turn a pot upside down on the floor and start yourself: drum your own name, one beat for each part. For example, Dad has one beat, Grand-ma has two and ba-na-na has three. Then the child drums their own name and the names of everyone at home. Ask: “Whose name has the most beats? Whose has the fewest?” To see the difference, lay out a spoon for each beat, in a row. Say the names slowly and naturally. In families with two languages, the same name may have a different number of beats in each one. Ten to fifteen minutes is enough. To make it easier, clap instead of drumming. To make it harder, drum a word for the child to guess, like the drummer in the story.",
+    "inClass": "Sit in a circle with one drum (an upturned pot or a box). The adult starts by drumming a child’s name without saying it. The group guesses whose name it is, and that child becomes the next drummer. Names with the same number of beats make good riddles: the group may need two or three guesses."
+  }
+}
+`;export{e as default};

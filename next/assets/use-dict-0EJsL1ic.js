@@ -1,0 +1,1 @@
+import{U as e}from"./jsx-runtime-zWfRKXOn.js";function t(){let t=e(`lang`);if(!t)throw Error(`useLang() used outside the /:lang routes`);return t}export{t};

@@ -1,0 +1,53 @@
+var e=`{
+  "title": "The Window Seat",
+  "names": {
+    "b14-amin": "Amin",
+    "b14-dad": "Dad",
+    "b14-old-woman": "the old woman",
+    "b14-driver": "the driver"
+  },
+  "pages": [
+    { "n": 1, "text": "Rain drummed on the roof of the bus. Swish, swish went the big wipers. Amin had the best seat on the bus: the window seat. Dad stood right beside him, holding the pole.", "speech": "Rain drummed on the roof of the bus. Swish, swish went the big wipers. Amin had the best seat on the bus: the window seat. Dad stood right beside him, holding the pole." },
+    { "n": 2, "text": "The window was all steamy. Amin drew on it with one finger: a big round sun with long rays. Swish, swish went the wipers.", "speech": "The window was all steamy. Amin drew on it with one finger: a big round sun with long rays. Swish, swish went the wipers." },
+    { "n": 3, "text": "The bus stopped, and the door opened. Psshh. An old woman climbed on, slowly. Her coat was wet, and she carried two heavy bags.", "speech": "The bus stopped, and the door opened. Psshh. An old woman climbed on, slowly. Her coat was wet, and she carried two heavy bags." },
+    { "n": 4, "text": "“Good morning,” said the driver. He waited until she was holding on tight. Every seat on the bus was full.", "speech": "“Good morning,” said the driver. He waited until she was holding on tight. Every seat on the bus was full." },
+    { "n": 5, "text": "The bus moved off. The old woman held the pole with one hand. She swayed to the left. She swayed to the right. Her bags bumped against her knees.", "speech": "The bus moved off. The old woman held the pole with one hand. She swayed to the left. She swayed to the right. Her bags bumped against her knees." },
+    { "n": 6, "text": "Amin looked at his sun on the window. It was a very good sun. Then he looked at the old woman’s hand on the pole. It was shaking a little. What would you do?", "speech": "Amin looked at his sun on the window. It was a very good sun. Then he looked at the old woman’s hand on the pole. It was shaking a little. What would you do?" },
+    { "n": 7, "text": "Amin stood up. He looked at the old woman and smiled. “Good morning,” he said. “You can sit here.”", "speech": "Amin stood up. He looked at the old woman and smiled. “Good morning,” he said. “You can sit here.”" },
+    { "n": 8, "text": "The old woman sat down with a long, happy “Aaah.” “Thank you,” she said. “Come and stand by me.” Dad put her bags down by her feet and winked at Amin.", "speech": "The old woman sat down with a long, happy “Aaah.” “Thank you,” she said. “Come and stand by me.” Dad put her bags down by her feet and winked at Amin." },
+    { "n": 9, "text": "The old woman looked at the window. “Is this your sun?” she asked. Amin nodded. “Then it needs a sea,” she said. With one finger, she drew little waves under the sun.", "speech": "The old woman looked at the window. “Is this your sun?” she asked. Amin nodded. “Then it needs a sea,” she said. With one finger, she drew little waves under the sun." },
+    { "n": 10, "text": "“When I was a little girl,” she said, “I lived by the sea. Every morning I ran down to the waves.” Swish, swish went the wipers.", "speech": "“When I was a little girl,” she said, “I lived by the sea. Every morning I ran down to the waves.” Swish, swish went the wipers." },
+    { "n": 11, "text": "She told Amin about white boats and warm sand. She told him about seagulls that cried over the waves. Amin drew a seagull on the window. It had very long wings. The old woman laughed.", "speech": "She told Amin about white boats and warm sand. She told him about seagulls that cried over the waves. Amin drew a seagull on the window. It had very long wings. The old woman laughed." },
+    { "n": 12, "text": "At her stop, the old woman picked up her bags. “Goodbye, little painter,” she said, and waved. Amin waved back. On the steamy window, his sun still shone over her little sea.", "speech": "At her stop, the old woman picked up her bags. “Goodbye, little painter,” she said, and waved. Amin waved back. On the steamy window, his sun still shone over her little sea." }
+  ],
+  "film": [
+    { "id": "f01", "speaker": "narrator", "text": "A rainy morning on the bus.", "speech": "A rainy morning on the bus.", "emotion": "cosy, grey, gentle" },
+    { "id": "f02", "speaker": "narrator", "text": "Swish, swish went the wipers.", "speech": "Swish, swish went the wipers.", "emotion": "rhythmic, in time with the wipers" },
+    { "id": "f03", "speaker": "narrator", "text": "Amin had the best seat: the window seat.", "speech": "Amin had the best seat: the window seat.", "emotion": "warm, a little proud for him" },
+    { "id": "f04", "speaker": "b14-driver", "text": "Good morning! Hold on tight.", "speech": "Good morning! Hold on tight.", "emotion": "kind, steady, a big calm voice" },
+    { "id": "f05", "speaker": "narrator", "text": "Every seat was full.", "speech": "Every seat was full.", "emotion": "quiet, a small worry" },
+    { "id": "f06", "speaker": "narrator", "text": "Amin looked at his sun. Then at her shaking hand.", "speech": "Amin looked at his sun. Then at her shaking hand.", "emotion": "slow, thoughtful, a choice being made" },
+    { "id": "f07", "speaker": "b14-amin", "text": "Good morning. You can sit here.", "speech": "Good morning. You can sit here.", "emotion": "polite, a little shy, clear" },
+    { "id": "f08", "speaker": "b14-old-woman", "text": "Aaah… thank you. Stand here by me.", "speech": "Aaah… thank you. Stand here by me.", "emotion": "a long happy sigh, then warm and grateful" },
+    { "id": "f09", "speaker": "b14-old-woman", "text": "Is this your sun? Then it needs a sea.", "speech": "Is this your sun? Then it needs a sea.", "emotion": "playful, twinkling" },
+    { "id": "f10", "speaker": "b14-old-woman", "text": "When I was little, I lived by the sea.", "speech": "When I was little, I lived by the sea.", "emotion": "dreamy, remembering, softer" },
+    { "id": "f11", "speaker": "b14-old-woman", "text": "Every morning, I ran down to the waves.", "speech": "Every morning, I ran down to the waves.", "emotion": "smiling, young again for a moment" },
+    { "id": "f12", "speaker": "b14-amin", "text": "Look, a seagull!", "speech": "Look, a seagull!", "emotion": "delighted, sharing" },
+    { "id": "f13", "speaker": "b14-old-woman", "text": "Goodbye, little painter.", "speech": "Goodbye, little painter.", "emotion": "fond, a little sorry to go" },
+    { "id": "f14", "speaker": "narrator", "text": "And on the window, the sun shone over her little sea.", "speech": "And on the window, the sun shone over her little sea.", "emotion": "warm, slow, the end" }
+  ],
+  "activity": {
+    "title": "Hopscotch from Long Ago",
+    "goal": "Learn a game from an older person by listening to their rules and playing it their way.",
+    "materials": ["Chalk", "A rolled-up sock"],
+    "steps": [
+      { "n": 1, "caption": "Ask an older person: how did you play?" },
+      { "n": 2, "caption": "Draw their squares with chalk." },
+      { "n": 3, "caption": "Throw the sock. Hop their way." }
+    ],
+    "safety": "Play on a flat, dry place away from cars, with a grown-up watching. Chalk is for the ground, not for the mouth. If there is an accident, call your local emergency number.",
+    "forAdult": "In the story, Amin greets an old woman and gives her his seat, and she shares her memories with him. This activity is another way of showing respect to older people: asking them to teach us something, and doing it their way. Ask a grandparent or an older neighbour how they played hopscotch as a child. Many families in Israel and in Denmark know a version, and the squares and rules differ a lot. Help the child ask: “How did you play? What did the squares look like?” The older person describes or draws the grid, and the child copies it with chalk. A rolled-up sock makes a good marker: it does not roll away or bounce. Then play by their rules, even if they seem strange. If the older person cannot hop, they can be the judge or keep count. Fifteen to twenty minutes is plenty. To make it easier, draw a short grid of four squares. To make it harder, ask a second older person and compare the two games.",
+    "inClass": "Invite a grandparent to the class to teach their hopscotch. Before the visit, the children prepare two or three questions and practise greeting the guest. Groups of four or five each draw the guest’s grid in the yard and play by the guest’s rules, while the guest visits each group. At the end, the children thank the guest."
+  }
+}
+`;export{e as default};

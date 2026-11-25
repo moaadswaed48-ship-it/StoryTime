@@ -1,0 +1,53 @@
+var e=`{
+  "title": "Vinduespladsen",
+  "names": {
+    "b14-amin": "Amin",
+    "b14-dad": "far",
+    "b14-old-woman": "den gamle dame",
+    "b14-driver": "chaufføren"
+  },
+  "pages": [
+    { "n": 1, "text": "Regnen trommede på bussens tag. Visk, visk, sagde de store viskere. Amin havde den bedste plads i bussen: vinduespladsen. Far stod lige ved siden af ham og holdt i stangen.", "speech": "Regnen trommede på bussens tag. Visk, visk, sagde de store viskere. Amin havde den bedste plads i bussen: vinduespladsen. Far stod lige ved siden af ham og holdt i stangen." },
+    { "n": 2, "text": "Ruden var helt dugget til. Amin tegnede på den med én finger: en stor, rund sol med lange stråler. Visk, visk, sagde viskerne.", "speech": "Ruden var helt dugget til. Amin tegnede på den med én finger: en stor, rund sol med lange stråler. Visk, visk, sagde viskerne." },
+    { "n": 3, "text": "Bussen stoppede, og døren gik op. Psssj. En gammel dame steg langsomt ind. Hendes frakke var våd, og hun bar på to tunge poser.", "speech": "Bussen stoppede, og døren gik op. Psssj. En gammel dame steg langsomt ind. Hendes frakke var våd, og hun bar på to tunge poser." },
+    { "n": 4, "text": "»Godmorgen,« sagde chaufføren. Han ventede til hun holdt godt fast. Alle pladserne i bussen var optaget.", "speech": "»Godmorgen,« sagde chaufføren. Han ventede til hun holdt godt fast. Alle pladserne i bussen var optaget." },
+    { "n": 5, "text": "Bussen kørte videre. Den gamle dame holdt i stangen med én hånd. Hun svajede til venstre. Hun svajede til højre. Poserne stødte mod hendes knæ.", "speech": "Bussen kørte videre. Den gamle dame holdt i stangen med én hånd. Hun svajede til venstre. Hun svajede til højre. Poserne stødte mod hendes knæ." },
+    { "n": 6, "text": "Amin kiggede på sin sol på ruden. Det var en rigtig god sol. Så kiggede han på den gamle dames hånd på stangen. Den rystede lidt. Hvad ville du gøre?", "speech": "Amin kiggede på sin sol på ruden. Det var en rigtig god sol. Så kiggede han på den gamle dames hånd på stangen. Den rystede lidt. Hvad ville du gøre?" },
+    { "n": 7, "text": "Amin rejste sig. Han kiggede på den gamle dame og smilede. »Godmorgen,« sagde han. »Du kan sætte dig her.«", "speech": "Amin rejste sig. Han kiggede på den gamle dame og smilede. »Godmorgen,« sagde han. »Du kan sætte dig her.«" },
+    { "n": 8, "text": "Den gamle dame satte sig med et langt, glad »Aaah«. »Tak skal du have,« sagde hun. »Kom og stå her hos mig.« Far satte hendes poser ned ved hendes fødder og blinkede til Amin.", "speech": "Den gamle dame satte sig med et langt, glad »Aaah«. »Tak skal du have,« sagde hun. »Kom og stå her hos mig.« Far satte hendes poser ned ved hendes fødder og blinkede til Amin." },
+    { "n": 9, "text": "Den gamle dame kiggede på ruden. »Er det din sol?« spurgte hun. Amin nikkede. »Så mangler den et hav,« sagde hun. Med én finger tegnede hun små bølger under solen.", "speech": "Den gamle dame kiggede på ruden. »Er det din sol?« spurgte hun. Amin nikkede. »Så mangler den et hav,« sagde hun. Med én finger tegnede hun små bølger under solen." },
+    { "n": 10, "text": "»Da jeg var en lille pige,« sagde hun, »boede jeg ved havet. Hver morgen løb jeg ned til bølgerne.« Visk, visk, sagde viskerne.", "speech": "»Da jeg var en lille pige,« sagde hun, »boede jeg ved havet. Hver morgen løb jeg ned til bølgerne.« Visk, visk, sagde viskerne." },
+    { "n": 11, "text": "Hun fortalte Amin om hvide både og varmt sand. Og om måger der skreg over bølgerne. Amin tegnede en måge på ruden. Den havde meget lange vinger. Den gamle dame grinede.", "speech": "Hun fortalte Amin om hvide både og varmt sand. Og om måger der skreg over bølgerne. Amin tegnede en måge på ruden. Den havde meget lange vinger. Den gamle dame grinede." },
+    { "n": 12, "text": "Ved sit stoppested tog den gamle dame sine poser. »Farvel, lille maler,« sagde hun og vinkede. Amin vinkede tilbage. På den duggede rude skinnede hans sol stadig over hendes lille hav.", "speech": "Ved sit stoppested tog den gamle dame sine poser. »Farvel, lille maler,« sagde hun og vinkede. Amin vinkede tilbage. På den duggede rude skinnede hans sol stadig over hendes lille hav." }
+  ],
+  "film": [
+    { "id": "f01", "speaker": "narrator", "text": "En regnvejrsmorgen i bussen.", "speech": "En regnvejrsmorgen i bussen.", "emotion": "cosy, grey, gentle" },
+    { "id": "f02", "speaker": "narrator", "text": "Visk, visk, sagde viskerne.", "speech": "Visk, visk, sagde viskerne.", "emotion": "rhythmic, in time with the wipers" },
+    { "id": "f03", "speaker": "narrator", "text": "Amin havde den bedste plads: vinduespladsen.", "speech": "Amin havde den bedste plads: vinduespladsen.", "emotion": "warm, a little proud for him" },
+    { "id": "f04", "speaker": "b14-driver", "text": "Godmorgen! Hold godt fast.", "speech": "Godmorgen! Hold godt fast.", "emotion": "kind, steady, a big calm voice" },
+    { "id": "f05", "speaker": "narrator", "text": "Alle pladserne var optaget.", "speech": "Alle pladserne var optaget.", "emotion": "quiet, a small worry" },
+    { "id": "f06", "speaker": "narrator", "text": "Amin kiggede på sin sol. Og så på hendes rystende hånd.", "speech": "Amin kiggede på sin sol. Og så på hendes rystende hånd.", "emotion": "slow, thoughtful, a choice being made" },
+    { "id": "f07", "speaker": "b14-amin", "text": "Godmorgen. Du kan sætte dig her.", "speech": "Godmorgen. Du kan sætte dig her.", "emotion": "polite, a little shy, clear" },
+    { "id": "f08", "speaker": "b14-old-woman", "text": "Aaah … tak skal du have. Stå her hos mig.", "speech": "Aaah … tak skal du have. Stå her hos mig.", "emotion": "a long happy sigh, then warm and grateful" },
+    { "id": "f09", "speaker": "b14-old-woman", "text": "Er det din sol? Så mangler den et hav.", "speech": "Er det din sol? Så mangler den et hav.", "emotion": "playful, twinkling" },
+    { "id": "f10", "speaker": "b14-old-woman", "text": "Da jeg var lille, boede jeg ved havet.", "speech": "Da jeg var lille, boede jeg ved havet.", "emotion": "dreamy, remembering, softer" },
+    { "id": "f11", "speaker": "b14-old-woman", "text": "Hver morgen løb jeg ned til bølgerne.", "speech": "Hver morgen løb jeg ned til bølgerne.", "emotion": "smiling, young again for a moment" },
+    { "id": "f12", "speaker": "b14-amin", "text": "Se, en måge!", "speech": "Se, en måge!", "emotion": "delighted, sharing" },
+    { "id": "f13", "speaker": "b14-old-woman", "text": "Farvel, lille maler.", "speech": "Farvel, lille maler.", "emotion": "fond, a little sorry to go" },
+    { "id": "f14", "speaker": "narrator", "text": "Og på ruden skinnede solen over hendes lille hav.", "speech": "Og på ruden skinnede solen over hendes lille hav.", "emotion": "warm, slow, the end" }
+  ],
+  "activity": {
+    "title": "Hinkerude fra gamle dage",
+    "goal": "At lære en leg af en ældre og lege den efter den ældres regler.",
+    "materials": ["Kridt", "En sammenrullet sok"],
+    "steps": [
+      { "n": 1, "caption": "Spørg en ældre: Hvordan legede du?" },
+      { "n": 2, "caption": "Tegn hinkeruden med kridt." },
+      { "n": 3, "caption": "Kast sokken. Hink på den gamle måde." }
+    ],
+    "safety": "Leg på et fladt og tørt sted væk fra biler mens en voksen holder øje. Kridt er til jorden, ikke til munden. Sker der et uheld, så ring til det lokale alarmnummer.",
+    "forAdult": "I historien hilser Amin på en gammel dame og giver hende sin plads, og hun deler sine minder med ham. Legen her er en anden måde at vise ældre respekt på: at bede dem lære os noget og så gøre det på deres måde. Spørg en bedsteforælder eller en ældre nabo hvordan de hinkede da de var børn. Mange familier i Israel og i Danmark kender en udgave, og felterne og reglerne er meget forskellige. Hjælp barnet med at spørge: »Hvordan legede du? Hvordan så felterne ud?« Den ældre beskriver eller tegner hinkeruden, og barnet tegner den efter med kridt. En sammenrullet sok er en god brik: Den triller ikke væk og hopper ikke. Leg så efter deres regler, også selv om de virker mærkelige. Kan den ældre ikke hinke, kan vedkommende være dommer eller holde tællingen. Femten til tyve minutter er rigeligt. Gør det lettere: Tegn en kort rude med fire felter. Gør det sværere: Spørg en ældre mere, og sammenlign de to lege.",
+    "inClass": "Inviter en bedsteforælder til at lære gruppen sin hinkeleg. Før besøget forbereder børnene to eller tre spørgsmål og øver sig i at hilse på gæsten. Grupper på fire eller fem tegner gæstens hinkerude på legepladsen og leger efter gæstens regler mens gæsten går rundt til grupperne. Til sidst siger børnene tak til gæsten."
+  }
+}
+`;export{e as default};

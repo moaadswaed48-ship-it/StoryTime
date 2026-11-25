@@ -1,0 +1,55 @@
+var e=`{
+  "title": "The Big Brother Song",
+  "names": {
+    "b10-zaki": "Zaki",
+    "b10-baby": "the baby",
+    "b10-mum": "Mum",
+    "b10-dad": "Dad"
+  },
+  "pages": [
+    { "n": 1, "text": "Zaki had a new baby sister. Now that she was home, everyone looked at the baby. Mum looked at the baby. Dad looked at the baby. Nobody looked at Zaki.", "speech": "Zaki had a new baby sister. Now that she was home, everyone looked at the baby. Mum looked at the baby. Dad looked at the baby. Nobody looked at Zaki." },
+    { "n": 2, "text": "The baby cried at breakfast. Waaah. She cried at lunch. Waaah. She cried all night long. WAAAH! Mum and Dad were tired, tired, tired.", "speech": "The baby cried at breakfast. Waaah. She cried at lunch. Waaah. She cried all night long. WAAAH! Mum and Dad were tired, tired, tired." },
+    { "n": 3, "text": "“Not now, Zaki,” said Mum. “Later, Zaki,” said Dad. Zaki sat on the stairs with his chin in his hands. Nobody needs a big boy, he thought.", "speech": "“Not now, Zaki,” said Mum. “Later, Zaki,” said Dad. Zaki sat on the stairs with his chin in his hands. Nobody needs a big boy, he thought." },
+    { "n": 4, "text": "Summer came, and the nights grew hot. One night the window stood wide open. A big round moon looked in.", "speech": "Summer came, and the nights grew hot. One night the window stood wide open. A big round moon looked in." },
+    { "n": 5, "text": "Then the baby woke up. Waaah! Mum picked her up and rocked her, back and forth, back and forth. And the baby cried and cried.", "speech": "Then the baby woke up. Waaah! Mum picked her up and rocked her, back and forth, back and forth. And the baby cried and cried." },
+    { "n": 6, "text": "Dad took her and walked her up and down, up and down. Nothing helped. And the baby cried and cried.", "speech": "Dad took her and walked her up and down, up and down. Nothing helped. And the baby cried and cried." },
+    { "n": 7, "text": "Zaki stood at the door in his pyjamas. He remembered a song. Mum used to sing it to him when he was small. What do you think Zaki will do?", "speech": "Zaki stood at the door in his pyjamas. He remembered a song. Mum used to sing it to him when he was small. What do you think Zaki will do?" },
+    { "n": 8, "text": "Zaki climbed onto the big bed, right next to his sister. He took a deep breath. Then, very softly, he began to sing.", "speech": "Zaki climbed onto the big bed, right next to his sister. He took a deep breath. Then, very softly, he began to sing." },
+    { "n": 9, "text": "“Little moon up in the sky. Little fish down in the sea. Close your eyes, my little fish. Sleep, sleep, close to me.”", "speech": "“Little moon up in the sky. Little fish down in the sea. Close your eyes, my little fish. Sleep, sleep, close to me.”" },
+    { "n": 10, "text": "The baby stopped crying. She opened her eyes and looked at Zaki. Then a tiny hand found his finger, and held on tight.", "speech": "The baby stopped crying. She opened her eyes and looked at Zaki. Then a tiny hand found his finger, and held on tight." },
+    { "n": 11, "text": "“She likes your voice,” Dad whispered. Mum smiled. “That was my song for you,” she said softly. “Now it’s your song for her.”", "speech": "“She likes your voice,” Dad whispered. Mum smiled. “That was my song for you,” she said softly. “Now it’s your song for her.”" },
+    { "n": 12, "text": "After that night, whenever the baby cried, Mum called for Zaki. “We need the big brother song!” And Zaki sang. Nobody else could sing it quite like him.", "speech": "After that night, whenever the baby cried, Mum called for Zaki. “We need the big brother song!” And Zaki sang. Nobody else could sing it quite like him." }
+  ],
+  "film": [
+    { "id": "f01", "speaker": "narrator", "text": "Now that the baby was home, everyone looked at her.", "speech": "Now that the baby was home, everyone looked at her.", "emotion": "warm, a little wistful" },
+    { "id": "f02", "speaker": "b10-mum", "text": "Not now, Zaki.", "speech": "Not now, Zaki.", "emotion": "tired and kind, not cross; busy with the baby" },
+    { "id": "f03", "speaker": "b10-dad", "text": "Later, Zaki.", "speech": "Later, Zaki.", "emotion": "tired, distracted, gentle" },
+    { "id": "f04", "speaker": "b10-zaki", "text": "Nobody needs a big boy.", "speech": "Nobody needs a big boy.", "emotion": "a small sad thought, spoken inside his head" },
+    { "id": "f05", "speaker": "narrator", "text": "One hot summer night, the window stood open.", "speech": "One hot summer night, the window stood open.", "emotion": "calm and slow, night air" },
+    { "id": "f06", "speaker": "narrator", "text": "And the baby cried and cried.", "speech": "And the baby cried and cried.", "emotion": "patient, a little weary, with a hint of humour" },
+    { "id": "f07", "speaker": "b10-mum", "text": "Shh, shh… please sleep, little one.", "speech": "Shh, shh… please sleep, little one.", "emotion": "very tired, loving, almost pleading" },
+    { "id": "f08", "speaker": "narrator", "text": "Nothing helped.", "speech": "Nothing helped.", "emotion": "quiet, a pause before the turn" },
+    { "id": "f09", "speaker": "b10-zaki", "text": "I know a song.", "speech": "I know a song.", "emotion": "a whisper to himself, an idea" },
+    { "id": "f10", "speaker": "b10-zaki", "text": "Little moon up in the sky. Little fish down in the sea.", "speech": "Little moon up in the sky. Little fish down in the sea.", "emotion": "sung very softly, a little shy, slow lullaby tune" },
+    { "id": "f11", "speaker": "b10-zaki", "text": "Close your eyes, my little fish. Sleep, sleep, close to me.", "speech": "Close your eyes, my little fish. Sleep, sleep, close to me.", "emotion": "sung, softer and surer, fading at the end" },
+    { "id": "f12", "speaker": "narrator", "text": "The crying stopped.", "speech": "The crying stopped.", "emotion": "hushed wonder" },
+    { "id": "f13", "speaker": "b10-dad", "text": "She likes your voice.", "speech": "She likes your voice.", "emotion": "a whisper, amazed and proud" },
+    { "id": "f14", "speaker": "b10-mum", "text": "That was my song for you.", "speech": "That was my song for you.", "emotion": "soft, moved, smiling" },
+    { "id": "f15", "speaker": "b10-mum", "text": "Now it’s your song for her.", "speech": "Now it’s your song for her.", "emotion": "warm, giving him something precious" },
+    { "id": "f16", "speaker": "narrator", "text": "Now Zaki had a job nobody else could do.", "speech": "Now Zaki had a job nobody else could do.", "emotion": "warm and satisfied, a smile in the voice" }
+  ],
+  "activity": {
+    "title": "Gentle Hands",
+    "goal": "Practise gentle, safe ways to hold and soothe a baby.",
+    "materials": ["A doll or a soft toy", "A box, or a clear flat spot on the floor, for its bed"],
+    "steps": [
+      { "n": 1, "caption": "Sit down. Hold the head and the bottom." },
+      { "n": 2, "caption": "Rock slowly. Sing softly." },
+      { "n": 3, "caption": "Lay the doll on its back. Nothing else in its bed." }
+    ],
+    "safety": "Practise on a doll or a soft toy. A child holds a real baby only when sitting down, with a grown-up right beside them. If there is an accident, call your local emergency number.",
+    "forAdult": "In the story, Zaki feels left out when the new baby comes, until he finds something only he can do for her. This activity gives a child a gentle role with a baby, practised first on a doll or a soft toy. Sit down together on the floor or a sofa. Show the hold: one hand under the head and neck, one under the bottom, the baby close to the chest. Then rock slowly and talk or sing in a quiet voice. Ask: “What does a baby like? What might scare a baby?” Let the child make up a song of their own for the doll. Finish by laying the doll on its back in its pretend bed, with nothing else in it. Real babies sleep the same way: on their back, in their own bed, with nothing soft around them, so no pillows, blankets or toys. If there is a real baby in the family, the child holds the baby only when sitting down, with an adult right there. Ten to fifteen minutes is enough. To make it easier, just rock and sing. To make it harder, add a pretend nappy change, step by step.",
+    "inClass": "One doll or soft toy for each pair of children. The teacher shows the hold slowly, then the pairs take turns: one holds and rocks, the other watches that the head is supported. While the pairs rock, the whole group sings a quiet lullaby together, such as the moon song from the story."
+  }
+}
+`;export{e as default};

@@ -1,0 +1,52 @@
+var e=`{
+  "title": "Den gule og grønne sti",
+  "names": {
+    "b13-ilan": "Ilan",
+    "b13-tiler": "fliselæggeren",
+    "b13-neighbour": "naboen"
+  },
+  "pages": [
+    { "n": 1, "text": "I den gamle del af byen var der en smal gyde. Helt for enden lå Ilans røde dør. En sommermorgen kom en fliselægger med en vogn fuld af fliser.", "speech": "I den gamle del af byen var der en smal gyde. Helt for enden lå Ilans røde dør. En sommermorgen kom en fliselægger med en vogn fuld af fliser." },
+    { "n": 2, "text": "Hver morgen sad Ilan på trappen foran døren og kiggede. Fliselæggeren lagde en flise. Klik. Gul. Så en til. Klik. Grøn.", "speech": "Hver morgen sad Ilan på trappen foran døren og kiggede. Fliselæggeren lagde en flise. Klik. Gul. Så en til. Klik. Grøn." },
+    { "n": 3, "text": "Gul, grøn, gul, grøn. Klik, klik, klik, klik. Ilan nikkede med. »Gul, grøn, gul, grøn,« sang han.", "speech": "Gul, grøn, gul, grøn. Klik, klik, klik, klik. Ilan nikkede med. »Gul, grøn, gul, grøn,« sang han." },
+    { "n": 4, "text": "Dag for dag blev stien længere. Den kom tættere og tættere på Ilans dør. Gul, grøn, gul, grøn.", "speech": "Dag for dag blev stien længere. Den kom tættere og tættere på Ilans dør. Gul, grøn, gul, grøn." },
+    { "n": 5, "text": "En morgen stoppede en nabo op for at snakke. Fliselæggeren snakkede og grinede. Og mens han snakkede, blev han ved med at lægge fliser. Klik. Klik. Klik.", "speech": "En morgen stoppede en nabo op for at snakke. Fliselæggeren snakkede og grinede. Og mens han snakkede, blev han ved med at lægge fliser. Klik. Klik. Klik." },
+    { "n": 6, "text": "Ilan rynkede panden. Han kiggede på stien. Gul, grøn, gul, grøn … grøn! Kan du se hvad der er galt?", "speech": "Ilan rynkede panden. Han kiggede på stien. Gul, grøn, gul, grøn … grøn! Kan du se hvad der er galt?" },
+    { "n": 7, "text": "Ilan havde lyst til at råbe. Men de voksne snakkede, så han ventede. Han ventede på det ene ben. Han ventede på det andet ben.", "speech": "Ilan havde lyst til at råbe. Men de voksne snakkede, så han ventede. Han ventede på det ene ben. Han ventede på det andet ben." },
+    { "n": 8, "text": "Endelig vinkede naboen farvel og gik. Ilan sprang op og pegede med hele armen. »Den der skulle være gul!«", "speech": "Endelig vinkede naboen farvel og gik. Ilan sprang op og pegede med hele armen. »Den der skulle være gul!«" },
+    { "n": 9, "text": "Fliselæggeren kiggede. Han kiggede igen. Så grinede han. »Du har ret. Grøn efter grøn!« Han løftede den grønne flise op og lagde en gul. Klik.", "speech": "Fliselæggeren kiggede. Han kiggede igen. Så grinede han. »Du har ret. Grøn efter grøn!« Han løftede den grønne flise op og lagde en gul. Klik." },
+    { "n": 10, "text": "Nu var der kun to fliser tilbage. Fliselæggeren rakte dem til Ilan. »Du må gøre den færdig.« Ilan kiggede på den sidste flise. Den var grøn. Så nu kom … gul. Klik. Og så … grøn. Klik.", "speech": "Nu var der kun to fliser tilbage. Fliselæggeren rakte dem til Ilan. »Du må gøre den færdig.« Ilan kiggede på den sidste flise. Den var grøn. Så nu kom … gul. Klik. Og så … grøn. Klik." },
+    { "n": 11, "text": "Stien var færdig, helt hen til Ilans røde dør. Gul, grøn, gul, grøn, hele vejen.", "speech": "Stien var færdig, helt hen til Ilans røde dør. Gul, grøn, gul, grøn, hele vejen." },
+    { "n": 12, "text": "Næste morgen da stien var tør, hoppede Ilan hen ad den. Gul, grøn, gul, grøn! Hop, hop, hop, hop, hele vejen hen til døren. Fliselæggeren klappede.", "speech": "Næste morgen da stien var tør, hoppede Ilan hen ad den. Gul, grøn, gul, grøn! Hop, hop, hop, hop, hele vejen hen til døren. Fliselæggeren klappede." }
+  ],
+  "film": [
+    { "id": "f01", "speaker": "narrator", "text": "I den gamle del af byen lagde en fliselægger en ny sti.", "speech": "I den gamle del af byen lagde en fliselægger en ny sti.", "emotion": "calm, sunny, in time with the music" },
+    { "id": "f02", "speaker": "b13-ilan", "text": "Gul, grøn, gul, grøn!", "speech": "Gul, grøn, gul, grøn!", "emotion": "sung, bouncy, keeping the beat" },
+    { "id": "f03", "speaker": "narrator", "text": "Dag for dag kom stien tættere på.", "speech": "Dag for dag kom stien tættere på.", "emotion": "warm, steady" },
+    { "id": "f04", "speaker": "b13-neighbour", "text": "Godmorgen! Hvordan går det med arbejdet?", "speech": "Godmorgen! Hvordan går det med arbejdet?", "emotion": "friendly, chatty" },
+    { "id": "f05", "speaker": "b13-tiler", "text": "Én flise ad gangen!", "speech": "Én flise ad gangen!", "emotion": "cheerful, distracted, laughing" },
+    { "id": "f06", "speaker": "narrator", "text": "Ilan rynkede panden. Noget var galt.", "speech": "Ilan rynkede panden. Noget var galt.", "emotion": "a small worry, slower" },
+    { "id": "f07", "speaker": "b13-ilan", "text": "Gul, grøn, gul, grøn … grøn?", "speech": "Gul, grøn, gul, grøn … grøn?", "emotion": "a whisper, checking, puzzled" },
+    { "id": "f08", "speaker": "narrator", "text": "Men de voksne snakkede. Så Ilan ventede.", "speech": "Men de voksne snakkede. Så Ilan ventede.", "emotion": "patient, with a hint of fun" },
+    { "id": "f09", "speaker": "b13-ilan", "text": "Den der skulle være gul!", "speech": "Den der skulle være gul!", "emotion": "polite but bursting, pointing" },
+    { "id": "f10", "speaker": "b13-tiler", "text": "Du har ret. Grøn efter grøn!", "speech": "Du har ret. Grøn efter grøn!", "emotion": "surprised, laughing at himself, grateful" },
+    { "id": "f11", "speaker": "b13-tiler", "text": "To fliser tilbage. Du må gøre den færdig.", "speech": "To fliser tilbage. Du må gøre den færdig.", "emotion": "warm, trusting" },
+    { "id": "f12", "speaker": "b13-ilan", "text": "Grøn … så nu kommer gul.", "speech": "Grøn … så nu kommer gul.", "emotion": "careful, thinking aloud, proud" },
+    { "id": "f13", "speaker": "narrator", "text": "Gul, grøn, gul, grøn, hele vejen hen til den røde dør.", "speech": "Gul, grøn, gul, grøn, hele vejen hen til den røde dør.", "emotion": "satisfied, rhythmic" },
+    { "id": "f14", "speaker": "b13-ilan", "text": "Hop, hop, hop, hop!", "speech": "Hop, hop, hop, hop!", "emotion": "joyful, one hop per word" }
+  ],
+  "activity": {
+    "title": "Mønster af blade og sten",
+    "goal": "At finde på sit eget mønster der gentager sig.",
+    "materials": ["Nedfaldne blade", "Sten der er større end hullet i en toiletrulle", "Et par små pinde"],
+    "steps": [
+      { "n": 1, "caption": "Saml blade og store sten sammen med en voksen." },
+      { "n": 2, "caption": "Blad, sten, blad, sten. Hvad kommer så?" },
+      { "n": 3, "caption": "Lav dit eget mønster til den voksne." }
+    ],
+    "safety": "Saml kun nedfaldne blade, pinde og sten der er større end hullet i en toiletrulle, sammen med en voksen. Pluk aldrig planter i bedene, og ikke noget i munden. Vask hænder bagefter. På varme dage: Saml før kl. 10 eller efter kl. 16, med solhat og i skygge. Sker der et uheld, så ring til det lokale alarmnummer.",
+    "forAdult": "I historien opdager Ilan en fejl i flisemønstret og gør selv stien færdig. Legen her gør mønstre til en leg udenfor. Gå ud sammen og saml en håndfuld nedfaldne blade, små pinde og sten, hver større end hullet i en toiletrulle. Læg en række på jorden: blad, sten, blad, sten. Spørg: »Hvad kommer så?« og lad barnet lægge de næste. Byt så roller: Barnet finder på et nyt mønster (blad, blad, sten … eller pind, sten, sten …), og du fortsætter det. Lav en gang imellem en fejl med vilje, og lad barnet fange den, ligesom Ilan. Ti til tyve minutter er rigeligt. Gør det lettere: Brug to slags ting og et enkelt mønster hvor de skiftes. Gør det sværere: Brug tre slags (blad, sten, pind) eller et længere mønster. Saml kun blade du kender. Nogle planter er giftige: oleander, arum og ricinus i Israel, taks og guldregn i Danmark. Vask hænder når I kommer ind.",
+    "inClass": "Hver gruppe på fire til seks børn lægger en mønsterrække hen over legepladsen, med en voksen i nærheden. Når rækkerne er lange nok, bytter grupperne plads: Hver gruppe fortsætter den næste gruppes række uden at få reglen at vide. Slut med at gå langs alle rækkerne sammen og sige mønstrene højt."
+  }
+}
+`;export{e as default};

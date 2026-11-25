@@ -1,0 +1,52 @@
+var e=`{
+  "title": "Kugle, kasse, rør og kegle",
+  "names": {
+    "b12-dana": "Dana",
+    "b12-mum": "mor"
+  },
+  "pages": [
+    { "n": 1, "text": "Danas mor byggede huse. En sommermorgen bar de en bunke rester fra arbejdet ned i bunden af haven. »I dag bygger vi et hus,« sagde mor. »Til mit legetøj!« sagde Dana.", "speech": "Danas mor byggede huse. En sommermorgen bar de en bunke rester fra arbejdet ned i bunden af haven. »I dag bygger vi et hus,« sagde mor. »Til mit legetøj!« sagde Dana." },
+    { "n": 2, "text": "Først kom træklodserne. Hver klods havde seks flade sider, ligesom en kasse. »Det er terninger,« sagde mor. Dana stablede dem. Terning på terning på terning: en mur!", "speech": "Først kom træklodserne. Hver klods havde seks flade sider, ligesom en kasse. »Det er terninger,« sagde mor. Dana stablede dem. Terning på terning på terning: en mur!" },
+    { "n": 3, "text": "Så kom et langt, rundt rør. »Det er en cylinder,« sagde mor. »Den skal være vores skorsten.« Dana kiggede gennem røret. Hun kunne se himlen.", "speech": "Så kom et langt, rundt rør. »Det er en cylinder,« sagde mor. »Den skal være vores skorsten.« Dana kiggede gennem røret. Hun kunne se himlen." },
+    { "n": 4, "text": "Så kom en gammel orange kegle, bred forneden og spids foroven. »Den skal sidde helt øverst,« sagde mor. Dana havde også taget sin bold med. Den var rund hele vejen rundt.", "speech": "Så kom en gammel orange kegle, bred forneden og spids foroven. »Den skal sidde helt øverst,« sagde mor. Dana havde også taget sin bold med. Den var rund hele vejen rundt." },
+    { "n": 5, "text": "Mor lagde røret ned i græsset. Men haven skrånede ned mod tomatplanterne. Og så begyndte røret at trille.", "speech": "Mor lagde røret ned i græsset. Men haven skrånede ned mod tomatplanterne. Og så begyndte røret at trille." },
+    { "n": 6, "text": "Trille, trille, trille! Ned ad skrænten for det, hurtigere og hurtigere, lige mod tomaterne. »Åh nej,« gispede mor.", "speech": "Trille, trille, trille! Ned ad skrænten for det, hurtigere og hurtigere, lige mod tomaterne. »Åh nej,« gispede mor." },
+    { "n": 7, "text": "Hvad kan stoppe et rør der triller? Dana tænkte hurtigt. Bolde triller. Rør triller. Men kasser triller ikke!", "speech": "Hvad kan stoppe et rør der triller? Dana tænkte hurtigt. Bolde triller. Rør triller. Men kasser triller ikke!" },
+    { "n": 8, "text": "Dana greb en terning og skubbede den ind foran røret. Bonk! Røret stoppede. Tomaterne var reddet.", "speech": "Dana greb en terning og skubbede den ind foran røret. Bonk! Røret stoppede. Tomaterne var reddet." },
+    { "n": 9, "text": "Mor grinede. »Du er en rigtig bygmester!« sagde hun. Så viste hun Dana et fif. Hun stillede røret op på den flade ende. Nu kunne det slet ikke trille.", "speech": "Mor grinede. »Du er en rigtig bygmester!« sagde hun. Så viste hun Dana et fif. Hun stillede røret op på den flade ende. Nu kunne det slet ikke trille." },
+    { "n": 10, "text": "Sammen byggede de huset. Mure af terninger, terning på terning. Et bræt til tag. Og øverst stod røret lige op, som en flot skorsten.", "speech": "Sammen byggede de huset. Mure af terninger, terning på terning. Et bræt til tag. Og øverst stod røret lige op, som en flot skorsten." },
+    { "n": 11, "text": "Til sidst satte Dana keglen øverst på taget, med spidsen opad. »Nu er det færdigt,« sagde hun.", "speech": "Til sidst satte Dana keglen øverst på taget, med spidsen opad. »Nu er det færdigt,« sagde hun." },
+    { "n": 12, "text": "Endelig stod legetøjshuset i haven. Det havde mure af terninger, en skorsten af rør og en kegle på toppen. Danas legetøj flyttede ind. Og bolden? Den lå i den lille have, rund hele vejen rundt, klar til at trille.", "speech": "Endelig stod legetøjshuset i haven. Det havde mure af terninger, en skorsten af rør og en kegle på toppen. Danas legetøj flyttede ind. Og bolden? Den lå i den lille have, rund hele vejen rundt, klar til at trille." }
+  ],
+  "film": [
+    { "id": "f01", "speaker": "narrator", "text": "En sommermorgen byggede Dana og hendes mor et hus.", "speech": "En sommermorgen byggede Dana og hendes mor et hus.", "emotion": "bright, busy, cheerful" },
+    { "id": "f02", "speaker": "b12-mum", "text": "Det er terninger. Flade sider, ligesom en kasse.", "speech": "Det er terninger. Flade sider, ligesom en kasse.", "emotion": "warm, showing, an expert who loves her job" },
+    { "id": "f03", "speaker": "b12-dana", "text": "Terning på terning … en mur!", "speech": "Terning på terning … en mur!", "emotion": "proud, concentrating, then delighted" },
+    { "id": "f04", "speaker": "b12-mum", "text": "Det er en cylinder. Vores skorsten.", "speech": "Det er en cylinder. Vores skorsten.", "emotion": "playful, holding it up like a prize" },
+    { "id": "f05", "speaker": "b12-dana", "text": "Jeg kan se himlen!", "speech": "Jeg kan se himlen!", "emotion": "amazed, giggly" },
+    { "id": "f06", "speaker": "b12-mum", "text": "Og en kegle, helt øverst.", "speech": "Og en kegle, helt øverst.", "emotion": "bright, a little mysterious" },
+    { "id": "f07", "speaker": "narrator", "text": "Så begyndte røret at trille.", "speech": "Så begyndte røret at trille.", "emotion": "light suspense, quickening" },
+    { "id": "f08", "speaker": "b12-mum", "text": "Åh nej … tomaterne!", "speech": "Åh nej … tomaterne!", "emotion": "a gasp, more comic than scared" },
+    { "id": "f09", "speaker": "b12-dana", "text": "Kasser triller ikke!", "speech": "Kasser triller ikke!", "emotion": "a quick idea, said fast and sure" },
+    { "id": "f10", "speaker": "narrator", "text": "Bonk. Røret stoppede.", "speech": "Bonk. Røret stoppede.", "emotion": "relieved, with a little laugh" },
+    { "id": "f11", "speaker": "b12-mum", "text": "Du er en rigtig bygmester!", "speech": "Du er en rigtig bygmester!", "emotion": "laughing, proud, teasing" },
+    { "id": "f12", "speaker": "b12-mum", "text": "Stil det på den flade ende. Så triller det ikke.", "speech": "Stil det på den flade ende. Så triller det ikke.", "emotion": "sharing a builder's secret, calm" },
+    { "id": "f13", "speaker": "b12-dana", "text": "Nu er det færdigt!", "speech": "Nu er det færdigt!", "emotion": "satisfied, a big smile" },
+    { "id": "f14", "speaker": "narrator", "text": "Mure af terninger, en skorsten af rør og en kegle på toppen.", "speech": "Mure af terninger, en skorsten af rør og en kegle på toppen.", "emotion": "warm, slow, listing with pleasure" },
+    { "id": "f15", "speaker": "narrator", "text": "Og bolden? Rund hele vejen rundt, klar til at trille.", "speech": "Og bolden? Rund hele vejen rundt, klar til at trille.", "emotion": "playful, a wink at the end" }
+  ],
+  "activity": {
+    "title": "Trille eller stable?",
+    "goal": "At afprøve hvilke figurer der triller og hvilke der kan stables.",
+    "materials": ["Ting hjemmefra: en bold, en lille æske, et køkkenrullerør, et plastikkrus, en tragt", "En bakke og en tyk bog"],
+    "steps": [
+      { "n": 1, "caption": "Saml figurer derhjemme." },
+      { "n": 2, "caption": "Læg den på skråningen. Triller den?" },
+      { "n": 3, "caption": "Sorter: triller, stables eller begge dele." }
+    ],
+    "safety": "Brug kun ting der ikke kan gå i stykker: intet glas og intet tungt. Alt skal være for stort til at kunne komme ind i et toiletrullerør. Sker der et uheld, så ring til det lokale alarmnummer.",
+    "forAdult": "I historien opdager Dana at hver figur opfører sig på sin egen måde: En bold triller alle veje, et rør triller én vej, en kasse bliver liggende, og en kegle har en spids i toppen. Legen her lader barnet finde ud af det med sine egne hænder. Lav en svag skråning ved at lægge den ene ende af en bakke på en tyk bog. Saml fire eller fem ting sammen: en bold, en lille æske, et køkkenrullerør, et plastikkrus og en tragt. Spørg før hvert forsøg: »Hvad tror du der sker?« Lad så barnet lægge tingen øverst på skråningen. Triller den? Kan man stable to af dem? Sorter tingene i tre grupper: triller, kan stables, eller begge dele. Røret og kruset er gode overraskelser: Ligger de ned, triller de. Står de op, kan de stables. Brug figurernes navne mens I leger: kugle, terning, cylinder, kegle. Ti til femten minutter er nok. Gør det lettere: Prøv kun en bold og en æske. Gør det sværere: Byg et tårn med alle figurerne, ligesom Danas hus.",
+    "inClass": "Grupper på fire børn, hver med en bakke, en bog og fem ting. Hvert barn gætter først hvad der sker og prøver så én ting. Gruppen sorterer sine ting på tre stykker papir, hvert med en tegning: en bøjet pil for triller, et lille tårn for kan stables, og begge tegninger for begge dele. Bagefter sammenligner grupperne: Lagde alle kruset det samme sted?"
+  }
+}
+`;export{e as default};

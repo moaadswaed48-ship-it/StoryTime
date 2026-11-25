@@ -1,0 +1,197 @@
+var e=`{
+  "title": "Boom, Says the Sky",
+  "names": {
+    "a07-yara": "Yara",
+    "a07-grandma": "Grandma"
+  },
+  "pages": [
+    {
+      "n": 1,
+      "text": "Yara is sleeping at Grandma’s house. Her lamb is sleeping too.",
+      "speech": "Yara is sleeping at Grandma’s house. Her lamb is sleeping too."
+    },
+    {
+      "n": 2,
+      "text": "Rain on the window. Tap, tap, tap.",
+      "speech": "Rain on the window. Tap, tap, tap."
+    },
+    {
+      "n": 3,
+      "text": "Then… BOOM! says the sky.",
+      "speech": "Then… BOOM! says the sky."
+    },
+    {
+      "n": 4,
+      "text": "Yara sits up. Her eyes are wide. She holds her lamb tight.",
+      "speech": "Yara sits up. Her eyes are wide. She holds her lamb tight."
+    },
+    {
+      "n": 5,
+      "text": "Grandma comes with a little lamp. “Big noise,” says Grandma. She holds Yara close.",
+      "speech": "Grandma comes with a little lamp. “Big noise,” says Grandma. She holds Yara close."
+    },
+    {
+      "n": 6,
+      "text": "Flash… BOOM! Yara squeezes her lamb.",
+      "speech": "Flash… BOOM! Yara squeezes her lamb."
+    },
+    {
+      "n": 7,
+      "text": "Grandma breathes slowly. In… out… Yara breathes too. In… out…",
+      "speech": "Grandma breathes slowly. In… out… Yara breathes too. In… out…"
+    },
+    {
+      "n": 8,
+      "text": "The next boom is small. Boom…",
+      "speech": "The next boom is small. Boom…"
+    },
+    {
+      "n": 9,
+      "text": "Then only rain. Tap, tap, tap.",
+      "speech": "Then only rain. Tap, tap, tap."
+    },
+    {
+      "n": 10,
+      "text": "Grandma taps on the blanket. Tap, tap, tap. Yara taps too.",
+      "speech": "Grandma taps on the blanket. Tap, tap, tap. Yara taps too."
+    },
+    {
+      "n": 11,
+      "text": "Tap… tap… softer and softer. Yara’s eyes close.",
+      "speech": "Tap… tap… softer and softer. Yara’s eyes close."
+    }
+  ],
+  "film": [
+    {
+      "id": "f01",
+      "speaker": "narrator",
+      "text": "A rainy night in the village.",
+      "speech": "A rainy night in the village.",
+      "emotion": "low, warm and slow, a bedtime voice"
+    },
+    {
+      "id": "f02",
+      "speaker": "narrator",
+      "text": "Yara is sleeping at Grandma’s house.",
+      "speech": "Yara is sleeping at Grandma’s house.",
+      "emotion": "soft, cosy"
+    },
+    {
+      "id": "f03",
+      "speaker": "narrator",
+      "text": "Tap, tap, tap.",
+      "speech": "Tap, tap, tap.",
+      "emotion": "light and rhythmic, like fingertips"
+    },
+    {
+      "id": "f04",
+      "speaker": "narrator",
+      "text": "Boom, says the sky.",
+      "speech": "Boom, says the sky.",
+      "emotion": "a low, round rumble in the voice, never a shout"
+    },
+    {
+      "id": "f05",
+      "speaker": "a07-yara",
+      "text": "Grandma?",
+      "speech": "Grandma?",
+      "emotion": "small and scared, a little shaky"
+    },
+    {
+      "id": "f06",
+      "speaker": "a07-grandma",
+      "text": "Big noise. I’m here.",
+      "speech": "Big noise. I’m here.",
+      "emotion": "calm, slow and very sure, a smile in the voice"
+    },
+    {
+      "id": "f07",
+      "speaker": "narrator",
+      "text": "Flash… boom.",
+      "speech": "Flash… boom.",
+      "emotion": "quiet and steady, naming it, not dramatic"
+    },
+    {
+      "id": "f08",
+      "speaker": "a07-grandma",
+      "text": "Breathe with me. In… out…",
+      "speech": "Breathe with me. In… out…",
+      "emotion": "slow, each breath long, soothing"
+    },
+    {
+      "id": "f09",
+      "speaker": "a07-yara",
+      "text": "In… out…",
+      "speech": "In… out…",
+      "emotion": "copying Grandma, a little calmer each time"
+    },
+    {
+      "id": "f10",
+      "speaker": "narrator",
+      "text": "A small boom, far, far away.",
+      "speech": "A small boom, far, far away.",
+      "emotion": "almost a whisper, relieved"
+    },
+    {
+      "id": "f11",
+      "speaker": "narrator",
+      "text": "Now only rain. Tap, tap, tap.",
+      "speech": "Now only rain. Tap, tap, tap.",
+      "emotion": "soft and rocking"
+    },
+    {
+      "id": "f12",
+      "speaker": "a07-grandma",
+      "text": "Tap, tap, tap.",
+      "speech": "Tap, tap, tap.",
+      "emotion": "playful and soft, tapping along"
+    },
+    {
+      "id": "f13",
+      "speaker": "a07-yara",
+      "text": "Tap, tap, tap.",
+      "speech": "Tap, tap, tap.",
+      "emotion": "sleepy, joining in"
+    },
+    {
+      "id": "f14",
+      "speaker": "a07-grandma",
+      "text": "Softer… and softer…",
+      "speech": "Softer… and softer…",
+      "emotion": "a whisper fading away"
+    }
+  ],
+  "activity": {
+    "title": "Blow the Paper Ball",
+    "goal": "Practise long, slow breaths out through play.",
+    "materials": [
+      "One whole sheet of newspaper"
+    ],
+    "steps": [
+      {
+        "n": 1,
+        "caption": "Crumple one big paper ball."
+      },
+      {
+        "n": 2,
+        "caption": "Lie down, face to face."
+      },
+      {
+        "n": 3,
+        "caption": "Blow slowly: whoooo!"
+      },
+      {
+        "n": 4,
+        "caption": "Now blow it back."
+      },
+      {
+        "n": 5,
+        "caption": "Afterwards, wash hands."
+      }
+    ],
+    "safety": "One whole sheet crumpled into one big ball: no small torn pieces, and nothing in the mouth. A few slow breaths, then a rest. Stop if the child feels dizzy. Wash hands afterwards (newspaper ink). If there is an accident, call your local emergency number.",
+    "forAdult": "In the story, Grandma helps Yara calm down by breathing slowly with her: in… out… This game practises the same long, slow breath out, through play. Grown-ups use slow breaths to calm down, and a rolling ball turns a breath into something a toddler can see. Crumple a whole sheet of newspaper into one big ball together. The child can help squeeze it. Lie on your tummies, face to face, about an arm’s length apart. Breathe in, then blow out slowly and for a long time, “whoooo”, so the ball rolls to the child. Then the child blows it back. Praise the long, slow breath, not the speed. To make it easier, lie closer together. To make it harder, stand two books up as a gate and blow the ball through it. A few breaths at a time, with rests in between. Five to ten minutes in all is plenty. Wash hands afterwards, because newspaper ink comes off on fingers. The game also works at bedtime, or on a stormy night.",
+    "inClass": "Pairs lie face to face on a mat, one paper ball per pair, with one adult for every four children. The adult leads one slow “whoooo” for everyone, and all the balls roll at once. Then the other child in each pair blows. Everyone washes hands afterwards."
+  }
+}
+`;export{e as default};

@@ -1,0 +1,60 @@
+var e=`{
+  "title": "Stå stille, vink højt",
+  "names": {
+    "b06-karam": "Karam",
+    "b06-dad": "Karams far",
+    "b06-worker": "ekspedienten"
+  },
+  "pages": [
+    { "n": 1, "text": "Det var en kold vintermorgen. Karam og hans far skulle i det store supermarked. Ved døren spurgte far: »Hvad er vores regel hvis vi bliver væk fra hinanden?« »Stå stille og vink højt,« sagde Karam.", "speech": "Det var en kold vintermorgen. Karam og hans far skulle i det store supermarked. Ved døren spurgte far: »Hvad er vores regel hvis vi bliver væk fra hinanden?« »Stå stille og vink højt,« sagde Karam." },
+    { "n": 2, "text": "Derinde var alt stort og lyst. Hylderne var højere end far. Karam holdt fast i indkøbsvognen, og fars blå kasket vippede foran ham.", "speech": "Derinde var alt stort og lyst. Hylderne var højere end far. Karam holdt fast i indkøbsvognen, og fars blå kasket vippede foran ham." },
+    { "n": 3, "text": "Ved frugten stod en ekspedient i et grønt forklæde. Hun byggede et tårn af appelsiner. Én appelsin, én til og én til … højere og højere. Karam stoppede op og kiggede.", "speech": "Ved frugten stod en ekspedient i et grønt forklæde. Hun byggede et tårn af appelsiner. Én appelsin, én til og én til … højere og højere. Karam stoppede op og kiggede." },
+    { "n": 4, "text": "Ekspedienten lagde en sidste appelsin på toppen. Sikke et tårn! Karam vendte sig om for at vise det til far. Men far var der ikke.", "speech": "Ekspedienten lagde en sidste appelsin på toppen. Sikke et tårn! Karam vendte sig om for at vise det til far. Men far var der ikke." },
+    { "n": 5, "text": "Alle gangene lignede hinanden: hylder og hylder og hylder. Hvor var den blå kasket? Karam fik en knude i maven. Hvad skal Karam gøre?", "speech": "Alle gangene lignede hinanden: hylder og hylder og hylder. Hvor var den blå kasket? Karam fik en knude i maven. Hvad skal Karam gøre?" },
+    { "n": 6, "text": "Han havde lyst til at løbe rundt og lede alle vegne. Men han huskede reglen: Stå stille. Så Karam stod helt stille, lige ved appelsinerne.", "speech": "Han havde lyst til at løbe rundt og lede alle vegne. Men han huskede reglen: Stå stille. Så Karam stod helt stille, lige ved appelsinerne." },
+    { "n": 7, "text": "Og så skal man finde en hjælper. Det kan være en der arbejder her, eller en mor eller far med børn. Karam kiggede sig omkring. Dér var ekspedienten i det grønne forklæde!", "speech": "Og så skal man finde en hjælper. Det kan være en der arbejder her, eller en mor eller far med børn. Karam kiggede sig omkring. Dér var ekspedienten i det grønne forklæde!" },
+    { "n": 8, "text": "Karam løftede begge arme og vinkede, højt og langsomt. Vink højt. Ekspedienten så ham med det samme.", "speech": "Karam løftede begge arme og vinkede, højt og langsomt. Vink højt. Ekspedienten så ham med det samme." },
+    { "n": 9, "text": "Hun kom hen og satte sig på hug ved siden af ham. »Hej,« sagde hun. »Leder du efter din far eller din mor?« Karam nikkede.", "speech": "Hun kom hen og satte sig på hug ved siden af ham. »Hej,« sagde hun. »Leder du efter din far eller din mor?« Karam nikkede." },
+    { "n": 10, "text": "Han sagde hele sit navn. Bagefter sagde han også hele fars navn, præcis som de havde øvet det. Hans stemme rystede, men hvert ord var tydeligt.", "speech": "Han sagde hele sit navn. Bagefter sagde han også hele fars navn, præcis som de havde øvet det. Hans stemme rystede, men hvert ord var tydeligt." },
+    { "n": 11, "text": "Ekspedienten gik hen til højttaleren. Ding-dong! Hendes stemme lød i hele butikken, hen over alle hylderne.", "speech": "Ekspedienten gik hen til højttaleren. Ding-dong! Hendes stemme lød i hele butikken, hen over alle hylderne." },
+    { "n": 12, "text": "Lidt efter lød der hurtige skridt. Rundt om hjørnet kom far i fuld fart, med den blå kasket i hånden.", "speech": "Lidt efter lød der hurtige skridt. Rundt om hjørnet kom far i fuld fart, med den blå kasket i hånden." },
+    { "n": 13, "text": "Far løftede Karam op, lo og krammede ham hårdt. »Du stod stille,« sagde han. »Du vinkede højt.« »Præcis som vi øvede,« sagde Karam.", "speech": "Far løftede Karam op, lo og krammede ham hårdt. »Du stod stille,« sagde han. »Du vinkede højt.« »Præcis som vi øvede,« sagde Karam." }
+  ],
+  "film": [
+    { "id": "f01", "speaker": "narrator", "text": "En kold vintermorgen.", "speech": "En kold vintermorgen.", "emotion": "calm, cosy, a little grey" },
+    { "id": "f02", "speaker": "b06-dad", "text": "Hvad er vores regel hvis vi bliver væk fra hinanden?", "speech": "Hvad er vores regel hvis vi bliver væk fra hinanden?", "emotion": "light and playful, a familiar game" },
+    { "id": "f03", "speaker": "b06-karam", "text": "Stå stille og vink højt!", "speech": "Stå stille og vink højt!", "emotion": "proud, sing-song, he knows this one" },
+    { "id": "f04", "speaker": "narrator", "text": "Hylder og hylder og hylder.", "speech": "Hylder og hylder og hylder.", "emotion": "amused, a little dizzy" },
+    { "id": "f05", "speaker": "b06-worker", "text": "Én til … og én til …", "speech": "Én til … og én til …", "emotion": "concentrating, quietly to herself" },
+    { "id": "f06", "speaker": "b06-karam", "text": "Sikke et tårn af appelsiner!", "speech": "Sikke et tårn af appelsiner!", "emotion": "amazed, breathless" },
+    { "id": "f07", "speaker": "b06-karam", "text": "Far, se!", "speech": "Far, se!", "emotion": "excited, turning round" },
+    { "id": "f08", "speaker": "b06-karam", "text": "Far?", "speech": "Far?", "emotion": "small, the smile falling" },
+    { "id": "f09", "speaker": "narrator", "text": "Hvor var den blå kasket?", "speech": "Hvor var den blå kasket?", "emotion": "quiet, a little worried, never scary" },
+    { "id": "f10", "speaker": "b06-karam", "text": "Stå stille.", "speech": "Stå stille.", "emotion": "a whisper to himself, steadying" },
+    { "id": "f11", "speaker": "b06-karam", "text": "Og nu … find en hjælper.", "speech": "Og nu … find en hjælper.", "emotion": "thinking it through, braver" },
+    { "id": "f12", "speaker": "narrator", "text": "En der arbejder her … eller en mor eller far med børn.", "speech": "En der arbejder her … eller en mor eller far med børn.", "emotion": "clear and calm, like a reminder" },
+    { "id": "f13", "speaker": "b06-karam", "text": "Det grønne forklæde!", "speech": "Det grønne forklæde!", "emotion": "relieved, decided" },
+    { "id": "f14", "speaker": "b06-worker", "text": "Hej. Leder du efter din far eller din mor?", "speech": "Hej. Leder du efter din far eller din mor?", "emotion": "kind, slow, smiling" },
+    { "id": "f15", "speaker": "b06-karam", "text": "Ja. Jeg hedder Karam …", "speech": "Ja. Jeg hedder Karam …", "emotion": "a little wobbly but clear, getting stronger" },
+    { "id": "f16", "speaker": "b06-worker", "text": "Tak. Det sagde du rigtig tydeligt.", "speech": "Tak. Det sagde du rigtig tydeligt.", "emotion": "warm, reassuring" },
+    { "id": "f17", "speaker": "b06-worker", "text": "Ding-dong. En dreng der hedder Karam, venter ved appelsinerne.", "speech": "Ding-dong. En dreng der hedder Karam, venter ved appelsinerne.", "emotion": "a clear announcement voice, friendly" },
+    { "id": "f18", "speaker": "b06-dad", "text": "Karam!", "speech": "Karam!", "emotion": "huge relief, out of breath" },
+    { "id": "f19", "speaker": "b06-dad", "text": "Du stod stille. Du vinkede højt.", "speech": "Du stod stille. Du vinkede højt.", "emotion": "proud and laughing, a hug in the voice" },
+    { "id": "f20", "speaker": "b06-karam", "text": "Præcis som vi øvede.", "speech": "Præcis som vi øvede.", "emotion": "proud, happy" },
+    { "id": "f21", "speaker": "b06-worker", "text": "Hav en god dag, I to!", "speech": "Hav en god dag, I to!", "emotion": "cheerful, waving" }
+  ],
+  "activity": {
+    "title": "Mit navn, dit navn",
+    "goal": "At sige sit eget fulde navn og sin voksnes fulde navn tydeligt.",
+    "materials": ["Ingenting, kun jer to"],
+    "steps": [
+      { "n": 1, "caption": "Hjælperen spørger: »Hvad hedder du?«" },
+      { "n": 2, "caption": "Sig hele dit navn og din voksnes navn." },
+      { "n": 3, "caption": "Byt. Nu er du hjælperen." }
+    ],
+    "safety": "Leg legen derhjemme eller et roligt sted. Øv aldrig ved at gemme sig eller gå væk i en rigtig butik. Sker der et uheld, så ring til det lokale alarmnummer.",
+    "forAdult": "I historien bliver Karam væk i et supermarked og gør det han har øvet med sin far: Han står stille, han finder en hjælper (en der arbejder der, eller en forælder med børn), og han siger hele sit navn og hele sin fars navn. Når barnet står stille, er det lettere for den voksne der leder, og navnene er det en hjælper skal bruge for at finde familien. Legen her øver ordene i et roligt øjeblik, så de er klar hvis der en dag bliver brug for dem. Vær hjælperen først: Gå ned i barnets højde og spørg venligt: »Hej. Hvad hedder du? Hvem er du sammen med?« Barnet svarer med fornavn og efternavn og med det fulde navn på den voksne det er sammen med, ikke kun »mor« eller »far«. Byt så: Barnet er hjælperen og spørger dig. Mange børn kan godt lide at være den voksne. Hold legen let og venlig, aldrig skræmmende, og slut hver runde med jeres regel: »Stå stille, vink højt, find en hjælper.« Gør det lettere: Øv barnets eget navn først. Gør det sværere: Tilføj navnet på en voksen mere. Ti minutter er rigeligt, og I kan gentage legen en anden dag.",
+    "inClass": "Børnene leger to og to: Den ene er hjælperen, den anden er barnet der har brug for hjælp, og så bytter de. Pædagogen er ekspedient for dem der har lyst, sætter sig på hug og stiller spørgsmålene. Aftal først at et barn må nøjes med sit fornavn i gruppen. Familierne kan øve de fulde navne derhjemme."
+  }
+}
+`;export{e as default};

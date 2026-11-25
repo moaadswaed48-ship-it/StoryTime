@@ -1,0 +1,202 @@
+var e=`{
+  "title": "After the Nap",
+  "names": {
+    "a08-elias": "Elias",
+    "a08-papa": "Papa",
+    "a08-teacher": "the teacher"
+  },
+  "pages": [
+    {
+      "n": 1,
+      "text": "At the kindergarten gate, Papa kneels down. “After the nap, I’ll come back.”",
+      "speech": "At the kindergarten gate, Papa kneels down. “After the nap, I’ll come back.”"
+    },
+    {
+      "n": 2,
+      "text": "Elias holds Papa’s sleeve. Then Papa goes. Elias cries a little.",
+      "speech": "Elias holds Papa’s sleeve. Then Papa goes. Elias cries a little."
+    },
+    {
+      "n": 3,
+      "text": "The teacher takes his hand. “Look, Elias. The goldfish!”",
+      "speech": "The teacher takes his hand. “Look, Elias. The goldfish!”"
+    },
+    {
+      "n": 4,
+      "text": "After the fish… a song. La, la, la. Elias looks at the door.",
+      "speech": "After the fish… a song. La, la, la. Elias looks at the door."
+    },
+    {
+      "n": 5,
+      "text": "After the song… a snack. Munch, munch. Elias looks at the door.",
+      "speech": "After the song… a snack. Munch, munch. Elias looks at the door."
+    },
+    {
+      "n": 6,
+      "text": "After the snack… the sandpit. Dig, dig. Elias looks at the door.",
+      "speech": "After the snack… the sandpit. Dig, dig. Elias looks at the door."
+    },
+    {
+      "n": 7,
+      "text": "After the sandpit… the nap. Elias lies down on his little mat.",
+      "speech": "After the sandpit… the nap. Elias lies down on his little mat."
+    },
+    {
+      "n": 8,
+      "text": "Elias closes his eyes. Shhh…",
+      "speech": "Elias closes his eyes. Shhh…"
+    },
+    {
+      "n": 9,
+      "text": "After the nap, Elias opens his eyes. At the door… a stripy sleeve!",
+      "speech": "After the nap, Elias opens his eyes. At the door… a stripy sleeve!"
+    },
+    {
+      "n": 10,
+      "text": "“After the nap!” shouts Elias. He runs to the door.",
+      "speech": "“After the nap!” shouts Elias. He runs to the door."
+    },
+    {
+      "n": 11,
+      "text": "“Papa!” Up, up into Papa’s arms. After the nap, Papa is back.",
+      "speech": "“Papa!” Up, up into Papa’s arms. After the nap, Papa is back."
+    }
+  ],
+  "film": [
+    {
+      "id": "f01",
+      "speaker": "narrator",
+      "text": "Morning at the kindergarten gate.",
+      "speech": "Morning at the kindergarten gate.",
+      "emotion": "gentle and steady, a calm morning voice"
+    },
+    {
+      "id": "f02",
+      "speaker": "a08-papa",
+      "text": "After the nap, I’ll come back.",
+      "speech": "After the nap, I’ll come back.",
+      "emotion": "warm, slow and very sure, looking into Elias's eyes"
+    },
+    {
+      "id": "f03",
+      "speaker": "a08-elias",
+      "text": "Papa…",
+      "speech": "Papa…",
+      "emotion": "small and sad, a little teary, not wailing"
+    },
+    {
+      "id": "f04",
+      "speaker": "a08-teacher",
+      "text": "Look, Elias. The goldfish!",
+      "speech": "Look, Elias. The goldfish!",
+      "emotion": "kind and bright, inviting, crouched at his level"
+    },
+    {
+      "id": "f05",
+      "speaker": "narrator",
+      "text": "After the fish… a song.",
+      "speech": "After the fish… a song.",
+      "emotion": "light, a little sing-song, the 'after' tune"
+    },
+    {
+      "id": "f06",
+      "speaker": "narrator",
+      "text": "After the song… a snack.",
+      "speech": "After the song… a snack.",
+      "emotion": "the same 'after' tune"
+    },
+    {
+      "id": "f07",
+      "speaker": "narrator",
+      "text": "After the snack… the sandpit.",
+      "speech": "After the snack… the sandpit.",
+      "emotion": "the same 'after' tune, more cheerful"
+    },
+    {
+      "id": "f08",
+      "speaker": "a08-elias",
+      "text": "Is it after the nap now?",
+      "speech": "Is it after the nap now?",
+      "emotion": "hopeful, asking"
+    },
+    {
+      "id": "f09",
+      "speaker": "a08-teacher",
+      "text": "Not yet. After the sandpit, the nap.",
+      "speech": "Not yet. After the sandpit, the nap.",
+      "emotion": "gentle and clear, smiling"
+    },
+    {
+      "id": "f10",
+      "speaker": "narrator",
+      "text": "After the sandpit… the nap.",
+      "speech": "After the sandpit… the nap.",
+      "emotion": "slower and softer"
+    },
+    {
+      "id": "f11",
+      "speaker": "a08-teacher",
+      "text": "Shhh…",
+      "speech": "Shhh…",
+      "emotion": "a soft hush"
+    },
+    {
+      "id": "f12",
+      "speaker": "narrator",
+      "text": "After the nap…",
+      "speech": "After the nap…",
+      "emotion": "waking up, a little suspense"
+    },
+    {
+      "id": "f13",
+      "speaker": "a08-elias",
+      "text": "After the nap!",
+      "speech": "After the nap!",
+      "emotion": "bursting with joy, already running"
+    },
+    {
+      "id": "f14",
+      "speaker": "a08-elias",
+      "text": "Papa!",
+      "speech": "Papa!",
+      "emotion": "pure happiness"
+    },
+    {
+      "id": "f15",
+      "speaker": "a08-papa",
+      "text": "After the nap. I’m back.",
+      "speech": "After the nap. I’m back.",
+      "emotion": "warm and laughing, holding him tight"
+    }
+  ],
+  "activity": {
+    "title": "My Day in Three Pictures",
+    "goal": "Put three moments of the day in order: first, then, last.",
+    "materials": [
+      "Three large sheets of paper",
+      "Chunky crayons made for young children"
+    ],
+    "steps": [
+      {
+        "n": 1,
+        "caption": "Draw three pictures together."
+      },
+      {
+        "n": 2,
+        "caption": "Mix them up!"
+      },
+      {
+        "n": 3,
+        "caption": "First… then… last."
+      },
+      {
+        "n": 4,
+        "caption": "Tell the day, and point."
+      }
+    ],
+    "safety": "Chunky crayons labelled as suitable for young children, and crayons stay out of the mouth. Large sheets of paper, not small scraps. If there is an accident, call your local emergency number.",
+    "forAdult": "In the story, Elias copes with goodbye by following the order of his day. After the fish comes a song, after the song a snack, and after the nap Papa comes back. Knowing what comes next makes waiting easier for a small child. This game practises putting three moments of the day in order. Draw three simple pictures together on three sheets: breakfast (a bowl), playing (a ball) and going home (a door). The child can colour them in. Name each one as you draw it. Then mix them up and lay them out together, one under the other: “First breakfast, then playing, then home.” Point to each picture as you say it. Mix them again, and this time let the child lay them out while you say the words. To make it easier, use only two pictures. To make it harder, add a fourth (a nap), or draw the child’s own day at kindergarten. Five to ten minutes is plenty.",
+    "inClass": "The teacher draws the kindergarten day in three big pictures: arriving, playing and going home. In small groups of up to four, children take turns to lay the pictures in order, one under the other, while everyone says “first, then, last”. The pictures can then hang by the door."
+  }
+}
+`;export{e as default};

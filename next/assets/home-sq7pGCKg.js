@@ -1,0 +1,1 @@
+import{n as e,s as t,t as n}from"./jsx-runtime-zWfRKXOn.js";import{t as r}from"./use-dict-0EJsL1ic.js";import{a as i}from"./paths-D2elx560.js";var a=n(),o=t(function(){let{lang:t}=r();return(0,a.jsx)(e,{to:i(t,`app/library`),replace:!0})});export{o as default};

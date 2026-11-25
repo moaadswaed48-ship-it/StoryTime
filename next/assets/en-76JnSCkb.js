@@ -1,0 +1,216 @@
+var e=`{
+  "title": "Soft Hand, Slow Hand",
+  "names": {
+    "a10-ella": "Ella",
+    "a10-brother": "her big brother",
+    "a10-cloud": "Cloud"
+  },
+  "pages": [
+    {
+      "n": 1,
+      "text": "This is Cloud. Cloud is a grey cat. She lives in the courtyard.",
+      "speech": "This is Cloud. Cloud is a grey cat. She lives in the courtyard."
+    },
+    {
+      "n": 2,
+      "text": "Every afternoon, Cloud walks along the wall. Step, step, step.",
+      "speech": "Every afternoon, Cloud walks along the wall. Step, step, step."
+    },
+    {
+      "n": 3,
+      "text": "Today Cloud jumps down. Hop! Step, step, step… she comes close.",
+      "speech": "Today Cloud jumps down. Hop! Step, step, step… she comes close."
+    },
+    {
+      "n": 4,
+      "text": "Ella opens her arms wide. She wants to squeeze Cloud tight!",
+      "speech": "Ella opens her arms wide. She wants to squeeze Cloud tight!"
+    },
+    {
+      "n": 5,
+      "text": "“Wait,” whispers her big brother. He holds out one finger, low and still.",
+      "speech": "“Wait,” whispers her big brother. He holds out one finger, low and still."
+    },
+    {
+      "n": 6,
+      "text": "Cloud sniffs his finger. Sniff, sniff. “Soft hand, slow hand,” he whispers.",
+      "speech": "Cloud sniffs his finger. Sniff, sniff. “Soft hand, slow hand,” he whispers."
+    },
+    {
+      "n": 7,
+      "text": "Ella holds out one finger too. Sniff, sniff. Tickly whiskers!",
+      "speech": "Ella holds out one finger too. Sniff, sniff. Tickly whiskers!"
+    },
+    {
+      "n": 8,
+      "text": "Ella strokes Cloud’s back, head to tail. Soft hand, slow hand.",
+      "speech": "Ella strokes Cloud’s back, head to tail. Soft hand, slow hand."
+    },
+    {
+      "n": 9,
+      "text": "Purr, purr. Cloud’s tail goes up. Soft hand, slow hand.",
+      "speech": "Purr, purr. Cloud’s tail goes up. Soft hand, slow hand."
+    },
+    {
+      "n": 10,
+      "text": "Then Cloud stands up. Step, step, step… to the sunny corner. “Bye, Cloud,” says Ella.",
+      "speech": "Then Cloud stands up. Step, step, step… to the sunny corner. “Bye, Cloud,” says Ella."
+    },
+    {
+      "n": 11,
+      "text": "Ella and her brother wash their hands. Splash! Cloud washes her face in the sun.",
+      "speech": "Ella and her brother wash their hands. Splash! Cloud washes her face in the sun."
+    }
+  ],
+  "film": [
+    {
+      "id": "f01",
+      "speaker": "narrator",
+      "text": "Here comes Cloud, the courtyard cat.",
+      "speech": "Here comes Cloud, the courtyard cat.",
+      "emotion": "calm and warm, a friendly hello"
+    },
+    {
+      "id": "f02",
+      "speaker": "narrator",
+      "text": "Step, step, step, along the wall.",
+      "speech": "Step, step, step, along the wall.",
+      "emotion": "light and rhythmic, on the paw steps"
+    },
+    {
+      "id": "f03",
+      "speaker": "a10-ella",
+      "text": "Cloud!",
+      "speech": "Cloud!",
+      "emotion": "a delighted gasp"
+    },
+    {
+      "id": "f04",
+      "speaker": "narrator",
+      "text": "She comes close.",
+      "speech": "She comes close.",
+      "emotion": "soft, a little expectant"
+    },
+    {
+      "id": "f05",
+      "speaker": "a10-ella",
+      "text": "I want to squeeze her!",
+      "speech": "I want to squeeze her!",
+      "emotion": "bursting with love, too excited"
+    },
+    {
+      "id": "f06",
+      "speaker": "a10-brother",
+      "text": "Wait. Watch me.",
+      "speech": "Wait. Watch me.",
+      "emotion": "a gentle whisper, never cross"
+    },
+    {
+      "id": "f07",
+      "speaker": "narrator",
+      "text": "Sniff, sniff.",
+      "speech": "Sniff, sniff.",
+      "emotion": "quiet and close, almost a whisper"
+    },
+    {
+      "id": "f08",
+      "speaker": "a10-brother",
+      "text": "Soft hand, slow hand.",
+      "speech": "Soft hand, slow hand.",
+      "emotion": "a slow, soft whisper"
+    },
+    {
+      "id": "f09",
+      "speaker": "a10-ella",
+      "text": "Tickly!",
+      "speech": "Tickly!",
+      "emotion": "giggling, scrunched up"
+    },
+    {
+      "id": "f10",
+      "speaker": "narrator",
+      "text": "Head to tail. Soft hand, slow hand.",
+      "speech": "Head to tail. Soft hand, slow hand.",
+      "emotion": "slow and smooth, following the hand"
+    },
+    {
+      "id": "f11",
+      "speaker": "narrator",
+      "text": "Purr, purr.",
+      "speech": "Purr, purr.",
+      "emotion": "low and cosy, like the purr itself"
+    },
+    {
+      "id": "f12",
+      "speaker": "a10-ella",
+      "text": "Soft hand, slow hand.",
+      "speech": "Soft hand, slow hand.",
+      "emotion": "whispering to herself, very serious"
+    },
+    {
+      "id": "f13",
+      "speaker": "narrator",
+      "text": "Then Cloud walks away.",
+      "speech": "Then Cloud walks away.",
+      "emotion": "calm, matter-of-fact, no sadness"
+    },
+    {
+      "id": "f14",
+      "speaker": "a10-ella",
+      "text": "Bye, Cloud!",
+      "speech": "Bye, Cloud!",
+      "emotion": "a happy little wave in the voice"
+    },
+    {
+      "id": "f15",
+      "speaker": "a10-ella",
+      "text": "Splash, splash!",
+      "speech": "Splash, splash!",
+      "emotion": "bright and splashy"
+    },
+    {
+      "id": "f16",
+      "speaker": "narrator",
+      "text": "And Cloud washes her face in the sun.",
+      "speech": "And Cloud washes her face in the sun.",
+      "emotion": "slow and peaceful, the last words"
+    }
+  ],
+  "activity": {
+    "title": "The Feel Bag",
+    "goal": "Name how things feel: soft, rough, smooth, squishy.",
+    "materials": [
+      "A cloth bag with no drawstring",
+      "A woolly hat",
+      "A big pinecone",
+      "A smooth stone, bigger than the child’s fist",
+      "A new kitchen sponge"
+    ],
+    "steps": [
+      {
+        "n": 1,
+        "caption": "Four things go in the bag."
+      },
+      {
+        "n": 2,
+        "caption": "Hand in. Feel one thing."
+      },
+      {
+        "n": 3,
+        "caption": "Soft? Rough? Smooth? Squishy?"
+      },
+      {
+        "n": 4,
+        "caption": "Pull it out. Look!"
+      },
+      {
+        "n": 5,
+        "caption": "Now the grown-up feels."
+      }
+    ],
+    "safety": "Check for allergies first (the pinecone is plant material). Everything is bigger than the child’s fist and nothing goes in the mouth. Take the sponge or pinecone away if it is chewed or breaks into bits. No drawstring on the bag. If there is an accident, call your local emergency number.",
+    "forAdult": "In the story, Ella learns a soft, slow hand for Cloud the cat. Being gentle starts with noticing how things feel, and this game gives the child the words for it. Put the four things in the bag. The child reaches in, holds one thing and feels it. Ask “How does it feel?” and wait a moment before you help with the word: soft, rough, smooth or squishy. Then the child pulls it out to check, and you say the word together. Stroke the woolly hat slowly and say “Soft hand, slow hand”, just like Ella. Then swap: you feel, and the child asks. To make it easier, use only two things that feel very different, such as the hat and the stone. To make it harder, ask the child to guess the thing before pulling it out (“Is it the stone?”). Five to ten minutes is plenty. Wash hands afterwards if you used things from outside.",
+    "inClass": "Sit in a small circle: one adult with up to four children. The bag goes round the circle. Each child feels one thing, says a word for it, and pulls it out to check while everyone says the word together. The thing goes back in the bag for the next child."
+  }
+}
+`;export{e as default};

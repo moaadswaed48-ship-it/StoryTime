@@ -1,0 +1,265 @@
+var e=`{
+  "title": "Bolden som havet tog",
+  "names": {
+    "c08-miriam": "Mirjam",
+    "c08-father": "far",
+    "c08-lifeguard": "livredderen"
+  },
+  "pages": [
+    {
+      "n": 1,
+      "text": "Det var tidligt en sommermorgen, og stranden var næsten tom. Sandet var stadig køligt. Havet var uroligt, med hvide toppe på bølgerne. Mirjam og hendes far legede med bold nede ved vandet. Det var hendes yndlingsbold, stribet som et bolsje.",
+      "speech": "Det var tidligt en sommermorgen, og stranden var næsten tom. Sandet var stadig køligt. Havet var uroligt, med hvide toppe på bølgerne. Mirjam og hendes far legede med bold nede ved vandet. Det var hendes yndlingsbold, stribet som et bolsje."
+    },
+    {
+      "n": 2,
+      "text": "Kast, grib. Kast, grib. Vinden hev i bolden når den fløj. Oppe på sandet stod livredderens tårn med en stor stol på toppen. Stolen var tom. Livredderen var ikke kommet endnu.",
+      "speech": "Kast, grib. Kast, grib. Vinden hev i bolden når den fløj. Oppe på sandet stod livredderens tårn med en stor stol på toppen. Stolen var tom. Livredderen var ikke kommet endnu."
+    },
+    {
+      "n": 3,
+      "text": "Far kastede bolden højt. Mirjam rakte armene op, men et vindstød løftede den lige hen over hendes hænder. Den hoppede én gang på det våde sand, trillede ud i skummet og flød. »Min bold!« råbte Mirjam.",
+      "speech": "Far kastede bolden højt. Mirjam rakte armene op, men et vindstød løftede den lige hen over hendes hænder. Den hoppede én gang på det våde sand, trillede ud i skummet og flød. »Min bold!« råbte Mirjam."
+    },
+    {
+      "n": 4,
+      "text": "En bølge løftede bolden og bar den ud. Så bar en anden bølge den lidt længere ud. Bolden vippede op og ned, lysende mod det grågrønne vand, længere og længere væk fra kysten.",
+      "speech": "En bølge løftede bolden og bar den ud. Så bar en anden bølge den lidt længere ud. Bolden vippede op og ned, lysende mod det grågrønne vand, længere og længere væk fra kysten."
+    },
+    {
+      "n": 5,
+      "text": "Mirjam løb ned til vandkanten og stoppede. Hendes tæer var i skummet. Havet trak i hendes ankler, slap igen og trak så igen. Bolden virkede så tæt på. Bare et par skridt, tænkte hun. Bare et par skridt.",
+      "speech": "Mirjam løb ned til vandkanten og stoppede. Hendes tæer var i skummet. Havet trak i hendes ankler, slap igen og trak så igen. Bolden virkede så tæt på. Bare et par skridt, tænkte hun. Bare et par skridt."
+    },
+    {
+      "n": 6,
+      "text": "Hun kiggede op på livredderens tårn. Den store stol var stadig tom. Der var ingen der holdt øje med havet. Mirjam stod helt stille, og bolden drev længere og længere ud. »Far!« råbte hun.",
+      "speech": "Hun kiggede op på livredderens tårn. Den store stol var stadig tom. Der var ingen der holdt øje med havet. Mirjam stod helt stille, og bolden drev længere og længere ud. »Far!« råbte hun."
+    },
+    {
+      "n": 7,
+      "text": "Far kom og stillede sig ved siden af hende. Han kiggede på bolden. Han kiggede på bølgerne der rullede ind, den ene efter den anden. Så tog han Mirjam i hånden. »Lad den være,« sagde han blidt.",
+      "speech": "Far kom og stillede sig ved siden af hende. Han kiggede på bolden. Han kiggede på bølgerne der rullede ind, den ene efter den anden. Så tog han Mirjam i hånden. »Lad den være,« sagde han blidt."
+    },
+    {
+      "n": 8,
+      "text": "»Men det er min yndlingsbold,« sagde Mirjam. Hendes stemme dirrede. »Det ved jeg,« sagde far. »Havet er stærkere end det ser ud til i dag. Og du betyder meget mere for mig end nogen bold.« Han klemte hendes hånd.",
+      "speech": "»Men det er min yndlingsbold,« sagde Mirjam. Hendes stemme dirrede. »Det ved jeg,« sagde far. »Havet er stærkere end det ser ud til i dag. Og du betyder meget mere for mig end nogen bold.« Han klemte hendes hånd."
+    },
+    {
+      "n": 9,
+      "text": "De så efter bolden sammen, til den blev en lille prik, og til sidst kunne de slet ikke se den. Mirjam lænede sig ind mod far. En tåre trillede ned ad hendes kind, og vinden tørrede den.",
+      "speech": "De så efter bolden sammen, til den blev en lille prik, og til sidst kunne de slet ikke se den. Mirjam lænede sig ind mod far. En tåre trillede ned ad hendes kind, og vinden tørrede den."
+    },
+    {
+      "n": 10,
+      "text": "De byggede et sandslot mens solen steg højere op. De gravede en voldgrav og pyntede murene med muslingeskaller. Lidt efter lidt blev stranden fuld af familier, parasoller og håndklæder. Men Mirjam tænkte stadig på sin bold.",
+      "speech": "De byggede et sandslot mens solen steg højere op. De gravede en voldgrav og pyntede murene med muslingeskaller. Lidt efter lidt blev stranden fuld af familier, parasoller og håndklæder. Men Mirjam tænkte stadig på sin bold."
+    },
+    {
+      "n": 11,
+      "text": "Så kom livredderen. Hendes dag var lige begyndt, og den store stol var stadig tom. Før hun klatrede op, kom hun gående ned ad stranden hen mod dem, og hun grinede. Under armen havde hun en stribet bold.",
+      "speech": "Så kom livredderen. Hendes dag var lige begyndt, og den store stol var stadig tom. Før hun klatrede op, kom hun gående ned ad stranden hen mod dem, og hun grinede. Under armen havde hun en stribet bold."
+    },
+    {
+      "n": 12,
+      "text": "»Er det din?« spurgte livredderen. »Havet skyllede den op lige ved mit tårn.« Mirjam krammede bolden tæt ind til sig. »Du blev på sandet og kaldte på din far,« sagde livredderen. »Det var præcis det rigtige at gøre.«",
+      "speech": "»Er det din?« spurgte livredderen. »Havet skyllede den op lige ved mit tårn.« Mirjam krammede bolden tæt ind til sig. »Du blev på sandet og kaldte på din far,« sagde livredderen. »Det var præcis det rigtige at gøre.«"
+    },
+    {
+      "n": 13,
+      "text": "Så klatrede livredderen op i tårnet, satte sig højt oppe i sin stol og holdt øje med vandet. Mirjam og far gik i vandet sammen, tæt ved tårnet, hvor livredderen kunne se dem. Bølgerne løftede dem op og satte dem blidt ned igen.",
+      "speech": "Så klatrede livredderen op i tårnet, satte sig højt oppe i sin stol og holdt øje med vandet. Mirjam og far gik i vandet sammen, tæt ved tårnet, hvor livredderen kunne se dem. Bølgerne løftede dem op og satte dem blidt ned igen."
+    },
+    {
+      "n": 14,
+      "text": "Mirjam vinkede op til tårnet, og livredderen vinkede tilbage. På deres håndklæde lå den stribede bold i sikkerhed under fars sandal, så vinden ikke kunne tage den igen. Mirjam sprøjtede vand på far, og far sprøjtede tilbage, lige dér hvor livredderen kunne se dem.",
+      "speech": "Mirjam vinkede op til tårnet, og livredderen vinkede tilbage. På deres håndklæde lå den stribede bold i sikkerhed under fars sandal, så vinden ikke kunne tage den igen. Mirjam sprøjtede vand på far, og far sprøjtede tilbage, lige dér hvor livredderen kunne se dem."
+    }
+  ],
+  "film": [
+    {
+      "id": "f01",
+      "speaker": "narrator",
+      "text": "En tidlig sommermorgen ved havet.",
+      "speech": "En tidlig sommermorgen ved havet.",
+      "emotion": "fresh and bright, unhurried"
+    },
+    {
+      "id": "f02",
+      "speaker": "c08-miriam",
+      "text": "Kast den højt, far!",
+      "speech": "Kast den højt, far!",
+      "emotion": "excited, playful"
+    },
+    {
+      "id": "f03",
+      "speaker": "narrator",
+      "text": "Livredderens stol var stadig tom.",
+      "speech": "Livredderens stol var stadig tom.",
+      "emotion": "light, but noticing"
+    },
+    {
+      "id": "f04",
+      "speaker": "c08-miriam",
+      "text": "Min bold!",
+      "speech": "Min bold!",
+      "emotion": "a sudden cry, surprised"
+    },
+    {
+      "id": "f05",
+      "speaker": "narrator",
+      "text": "En bølge bar den ud. Så en til, lidt længere ud.",
+      "speech": "En bølge bar den ud. Så en til, lidt længere ud.",
+      "emotion": "slow, following the waves"
+    },
+    {
+      "id": "f06",
+      "speaker": "c08-miriam",
+      "text": "Bare et par skridt …",
+      "speech": "Bare et par skridt …",
+      "emotion": "a whispered thought, tempted"
+    },
+    {
+      "id": "f07",
+      "speaker": "narrator",
+      "text": "Der var ingen der holdt øje med havet.",
+      "speech": "Der var ingen der holdt øje med havet.",
+      "emotion": "quiet, serious, never scary"
+    },
+    {
+      "id": "f08",
+      "speaker": "c08-miriam",
+      "text": "Far!",
+      "speech": "Far!",
+      "emotion": "calling, clear and loud"
+    },
+    {
+      "id": "f09",
+      "speaker": "c08-father",
+      "text": "Lad den være.",
+      "speech": "Lad den være.",
+      "emotion": "gentle and calm, very sure"
+    },
+    {
+      "id": "f10",
+      "speaker": "c08-miriam",
+      "text": "Men det er min yndlingsbold.",
+      "speech": "Men det er min yndlingsbold.",
+      "emotion": "wobbly, sad"
+    },
+    {
+      "id": "f11",
+      "speaker": "c08-father",
+      "text": "Det ved jeg. Havet er stærkere end det ser ud til i dag.",
+      "speech": "Det ved jeg. Havet er stærkere end det ser ud til i dag.",
+      "emotion": "warm, honest, comforting"
+    },
+    {
+      "id": "f12",
+      "speaker": "narrator",
+      "text": "De så efter den til den var væk.",
+      "speech": "De så efter den til den var væk.",
+      "emotion": "soft and slow"
+    },
+    {
+      "id": "f13",
+      "speaker": "narrator",
+      "text": "Solen steg, og stranden blev fuld.",
+      "speech": "Solen steg, og stranden blev fuld.",
+      "emotion": "lighter, life going on"
+    },
+    {
+      "id": "f14",
+      "speaker": "narrator",
+      "text": "Så kom livredderen.",
+      "speech": "Så kom livredderen.",
+      "emotion": "bright, a lift"
+    },
+    {
+      "id": "f15",
+      "speaker": "c08-lifeguard",
+      "text": "Er det din? Havet skyllede den op ved mit tårn.",
+      "speech": "Er det din? Havet skyllede den op ved mit tårn.",
+      "emotion": "laughing, friendly"
+    },
+    {
+      "id": "f16",
+      "speaker": "c08-miriam",
+      "text": "Min bold!",
+      "speech": "Min bold!",
+      "emotion": "pure joy"
+    },
+    {
+      "id": "f17",
+      "speaker": "c08-lifeguard",
+      "text": "Du blev på sandet og kaldte på far. Det var det rigtige.",
+      "speech": "Du blev på sandet og kaldte på far. Det var det rigtige.",
+      "emotion": "warm, sincere praise"
+    },
+    {
+      "id": "f18",
+      "speaker": "narrator",
+      "text": "Nu var stolen ikke tom længere.",
+      "speech": "Nu var stolen ikke tom længere.",
+      "emotion": "satisfied, warm"
+    },
+    {
+      "id": "f19",
+      "speaker": "c08-father",
+      "text": "Tæt ved tårnet, hvor hun kan se os.",
+      "speech": "Tæt ved tårnet, hvor hun kan se os.",
+      "emotion": "easy, cheerful"
+    },
+    {
+      "id": "f20",
+      "speaker": "c08-miriam",
+      "text": "Klar, far?",
+      "speech": "Klar, far?",
+      "emotion": "grinning, bouncing"
+    },
+    {
+      "id": "f21",
+      "speaker": "narrator",
+      "text": "Og bølgerne løftede dem op og satte dem blidt ned igen.",
+      "speech": "Og bølgerne løftede dem op og satte dem blidt ned igen.",
+      "emotion": "slow and flowing, closing the story"
+    }
+  ],
+  "activity": {
+    "title": "Bådtesten",
+    "goal": "At teste hvordan form og vægt ændrer hvad der kan flyde.",
+    "materials": [
+      "Sølvpapir (firkanter på størrelse med en hånd)",
+      "En bred balje med lidt vand, nogle få centimeter dybt",
+      "Små sten",
+      "Et håndklæde, papir og en blyant"
+    ],
+    "steps": [
+      {
+        "n": 1,
+        "caption": "Fold en lille båd af sølvpapir."
+      },
+      {
+        "n": 2,
+        "caption": "Gæt: Hvor mange sten før den synker? Skriv det ned."
+      },
+      {
+        "n": 3,
+        "caption": "Sæt den på vandet. Læg sten i, én ad gangen. Tæl."
+      },
+      {
+        "n": 4,
+        "caption": "Lav en ny form: bredere, med højere sider. Prøv igen."
+      },
+      {
+        "n": 5,
+        "caption": "Hvilken båd bar flest sten? Hvorfor?"
+      }
+    ],
+    "safety": "En voksen holder øje med vandet hele tiden, også når der kun er lidt. Nogle få centimeter vand er nok, og baljen tømmes med det samme bagefter. Kanterne på sølvpapir kan være skarpe, så fold dem ind. Hold stenene væk fra småbørn, og vask hænder bagefter. Sker der et uheld, så ring til det lokale alarmnummer.",
+    "forAdult": "I historien tager bølgerne Mirjams bold, og hun stopper ved vandkanten og kalder på sin far i stedet for at løbe efter bolden. De går først i vandet da livredderen er kommet, og tæt ved tårnet. Sådan er reglen også på en rigtig strand: Bad kun hvor og når der er en livredder på vagt, og når en voksen holder øje. Børn kan drukne i meget lidt vand, hurtigt og lydløst. Derfor skal selv denne lille balje have en voksen der holder øje med den hele tiden. Selve aktiviteten svarer på et spørgsmål børn elsker: Hvorfor flyder noget mens andet synker? Fold en lille båd sammen af en firkant sølvpapir, og bøj kanterne op så de bliver til sider. Lad barnet gætte før båden kommer i vandet: »Hvor mange sten kan den bære før den synker?« Skriv gættet ned. Sæt båden på vandet, læg sten i én ad gangen, og tæl sammen. Lav så en ny form: en bredere båd med flad bund, eller en med højere sider, og prøv igen. Som regel bærer en bred, flad båd mest, fordi den skubber mere vand til side før den synker. Spørg: »Hvilken båd bar flest sten? Hvorfor tror du det?« Ros forsøget og tankerne (»du ændrede én ting og prøvede igen«), ikke kun antallet af sten. Femogtyve minutter passer fint. Gør det lettere: Den voksne folder én båd, og barnet lægger stenene i. Gør det sværere med et skema for hver form, med gæt og resultat. Og når legen er slut, så tøm baljen med det samme.",
+    "inClass": "Én balje til hver gruppe på fire og én voksen for hver otte børn. Den voksne holder øje med vandet hele tiden. Hvert barn folder sin egen båd, og gruppen skriver sine gæt ned før forsøget. Til sidst viser hver gruppe den båd der bar flest sten, og forklarer dens form."
+  }
+}
+`;export{e as default};
