@@ -24,7 +24,7 @@ describe('landing words', () => {
   })
 
   it('labels the graph as an illustration in every language', async () => {
-    const marker = { ar: /توضيحي/, he: /איור/, en: /Illustration/, da: /Illustration/ } as const
+    const marker = { ar: /توضيحي/, he: /איור/, en: /illustration/i, da: /illustration/i } as const
     for (const lang of LANGS) {
       const c = (await loadDict(lang)).landing.evidence.chart
       expect(c.label, lang).toMatch(marker[lang])

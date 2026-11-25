@@ -24,7 +24,8 @@ for (const [lang, dir] of LANGS) {
     expect(html).toMatch(/<link rel="canonical"/)
     expect(html.match(/rel="alternate"/g)).toHaveLength(5)
     await expect(page.locator('h1')).toBeVisible()
-    await expect(page.locator('[role="note"]')).toBeVisible()
+    // The landing now carries real words; its notes are the "being made now" line and the graph's illustration label.
+    await expect(page.locator('[role="note"]').first()).toBeVisible()
     const overflow = await page.evaluate(() => document.documentElement.scrollWidth > innerWidth + 1)
     expect(overflow).toBe(false)
     expect(errors).toEqual([])
