@@ -489,3 +489,26 @@ Status: words and plain structure DONE; visual design not started (by design). N
   private copy of the build. Phone screenshots in `qa/out/landing/` looked at.
 - Not done: no fresh-context review; the 3D hero, teaser shelf and parent/teacher chooser from the product
   checklist are not on the page; the graph should go public only with the owner's papers (checklist open decision 4).
+
+## Legal pages (Stage 9 helper, 25 Nov 2026): drafts in four languages, wired into the site
+
+Status: DRAFTED AND WIRED, not reviewed by a lawyer or a native reader, not committed.
+Checks on the final code: `npm run typecheck` 0 errors; `tests/legal.test.ts` 8 pass (all pages and sections in four
+languages, same shape and same placeholders and links per section, links resolve, Arabic/Hebrew script, fee cap
+matches `maxCancellationFee`, terms version published); `e2e/legal.spec.ts` + `public.spec.ts` + `account.spec.ts`
+41 pass at 390 and 1440 px (run on a private copy of the build). Screenshots looked at: `qa/out/legal/` (privacy and
+refunds, Arabic and Hebrew, 390 px; faults fixed: version name broken inside Arabic text, placeholder boxes touching
+the line above). Unrelated failure seen: `tests/content.test.ts` "refuses content without access" fails because new
+stories in `content/stories/` (a12, c03, another helper) push `sample-b` out of the 4-5 trial.
+
+- Pages `/:lang/legal/{terms,privacy,refunds,accessibility,credits,cookies}/`, public and pre-rendered (`LEGAL_DOCS` in
+  `src/seo/paths.ts`). Words: `src/i18n/<lang>/legal.ts`, type `src/i18n/legal-schema.ts` (English is the master; a
+  missing key fails the compiler), loaded only on these pages by `src/legal/load.ts`; renderer `src/legal/LegalText.tsx`
+  (`[[...]]` = visible placeholder, `{path|label}` = site link; tables become cards on phones).
+- Every page opens with the "draft, not reviewed by a lawyer" banner. Open questions and placeholders:
+  `docs/legal/LAWYER-PACK.md`; `// LAWYER Qn` comments in `src/i18n/en/legal.ts`.
+- Footer links all six pages; "Cancel a purchase" page links to the refunds page; checkout "Your right to cancel" now
+  opens the refunds page in a new tab; sign-up links unchanged (terms, privacy).
+- Terms version bumped to `draft-2026-11-25` (`src/data/terms.ts`, with `TERMS_HISTORY` recording that the old
+  `draft-2026-11-22` had no text); new migration `20261125100000_terms_draft_2026_11_25.sql` keeps the old version.
+- Found while checking: account deletion keeps the address in `email_log` (the privacy page says so; lawyer Q10).

@@ -1,0 +1,47 @@
+[
+  {
+    "id": "b04-lara",
+    "name": { "ar": "لارا", "he": "לָארָה", "en": "Lara", "da": "Lara" },
+    "stage": "child",
+    "build": { "height": 0.6, "heads": 4.5, "girth": 0.42, "shoulders": 1.1 },
+    "skin": "#d29a70",
+    "hair": { "style": "bob", "color": "#2e1c16" },
+    "eyes": { "color": "#3a2418", "size": 0.9 },
+    "brows": { "color": "#2e1c16", "weight": 0.5 },
+    "top": { "style": "dress", "color": "#e9c46a", "trim": "#fff6e0", "pattern": "dots" },
+    "bottom": { "style": "trousers", "color": "#5b7a9e" },
+    "shoes": { "style": "shoes", "color": "#c8553d" },
+    "manner": "Curious and gentle; touches everything with one careful finger; when she is scared she goes very still and serious, then does the brave thing slowly, with both hands."
+  },
+  {
+    "id": "b04-grandma",
+    "name": { "ar": "جَدّة لارا", "he": "סַבְתָּא", "en": "Grandma", "da": "bedstemor" },
+    "stage": "elder",
+    "build": { "height": 0.92, "heads": 5.8, "girth": 0.6, "shoulders": 1.45 },
+    "skin": "#c08a62",
+    "hair": { "style": "bun", "color": "#d9d4cf" },
+    "eyes": { "color": "#4a3020", "size": 0.5 },
+    "brows": { "color": "#b0aaa4", "weight": 0.5 },
+    "top": { "style": "tunic", "color": "#8a6fa8", "trim": "#f4ecd8" },
+    "bottom": { "style": "skirt", "color": "#4a5a6a" },
+    "shoes": { "style": "shoes", "color": "#5b3420" },
+    "extras": ["bag", "glasses"],
+    "extraColors": { "bag": "#c9a66b", "glasses": "#7a4a2c" },
+    "manner": "Takes her time choosing, holding each jug up to the light; laughs easily and loudly; holds Lara's hand on the way there and the way home."
+  },
+  {
+    "id": "b04-potter",
+    "name": { "ar": "الفَخّاري", "he": "הַקַּדָּר", "en": "the potter", "da": "pottemageren" },
+    "stage": "adult",
+    "build": { "height": 1, "heads": 6, "girth": 0.6, "shoulders": 1.6 },
+    "skin": "#a8703f",
+    "hair": { "style": "short", "color": "#2a1a14" },
+    "eyes": { "color": "#2e1c14", "size": 0.55 },
+    "brows": { "color": "#2a1a14", "weight": 0.9 },
+    "top": { "style": "apron", "color": "#8a7a66", "trim": "#e9dcc4" },
+    "bottom": { "style": "trousers", "color": "#4a4a5e" },
+    "shoes": { "style": "sandals", "color": "#6b4030" },
+    "extras": ["beard"],
+    "manner": "Hands always grey with clay up to the wrists; hums while the wheel turns; slow to speak and slow to smile, and when he smiles his whole face crinkles."
+  }
+]

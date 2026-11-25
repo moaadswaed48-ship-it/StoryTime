@@ -1,0 +1,53 @@
+{
+  "title": "הַגָּמָל הַקָּטָן מְ%נַעֵר אֶת הַחוֹל",
+  "names": { "a05-little-camel": "הַגָּמָל הַקָּטָן", "a05-mother-camel": "אִמָּא" },
+  "pages": [
+    { "n": 1, "speech": "רוּחַ חַמָּה נוֹשֶׁ@בֶת בַּמִּדְבָּר. וּוּשׁ! הַחוֹל עָף לְ%כָ$ל מָקוֹם." },
+    { "n": 2, "speech": "חוֹל עַל הָרֹאשׁ שֶׁל הַגָּמָל הַקָּטָן. מְ%נַעֵר, מְ%נַעֵר!" },
+    { "n": 3, "speech": "חוֹל בָּאָ$זְנַ@יִם שֶׁלּוֹ. מְ%נַפְנֵף, מְ%נַפְנֵף!" },
+    { "n": 4, "speech": "חוֹל עַל הָאַף שֶׁלּוֹ. אָה… אָה… אַפְּצִ׳י!" },
+    { "n": 5, "speech": "חוֹל עַל הַגַּב שֶׁלּוֹ. מִתְנַעְנֵעַ, מִתְנַעְנֵעַ!" },
+    { "n": 6, "speech": "חוֹל עַל הַבִּרְכַּ@יִם הַגַּבְשׁוּשִׁיּוֹת שֶׁלּוֹ. מִתְקַפֵּל, מִתְקַפֵּל!" },
+    { "n": 7, "speech": "חוֹל עַל הָרַגְלַ@יִם הַגְּדוֹלוֹת וְ%הַשְּׁטוּחוֹת שֶׁלּוֹ. רוֹקֵעַ, רוֹקֵעַ!" },
+    { "n": 8, "speech": "מְ%נַעֵר, מְ%נַפְנֵף, אַפְּצִ׳י, מִתְנַעְנֵעַ, מִתְקַפֵּל, רוֹקֵעַ! לְ%טָאָה קְטַנָּה צוֹחֶ@קֶת. גַּם הַגָּמָל הַקָּטָן צוֹחֵק." },
+    { "n": 9, "speech": "אִ@מָּא רוֹבֶ@צֶת לְ%יָדוֹ וְ%נוֹשֶׁ@פֶת לְ%אַט: פּוּ…" },
+    { "n": 10, "speech": "הַחוֹל הָאַחֲרוֹן עָף. רֹאשׁ, אָ$זְנַ@יִם, אַף, גַּב, בִּרְכַּ@יִם, רַגְלַ@יִם: הַכֹּל נָקִי!" },
+    { "n": 11, "speech": "הַגָּמָל הַקָּטָן מִתְכַּרְבֵּל מִתַּ@חַת לַצַּוָּאר שֶׁל אִ@מָּא. הֵם נָחִים בַּצֵּל שֶׁל סֶ@לַע." }
+  ],
+  "film": [
+    { "id": "f01", "speaker": "narrator", "speech": "רוּחַ חַמָּה בַּמִּדְבָּר.", "emotion": "warm and slow, a midday hush" },
+    { "id": "f02", "speaker": "narrator", "speech": "וּוּשׁ! חוֹל בְּ%כָ$ל מָקוֹם.", "emotion": "a playful gust, then a giggle in the voice" },
+    { "id": "f03", "speaker": "narrator", "speech": "חוֹל עַל הָרֹאשׁ.", "emotion": "clear and bright, naming the body part" },
+    { "id": "f04", "speaker": "a05-little-camel", "speech": "מְ%נַעֵר, מְ%נַעֵר!", "emotion": "bouncy, shaking his head" },
+    { "id": "f05", "speaker": "narrator", "speech": "חוֹל בָּאָ$זְנַ@יִם.", "emotion": "clear and bright, naming the body part" },
+    { "id": "f06", "speaker": "a05-little-camel", "speech": "מְ%נַפְנֵף, מְ%נַפְנֵף!", "emotion": "quick and silly, ears flapping" },
+    { "id": "f07", "speaker": "narrator", "speech": "חוֹל עַל הָאַף.", "emotion": "clear, a little suspense" },
+    { "id": "f08", "speaker": "a05-little-camel", "speech": "אָה… אָה… אַפְּצִ׳י!", "emotion": "a slow build-up, then a soft comic sneeze, never loud" },
+    { "id": "f09", "speaker": "narrator", "speech": "חוֹל עַל הַגַּב.", "emotion": "clear and bright, naming the body part" },
+    { "id": "f10", "speaker": "a05-little-camel", "speech": "מִתְנַעְנֵעַ, מִתְנַעְנֵעַ!", "emotion": "wobbly and giggly" },
+    { "id": "f11", "speaker": "narrator", "speech": "חוֹל עַל הַבִּרְכַּ@יִם.", "emotion": "clear and bright, naming the body part" },
+    { "id": "f12", "speaker": "a05-little-camel", "speech": "מִתְקַפֵּל, מִתְקַפֵּל!", "emotion": "knocking, playful" },
+    { "id": "f13", "speaker": "narrator", "speech": "חוֹל עַל הָרַגְלַ@יִם.", "emotion": "clear and bright, naming the body part" },
+    { "id": "f14", "speaker": "a05-little-camel", "speech": "רוֹקֵעַ, רוֹקֵעַ!", "emotion": "heavy and proud, stomping" },
+    { "id": "f15", "speaker": "narrator", "speech": "מְ%נַעֵר, מְ%נַפְנֵף, אַפְּצִ׳י, מִתְנַעְנֵעַ, מִתְקַפֵּל, רוֹקֵעַ!", "emotion": "fast and funny, all together" },
+    { "id": "f16", "speaker": "a05-mother-camel", "speech": "בּוֹא, קָטָן שֶׁלִּי.", "emotion": "deep, calm and loving" },
+    { "id": "f17", "speaker": "a05-mother-camel", "speech": "פּוּ…", "emotion": "a long, soft breath out" },
+    { "id": "f18", "speaker": "narrator", "speech": "רֹאשׁ, אָ$זְנַ@יִם, אַף, גַּב, בִּרְכַּ@יִם, רַגְלַ@יִם.", "emotion": "slow, one word per chime, inviting the child to point" },
+    { "id": "f19", "speaker": "a05-little-camel", "speech": "נָקִי! הַכֹּל נָקִי!", "emotion": "delighted and relieved" },
+    { "id": "f20", "speaker": "narrator", "speech": "וְ%עַכְשָׁו, מְ%נוּחָה בַּצֵּל.", "emotion": "soft and sleepy, slowing to a stop" }
+  ],
+  "activity": {
+    "title": "צעיף על הברך",
+    "goal": "להבין הוראה קצרה עם שתי מילים חשובות, ולעשות אותה.",
+    "materials": ["צעיף מרובע קטן או מגבת ידיים קטנה"],
+    "steps": [
+      { "n": 1, "caption": "\"צעיף על הברך!\"" },
+      { "n": 2, "caption": "\"צעיף על הראש!\"" },
+      { "n": 3, "caption": "\"צעיף על הרגל!\"" },
+      { "n": 4, "caption": "מתחלפים: עכשיו הילדים אומרים." }
+    ],
+    "safety": "רק צעיף מרובע קטן או מגבת ידיים, בלי פרנזים ובלי לולאת תלייה. שום דבר לא סביב הצוואר ולא על הפנים. אם קורית תאונה, מתקשרים למספר החירום המקומי.",
+    "forAdult": "בסיפור, הגמל הקטן מנער חול מהראש, מהאוזניים, מהאף, מהגב, מהברכיים ומהרגליים. במשחק הזה משתמשים באותן מילים של חלקי הגוף, עם הוראה אחת בכל פעם. אומרים הוראה קצרה עם שתי מילים חשובות, חפץ וחלק בגוף: \"צעיף על הברך!\" המבוגרים עושים את זה קודם, ואז מגיע תור הילדים. כשהילדים מניחים את הצעיף, חוזרים על שם האיבר: \"כן, על הברך!\" משתמשים במילים מהסיפור: ראש, אוזניים, גב, ברכיים ורגליים, ומרחיקים את הצעיף מהפנים. אחר כך מתחלפים: הילדים אומרים את ההוראה, והמבוגרים עושים. כדי להקל: מצביעים על האיבר בזמן שאומרים את שמו. כדי להקשות: שתי הוראות ברצף. חמש עד עשר דקות מספיקות.",
+    "inClass": "קבוצות קטנות, בכל אחת מבוגר אחד ועד ארבעה ילדים, ולכל ילד צעיף. הגננת או הגנן קוראים הוראה, וכל הקבוצה עושה אותה. אחר כך אחד הילדים קורא, וכולם עושים, גם המבוגרים."
+  }
+}

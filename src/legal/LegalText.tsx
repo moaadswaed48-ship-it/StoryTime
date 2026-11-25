@@ -37,7 +37,7 @@ export function blockStrings(b: LegalBlock): string[] {
 
 export function Placeholder({ label, children }: { label: string; children: ReactNode }) {
   return (
-    <span className="rounded-md border border-dashed border-ink-muted bg-surface px-1.5 text-ink-muted [box-decoration-break:clone] [-webkit-box-decoration-break:clone]">
+    <span className="rounded-md border border-dashed border-ink-muted bg-surface px-1.5 py-px text-ink-muted [box-decoration-break:clone] [-webkit-box-decoration-break:clone]">
       <span className="sr-only">{label} </span>
       {children}
     </span>

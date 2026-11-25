@@ -1,0 +1,133 @@
+{
+  "id": "b04",
+  "ageGroups": ["4-5"],
+  "owner": "storytime",
+  "lesson": "Tell the truth after a mistake, and see that it makes things better.",
+  "cast": ["b04-lara", "b04-grandma", "b04-potter"],
+  "pages": [
+    {
+      "n": 1,
+      "art": "A village lane on a bright spring morning: low stone houses, red anemones along the edge of the lane (one repeated flower shape), green hills behind. At the end of the lane, a small workshop with a wide open door and a row of clay jugs drying outside. Grandma and Lara walk towards it hand in hand. Feeling: fresh, sunny, an outing together. Calm area: the sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 2,
+      "art": "Inside the workshop: warm brown light, shelves of jugs and bowls in earth colours, a beam of sunlight from the window. The potter sits at his wheel, a tall jug rising between his grey, clay-covered hands. Grandma and Lara stand in the doorway, looking round. Feeling: calm, earthy, a place where things are made. Calm area: the plain floor in the bottom band.",
+      "zone": { "side": "full", "v": "bottom", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 3,
+      "art": "A low shelf under the window: a row of small clay birds, pale and not yet baked, drying in a patch of sun. On the windowsill above, one finished bird, glazed blue, which the potter holds to his lips to show how it whistles; two small curved sound lines (no letters). Lara leans close to the shelf, delighted. Feeling: wonder at something small and clever. Calm area: the wall across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 4,
+      "art": "Grandma, at the far side, holds up a jug to the light, her back half turned. The potter is back at his wheel, eyes on his work. Lara, by the low shelf, holds the smallest pale bird in her palm; it is tipping off her fingers in mid-slip. Feeling: a held breath. Calm area: the plain floor in the bottom band.",
+      "zone": { "side": "full", "v": "bottom", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 5,
+      "art": "The little bird lies on the wooden workbench; one wing has broken off and lies beside it. A few small straight lines show the crack (no letters). Lara's hands are lifted, her eyes wide, looking over her shoulder: Grandma's back, the potter's back. Feeling: shock and a pounding heart. Calm area: the wall across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 6,
+      "art": "Lara holds the bird and stands facing the low shelf. Beside her, drawn faint and see-through like a thought, a ghost picture of the bird back on the shelf with its broken side turned to the wall. Her face is serious and torn. Feeling: a choice, quiet and heavy. Calm area: the wall across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 7,
+      "art": "Lara walks across the workshop floor carrying the bird in both cupped hands, the loose wing resting beside it, very carefully, small steps. The potter at his wheel in the background has not looked up yet. Feeling: brave and slow. Calm area: the plain floor in the bottom band.",
+      "zone": { "side": "full", "v": "bottom", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 8,
+      "art": "Lara stands beside the wheel, holding out her cupped hands with the broken bird. The wheel has stopped; the potter's clay hands rest on his knees. Lara's head is a little bowed, her mouth small. Feeling: honest, scared, waiting. Calm area: the wall across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 9,
+      "art": "Close on the potter's face: thoughtful, then a wide, warm smile, eyes crinkled. Lara looks up at him, surprised and relieved. Feeling: the turn of the story, warmth after fear. Calm area: the wall across the top.",
+      "zone": { "side": "full", "v": "top", "size": "l" },
+      "image": null
+    },
+    {
+      "n": 10,
+      "art": "At the workbench: the potter's big grey hands and Lara's small hands together pressing a lump of soft wet clay into the crack where the wing meets the body, then smoothing it with wet fingers. A small bowl of water beside them. Feeling: careful teamwork. Calm area: the plain bench top in the bottom band.",
+      "zone": { "side": "full", "v": "bottom", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 11,
+      "art": "The mended bird, its wing on again but tilted a little crooked, held up by the potter, who blows gently into its tail; wobbly curved sound lines float out (no letters). Lara claps her hands, laughing. Feeling: joy, a funny little song. Calm area: the wall across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 12,
+      "art": "Grandma arrives with her new water jug held against her hip, laughing. Lara now blows into the bird's tail, cheeks round; more wobbly sound lines. The potter watches, smiling. Feeling: shared happiness. Calm area: the plain floor in the bottom band.",
+      "zone": { "side": "full", "v": "bottom", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 13,
+      "art": "The low shelf in the sunlight again: the row of pale drying birds, and among them the little one with the crooked wing, a tiny bit of smoothed clay showing at its shoulder. Through the open door, Grandma and Lara wave goodbye to the potter. Last picture of the book: warm, peaceful, a little proud. Calm area: the wall across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    }
+  ],
+  "film": {
+    "targetSeconds": 244,
+    "shots": [
+      { "n": 1, "page": 1, "action": "14 s. Scene 1, the workshop. A spring lane in the village: anemones nod along the edge; Grandma and Lara walk hand in hand towards the workshop at the end of the lane. Keep the lower fifth calm for captions in every shot.", "sound": ["birdsong", "footsteps on a dirt lane", "light spring music"], "lines": ["f01"] },
+      { "n": 2, "page": 1, "action": "7 s. At the open door, Grandma squeezes Lara's hand.", "sound": ["music"], "lines": ["f02"] },
+      { "n": 3, "page": 2, "action": "12 s. Inside: sunbeams, shelves of jugs and bowls; the potter's wheel turns and a jug rises between his grey hands.", "sound": ["the soft hum of the wheel", "wet clay under fingers"], "lines": ["f03"] },
+      { "n": 4, "page": 2, "action": "7 s. The potter looks up and nods hello, still working.", "sound": ["the wheel hums"], "lines": ["f04"] },
+      { "n": 5, "page": 3, "action": "9 s. He takes the blue glazed bird from the windowsill and blows into its tail: a clear little whistle.", "sound": ["a clear bird whistle"], "lines": ["f05"] },
+      { "n": 6, "page": 3, "action": "6 s. Lara, at the low shelf of pale drying birds, claps her hands softly.", "sound": ["a soft clap"], "lines": ["f06"] },
+      { "n": 7, "page": 4, "action": "7 s. Grandma holds jugs up to the light, one after another.", "sound": ["a jug set down on wood"], "lines": ["f07"] },
+      { "n": 8, "page": 4, "action": "6 s. The potter is back at his wheel, humming, eyes on his work. No words.", "sound": ["the wheel", "humming"], "lines": [] },
+      { "n": 9, "page": 4, "action": "8 s. Lara lifts the smallest pale bird from the shelf, holds it in her palm and raises it towards her lips.", "sound": ["music, light"], "lines": ["f08"] },
+      { "n": 10, "page": 4, "action": "5 s. Slow motion: the bird tips off her fingers. No words.", "sound": ["a soft rush of air"], "lines": [] },
+      { "n": 11, "page": 5, "action": "4 s. It lands on the workbench: a small, dry crack; one wing breaks off. Not loud. The music stops.", "sound": ["a small dry crack"], "lines": [] },
+      { "n": 12, "page": 5, "action": "6 s. Lara looks over her shoulder: Grandma's back, the potter's back.", "sound": ["the wheel hums on"], "lines": ["f09"] },
+      { "n": 13, "page": 5, "action": "6 s. Close on Lara. Her heartbeat is heard, soft and quick.", "sound": ["a soft, quick heartbeat"], "lines": ["f10"] },
+      { "n": 14, "page": 6, "action": "10 s. Lara looks at the shelf. A see-through picture shows the bird back on the shelf, broken side to the wall; then it fades.", "sound": ["a thin, uncertain note"], "lines": ["f11"] },
+      { "n": 15, "page": 6, "action": "8 s. Breathing moment: hold on Lara's face as she decides. No words.", "sound": ["the heartbeat slows"], "lines": [] },
+      { "n": 16, "page": 7, "action": "7 s. Close on the little wing in her palm.", "sound": ["quiet"], "lines": ["f12"] },
+      { "n": 17, "page": 7, "action": "11 s. Scene 2, the truth. Lara carries the bird across the workshop in both hands, small careful steps. The camera walks with her. No words.", "sound": ["small footsteps", "soft, brave music"], "lines": [] },
+      { "n": 18, "page": 8, "action": "6 s. The wheel slows and stops. The potter turns.", "sound": ["the wheel winds down"], "lines": [] },
+      { "n": 19, "page": 8, "action": "6 s. Lara holds out her hands and speaks.", "sound": ["silence"], "lines": ["f13", "f14"] },
+      { "n": 20, "page": 9, "action": "9 s. The potter looks at her for a long moment: 3 s of silence. Then his face breaks into a smile.", "sound": ["silence", "then a warm chord"], "lines": ["f15"] },
+      { "n": 21, "page": 9, "action": "5 s. He gets up and leads her to the workbench.", "sound": ["warm music"], "lines": ["f16"] },
+      { "n": 22, "page": 10, "action": "14 s. Scene 3, the mending. Close-ups of their hands pressing soft wet clay into the crack, dipping fingers in the water bowl, smoothing.", "sound": ["wet clay sounds", "water dripping from fingers", "gentle music"], "lines": ["f17"] },
+      { "n": 23, "page": 10, "action": "7 s. Smoothing round and round, the crack disappearing. No words.", "sound": ["gentle music"], "lines": [] },
+      { "n": 24, "page": 11, "action": "6 s. The potter holds up the mended bird. Lara looks at it.", "sound": ["quiet"], "lines": ["f18"] },
+      { "n": 25, "page": 11, "action": "4 s. He lifts it to his lips.", "sound": ["a breath in"], "lines": ["f19"] },
+      { "n": 26, "page": 11, "action": "10 s. The bird whistles a wobbly, crooked little tune. Lara's face lights up. No words: let the song play.", "sound": ["a wobbly, crooked bird whistle"], "lines": [] },
+      { "n": 27, "page": 11, "action": "5 s. Lara claps and laughs.", "sound": ["claps", "laughter"], "lines": ["f20"] },
+      { "n": 28, "page": 12, "action": "7 s. Scene 4, home. Grandma comes over with her new jug, laughing.", "sound": ["warm music"], "lines": ["f21"] },
+      { "n": 29, "page": 13, "action": "8 s. The potter sets the mended bird among the drying birds on the low shelf.", "sound": ["clay set on wood"], "lines": ["f22"] },
+      { "n": 30, "page": 13, "action": "10 s. Grandma and Lara walk back down the lane; Lara whistles the crooked tune with her lips.", "sound": ["Lara whistling the crooked tune", "birdsong"], "lines": ["f23"] },
+      { "n": 31, "page": 13, "action": "14 s. Closing image: the workshop window with the shelf of drying birds in the sun, the one with the crooked wing in the middle. Hold the still picture 6 s while the music ends, then stop. No autoplay.", "sound": ["the last notes of the music", "birdsong"], "lines": [] }
+    ]
+  },
+  "activity": {
+    "minutes": 15,
+    "materials": ["old-drawing-or-magazine-page", "sticky-tape"],
+    "steps": [
+      { "n": 1, "picture": "A grown-up tears an old magazine page into four big pieces while a child watches; the pieces lie on a table.", "loop": false },
+      { "n": 2, "picture": "The child fits the torn pieces together on the table like a puzzle, turning one piece to make it fit.", "loop": false },
+      { "n": 3, "picture": "The grown-up holds out short strips of tape; the child presses them over the tears, then holds up the mended page with a big smile.", "loop": false }
+    ],
+    "checkedAgainst": "docs/story-room/age-4-5.md section 7 (red list) and section 4 (activity limits), 25 Nov 2026"
+  }
+}

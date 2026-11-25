@@ -1,0 +1,30 @@
+[
+  {
+    "id": "a05-little-camel",
+    "name": { "ar": "الجَمَل الصَغير", "he": "הַגָּמָל הַקָּטָן", "en": "Little Camel", "da": "Lille Kamel" },
+    "stage": "toddler",
+    "build": { "height": 0.62, "heads": 3.2, "girth": 0.55, "shoulders": 1 },
+    "skin": "#d9b47e",
+    "hair": { "style": "tuft", "color": "#b98f5a" },
+    "eyes": { "color": "#2e1e14", "size": 1 },
+    "brows": { "color": "#9a7448", "weight": 0.3 },
+    "top": { "style": "tee", "color": "#ead2a6", "pattern": "plain" },
+    "bottom": { "style": "none", "color": "#c49a62" },
+    "shoes": { "style": "bare", "color": "#a07a52" },
+    "manner": "A young one-humped camel, not a humanoid: the Sheet type has no animal body yet, so the Studio must add one (as for B02's wheelchair). Read the colours as: skin = the coat; hair = the fluffy tuft on his head and hump; top = the pale belly and muzzle; bottom = the knee pads (a little darker); shoes = the big round flat feet. Long wobbly legs, big round ears, long eyelashes. Does everything with his whole body; when he is happy he bounces on all four feet at once."
+  },
+  {
+    "id": "a05-mother-camel",
+    "name": { "ar": "ماما", "he": "אִמָּא", "en": "Mother Camel", "da": "Mor Kamel" },
+    "stage": "adult",
+    "build": { "height": 1.4, "heads": 4.5, "girth": 0.6, "shoulders": 1.2 },
+    "skin": "#c9a06a",
+    "hair": { "style": "tuft", "color": "#a37b4a" },
+    "eyes": { "color": "#2e1e14", "size": 0.7 },
+    "brows": { "color": "#8a6640", "weight": 0.4 },
+    "top": { "style": "tee", "color": "#e0c495", "pattern": "plain" },
+    "bottom": { "style": "none", "color": "#a98656" },
+    "shoes": { "style": "bare", "color": "#8f6a44" },
+    "manner": "A grown one-humped camel, not a humanoid: the Sheet type has no animal body yet, so the Studio must add one. Colours read as for Little Camel. Slow, calm and sure; folds her legs to kneel in three slow steps; looks at Little Camel with half-closed, smiling eyes; when she breathes out, her whole long neck moves."
+  }
+]

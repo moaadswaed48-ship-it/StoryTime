@@ -1,0 +1,60 @@
+[
+  {
+    "id": "c03-emil",
+    "name": { "ar": "إِمِيل", "he": "אֶמִיל", "en": "Emil", "da": "Emil" },
+    "stage": "child",
+    "build": { "height": 0.68, "heads": 4.9, "girth": 0.44, "shoulders": 1.15 },
+    "skin": "#d9a47c",
+    "hair": { "style": "short", "color": "#3b2118" },
+    "eyes": { "color": "#4a2f22", "size": 0.72 },
+    "brows": { "color": "#3b2118", "weight": 0.7 },
+    "top": { "style": "jumper", "color": "#3f7f8c", "trim": "#f4ecd8", "pattern": "plain" },
+    "bottom": { "style": "trousers", "color": "#4a4a5e" },
+    "shoes": { "style": "shoes", "color": "#8a4a3a" },
+    "manner": "Serious and careful, the older brother; moves on tiptoe with his shoulders up when he is being quiet; looks round a room before he acts; his smile comes slowly and stays."
+  },
+  {
+    "id": "c03-sister",
+    "name": { "ar": "أُخته الصَغيرة", "he": "אֲחוֹתוֹ הַקְּטַנָּה", "en": "his little sister", "da": "hans lillesøster" },
+    "stage": "child",
+    "build": { "height": 0.56, "heads": 4.3, "girth": 0.48, "shoulders": 1.05 },
+    "skin": "#d9a47c",
+    "hair": { "style": "curls", "color": "#3b2118" },
+    "eyes": { "color": "#4a2f22", "size": 0.86 },
+    "brows": { "color": "#3b2118", "weight": 0.5 },
+    "top": { "style": "jumper", "color": "#f2a65a", "trim": "#fff3d6", "pattern": "dots" },
+    "bottom": { "style": "trousers", "color": "#6b7a9a" },
+    "shoes": { "style": "shoes", "color": "#d8563e" },
+    "manner": "Small, curious and full of feeling; her eyes go very wide when something matters; her bottom lip wobbles before she cries; she laughs with her whole body, hands over her mouth."
+  },
+  {
+    "id": "c03-mama",
+    "name": { "ar": "ماما", "he": "אִמָּא", "en": "Mum", "da": "mor" },
+    "stage": "adult",
+    "build": { "height": 0.97, "heads": 6, "girth": 0.5, "shoulders": 1.5 },
+    "skin": "#c98e62",
+    "hair": { "style": "long", "color": "#2a1714" },
+    "eyes": { "color": "#3a2418", "size": 0.6 },
+    "brows": { "color": "#2a1714", "weight": 0.7 },
+    "top": { "style": "coat", "color": "#e9dfd0", "trim": "#c58a62", "pattern": "plain" },
+    "bottom": { "style": "trousers", "color": "#5b6a7a" },
+    "shoes": { "style": "shoes", "color": "#a86a5a" },
+    "manner": "A doctor after a long night: moves slowly and softly when she has just woken, yawns behind her hand; holds a warm mug in both hands; her smile starts in her eyes."
+  },
+  {
+    "id": "c03-neighbour",
+    "name": { "ar": "جارة الطابِق العُلوِيّ", "he": "הַשְּׁכֵנָה מִלְּמַעְלָה", "en": "the neighbour from upstairs", "da": "naboen ovenpå" },
+    "stage": "elder",
+    "build": { "height": 0.9, "heads": 5.8, "girth": 0.6, "shoulders": 1.4 },
+    "skin": "#e6b58c",
+    "hair": { "style": "bun", "color": "#cfcac4" },
+    "eyes": { "color": "#4a3a2c", "size": 0.5 },
+    "brows": { "color": "#a9a29c", "weight": 0.5 },
+    "top": { "style": "coat", "color": "#4f8a5c", "trim": "#f0e6d2", "pattern": "plain" },
+    "bottom": { "style": "skirt", "color": "#3d4f6c" },
+    "shoes": { "style": "boots", "color": "#5a3a2a" },
+    "extras": ["glasses"],
+    "extraColors": { "glasses": "#6b4a3a" },
+    "manner": "Calm and kind, never in a rush; knocks softly; holds her big umbrella over both children at once and walks at their pace."
+  }
+]

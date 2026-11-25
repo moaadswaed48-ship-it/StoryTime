@@ -1,0 +1,203 @@
+{
+  "id": "a05",
+  "ageGroups": ["2-3"],
+  "owner": "storytime",
+  "lesson": "Name and point to six body parts: head, ears, nose, back, knees and feet.",
+  "cast": ["a05-little-camel", "a05-mother-camel"],
+  "pages": [
+    {
+      "n": 1,
+      "art": "The desert at midday in autumn: low dunes as three soft flat bands of sand colour, a big pale sky, one large flat-topped rock on the right with a pool of shade beside it. Little Camel stands in the open, Mother Camel a little behind him. A warm wind blows from the side: the sand lifts in long, flat ribbons (drawn as a few simple wavy bands, not a storm). A small lizard sits on the rock. Feeling: warm, breezy, playful; nothing scary. Calm area: the sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 2,
+      "art": "Little Camel shaking his head hard: his head is shown in three soft positions (left, middle, right) with sand flying off it in small dots. His eyes are squeezed shut. His head is the clear centre of the picture, so a child can point to it. Feeling: silly fun. Calm area: the sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 3,
+      "art": "Close on Little Camel's head: his two small round ears flap fast (motion lines), sand puffing out of them. His mouth is open in a laugh. The ears are the clear centre of the picture. Feeling: tickly, funny. Calm area: the sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 4,
+      "art": "Close on Little Camel's long soft nose and big lips, a few grains of sand on the tip; his eyes are crossed, looking at his own nose, and his head is tipped back, about to sneeze. Feeling: comic suspense. Calm area: the sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "s" },
+      "image": null
+    },
+    {
+      "n": 5,
+      "art": "Little Camel from the side, wiggling his back and his one hump like a wave; sand slides off his back in small streams. His tail swishes. His back is the clear centre of the picture. Feeling: a wiggly dance. Calm area: the sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 6,
+      "art": "Little Camel bending and straightening his long legs; his big knobbly knees (rounded bumps, a slightly darker colour) knock together, and sand falls off them. The knees are the clear centre of the picture. Feeling: clumsy and funny. Calm area: the sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 7,
+      "art": "Little Camel stomping his four big, flat, round feet on the sand; little puffs of sand rise round each foot. Seen low, from the ground, so the feet are big in the picture. Feeling: proud stomping. Calm area: the sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 8,
+      "art": "Little Camel doing everything at once: head shaking, ears flapping, back wiggling, knees bent, one foot up; sand flies off him in all directions in small dots. On the rock, the small lizard laughs, holding its tummy, its tail curled. Little Camel is laughing too. Feeling: the funniest picture in the book, shared laughter, nobody teased. Calm area: the sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 9,
+      "art": "Mother Camel has knelt down on the sand beside Little Camel, her long legs folded under her. She turns her long neck and blows gently on him: a soft curling breath line, and the last grains of sand drift off his back. Little Camel stands still with his eyes closed, enjoying it. Feeling: calm, tender. Calm area: the sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 10,
+      "art": "Little Camel stands clean and proud, seen side-on so all six body parts are clear and easy to point to: head, ears, nose, back, knees, feet. A few last grains float away into the sky. Mother Camel smiles behind him. Feeling: clean, light, pleased. Calm area: the sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 11,
+      "art": "In the cool shade of the big rock, Mother Camel lies with her legs folded; Little Camel lies against her, his head tucked under her neck. The wind has stopped; the sand bands are still. The lizard sleeps on top of the rock. Last picture of the book: still, warm, restful. Calm area: the plain sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    }
+  ],
+  "film": {
+    "targetSeconds": 155,
+    "shots": [
+      {
+        "n": 1,
+        "page": 1,
+        "action": "12 s. Scene 1, the wind. Wide and still: the desert bands at midday, the big rock, the two camels small in the open. Hold 3 s, then the warm wind begins: the sand ribbons start to drift. Keep the lower fifth calm for captions.",
+        "sound": ["a soft warm wind", "gentle music: a light tune on a hand drum and a reed flute"],
+        "lines": ["f01"]
+      },
+      {
+        "n": 2,
+        "page": 1,
+        "action": "8 s. A friendly gust: the sand ribbons sweep over Little Camel; he squeezes his eyes shut. Never a storm: slow, soft movement.",
+        "sound": ["a soft whoosh", "a little 'oh!' from Little Camel, no words"],
+        "lines": ["f02"]
+      },
+      {
+        "n": 3,
+        "page": 2,
+        "action": "9 s. Scene 2, shake it off. Close on his head with sand on it: the narrator names the part, a short pause, then he shakes it. Each body part in this scene gets the same pattern: name, pause, move.",
+        "sound": ["a light chime as the part is named", "a rattle of sand"],
+        "lines": ["f03", "f04"]
+      },
+      {
+        "n": 4,
+        "page": 3,
+        "action": "9 s. The ears: name, pause, flap. Sand puffs out of them.",
+        "sound": ["the chime", "a fluttery flap"],
+        "lines": ["f05", "f06"]
+      },
+      {
+        "n": 5,
+        "page": 4,
+        "action": "11 s. The nose: name, pause, then the build-up, his head tipping back twice, and a soft comic sneeze in slow motion. The sneeze is gentle, never a loud bang.",
+        "sound": ["the chime", "two little breaths in", "a soft sneeze"],
+        "lines": ["f07", "f08"]
+      },
+      {
+        "n": 6,
+        "page": 5,
+        "action": "9 s. The back: name, pause, wiggle. His hump rolls like a wave and the sand slides off.",
+        "sound": ["the chime", "a sliding shush of sand"],
+        "lines": ["f09", "f10"]
+      },
+      {
+        "n": 7,
+        "page": 6,
+        "action": "9 s. The knees: name, pause, bend; the knees knock together twice.",
+        "sound": ["the chime", "two soft wooden knocks"],
+        "lines": ["f11", "f12"]
+      },
+      {
+        "n": 8,
+        "page": 7,
+        "action": "9 s. The feet: name, pause, stomp; little puffs of sand rise round each foot.",
+        "sound": ["the chime", "two soft thuds"],
+        "lines": ["f13", "f14"]
+      },
+      {
+        "n": 9,
+        "page": 8,
+        "action": "10 s. All the moves in a row, quick and funny, in the same order as before, so the child can do them along.",
+        "sound": ["each move's sound in turn", "the tune speeds up"],
+        "lines": ["f15"]
+      },
+      {
+        "n": 10,
+        "page": 8,
+        "action": "9 s. A breathing moment with no words: the lizard on the rock laughs, holding its tummy; Little Camel looks at it and laughs too.",
+        "sound": ["a tiny lizard giggle", "Little Camel's giggle"],
+        "lines": []
+      },
+      {
+        "n": 11,
+        "page": 9,
+        "action": "10 s. Scene 3, Mother Camel. She folds her legs and kneels down slowly beside him, the slowest move in the film.",
+        "sound": ["the music slows down", "a soft settling of sand"],
+        "lines": ["f16"]
+      },
+      {
+        "n": 12,
+        "page": 9,
+        "action": "9 s. She blows gently; the last sand drifts off his back in a soft stream. He closes his eyes.",
+        "sound": ["a long soft breath"],
+        "lines": ["f17"]
+      },
+      {
+        "n": 13,
+        "page": 10,
+        "action": "12 s. The camera travels slowly along Little Camel from head to feet; each body part glows softly as it is named, with a chime, and a short pause after each so a child at home can point to their own.",
+        "sound": ["six soft chimes, one per body part"],
+        "lines": ["f18"]
+      },
+      {
+        "n": 14,
+        "page": 10,
+        "action": "7 s. Little Camel bounces once, clean and happy.",
+        "sound": ["a bright little hop"],
+        "lines": ["f19"]
+      },
+      {
+        "n": 15,
+        "page": 11,
+        "action": "10 s. Scene 4, rest. They lie down in the shade of the rock; he tucks his head under her neck. The wind stops.",
+        "sound": ["the wind fades", "the tune, very soft"],
+        "lines": ["f20"]
+      },
+      {
+        "n": 16,
+        "page": 11,
+        "action": "12 s. Closing image. Wide: the two camels in the shade, the lizard asleep on the rock. Then nothing moves. Hold 6 s while the music ends, then stop. No autoplay, no next film.",
+        "sound": ["the last note of the tune"],
+        "lines": []
+      }
+    ]
+  },
+  "activity": {
+    "minutes": 8,
+    "materials": ["small-square-scarf-or-hand-towel"],
+    "steps": [
+      { "n": 1, "picture": "A grown-up and a child sit facing each other on the floor. The child lays a small square scarf on their own knee; the grown-up has a scarf on their knee too.", "loop": true },
+      { "n": 2, "picture": "The child puts the scarf on top of their head, with the face uncovered; the grown-up does the same.", "loop": true },
+      { "n": 3, "picture": "The child lays the scarf over one foot; the grown-up points at the foot.", "loop": true },
+      { "n": 4, "picture": "Roles swapped: the child points at the grown-up's knee, and the grown-up puts the scarf there, smiling.", "loop": true }
+    ],
+    "checkedAgainst": "docs/story-room/age-2-3.md section 7 (red list and tube test) and section 4 (activity limits), 25 Nov 2026"
+  }
+}

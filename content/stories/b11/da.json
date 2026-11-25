@@ -1,0 +1,51 @@
+{
+  "title": "Mit navn på trommen",
+  "names": {
+    "b11-tala": "Tala",
+    "b11-drummer": "trommeslageren",
+    "b11-boy": "en dreng",
+    "b11-mum": "Talas mor"
+  },
+  "pages": [
+    { "n": 1, "text": "Hver forårsaften når lygterne blev tændt på torvet, kom trommeslageren også. Han satte sig på trappen med sin store, runde tromme.", "speech": "Hver forårsaften når lygterne blev tændt på torvet, kom trommeslageren også. Han satte sig på trappen med sin store, runde tromme." },
+    { "n": 2, "text": "Børnene løb hen og satte sig rundt om ham. Tala sad helt forrest. Hendes mor sad på en bænk lige ved siden af. Duerne gik rundt mellem deres fødder og pikkede krummer.", "speech": "Børnene løb hen og satte sig rundt om ham. Tala sad helt forrest. Hendes mor sad på en bænk lige ved siden af. Duerne gik rundt mellem deres fødder og pikkede krummer." },
+    { "n": 3, "text": "»I aften skal vi lege en leg,« sagde trommeslageren. »Jeg trommer et ord. I gætter det.« Han kiggede på muren hvor en kat lå og døsede. Bum.", "speech": "»I aften skal vi lege en leg,« sagde trommeslageren. »Jeg trommer et ord. I gætter det.« Han kiggede på muren hvor en kat lå og døsede. Bum." },
+    { "n": 4, "text": "»Kat!« råbte en dreng. »Ja,« sagde trommeslageren. »Kat har ét slag.« Så kiggede han ned på duerne. Bum-bum.", "speech": "»Kat!« råbte en dreng. »Ja,« sagde trommeslageren. »Kat har ét slag.« Så kiggede han ned på duerne. Bum-bum." },
+    { "n": 5, "text": "»Due!« råbte Tala. Du-e: to slag. Trommeslageren nikkede og smilede. Så flaksede duerne op i luften, alle på én gang.", "speech": "»Due!« råbte Tala. Du-e: to slag. Trommeslageren nikkede og smilede. Så flaksede duerne op i luften, alle på én gang." },
+    { "n": 6, "text": "Nu trommede han et langt ord. Bum-bum-bum-bum. Fire slag. Børnene kiggede på hinanden. Ingen vidste det.", "speech": "Nu trommede han et langt ord. Bum-bum-bum-bum. Fire slag. Børnene kiggede på hinanden. Ingen vidste det." },
+    { "n": 7, "text": "Trommeslageren pegede på frugtvognen henne i hjørnet. »Appelsiner!« råbte børnene. De klappede det sammen: ap-pel-si-ner. Fire klap.", "speech": "Trommeslageren pegede på frugtvognen henne i hjørnet. »Appelsiner!« råbte børnene. De klappede det sammen: ap-pel-si-ner. Fire klap." },
+    { "n": 8, "text": "Så kiggede trommeslageren lige på Tala. Alle blev stille. Han trommede helt, helt stille. Bum-bum. To slag.", "speech": "Så kiggede trommeslageren lige på Tala. Alle blev stille. Han trommede helt, helt stille. Bum-bum. To slag." },
+    { "n": 9, "text": "Due? tænkte Tala. Nej, duerne var fløjet væk. To slag … og han kiggede på hende. Kan du gætte ordet?", "speech": "Due? tænkte Tala. Nej, duerne var fløjet væk. To slag … og han kiggede på hende. Kan du gætte ordet?" },
+    { "n": 10, "text": "»Ta-la,« råbte hun. »Det er mit navn!« Trommeslageren grinede og trommede det igen, stille. Bum-bum. Ta-la.", "speech": "»Ta-la,« råbte hun. »Det er mit navn!« Trommeslageren grinede og trommede det igen, stille. Bum-bum. Ta-la." },
+    { "n": 11, "text": "Alle klappede Talas navn sammen. Ta-la, Ta-la. Så klappede de også deres egne navne. Nogle navne havde ét slag. Nogle havde to eller tre.", "speech": "Alle klappede Talas navn sammen. Ta-la, Ta-la. Så klappede de også deres egne navne. Nogle navne havde ét slag. Nogle havde to eller tre." },
+    { "n": 12, "text": "Tala gik hjem med sin mor under gadelygterne. Hun klappede alt hvad hun så. »Må-ne.« To klap. »Træ.« Ét klap. Ved døren klappede hun et sidste ord. »Hjem.«", "speech": "Tala gik hjem med sin mor under gadelygterne. Hun klappede alt hvad hun så. »Må-ne.« To klap. »Træ.« Ét klap. Ved døren klappede hun et sidste ord. »Hjem.«" }
+  ],
+  "film": [
+    { "id": "f01", "speaker": "narrator", "text": "Hver forårsaften kom trommeslageren til torvet.", "speech": "Hver forårsaften kom trommeslageren til torvet.", "emotion": "warm, evening calm, a smile in the voice" },
+    { "id": "f02", "speaker": "b11-drummer", "text": "Jeg trommer et ord, og I gætter det!", "speech": "Jeg trommer et ord, og I gætter det!", "emotion": "playful, a showman, inviting" },
+    { "id": "f03", "speaker": "b11-boy", "text": "Kat!", "speech": "Kat!", "emotion": "quick, sure, shouted" },
+    { "id": "f04", "speaker": "b11-drummer", "text": "Ja! Ét slag.", "speech": "Ja! Ét slag.", "emotion": "delighted, encouraging" },
+    { "id": "f05", "speaker": "b11-tala", "text": "Due!", "speech": "Due!", "emotion": "bursting out, proud" },
+    { "id": "f06", "speaker": "narrator", "text": "Fire slag … og ingen vidste det.", "speech": "Fire slag … og ingen vidste det.", "emotion": "puzzled, playful, slowing down" },
+    { "id": "f07", "speaker": "b11-boy", "text": "Appelsiner!", "speech": "Appelsiner!", "emotion": "shouted, with all the other children joining in" },
+    { "id": "f08", "speaker": "narrator", "text": "Så kiggede han på Tala.", "speech": "Så kiggede han på Tala.", "emotion": "hushed, a little mysterious" },
+    { "id": "f09", "speaker": "b11-tala", "text": "To slag … due? Nej …", "speech": "To slag … due? Nej …", "emotion": "thinking aloud, slow, puzzled" },
+    { "id": "f10", "speaker": "b11-tala", "text": "Ta-la … det er mit navn!", "speech": "Ta-la … det er mit navn!", "emotion": "dawning surprise, then pure joy" },
+    { "id": "f11", "speaker": "narrator", "text": "Og alle klappede hendes navn.", "speech": "Og alle klappede hendes navn.", "emotion": "warm, rhythmic, happy" },
+    { "id": "f12", "speaker": "narrator", "text": "Hele vejen hjem klappede Tala.", "speech": "Hele vejen hjem klappede Tala.", "emotion": "gentle, night-time, fond" },
+    { "id": "f13", "speaker": "b11-tala", "text": "Må-ne. Træ. Hjem.", "speech": "Må-ne. Træ. Hjem.", "emotion": "a sleepy, happy chant, one clap per beat" }
+  ],
+  "activity": {
+    "title": "Navnetrommen",
+    "goal": "At sammenligne hvilket ord der er længst ved at tælle slagene.",
+    "materials": ["En gryde eller en plastikskål", "En træske"],
+    "steps": [
+      { "n": 1, "caption": "Vend gryden om. Slå dit navn." },
+      { "n": 2, "caption": "Slå alle navnene i familien." },
+      { "n": 3, "caption": "Hvis navn har flest slag?" }
+    ],
+    "safety": "Brug en tom, kold gryde der ikke har stået på komfuret, eller en plastikskål. Slå blidt, og kun på gryden. Sker der et uheld, så ring til det lokale alarmnummer.",
+    "forAdult": "I historien opdager Tala at ord har slag og at hendes eget navn har to. At kunne høre slagene (stavelserne) i et ord er et af de første skridt på vejen mod at læse. Vend en gryde om på gulvet, og begynd selv: Slå dit eget navn, ét slag for hver del. For eksempel har far ét slag, mor-mor to og ba-na-ner tre. Så slår barnet sit eget navn og navnene på alle derhjemme. Spørg: »Hvis navn har flest slag? Hvis har færrest?« Læg en ske for hvert slag på en række, så kan I se forskellen. Sig navnene langsomt og naturligt. I familier med to sprog kan det samme navn have et forskelligt antal slag på hvert sprog. Ti til femten minutter er nok. Gør det lettere: Klap i stedet for at slå. Gør det sværere: Slå et ord, og lad barnet gætte det, ligesom trommeslageren i historien.",
+    "inClass": "Sid i en rundkreds med én tromme (en gryde der vender på hovedet, eller en kasse). Den voksne begynder og slår et barns navn uden at sige det. Gruppen gætter hvis navn det er, og det barn bliver den næste trommeslager. Navne med lige mange slag giver gode gåder: Måske skal gruppen gætte to eller tre gange."
+  }
+}

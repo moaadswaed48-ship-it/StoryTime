@@ -1,0 +1,150 @@
+{
+  "id": "c03",
+  "ageGroups": ["6-8"],
+  "owner": "storytime",
+  "lesson": "Help Mother without being asked, by noticing what needs doing.",
+  "cast": ["c03-emil", "c03-sister", "c03-mama", "c03-neighbour"],
+  "pages": [
+    {
+      "n": 1,
+      "art": "A small city flat on a grey winter morning, before the lamps are on. Rain streaks on the window; outside, flat grey rooftops and a bare tree. By the front door a woman's coat hangs on a hook, dark with rain, a pair of tired shoes below it; a closed bedroom door down the short corridor. Nobody in sight. Feeling: hushed, cold outside, safe inside. Calm area: the plain grey sky in the window across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 2,
+      "art": "A children's bedroom in early grey light. Emil (eight, short dark hair, pyjamas) kneels by his little sister's bed with one finger on his lips. His sister (six, curly hair) peeps over her blanket with very wide eyes. Feeling: a secret, careful. Calm area: the plain wall above the beds, across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 3,
+      "art": "The kitchen, seen low, as a child sees it: a humming fridge drawn slightly too big, a dripping tap with one fat drop, a clock on the wall with twelve marks and no numbers. Emil and his sister creep in on tiptoe, shoulders up. Small wavy lines around the fridge and tap show the sounds. Feeling: everything too loud, funny. Calm area: the wall above the cupboards across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 4,
+      "art": "Emil pours cereal from a box into a bowl; flakes jump into the air like a little drum roll. He and his sister are frozen mid-movement, both staring towards the closed bedroom door at the side of the picture. Two bowls and a jug of milk on the table. Feeling: a comic near miss. Calm area: the kitchen floor across the bottom.",
+      "zone": { "side": "full", "v": "bottom", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 5,
+      "art": "Three small moments of a search in one picture: the sister on her tummy looking under her bed; Emil peering into a shoe; the sister's feet sticking out from behind a curtain. She wears one sock; the other foot is bare. Feeling: busy, a small worry. Calm area: the plain wall across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 6,
+      "art": "Emil holds open a bread basket: among the bread rolls lies one small striped sock, curled up like a sleeping cat. His sister has both hands clapped over her mouth; Emil has one hand over his. Their shoulders shake with silent laughter; their eyes are wet. Feeling: a giggle you must not let out. Calm area: the wall across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 7,
+      "art": "Two school bags open on the kitchen bench. Emil, now dressed, slides in books, a pencil case, a water bottle; the sister holds out her own bottle. Two coats and two woolly hats wait on chairs. Feeling: careful, grown-up, a checklist without words. Calm area: the wall across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 8,
+      "art": "In the corridor, the sister stands at the closed bedroom door, one small hand lifted towards the handle, tears shining in her eyes. Emil, a step behind with both school bags, has stopped mid-stride, alarmed. Feeling: the tense middle; love on both sides. Calm area: the plain corridor wall across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 9,
+      "art": "Emil holds his sister's hand very gently and bends down to whisper to her; she is listening, her hand already dropping away from the door handle. Feeling: comfort, an idea arriving. Calm area: the wall across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 10,
+      "art": "At the kitchen table: Emil bends over a sheet of paper, tongue out in concentration, writing (the writing shown only as neat wavy lines, no letters). Beside him his sister draws three hearts under the lines with a red crayon: one big and two small. Feeling: love, care, effort. Calm area: the table top across the bottom.",
+      "zone": { "side": "full", "v": "bottom", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 11,
+      "art": "Close on the table: a big yellow mug with a small chip in its handle, and the folded note leaning against it, the three red hearts showing. In the background, Emil lowers two bowls into the sink without a sound. Feeling: a quiet gift waiting. Calm area: the wall across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 12,
+      "art": "The open front door: the neighbour from upstairs (an older woman with grey hair in a bun, glasses and a long green coat) holds a big folded umbrella and smiles. Emil and his sister, in coats and woolly hats, step out quietly. Emil is pulling the door closed behind him, very slowly. Feeling: safe hands, a quiet goodbye. Calm area: the stairwell wall across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 13,
+      "art": "The empty kitchen later: the rain has stopped, a pale wedge of winter sunlight lies across the floor. Mum (in a dressing gown and slippers, hair loose) stands in the doorway mid-yawn, one hand raised to her mouth, and has just seen the note against her yellow mug. Feeling: stillness, then a gentle surprise. Calm area: the floor across the bottom.",
+      "zone": { "side": "full", "v": "bottom", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 14,
+      "art": "Mum sits at the kitchen table holding the yellow mug in both hands, the open note in front of her with its three hearts, smiling a long, warm smile with her eyes half closed. Through the window the sky has cleared. Last picture of the book: warm light, a full heart. Calm area: the clear sky in the window across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    }
+  ],
+  "film": {
+    "targetSeconds": 366,
+    "shots": [
+      { "n": 1, "page": 1, "action": "16 s. Scene 1, the quiet flat. Rain on a window, grey rooftops; the camera slides inside past the wet coat on its hook and the tired shoes. No words. Keep the lower fifth calm for captions in every shot.", "sound": ["soft rain", "a far-off bus", "a slow, quiet piano note now and then"], "lines": [] },
+      { "n": 2, "page": 1, "action": "10 s. The closed bedroom door at the end of the corridor.", "sound": ["rain", "silence inside"], "lines": ["f01"] },
+      { "n": 3, "page": 1, "action": "9 s. Close on the shoes and the coat: still wet, still tired.", "sound": ["a drip from the coat onto the mat"], "lines": ["f02"] },
+      { "n": 4, "page": 2, "action": "6 s. A bedside clock with twelve marks and no numbers, its hand ticking. No words.", "sound": ["tick, tick"], "lines": [] },
+      { "n": 5, "page": 2, "action": "8 s. Scene 2, waking. Emil opens his eyes and listens: no radio, no kettle. No words.", "sound": ["rain", "the clock"], "lines": [] },
+      { "n": 6, "page": 2, "action": "9 s. He tiptoes to his sister's bed and lays a finger on his lips.", "sound": ["tiny footsteps on a wooden floor"], "lines": ["f03"] },
+      { "n": 7, "page": 2, "action": "6 s. His sister nods, eyes huge over her blanket. No words.", "sound": ["a blanket rustle"], "lines": [] },
+      { "n": 8, "page": 3, "action": "10 s. Scene 3, the loud kitchen. Every sound swells comically: the fridge hum, the drip of the tap like a drum.", "sound": ["the fridge hum, too loud", "drip, drip, drip, too loud"], "lines": ["f04"] },
+      { "n": 9, "page": 3, "action": "8 s. Emil looks round the kitchen, thinking; the voice is close and soft, his own thought.", "sound": ["the drip"], "lines": ["f05"] },
+      { "n": 10, "page": 3, "action": "6 s. His face brightens: he knows.", "sound": ["a small bright note"], "lines": ["f06"] },
+      { "n": 11, "page": 4, "action": "10 s. Scene 4, breakfast. He tips the cereal box very slowly; the flakes rattle like a drum roll anyway.", "sound": ["a cereal rattle like a drum roll"], "lines": ["f07"] },
+      { "n": 12, "page": 4, "action": "8 s. Both freeze and stare at Mum's door. The music stops. Hold. No words.", "sound": ["silence", "the clock"], "lines": [] },
+      { "n": 13, "page": 4, "action": "7 s. The door stays shut. They breathe out together. No words.", "sound": ["two small sighs of relief"], "lines": [] },
+      { "n": 14, "page": 4, "action": "9 s. A spoon rolls towards the table edge; Emil catches it just in time and pours the cold milk, without a clink. No words.", "sound": ["a spoon sliding", "a soft catch", "milk pouring"], "lines": [] },
+      { "n": 15, "page": 5, "action": "8 s. Scene 5, the sock. The sister holds up one bare foot and whispers.", "sound": ["the piano, playful"], "lines": ["f08"] },
+      { "n": 16, "page": 5, "action": "12 s. A quick search: under the bed, inside a shoe, behind the curtain. No words.", "sound": ["tiptoe pizzicato music"], "lines": [] },
+      { "n": 17, "page": 5, "action": "6 s. Emil even checks inside the fridge. A sound joke: the fridge hum gets louder while the door is open. No words.", "sound": ["the fridge hum swells", "the door closes softly"], "lines": [] },
+      { "n": 18, "page": 6, "action": "9 s. Emil opens the bread basket to pack their bread: the sock, curled up among the rolls.", "sound": ["a single surprised note"], "lines": ["f09"] },
+      { "n": 19, "page": 6, "action": "8 s. Silent laughter, hands over mouths, shoulders shaking, tears in their eyes. No words.", "sound": ["tiny squeaks of held-in laughter"], "lines": [] },
+      { "n": 20, "page": 7, "action": "10 s. Scene 6, getting ready. Two school bags open; Emil looks round again.", "sound": ["the piano, steady"], "lines": ["f10"] },
+      { "n": 21, "page": 7, "action": "10 s. Packing on four soft beats: bag, bottle, coat, hat, each with a small plucked note.", "sound": ["four plucked notes"], "lines": ["f11"] },
+      { "n": 22, "page": 8, "action": "8 s. Scene 7, goodbye. The sister stops at Mum's door.", "sound": ["the music thins out"], "lines": ["f12"] },
+      { "n": 23, "page": 8, "action": "8 s. Her hand rises towards the handle; Emil's heartbeat thumps. No words.", "sound": ["a soft heartbeat", "silence"], "lines": [] },
+      { "n": 24, "page": 9, "action": "9 s. Emil takes her hand gently, thinks, and whispers his idea.", "sound": ["a warm chord"], "lines": ["f13"] },
+      { "n": 25, "page": 10, "action": "14 s. Scene 8, the note. Close on Emil writing in his best letters (lines only, no readable letters); he says the words softly as he writes.", "sound": ["a pencil scratching"], "lines": ["f14"] },
+      { "n": 26, "page": 10, "action": "10 s. The sister draws three red hearts, one big and two small, and points.", "sound": ["a crayon squeak"], "lines": ["f15"] },
+      { "n": 27, "page": 11, "action": "9 s. The note propped against the big yellow mug.", "sound": ["paper against china"], "lines": ["f16"] },
+      { "n": 28, "page": 11, "action": "6 s. Bowls into the sink without a clink; one last look round. No words.", "sound": ["the drip"], "lines": [] },
+      { "n": 29, "page": 12, "action": "8 s. Scene 9, the neighbour. A soft knock; the neighbour from upstairs at the door with her umbrella, whispering.", "sound": ["a soft knock"], "lines": ["f17"] },
+      { "n": 30, "page": 12, "action": "8 s. Coats, hats, out; Emil pulls the door to.", "sound": ["the smallest click"], "lines": ["f18"] },
+      { "n": 31, "page": 12, "action": "10 s. From the window: three figures below under one big umbrella walk away along the wet street. No words.", "sound": ["rain on an umbrella", "footsteps fading"], "lines": [] },
+      { "n": 32, "page": 13, "action": "12 s. Scene 10, the long quiet. The empty kitchen; the rain stops; a patch of pale sun slides slowly across the floor.", "sound": ["the rain stopping", "a single bird"], "lines": ["f19"] },
+      { "n": 33, "page": 13, "action": "8 s. A pigeon settles on the windowsill and fluffs its feathers. Breathing room, no words.", "sound": ["a pigeon coo"], "lines": [] },
+      { "n": 34, "page": 13, "action": "8 s. In the bedroom Mum stretches and opens her eyes.", "sound": ["a long yawn"], "lines": ["f20"] },
+      { "n": 35, "page": 13, "action": "9 s. She pads into the kitchen in slippers and sees the note.", "sound": ["slippers on the floor"], "lines": ["f21"] },
+      { "n": 36, "page": 14, "action": "12 s. Mum reads the note; we hear the children's words in her voice.", "sound": ["the piano melody returns, warm"], "lines": ["f22"] },
+      { "n": 37, "page": 14, "action": "9 s. She holds the yellow mug in both hands and smiles.", "sound": ["the melody"], "lines": ["f23"] },
+      { "n": 38, "page": 14, "action": "8 s. Hold on her face, eyes half closed. No words.", "sound": ["the melody, softer"], "lines": [] },
+      { "n": 39, "page": 14, "action": "10 s. Evening: Emil's bedroom in lamplight; on his pillow, a new note with three hearts.", "sound": ["evening quiet"], "lines": ["f24"] },
+      { "n": 40, "page": 14, "action": "14 s. Closing image: the yellow mug on the kitchen table in lamplight, the first note beside it. Nothing moves. Hold the still picture 6 s while the music ends, then stop. No autoplay.", "sound": ["the last notes of the piano"], "lines": [] }
+    ]
+  },
+  "activity": {
+    "minutes": 25,
+    "materials": ["tray", "bread", "nut-free-sesame-free-spread", "cucumber", "butter-knife", "plate", "plastic-cup", "water", "napkin", "chopping-board-adult"],
+    "steps": [
+      { "n": 1, "picture": "A child washes hands at a sink; beside the sink, a tray with a plate, a cup and a folded napkin waits.", "loop": false },
+      { "n": 2, "picture": "The child spreads soft cheese on a slice of bread with a rounded butter knife, holding the bread flat on a plate.", "loop": true },
+      { "n": 3, "picture": "A grown-up slices a cucumber on a chopping board; the child lays the slices on the plate in a row.", "loop": false },
+      { "n": 4, "picture": "The child sets the tray: the plate in the middle, a cup half full of water, a folded napkin at the side.", "loop": false },
+      { "n": 5, "picture": "The child carries the tray slowly with both hands towards a grown-up sitting in a chair, who smiles.", "loop": false }
+    ],
+    "checkedAgainst": "docs/story-room/age-6-8.md section 7 (red list: no heat, butter knife on soft food only, adult cuts, allergy check, no nuts or sesame) and section 4, 25 Nov 2026"
+  }
+}

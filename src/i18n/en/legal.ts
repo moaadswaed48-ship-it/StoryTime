@@ -16,7 +16,7 @@ export default {
     placeholderKey: 'Marked like this: a detail still to be filled in',
     updated: 'Draft of {date}',
     version: 'Terms version {version}',
-    // LAWYER Q6: which language version prevails.
+    // LAWYER checklist Q6: which language version prevails.
     languageNote:
       'These pages exist in Arabic, Hebrew, English and Danish. [[Which language version prevails if they differ: to be decided with our lawyer]]',
     contents: 'On this page',
@@ -442,7 +442,7 @@ export default {
       longer: {
         title: 'A longer period for some customers',
         body: [
-          // LC 7; LAWYER Q23: whether and how this applies to a purely online sale.
+          // LC 7; LAWYER Q22: whether and how this applies to a purely online sale.
           'People with disabilities, people aged 65 or older and new immigrants (within 5 years of immigrating) may have up to 4 months to cancel, if the sale included a conversation with us. Our passes are sold online only, but if this applies to you, tell us when you cancel.',
           '[[Exact conditions of this right: to be confirmed by our lawyer]]',
         ],

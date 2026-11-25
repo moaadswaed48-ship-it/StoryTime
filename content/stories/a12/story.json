@@ -1,0 +1,309 @@
+{
+  "id": "a12",
+  "ageGroups": [
+    "2-3"
+  ],
+  "owner": "storytime",
+  "lesson": "Notice the body's \"I need a wee\" feeling and go to the potty in time.",
+  "cast": [
+    "a12-nadia",
+    "a12-mum",
+    "a12-teddy"
+  ],
+  "pages": [
+    {
+      "n": 1,
+      "art": "Spring morning in a living room: sun through the window, a soft rug, a sofa behind. Nadia kneels on the rug building a tower of big wooden blocks, three blocks high. Teddy, a big brown teddy bear, sits beside her with one block placed in his paws. Feeling: busy, happy play. Calm area: the plain wall across the top.",
+      "zone": {
+        "side": "full",
+        "v": "top",
+        "size": "m"
+      },
+      "image": null
+    },
+    {
+      "n": 2,
+      "art": "Nadia has frozen with a block in her hand, eyes looking down and to the side, listening to her body. A small, soft, glowing ripple is drawn low on her tummy, over her clothes (a gentle light, not a symbol). Teddy beside her. Feeling: noticing, a little surprise. Calm area: the wall across the top.",
+      "zone": {
+        "side": "full",
+        "v": "top",
+        "size": "s"
+      },
+      "image": null
+    },
+    {
+      "n": 3,
+      "art": "Nadia jumps up, scooping Teddy under one arm, her other hand pointing towards the bathroom door. Her face is bright and determined, not worried. The block lies safely on the rug. Calm area: the wall across the top.",
+      "zone": {
+        "side": "full",
+        "v": "top",
+        "size": "s"
+      },
+      "image": null
+    },
+    {
+      "n": 4,
+      "art": "Comic dash: Nadia runs across the living room, past the block tower and past the sofa, Teddy under her arm with his legs flopping. A few motion lines behind her. The bathroom door stands open ahead. Calm area: the wall across the top.",
+      "zone": {
+        "side": "full",
+        "v": "top",
+        "size": "m"
+      },
+      "image": null
+    },
+    {
+      "n": 5,
+      "art": "A bright, simple bathroom: a bath, a small sink with a low step-stool, a potty on the floor. Nadia sets Teddy on the wide edge of the bath; he sits there, slightly lopsided. Calm area: the plain tiled wall across the top.",
+      "zone": {
+        "side": "full",
+        "v": "top",
+        "size": "m"
+      },
+      "image": null
+    },
+    {
+      "n": 6,
+      "art": "Nadia sits on the potty, seen from the side, her dress over her knees so nothing private shows; she rests her chin on her fists and waits. Teddy sits on the bath edge opposite, his head tilted as if he waits too. Feeling: patient, a little funny. Calm area: the tiled wall across the top.",
+      "zone": {
+        "side": "full",
+        "v": "top",
+        "size": "m"
+      },
+      "image": null
+    },
+    {
+      "n": 7,
+      "art": "Same view: Nadia's face bursts into a huge proud smile, both arms up in the air. Teddy has toppled sideways on the bath edge, as if amazed. Calm area: the tiled wall across the top.",
+      "zone": {
+        "side": "full",
+        "v": "top",
+        "size": "m"
+      },
+      "image": null
+    },
+    {
+      "n": 8,
+      "art": "At the sink: Nadia stands on the low step-stool, Mum beside her; their hands are under the tap together, covered in soap bubbles; a few round bubbles float up. Teddy watches from the bath edge. Calm area: the tiled wall above the mirror, across the top.",
+      "zone": {
+        "side": "full",
+        "v": "top",
+        "size": "m"
+      },
+      "image": null
+    },
+    {
+      "n": 9,
+      "art": "Mum crouches and claps, beaming. Nadia holds Teddy's two paws and claps them together, laughing. Feeling: shared pride. Calm area: the tiled wall across the top.",
+      "zone": {
+        "side": "full",
+        "v": "top",
+        "size": "m"
+      },
+      "image": null
+    },
+    {
+      "n": 10,
+      "art": "Back in the sunny living room: a very tall tower of blocks, taller than Nadia sitting down. Nadia places the last block on top, on her knees and stretching; Teddy sits beside the tower. Mum smiles from the doorway. Last picture: proud and calm. Calm area: the plain wall across the top, beside the tower.",
+      "zone": {
+        "side": "full",
+        "v": "top",
+        "size": "m"
+      },
+      "image": null
+    }
+  ],
+  "film": {
+    "targetSeconds": 130,
+    "shots": [
+      {
+        "n": 1,
+        "page": 1,
+        "action": "10 s. Scene 1, play. Wide and still: the sunny living room, the rug, the blocks. Hold 3 s, then Nadia places a block on her tower. Keep the lower fifth calm for captions.",
+        "sound": [
+          "birds outside the window",
+          "gentle music: a bouncy tune on a toy piano"
+        ],
+        "lines": [
+          "f01"
+        ]
+      },
+      {
+        "n": 2,
+        "page": 1,
+        "action": "9 s. Nadia puts a block in Teddy's paws, then adds another to the tower, one note for each block.",
+        "sound": [
+          "wooden blocks clicking",
+          "a rising three-note phrase"
+        ],
+        "lines": [
+          "f02"
+        ]
+      },
+      {
+        "n": 3,
+        "page": 2,
+        "action": "10 s. Nadia stops still, block in hand. A small soft glow ripples once, low on her tummy. The music pauses on one held note. 2 s of stillness before the line.",
+        "sound": [
+          "one soft held note"
+        ],
+        "lines": [
+          "f03"
+        ]
+      },
+      {
+        "n": 4,
+        "page": 3,
+        "action": "8 s. Nadia's eyes go wide; she sets the block down and scoops up Teddy.",
+        "sound": [
+          "a little 'boing'"
+        ],
+        "lines": [
+          "f04",
+          "f05"
+        ]
+      },
+      {
+        "n": 5,
+        "page": 4,
+        "action": "10 s. Scene 2, the dash. Nadia runs past the blocks and past the sofa, Teddy's legs flopping. The camera follows at her height. Comic, bouncy, never frantic.",
+        "sound": [
+          "quick little footsteps",
+          "the tune, quick and skipping"
+        ],
+        "lines": [
+          "f06"
+        ]
+      },
+      {
+        "n": 6,
+        "page": 5,
+        "action": "8 s. In the bathroom Nadia sets Teddy on the edge of the bath; he tips a little and she straightens him.",
+        "sound": [
+          "a soft plop"
+        ],
+        "lines": [
+          "f07"
+        ]
+      },
+      {
+        "n": 7,
+        "page": 6,
+        "action": "10 s. Nadia on the potty, seen from the side, dress over her knees; Teddy opposite. Both wait. 3 s of quiet: a breathing moment.",
+        "sound": [
+          "a clock ticking softly",
+          "the tune, slow and sleepy"
+        ],
+        "lines": [
+          "f08"
+        ]
+      },
+      {
+        "n": 8,
+        "page": 7,
+        "action": "8 s. A tiny tinkling chime. Nadia's face lights up and both arms go up. Teddy topples sideways.",
+        "sound": [
+          "a small tinkling chime",
+          "Nadia's happy gasp"
+        ],
+        "lines": [
+          "f09"
+        ]
+      },
+      {
+        "n": 9,
+        "page": 8,
+        "action": "10 s. Scene 3, clean and proud. Mum comes in. At the sink Nadia, on her step-stool, washes her hands with Mum; round bubbles float up and pop.",
+        "sound": [
+          "water from a tap",
+          "little bubble pops"
+        ],
+        "lines": [
+          "f10",
+          "f11"
+        ]
+      },
+      {
+        "n": 10,
+        "page": 9,
+        "action": "10 s. Mum crouches and claps. Nadia takes Teddy's paws and claps them together.",
+        "sound": [
+          "clapping",
+          "laughter"
+        ],
+        "lines": [
+          "f12",
+          "f13"
+        ]
+      },
+      {
+        "n": 11,
+        "page": 10,
+        "action": "9 s. Back in the living room, Nadia runs to the blocks with Teddy.",
+        "sound": [
+          "the bouncy tune returns"
+        ],
+        "lines": [
+          "f14"
+        ]
+      },
+      {
+        "n": 12,
+        "page": 10,
+        "action": "12 s. The tower goes up, block by block, one note per block, higher than ever.",
+        "sound": [
+          "blocks clicking",
+          "a rising scale"
+        ],
+        "lines": [
+          "f15"
+        ]
+      },
+      {
+        "n": 13,
+        "page": 10,
+        "action": "14 s. Closing image. The tall tower stands; Nadia sits beside it and leans on Teddy; Mum smiles in the doorway. Nothing moves. Hold 6 s while the music ends, then stop. No autoplay, no next film.",
+        "sound": [
+          "the last note of the tune"
+        ],
+        "lines": [
+          "f16"
+        ]
+      }
+    ]
+  },
+  "activity": {
+    "minutes": 10,
+    "materials": [
+      "big-soft-toy",
+      "loose-elastic-waist-trousers"
+    ],
+    "steps": [
+      {
+        "n": 1,
+        "picture": "A big teddy sits on the floor wearing a pair of loose child's trousers with an elastic waist.",
+        "loop": false
+      },
+      {
+        "n": 2,
+        "picture": "The child, sitting on the floor, holds the trousers' waist with both hands, thumbs inside, and pulls them down to Teddy's knees.",
+        "loop": true
+      },
+      {
+        "n": 3,
+        "picture": "The child pulls the trousers back up to Teddy's tummy.",
+        "loop": true
+      },
+      {
+        "n": 4,
+        "picture": "The child, sitting on the floor in loose trousers, pulls their own trousers down to the knees and up again; the grown-up sits beside, ready to help.",
+        "loop": true
+      },
+      {
+        "n": 5,
+        "picture": "Child and grown-up clap; Teddy sits proudly in his trousers.",
+        "loop": false
+      }
+    ],
+    "checkedAgainst": "docs/story-room/age-2-3.md section 7 (no drawstrings; sitting down to avoid falls; group version on toys only) and section 4 (activity limits), 25 Nov 2026"
+  }
+}

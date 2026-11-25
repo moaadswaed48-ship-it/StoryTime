@@ -1,0 +1,136 @@
+[
+  {
+    "id": "a12-nadia",
+    "name": {
+      "ar": "نادْيا",
+      "he": "נַדְיָה",
+      "en": "Nadia",
+      "da": "Nadja"
+    },
+    "stage": "toddler",
+    "build": {
+      "height": 0.46,
+      "heads": 3.5,
+      "girth": 0.62,
+      "shoulders": 1.05
+    },
+    "skin": "#d9a47c",
+    "hair": {
+      "style": "ponytail",
+      "color": "#3b2118"
+    },
+    "eyes": {
+      "color": "#3a2418",
+      "size": 1
+    },
+    "brows": {
+      "color": "#3b2118",
+      "weight": 0.4
+    },
+    "top": {
+      "style": "dress",
+      "color": "#7fb0d8",
+      "trim": "#fff3d6",
+      "pattern": "dots"
+    },
+    "bottom": {
+      "style": "none",
+      "color": "#7fb0d8"
+    },
+    "shoes": {
+      "style": "bare",
+      "color": "#d9a47c"
+    },
+    "manner": "A determined builder; talks to Teddy all the time; when she decides something she moves at once, all elbows and speed; throws both arms up when she is proud."
+  },
+  {
+    "id": "a12-mum",
+    "name": {
+      "ar": "ماما",
+      "he": "אִמָּא",
+      "en": "Mum",
+      "da": "mor"
+    },
+    "stage": "adult",
+    "build": {
+      "height": 0.97,
+      "heads": 6,
+      "girth": 0.55,
+      "shoulders": 1.5
+    },
+    "skin": "#c98e62",
+    "hair": {
+      "style": "covered",
+      "color": "#2a1714",
+      "cover": "#e9c46a"
+    },
+    "eyes": {
+      "color": "#3a2418",
+      "size": 0.6
+    },
+    "brows": {
+      "color": "#2a1714",
+      "weight": 0.6
+    },
+    "top": {
+      "style": "tunic",
+      "color": "#3f9a8f",
+      "trim": "#f7e2b0",
+      "pattern": "plain"
+    },
+    "bottom": {
+      "style": "trousers",
+      "color": "#5b4a6a"
+    },
+    "shoes": {
+      "style": "sandals",
+      "color": "#8a4a3a"
+    },
+    "manner": "Calm and close by, never rushing; crouches to Nadia's height; claps with her whole face."
+  },
+  {
+    "id": "a12-teddy",
+    "name": {
+      "ar": "دُبْدوب",
+      "he": "דֻּבִּי",
+      "en": "Teddy",
+      "da": "Bamse"
+    },
+    "stage": "toddler",
+    "build": {
+      "height": 0.3,
+      "heads": 2.5,
+      "girth": 0.8,
+      "shoulders": 1.1
+    },
+    "skin": "#a8703f",
+    "hair": {
+      "style": "none",
+      "color": "#a8703f"
+    },
+    "eyes": {
+      "color": "#1c1210",
+      "size": 0.5
+    },
+    "brows": {
+      "color": "#a8703f",
+      "weight": 0
+    },
+    "top": {
+      "style": "tee",
+      "color": "#d9b48a",
+      "trim": "#a8703f",
+      "pattern": "plain"
+    },
+    "bottom": {
+      "style": "none",
+      "color": "#a8703f"
+    },
+    "shoes": {
+      "style": "bare",
+      "color": "#d9b48a"
+    },
+    "toy": "teddy bear",
+    "manner": "NOT A HUMAN FIGURE: a big, soft, brown teddy bear with a lighter tummy and paw pads (top colour = tummy), round ears and button eyes. He never moves by himself: Nadia carries him, seats him and claps his paws; he flops and topples in a comic way. The Studio needs a toy or animal sheet type before drawing him."
+  }
+]
