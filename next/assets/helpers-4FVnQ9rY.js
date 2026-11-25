@@ -1,0 +1,1 @@
+var e=e=>new Intl.NumberFormat(`en-US`,{useGrouping:!1}).format(e);export{e as t};

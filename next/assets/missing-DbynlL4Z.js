@@ -1,0 +1,1 @@
+import{s as e,t}from"./jsx-runtime-CibYmC2B.js";import{t as n}from"./use-dict-DQzIUG0C.js";import{r}from"./meta-VwnH8Rm-.js";import{t as i}from"./Page-BqxjnX61.js";var a=t(),o=()=>r(`404`),s=e(function(){let{dict:e}=n();return(0,a.jsx)(i,{title:e.common.notFound})});export{s as default,o as meta};

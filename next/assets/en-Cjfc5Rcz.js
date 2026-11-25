@@ -1,0 +1,69 @@
+var e=`{
+  "title": "Slow, Slow, Together",
+  "names": { "a04-sami": "Sami", "a04-grandpa": "Grandpa" },
+  "pages": [
+    { "n": 1, "text": "“Look, Sami,” says Grandpa. “Red flowers. Up there, at the top.”", "speech": "“Look, Sami,” says Grandpa. “Red flowers. Up there, at the top.”" },
+    { "n": 2, "text": "Sami runs. Run, run, run!", "speech": "Sami runs. Run, run, run!" },
+    { "n": 3, "text": "Run, run, run… stop! Where is Grandpa?", "speech": "Run, run, run… stop! Where is Grandpa?" },
+    { "n": 4, "text": "“Come on, Grandpa!” calls Sami. Grandpa waves. Step… tap. Step… tap.", "speech": "“Come on, Grandpa!” calls Sami. Grandpa waves. Step… tap. Step… tap." },
+    { "n": 5, "text": "Sami runs back down. He takes Grandpa’s hand. Slow, slow, together.", "speech": "Sami runs back down. He takes Grandpa’s hand. Slow, slow, together." },
+    { "n": 6, "text": "Slow, slow, together. Look! A butterfly.", "speech": "Slow, slow, together. Look! A butterfly." },
+    { "n": 7, "text": "Slow, slow, together. A ladybird on a leaf.", "speech": "Slow, slow, together. A ladybird on a leaf." },
+    { "n": 8, "text": "Slow, slow, together. Buzz! A bee in a flower.", "speech": "Slow, slow, together. Buzz! A bee in a flower." },
+    { "n": 9, "text": "Slow, slow, together… the top! Red, red, red. Red flowers everywhere.", "speech": "Slow, slow, together… the top! Red, red, red. Red flowers everywhere." },
+    { "n": 10, "text": "Sami and Grandpa sit on a warm rock. Grandpa rests. Sami rests too.", "speech": "Sami and Grandpa sit on a warm rock. Grandpa rests. Sami rests too." },
+    { "n": 11, "text": "The ladybird walks over Grandpa’s hand… and over Sami’s hand. Slow, slow, together.", "speech": "The ladybird walks over Grandpa’s hand… and over Sami’s hand. Slow, slow, together." }
+  ],
+  "film": [
+    { "id": "f01", "speaker": "narrator", "text": "Morning on the green hill.", "speech": "Morning on the green hill.", "emotion": "warm and slow, like opening the curtains" },
+    { "id": "f02", "speaker": "a04-grandpa", "text": "Sami, look. Red flowers, right at the top.", "speech": "Sami, look. Red flowers, right at the top.", "emotion": "gentle, inviting, a little secret in it" },
+    { "id": "f03", "speaker": "a04-sami", "text": "I’m going up!", "speech": "I’m going up!", "emotion": "excited, bursting, already running" },
+    { "id": "f04", "speaker": "narrator", "text": "Run, run, run!", "speech": "Run, run, run!", "emotion": "bouncy and quick, on the footsteps" },
+    { "id": "f05", "speaker": "a04-sami", "text": "Grandpa?", "speech": "Grandpa?", "emotion": "small and unsure, a little worried" },
+    { "id": "f06", "speaker": "narrator", "text": "Grandpa is far, far down the hill.", "speech": "Grandpa is far, far down the hill.", "emotion": "softer and slower, a touch of concern" },
+    { "id": "f07", "speaker": "a04-sami", "text": "Come on, Grandpa!", "speech": "Come on, Grandpa!", "emotion": "calling loudly down the hill, bright" },
+    { "id": "f08", "speaker": "a04-grandpa", "text": "Step… tap. Step… tap. I’m coming.", "speech": "Step… tap. Step… tap. I’m coming.", "emotion": "calm and smiling, slow, never out of breath" },
+    { "id": "f09", "speaker": "a04-sami", "text": "Let’s go together, Grandpa.", "speech": "Let’s go together, Grandpa.", "emotion": "tender, a little out of breath" },
+    { "id": "f10", "speaker": "narrator", "text": "Slow, slow, together.", "speech": "Slow, slow, together.", "emotion": "soft and rhythmic, smiling, one word per step" },
+    { "id": "f11", "speaker": "a04-sami", "text": "A butterfly!", "speech": "A butterfly!", "emotion": "hushed wonder" },
+    { "id": "f12", "speaker": "a04-grandpa", "text": "Shh. Look… a ladybird.", "speech": "Shh. Look… a ladybird.", "emotion": "whispering, delighted" },
+    { "id": "f13", "speaker": "narrator", "text": "Buzz, buzz. A bee in a flower.", "speech": "Buzz, buzz. A bee in a flower.", "emotion": "playful and light" },
+    { "id": "f14", "speaker": "a04-sami", "text": "Red! It’s all red!", "speech": "Red! It’s all red!", "emotion": "amazed and joyful, the biggest moment" },
+    { "id": "f15", "speaker": "a04-grandpa", "text": "Ahh. A warm rock.", "speech": "Ahh. A warm rock.", "emotion": "content and slow, a long happy sigh" },
+    { "id": "f16", "speaker": "a04-grandpa", "text": "Slow, slow…", "speech": "Slow, slow…", "emotion": "tender, almost a whisper" },
+    { "id": "f17", "speaker": "a04-sami", "text": "…together.", "speech": "…together.", "emotion": "whispered, smiling, finishing Grandpa’s words" }
+  ],
+  "activity": {
+    "title": "The Looking Frame",
+    "goal": "Look closely at small things in nature and learn their names.",
+    "materials": [
+      "One paper plate"
+    ],
+    "steps": [
+      {
+        "n": 1,
+        "caption": "The grown-up tears out the middle."
+      },
+      {
+        "n": 2,
+        "caption": "Hold hands. Walk slowly."
+      },
+      {
+        "n": 3,
+        "caption": "Stop. Hold up the frame."
+      },
+      {
+        "n": 4,
+        "caption": "What’s inside? Say its name."
+      },
+      {
+        "n": 5,
+        "caption": "Back home. Wash hands."
+      }
+    ],
+    "safety": "Look only: no picking, no touching insects, nothing in the mouth. The grown-up tears the plate and throws the middle away. If there is an accident, call your local emergency number.",
+    "forAdult": "In the story, Sami only sees the butterfly, the ladybird and the bee once he slows down to Grandpa’s pace. This walk lets the child feel the same thing: when we go slowly, there is more to see. The paper frame helps a two- or three-year-old look at one small thing at a time, and gives you both a moment to name it. Hearing the name of the thing they are looking at helps toddlers learn new words. Tear or cut the middle out of a paper plate yourself (scissors stay in adult hands) and put the middle in the bin, because small pieces of paper can end up in a mouth. Walk outside slowly, hand in hand, at the pace of the slowest walker. Every few steps, stop and say “Stop and look!” The child holds the frame up to something (a flower, a stone, an ant, a cloud), and you say its name together, adding one word: “a red flower”, “a tiny ant”, “a big cloud”. Let the child choose what to frame. Framing the same thing again and again is fine. What to watch: we look, but we do not pick or touch, especially insects and plants. Some plants are poisonous (in Israel, oleander, arum and castor bean; in Denmark, yew and laburnum). Keep a sun hat on. Five to ten minutes is plenty. To make it easier, frame one thing yourself and ask “What is that?” To make it harder, ask “Can you find something red?” or “Can you find something small?” Wash hands when you come home.",
+    "inClass": "One adult walks with up to four children: two pairs, each pair sharing one frame. The adult walks slowly in front and calls “Stop and look!” every few steps. One pair holds up its frame and names one thing. The other pair says the word back. Then the pairs swap. Back inside, everyone washes hands."
+  }
+}
+`;export{e as default};

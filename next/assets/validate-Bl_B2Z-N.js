@@ -1,0 +1,1 @@
+var e=/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/,t=t=>e.test(t.trim());export{t};

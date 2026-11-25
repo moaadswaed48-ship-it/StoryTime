@@ -1,0 +1,1 @@
+var e=[`start`,`end`,`full`],t=[`top`,`middle`,`bottom`],n=[`s`,`m`,`l`],r={side:`full`,v:`bottom`,size:`m`};export{t as i,e as n,n as r,r as t};

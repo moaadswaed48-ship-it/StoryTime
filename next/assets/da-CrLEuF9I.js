@@ -1,0 +1,31 @@
+var e=`{
+  "title": "Eksempel: Den røde bold",
+  "teaser": "En testhistorie fra StoryTime, ikke en rigtig historie.",
+  "names": {},
+  "pages": [
+    { "n": 1, "text": "Her er en rød bold. Den er rund.", "speech": "Her er en rød bold. Den er rund." },
+    { "n": 2, "text": "Bolden triller. Trille, trille, trille!", "speech": "Bolden triller. Trille, trille, trille!" },
+    { "n": 3, "text": "Bolden gemmer sig under busken. Hvor er den?", "speech": "Bolden gemmer sig under busken. Hvor er den?" },
+    { "n": 4, "text": "Borte, tit-tit! Der er den!", "speech": "Borte, tit-tit! Der er den!" },
+    { "n": 5, "text": "Vi griber bolden. Hurra!", "speech": "Vi griber bolden. Hurra!" }
+  ],
+  "film": [
+    { "id": "f01", "speaker": "narrator", "text": "En rød bold triller på græsset.", "speech": "En rød bold triller på græsset.", "emotion": "warm" },
+    { "id": "f02", "speaker": "narrator", "text": "Åh! Den triller ind under busken.", "speech": "Åh! Den triller ind under busken.", "emotion": "curious" },
+    { "id": "f03", "speaker": "narrator", "text": "Hop, hop! Hurra!", "speech": "Hop, hop! Hurra!", "emotion": "happy" }
+  ],
+  "activity": {
+    "title": "Trille bold",
+    "goal": "At trille, gribe og vente på tur.",
+    "materials": ["En blød bold", "Puder at sidde på"],
+    "steps": [
+      { "n": 1, "caption": "Sid over for hinanden." },
+      { "n": 2, "caption": "Tril bolden over." },
+      { "n": 3, "caption": "Grib den. Tril den tilbage." }
+    ],
+    "safety": "Brug en blød bold. Fjern hårdt legetøj fra gulvet først.",
+    "forAdult": "Eksempeltekst til at teste layoutet. At trille en bold frem og tilbage øver at kigge, række ud og vente på tur. Start tæt på hinanden, og ryk lidt længere væk, når det bliver let at gribe. Sig »min tur« og »din tur«, mens bolden triller.",
+    "inClass": "Eksempeltekst. Sid i en rundkreds. Sig et barns navn, og tril bolden hen til barnet."
+  }
+}
+`;export{e as default};

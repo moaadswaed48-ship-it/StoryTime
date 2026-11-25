@@ -1,0 +1,1 @@
+var e=`/StoryTime/next/assets/step-3-BCPr2DmO.mp4`;export{e as default};

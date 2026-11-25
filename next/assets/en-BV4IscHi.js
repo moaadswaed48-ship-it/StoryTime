@@ -1,0 +1,31 @@
+var e=`{
+  "title": "Sample: The Red Ball",
+  "teaser": "A StoryTime test story, not a real one.",
+  "names": {},
+  "pages": [
+    { "n": 1, "text": "Here is a red ball. It is round.", "speech": "Here is a red ball. It is round." },
+    { "n": 2, "text": "The ball rolls. Roll, roll, roll!", "speech": "The ball rolls. Roll, roll, roll!" },
+    { "n": 3, "text": "The ball hides under the bush. Where is it?", "speech": "The ball hides under the bush. Where is it?" },
+    { "n": 4, "text": "Peekaboo! There it is!", "speech": "Peekaboo! There it is!" },
+    { "n": 5, "text": "We catch the ball. Hooray!", "speech": "We catch the ball. Hooray!" }
+  ],
+  "film": [
+    { "id": "f01", "speaker": "narrator", "text": "A red ball rolls on the grass.", "speech": "A red ball rolls on the grass.", "emotion": "warm" },
+    { "id": "f02", "speaker": "narrator", "text": "Oh! It rolls under the bush.", "speech": "Oh! It rolls under the bush.", "emotion": "curious" },
+    { "id": "f03", "speaker": "narrator", "text": "Bounce, bounce! Hooray!", "speech": "Bounce, bounce! Hooray!", "emotion": "happy" }
+  ],
+  "activity": {
+    "title": "Roll the ball",
+    "goal": "Rolling, catching and taking turns.",
+    "materials": ["A soft ball", "Cushions to sit on"],
+    "steps": [
+      { "n": 1, "caption": "Sit facing each other." },
+      { "n": 2, "caption": "Roll the ball across." },
+      { "n": 3, "caption": "Catch it. Roll it back." }
+    ],
+    "safety": "Use a soft ball. Clear hard toys off the floor first.",
+    "forAdult": "Sample text for testing the layout. Rolling a ball back and forth practises looking, reaching and waiting for a turn. Start close together; move a little further apart when catching gets easy. Say \\"my turn\\" and \\"your turn\\" as the ball travels.",
+    "inClass": "Sample text. Sit in a circle. Say a child's name, then roll the ball to that child."
+  }
+}
+`;export{e as default};

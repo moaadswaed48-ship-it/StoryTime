@@ -1,0 +1,1 @@
+var e=`/StoryTime/next/assets/03-DGtMoK7s.mp3`;export{e as default};

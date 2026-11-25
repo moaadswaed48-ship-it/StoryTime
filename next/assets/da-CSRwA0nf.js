@@ -1,0 +1,218 @@
+var e=`{
+  "title": "Langsomt, langsomt, sammen",
+  "names": {
+    "a04-sami": "Sami",
+    "a04-grandpa": "bedstefar"
+  },
+  "pages": [
+    {
+      "n": 1,
+      "text": "»Se, Sami,« siger bedstefar. »Røde blomster. Helt deroppe på toppen.«",
+      "speech": "»Se, Sami,« siger bedstefar. »Røde blomster. Helt deroppe på toppen.«"
+    },
+    {
+      "n": 2,
+      "text": "Sami løber. Løb, løb, løb!",
+      "speech": "Sami løber. Løb, løb, løb!"
+    },
+    {
+      "n": 3,
+      "text": "Løb, løb, løb … stop! Hvor er bedstefar?",
+      "speech": "Løb, løb, løb … stop! Hvor er bedstefar?"
+    },
+    {
+      "n": 4,
+      "text": "»Kom nu, bedstefar!« råber Sami. Bedstefar vinker. Skridt … tok. Skridt … tok.",
+      "speech": "»Kom nu, bedstefar!« råber Sami. Bedstefar vinker. Skridt … tok. Skridt … tok."
+    },
+    {
+      "n": 5,
+      "text": "Sami løber ned igen. Han tager bedstefars hånd. Langsomt, langsomt, sammen.",
+      "speech": "Sami løber ned igen. Han tager bedstefars hånd. Langsomt, langsomt, sammen."
+    },
+    {
+      "n": 6,
+      "text": "Langsomt, langsomt, sammen. Se! En sommerfugl.",
+      "speech": "Langsomt, langsomt, sammen. Se! En sommerfugl."
+    },
+    {
+      "n": 7,
+      "text": "Langsomt, langsomt, sammen. En mariehøne på et blad.",
+      "speech": "Langsomt, langsomt, sammen. En mariehøne på et blad."
+    },
+    {
+      "n": 8,
+      "text": "Langsomt, langsomt, sammen. Bzzz! En bi i en blomst.",
+      "speech": "Langsomt, langsomt, sammen. Bzzz! En bi i en blomst."
+    },
+    {
+      "n": 9,
+      "text": "Langsomt, langsomt, sammen … oppe på toppen! Rødt, rødt, rødt. Røde blomster overalt.",
+      "speech": "Langsomt, langsomt, sammen … oppe på toppen! Rødt, rødt, rødt. Røde blomster overalt."
+    },
+    {
+      "n": 10,
+      "text": "Sami og bedstefar sidder på en varm sten. Bedstefar hviler sig. Sami hviler sig også.",
+      "speech": "Sami og bedstefar sidder på en varm sten. Bedstefar hviler sig. Sami hviler sig også."
+    },
+    {
+      "n": 11,
+      "text": "Mariehønen kravler over bedstefars hånd … og over Samis hånd. Langsomt, langsomt, sammen.",
+      "speech": "Mariehønen kravler over bedstefars hånd … og over Samis hånd. Langsomt, langsomt, sammen."
+    }
+  ],
+  "film": [
+    {
+      "id": "f01",
+      "speaker": "narrator",
+      "text": "Morgen på den grønne bakke.",
+      "speech": "Morgen på den grønne bakke.",
+      "emotion": "warm and slow, like opening the curtains"
+    },
+    {
+      "id": "f02",
+      "speaker": "a04-grandpa",
+      "text": "Sami, se. Røde blomster, helt oppe på toppen.",
+      "speech": "Sami, se. Røde blomster, helt oppe på toppen.",
+      "emotion": "gentle, inviting, a little secret in it"
+    },
+    {
+      "id": "f03",
+      "speaker": "a04-sami",
+      "text": "Jeg løber derop!",
+      "speech": "Jeg løber derop!",
+      "emotion": "excited, bursting, already running"
+    },
+    {
+      "id": "f04",
+      "speaker": "narrator",
+      "text": "Løb, løb, løb!",
+      "speech": "Løb, løb, løb!",
+      "emotion": "bouncy and quick, on the footsteps"
+    },
+    {
+      "id": "f05",
+      "speaker": "a04-sami",
+      "text": "Bedstefar?",
+      "speech": "Bedstefar?",
+      "emotion": "small and unsure, a little worried"
+    },
+    {
+      "id": "f06",
+      "speaker": "narrator",
+      "text": "Bedstefar er langt, langt nede.",
+      "speech": "Bedstefar er langt, langt nede.",
+      "emotion": "softer and slower, a touch of concern"
+    },
+    {
+      "id": "f07",
+      "speaker": "a04-sami",
+      "text": "Kom nu, bedstefar!",
+      "speech": "Kom nu, bedstefar!",
+      "emotion": "calling loudly down the hill, bright"
+    },
+    {
+      "id": "f08",
+      "speaker": "a04-grandpa",
+      "text": "Skridt … tok. Skridt … tok. Jeg kommer.",
+      "speech": "Skridt … tok. Skridt … tok. Jeg kommer.",
+      "emotion": "calm and smiling, slow, never out of breath"
+    },
+    {
+      "id": "f09",
+      "speaker": "a04-sami",
+      "text": "Vi går sammen, bedstefar.",
+      "speech": "Vi går sammen, bedstefar.",
+      "emotion": "tender, a little out of breath"
+    },
+    {
+      "id": "f10",
+      "speaker": "narrator",
+      "text": "Langsomt, langsomt, sammen.",
+      "speech": "Langsomt, langsomt, sammen.",
+      "emotion": "soft and rhythmic, smiling, one word per step"
+    },
+    {
+      "id": "f11",
+      "speaker": "a04-sami",
+      "text": "En sommerfugl!",
+      "speech": "En sommerfugl!",
+      "emotion": "hushed wonder"
+    },
+    {
+      "id": "f12",
+      "speaker": "a04-grandpa",
+      "text": "Hys. Se … en mariehøne.",
+      "speech": "Hys. Se … en mariehøne.",
+      "emotion": "whispering, delighted"
+    },
+    {
+      "id": "f13",
+      "speaker": "narrator",
+      "text": "Bzzz, bzzz. En bi i en blomst.",
+      "speech": "Bzzz, bzzz. En bi i en blomst.",
+      "emotion": "playful and light"
+    },
+    {
+      "id": "f14",
+      "speaker": "a04-sami",
+      "text": "Rødt! Det hele er rødt!",
+      "speech": "Rødt! Det hele er rødt!",
+      "emotion": "amazed and joyful, the biggest moment"
+    },
+    {
+      "id": "f15",
+      "speaker": "a04-grandpa",
+      "text": "Ahh. En varm sten.",
+      "speech": "Ahh. En varm sten.",
+      "emotion": "content and slow, a long happy sigh"
+    },
+    {
+      "id": "f16",
+      "speaker": "a04-grandpa",
+      "text": "Langsomt, langsomt …",
+      "speech": "Langsomt, langsomt …",
+      "emotion": "tender, almost a whisper"
+    },
+    {
+      "id": "f17",
+      "speaker": "a04-sami",
+      "text": "… sammen.",
+      "speech": "… sammen.",
+      "emotion": "whispered, smiling, finishing Grandpa’s words"
+    }
+  ],
+  "activity": {
+    "title": "Kiggerammen",
+    "goal": "At se godt efter små ting i naturen og lære hvad de hedder.",
+    "materials": [
+      "En papirtallerken"
+    ],
+    "steps": [
+      {
+        "n": 1,
+        "caption": "Den voksne river midten ud."
+      },
+      {
+        "n": 2,
+        "caption": "Hold i hånd. Gå langsomt."
+      },
+      {
+        "n": 3,
+        "caption": "Stop. Hold rammen op."
+      },
+      {
+        "n": 4,
+        "caption": "Hvad er der i rammen? Sig navnet."
+      },
+      {
+        "n": 5,
+        "caption": "Hjem igen. Vask hænder."
+      }
+    ],
+    "safety": "Vi kigger kun. Vi plukker ikke, rører ikke ved insekter og putter ikke noget i munden. Den voksne river midten ud af tallerkenen og smider den ud. Sker der et uheld, så ring til det lokale alarmnummer.",
+    "forAdult": "I historien ser Sami først sommerfuglen, mariehønen og bien da han sætter farten ned og går i bedstefars tempo. Denne tur lader barnet mærke det samme: Når vi går langsomt, er der mere at se. Papirrammen hjælper et barn på to eller tre år med at se på én lille ting ad gangen, og den giver jer et øjeblik til at sætte navn på tingen. Når små børn hører navnet på det de kigger på, lærer de nye ord. Riv eller klip selv midten ud af en papirtallerken (saksen bliver hos den voksne), og smid midterstykket i skraldespanden, for små stykker papir kan ende i munden. Gå langsomt udenfor, hånd i hånd, i den langsomstes tempo. Stop op med få skridts mellemrum og sig: »Stop og kig!« Barnet holder rammen op foran noget (en blomst, en sten, en myre, en sky), og I siger navnet sammen og lægger ét ord til: »en rød blomst«, »en lillebitte myre«, »en stor sky«. Lad barnet vælge hvad der skal i rammen. Det er fint at vælge det samme mange gange. Pas på: Vi kigger, men vi plukker ikke og rører ikke, især ikke ved insekter og planter. Nogle planter er giftige (i Danmark taks og guldregn, i Israel oleander, arum og ricinus). Husk solhat. Fem til ti minutter er rigeligt. Gør det lettere ved selv at holde rammen om én ting og spørge: »Hvad er det?« Gør det sværere ved at spørge: »Kan du finde noget rødt?« eller »Kan du finde noget lille?« Vask hænder når I kommer hjem.",
+    "inClass": "Én voksen går med højst fire børn, to og to, og hvert par deler én ramme. Den voksne går langsomt forrest og siger »Stop og kig!« med få skridts mellemrum. Det ene par holder sin ramme op og siger navnet på én ting. Det andet par gentager ordet. Så bytter parrene. Bagefter vasker alle hænder."
+  }
+}
+`;export{e as default};

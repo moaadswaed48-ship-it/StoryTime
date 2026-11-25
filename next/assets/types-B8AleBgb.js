@@ -1,0 +1,1 @@
+var e=[`2-3`,`4-5`,`6-8`],t=t=>typeof t==`string`&&e.includes(t),n=[1,3,12],r=e=>n.includes(e),i=e=>e===`teacher`?`class`:`child`;export{i as a,r as i,n,t as r,e as t};

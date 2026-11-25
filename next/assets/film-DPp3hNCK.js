@@ -1,0 +1,1 @@
+var e=`/StoryTime/next/assets/film-DeRDPMmv.mp4`;export{e as default};

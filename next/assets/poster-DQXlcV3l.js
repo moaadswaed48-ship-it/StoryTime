@@ -1,0 +1,1 @@
+var e=`/StoryTime/next/assets/poster-BW_SEk7q.webp`;export{e as default};

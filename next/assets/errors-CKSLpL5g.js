@@ -1,0 +1,1 @@
+var e=class extends Error{code;constructor(e,t){super(t?`${e}: ${t}`:e),this.name=`DataError`,this.code=e}};function t(t){if(t instanceof e)return t.code;let n=String(t?.message??t);return/fetch|network|Load failed|dynamically imported module|Importing a module script failed/i.test(n)||typeof navigator<`u`&&navigator.onLine===!1?`network`:`unknown`}export{t as n,e as t};

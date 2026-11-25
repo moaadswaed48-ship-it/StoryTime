@@ -1,0 +1,1 @@
+var e=`data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20width='320'%20height='320'%20viewBox='0%200%20320%20320'%3e%3crect%20width='320'%20height='320'%20rx='40'%20fill='%23f4efe6'/%3e%3cellipse%20cx='160'%20cy='165'%20rx='80'%20ry='52'%20fill='%238a5a3a'%20transform='rotate(-20%20160%20165)'/%3e%3c/svg%3e`;export{e as default};
