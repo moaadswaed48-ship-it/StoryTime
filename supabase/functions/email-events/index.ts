@@ -19,9 +19,15 @@ Deno.serve(async (req) => {
   }, body)
   if (!ok) return json(401, { error: 'invalid_signature' })
 
-  const e = JSON.parse(body) as ResendEvent
+  let e: ResendEvent
+  try {
+    e = JSON.parse(body) as ResendEvent
+    if (typeof e?.type !== 'string' || typeof e.data !== 'object' || e.data === null) throw new Error('shape')
+  } catch {
+    return json(400, { error: 'bad_payload' })
+  }
   const db = admin()
-  const to = (e.data.to ?? []).map((x) => x.toLowerCase())
+  const to = (Array.isArray(e.data.to) ? e.data.to : []).filter((x): x is string => typeof x === 'string').map((x) => x.trim().toLowerCase())
   let reason: 'bounced' | 'complained' | null = null
   // A temporary bounce (mailbox full) is not a reason to stop writing.
   if (e.type === 'email.bounced' && (e.data.bounce?.type ?? 'Permanent') === 'Permanent') reason = 'bounced'

@@ -109,10 +109,11 @@ describe('sending', () => {
 
 describe('unsubscribe links', () => {
   it('verify their signature and refuse a changed account id', async () => {
-    const url = await unsubscribeUrl('https://x.example.test/functions/v1/email-unsubscribe', 'secret-1', 'acc-1', 'he')
-    expect(await verifyUnsubscribe(url, 'secret-1')).toEqual({ accountId: 'acc-1', lang: 'he' })
-    expect(await verifyUnsubscribe(url, 'other-secret')).toBeNull()
-    expect(await verifyUnsubscribe(url.replace('acc-1', 'acc-2'), 'secret-1')).toBeNull()
+    const secret = 'secret-1-a-long-random-test-value-0123456789'
+    const url = await unsubscribeUrl('https://x.example.test/functions/v1/email-unsubscribe', secret, 'acc-1', 'he')
+    expect(await verifyUnsubscribe(url, secret)).toEqual({ accountId: 'acc-1', lang: 'he' })
+    expect(await verifyUnsubscribe(url, 'other-secret-also-long-enough-0123456789')).toBeNull()
+    expect(await verifyUnsubscribe(url.replace('acc-1', 'acc-2'), secret)).toBeNull()
   })
 })
 

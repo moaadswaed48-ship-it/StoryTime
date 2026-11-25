@@ -100,7 +100,7 @@ function Summary() {
         <li>{dict.commerce.plans.israelOnly}</li>
         <li>{dict.commerce.plans.sellerTitle}: <PlaceholderTag>{dict.commerce.plans.placeholderBadge}</PlaceholderTag> {dict.commerce.plans.sellerPlaceholder}</li>
       </ul>
-      <TextLink to={localPath(lang, 'cancel-purchase')} className="self-start">{t.rightsLink}</TextLink>
+      <TextLink to={localPath(lang, 'legal/refunds')} target="_blank" className="self-start">{t.rightsLink}</TextLink>
       <Checkbox label={t.termsCheck} checked={terms} onChange={(e) => { setTerms(e.target.checked); setTermsError(null) }} error={termsError}>
         <p className="ps-9 text-sm"><TextLink to={localPath(lang, 'legal/terms')} target="_blank">{dict.account.auth.readTerms}</TextLink></p>
       </Checkbox>

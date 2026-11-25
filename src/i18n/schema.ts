@@ -1,4 +1,5 @@
 import type { LandingDict } from './landing-schema'
+import type { LegalDoc } from '../seo/paths'
 import type { StoriesDict } from './stories-schema'
 
 /**
@@ -53,7 +54,8 @@ export type PagesDict = {
   plans: { title: string; description: string }
   signIn: { title: string; description: string }
   signUp: { title: string; description: string }
-  legal: { terms: string; privacy: string; description: string }
+  /** Short names of the legal pages (footer, page titles). The pages' text is in src/i18n/<lang>/legal.ts. */
+  legal: Record<LegalDoc, string>
   app: { library: string; story: string; collections: string; settings: string }
   forgotPassword: { title: string; description: string }
   cancelPurchase: { title: string; description: string }

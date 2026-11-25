@@ -13,7 +13,7 @@ import { fmt, formatDate } from '@/i18n/format'
 import { useLang } from '@/i18n/use-dict'
 import { langData, pageMeta } from '@/seo/meta'
 import { localPath } from '@/seo/paths'
-import { Button, ButtonLink, Notice, PlaceholderTag, Section, Spinner, TextField } from '@/ui/controls'
+import { Button, ButtonLink, Notice, PlaceholderTag, Section, Spinner, TextField, TextLink } from '@/ui/controls'
 import { PageTitle, Shell } from '@/ui/Shell'
 import type { Route } from './+types/cancel-purchase'
 
@@ -42,6 +42,7 @@ export default function CancelPurchase() {
           <li>{t.trialNote}</li>
           <li>{t.noRenew}</li>
         </ul>
+        <TextLink to={localPath(lang, 'legal/refunds')} className="self-start text-lg">{dict.pages.legal.refunds}</TextLink>
         {session.status === 'signed-in' ? (
           <Section title={t.signedInTitle}>
             <ParentGate inline>

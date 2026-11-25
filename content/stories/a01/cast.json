@@ -1,0 +1,31 @@
+[
+  {
+    "id": "a01-adam",
+    "name": { "ar": "آدَم", "he": "אָדָם", "en": "Adam", "da": "Adam" },
+    "stage": "toddler",
+    "build": { "height": 0.47, "heads": 3.5, "girth": 0.62, "shoulders": 1.05 },
+    "skin": "#e2b48c",
+    "hair": { "style": "curls", "color": "#3a2418" },
+    "eyes": { "color": "#3b2a1e", "size": 0.95 },
+    "brows": { "color": "#3a2418", "weight": 0.45 },
+    "top": { "style": "tee", "color": "#f2c14e", "trim": "#ffffff", "pattern": "stripes" },
+    "bottom": { "style": "shorts", "color": "#3f7cac" },
+    "shoes": { "style": "sandals", "color": "#b5562e" },
+    "manner": "Bounces on his toes when he is excited; counts with his whole body, nodding his head on each number; when something is funny he covers his mouth with both hands and laughs into them."
+  },
+  {
+    "id": "a01-papa",
+    "name": { "ar": "بابا", "he": "אַבָּא", "en": "Papa", "da": "far" },
+    "stage": "adult",
+    "build": { "height": 1.04, "heads": 6.2, "girth": 0.48, "shoulders": 1.6 },
+    "skin": "#d9a679",
+    "hair": { "style": "short", "color": "#2a1d17" },
+    "eyes": { "color": "#3b2a1e", "size": 0.55 },
+    "brows": { "color": "#2a1d17", "weight": 0.75 },
+    "top": { "style": "tee", "color": "#4f8a6b", "trim": "#e9f0e6", "pattern": "plain" },
+    "bottom": { "style": "trousers", "color": "#c9b79c" },
+    "shoes": { "style": "shoes", "color": "#5a4636" },
+    "extras": ["beard"],
+    "manner": "Very tall with long legs that fold up like a deckchair; laughs at himself first, a deep, easy laugh that shakes his shoulders; crouches down to Adam's height whenever they talk."
+  }
+]

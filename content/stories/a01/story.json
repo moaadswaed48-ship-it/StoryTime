@@ -1,0 +1,210 @@
+{
+  "id": "a01",
+  "ageGroups": ["2-3"],
+  "owner": "storytime",
+  "lesson": "Count three things, saying one number for each thing.",
+  "cast": ["a01-adam", "a01-papa"],
+  "pages": [
+    {
+      "n": 1,
+      "art": "A small playground between two plain blocks of city flats, early summer morning. Low, soft light from the side; long shadows; the sky pale and clear. In the middle stands a little slide with exactly three wide steps (three is the number the whole book counts, so the steps must be easy to count and the same size). Adam and Papa walk in hand in hand from the side; Adam leans forward, pulling a little, already looking at the slide. Feeling: a fresh, cool start. Calm area: the pale sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 2,
+      "art": "Adam climbs the three steps, shown side-on so all three steps are visible. Three small ghost-images of Adam, one on each step, light to full, show the climb (one Adam for each number; no digits anywhere). The last, solid Adam sits at the top with his arms up. Papa stands at the bottom, clapping. Feeling: proud, bouncy. Calm area: the sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 3,
+      "art": "Adam sliding down, arms up, mouth wide open in a happy shout, his curls blown back. A small puff of sand where his feet land. Papa crouches at the end of the slide with his arms open, laughing. Feeling: pure joy, motion. Calm area: the sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "s" },
+      "image": null
+    },
+    {
+      "n": 4,
+      "art": "Adam at the bottom points up at the slide and looks at Papa with a big grin. Papa, tall and long-legged, puts one big foot on the first small step; he looks down at the step as if it were tiny. Feeling: a cheeky invitation; something funny is coming. Calm area: the sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 5,
+      "art": "Papa sits squeezed at the top of the little slide, folded up, his knees pointing up beside his ears, his hands on his knees, smiling sheepishly. The slide looks very small under him. Adam, below, covers his mouth with both hands, giggling. Feeling: comedy. Calm area: the sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 6,
+      "art": "Papa wriggles at the top; nothing moves. Small curved wiggle lines beside him show he is trying. He is laughing, not worried. Adam looks up at him with his head tilted. Feeling: a tiny problem, played for fun. Calm area: the sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "s" },
+      "image": null
+    },
+    {
+      "n": 7,
+      "art": "Adam stands on the top step behind Papa and pushes Papa's back with both small hands, cheeks puffed with effort. Papa holds the sides of the slide. Adam is safely on the wide top step, not leaning over any edge. Feeling: determined, helpful. Calm area: the sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 8,
+      "art": "Papa whooshing down the slide, arms flung up, legs still folded, a big laugh; a soft puff of sand at the bottom. Adam at the top with both arms in the air, cheering. Feeling: release, shared laughter. Calm area: the sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 9,
+      "art": "The walk home along a quiet street between the flats. A low stone wall; on it sit three grey pigeons in a row, spaced apart so each is easy to point at, all the same shape (one repeated silhouette). Adam walks holding Papa's hand and has just noticed them; he stops and stares. Feeling: a small, quiet discovery. Calm area: the sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 10,
+      "art": "Close on the wall and the three pigeons. Adam's small hand and pointing finger come in from the side; the finger is at the third pigeon, and faint dotted arcs show it has touched the air above the first and second too (no digits, no touching the birds). Papa crouches beside him, also pointing. Feeling: counting, concentration. Calm area: the sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "s" },
+      "image": null
+    },
+    {
+      "n": 11,
+      "art": "The three pigeons lift off the wall, wings wide, rising in a gentle curve into the morning sky. Adam and Papa below, seen from behind, both with their arms up like wings. The wall is empty. Last picture of the book: open, light and happy. Calm area: the plain sky in the upper part, above the birds.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    }
+  ],
+  "film": {
+    "targetSeconds": 160,
+    "shots": [
+      {
+        "n": 1,
+        "page": 1,
+        "action": "10 s. Scene 1, the playground. Wide, still camera on the empty playground between two blocks of flats, early light. Hold 3 s on the empty slide with its three steps, then Adam and Papa walk in from the side, hand in hand. One thing moves at a time. Keep the lower fifth of the frame calm for captions.",
+        "sound": ["early birds, far", "a soft morning breeze", "gentle music: a light plucked tune"],
+        "lines": ["f01"]
+      },
+      {
+        "n": 2,
+        "page": 1,
+        "action": "8 s. Medium shot. Adam lets go of Papa's hand and points at the slide, bouncing on his toes. Hold 2 s on his face after the line.",
+        "sound": ["little footsteps on sand"],
+        "lines": ["f02"]
+      },
+      {
+        "n": 3,
+        "page": 2,
+        "action": "9 s. Side view of the slide. The three steps light up one after another from the bottom, each with a rising note (three notes, no digits). Then hold 2 s.",
+        "sound": ["three rising notes on a xylophone"],
+        "lines": ["f03"]
+      },
+      {
+        "n": 4,
+        "page": 2,
+        "action": "10 s. Adam climbs: one step on each number, each step playing its note again as his foot lands. The camera rises slowly with him. Leave a short beat between the numbers so a child at home can say them first.",
+        "sound": ["the three rising notes, in time with the steps"],
+        "lines": ["f04"]
+      },
+      {
+        "n": 5,
+        "page": 3,
+        "action": "8 s. Adam slides down, arms up; a soft whoosh; a small puff of sand at the bottom. Papa claps.",
+        "sound": ["a soft whoosh down", "sand puff", "a happy giggle"],
+        "lines": ["f05"]
+      },
+      {
+        "n": 6,
+        "page": 3,
+        "action": "11 s. Again: climb, three notes, slide, a little quicker this time, the same camera angle as shots 4 and 5 so the pattern is easy to recognise.",
+        "sound": ["the three rising notes", "a whoosh", "the tune skips along"],
+        "lines": ["f06"]
+      },
+      {
+        "n": 7,
+        "page": 4,
+        "action": "8 s. Adam at the bottom turns to Papa and points up the slide with his whole arm. Papa raises his eyebrows, then grins.",
+        "sound": ["a playful pluck"],
+        "lines": ["f07"]
+      },
+      {
+        "n": 8,
+        "page": 4,
+        "action": "10 s. Papa climbs the tiny steps, knees high; each step plays the same three notes but lower and slower, like a big friendly tuba (still soft).",
+        "sound": ["three low notes, slow", "a small creak of the slide"],
+        "lines": ["f08"]
+      },
+      {
+        "n": 9,
+        "page": 5,
+        "action": "10 s. Papa sits down at the top and folds up, knees rising until they are beside his ears. The camera holds still on the comic shape for 4 s. No words: the picture is the joke.",
+        "sound": ["a squeak as he sits", "music pauses"],
+        "lines": []
+      },
+      {
+        "n": 10,
+        "page": 6,
+        "action": "10 s. Papa wriggles left and right; the slide does not let him go. He laughs at himself. Adam tilts his head.",
+        "sound": ["three small squeaks", "Papa's chuckle"],
+        "lines": ["f09"]
+      },
+      {
+        "n": 11,
+        "page": 7,
+        "action": "9 s. Adam climbs up behind Papa, stands on the wide top step and puts both hands on Papa's back.",
+        "sound": ["little footsteps on the steps"],
+        "lines": ["f10"]
+      },
+      {
+        "n": 12,
+        "page": 7,
+        "action": "8 s. Close on Adam's hands and puffed cheeks. On each number he gives a small push; the third push is the big one.",
+        "sound": ["one soft drum tap on each number"],
+        "lines": ["f11"]
+      },
+      {
+        "n": 13,
+        "page": 8,
+        "action": "10 s. Pop: Papa unsticks and whooshes down, arms up, landing softly in the sand. Both laugh. 3 s of laughing with no words after the line.",
+        "sound": ["a soft cork-like pop", "a long whoosh", "two laughs together"],
+        "lines": ["f12"]
+      },
+      {
+        "n": 14,
+        "page": 9,
+        "action": "10 s. Scene 2, the way home. The two walk along a quiet street, slow and side-on. The camera finds a low wall with three pigeons on it, sitting still.",
+        "sound": ["footsteps", "soft cooing"],
+        "lines": ["f13"]
+      },
+      {
+        "n": 15,
+        "page": 10,
+        "action": "9 s. Adam points at each pigeon in turn; each pigeon bobs its head once on its number. Short pauses between numbers.",
+        "sound": ["one coo on each number"],
+        "lines": ["f14"]
+      },
+      {
+        "n": 16,
+        "page": 11,
+        "action": "10 s. The pigeons lift off one, two, three, each with one flap, and rise in a gentle curve. The music rises softly with them, never loud.",
+        "sound": ["three soft wing flaps", "the tune climbs three notes"],
+        "lines": ["f15"]
+      },
+      {
+        "n": 17,
+        "page": 11,
+        "action": "10 s. Closing image. Wide and still: the empty wall, the two small figures walking home hand in hand. Then nothing moves. Hold 6 s while the last note fades, then stop. No autoplay, no next film.",
+        "sound": ["the last note of the tune", "far birdsong"],
+        "lines": []
+      }
+    ]
+  },
+  "activity": {
+    "minutes": 8,
+    "materials": ["paper-or-plastic-cup", "large-smooth-stone", "box-or-basket"],
+    "steps": [
+      { "n": 1, "picture": "Three cups stand in a row on the floor; beside them three smooth stones, each clearly bigger than a child's fist. A grown-up and a child sit on the floor facing them.", "loop": false },
+      { "n": 2, "picture": "The child drops one stone into the first cup while the grown-up holds up one finger; then the second cup and two fingers; then the third cup and three fingers.", "loop": true },
+      { "n": 3, "picture": "The child tips the cups over; the stones roll gently onto a rug. Both smile, ready to start again.", "loop": true },
+      { "n": 4, "picture": "Together they put the three stones into a box, one at a time, the grown-up holding up fingers again.", "loop": false }
+    ],
+    "checkedAgainst": "docs/story-room/age-2-3.md section 7 (red list and tube test) and section 4 (activity limits), 25 Nov 2026"
+  }
+}

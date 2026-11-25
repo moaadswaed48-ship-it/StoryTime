@@ -48,3 +48,10 @@ phone-width pictures in `qa/out/stage4b2/emails/` (Arabic and English).
 - Arabic `منطقة إدارة الموقع` and Hebrew `אזור ניהול האתר` ("site management area") were chosen to avoid a gendered
   "owner"; English says "Owner's area".
 - Hebrew uses `הסופרת` (feminine) for the author, who is a woman.
+
+## Added by the fresh review (docs/reviews/stage4b2-review.md)
+- Purchase confirmation, every language: the line about the tax receipt is now a visible placeholder in square
+  brackets until the payment company is chosen (the old line said it comes from the payment company, which is not
+  decided). Replace it with the real sentence then.
+- Owner's area, every language: new error `errors.publishedIncomplete` (a save that would leave a published story
+  incomplete). Check the Arabic `يلزم إكمال ما ينقص` and Hebrew `יש להשלים` read naturally.

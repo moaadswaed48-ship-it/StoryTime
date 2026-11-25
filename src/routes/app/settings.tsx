@@ -217,7 +217,7 @@ function PassesSection() {
   useEffect(() => void loadOrders(), [])
   return (
     <>
-      <Section title={t.passesTitle}>
+      <Section title={t.passesTitle} id="passes">
         {error && <Notice tone="error" action={<Button onClick={reload}>{dict.account.errors.retry}</Button>}>{errorText(dict, error)}</Notice>}
         {!access && !error && <Spinner label={dict.account.states.loading} />}
         {cancelled && <Notice tone="success">{dict.commerce.cancel.done}</Notice>}

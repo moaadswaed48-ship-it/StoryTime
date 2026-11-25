@@ -6,15 +6,16 @@
 // NOT DEPLOYED OR RUN. Plain text, not a page: Supabase serves edge-function HTML as text on its own domain.
 // Deploy with --no-verify-jwt (the link carries its own signature). Run `npm run emails:bundle` first.
 import { admin, env } from '../_shared/mail.ts'
-import { UNSUBSCRIBE_FAILED, UNSUBSCRIBED, verifyUnsubscribe } from '../_shared/emails.mjs'
+import { isLang, UNSUBSCRIBE_FAILED, UNSUBSCRIBED, verifyUnsubscribe } from '../_shared/emails.mjs'
 
 const text = (status: number, body: string) => new Response(body, { status, headers: { 'content-type': 'text/plain; charset=utf-8' } })
 
 Deno.serve(async (req) => {
   if (req.method !== 'GET' && req.method !== 'POST') return text(405, '')
   const who = await verifyUnsubscribe(req.url, env('UNSUBSCRIBE_SECRET'))
-  const lang = (new URL(req.url).searchParams.get('l') ?? 'ar') as keyof typeof UNSUBSCRIBED
-  if (!who) return text(400, UNSUBSCRIBE_FAILED[lang] ?? UNSUBSCRIBE_FAILED.ar)
+  const l = new URL(req.url).searchParams.get('l')
+  const lang = isLang(l) ? l : 'ar'
+  if (!who) return text(400, UNSUBSCRIBE_FAILED[lang])
   const { error } = await admin().from('consents').insert({ account_id: who.accountId, kind: 'marketing', granted: false, source: 'email-link' })
   // An account deleted since the email was sent has nothing left to unsubscribe: still a success for the reader.
   if (error && !/foreign key/i.test(error.message)) return text(500, UNSUBSCRIBE_FAILED[who.lang])

@@ -1,0 +1,59 @@
+{
+  "title": "Ti geder hjem",
+  "names": {
+    "b01-rafi": "Rafi",
+    "b01-aunt": "moster"
+  },
+  "pages": [
+    { "n": 1, "text": "Hver aften om efteråret gik solen ned bag bakkerne. Og hver aften om efteråret hjalp Rafi sin moster med at få gederne hjem.", "speech": "Hver aften om efteråret gik solen ned bag bakkerne. Og hver aften om efteråret hjalp Rafi sin moster med at få gederne hjem." },
+    { "n": 2, "text": "Ned ad den stenede sti travede de, og klokkerne ringede. Kling, klang, kling. Allersidst kom Prik, den mindste ged. Hun smagte på alt hvad hun kom forbi.", "speech": "Ned ad den stenede sti travede de, og klokkerne ringede. Kling, klang, kling. Allersidst kom Prik, den mindste ged. Hun smagte på alt hvad hun kom forbi." },
+    { "n": 3, "text": "Ved lågen sagde moster: »Tæl dem ind, Rafi.« Gederne hoppede ind, én ad gangen. »En, to, tre,« talte Rafi.", "speech": "Ved lågen sagde moster: »Tæl dem ind, Rafi.« Gederne hoppede ind, én ad gangen. »En, to, tre,« talte Rafi." },
+    { "n": 4, "text": "»Fire, fem, seks, syv, otte, ni.« Så var stien tom. »Ni,« sagde Rafi. »Ni geder.«", "speech": "»Fire, fem, seks, syv, otte, ni.« Så var stien tom. »Ni,« sagde Rafi. »Ni geder.«" },
+    { "n": 5, "text": "Moster stoppede op. »Ni? Men vi har ti geder, Rafi.« Så talte Rafi gederne igen, langsomt. Denne gang rørte han ved hver eneste varme ryg.", "speech": "Moster stoppede op. »Ni? Men vi har ti geder, Rafi.« Så talte Rafi gederne igen, langsomt. Denne gang rørte han ved hver eneste varme ryg." },
+    { "n": 6, "text": "»En, to, tre, fire, fem, seks, syv, otte … ni.« Det sidste tal var ni igen. Ni geder. Der manglede én.", "speech": "»En, to, tre, fire, fem, seks, syv, otte … ni.« Det sidste tal var ni igen. Ni geder. Der manglede én." },
+    { "n": 7, "text": "Rafi kiggede på hver eneste ged. Den store brune ged var der. Den gamle grå ged var der. Hvem manglede? Kan du gætte det?", "speech": "Rafi kiggede på hver eneste ged. Den store brune ged var der. Den gamle grå ged var der. Hvem manglede? Kan du gætte det?" },
+    { "n": 8, "text": "»Hvor er Prik?« sagde Rafi. Så gik han og moster op ad stien igen, i det lilla aftenlys. »Prik!« råbte Rafi. Kun vinden svarede.", "speech": "»Hvor er Prik?« sagde Rafi. Så gik han og moster op ad stien igen, i det lilla aftenlys. »Prik!« råbte Rafi. Kun vinden svarede." },
+    { "n": 9, "text": "Den første stjerne kom frem. Rafi stod helt stille og lyttede. Og inde under det gamle johannesbrødtræ lød der en lille lyd. »Mæh.«", "speech": "Den første stjerne kom frem. Rafi stod helt stille og lyttede. Og inde under det gamle johannesbrødtræ lød der en lille lyd. »Mæh.«" },
+    { "n": 10, "text": "Dér var Prik. Hun sad fast mellem to sten. Hun så slet ikke bekymret ud. Hun gumlede på en tidsel.", "speech": "Dér var Prik. Hun sad fast mellem to sten. Hun så slet ikke bekymret ud. Hun gumlede på en tidsel." },
+    { "n": 11, "text": "Rafi holdt godt fast og løftede hende op. Hun var varm og sprællede, og hun lugtede af tidsler. Moster lo, og så gik de ned ad stien.", "speech": "Rafi holdt godt fast og løftede hende op. Hun var varm og sprællede, og hun lugtede af tidsler. Moster lo, og så gik de ned ad stien." },
+    { "n": 12, "text": "Ved lågen talte Rafi en gang til. »En, to, tre, fire, fem, seks, syv, otte, ni …« Og den sidste der hoppede ind, var Prik. »Ti!«", "speech": "Ved lågen talte Rafi en gang til. »En, to, tre, fire, fem, seks, syv, otte, ni …« Og den sidste der hoppede ind, var Prik. »Ti!«" },
+    { "n": 13, "text": "»Ti geder,« sagde moster og lukkede lågen. Rafi smilede op mod stjernerne. »Ti geder hjemme,« sagde han.", "speech": "»Ti geder,« sagde moster og lukkede lågen. Rafi smilede op mod stjernerne. »Ti geder hjemme,« sagde han." }
+  ],
+  "film": [
+    { "id": "f01", "speaker": "narrator", "text": "Aften på bakkerne.", "speech": "Aften på bakkerne.", "emotion": "calm and golden, unhurried" },
+    { "id": "f02", "speaker": "b01-aunt", "text": "Så skal vi hjem, geder!", "speech": "Så skal vi hjem, geder!", "emotion": "a warm, carrying call across the hill" },
+    { "id": "f03", "speaker": "b01-rafi", "text": "Kom så, Prik, skynd dig!", "speech": "Kom så, Prik, skynd dig!", "emotion": "cheerful, a little bossy, fond" },
+    { "id": "f04", "speaker": "narrator", "text": "Kling, klang, ned ad stien.", "speech": "Kling, klang, ned ad stien.", "emotion": "bouncy, in time with the bells" },
+    { "id": "f05", "speaker": "b01-aunt", "text": "Tæl dem ind, Rafi.", "speech": "Tæl dem ind, Rafi.", "emotion": "trusting, giving him the job" },
+    { "id": "f06", "speaker": "b01-rafi", "text": "En … to … tre … fire … fem …", "speech": "En … to … tre … fire … fem …", "emotion": "proud and clear, one number per hop" },
+    { "id": "f07", "speaker": "b01-rafi", "text": "seks … syv … otte … ni.", "speech": "seks … syv … otte … ni.", "emotion": "still on the beat, then stopping as the path empties" },
+    { "id": "f08", "speaker": "b01-rafi", "text": "Ni geder!", "speech": "Ni geder!", "emotion": "pleased with himself" },
+    { "id": "f09", "speaker": "b01-aunt", "text": "Ni? Men vi har ti.", "speech": "Ni? Men vi har ti.", "emotion": "surprised, gentle, not cross" },
+    { "id": "f10", "speaker": "b01-rafi", "text": "Jeg tæller igen. Langsomt.", "speech": "Jeg tæller igen. Langsomt.", "emotion": "serious, determined" },
+    { "id": "f11", "speaker": "b01-rafi", "text": "… syv, otte, ni. Ni igen.", "speech": "… syv, otte, ni. Ni igen.", "emotion": "careful, then puzzled and a little worried" },
+    { "id": "f12", "speaker": "b01-rafi", "text": "Hvem mangler? Hvor er Prik?", "speech": "Hvem mangler? Hvor er Prik?", "emotion": "realising, worried" },
+    { "id": "f13", "speaker": "b01-rafi", "text": "Prik … Prik!", "speech": "Prik … Prik!", "emotion": "calling into the dusk, hopeful" },
+    { "id": "f14", "speaker": "narrator", "text": "Kun vinden svarede.", "speech": "Kun vinden svarede.", "emotion": "quiet, a little lonely" },
+    { "id": "f15", "speaker": "narrator", "text": "Men så, inde under det gamle johannesbrødtræ …", "speech": "Men så, inde under det gamle johannesbrødtræ …", "emotion": "hushed, leaning in, full of hope" },
+    { "id": "f16", "speaker": "b01-rafi", "text": "Dér er du jo!", "speech": "Dér er du jo!", "emotion": "huge relief, laughing" },
+    { "id": "f17", "speaker": "b01-aunt", "text": "Hun sidder fast og spiser stadig!", "speech": "Hun sidder fast og spiser stadig!", "emotion": "amused, shaking her head" },
+    { "id": "f18", "speaker": "b01-rafi", "text": "Op med dig.", "speech": "Op med dig.", "emotion": "gentle, a little out of breath from lifting" },
+    { "id": "f19", "speaker": "b01-rafi", "text": "En, to, tre, fire, fem, seks, syv, otte, ni …", "speech": "En, to, tre, fire, fem, seks, syv, otte, ni …", "emotion": "steady and sure, building up to the last one" },
+    { "id": "f20", "speaker": "b01-rafi", "text": "… ti!", "speech": "… ti!", "emotion": "triumphant, bright" },
+    { "id": "f21", "speaker": "b01-aunt", "text": "Ti geder.", "speech": "Ti geder.", "emotion": "warm, satisfied" },
+    { "id": "f22", "speaker": "b01-rafi", "text": "Ti geder hjemme.", "speech": "Ti geder hjemme.", "emotion": "soft and happy, looking at the stars" }
+  ],
+  "activity": {
+    "title": "Ti i folden, så én mindre",
+    "goal": "At se at når man tager én væk, er der én mindre: ti, så ni.",
+    "materials": ["Kridt, eller et stort stykke papir og et farvekridt", "Ti store grankogler eller ti sten der er større end en knytnæve"],
+    "steps": [
+      { "n": 1, "caption": "Én kogle i hvert felt. Tæl dem." },
+      { "n": 2, "caption": "Luk øjnene. Tag én væk." },
+      { "n": 3, "caption": "Tæl igen. Hvor mange nu? Byt." }
+    ],
+    "safety": "Brug store kogler eller sten der er større end en knytnæve, aldrig små sten. Intet i munden. Vask hænder efter legen udenfor. Sker der et uheld, så ring til det lokale alarmnummer.",
+    "forAdult": "I historien tæller Rafi gederne, og det sidste tal han siger, fortæller hvor mange der er: ni, og så ti. Legen her øver netop det, og én ting mere: Tager man én væk, er der én mindre. Tegn en fold med ti felter (to rækker med fem) med kridt udenfor eller på et stort stykke papir. Læg én kogle i hvert felt, og tæl dem sammen mens I rører ved hver kogle. Spørg så: »Hvor mange er der?« og lyt efter om barnet svarer med det sidste tal uden at tælle igen. Bagefter lukker barnet øjnene mens du tager én væk. Tæl igen: »Hvor mange nu?« Byt så roller, så barnet tager én væk og du tæller. Hvis tællingen går galt, så tæl langsomt igen og rør ved hver kogle, som Rafi gjorde. Gør det lettere: Begynd med fem felter. Gør det sværere: Tag to væk, eller spørg »Hvor mange tog jeg?« før I tæller. Ti til femten minutter er rigeligt.",
+    "inClass": "Grupper på fire børn med én kridtfold og ti kogler i hver gruppe og en voksen tæt på. Ét barn gemmer en kogle mens de andre lukker øjnene, og spørger så gruppen: »Hvor mange nu?« Gruppen tæller højt sammen og rører ved hver kogle. Alle får en tur med at gemme."
+  }
+}

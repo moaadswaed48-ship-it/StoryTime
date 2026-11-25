@@ -1,0 +1,59 @@
+{
+  "title": "Ten Goats Home",
+  "names": {
+    "b01-rafi": "Rafi",
+    "b01-aunt": "Auntie"
+  },
+  "pages": [
+    { "n": 1, "text": "Every autumn evening, the sun slipped down behind the hills. And every autumn evening, Rafi helped his aunt bring the goats home.", "speech": "Every autumn evening, the sun slipped down behind the hills. And every autumn evening, Rafi helped his aunt bring the goats home." },
+    { "n": 2, "text": "Down the stony path they trotted, their bells ringing. Clink, clank, clink. Last of all came Speckle, the smallest goat, tasting everything on the way.", "speech": "Down the stony path they trotted, their bells ringing. Clink, clank, clink. Last of all came Speckle, the smallest goat, tasting everything on the way." },
+    { "n": 3, "text": "At the gate, Auntie said, “Count them in, Rafi.” The goats hopped through, one after another. “One, two, three,” counted Rafi.", "speech": "At the gate, Auntie said, “Count them in, Rafi.” The goats hopped through, one after another. “One, two, three,” counted Rafi." },
+    { "n": 4, "text": "“Four, five, six, seven, eight, nine.” Then the path was empty. “Nine,” said Rafi. “Nine goats.”", "speech": "“Four, five, six, seven, eight, nine.” Then the path was empty. “Nine,” said Rafi. “Nine goats.”" },
+    { "n": 5, "text": "Auntie stopped. “Nine? But we have ten goats, Rafi.” So Rafi counted the goats again, slowly. This time he touched each warm back.", "speech": "Auntie stopped. “Nine? But we have ten goats, Rafi.” So Rafi counted the goats again, slowly. This time he touched each warm back." },
+    { "n": 6, "text": "“One, two, three, four, five, six, seven, eight… nine.” The last number was nine again. Nine goats. One goat was missing.", "speech": "“One, two, three, four, five, six, seven, eight… nine.” The last number was nine again. Nine goats. One goat was missing." },
+    { "n": 7, "text": "Rafi looked at every goat. The big brown goat was there. The old grey goat was there. Which goat was missing? Can you guess?", "speech": "Rafi looked at every goat. The big brown goat was there. The old grey goat was there. Which goat was missing? Can you guess?" },
+    { "n": 8, "text": "“Where is Speckle?” said Rafi. So he and Auntie climbed back up the path, in the purple evening light. “Speckle!” called Rafi. Only the wind answered.", "speech": "“Where is Speckle?” said Rafi. So he and Auntie climbed back up the path, in the purple evening light. “Speckle!” called Rafi. Only the wind answered." },
+    { "n": 9, "text": "The first star came out. Rafi stood very still and listened. And from under the old carob tree came a tiny sound. “Meh.”", "speech": "The first star came out. Rafi stood very still and listened. And from under the old carob tree came a tiny sound. “Meh.”" },
+    { "n": 10, "text": "There was Speckle, stuck between two rocks. She did not look worried at all. She was munching a thistle.", "speech": "There was Speckle, stuck between two rocks. She did not look worried at all. She was munching a thistle." },
+    { "n": 11, "text": "Rafi held her tight and lifted her out. She was warm and wriggly, and she smelled of thistles. Auntie laughed, and down the path they went.", "speech": "Rafi held her tight and lifted her out. She was warm and wriggly, and she smelled of thistles. Auntie laughed, and down the path they went." },
+    { "n": 12, "text": "At the gate, Rafi counted once more. “One, two, three, four, five, six, seven, eight, nine…” And the last one in was Speckle. “Ten!”", "speech": "At the gate, Rafi counted once more. “One, two, three, four, five, six, seven, eight, nine…” And the last one in was Speckle. “Ten!”" },
+    { "n": 13, "text": "“Ten goats,” said Auntie, and she closed the gate. Rafi smiled up at the stars. “Ten goats home,” he said.", "speech": "“Ten goats,” said Auntie, and she closed the gate. Rafi smiled up at the stars. “Ten goats home,” he said." }
+  ],
+  "film": [
+    { "id": "f01", "speaker": "narrator", "text": "Evening on the hills.", "speech": "Evening on the hills.", "emotion": "calm and golden, unhurried" },
+    { "id": "f02", "speaker": "b01-aunt", "text": "Home time, goats!", "speech": "Home time, goats!", "emotion": "a warm, carrying call across the hill" },
+    { "id": "f03", "speaker": "b01-rafi", "text": "Come on, Speckle, keep up!", "speech": "Come on, Speckle, keep up!", "emotion": "cheerful, a little bossy, fond" },
+    { "id": "f04", "speaker": "narrator", "text": "Clink, clank, down the path.", "speech": "Clink, clank, down the path.", "emotion": "bouncy, in time with the bells" },
+    { "id": "f05", "speaker": "b01-aunt", "text": "Count them in, Rafi.", "speech": "Count them in, Rafi.", "emotion": "trusting, giving him the job" },
+    { "id": "f06", "speaker": "b01-rafi", "text": "One… two… three… four… five…", "speech": "One… two… three… four… five…", "emotion": "proud and clear, one number per hop" },
+    { "id": "f07", "speaker": "b01-rafi", "text": "six… seven… eight… nine.", "speech": "six… seven… eight… nine.", "emotion": "still on the beat, then stopping as the path empties" },
+    { "id": "f08", "speaker": "b01-rafi", "text": "Nine goats!", "speech": "Nine goats!", "emotion": "pleased with himself" },
+    { "id": "f09", "speaker": "b01-aunt", "text": "Nine? But we have ten.", "speech": "Nine? But we have ten.", "emotion": "surprised, gentle, not cross" },
+    { "id": "f10", "speaker": "b01-rafi", "text": "I’ll count again. Slowly.", "speech": "I’ll count again. Slowly.", "emotion": "serious, determined" },
+    { "id": "f11", "speaker": "b01-rafi", "text": "…seven, eight, nine. Nine again.", "speech": "…seven, eight, nine. Nine again.", "emotion": "careful, then puzzled and a little worried" },
+    { "id": "f12", "speaker": "b01-rafi", "text": "Who’s missing? Where’s Speckle?", "speech": "Who’s missing? Where’s Speckle?", "emotion": "realising, worried" },
+    { "id": "f13", "speaker": "b01-rafi", "text": "Speckle… Speckle!", "speech": "Speckle… Speckle!", "emotion": "calling into the dusk, hopeful" },
+    { "id": "f14", "speaker": "narrator", "text": "Only the wind answered.", "speech": "Only the wind answered.", "emotion": "quiet, a little lonely" },
+    { "id": "f15", "speaker": "narrator", "text": "Then, from under the old carob tree…", "speech": "Then, from under the old carob tree…", "emotion": "hushed, leaning in, full of hope" },
+    { "id": "f16", "speaker": "b01-rafi", "text": "There you are!", "speech": "There you are!", "emotion": "huge relief, laughing" },
+    { "id": "f17", "speaker": "b01-aunt", "text": "Stuck, and still eating!", "speech": "Stuck, and still eating!", "emotion": "amused, shaking her head" },
+    { "id": "f18", "speaker": "b01-rafi", "text": "Up you come.", "speech": "Up you come.", "emotion": "gentle, a little out of breath from lifting" },
+    { "id": "f19", "speaker": "b01-rafi", "text": "One, two, three, four, five, six, seven, eight, nine…", "speech": "One, two, three, four, five, six, seven, eight, nine…", "emotion": "steady and sure, building up to the last one" },
+    { "id": "f20", "speaker": "b01-rafi", "text": "…ten!", "speech": "…ten!", "emotion": "triumphant, bright" },
+    { "id": "f21", "speaker": "b01-aunt", "text": "Ten goats.", "speech": "Ten goats.", "emotion": "warm, satisfied" },
+    { "id": "f22", "speaker": "b01-rafi", "text": "Ten goats home.", "speech": "Ten goats home.", "emotion": "soft and happy, looking at the stars" }
+  ],
+  "activity": {
+    "title": "Ten in the Pen, Then One Less",
+    "goal": "See that taking one away leaves one less: ten, then nine.",
+    "materials": ["Chalk, or a big sheet of paper and a crayon", "Ten large pinecones, or ten stones bigger than a fist"],
+    "steps": [
+      { "n": 1, "caption": "One pinecone in each square. Count them." },
+      { "n": 2, "caption": "Eyes shut. Take one away." },
+      { "n": 3, "caption": "Count again. How many now? Swap." }
+    ],
+    "safety": "Use large pinecones or stones bigger than a fist, never small pebbles. Nothing goes in the mouth. Wash hands after playing outside. If there is an accident, call your local emergency number.",
+    "forAdult": "In the story, Rafi counts the goats, and the last number he says tells him how many there are: nine, then ten. This game practises that idea, and one more: taking one away leaves one less. Draw a pen of ten squares (two rows of five) with chalk outside, or on a big sheet of paper. Put one pinecone in each square and count them together, touching each one. Then ask “How many are there?” and listen for the child to answer with the last number, without counting again. Next, the child shuts their eyes while you take one away. Count again: “How many now?” Then swap, so the child takes one away and you count. If a count goes wrong, count again slowly, touching each one, as Rafi did. To make it easier, start with five squares. To make it harder, take two away, or ask “How many did I take?” before counting. Ten to fifteen minutes is plenty.",
+    "inClass": "Groups of four children, one chalk pen and ten pinecones per group, with an adult close by. One child hides a pinecone while the others shut their eyes, then asks the group, “How many now?” The group counts aloud together, touching each pinecone. Everyone takes a turn as the hider."
+  }
+}

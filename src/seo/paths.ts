@@ -5,7 +5,8 @@
  */
 import { FALLBACK, LANGS, type Lang } from '../i18n/config.ts'
 
-export const LEGAL_DOCS = ['terms', 'privacy'] as const
+/** The legal pages, in footer order. Their words: src/i18n/<lang>/legal.ts (src/i18n/legal-schema.ts). */
+export const LEGAL_DOCS = ['terms', 'privacy', 'refunds', 'accessibility', 'credits', 'cookies'] as const
 export type LegalDoc = (typeof LEGAL_DOCS)[number]
 export const isLegalDoc = (v: unknown): v is LegalDoc => typeof v === 'string' && (LEGAL_DOCS as readonly string[]).includes(v)
 

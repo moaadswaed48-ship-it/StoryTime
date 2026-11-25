@@ -304,8 +304,8 @@ No fresh-context reviewer has looked yet (none can be started from this helper).
 ### Not built, not proven
 - NOT RUN anywhere real: Supabase owner functions over PostgREST, storage uploads and signed links, every edge function,
   Resend sending, the auth hook's link format, pg_cron. The SQL itself is proven in PGlite.
-- Account-deleted email: template exists, nothing sends it (the account is gone before the job runs); send it from
-  the deletion path (an edge function around `delete_my_account`).
+- Account-deleted email: FIXED by the fresh review (docs/reviews/stage4b2-review.md): `delete_my_account()` now
+  queues it in email_log with the address and language captured first; the email job sends it. Not run in Deno.
 - Contact-reply email: template exists; the contact form and the owner's inbox are not built.
 - Owner's area: processing cancellations and refunds, editing prices, reading contact messages (product checklist 20)
   were not part of this task. Story deletion is not offered. Two-step sign-in for the owner not built.

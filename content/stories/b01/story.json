@@ -1,0 +1,132 @@
+{
+  "id": "b01",
+  "ageGroups": ["4-5"],
+  "owner": "storytime",
+  "lesson": "Count to ten and know that the last number counted tells how many there are.",
+  "cast": ["b01-rafi", "b01-aunt"],
+  "pages": [
+    {
+      "n": 1,
+      "art": "Wide view of rolling hills above a small village at the end of an autumn day. The sky is flat bands of gold, peach and soft purple; the sun is a half disc sinking behind the far hill. Dry golden grass, a few grey rocks, one old carob tree as a dark round shape on the slope. Rafi and his aunt stand on the hillside, small, among ten goats grazing (one goat puppet repeated in brown, grey and black-and-white, with Speckle the smallest: white with brown speckles, at the edge). Feeling: calm, golden, the end of a good day. Calm area: the sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 2,
+      "art": "A stony path winds down the hill toward the village. The goats walk down it in a line, bells swinging under their chins; Auntie walks in front with her staff, Rafi in the middle of the line. Last of all, a little apart, Speckle stretches her neck to nibble a dry flower beside the path. Feeling: a happy, bouncy procession; a smile at the little one at the back. Calm area: the plain hillside in the bottom band.",
+      "zone": { "side": "full", "v": "bottom", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 3,
+      "art": "A low stone wall makes a goat pen at the edge of the village, with a wooden gate swung open. Rafi stands by the gate post, one finger pointing. A goat is in mid-jump through the gateway; two goats are already inside; the rest wait on the path. Auntie leans on the wall, watching him. Feeling: a game, a counting beat. No numbers anywhere in the picture. Calm area: the evening sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 4,
+      "art": "Inside view of the pen: nine goats settling, one still mid-hop. Outside the gate, the stony path is empty, going up into the dusk. Rafi stands proud, chin up, hands on hips. Feeling: pleased with himself, a job done (so he thinks). Calm area: the empty path and sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 5,
+      "art": "Close on Auntie and Rafi at the gate. Auntie has stopped, eyebrows raised, looking from the goats to Rafi; one hand lifted as if to say 'wait'. Rafi's proud smile is slipping into a puzzled look. Behind them the goats munch, unconcerned. Feeling: a little surprise, not alarm. Calm area: the stone wall in the bottom band.",
+      "zone": { "side": "full", "v": "bottom", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 6,
+      "art": "Rafi walks slowly among the goats inside the pen, one hand resting on a goat's warm back; small soft curved lines show each touch (no letters). He is concentrating, tongue at the corner of his mouth. Nine goats in a loose row. Feeling: careful, serious counting. Calm area: the sky above the pen, across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 7,
+      "art": "A row of goat faces looking at the reader, each a little different: the big brown goat, the old grey goat with a beard, a black-and-white one, and the others. At the end of the row an empty space, drawn as a soft gap of straw. Rafi peers along the row, finger on his chin. Feeling: a guessing game the child can join. Calm area: the plain straw floor in the bottom band.",
+      "zone": { "side": "full", "v": "bottom", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 8,
+      "art": "Rafi and Auntie walk back up the stony path, holding hands, Auntie's staff in her other hand. The light is purple now; long soft shadows; the hills are flat bands of violet and dark blue. Rafi has one hand cupped at his mouth, calling. The grass bends a little in the wind. Feeling: a small worry, but together. Calm area: the darkening sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 9,
+      "art": "Higher on the hill, near the old carob tree, a dark round shape against the violet sky. The first star is a single small point of light. Rafi stands very still, head tilted, listening; Auntie behind him with a finger to her lips. From the shadow under the tree, two tiny curved sound lines. Feeling: hush, listening, hope. Calm area: the sky across the top, around the star.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 10,
+      "art": "Under the carob tree: Speckle, the smallest goat, white with brown speckles, wedged snugly between two grey rocks, completely calm, chewing a purple thistle flower, one ear flopped. Rafi bends towards her, laughing with relief. Feeling: relief and a laugh. Calm area: the dark ground in the bottom band.",
+      "zone": { "side": "full", "v": "bottom", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 11,
+      "art": "Rafi kneels and lifts Speckle out from between the rocks, his arms around her middle; Auntie kneels beside him with her hands ready to help, laughing. Speckle's legs kick a little; a bit of thistle still in her mouth. Feeling: warm, funny, safe. Calm area: the starry sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 12,
+      "art": "Back at the pen in the starlight. Rafi stands at the open gate pointing at the goats inside, counting; Speckle is in mid-hop through the gateway, the last one in. Auntie watches from the wall, smiling. No numbers in the picture. Feeling: excitement building to the last beat. Calm area: the night sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 13,
+      "art": "Night. Auntie closes the wooden gate; inside, ten goats are settling down together, Speckle curled against the big brown goat. Rafi leans on the gate, looking up at a sky with a scattering of stars, smiling. A few warm windows glow in the village below. Last picture of the book: peaceful and complete. Calm area: the sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    }
+  ],
+  "film": {
+    "targetSeconds": 262,
+    "shots": [
+      { "n": 1, "page": 1, "action": "12 s. Scene 1, evening on the hills. Fade up on flat bands of gold and purple sky; the sun sinks slowly behind the far hill. Slow pan across the slope to the goats grazing. Keep the lower fifth calm for captions in every shot.", "sound": ["evening wind in dry grass", "a few goat bells, far away", "gentle music"], "lines": ["f01"] },
+      { "n": 2, "page": 1, "action": "8 s. Auntie lifts her staff and calls; one by one the goats raise their heads. Rafi skips to her side.", "sound": ["bells, closer"], "lines": ["f02"] },
+      { "n": 3, "page": 2, "action": "10 s. The goats trot down the stony path in a line (one goat puppet repeated, colours varied), bells swinging in time with the music. No words: let the procession bounce.", "sound": ["goat bells in rhythm", "hooves on stones", "bouncy music"], "lines": [] },
+      { "n": 4, "page": 2, "action": "8 s. At the back, Speckle stops to nibble a dry flower. Rafi turns round and beckons with both hands; Speckle trots to catch up.", "sound": ["a tiny munch", "a quick trot of little hooves"], "lines": ["f03"] },
+      { "n": 5, "page": 2, "action": "7 s. Wide: the line of goats winding down towards the village; the sky turning peach.", "sound": ["bells", "music"], "lines": ["f04"] },
+      { "n": 6, "page": 3, "action": "8 s. Scene 2, the count. Auntie swings the wooden gate of the stone pen open; Rafi takes his place by the gate post.", "sound": ["a wooden gate creak"], "lines": ["f05"] },
+      { "n": 7, "page": 3, "action": "12 s. The goats hop through the gate one per beat while Rafi points at each. Each hop lands on a soft drum beat. The numbers are only heard, never shown.", "sound": ["one soft drum beat per goat", "hooves landing on straw"], "lines": ["f06"] },
+      { "n": 8, "page": 4, "action": "10 s. Four more hops on the beat. Then the beat stops: the path behind the gate is empty. Hold 2 s on the empty path.", "sound": ["drum beats", "then only the wind"], "lines": ["f07"] },
+      { "n": 9, "page": 4, "action": "4 s. Rafi, proud, hands on hips.", "sound": ["a bright little chord"], "lines": ["f08"] },
+      { "n": 10, "page": 5, "action": "7 s. Auntie stops; her eyebrows rise; she looks from the pen to Rafi.", "sound": ["the music pauses"], "lines": ["f09"] },
+      { "n": 11, "page": 5, "action": "5 s. Rafi's puzzled face turns determined. He nods.", "sound": ["a small hopeful note"], "lines": ["f10"] },
+      { "n": 12, "page": 6, "action": "14 s. Inside the pen, Rafi walks slowly from goat to goat, a hand on each warm back. Each touch makes a soft plink. He counts quietly; we hear only the end of the count.", "sound": ["a soft plink for each touch", "goats munching"], "lines": ["f11"] },
+      { "n": 13, "page": 6, "action": "6 s. Rafi's hand on the last goat. Beyond it, an empty patch of straw. No words; hold.", "sound": ["one low note"], "lines": [] },
+      { "n": 14, "page": 7, "action": "8 s. Quick close-ups along the row of goat faces: the big brown goat, the old grey goat, the black-and-white goat. The last place is empty.", "sound": ["a little question-mark tune"], "lines": ["f12"] },
+      { "n": 15, "page": 7, "action": "6 s. Rafi turns and looks up at the darkening path. The music becomes quieter and a little worried. No words.", "sound": ["wind", "soft, worried music"], "lines": [] },
+      { "n": 16, "page": 8, "action": "7 s. Auntie shuts the gate on the nine goats and holds out her hand; Rafi takes it. No words.", "sound": ["the gate latch clicks"], "lines": [] },
+      { "n": 17, "page": 8, "action": "12 s. Scene 3, the search. Rafi and Auntie climb the stony path in purple light, long shadows behind them. Rafi cups his hands and calls.", "sound": ["footsteps on stones", "wind"], "lines": ["f13"] },
+      { "n": 18, "page": 8, "action": "7 s. The grass bands sway in the wind. Nobody answers.", "sound": ["wind only"], "lines": ["f14"] },
+      { "n": 19, "page": 9, "action": "10 s. The first star blinks on, a tiny point of light. Rafi stops and stands very still; Auntie puts a finger to her lips. Hold 3 s of silence.", "sound": ["a single soft chime for the star", "then near silence"], "lines": [] },
+      { "n": 20, "page": 9, "action": "7 s. The camera drifts slowly towards the dark round shape of the old carob tree.", "sound": ["a hush, crickets beginning"], "lines": ["f15"] },
+      { "n": 21, "page": 9, "action": "4 s. From under the tree: a tiny bleat. Rafi's head turns. No words.", "sound": ["a tiny goat bleat"], "lines": [] },
+      { "n": 22, "page": 10, "action": "8 s. Scene 4, found. Under the tree, Speckle sits wedged between two rocks, calmly chewing a thistle; the purple flower bobs as she chews. Rafi laughs with relief.", "sound": ["crunchy chewing", "Rafi's relieved laugh"], "lines": ["f16"] },
+      { "n": 23, "page": 10, "action": "6 s. Auntie laughs and shakes her head.", "sound": ["warm laughter"], "lines": ["f17"] },
+      { "n": 24, "page": 11, "action": "8 s. Rafi kneels and lifts Speckle out, arms round her middle; Auntie's hands are ready beside him. Speckle kicks once and settles.", "sound": ["a little scrabble of hooves", "a happy bleat"], "lines": ["f18"] },
+      { "n": 25, "page": 11, "action": "12 s. Walking down the hill under the stars: Speckle trots close at Rafi's heels, Auntie beside them. Warm music; no words.", "sound": ["footsteps", "warm music", "crickets"], "lines": [] },
+      { "n": 26, "page": 12, "action": "9 s. Scene 5, ten. At the pen, Rafi points at each goat inside on the soft drum beat, as before.", "sound": ["one soft drum beat per goat"], "lines": ["f19"] },
+      { "n": 27, "page": 12, "action": "6 s. On the tenth beat Speckle hops through the gate, the last one in. A bright chord.", "sound": ["the tenth drum beat", "a bright chord"], "lines": ["f20"] },
+      { "n": 28, "page": 13, "action": "7 s. Auntie closes the gate and smiles at Rafi.", "sound": ["the gate latch clicks"], "lines": ["f21"] },
+      { "n": 29, "page": 13, "action": "7 s. Rafi leans on the gate and looks up at the stars.", "sound": ["crickets", "music, soft"], "lines": ["f22"] },
+      { "n": 30, "page": 13, "action": "14 s. Closing image: the pen at night, ten goats settling together, Speckle curled against the big brown goat; stars come out slowly in the sky. Hold the still picture 6 s while the music ends, then stop. No autoplay.", "sound": ["the last notes of the music", "crickets"], "lines": [] }
+    ]
+  },
+  "activity": {
+    "minutes": 15,
+    "materials": ["chalk-or-paper-and-crayon", "ten-large-pinecones-or-fist-sized-stones"],
+    "steps": [
+      { "n": 1, "picture": "A child and a grown-up kneel by a chalk 'pen' of ten squares (two rows of five) on a pavement; one big pinecone sits in each square. The child touches each pinecone with one finger, counting.", "loop": false },
+      { "n": 2, "picture": "The child covers both eyes with their hands. The grown-up lifts one pinecone out of its square and hides it behind their back.", "loop": false },
+      { "n": 3, "picture": "The child counts again, touching each pinecone; one square is empty. The grown-up shows the hidden pinecone, smiling. Two curved arrows between the child and the grown-up show that they swap roles.", "loop": true }
+    ],
+    "checkedAgainst": "docs/story-room/age-4-5.md section 7 (red list) and section 4 (activity limits), 25 Nov 2026"
+  }
+}

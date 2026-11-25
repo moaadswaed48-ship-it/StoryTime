@@ -11,7 +11,7 @@
 //   UNSUBSCRIBE_SECRET    long random string, signs unsubscribe links
 // SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY are provided by Supabase.
 import { createClient, type SupabaseClient } from 'npm:@supabase/supabase-js@2.119.0'
-import { renderEmail, resendTransport, type OutgoingEmail, type Params, type SenderDetails, type TemplateId, type Lang } from './emails.mjs'
+import { queuedEmail, renderEmail, resendTransport, type OutgoingEmail, type Params, type QueuedRow, type SenderDetails, type TemplateId, type Lang } from './emails.mjs'
 
 export const env = (k: string) => Deno.env.get(k) ?? ''
 
@@ -68,6 +68,32 @@ export async function sendLogged<T extends TemplateId>(db: SupabaseClient, o: {
     // Give the claim back so the next run can try again (the Idempotency-Key stops a double send at Resend).
     if (o.dedupeKey) await db.from('email_log').delete().eq('id', logId)
     else await db.from('email_log').update({ status: 'failed', error: String((e as Error)?.message ?? e).slice(0, 500) }).eq('id', logId)
+    return 'failed'
+  }
+}
+
+/**
+ * Sends one email the database queued itself (claimed by email_claim_queued(), status 'sending'): today the
+ * account-deleted email. The row is the log: it becomes 'sent', 'skipped' (suppressed address), back to 'queued'
+ * for a retry, or 'failed' after 7 days of failures. The Idempotency-Key from the row id stops a double send.
+ */
+export async function sendQueued(db: SupabaseClient, row: QueuedRow, suppressed: ReadonlySet<string>): Promise<'sent' | 'skipped' | 'failed'> {
+  const tr = transport()
+  if (!tr) throw new Error('no_sending_account')
+  const q = queuedEmail(row, suppressed)
+  if (!q) {
+    await db.from('email_log').update({ status: 'skipped' }).eq('id', row.id)
+    return 'skipped'
+  }
+  try {
+    const rendered = await renderEmail(q.template, q.lang, q.params, sender())
+    const r = await tr.send({ ...rendered, to: q.to, idempotencyKey: q.idempotencyKey })
+    await db.from('email_log').update({ status: 'sent', provider_message_id: r.id, sent_at: new Date().toISOString() }).eq('id', row.id)
+    return 'sent'
+  } catch (e) {
+    console.error('queued send failed', row.template, String((e as Error)?.message ?? e))
+    const giveUp = Date.now() - new Date(row.created_at).getTime() > 7 * 86_400_000
+    await db.from('email_log').update({ status: giveUp ? 'failed' : 'queued', error: String((e as Error)?.message ?? e).slice(0, 500) }).eq('id', row.id)
     return 'failed'
   }
 }

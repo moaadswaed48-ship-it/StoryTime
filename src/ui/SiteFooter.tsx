@@ -1,19 +1,18 @@
 import { Link } from 'react-router'
 import { useLang } from '@/i18n/use-dict'
-import { localPath } from '@/seo/paths'
+import { LEGAL_DOCS, localPath } from '@/seo/paths'
 
 /**
  * Footer on every page. Holds the "Cancel a purchase" link the consumer law asks for on the home page and in every
  * footer (legal checklist items 9-10), and the business details, still a visible placeholder.
- * Links to the refunds, accessibility and credits pages are added when those pages exist (Stage 9).
+ * Links to all six legal pages (src/seo/paths.ts LEGAL_DOCS), refunds and cancellation included.
  */
 export function SiteFooter() {
   const { lang, dict } = useLang()
-  const links = [
+  const links: (readonly [string, string])[] = [
     [localPath(lang, 'plans'), dict.common.nav.plans],
-    [localPath(lang, 'legal/terms'), dict.pages.legal.terms],
-    [localPath(lang, 'legal/privacy'), dict.pages.legal.privacy],
-  ] as const
+    ...LEGAL_DOCS.map((d) => [localPath(lang, `legal/${d}`), dict.pages.legal[d]] as const),
+  ]
   return (
     <footer className="mt-16 border-t border-line bg-surface">
       <div className="mx-auto flex max-w-5xl flex-col gap-4 px-4 py-8">

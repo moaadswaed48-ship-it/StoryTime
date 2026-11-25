@@ -344,7 +344,6 @@ export default {
               'Every connection to the site is encrypted.',
               'The database itself lets each account reach only its own data.',
               'Passwords are stored only as a scrambled code.',
-              'Stories, pictures and films are given only to accounts with an active trial or pass.',
               'Only the owner\'s account can open the owner\'s area, and changes to content, passes and refunds are logged.',
             ],
           },
@@ -492,16 +491,16 @@ export default {
         ],
       },
       done: {
-        title: 'What we have done',
+        title: 'What we have built so far',
         body: [
           {
             list: [
               'Phone first: every page works on a small screen, with large buttons and links.',
-              'Everything works with a keyboard, and the place you are on is clearly outlined.',
+              'Buttons and links are standard ones that work with a keyboard, and the one you are on is clearly outlined.',
               'Nothing is hidden behind hovering with a mouse.',
               'The words of each book are real text, so screen readers can read them, and the reader has a larger text size.',
               'Films have captions in four languages, switched on from the start.',
-              'If your device asks for less motion, or cannot show 3D, the book becomes a flat book and pictures stay still.',
+              'If your device asks for less motion, or cannot show 3D, the book becomes a flat book with no page-turn animation.',
               'Arabic and Hebrew pages run right to left.',
               'Screens for small children work by pictures, not words.',
             ],

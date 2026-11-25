@@ -246,7 +246,9 @@ test('the built public pages carry no story text', async ({}, info) => {
     for (const lang of ['ar', 'he', 'en', 'da']) {
       try {
         const j = JSON.parse(readFileSync(`${stories}/${id}/${lang}.json`, 'utf8')) as { pages: { text: string }[] }
-        for (const p of j.pages) needles.push(p.text.slice(0, 40))
+        // The one excerpt the plan allows in public (Stage 8, "shown by opening a real book"): page 5 of A04 on the
+        // landing page (src/i18n/<lang>/landing.ts, kept identical by tests/landing.test.ts). Every other page stays out.
+        j.pages.forEach((p, i) => (id === 'a04' && i === 4 ? null : needles.push(p.text.slice(0, 40))))
       } catch {
         /* a folder still being written */
       }

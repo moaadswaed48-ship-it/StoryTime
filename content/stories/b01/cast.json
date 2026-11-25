@@ -1,0 +1,32 @@
+[
+  {
+    "id": "b01-rafi",
+    "name": { "ar": "رافِي", "he": "רָפִי", "en": "Rafi", "da": "Rafi" },
+    "stage": "child",
+    "build": { "height": 0.63, "heads": 4.5, "girth": 0.45, "shoulders": 1.15 },
+    "skin": "#c99069",
+    "hair": { "style": "curls", "color": "#2a1a14" },
+    "eyes": { "color": "#3a2418", "size": 0.86 },
+    "brows": { "color": "#2a1a14", "weight": 0.6 },
+    "top": { "style": "jumper", "color": "#d9823a", "trim": "#f6e6c4", "pattern": "stripes" },
+    "bottom": { "style": "trousers", "color": "#4a5a7a" },
+    "shoes": { "style": "boots", "color": "#6b4030" },
+    "manner": "Eager and proud of his job; points at things with his whole arm; when something goes wrong he frowns, takes a breath and tries again, slowly and very seriously."
+  },
+  {
+    "id": "b01-aunt",
+    "name": { "ar": "الخالَة", "he": "הַדּוֹדָה", "en": "Auntie", "da": "moster" },
+    "stage": "adult",
+    "build": { "height": 1, "heads": 6, "girth": 0.55, "shoulders": 1.5 },
+    "skin": "#b98058",
+    "hair": { "style": "bun", "color": "#3a2520" },
+    "eyes": { "color": "#3a2418", "size": 0.6 },
+    "brows": { "color": "#3a2520", "weight": 0.7 },
+    "top": { "style": "coat", "color": "#6f8a4a", "trim": "#e9d8b4" },
+    "bottom": { "style": "trousers", "color": "#5a4a3c" },
+    "shoes": { "style": "boots", "color": "#4a3028" },
+    "extras": ["hat", "bag"],
+    "extraColors": { "hat": "#c9a66b", "bag": "#8a5a3a" },
+    "manner": "A shepherd who knows every goat by its face; carries a long wooden staff; calm and unhurried, she lets Rafi do the counting and laughs easily, a deep warm laugh."
+  }
+]
