@@ -139,3 +139,19 @@ is unchanged.
 - No native speaker has read any language; no voice test has been run on the Arabic full layer or the Hebrew marks.
 - No pictures, film or audio were made. Film timings are estimates.
 - No fresh-context reviewer has read this batch yet.
+
+## 6. Review pass, English and Danish (25 Nov 2026)
+
+**C07 road safety, source confirmed.** Both bodies were read on their own pages:
+- Safe Kids Worldwide, "Pedestrian Safety Tips" (PDF, safekids.org/sites/default/files/documents/pedestrian_safety_tips_v2.pdf):
+  "Children under 10 need to cross the street with an adult. Every child is different, but developmentally, most
+  kids are unable to judge the speed and distance of oncoming cars until age 10." [S]
+- Beterem (Israel's child-safety organisation), page "הליכה בטוחה – תאונות כהולכי רגל" on beterem.org: "ילד עד גיל 9
+  לא חוצה כביש לבד" (a child up to age 9 does not cross a road alone). [S]
+So the ten-year-old cousin cannot stand in for the adult. **Change made in English, Danish and `story.json`:** Noah's
+aunt (the cousin's mother; Arabic خالته, Hebrew הַדּוֹדָה, Danish moster, English "his aunt") walks them to school
+every morning and holds Noah's hand at every crossing; on p6 her hand holds him back on the kerb while the cousin
+says "Look too". The cousin still makes the game and models the steps; Noah still "leads" by saying and doing the
+rule. The aunt is a silent background adult with no cast sheet (cast.json not touched). The forAdult text now says
+child-safety organisations advise crossing with an adult until about nine or ten. The Arabic and Hebrew files must
+follow (p1, p2, p3, p5, p6, p8, p9, p10, p12, p14, f01; details in `REVIEW-en-C.md`, C07).

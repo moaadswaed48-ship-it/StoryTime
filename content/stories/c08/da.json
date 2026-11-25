@@ -23,13 +23,13 @@
     },
     {
       "n": 4,
-      "text": "En bølge løftede bolden og bar den ud. Så bar en anden bølge den lidt længere ud. Bolden vippede op og ned, klar og lysende på det grågrønne vand, længere og længere væk fra kysten.",
-      "speech": "En bølge løftede bolden og bar den ud. Så bar en anden bølge den lidt længere ud. Bolden vippede op og ned, klar og lysende på det grågrønne vand, længere og længere væk fra kysten."
+      "text": "En bølge løftede bolden og bar den ud. Så bar en anden bølge den lidt længere ud. Bolden vippede op og ned, lysende mod det grågrønne vand, længere og længere væk fra kysten.",
+      "speech": "En bølge løftede bolden og bar den ud. Så bar en anden bølge den lidt længere ud. Bolden vippede op og ned, lysende mod det grågrønne vand, længere og længere væk fra kysten."
     },
     {
       "n": 5,
-      "text": "Mirjam løb ned til vandkanten og stoppede. Hendes tæer var i skummet. Havet trak i hendes ankler, slap igen og trak så igen. Bolden så så tæt ud. Bare et par skridt, tænkte hun. Bare et par skridt.",
-      "speech": "Mirjam løb ned til vandkanten og stoppede. Hendes tæer var i skummet. Havet trak i hendes ankler, slap igen og trak så igen. Bolden så så tæt ud. Bare et par skridt, tænkte hun. Bare et par skridt."
+      "text": "Mirjam løb ned til vandkanten og stoppede. Hendes tæer var i skummet. Havet trak i hendes ankler, slap igen og trak så igen. Bolden virkede så tæt på. Bare et par skridt, tænkte hun. Bare et par skridt.",
+      "speech": "Mirjam løb ned til vandkanten og stoppede. Hendes tæer var i skummet. Havet trak i hendes ankler, slap igen og trak så igen. Bolden virkede så tæt på. Bare et par skridt, tænkte hun. Bare et par skridt."
     },
     {
       "n": 6,
@@ -68,8 +68,8 @@
     },
     {
       "n": 13,
-      "text": "Nu sad livredderen højt oppe i sin stol og holdt øje med vandet. Mirjam og far gik i vandet sammen, tæt ved tårnet hvor livredderen kunne se dem. Bølgerne løftede dem op og satte dem blidt ned igen.",
-      "speech": "Nu sad livredderen højt oppe i sin stol og holdt øje med vandet. Mirjam og far gik i vandet sammen, tæt ved tårnet hvor livredderen kunne se dem. Bølgerne løftede dem op og satte dem blidt ned igen."
+      "text": "Nu sad livredderen højt oppe i sin stol og holdt øje med vandet. Mirjam og far gik i vandet sammen, tæt ved tårnet, hvor livredderen kunne se dem. Bølgerne løftede dem op og satte dem blidt ned igen.",
+      "speech": "Nu sad livredderen højt oppe i sin stol og holdt øje med vandet. Mirjam og far gik i vandet sammen, tæt ved tårnet, hvor livredderen kunne se dem. Bølgerne løftede dem op og satte dem blidt ned igen."
     },
     {
       "n": 14,
@@ -193,8 +193,8 @@
     {
       "id": "f17",
       "speaker": "c08-lifeguard",
-      "text": "Du blev på sandet og kaldte på din far. Det var det rigtige at gøre.",
-      "speech": "Du blev på sandet og kaldte på din far. Det var det rigtige at gøre.",
+      "text": "Du blev på sandet og kaldte på far. Det var det rigtige.",
+      "speech": "Du blev på sandet og kaldte på far. Det var det rigtige.",
       "emotion": "warm, sincere praise"
     },
     {
@@ -207,8 +207,8 @@
     {
       "id": "f19",
       "speaker": "c08-father",
-      "text": "Tæt ved tårnet hvor hun kan se os.",
-      "speech": "Tæt ved tårnet hvor hun kan se os.",
+      "text": "Tæt ved tårnet, hvor hun kan se os.",
+      "speech": "Tæt ved tårnet, hvor hun kan se os.",
       "emotion": "easy, cheerful"
     },
     {

@@ -167,3 +167,22 @@ C13 p6, C14 p8): legal, but worth hearing aloud.
 - The tool now takes story names (`check c09 … c15`); I did not edit it. Five writers share one scratchpad folder:
   a helper script of mine was overwritten by another writer's file of the same name. Writers should use per-batch
   subfolders.
+
+## 6. Review pass, English and Danish: facts checked (25 Nov 2026)
+
+- **C10, young storks' first return.** NABU ("Störche auf Reisen", nabu.de): young storks "kehren erst nach einigen
+  Jahren ins Brutgebiet zurück" (return to the breeding area only after some years) [S]. A study in an MDPI journal
+  reports first breeding usually at three, peaking at four [U: found in search, page not opened]. The writer's
+  ending ("One spring, Long-Legs would come back too") is true and stays. Grandpa's "In spring. Storks fly back
+  north the same way" is true of the flock. The forAdult text (en, da) now adds: most young storks stay in the south
+  for their first summers and come back north only after a few years, ready to nest. Arabic and Hebrew: please add
+  the same sentence to the adult text; no story line changes.
+- **C15, poison advice.** Safe Kids Worldwide "Poisoning Prevention Tips" (2015 PDF, safekids.org): store household
+  products out of children's sight and reach; safety locks on cabinets; keep products in their original containers,
+  never in something like a soda bottle; many incidents happen when adults are distracted [S]. Israel's National
+  Poison Information Center at Rambam, as quoted in the Israeli press (Maariv; Kipa): store cleaners only in their
+  original bottles, never in drink bottles or cups, in a high or locked cupboard; in any exposure call the centre;
+  do not make the child vomit [S, secondary]. The story already matches (Rose leaves it and asks; Grandma moves every
+  bottle up high and locks the cupboard; calm, no fear). The forAdult text (en, da) now adds after the poison-centre
+  line: do not wait for signs, do not try to make the child sick, and keep the product to read out its label.
+  Arabic and Hebrew: please add the same. "Warning pictures in a red-edged diamond" remains [U] for Israeli labels.
