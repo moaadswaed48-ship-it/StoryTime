@@ -103,7 +103,7 @@ export default {
     stepOf: 'Trin {n} af {total}',
     skip: 'Spring over',
     languageTitle: 'Hvilket sprog skal historierne bruge?',
-    languageLead: 'Historiens tekst, stemme og undertekster følger dette valg. Du kan ændre det senere under Indstillinger.',
+    languageLead: 'Historiens tekst følger dette valg, og det gør stemmen og filmenes undertekster også, når de er klar. Du kan ændre det senere under Indstillinger.',
     ageTitle: 'Hvilken aldersgruppe?',
     ageLead: 'Den gratis prøveperiode og biblioteket starter med denne gruppe.',
     childTitle: 'Hvem læser?',

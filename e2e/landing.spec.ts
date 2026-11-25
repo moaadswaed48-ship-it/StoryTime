@@ -40,6 +40,8 @@ for (const [lang, d] of Object.entries(DICTS) as [keyof typeof DICTS, (typeof DI
     // Pre-rendered with the real words, the excerpt and the graph label.
     for (const s of [t.hero.title, t.inside.excerpt, t.evidence.chart.label, t.faq.items[8].q]) expect(html).toContain(s)
     await expect(page.locator('h1')).toHaveText(t.hero.title)
+    // Beside the headline, the honest line: what is ready today and what is still being made (CLAUDE.md rule 4).
+    await expect(page.getByTestId('hero-note')).toHaveText(t.hero.note)
     for (const h of [t.inside.title, t.values.title, t.evidence.title, t.steps.title, t.ages.title, t.plans.title, t.faq.title]) {
       await expect(page.getByRole('heading', { level: 2, name: h })).toBeVisible()
     }

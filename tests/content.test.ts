@@ -46,10 +46,7 @@ describe('sample stories follow content/SCHEMA.md', () => {
       }))
       for (const p of checkStory(story, langs)) bad.push(`${id}: ${p}`)
     }
-    // c03: story.json lists the adult's chopping board, which no language file names yet. Adding a line in four
-    // languages is Story Room work (Arabic and Hebrew through their sources); until then this one is known.
-    const known = (p: string) => p.startsWith('c03: ') && p.endsWith('activity materials count differs from story.json')
-    expect(bad.filter((p) => !known(p))).toEqual([])
+    expect(bad).toEqual([])
   })
 
   it('checkStory names a missing page and a wrong word count', () => {

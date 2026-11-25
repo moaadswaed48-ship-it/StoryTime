@@ -2,6 +2,7 @@ import { useId, type ReactNode } from 'react'
 import { data, useLoaderData } from 'react-router'
 import { PRICES } from '@/data/prices'
 import { PASS_MONTHS } from '@/data/types'
+import { Faq, Ranges } from '@/features/landing/Faq'
 import { ImpactChart } from '@/features/landing/ImpactChart'
 import { isLang } from '@/i18n/config'
 import { loadLanding } from '@/i18n/landing'
@@ -56,6 +57,7 @@ export default function Landing() {
         <section aria-labelledby="hero-title" className="flex flex-col gap-5 py-10 sm:py-16">
           <h1 id="hero-title" className="max-w-3xl text-4xl font-semibold text-balance sm:text-5xl">{t.hero.title}</h1>
           <p className="max-w-prose text-lg text-pretty text-ink-muted">{t.hero.lead}</p>
+          <p role="note" data-testid="hero-note" className="max-w-prose rounded-control border border-dashed border-ink-muted px-4 py-3 text-ink-muted">{t.hero.note}</p>
           <div className="flex flex-wrap items-center gap-3">
             <ButtonLink to={signUp}>{t.hero.primary}</ButtonLink>
             <ButtonLink to={plans} variant="secondary">{t.hero.secondary}</ButtonLink>
@@ -188,19 +190,9 @@ export default function Landing() {
           </aside>
         </Block>
 
-        {/* 8. Questions and answers. Every question is a real button; answers are in the HTML for search and screen readers. */}
+        {/* 8. Questions and answers (also on the Help page). */}
         <Block title={t.faq.title}>
-          <div className="flex flex-col gap-2">
-            {t.faq.items.map((item) => (
-              <details key={item.q} className="group rounded-control border border-line bg-surface">
-                <summary className="flex min-h-12 cursor-pointer list-none items-center justify-between gap-3 px-4 py-3 font-semibold [&::-webkit-details-marker]:hidden">
-                  <span>{item.q}</span>
-                  <span aria-hidden="true" className="grid size-7 shrink-0 place-items-center rounded-full border border-ink text-lg leading-none transition-transform group-open:rotate-45 motion-reduce:transition-none">+</span>
-                </summary>
-                <p className="px-4 pb-4"><Ranges text={item.a} /></p>
-              </details>
-            ))}
-          </div>
+          <Faq items={t.faq.items} />
         </Block>
       </main>
       <SiteFooter />
@@ -220,11 +212,6 @@ function Block({ title, lead, children }: { title: string; lead?: string; childr
       {children}
     </section>
   )
-}
-
-/** Keeps an age range such as "2–3" on one line, so a phone never breaks it after the dash. */
-function Ranges({ text }: { text: string }) {
-  return <>{text.split(/(\d+–\d+)/).map((part, i) => (i % 2 ? <span key={i} className="whitespace-nowrap">{part}</span> : part))}</>
 }
 
 function Chip({ children }: { children: string }) {

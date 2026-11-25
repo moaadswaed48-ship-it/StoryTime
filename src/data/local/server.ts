@@ -1,5 +1,5 @@
 import { isLang, type Lang } from '@/i18n/config'
-import type { ProviderEvent } from '../api'
+import { CONTACT_MESSAGE_MAX, type ProviderEvent } from '../api'
 import { DataError } from '../errors'
 import { addDays, canCancel, hasAccessToStory, isPassCurrent, passDates, TRIAL_DAYS, TRIAL_STORIES } from '../rules'
 import { TERMS_VERSION } from '../terms'
@@ -110,6 +110,8 @@ export type LocalDb = {
   ledgerSalt?: string
   /** Added in part C: "my shelf", per profile (the favourites table). */
   favourites?: { learnerId: string; accountId: string; storyId: string; createdAt: Iso }[]
+  /** The contact form (table contact_messages), added after the site review. */
+  contactMessages?: { id: string; name: string | null; email: string; lang: string; message: string; createdAt: Iso }[]
 }
 
 /**
@@ -741,6 +743,19 @@ export class LocalServer {
       const hourAgo = new Date(this.now()).getTime() - 3_600_000
       if (db.cancellationRequests.filter((r) => norm(r.email) === norm(input.email) && new Date(r.createdAt).getTime() > hourAgo).length >= 3) throw new DataError('rate_limited')
       db.cancellationRequests.push({ id: uuid(), email: input.email.trim(), orderRef: input.orderRef.trim(), message: input.message?.trim() || null, createdAt: this.now() })
+    })
+  }
+
+  sendContactMessage(input: { name?: string; email: string; message: string; lang: string }) {
+    if (!isEmail(input.email)) throw new DataError('invalid_email')
+    const message = input.message.trim()
+    if (!message || message.length > CONTACT_MESSAGE_MAX) throw new DataError('unknown', 'message_length')
+    this.tx((db) => {
+      // As send_contact_message(): at most 3 an hour for one address.
+      const list = (db.contactMessages ??= [])
+      const hourAgo = new Date(this.now()).getTime() - 3_600_000
+      if (list.filter((r) => norm(r.email) === norm(input.email) && new Date(r.createdAt).getTime() > hourAgo).length >= 3) throw new DataError('rate_limited')
+      list.push({ id: uuid(), name: input.name?.trim().slice(0, 100) || null, email: input.email.trim(), lang: input.lang, message, createdAt: this.now() })
     })
   }
 

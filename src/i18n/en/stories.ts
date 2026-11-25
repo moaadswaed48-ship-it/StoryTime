@@ -47,7 +47,7 @@ export default {
     noFilm: 'Film coming soon',
     noActivity: 'This story has no activity.',
     hintTitle: 'Four ways into every story',
-    hintLead: 'Read it, listen to it, watch its film, or do its activity. All four are always here.',
+    hintLead: 'Read it, listen to it, watch its film, or do its activity. All four are always shown; any that is not ready yet is clearly marked.',
     hintDismiss: 'Got it',
     storyCredit: 'A StoryTime story',
     authorCredit: "The author's own story",

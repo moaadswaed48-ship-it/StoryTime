@@ -17,6 +17,8 @@ export type LandingDict = {
     /** Seven words or fewer. */
     title: string
     lead: string
+    /** Honest line beside the headline: what is ready today, and what is still being made (CLAUDE.md rule 4). */
+    note: string
     primary: string
     secondary: string
   }

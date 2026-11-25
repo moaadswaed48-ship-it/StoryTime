@@ -103,7 +103,7 @@ export default {
     stepOf: 'Step {n} of {total}',
     skip: 'Skip',
     languageTitle: 'Which language should the stories use?',
-    languageLead: 'Story text, voice and captions follow this choice. You can change it later in Settings.',
+    languageLead: 'Story text follows this choice, and so will the voice and the film captions when they are ready. You can change it later in Settings.',
     ageTitle: 'Which age group?',
     ageLead: 'The free trial and the library start with this group.',
     childTitle: 'Who is reading?',

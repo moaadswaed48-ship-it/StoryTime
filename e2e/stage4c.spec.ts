@@ -210,3 +210,30 @@ test('favourites, settings on the account, and the email change (en)', async ({ 
   await expect(page.getByText(`new-${email}`).first()).toBeVisible()
   expect(errors).toEqual([])
 })
+
+test('fast page flips: the last page reached is saved when the book closes (en)', async ({ page }, info) => {
+  const errors = watchErrors(page)
+  const email = `flip-${info.project.name}@example.test`
+  await newFamily(page, 'en', email)
+  // One menu on signed-in pages: the header's, with every part of the app in it (no second bar).
+  await page.goto('en/app/library/')
+  const menus = page.getByRole('navigation', { name: en.common.menu })
+  await expect(menus).toHaveCount(1)
+  for (const name of [en.common.nav.library, en.common.nav.collections, en.common.nav.settings, en.common.nav.plans]) await expect(menus.getByRole('link', { name, exact: true })).toBeVisible()
+  await expect(menus.getByRole('link', { name: en.common.nav.library, exact: true })).toHaveAttribute('aria-current', 'page')
+  await expect(page.getByRole('link', { name: en.common.nav.collections, exact: true })).toHaveCount(1)
+  await shot(page, info, 'one-menu-library-en')
+  await page.goto('en/app/story/b02/read?book=flat')
+  const reader = page.getByTestId('reader')
+  await expect(reader).toHaveAttribute('data-mode', 'flat')
+  const positions = Number(await reader.getAttribute('data-positions'))
+  // A child flips to the end as fast as the keys go, then closes at once: no page stays half a second.
+  for (let i = 0; i < positions - 1; i++) await page.keyboard.press('ArrowRight')
+  await expect(reader).toHaveAttribute('data-position', String(positions - 1))
+  await page.getByTestId('reader-close').click()
+  const pages = 14 // content/stories/b02/en.json
+  await expect(page.getByText(en.stories.doors.progressRead.replace('{n}', String(pages)))).toBeVisible()
+  const saved = await page.evaluate(() => JSON.parse(localStorage.getItem('storytime.local.v1')!).progress as { storyId: string; lastPage: number | null }[])
+  expect(saved.find((p) => p.storyId === 'b02')?.lastPage).toBe(pages)
+  expect(errors).toEqual([])
+})

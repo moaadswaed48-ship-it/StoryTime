@@ -121,3 +121,45 @@ Live preview: https://moaadswaed48-ship-it.github.io/StoryTime/next/ (test mode,
 ## Left open
 - C03 chopping board (Story Room, four languages). Items 4, 5, 6, 7, 8, 11, 13, 17 above.
 - axe-core and Lighthouse runs (not installed here), Safari on iPhone (WebKit not installed).
+
+## Fixes (25 Nov, second pass)
+In short: the landing page and the app no longer claim that pictures, films or a voice exist; signed-in pages have
+one menu; every footer has Help, Contact and a language picker; fast page flips are saved; C03 lists the chopping
+board. The look is unchanged (neutral tokens). Republished and rechecked live at 390 px in Arabic and English.
+
+- **Item 4 and 5 (UNTRUE), four languages.** Hero: "Each one will have a picture book, a short film and an
+  activity", with a line beside it: "Ready today: the words and the activity of every story, in all four languages.
+  Still being made: the pictures, the films and the narrator's voice." A04's Read, Listen and Watch cards say what
+  is not made yet; "Every part of each story is open" became "Each story is fully open"; the FAQ answers on screen
+  time and languages speak of films "once they are ready" and no longer say a child can "hear" a story; the trial
+  answer says "fully open". Same claim also fixed in: the landing meta description (`pages.ts`), the storybook hint
+  "All four are always here" (now: all four are always shown, and one not ready yet is clearly marked), the onboarding
+  language line ("voice and captions follow this choice"). The plans, sign-in and sign-up meta descriptions still
+  said "placeholder page, not active yet": rewritten. Checked and clean: emails (`src/emails/copy/*`), the plans and
+  checkout words (`commerce.ts`: "every feature" means access, which is true).
+- **Item 6 (two menus).** One menu, in the header: Library, Collections, Settings, Plans (and the owner's area for
+  the owner); the page you are on is marked. The app's second bar is removed. Nothing is hover-only.
+- **Item 11 (footer).** Every page: Cancel a purchase, Help, Contact, Plans, the six legal pages, a language picker
+  that keeps the page, and the business-details placeholder. New public pages in four languages: Help (the nine
+  landing questions, the contact form, the support email as a visible placeholder, how to cancel) and Contact (name,
+  email, message; recorded through the data layer: in test mode in this browser, which the page says; on Supabase in
+  a new owner-only table `contact_messages` through `send_contact_message()`, 3 messages an hour per address).
+- **Item 13 (fast flips).** The reader also saves the latest page when it closes, when the tab is hidden and when the
+  page is left; the storybook page waits for that save before reading progress. New test: flip to the end with no
+  pause and close at once; the storybook page must say "Read up to page 14". It fails on the old code and passes now.
+- **Item 1, C03.** The activity needs the board (step 3: the grown-up slices the cucumber on it), so all four
+  languages have a new material line, "A chopping board and a sharp knife, for the grown-up only" (Arabic and Hebrew
+  through their sources and `storytool.py build`); `story.json` material ids now match the lines one to one.
+  `storytool.py check c03`: no errors; the C03 exception is removed from `tests/content.test.ts`.
+- **Item 7 (library mostly words)** is left for the design stage; what it needs is written in `docs/HANDOFF.md`.
+
+Checks: `npm run typecheck` 0 errors; `npm test` 358 passed in 29 files (new: `tests/db/contact.test.ts` 3, a local
+contact test, the C03 exception removed); `npm run e2e` 104 passed, 4 skipped (WebKit-only and once-only), 0 failed,
+22 minutes (new: `e2e/support.spec.ts` footer, Help and Contact in English and Arabic; the hero line in
+`e2e/landing.spec.ts`; one menu and fast flips in `e2e/stage4c.spec.ts`). Republished with
+`node scripts/deploy/preview.mjs` (1067 pages, all noindex). Live at 390 px in Arabic and English
+(`qa/out/review/second-pass/live.spec.ts`, 4 of 4 passed, no page errors, no sideways scroll): the hero line, footer,
+Help, Contact (message sent), sign-up and onboarding, one menu in the library, fast read of B02 saved at page 14,
+C03's new material line. Screenshots: `qa/out/review/second-pass/live-*.png`.
+Not done: no fresh reviewer has read these changes; the Arabic, Hebrew and Danish wording is not checked by a native
+reader; nothing ran against a real Supabase project; Safari not tested.

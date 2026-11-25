@@ -137,7 +137,7 @@
   },
   "activity": {
     "minutes": 25,
-    "materials": ["tray", "bread", "nut-free-sesame-free-spread", "cucumber", "butter-knife", "plate", "plastic-cup", "water", "napkin", "chopping-board-adult"],
+    "materials": ["tray", "bread", "nut-free-sesame-free-spread", "cucumber", "chopping-board-and-sharp-knife-adult-only", "butter-knife", "plate-plastic-cup-napkin", "water"],
     "steps": [
       { "n": 1, "picture": "A child washes hands at a sink; beside the sink, a tray with a plate, a cup and a folded napkin waits.", "loop": false },
       { "n": 2, "picture": "The child spreads soft cheese on a slice of bread with a rounded butter knife, holding the bread flat on a plate.", "loop": true },

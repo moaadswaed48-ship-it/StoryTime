@@ -31,6 +31,10 @@ export type CommonDict = {
   footer: {
     label: string
     cancelPurchase: string
+    help: string
+    contact: string
+    /** Name of the footer's language picker (the header's is `language`). */
+    languages: string
     business: string
   }
 }
@@ -58,6 +62,40 @@ export type PagesDict = {
   app: { library: string; story: string; collections: string; settings: string }
   forgotPassword: { title: string; description: string }
   cancelPurchase: { title: string; description: string }
+  help: { title: string; description: string }
+  contact: { title: string; description: string }
+}
+
+/**
+ * The Help page (the landing page's questions, loaded from the landing words, plus how to reach us) and the Contact
+ * page with its form. The support email address is a visible placeholder until the owner sets it.
+ */
+export type SupportDict = {
+  help: {
+    lead: string
+    faqTitle: string
+    contactTitle: string
+    contactLead: string
+    contactLink: string
+    emailPlaceholder: string
+    cancelTitle: string
+    cancelLead: string
+  }
+  contact: {
+    lead: string
+    name: string
+    email: string
+    emailHint: string
+    message: string
+    messageHint: string
+    tooLong: string
+    send: string
+    sent: string
+    sendAnother: string
+    testNote: string
+    otherWays: string
+    helpLink: string
+  }
 }
 
 /**
@@ -376,4 +414,5 @@ export type Dict = {
   account: AccountDict
   commerce: CommerceDict
   stories: StoriesDict
+  support: SupportDict
 }

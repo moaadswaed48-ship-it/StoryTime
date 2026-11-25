@@ -236,6 +236,10 @@ export class LocalApi implements DataApi {
   requestCancellation(input: Parameters<DataApi['requestCancellation']>[0]) {
     return this.run(() => this.server.requestCancellation(input))
   }
+
+  sendContactMessage(input: Parameters<DataApi['sendContactMessage']>[0]) {
+    return this.run(() => this.server.sendContactMessage(input))
+  }
 }
 
 function defaultLinkBase(): string {

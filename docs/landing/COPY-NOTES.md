@@ -22,7 +22,10 @@ together), written natively rather than translated.
 | Hebrew | "סיפור שקוראים, צופים בו ועושים יחד" (clunky) · "סיפורים שקוראים, רואים ועושים ביחד" · "קוראים, צופים ועושים יחד" | **"לקרוא, לצפות ולעשות יחד"** (4). Infinitives are natural in Hebrew headlines and are gender-neutral (style guide §4). The three verbs match the storybook doors (לקרוא, לצפות, לעשות). |
 | Danish | "Læs den, se den, og gør den sammen" ("gør den" sounds wrong) · "Læs, se og leg historien sammen" · "Læs den, se den og leg den sammen" | **"Én historie. Læs, se og leg sammen"** (6). "Leg" (play) is how a Danish parent would describe the activity; "Én historie" keeps the one-story promise. |
 
-Subheads say the same in each language: stories for ages 2 to 8 that teach respect and kindness, each with a picture
+**Changed 25 Nov 2026 (site review, second pass):** the subhead is now future ("Each one will have a picture book, a
+short film and an activity"), and a `hero.note` beside it says what is ready today (the words and the activity of
+every story) and what is still being made (pictures, films, the narrator's voice). The four parts of A04 say the
+same. Earlier wording, kept for the record: subheads said the same in each language: stories for ages 2 to 8 that teach respect and kindness, each with a picture
 book, a short film and an activity to share. The voice is left out of the hero on purpose (it is not recorded yet).
 
 ## 2. Claims and the evidence behind them
@@ -50,7 +53,8 @@ book, a short film and an activity to share. The voice is left out of the hero o
 
 | When | Line | Change |
 |---|---|---|
-| A04 pictures, film and voice exist | `inside.status` | Delete or reword. |
+| A04 pictures, film and voice exist | `inside.status`; `inside.read`, `inside.listen`, `inside.watch` (each says what is not made yet) | Delete or reword. |
+| Pictures, films and voice exist for the stories | `hero.lead` ("will have"), `hero.note`, FAQ screen-time and languages answers ("once the films are ready"), `pages.landing.description` in `pages.ts`, onboarding `languageLead` in `account.ts` | Back to the present tense; delete `hero.note`. |
 | The recorded voice is in | `faq.items[8]` (recorded voice) | Rewrite as a yes. |
 | The library holds 15 per group | `ages.planned`; values `lead` ("being written") | Reword or delete. |
 | The owner's papers arrive | graph `SAMPLE`, `evidence.chart.*`, `evidence.ownStudy` | Real figures, a source line, and a lawyer's look at the wording (product checklist open decision 4). Until then the graph should stay on the preview only. |

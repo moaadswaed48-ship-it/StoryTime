@@ -94,4 +94,13 @@ export interface DataApi {
   cancelPurchase(passId: string): Promise<void>
   /** The public cancellation form (signed out). Never reveals whether the order exists. */
   requestCancellation(input: { email: string; orderRef: string; message?: string }): Promise<void>
+  /**
+   * The public contact form (signed in or out). Recorded for the owner to read; at most 3 an hour for one address.
+   * Nothing is sent by email yet (no sending service; the owner's inbox is not built).
+   */
+  sendContactMessage(input: ContactMessageInput): Promise<void>
 }
+
+/** The longest message the contact form accepts (the database checks the same). */
+export const CONTACT_MESSAGE_MAX = 2000
+export type ContactMessageInput = { name?: string; email: string; message: string; lang: Lang }

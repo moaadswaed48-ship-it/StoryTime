@@ -322,7 +322,7 @@ def grandpa_pose(t):
     # stooped, unhurried; looks down at the path, then up at Sami; nods while waving
     look_up = smooth((t - 3.3) / 0.9) * (1 - smooth((t - 9.4) / 0.8))
     nod = D(5) * math.sin(2 * math.pi * 0.9 * (t - 5)) * smooth((t - 5.0) / 0.4) * (1 - smooth((t - 8.0) / 0.4))
-    wave_on = smooth((t - 4.55) / 0.55) * (1 - smooth((t - 7.9) / 0.6))
+    wave_on = smooth((t - 4.55) / 0.5) * (1 - smooth((t - 7.95) / 0.38))
     P.rot['chest'] = (D(13) - D(4) * wave_on + breathe, sway + D(4), D(-6) * wave_on)
     P.rot['neck'] = (D(10) - D(12) * look_up, D(-3), D(6) * look_up)
     P.rot['head'] = (D(14) * (1 - look_up) - D(10) * look_up + nod, D(-4) * look_up, D(12) * look_up)

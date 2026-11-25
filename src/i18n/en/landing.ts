@@ -3,7 +3,8 @@ import type { LandingDict } from '../landing-schema'
 export default {
   hero: {
     title: 'Read it, watch it, do it together',
-    lead: 'Stories for ages 2 to 8 that teach respect and kindness, each with a picture book, a short film and an activity to share.',
+    lead: 'Stories for ages 2 to 8 that teach respect and kindness. Each one will have a picture book, a short film and an activity to share.',
+    note: 'Ready today: the words and the activity of every story, in all four languages. Still being made: the pictures, the films and the narrator’s voice.',
     primary: 'Start the free trial',
     secondary: 'See plans',
   },
@@ -15,9 +16,9 @@ export default {
     storyLine: 'Sami runs up the hill to the red flowers, and Grandpa falls far behind.',
     excerptLabel: 'A page from the book',
     excerpt: 'Sami runs back down. He takes Grandpa’s hand. Slow, slow, together.',
-    read: { name: 'Read', text: 'The picture book, with the words set beside the pictures and pages that turn like paper.' },
-    listen: { name: 'Listen', text: 'A narrator reads each page aloud. When the reading ends, the page can turn by itself.' },
-    watch: { name: 'Watch', text: 'A short film of the same story: Sami’s dash and Grandpa’s steps, until they walk at one pace.' },
+    read: { name: 'Read', text: 'The book, with pages that turn like paper. Today it holds the words; the pictures beside them are being drawn.' },
+    listen: { name: 'Listen', text: 'A narrator will read each page aloud, and the page can then turn by itself. The voice is not recorded yet.' },
+    watch: { name: 'Watch', text: 'A short film of the same story, being made now: Sami’s dash and Grandpa’s steps, until they walk at one pace.' },
     do: { name: 'Do', text: 'The Looking Frame: tear the middle out of a paper plate, walk slowly outside hand in hand, and name what you see inside the frame.' },
     status: 'Being made now: the first stories are written in all four languages. Their pictures, films and recorded voice are still in production.',
   },
@@ -53,7 +54,7 @@ export default {
   steps: {
     title: 'How it works',
     one: { title: 'Choose the age group', text: 'Create a free account as a family or as kindergarten staff, and choose 2–3, 4–5 or 6–8.' },
-    two: { title: 'Try 3 stories for 3 days', text: 'Every part of each story is open. No card is needed.' },
+    two: { title: 'Try 3 stories for 3 days', text: 'Each story is fully open. No card is needed.' },
     three: { title: 'Choose a pass', text: 'A pass for 1, 3 or 12 months opens every story of the age group. It ends on its own date.' },
   },
   ages: {
@@ -73,9 +74,9 @@ export default {
     title: 'Questions and answers',
     items: [
       { q: 'Which age group fits my child?', a: 'Choose by age: 2–3, 4–5 or 6–8. A three-year-old stays in the first group until the fourth birthday. One account can hold passes for two age groups, for families with children of different ages.' },
-      { q: 'How much screen time is this?', a: 'The activity happens away from the screen, and the book is made to be read together. Films are short and stop at the end; nothing starts playing by itself. The World Health Organization advises no more than one hour of screen time a day for children aged 2 to 4, and less is better.' },
-      { q: 'Which languages are there?', a: 'Arabic, Hebrew, English and Danish, for the site, the stories and the captions. The language of the site and the language of the stories are set separately, so a child can hear a story in one language while the grown-up uses the site in another.' },
-      { q: 'What does the free trial include?', a: '3 stories of the age group you choose, for 3 days, with every part open. No card is needed, and the trial never turns into a payment.' },
+      { q: 'How much screen time is this?', a: 'The activity happens away from the screen, and the book is made to be read together. The films, once they are ready, will be short and stop at the end; nothing will start playing by itself. The World Health Organization advises no more than one hour of screen time a day for children aged 2 to 4, and less is better.' },
+      { q: 'Which languages are there?', a: 'Arabic, Hebrew, English and Danish, for the site, the stories and, once the films are ready, their captions. The language of the site and the language of the stories are set separately, so a child’s stories can be in one language while the grown-up uses the site in another.' },
+      { q: 'What does the free trial include?', a: '3 stories of the age group you choose, for 3 days, fully open. No card is needed, and the trial never turns into a payment.' },
       { q: 'How do I cancel?', a: 'A pass ends on its end date, and nothing renews. Within 14 days of buying, a purchase can be cancelled in Settings, on the “Cancel a purchase” page, or by email or post. The refund comes within 14 days; a fee of at most 5% of the price or 100 shekels, whichever is lower, may apply.' },
       { q: 'What do you keep about my child?', a: 'Accounts belong to adults. A child’s profile holds only a first name or nickname and an age group. A teacher’s profile is a class name, with no children’s names. We never ask for a phone number, and there are no ads.' },
       { q: 'Can kindergarten teachers use it?', a: 'Yes. Choose “Kindergarten staff” when you sign up, and your profile becomes your class. Every activity has a version for a group of children.' },

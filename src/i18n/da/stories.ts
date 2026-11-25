@@ -47,7 +47,7 @@ export default {
     noFilm: 'Filmen kommer snart',
     noActivity: 'Denne historie har ingen aktivitet.',
     hintTitle: 'Fire veje ind i hver historie',
-    hintLead: 'Læs den, lyt til den, se filmen, eller lav aktiviteten. Alle fire er her altid.',
+    hintLead: 'Læs den, lyt til den, se filmen, eller lav aktiviteten. Alle fire vises altid her, og det, der ikke er klar endnu, er tydeligt markeret.',
     hintDismiss: 'Forstået',
     storyCredit: 'En historie fra StoryTime',
     authorCredit: 'Forfatterens egen historie',

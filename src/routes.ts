@@ -28,6 +28,8 @@ export default [
     route('sign-up', 'routes/sign-up.tsx'),
     route('forgot-password', 'routes/forgot-password.tsx'),
     route('cancel-purchase', 'routes/cancel-purchase.tsx'),
+    route('help', 'routes/help.tsx'),
+    route('contact', 'routes/contact.tsx'),
     route('legal/:doc', 'routes/legal.tsx'),
     // Pages opened from email links and after leaving: client-only, never pre-rendered.
     route('auth/check-email', 'routes/auth/check-email.tsx'),

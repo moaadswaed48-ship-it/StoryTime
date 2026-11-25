@@ -3,7 +3,8 @@ import type { LandingDict } from '../landing-schema'
 export default {
   hero: {
     title: 'Én historie. Læs, se og leg sammen',
-    lead: 'Historier til børn på 2 til 8 år om respekt og venlighed, hver med en billedbog, en kort film og en aktivitet, I laver sammen.',
+    lead: 'Historier til børn på 2 til 8 år om respekt og venlighed. Hver historie får en billedbog, en kort film og en aktivitet, I laver sammen.',
+    note: 'Klar i dag: ordene og aktiviteten i hver historie, på alle fire sprog. Bliver stadig lavet: billederne, filmene og fortællerens stemme.',
     primary: 'Start den gratis prøveperiode',
     secondary: 'Se pakkerne',
   },
@@ -15,9 +16,9 @@ export default {
     storyLine: 'Sami løber op ad bakken mod de røde blomster, og bedstefar bliver langt tilbage.',
     excerptLabel: 'En side fra bogen',
     excerpt: 'Sami løber ned igen. Han tager bedstefars hånd. Langsomt, langsomt, sammen.',
-    read: { name: 'Læs', text: 'Billedbogen, hvor ordene står ved siden af billederne, og siderne vender som papir.' },
-    listen: { name: 'Lyt', text: 'En fortæller læser hver side højt. Når oplæsningen slutter, kan siden vende af sig selv.' },
-    watch: { name: 'Se', text: 'En kort film om den samme historie: Samis løb og bedstefars skridt, indtil de går i samme tempo.' },
+    read: { name: 'Læs', text: 'Bogen, hvor siderne vender som papir. I dag rummer den ordene; billederne ved siden af bliver tegnet nu.' },
+    listen: { name: 'Lyt', text: 'En fortæller kommer til at læse hver side højt, og så kan siden vende af sig selv. Stemmen er ikke indtalt endnu.' },
+    watch: { name: 'Se', text: 'En kort film om den samme historie, som bliver lavet nu: Samis løb og bedstefars skridt, indtil de går i samme tempo.' },
     do: { name: 'Gør', text: 'Kiggerammen: Riv midten ud af en papirtallerken, gå langsomt udenfor hånd i hånd, og sig navnet på det, der er inde i rammen.' },
     status: 'Under arbejde: De første historier er skrevet på alle fire sprog. Billeder, film og indtalt stemme er stadig under produktion.',
   },
@@ -53,7 +54,7 @@ export default {
   steps: {
     title: 'Sådan kommer I i gang',
     one: { title: 'Vælg aldersgruppe', text: 'Opret en gratis konto som familie eller som personale i en børnehave, og vælg 2–3, 4–5 eller 6–8 år.' },
-    two: { title: 'Prøv 3 historier i 3 dage', text: 'Alle dele af hver historie er åbne. Der skal ikke bruges kort.' },
+    two: { title: 'Prøv 3 historier i 3 dage', text: 'Hver historie er helt åben. Der skal ikke bruges kort.' },
     three: { title: 'Vælg en pakke', text: 'En pakke til 1, 3 eller 12 måneder åbner alle aldersgruppens historier. Den slutter på sin egen dato.' },
   },
   ages: {
@@ -73,9 +74,9 @@ export default {
     title: 'Spørgsmål og svar',
     items: [
       { q: 'Hvilken aldersgruppe passer til mit barn?', a: 'Vælg efter alder: 2–3, 4–5 eller 6–8 år. En treårig hører til den første gruppe indtil sin fireårs fødselsdag. Én konto kan have pakker til to aldersgrupper, til familier med børn i forskellige aldre.' },
-      { q: 'Hvor meget skærmtid er det?', a: 'Aktiviteten foregår væk fra skærmen, og bogen er lavet til at blive læst sammen. Filmene er korte og stopper, når de er slut; intet starter af sig selv. WHO anbefaler højst én times skærmtid om dagen for børn på 2 til 4 år, og mindre er bedre.' },
-      { q: 'Hvilke sprog findes der?', a: 'Arabisk, hebraisk, engelsk og dansk, på siden, i historierne og i undertekster. Sidens sprog og historiernes sprog vælges hver for sig, så et barn kan høre en historie på ét sprog, mens den voksne bruger siden på et andet.' },
-      { q: 'Hvad indeholder den gratis prøveperiode?', a: '3 historier fra den aldersgruppe, du vælger, i 3 dage, med alle dele åbne. Der skal ikke bruges kort, og prøveperioden bliver aldrig til en betaling.' },
+      { q: 'Hvor meget skærmtid er det?', a: 'Aktiviteten foregår væk fra skærmen, og bogen er lavet til at blive læst sammen. Når filmene er klar, bliver de korte og stopper, når de er slut; intet starter af sig selv. WHO anbefaler højst én times skærmtid om dagen for børn på 2 til 4 år, og mindre er bedre.' },
+      { q: 'Hvilke sprog findes der?', a: 'Arabisk, hebraisk, engelsk og dansk, på siden, i historierne og, når filmene er klar, i underteksterne. Sidens sprog og historiernes sprog vælges hver for sig, så et barns historier kan være på ét sprog, mens den voksne bruger siden på et andet.' },
+      { q: 'Hvad indeholder den gratis prøveperiode?', a: '3 historier fra den aldersgruppe, du vælger, i 3 dage, helt åbne. Der skal ikke bruges kort, og prøveperioden bliver aldrig til en betaling.' },
       { q: 'Hvordan fortryder jeg?', a: 'En pakke slutter på sin slutdato, og intet fornyes. Inden for 14 dage efter købet kan du fortryde under Indstillinger, på siden »Fortryd et køb« eller pr. e-mail eller brev. Pengene betales tilbage inden for 14 dage; der kan trækkes et gebyr på højst 5 % af prisen eller 100 shekel, alt efter hvad der er lavest.' },
       { q: 'Hvad gemmer I om mit barn?', a: 'Kontoen tilhører en voksen. Et barns profil har kun et fornavn eller kælenavn og en aldersgruppe. En børnehaves profil er et gruppenavn uden børnenes navne. Vi beder aldrig om et telefonnummer, og der er ingen reklamer.' },
       { q: 'Kan børnehaver bruge det?', a: 'Ja. Vælg »Personale i en børnehave«, når du opretter kontoen, så bliver profilen jeres gruppe. Hver aktivitet har en udgave til en gruppe børn.' },

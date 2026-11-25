@@ -7,13 +7,12 @@ import { SiteHeader } from './SiteHeader'
  * The frame of every account, plans and app screen: header, test-mode and offline notices, content, footer.
  * `narrow` is for forms (one column, comfortable line length on desktop).
  */
-export function Shell({ children, narrow, nav }: { children: ReactNode; narrow?: boolean; nav?: ReactNode }) {
+export function Shell({ children, narrow }: { children: ReactNode; narrow?: boolean }) {
   return (
     <>
       <OfflineBanner />
       <SiteHeader />
       <TestModeBanner />
-      {nav}
       <main id="main" className={`mx-auto w-full px-4 py-8 sm:py-12 ${narrow ? 'max-w-lg' : 'max-w-5xl'}`}>
         {children}
       </main>

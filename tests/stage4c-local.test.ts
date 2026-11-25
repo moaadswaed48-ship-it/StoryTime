@@ -214,3 +214,15 @@ describe('changing the sign-in email address (test mode)', () => {
     expect(await codeOf(api.completeLink('email_change', link('email_change')))).toBe('link_expired')
   })
 })
+
+describe('the contact form (site review, second pass)', () => {
+  it('records the message signed out, refuses a bad address or an empty message, and limits one address to 3 an hour', async () => {
+    expect(await codeOf(api.sendContactMessage({ email: 'bad', message: 'Hi', lang: 'ar' }))).toBe('invalid_email')
+    expect(await codeOf(api.sendContactMessage({ email: 'a@example.test', message: '   ', lang: 'ar' }))).toBe('unknown')
+    expect(await codeOf(api.sendContactMessage({ name: ' Dana ', email: 'a@example.test', message: ' A question. ', lang: 'he' }))).toBe('ok')
+    expect(raw().contactMessages).toEqual([expect.objectContaining({ name: 'Dana', email: 'a@example.test', lang: 'he', message: 'A question.' })])
+    for (let i = 0; i < 2; i++) await api.sendContactMessage({ email: 'A@example.test', message: 'Again', lang: 'en' })
+    expect(await codeOf(api.sendContactMessage({ email: 'a@example.test', message: 'Once more', lang: 'en' }))).toBe('rate_limited')
+    expect(await codeOf(api.sendContactMessage({ email: 'other@example.test', message: 'x'.repeat(2001), lang: 'en' }))).toBe('unknown')
+  })
+})

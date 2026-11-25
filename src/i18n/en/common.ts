@@ -18,5 +18,5 @@ export default {
   placeholder: 'Placeholder page: design and content are in progress.',
   notFound: 'Page not found',
   loading: 'Loading…',
-  footer: { label: 'Site information', cancelPurchase: 'Cancel a purchase', business: 'Business details: to be added before sales open.' },
+  footer: { label: 'Site information', cancelPurchase: 'Cancel a purchase', help: 'Help', contact: 'Contact', languages: 'Language of the site', business: 'Business details: to be added before sales open.' },
 } satisfies CommonDict

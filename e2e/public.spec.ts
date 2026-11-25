@@ -35,7 +35,7 @@ for (const [lang, dir] of LANGS) {
 test('the language switch keeps the page and changes lang and dir', async ({ page }) => {
   const errors = watchErrors(page)
   await page.goto('en/plans/')
-  await page.getByRole('link', { name: 'עברית' }).click()
+  await page.getByRole('banner').getByRole('link', { name: 'עברית' }).click()
   await expect(page).toHaveURL(/\/he\/plans\/$/)
   await expect(page.locator('html')).toHaveAttribute('dir', 'rtl')
   await expect(page.locator('html')).toHaveAttribute('lang', 'he')

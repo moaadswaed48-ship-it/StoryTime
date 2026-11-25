@@ -10,7 +10,11 @@ import { freshDb, rows, user } from './harness'
  */
 
 /** Functions signed-out visitors (anon) may call. */
-const ANON_FUNCTIONS = ['has_access_to_story(p_story uuid)', 'request_cancellation(p_email text, p_order_ref text, p_message text)']
+const ANON_FUNCTIONS = [
+  'has_access_to_story(p_story uuid)',
+  'request_cancellation(p_email text, p_order_ref text, p_message text)',
+  'send_contact_message(p_name text, p_email text, p_message text, p_lang site_lang)',
+]
 
 /** Functions signed-in users (authenticated) may call. Owner-only ones check is_owner() themselves or run under RLS. */
 const AUTHENTICATED_FUNCTIONS = [
@@ -34,6 +38,7 @@ const AUTHENTICATED_FUNCTIONS = [
   'owner_story_ids()',
   'owner_unpublish(p_story uuid)',
   'request_cancellation(p_email text, p_order_ref text, p_message text)',
+  'send_contact_message(p_name text, p_email text, p_message text, p_lang site_lang)',
   'set_my_role(p_role account_role)',
   'start_trial(p_age_group text)',
   'story_is_published(p_story uuid)',

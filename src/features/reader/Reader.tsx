@@ -363,11 +363,34 @@ export function Reader({ content, group, startPage, listen, closeTo, onPage, acc
   const firstStory = shown.map((i) => pages[i]).find((p) => p?.kind === 'story') as { kind: 'story'; i: number } | undefined
   const atEnd = shown.some((i) => pages[i]?.kind === 'end')
   const pageNo = firstStory ? content.pages[firstStory.i]!.pageNo : atEnd ? content.pages.length : null
+  // A page counts as read after half a second at rest. A child who flips fast and closes the book must still be
+  // saved at the last page reached, so the latest page is also saved when the reader closes or the tab is hidden.
+  const latestPage = useRef<number | null>(null)
+  const savedPage = useRef<number | null>(null)
+  const onPageRef = useRef(onPage)
+  onPageRef.current = onPage
+  const flushPage = useCallback(() => {
+    const n = latestPage.current
+    if (n === null || n === savedPage.current) return
+    savedPage.current = n
+    onPageRef.current(n)
+  }, [])
+  if (mode && pageNo !== null) latestPage.current = pageNo // set while rendering, so a close in the same moment sees it
   useEffect(() => {
     if (!mode || turning || pageNo === null) return
-    const id = window.setTimeout(() => onPage(pageNo), 500)
+    const id = window.setTimeout(flushPage, 500)
     return () => clearTimeout(id)
-  }, [pageNo, mode, turning]) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [pageNo, mode, turning, flushPage])
+  useEffect(() => {
+    const hidden = () => document.visibilityState === 'hidden' && flushPage()
+    window.addEventListener('pagehide', flushPage)
+    document.addEventListener('visibilitychange', hidden)
+    return () => {
+      window.removeEventListener('pagehide', flushPage)
+      document.removeEventListener('visibilitychange', hidden)
+      flushPage()
+    }
+  }, [flushPage])
   useEffect(() => {
     if (!accessEndsAt || turning) return
     if (Date.now() >= accessEndsAt) {

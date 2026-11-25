@@ -610,3 +610,52 @@ Status: review written, small fixes made, not committed. Full report: `docs/revi
 - Open (owner or Story Room): home-page hero promises films, pictures and a voice in the present tense; two menus on
   signed-in pages; footer lacks Help, Contact, language picker and business details; library is word-heavy for small
   children; fast page flips are not saved; axe, Lighthouse and Safari not run (not installed).
+
+## Site review fixes, second pass (helper, 25 Nov 2026)
+
+Status: FIXED AND CHECKED, not committed. Neutral tokens only; the look is not decided. Details and evidence:
+`docs/reviews/site-review-25nov.md`, section "Fixes (25 Nov, second pass)".
+- [x] **Honest landing words (rule 4), four languages.** The hero now says each story *will have* a book, a film and
+      an activity, and a new line beside it (`hero.note`, `data-testid="hero-note"`) says what is ready today (the
+      words and the activity of every story) and what is still being made (pictures, films, the narrator's voice).
+      A04's Read, Listen and Watch cards, "Try 3 stories" step, the FAQ answers on screen time, languages and the
+      trial, the landing meta description, the storybook hint ("All four are always here") and the onboarding
+      language line no longer speak of films, pictures or a voice as if they existed. The plans, sign-in and sign-up
+      meta descriptions said "placeholder page, not active yet", which is no longer true: rewritten. Emails and the
+      plans page had no such claim. Lines to revert when production lands: `docs/landing/COPY-NOTES.md` section 3.
+- [x] **One menu on signed-in pages.** The header's menu is the only one: Library, Collections, Settings, Plans (and
+      the owner's area for the owner), the current page marked; the app's second bar is gone (`routes/app/layout.tsx`,
+      `ui/SiteHeader.tsx`, `ui/Shell.tsx` lost its `nav` prop). The owner's area keeps its own sub-menu inside it.
+- [x] **Footer on every page:** Cancel a purchase, Help, Contact, Plans, the six legal pages, a language picker
+      (`LanguageLinks`, shared with the header) and the business-details placeholder.
+      - Help `/:lang/help/` (`routes/help.tsx`, public, pre-rendered): the landing FAQ (only `faq.items` is loaded
+        from the landing words, never the A04 excerpt; shared component `features/landing/Faq.tsx`), the contact
+        form link, the support email as a visible placeholder, and the cancellation page.
+      - Contact `/:lang/contact/` (`routes/contact.tsx`, public, pre-rendered): name (optional), email, message (up
+        to 2,000 characters). Recorded through the data layer: `DataApi.sendContactMessage`; local test mode keeps it
+        in this browser (`contactMessages`) and says so; Supabase: new migration
+        `20261125140000_contact_messages.sql` (table `contact_messages`, owner-only read, `send_contact_message()`
+        for anon and signed-in, 3 an hour per address; on the reviewed function list in `tests/db/catalogue.test.ts`).
+        NOT run against a real Supabase project. No email is sent; the owner's inbox to read the messages is not built.
+      - Words: `src/i18n/<lang>/support.ts` (`SupportDict`), footer and page titles in `common.ts` and `pages.ts`.
+- [x] **Reader saves the last page on fast flips.** `features/reader/Reader.tsx` still saves a page after half a
+      second at rest, and now also saves the latest page when the reader closes, the tab is hidden or the page is
+      left; `useProgress` makes a progress read wait for saves on their way, so the storybook page shows the new
+      page at once. Test: `e2e/stage4c.spec.ts` "fast page flips" (fails without the fix, passes with it).
+- [x] **C03 chopping board.** The activity needs it (the adult slices the cucumber on a board, step 3 and the safety
+      note), so it is a new material line in four languages, the adult doing the cutting: "A chopping board and a
+      sharp knife, for the grown-up only" (Arabic and Hebrew through `docs/story-room/pilots/src/c03.*.json` and
+      `storytool.py build`). `story.json` material ids now follow the language lines one to one (the plate, cup and
+      napkin share one line, as A14 and others). `storytool.py check c03`: no errors. The known C03 exception is
+      gone from `tests/content.test.ts`.
+- [ ] **Left for the design stage: the library is mostly words for small children** (review item 7). What it needs:
+      the shelf (covers) as the first thing on a phone, above the trial box, "Continue", "My shelf" and the age and
+      view choices (fold those into one small grown-up row or behind the parent gate); the cover itself as the way
+      in (no "Open this book" word button needed); a picture-only way back from the storybook page and the reader
+      (a large home or shelf icon, 56 px or more); door pictures that read without words; and a check with the
+      "two-year-old's hands" script (`qa/out/review/walk/child.spec.ts`) that every step works by pictures alone.
+- Checks: `npm run typecheck` 0 errors; `npm test` 358 passed; `npm run e2e` 104 passed, 4 skipped, 0 failed;
+  republished (1067 pages, noindex); live at 390 px in Arabic and English 4 of 4 passed
+  (`qa/out/review/second-pass/`). No fresh reviewer and no native reader has looked at these changes yet.
+- Still open from the review: trial box wording (item 8), short legal contents links (15), Latin names in legal
+  pages (16), the 3D hero (17), axe, Lighthouse and Safari (not installed).

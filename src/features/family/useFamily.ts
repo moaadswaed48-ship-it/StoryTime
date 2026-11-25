@@ -50,6 +50,12 @@ export function useLearners() {
   return { learners, active, choose, mustChoose, error, reload: load }
 }
 
+/**
+ * Saves still on their way. The reader saves its last page as it closes, and the page it closes into reads progress
+ * at once: that read waits for these saves, so it never shows the page from before the save.
+ */
+let pendingSaves: Promise<unknown> = Promise.resolve()
+
 /** The active profile's progress, by story id, with a saver that updates it in place. */
 export function useProgress(learnerId: string | null) {
   const [byStory, setByStory] = useState<Record<string, Progress>>({})
@@ -59,7 +65,7 @@ export function useProgress(learnerId: string | null) {
     setLoaded(false)
     if (!learnerId) return
     let alive = true
-    getApi().then((a) => a.listProgress(learnerId)).then(
+    pendingSaves.then(() => getApi()).then((a) => a.listProgress(learnerId)).then(
       (rows) => alive && (setByStory(Object.fromEntries(rows.map((r) => [r.storyId, r]))), setLoaded(true)),
       () => alive && setLoaded(true),
     )
@@ -68,7 +74,9 @@ export function useProgress(learnerId: string | null) {
   const save = useCallback(async (storyId: string, patch: ProgressPatch) => {
     if (!learnerId) return null
     try {
-      const row = await (await getApi()).saveProgress(learnerId, storyId, patch)
+      const saving = getApi().then((a) => a.saveProgress(learnerId, storyId, patch))
+      pendingSaves = pendingSaves.then(() => saving).catch(() => undefined)
+      const row = await saving
       setByStory((m) => ({ ...m, [storyId]: row }))
       return row
     } catch {

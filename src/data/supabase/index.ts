@@ -1,6 +1,6 @@
 import { AuthError, createClient, type SupabaseClient } from '@supabase/supabase-js'
 import type { Lang } from '@/i18n/config'
-import type { DataApi, LinkKind, ProviderEvent, SignUpInput } from '../api'
+import type { ContactMessageInput, DataApi, LinkKind, ProviderEvent, SignUpInput } from '../api'
 import { codeFromText, DataError, type ErrorCode } from '../errors'
 import {
   cleanPrefs, learnerKindFor,
@@ -376,5 +376,9 @@ export class SupabaseApi implements DataApi {
 
   async requestCancellation(i: { email: string; orderRef: string; message?: string }) {
     await must(this.sb.rpc('request_cancellation', { p_email: i.email, p_order_ref: i.orderRef, p_message: i.message ?? null }))
+  }
+
+  async sendContactMessage(i: ContactMessageInput) {
+    await must(this.sb.rpc('send_contact_message', { p_name: i.name?.trim() || null, p_email: i.email, p_message: i.message, p_lang: i.lang }))
   }
 }

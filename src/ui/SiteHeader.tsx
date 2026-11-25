@@ -5,18 +5,36 @@ import { useLang } from '@/i18n/use-dict'
 import { localPath } from '@/seo/paths'
 
 /**
- * Placeholder header: working name, the main links and the language switch. No visual design yet.
- * Signed in, "Sign in / Create account" become "Library / Settings" once the session is known in the browser
- * (pre-rendered HTML is always the signed-out version).
+ * Placeholder header: working name, the one menu of the site and the language switch. No visual design yet.
+ * Signed out: Plans, Sign in, Create account. Signed in (once the session is known in the browser; pre-rendered
+ * HTML is always the signed-out version): Library, Collections, Settings, Plans, and the owner's area for the owner.
+ * This is the only menu: the app has no second bar. The page you are on is marked (aria-current), never hover-only.
  */
 export function SiteHeader() {
   const { lang, dict } = useLang()
-  const { pathname, search } = useLocation()
+  const { pathname } = useLocation()
   const session = useSession()
   const signedIn = session.status === 'signed-in'
-  // The same page in another language: swap the first segment.
-  const page = pathname.split('/').slice(2).filter(Boolean).join('/')
+  const owner = signedIn && session.account?.role === 'owner'
   const t = dict.common
+  const here = pathname.replace(/\/+$/, '')
+  const isHere = (page: string) => {
+    const to = localPath(lang, page).replace(/\/+$/, '')
+    return here === to || here.startsWith(`${to}/`)
+  }
+  const links: [string, string, boolean?][] = signedIn
+    ? [
+        ['app/library', t.nav.library],
+        ['app/collections', t.nav.collections],
+        ['app/settings', t.nav.settings],
+        ['plans', t.nav.plans],
+        ...(owner ? ([['app/owner', t.nav.owner]] as [string, string][]) : []),
+      ]
+    : [
+        ['plans', t.nav.plans],
+        ['sign-in', t.nav.signIn],
+        ['sign-up', t.nav.signUp, true],
+      ]
   return (
     <header className="border-b border-line bg-surface">
       <a href="#main" className="sr-only focus:not-sr-only focus:absolute focus:start-2 focus:top-2 focus:rounded-control focus:bg-ink focus:px-4 focus:py-3 focus:text-paper">
@@ -26,46 +44,44 @@ export function SiteHeader() {
         <Link to={localPath(lang)} className="me-auto inline-flex min-h-11 items-center rounded-control text-lg font-semibold">
           <bdi>{t.siteName}</bdi>
         </Link>
-        <nav aria-label={t.menu} className="flex flex-wrap items-center gap-1">
-          <NavLink to={localPath(lang, 'plans')}>{t.nav.plans}</NavLink>
-          {signedIn ? (
-            <>
-              <NavLink to={localPath(lang, 'app/library')}>{t.nav.library}</NavLink>
-              <NavLink to={localPath(lang, 'app/settings')}>{t.nav.settings}</NavLink>
-            </>
-          ) : (
-            <>
-              <NavLink to={localPath(lang, 'sign-in')}>{t.nav.signIn}</NavLink>
-              <NavLink to={localPath(lang, 'sign-up')} strong>
-                {t.nav.signUp}
-              </NavLink>
-            </>
-          )}
+        <nav aria-label={t.menu} data-testid="main-menu" className="flex flex-wrap items-center gap-1">
+          {links.map(([page, label, strong]) => {
+            const current = isHere(page)
+            return (
+              <Link key={page} to={localPath(lang, page)} aria-current={current ? 'page' : undefined}
+                className={`inline-flex min-h-11 items-center rounded-control px-3 ${strong ? 'bg-ink text-paper' : 'hover:bg-line/50 aria-[current=page]:bg-ink aria-[current=page]:text-paper'}`}>
+                {label}
+              </Link>
+            )
+          })}
         </nav>
-        <nav aria-label={t.language} className="flex w-full flex-wrap gap-1 sm:w-auto">
-          {LANGS.map((l) => (
-            <Link
-              key={l}
-              to={`${localPath(l, page)}${search}`}
-              lang={l}
-              dir={dirOf(l)}
-              hrefLang={l}
-              aria-current={l === lang ? 'true' : undefined}
-              className="inline-flex min-h-11 items-center rounded-control px-3 text-sm text-ink-muted aria-[current]:bg-ink aria-[current]:text-paper"
-            >
-              {ENDONYM[l]}
-            </Link>
-          ))}
-        </nav>
+        <LanguageLinks label={t.language} className="w-full sm:w-auto" />
       </div>
     </header>
   )
 }
 
-function NavLink({ to, children, strong }: { to: string; children: string; strong?: boolean }) {
+/** The same page in each of the four languages (header and footer). */
+export function LanguageLinks({ label, className = '' }: { label: string; className?: string }) {
+  const { lang } = useLang()
+  const { pathname, search } = useLocation()
+  // The same page in another language: swap the first segment.
+  const page = pathname.split('/').slice(2).filter(Boolean).join('/')
   return (
-    <Link to={to} className={`inline-flex min-h-11 items-center rounded-control px-3 ${strong ? 'bg-ink text-paper' : 'hover:bg-line/50'}`}>
-      {children}
-    </Link>
+    <nav aria-label={label} className={`flex flex-wrap gap-1 ${className}`}>
+      {LANGS.map((l) => (
+        <Link
+          key={l}
+          to={`${localPath(l, page)}${search}`}
+          lang={l}
+          dir={dirOf(l)}
+          hrefLang={l}
+          aria-current={l === lang ? 'true' : undefined}
+          className="inline-flex min-h-11 items-center rounded-control px-3 text-sm text-ink-muted aria-[current]:bg-ink aria-[current]:text-paper"
+        >
+          {ENDONYM[l]}
+        </Link>
+      ))}
+    </nav>
   )
 }
