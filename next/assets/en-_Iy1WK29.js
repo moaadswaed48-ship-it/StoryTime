@@ -1,0 +1,291 @@
+var e=`{
+  "title": "The Quiet Morning",
+  "names": {
+    "c03-emil": "Emil",
+    "c03-sister": "his little sister",
+    "c03-mama": "Mum",
+    "c03-neighbour": "the neighbour from upstairs"
+  },
+  "pages": [
+    {
+      "n": 1,
+      "text": "It was a grey winter morning, and rain tapped softly on the window. Mum’s coat hung by the door, still damp. Mum was a doctor, and she had worked at the hospital all night long. Now she was asleep, and the whole flat was very quiet.",
+      "speech": "It was a grey winter morning, and rain tapped softly on the window. Mum’s coat hung by the door, still damp. Mum was a doctor, and she had worked at the hospital all night long. Now she was asleep, and the whole flat was very quiet."
+    },
+    {
+      "n": 2,
+      "text": "Emil woke up first. He listened. No radio, no kettle, no Mum singing in the kitchen. He tiptoed to his little sister’s bed and put a finger to his lips. “Shh,” he whispered. “Mum’s sleeping.” His sister nodded, her eyes very wide.",
+      "speech": "Emil woke up first. He listened. No radio, no kettle, no Mum singing in the kitchen. He tiptoed to his little sister’s bed and put a finger to his lips. “Shh,” he whispered. “Mum’s sleeping.” His sister nodded, her eyes very wide."
+    },
+    {
+      "n": 3,
+      "text": "They crept into the kitchen. Everything sounded louder than usual. The fridge hummed. The tap went drip, drip. Emil looked around and wondered: What would Mum do now? Breakfast, he thought. Mum always starts with breakfast.",
+      "speech": "They crept into the kitchen. Everything sounded louder than usual. The fridge hummed. The tap went drip, drip. Emil looked around and wondered: What would Mum do now? Breakfast, he thought. Mum always starts with breakfast."
+    },
+    {
+      "n": 4,
+      "text": "Emil took two bowls and poured the cereal very slowly. It rattled like a little drum! They both froze and stared at Mum’s door. It stayed shut. Then Emil poured cold milk for two, and they ate without a single clink of a spoon.",
+      "speech": "Emil took two bowls and poured the cereal very slowly. It rattled like a little drum! They both froze and stared at Mum’s door. It stayed shut. Then Emil poured cold milk for two, and they ate without a single clink of a spoon."
+    },
+    {
+      "n": 5,
+      "text": "“My sock,” whispered his sister. “I can only find one.” They looked under her bed. They looked in her shoes. They looked behind the curtain. There was no sock anywhere. Her bottom lip began to wobble.",
+      "speech": "“My sock,” whispered his sister. “I can only find one.” They looked under her bed. They looked in her shoes. They looked behind the curtain. There was no sock anywhere. Her bottom lip began to wobble."
+    },
+    {
+      "n": 6,
+      "text": "Emil opened the bread basket to pack bread for their lunch boxes. There it was, curled up next to the rolls: one small striped sock. His sister clapped both hands over her mouth. So did Emil. They laughed without a sound, until their eyes were wet.",
+      "speech": "Emil opened the bread basket to pack bread for their lunch boxes. There it was, curled up next to the rolls: one small striped sock. His sister clapped both hands over her mouth. So did Emil. They laughed without a sound, until their eyes were wet."
+    },
+    {
+      "n": 7,
+      "text": "Next came the school bags. What would Mum do now? Emil packed his books and his sister’s books. He put a pencil case in each bag and filled both water bottles. Then he whispered Mum’s morning words: “Bag, bottle, coat, hat.” Everything was ready.",
+      "speech": "Next came the school bags. What would Mum do now? Emil packed his books and his sister’s books. He put a pencil case in each bag and filled both water bottles. Then he whispered Mum’s morning words: “Bag, bottle, coat, hat.” Everything was ready."
+    },
+    {
+      "n": 8,
+      "text": "But then his sister stood still by Mum’s door. “I want to say goodbye to Mum,” she whispered. She reached for the handle. Emil’s heart jumped. If she opened the door, Mum would wake up. But his sister’s eyes were full of tears.",
+      "speech": "But then his sister stood still by Mum’s door. “I want to say goodbye to Mum,” she whispered. She reached for the handle. Emil’s heart jumped. If she opened the door, Mum would wake up. But his sister’s eyes were full of tears."
+    },
+    {
+      "n": 9,
+      "text": "Emil took her hand, very gently. He thought hard. Sometimes Mum left them little notes in their lunch boxes. “Let’s write her a note,” he whispered. “Then she can read our goodbye when she wakes up.” His sister let go of the handle.",
+      "speech": "Emil took her hand, very gently. He thought hard. Sometimes Mum left them little notes in their lunch boxes. “Let’s write her a note,” he whispered. “Then she can read our goodbye when she wakes up.” His sister let go of the handle."
+    },
+    {
+      "n": 10,
+      "text": "Emil wrote in his very best letters: “Mum, we ate, we went to school, we love you.” Under the words, his sister drew one big heart, one small heart and one more small heart. “That’s you, and that’s me,” she said, pointing.",
+      "speech": "Emil wrote in his very best letters: “Mum, we ate, we went to school, we love you.” Under the words, his sister drew one big heart, one small heart and one more small heart. “That’s you, and that’s me,” she said, pointing."
+    },
+    {
+      "n": 11,
+      "text": "Where should the note go? Emil knew. He propped it against Mum’s favourite mug, the big yellow one with a chip on the handle. He put the bowls in the sink without a sound. Then he looked around the kitchen one last time.",
+      "speech": "Where should the note go? Emil knew. He propped it against Mum’s favourite mug, the big yellow one with a chip on the handle. He put the bowls in the sink without a sound. Then he looked around the kitchen one last time."
+    },
+    {
+      "n": 12,
+      "text": "There was a soft knock at the door. It was the neighbour from upstairs, with her big umbrella. She always walked them to school after Mum’s night shifts. Coats on. Hats on. The front door closed with the smallest click.",
+      "speech": "There was a soft knock at the door. It was the neighbour from upstairs, with her big umbrella. She always walked them to school after Mum’s night shifts. Coats on. Hats on. The front door closed with the smallest click."
+    },
+    {
+      "n": 13,
+      "text": "The flat stayed quiet all morning. The rain stopped, and pale winter sunshine crept slowly across the kitchen floor. At noon, Mum woke up. She padded into the kitchen in her slippers, yawning. Then she saw the note against her mug.",
+      "speech": "The flat stayed quiet all morning. The rain stopped, and pale winter sunshine crept slowly across the kitchen floor. At noon, Mum woke up. She padded into the kitchen in her slippers, yawning. Then she saw the note against her mug."
+    },
+    {
+      "n": 14,
+      "text": "Mum read it once, and then again. She held her yellow mug in both hands and smiled a long, warm smile. “What would I do without you two?” she said to the quiet kitchen. That evening, Emil found a new note on his pillow, with three hearts.",
+      "speech": "Mum read it once, and then again. She held her yellow mug in both hands and smiled a long, warm smile. “What would I do without you two?” she said to the quiet kitchen. That evening, Emil found a new note on his pillow, with three hearts."
+    }
+  ],
+  "film": [
+    {
+      "id": "f01",
+      "speaker": "narrator",
+      "text": "A grey winter morning. The flat was very quiet.",
+      "speech": "A grey winter morning. The flat was very quiet.",
+      "emotion": "hushed, slow, almost a whisper"
+    },
+    {
+      "id": "f02",
+      "speaker": "narrator",
+      "text": "Mum had worked at the hospital all night. Now she was asleep.",
+      "speech": "Mum had worked at the hospital all night. Now she was asleep.",
+      "emotion": "gentle and tender"
+    },
+    {
+      "id": "f03",
+      "speaker": "c03-emil",
+      "text": "Shh. Mum’s sleeping.",
+      "speech": "Shh. Mum’s sleeping.",
+      "emotion": "a careful whisper"
+    },
+    {
+      "id": "f04",
+      "speaker": "narrator",
+      "text": "Suddenly every sound was loud.",
+      "speech": "Suddenly every sound was loud.",
+      "emotion": "amused, a little dramatic"
+    },
+    {
+      "id": "f05",
+      "speaker": "c03-emil",
+      "text": "What would Mum do now?",
+      "speech": "What would Mum do now?",
+      "emotion": "thinking to himself, soft and close"
+    },
+    {
+      "id": "f06",
+      "speaker": "c03-emil",
+      "text": "Breakfast.",
+      "speech": "Breakfast.",
+      "emotion": "a pleased whisper, he has the answer"
+    },
+    {
+      "id": "f07",
+      "speaker": "narrator",
+      "text": "The cereal rattled like a little drum.",
+      "speech": "The cereal rattled like a little drum.",
+      "emotion": "comic, then a held breath"
+    },
+    {
+      "id": "f08",
+      "speaker": "c03-sister",
+      "text": "My sock! I can only find one.",
+      "speech": "My sock! I can only find one.",
+      "emotion": "an upset whisper, almost crying"
+    },
+    {
+      "id": "f09",
+      "speaker": "c03-sister",
+      "text": "In the bread basket?",
+      "speech": "In the bread basket?",
+      "emotion": "a whisper bursting with giggles"
+    },
+    {
+      "id": "f10",
+      "speaker": "c03-emil",
+      "text": "What would Mum do now?",
+      "speech": "What would Mum do now?",
+      "emotion": "thinking, steadier now"
+    },
+    {
+      "id": "f11",
+      "speaker": "c03-emil",
+      "text": "Bag, bottle, coat, hat.",
+      "speech": "Bag, bottle, coat, hat.",
+      "emotion": "a whispered chant, one word per beat"
+    },
+    {
+      "id": "f12",
+      "speaker": "c03-sister",
+      "text": "I want to say goodbye to Mum.",
+      "speech": "I want to say goodbye to Mum.",
+      "emotion": "small and sad, tearful"
+    },
+    {
+      "id": "f13",
+      "speaker": "c03-emil",
+      "text": "Let’s write her a note.",
+      "speech": "Let’s write her a note.",
+      "emotion": "gentle, an idea, comforting"
+    },
+    {
+      "id": "f14",
+      "speaker": "c03-emil",
+      "text": "Mum, we ate, we went to school, we love you.",
+      "speech": "Mum, we ate, we went to school, we love you.",
+      "emotion": "slow and careful, saying it as he writes"
+    },
+    {
+      "id": "f15",
+      "speaker": "c03-sister",
+      "text": "That’s you, and that’s me.",
+      "speech": "That’s you, and that’s me.",
+      "emotion": "proud, cheered up"
+    },
+    {
+      "id": "f16",
+      "speaker": "narrator",
+      "text": "Emil propped the note against Mum’s favourite mug.",
+      "speech": "Emil propped the note against Mum’s favourite mug.",
+      "emotion": "warm, quiet"
+    },
+    {
+      "id": "f17",
+      "speaker": "c03-neighbour",
+      "text": "Good morning, you two. Ready?",
+      "speech": "Good morning, you two. Ready?",
+      "emotion": "a kind whisper"
+    },
+    {
+      "id": "f18",
+      "speaker": "narrator",
+      "text": "The door closed with the smallest click.",
+      "speech": "The door closed with the smallest click.",
+      "emotion": "soft, almost a secret"
+    },
+    {
+      "id": "f19",
+      "speaker": "narrator",
+      "text": "All morning, the flat stayed quiet.",
+      "speech": "All morning, the flat stayed quiet.",
+      "emotion": "slow, peaceful"
+    },
+    {
+      "id": "f20",
+      "speaker": "narrator",
+      "text": "At noon, Mum woke up.",
+      "speech": "At noon, Mum woke up.",
+      "emotion": "gentle, a little lift"
+    },
+    {
+      "id": "f21",
+      "speaker": "c03-mama",
+      "text": "What’s this?",
+      "speech": "What’s this?",
+      "emotion": "sleepy, curious"
+    },
+    {
+      "id": "f22",
+      "speaker": "c03-mama",
+      "text": "Mum, we ate, we went to school, we love you.",
+      "speech": "Mum, we ate, we went to school, we love you.",
+      "emotion": "reading slowly, moved"
+    },
+    {
+      "id": "f23",
+      "speaker": "c03-mama",
+      "text": "What would I do without you two?",
+      "speech": "What would I do without you two?",
+      "emotion": "full of love, a soft laugh in her voice"
+    },
+    {
+      "id": "f24",
+      "speaker": "narrator",
+      "text": "That evening, there was a new note on Emil’s pillow.",
+      "speech": "That evening, there was a new note on Emil’s pillow.",
+      "emotion": "warm and slow, closing the story"
+    }
+  ],
+  "activity": {
+    "title": "A Cold Breakfast Tray",
+    "goal": "Prepare a simple cold breakfast safely, step by step.",
+    "materials": [
+      "A tray",
+      "Bread",
+      "A soft spread with no nuts or sesame (for example soft cheese or jam)",
+      "A cucumber",
+      "A chopping board and a sharp knife, for the grown-up only",
+      "A rounded butter knife",
+      "A plate, a plastic cup and a napkin",
+      "Water"
+    ],
+    "steps": [
+      {
+        "n": 1,
+        "caption": "Wash your hands. Who is the tray for?"
+      },
+      {
+        "n": 2,
+        "caption": "Spread the bread with a butter knife."
+      },
+      {
+        "n": 3,
+        "caption": "The grown-up cuts the cucumber. You lay the slices."
+      },
+      {
+        "n": 4,
+        "caption": "Lay the tray: plate, cup, napkin."
+      },
+      {
+        "n": 5,
+        "caption": "Carry it slowly, with two hands."
+      }
+    ],
+    "safety": "Check allergies first. No nuts and no sesame, so no peanut butter, hummus or tahini. Only cold food: no stove, no kettle, no toaster. The child uses a rounded butter knife on soft food; an adult cuts the cucumber with a sharp knife. Fill the cup only halfway. If there is an accident, call your local emergency number.",
+    "forAdult": "In the story, Emil looks round the quiet kitchen and asks himself what his mother would do now, then does it without being asked. This activity gives the child the same feeling of planning and caring for someone. Before you start, ask: “Who is this tray for? What do they like for breakfast?” Let the child decide, and if they like, draw a quick plan of the tray first: where the plate goes, where the cup goes. Then wash hands together. The child spreads soft cheese or jam on the bread with a rounded butter knife. Keep the bread flat on a plate so it does not slide. An adult slices the cucumber; the child lays the slices on the plate in a pattern of their choice. The child pours water into a plastic cup, only halfway, and folds a napkin. Then comes the hardest part: carrying the tray slowly with both hands and both eyes on the cup. Let them serve it themselves and see the person’s face. Afterwards, ask: “What was easy? What would you do differently next time?” Praise the care and the planning (“you thought about what they like”), not speed. Twenty-five minutes is about right. To make it easier, prepare one slice of bread and no cup. To make it harder, let the child plan a tray for two people, or write a small note to go with it.",
+    "inClass": "Pairs prepare one tray together for a helper at school, such as the cleaner, the gardener or the guard. One child spreads and one lays the tray; then they swap for the second slice. The teacher cuts all the cucumber beforehand and checks every allergy in the class. Each pair carries its tray together and serves it, then tells the class what they planned and why."
+  }
+}
+`;export{e as default};
