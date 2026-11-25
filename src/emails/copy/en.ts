@@ -102,7 +102,7 @@ export default {
         'The pass does not renew. It ends on {endsAt} and nothing more is charged.',
         'Your right to cancel: you may cancel within 14 days of the purchase, or of receiving this confirmation if that came later. The refund is made within 14 days of your request; a fee of at most 5% of the price or 100 shekels, whichever is lower, may be kept.',
         'How to cancel: online on the “Cancel a purchase” page ({cancelLink}), or by email or post: {contact}',
-        'Your tax receipt comes in a separate email from the payment company.',
+        '[How the tax receipt reaches you: to be added once the payment company is chosen]',
       ],
     },
     pass_started: {

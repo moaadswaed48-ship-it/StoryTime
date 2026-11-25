@@ -102,7 +102,7 @@ export default {
         'Pakken fornyes ikke. Den slutter {endsAt}, og der trækkes ikke flere penge.',
         'Din fortrydelsesret: du kan fortryde inden for 14 dage efter købet, eller efter at du har modtaget denne bekræftelse, hvis den kom senere. Pengene betales tilbage inden for 14 dage efter din anmodning; et gebyr på højst 5 % af prisen eller 100 shekel, alt efter hvad der er lavest, kan blive trukket.',
         'Sådan fortryder du: online på siden “Fortryd et køb” ({cancelLink}), eller pr. e-mail eller post: {contact}',
-        'Din kvittering til skat kommer i en separat e-mail fra betalingsfirmaet.',
+        '[Hvordan kvitteringen til skat når frem: tilføjes, når betalingsfirmaet er valgt]',
       ],
     },
     pass_started: {

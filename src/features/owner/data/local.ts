@@ -4,7 +4,7 @@ import { AGE_GROUPS, isAgeGroup, type AgeGroup, type Iso } from '@/data/types'
 import { OwnerError, type OwnerApi } from './api'
 import type { BlobStore } from './blobs'
 import {
-  blockingGaps, checkUpload, emptyLangContent, fingerprint, hasActivity, kindOfMime, possibleLangs, publishProblems,
+  blockingGaps, checkUpload, emptyLangContent, fingerprint, hasActivity, kindOfMime, possibleLangs, publishedGaps, publishProblems,
   safeName, sharedGaps, signoffValid, targetLangs, trialOverflow,
 } from './rules'
 import {
@@ -131,6 +131,8 @@ export class LocalOwnerServer {
       if (s.textLocked && lockedTextChanged(s, next)) throw new OwnerError('text_locked')
       const others = db.stories.filter((x) => x.id !== id)
       if (trialOverflow([...others, { id, groups: next.groups }]).length) throw new OwnerError('trial_limit')
+      const gaps = publishedGaps({ ...s, ...next })
+      if (gaps.length) throw new OwnerError('published_incomplete', { problems: gaps })
       const changed: string[] = []
       if (JSON.stringify(s.groups) !== JSON.stringify(next.groups)) changed.push('story_age_groups')
       if (JSON.stringify(s.pages) !== JSON.stringify(next.pages)) changed.push('pages')

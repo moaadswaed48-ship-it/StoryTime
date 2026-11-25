@@ -10,7 +10,6 @@ export const meta: Route.MetaFunction = () => [
   { title: 'StoryTime' },
   { tagName: 'link', rel: 'canonical', href: absoluteUrl(__SITE_ORIGIN__, base, '/') },
   ...alternates(__SITE_ORIGIN__, base, '').map((a) => ({ tagName: 'link', rel: 'alternate', hrefLang: a.hrefLang, href: a.href })),
-  ...(__NOINDEX__ ? [{ name: 'robots', content: 'noindex' }] : []),
 ]
 
 /**

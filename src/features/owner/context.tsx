@@ -47,6 +47,7 @@ export function ownerError(od: OwnerDict, e: unknown): string {
     case 'trial_limit': return od.errors.trialLimit
     case 'signoff_blocked': return od.errors.signoffBlocked
     case 'publish_blocked': return od.errors.publishBlocked
+    case 'published_incomplete': return od.errors.publishedIncomplete
     case 'not_owner':
     case 'not_signed_in': return od.errors.notOwner
     case 'upload_refused': return uploadRefusal(od, (e as OwnerError).refusal ?? 'type', 'page')

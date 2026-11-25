@@ -1,0 +1,47 @@
+[
+  {
+    "id": "a09-dina",
+    "name": { "ar": "دِينا", "he": "דִּינָה", "en": "Dina", "da": "Dina" },
+    "stage": "toddler",
+    "build": { "height": 0.48, "heads": 3.5, "girth": 0.62, "shoulders": 1.05 },
+    "skin": "#c68a62",
+    "hair": { "style": "bob", "color": "#2a1814" },
+    "eyes": { "color": "#3a2418", "size": 0.95 },
+    "brows": { "color": "#2a1814", "weight": 0.45 },
+    "top": { "style": "jumper", "color": "#3f8f8a", "trim": "#f4ead6", "pattern": "plain" },
+    "bottom": { "style": "trousers", "color": "#e3a24a" },
+    "shoes": { "style": "boots", "color": "#8a4a36" },
+    "manner": "Busy and proud; pushes her sleeves up before every job; when she stops herself she freezes all at once, hands flat, and looks up at Uncle for a nod."
+  },
+  {
+    "id": "a09-uncle",
+    "name": { "ar": "عَمّي", "he": "הַדּוֹד", "en": "Uncle", "da": "onkel" },
+    "stage": "adult",
+    "build": { "height": 1.02, "heads": 6, "girth": 0.66, "shoulders": 1.6 },
+    "skin": "#b27850",
+    "hair": { "style": "short", "color": "#2b1d18" },
+    "eyes": { "color": "#3e2a1e", "size": 0.55 },
+    "brows": { "color": "#2b1d18", "weight": 0.85 },
+    "top": { "style": "apron", "color": "#f4efe4", "trim": "#c9b48e", "pattern": "plain" },
+    "bottom": { "style": "trousers", "color": "#5a5a6a" },
+    "shoes": { "style": "shoes", "color": "#4a3328" },
+    "extras": ["moustache"],
+    "manner": "Big, slow and steady; flour up to the elbows; says the important word once, clearly and calmly, then smiles; copies Dina's gestures to show her she got it right."
+  },
+  {
+    "id": "a09-neighbour",
+    "name": { "ar": "الجار", "he": "הַשָּׁכֵן", "en": "the neighbour", "da": "naboen" },
+    "stage": "elder",
+    "build": { "height": 0.92, "heads": 5.8, "girth": 0.55, "shoulders": 1.4 },
+    "skin": "#d2a07c",
+    "hair": { "style": "short", "color": "#dcd6ce" },
+    "eyes": { "color": "#4a3a2c", "size": 0.5 },
+    "brows": { "color": "#cfc8bf", "weight": 0.7 },
+    "top": { "style": "coat", "color": "#5b6f9e", "trim": "#e9dcc4", "pattern": "plain" },
+    "bottom": { "style": "trousers", "color": "#4a4440" },
+    "shoes": { "style": "shoes", "color": "#3a2a22" },
+    "extras": ["hat", "scarf"],
+    "extraColors": { "hat": "#7a4a3a", "scarf": "#d8563e" },
+    "manner": "Background figure: the first customer of the morning; stamps the cold off his feet at the door, rubs his hands, and smiles at Dina's bread."
+  }
+]

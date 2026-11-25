@@ -24,6 +24,8 @@ export function Layout({ children }: { children: ReactNode }) {
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+        {/* Preview builds (NOINDEX=1): on every page, the SPA fallback included, so no URL of the preview is indexed. */}
+        {__NOINDEX__ && <meta name="robots" content="noindex, nofollow" />}
         <Meta />
         <Links />
       </head>

@@ -1,0 +1,204 @@
+{
+  "id": "a09",
+  "ageGroups": ["2-3"],
+  "owner": "storytime",
+  "lesson": "Pull your hands back and wait when a grown-up says \"Hot!\".",
+  "cast": ["a09-dina", "a09-uncle", "a09-neighbour"],
+  "pages": [
+    {
+      "n": 1,
+      "art": "Winter, before dawn. A small village bakery seen from inside: one warm lamp, a long wooden table dusted with flour, the dark-blue sky in the window behind (two or three soft stars, the shapes of village roofs). Uncle, in his white apron, lifts a big ball of dough onto the table. Dina stands on a low, wide step-stool beside him, sleeves pushed up, ready. Feeling: early, cosy, a little secret time together. Calm area: the plain dark wall across the top quarter.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 2,
+      "art": "Close on the table: Dina pats the soft dough with both flat hands; three small curved lines beside her hands show the pats (no letters). Uncle's big hands shape a round loaf next to hers. Feeling: busy, proud, rhythmic. Calm area: the plain floury table across the bottom.",
+      "zone": { "side": "full", "v": "bottom", "size": "s" },
+      "image": null
+    },
+    {
+      "n": 3,
+      "art": "Dina sprinkles a pinch of flour from high up; a small white puff hangs in the air, and a dot of flour sits on the tip of her nose. She is cross-eyed looking at it, laughing. Uncle laughs too. Physical, gentle comedy. Calm area: the plain wall across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 4,
+      "art": "Uncle opens the big oven door (a simple arched shape in the wall, glowing orange inside). Wavy lines of hot air rise from the opening; a row of round golden loaves shines inside. Dina, at the table, watches with wide eyes. The orange light warms both faces. Uncle wears thick oven gloves. Feeling: wonder, warmth, a little awe. Calm area: the dark wall across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 5,
+      "art": "Uncle has drawn a tray of loaves out onto the stone ledge by the oven. Dina leans forward from her stool, one hand reaching towards the shining loaves (still a good gap away). Uncle turns to her, one open hand raised like a gentle stop sign, face calm and serious, not angry. Shimmering lines over the loaves. Calm area: the dark wall across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 6,
+      "art": "Dina's hands have snapped back: both palms now flat on the floury table, elbows in, her body leaning back, eyes on Uncle. Uncle smiles and nods, his own hands flat on the table too, copying her. Feeling: relief, pride. Calm area: the plain table across the bottom.",
+      "zone": { "side": "full", "v": "bottom", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 7,
+      "art": "Uncle slides the round loaves onto a wooden shelf with a long flat wooden paddle. Thin curls of steam rise from each loaf. Dina watches from the table, hands still flat on it. Calm area: the plain wall above the shelf, across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 8,
+      "art": "Dina leans towards the shelf, cheeks puffed, blowing; the curls of steam bend away from her. Her hands stay on the table. Uncle sits beside her, waiting with her, chin on his hand. Feeling: patient, playful. Calm area: the plain wall across the top.",
+      "zone": { "side": "full", "v": "top", "size": "s" },
+      "image": null
+    },
+    {
+      "n": 9,
+      "art": "The window now shows a pink dawn sky over the village roofs. Inside, the steam over the loaves is thin. Uncle touches one loaf lightly with the backs of his fingers and nods. Dina watches his hand. Calm area: the pink sky in the window across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 10,
+      "art": "Close on Dina holding a torn piece of bread in both hands near her face, eyes closed, smelling it, a happy smile. A faint wisp of warmth rises from it. Uncle's hand still holds the loaf it came from. Feeling: the reward, deep contentment. Calm area: the soft warm background across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 11,
+      "art": "The bakery door is open to the cold pink morning. A neighbour in a coat, scarf and hat comes in, breath making a small cloud in the cold air; a second figure waits behind him in the doorway (background, simple shape). Dina, on her stool, holds her bread up to show it, smiling. Uncle stands behind the counter with the shelf of loaves. Last picture: warm inside, cold outside. Calm area: the plain wall across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    }
+  ],
+  "film": {
+    "targetSeconds": 150,
+    "shots": [
+      {
+        "n": 1,
+        "page": 1,
+        "action": "10 s. Scene 1, before dawn. Wide and still: dark-blue sky, a few stars, the shapes of village roofs; one bakery window glows orange. Hold 3 s, then a very slow push towards the window. Keep the lower fifth calm for captions.",
+        "sound": ["quiet winter night", "a far rooster, once", "soft music: a slow tune on a plucked string"],
+        "lines": ["f01"]
+      },
+      {
+        "n": 2,
+        "page": 1,
+        "action": "9 s. Inside, warm lamp light. Uncle lifts the dough onto the table; Dina climbs onto her low step-stool, yawns, then smiles up at him.",
+        "sound": ["a soft thump of dough", "Dina's little yawn"],
+        "lines": ["f02"]
+      },
+      {
+        "n": 3,
+        "page": 2,
+        "action": "9 s. Close on Dina's hands patting the dough: three soft beats, each with a small bounce of the dough. The line falls on the beats; 2 s of patting with no words after.",
+        "sound": ["three soft pats", "the tune picks up a little"],
+        "lines": ["f03"]
+      },
+      {
+        "n": 4,
+        "page": 3,
+        "action": "9 s. Dina sprinkles flour from high up; a small white puff drifts down and a dot lands on her nose. She goes cross-eyed looking at it.",
+        "sound": ["a light puff", "Dina's giggle"],
+        "lines": ["f04"]
+      },
+      {
+        "n": 5,
+        "page": 3,
+        "action": "7 s. Uncle laughs gently and taps the tip of his own nose. Dina wipes hers with the back of her hand.",
+        "sound": ["Uncle's warm laugh"],
+        "lines": ["f05"]
+      },
+      {
+        "n": 6,
+        "page": 4,
+        "action": "10 s. Scene 2, the oven. Uncle, in thick gloves, opens the oven door slowly. Orange light spreads over the room; wavy lines of hot air rise and shimmer; the loaves glow. Music swells softly, never loud. 2 s of glow before the line.",
+        "sound": ["a heavy door, slow and soft", "a low warm hum of the fire", "music swells gently"],
+        "lines": ["f06"]
+      },
+      {
+        "n": 7,
+        "page": 5,
+        "action": "8 s. Uncle sets the tray on the stone ledge. Dina leans forward and her hand moves slowly towards the shining loaves. Uncle turns, one open hand raised. The line is firm and calm, not loud.",
+        "sound": ["a tray on stone"],
+        "lines": ["f07"]
+      },
+      {
+        "n": 8,
+        "page": 6,
+        "action": "9 s. Dina's hands snap back onto the table. She looks at Uncle; he nods. She repeats his words softly, proud of herself.",
+        "sound": ["two small hand pats on wood"],
+        "lines": ["f08", "f09"]
+      },
+      {
+        "n": 9,
+        "page": 6,
+        "action": "8 s. Close on the table: Dina's two small hands flat in the flour, Uncle's two big hands flat beside them. The line, then 3 s of stillness: a breathing moment.",
+        "sound": ["the tune, one soft phrase"],
+        "lines": ["f10"]
+      },
+      {
+        "n": 10,
+        "page": 7,
+        "action": "10 s. Scene 3, waiting. Uncle slides the loaves onto the shelf with a long wooden paddle. Thin steam curls rise from each loaf, slowly. 4 s with no words, then the line.",
+        "sound": ["wood sliding on wood", "a soft steam hiss"],
+        "lines": ["f11"]
+      },
+      {
+        "n": 11,
+        "page": 8,
+        "action": "10 s. Dina leans towards the shelf and blows; the steam bends away from her. Her hands stay on the table. She asks; Uncle answers, smiling.",
+        "sound": ["Dina blowing", "the tune, slow"],
+        "lines": ["f12", "f13"]
+      },
+      {
+        "n": 12,
+        "page": 9,
+        "action": "10 s. Through the window, the sky slowly changes from dark blue to pink over the roofs. Inside, the steam grows thinner. Only the light moves.",
+        "sound": ["a bird begins to sing outside", "the tune"],
+        "lines": ["f14"]
+      },
+      {
+        "n": 13,
+        "page": 9,
+        "action": "8 s. Uncle touches one loaf with the backs of his fingers and nods. Hold 2 s on Dina's face lighting up.",
+        "sound": ["a soft crackle of crust"],
+        "lines": ["f15"]
+      },
+      {
+        "n": 14,
+        "page": 10,
+        "action": "10 s. Scene 4, warm bread. Uncle tears off a piece and gives it to Dina. She holds it in both hands, closes her eyes and smells it.",
+        "sound": ["bread tearing", "a happy sigh"],
+        "lines": ["f16"]
+      },
+      {
+        "n": 15,
+        "page": 11,
+        "action": "9 s. The door opens to the cold pink morning; a neighbour comes in, his breath a small cloud. Dina holds up her bread to show him.",
+        "sound": ["a small bell over the door", "cold wind, briefly"],
+        "lines": ["f17", "f18"]
+      },
+      {
+        "n": 16,
+        "page": 11,
+        "action": "12 s. Closing image. Outside again, wide: the bakery window glows warm against the pink dawn and the village roofs. Nothing moves. Hold 6 s while the music ends, then stop. No autoplay, no next film.",
+        "sound": ["the last note of the tune", "morning birds"],
+        "lines": []
+      }
+    ]
+  },
+  "activity": {
+    "minutes": 10,
+    "materials": ["soft-bread-slices", "bowl", "plate", "spoon-of-water"],
+    "steps": [
+      { "n": 1, "picture": "Child and grown-up wash hands with soap at a sink.", "loop": false },
+      { "n": 2, "picture": "The child tears a slice of soft bread into pieces over a bowl; the grown-up tears the second slice beside them.", "loop": true },
+      { "n": 3, "picture": "The grown-up drips one spoon of water onto the bread in the bowl; the child watches.", "loop": false },
+      { "n": 4, "picture": "The child squeezes a handful of damp bread, rolls it between both palms and pats it flat: a little round loaf.", "loop": true },
+      { "n": 5, "picture": "A row of little round bread loaves on a plate; child and grown-up both pull their hands back and blow on them, smiling. A sink and soap in the background.", "loop": false }
+    ],
+    "checkedAgainst": "docs/story-room/age-2-3.md section 7 (red list: no raw flour or play dough; tube test; allergy check) and section 4 (activity limits), 25 Nov 2026"
+  }
+}

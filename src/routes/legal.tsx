@@ -5,11 +5,13 @@ import { isLegalDoc } from '@/seo/paths'
 import { Page } from '@/ui/Page'
 import type { Route } from './+types/legal'
 
-export const loader = ({ params }: Route.LoaderArgs) => {
-  if (!isLegalDoc(params.doc)) throw data(null, { status: 404 })
-  return { doc: params.doc }
+// One shared function: the client build strips `loader`, so `clientLoader = loader` would point at nothing there.
+function load(doc: string | undefined) {
+  if (!isLegalDoc(doc)) throw data(null, { status: 404 })
+  return { doc }
 }
-export const clientLoader = loader
+export const loader = ({ params }: Route.LoaderArgs) => load(params.doc)
+export const clientLoader = ({ params }: Route.ClientLoaderArgs) => load(params.doc)
 
 export const meta: Route.MetaFunction = ({ matches, loaderData }) => {
   const d = langData(matches)

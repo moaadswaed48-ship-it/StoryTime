@@ -448,3 +448,25 @@ drafts); polishing rounds and the final renders are still to do.
   + one route line, final renders into `docs/previews/instructions/`, the comparison `README.md` there.
 - The figure builder was being rewritten by another helper while this was made (side views, kneeling, palm
   hand arrived mid-way): if a render fails with a missing export in `src/studio/figure/`, wait and run again.
+
+## Preview (25 Nov 2026): hidden test link on GitHub Pages
+
+Live: https://moaadswaed48-ship-it.github.io/StoryTime/next/ (the old site at `/StoryTime/` is untouched).
+
+- Publish again with one command: `node scripts/deploy/preview.mjs` (`--no-push` to lay it out and check first).
+  It builds with `BASE_PATH=/StoryTime/next/`, `SITE_ORIGIN=https://moaadswaed48-ship-it.github.io`, `NOINDEX=1`
+  and the local test-mode data layer (any `VITE_SUPABASE_*` is dropped), then replaces only `next/` on `gh-pages`
+  in a separate worktree (`$PAGES_WORKTREE`, default `/tmp/storytime-gh-pages`), commits and pushes. It refuses
+  to commit anything outside `next/`. It builds the working tree as it is, uncommitted files included.
+- Hidden from search: `NOINDEX=1` makes the root layout put `<meta name="robots" content="noindex, nofollow">` on
+  every page, the SPA fallback included (the script fails if one page lacks it); `next/robots.txt` disallows all
+  (advisory: the root robots.txt belongs to the old site). The test-mode banner now shows on every page.
+- Direct links into the app: GitHub Pages serves only the root `404.html` (old site), so the script writes the SPA
+  fallback as `index.html` into every client-only folder (`/:lang/app/...`, `/:lang/auth/...`) for all four
+  languages and every known story id (folders in `content/stories/` + the seed samples). A story id that did not
+  exist at build time still 404s when opened directly; it works from inside the app. Republish after adding stories.
+- Test mode caveat: the local backend bundles the sample and pilot story text in hashed JS chunks, so on the
+  preview it is reachable by anyone who digs into the files (the pilot stories are StoryTime's, none is the author's).
+  Never publish the preview with the author's story in `content/stories/`.
+- Fixed while publishing: `/:lang/legal/*` threw "loader is not defined" in the browser (`clientLoader = loader`;
+  the client build strips `loader`).

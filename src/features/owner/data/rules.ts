@@ -135,6 +135,17 @@ export function publishProblems(s: OwnerStory, only?: Lang[] | null): PublishPro
   return out
 }
 
+/**
+ * A published story must stay complete: a save may not leave a published language without its title or a page's
+ * words, a page without a picture, or the story without an age group (the database refuses it too:
+ * guard_published_complete in supabase/migrations/20261122120000_owner_emails_review.sql). Sign-offs may go stale.
+ */
+export function publishedGaps(s: OwnerStory): Gap[] {
+  if (s.status !== 'published') return []
+  const langs = targetLangs(s, s.publishLangs)
+  return [...sharedGaps(s), ...langs.flatMap((l) => blockingGaps(s, l).filter((g) => g.kind !== 'speechWords'))]
+}
+
 /** At most three trial stories per age group (plan section 2). Returns the groups that would go over. */
 export function trialOverflow(stories: Pick<OwnerStory, 'id' | 'groups'>[]): AgeGroup[] {
   return AGE_GROUPS.filter((g) => stories.filter((s) => s.groups.some((x) => x.group === g && x.trial)).length > TRIAL_PER_GROUP)
@@ -159,7 +170,11 @@ export function sniffMime(head: Uint8Array, name: string): string | null {
   if (b(0) === 0xff && b(1) === 0xd8 && b(2) === 0xff) return 'image/jpeg'
   if (b(0) === 0x89 && b(1) === 0x50 && b(2) === 0x4e && b(3) === 0x47) return 'image/png'
   if (b(0) === 0x52 && b(1) === 0x49 && b(2) === 0x46 && b(3) === 0x46 && b(8) === 0x57 && b(9) === 0x45 && b(10) === 0x42 && b(11) === 0x50) return 'image/webp'
-  if (b(4) === 0x66 && b(5) === 0x74 && b(6) === 0x79 && b(7) === 0x70) return 'video/mp4'
+  if (b(4) === 0x66 && b(5) === 0x74 && b(6) === 0x79 && b(7) === 0x70) {
+    // The same box starts HEIC and AVIF pictures: only video brands count as a film.
+    const brand = String.fromCharCode(b(8), b(9), b(10), b(11))
+    return /^(hei[cmsx]|hev[cmsx]|mif1|msf1|avi[fs])$/.test(brand) ? null : 'video/mp4'
+  }
   if (b(0) === 0x1a && b(1) === 0x45 && b(2) === 0xdf && b(3) === 0xa3) return 'video/webm'
   // WebVTT: optional byte-order mark, then "WEBVTT".
   const text = new TextDecoder().decode(head.slice(0, 16)).replace(/^﻿/, '')

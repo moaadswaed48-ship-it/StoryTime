@@ -39,6 +39,7 @@ const AUTHENTICATED_FUNCTIONS = [
   'story_is_published(p_story uuid)',
   'story_lang_complete(p_story uuid, p_lang site_lang)',
   'story_lang_fingerprint(p_story uuid, p_lang site_lang)',
+  'story_lang_visible(p_story uuid, p_lang site_lang)',
 ]
 
 /** Tables signed-out visitors may read. */

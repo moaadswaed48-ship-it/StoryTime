@@ -1,0 +1,32 @@
+[
+  {
+    "id": "c09-max",
+    "name": { "ar": "ماكْس", "he": "מַקְס", "en": "Max", "da": "Max" },
+    "stage": "child",
+    "build": { "height": 0.66, "heads": 4.7, "girth": 0.44, "shoulders": 1.15 },
+    "skin": "#e9bf98",
+    "hair": { "style": "curls", "color": "#3a2418" },
+    "eyes": { "color": "#4a3a2a", "size": 0.8 },
+    "brows": { "color": "#3a2418", "weight": 0.6 },
+    "top": { "style": "tee", "color": "#4f8fc0", "trim": "#f4ecd8", "pattern": "stripes" },
+    "bottom": { "style": "shorts", "color": "#e2a93b" },
+    "shoes": { "style": "bare", "color": "#000000" },
+    "manner": "Loose and floppy when he is comfortable, sinking deeper into cushions; when an idea grabs him he jumps up all at once and moves with his whole body; thinks out loud and laughs at his own wobbles."
+  },
+  {
+    "id": "c09-mother",
+    "name": { "ar": "أُمّ ماكْس", "he": "אִמָּא שֶׁל מַקְס", "en": "Mum", "da": "mor" },
+    "stage": "adult",
+    "build": { "height": 0.97, "heads": 6, "girth": 0.5, "shoulders": 1.5 },
+    "skin": "#d6a07a",
+    "hair": { "style": "ponytail", "color": "#5b3420" },
+    "eyes": { "color": "#3a2a1e", "size": 0.6 },
+    "brows": { "color": "#5b3420", "weight": 0.6 },
+    "top": { "style": "shirt", "color": "#f3e7cf", "trim": "#6aa56f", "pattern": "plain" },
+    "bottom": { "style": "trousers", "color": "#5a6f5c" },
+    "shoes": { "style": "sandals", "color": "#8a4a3a" },
+    "extras": ["hat"],
+    "extraColors": { "hat": "#e7c583" },
+    "manner": "Easy-going and warm; never nags, calls once and lets it be; kneels down to the child's height to work beside him; laughs with her shoulders and claps her hands to her mouth when something delights her."
+  }
+]

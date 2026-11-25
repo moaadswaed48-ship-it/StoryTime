@@ -48,7 +48,8 @@ export function buildEmail<T extends TemplateId>(template: T, lang: Lang, params
   const values: Record<string, string | number> = {
     tz: c.common.israelTime,
     support,
-    contact: site.commerce.cancel.contactPlaceholder,
+    // How to cancel by email or post: the real support address and business address once the owner gives them.
+    contact: sender.supportEmail && sender.business ? `${sender.supportEmail} · ${sender.business}` : site.commerce.cancel.contactPlaceholder,
     mark: c.marketingMark,
   }
   for (const [k, v] of Object.entries(p)) if (typeof v === 'string' || typeof v === 'number') values[k] = v

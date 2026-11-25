@@ -7,7 +7,11 @@ import { isLang, type Lang } from '@/i18n/config'
  */
 const enc = new TextEncoder()
 
+/** Shorter than this is no secret at all: an empty UNSUBSCRIBE_SECRET would let anyone sign a link. */
+export const MIN_SECRET_LENGTH = 32
+
 async function key(secret: string) {
+  if (!secret || secret.length < MIN_SECRET_LENGTH) throw new Error('unsubscribe_secret_missing')
   return crypto.subtle.importKey('raw', enc.encode(secret), { name: 'HMAC', hash: 'SHA-256' }, false, ['sign', 'verify'])
 }
 
@@ -36,6 +40,12 @@ export async function verifyUnsubscribe(url: string | URL, secret: string): Prom
   } catch {
     return null
   }
-  const ok = await crypto.subtle.verify('HMAC', await key(secret), sig as BufferSource, enc.encode(`unsubscribe:${a}`))
+  let k: CryptoKey
+  try {
+    k = await key(secret)
+  } catch {
+    return null
+  }
+  const ok = await crypto.subtle.verify('HMAC', k, sig as BufferSource, enc.encode(`unsubscribe:${a}`))
   return ok ? { accountId: a, lang: isLang(l) ? l : 'ar' } : null
 }

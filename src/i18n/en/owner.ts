@@ -231,6 +231,7 @@ export default {
     trialLimit: 'Each age group has at most three free-trial stories. Remove the mark from another story first.',
     signoffBlocked: 'This language is not complete yet, so it cannot be marked as checked.',
     publishBlocked: 'Not published yet. See the list below.',
+    publishedIncomplete: 'This story is published, so every published language must stay complete, with a picture on every page and an age group. Your changes were not saved: fill in what is missing, or take the story off the site first.',
     notOwner: 'Only the site owner can do this.',
     retry: 'Try again',
   },

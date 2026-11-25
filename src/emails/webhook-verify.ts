@@ -26,6 +26,8 @@ export async function svixSignature(secret: string, id: string, timestamp: strin
 
 export async function verifySvix(secret: string, headers: { id: string | null; timestamp: string | null; signature: string | null }, body: string, nowS = Math.floor(Date.now() / 1000)): Promise<boolean> {
   const { id, timestamp, signature } = headers
+  // No secret set means nothing can be checked: refuse, never accept a signature made with an empty key.
+  if (!secret.replace(/^whsec_/, '').trim()) return false
   if (!id || !timestamp || !signature) return false
   const ts = Number(timestamp)
   if (!Number.isFinite(ts) || Math.abs(nowS - ts) > TOLERANCE_S) return false

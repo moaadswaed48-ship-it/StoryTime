@@ -13,12 +13,14 @@ export function pageMeta(o: { lang: Lang; page: string; title: string; descripti
     { name: 'description', content: o.description },
     { tagName: 'link', rel: 'canonical', href: canonical },
     ...alternates(__SITE_ORIGIN__, base, o.page).map((a) => ({ tagName: 'link', rel: 'alternate', hrefLang: a.hrefLang, href: a.href })),
-    ...(__NOINDEX__ ? [{ name: 'robots', content: 'noindex' }] : []),
   ]
 }
 
-/** Pages that must never be indexed (the signed-in app, the lab). */
-export const privateMeta = (title: string): MetaDescriptor[] => [{ title }, { name: 'robots', content: 'noindex' }]
+/**
+ * Pages that must never be indexed (the signed-in app, the lab). In a NOINDEX build the root layout already puts
+ * a site-wide robots tag on every page, so none is added here.
+ */
+export const privateMeta = (title: string): MetaDescriptor[] => [{ title }, ...(__NOINDEX__ ? [] : [{ name: 'robots', content: 'noindex' }])]
 
 /** The `/:lang` layout's data, as seen from a child route's `meta` function. */
 export function langData(matches: ReadonlyArray<{ id: string; loaderData?: unknown } | undefined>): LangData | undefined {

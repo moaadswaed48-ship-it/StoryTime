@@ -1,0 +1,153 @@
+{
+  "id": "c09",
+  "ageGroups": ["6-8"],
+  "owner": "storytime",
+  "lesson": "Decide yourself when a screen show ends, instead of letting \"next\" decide.",
+  "cast": ["c09-max", "c09-mother"],
+  "pages": [
+    {
+      "n": 1,
+      "art": "A cool, dim living room on a hot summer afternoon: curtains half closed, a bright stripe of sun on the floor. Max lies on a low sofa, cushion behind his head, laughing. The television stands on a low cabinet; on its screen (a screen inside the picture) a simple cartoon cat in a round space helmet bounces between big yellow stars, drawn in flat shapes, no words or numbers anywhere. A glass of water with ice and a small bowl of grapes on the floor beside him. Through the gap in the curtains: a garden, a fig tree, white glare. Feeling: lazy, cosy, summer. Calm area: the shadowed wall above the sofa, across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 2,
+      "art": "Close on the television: the cartoon has just ended, and in the corner of the screen a ring of five small white dots sits on a dark circle; two of the dots have already gone out (no digits, no words). Max, in the foreground, blinks at it, mouth a little open. Feeling: the machine moving faster than the boy. Calm area: the dark wall above the television, across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 3,
+      "art": "The same room, a little later: Max has slid lower on the sofa, one sock half off. The ice in his glass has melted; the grape bowl is empty. On the screen the space cat bounces on. The stripe of sun on the floor has moved and turned a deeper yellow. Feeling: time slipping by unnoticed. Calm area: the floor in front of the sofa, across the bottom.",
+      "zone": { "side": "full", "v": "bottom", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 4,
+      "art": "Split view through the window: outside, Mum in a sun hat and a loose shirt, holding a watering can by the tomato plants, calling towards the house, one hand cupped by her mouth; the fig tree behind her is full of small birds (one bird silhouette repeated). Inside, Max on the sofa waves a hand without looking away from the screen, where the ring of dots is shrinking again. Feeling: two worlds side by side. Calm area: the sky above the garden, across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 5,
+      "art": "The room in orange light: the sun outside is low, and the long shadow of the fig tree stretches across the carpet right up to Max's bare feet. Max has not moved, his face lit blue-white by the screen. The birds in the window are gone. Feeling: quiet, a little sad, the day passing. Calm area: the orange-lit upper wall, across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 6,
+      "art": "Max hopping and wobbling on one leg towards the window, arms out for balance, face scrunched (pins and needles: drawn as a few small zigzag lines around his legs). Through the window, an orange evening sky. Feeling: comic, then a jolt of surprise. Calm area: the plain wall beside the window, across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 7,
+      "art": "Max flopped back on the sofa, arms folded, bottom lip out, cross and a little sad. Beside him on the cushion lies the remote. On the screen, the ring of five dots has appeared again; one has gone out. Feeling: stuck, grumpy. Calm area: the shadowed upper wall, across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 8,
+      "art": "Close: Max's hand holding the remote, thumb pressed down on the big round stop button (a plain square symbol, no letters). Behind it, the television screen has just gone dark; in the black glass, Max's own reflection looks back at him. Feeling: a small, brave choice. Calm area: the dark screen area, across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 9,
+      "art": "Max standing in the middle of the quiet room, stretching up tall, arms high, fingers spread, toes wiggling on the carpet. Small quiet things around him: the kitchen doorway with a dripping tap, a bird on the windowsill, the dark television. Evening light. Feeling: waking up, relief. Calm area: the ceiling and upper wall, across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 10,
+      "art": "Max's bedroom: Max on his knees, pulling a cardboard rocket out from under the bed. The rocket is made of a long tube and a cone, unpainted, with three card fins, one of them bent; a puff of dust. A roll of sticky tape on the floor. Feeling: remembering something you love. Calm area: the plain wall above the bed, across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 11,
+      "art": "The garden in the last warm light: newspaper spread on the grass, a small pot of silver paint, two brushes. Max paints the body of the rocket in long strokes; Mum kneels beside him painting the nose cone, smiling. The tomato plants and the fig tree behind them. Feeling: busy, together, proud. Calm area: the pale evening sky, across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 12,
+      "art": "Dusk: the sky pink at the bottom and purple at the top. The silver rocket stands upright on the grass on its three fins. Max stands beside it, one hand raised with all five fingers spread, ready to count down; Mum sits on the grass watching. Feeling: excitement, a ceremony. Calm area: the purple sky, across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 13,
+      "art": "The same garden a moment later: exactly above the tip of the silver rocket, the first star has appeared, small and bright. Max points at it with his whole arm, mouth wide open; Mum has both hands over her mouth. Feeling: wonder. Calm area: the darkening sky on either side of the star, across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 14,
+      "art": "Night, last picture of the book: Max and Mum lie on their backs on the grass beside the silver rocket, looking up. The sky is deep blue and full of stars, more and more of them. Behind them the house, one warm window, and the dark living room window. Feeling: calm, happy, the day well spent. Calm area: the grass across the bottom.",
+      "zone": { "side": "full", "v": "bottom", "size": "m" },
+      "image": null
+    }
+  ],
+  "film": {
+    "targetSeconds": 383,
+    "shots": [
+      { "n": 1, "page": 1, "action": "10 s. Scene 1, the hot afternoon. Wide on the house in the summer glare, cicadas buzzing; the camera drifts slowly towards the half-closed curtains and slips through the gap into the cool room. No words. Keep the lower fifth calm for captions in every shot.", "sound": ["cicadas", "a soft summer tune on a ukulele"], "lines": [] },
+      { "n": 2, "page": 1, "action": "10 s. Max on the sofa, laughing at the screen inside the screen: the cartoon cat in its space helmet bounces from star to star.", "sound": ["cartoon boings", "Max's laugh"], "lines": ["f01"] },
+      { "n": 3, "page": 1, "action": "8 s. The cartoon fills the frame for a moment: three big bounces, star to star, in flat bright shapes. Max's feet bounce along on the cushion. No words.", "sound": ["boing, boing, boing", "a cartoon jingle"], "lines": [] },
+      { "n": 4, "page": 1, "action": "8 s. Max pops a grape into his mouth without looking; the ice clinks in his glass. No words.", "sound": ["ice clinking", "the jingle"], "lines": [] },
+      { "n": 5, "page": 1, "action": "9 s. Cut to the bedroom: the camera slides under the bed and finds the unpainted cardboard rocket in the shadows.", "sound": ["the summer tune, very soft"], "lines": ["f02"] },
+      { "n": 6, "page": 2, "action": "10 s. Back on the screen: the episode ends and a ring of five dots appears in the corner; the dots go out one by one with a soft blip each. The narrator speaks as the screen's voice.", "sound": ["blip", "blip", "blip"], "lines": ["f03"] },
+      { "n": 7, "page": 2, "action": "6 s. Before the last two dots are gone, the next episode starts with its jingle. Close on Max: he blinks once. No words.", "sound": ["the cartoon jingle starts again"], "lines": [] },
+      { "n": 8, "page": 2, "action": "6 s. Max shrugs and settles back into the cushion.", "sound": ["the jingle"], "lines": ["f04"] },
+      { "n": 9, "page": 3, "action": "12 s. Montage of three quick dissolves: dots shrinking, a new episode, dots shrinking again; each time Max has slid a little lower on the sofa.", "sound": ["blip, blip, blip", "the jingle, again and again"], "lines": ["f05"] },
+      { "n": 10, "page": 3, "action": "8 s. Close details: the ice in his glass melts into water; the grape bowl is empty; one sock slides off. No words.", "sound": ["a tiny clink of melting ice"], "lines": [] },
+      { "n": 11, "page": 4, "action": "10 s. Scene 2, outside. Mum in the garden in her sun hat, watering the tomatoes; the fig tree above her twitters with small birds.", "sound": ["water from a watering can", "lots of small birds"], "lines": ["f06"] },
+      { "n": 12, "page": 4, "action": "6 s. Inside, Max waves a hand towards the window without turning his head.", "sound": ["the jingle"], "lines": ["f07"] },
+      { "n": 13, "page": 4, "action": "6 s. On the screen the dots are already shrinking; the next episode begins. Outside, Mum shakes her head with a small smile and goes back to her tomatoes. No words.", "sound": ["blip, blip", "the jingle"], "lines": [] },
+      { "n": 14, "page": 5, "action": "12 s. The key shot, in fast motion: Max does not move at all while the light through the window turns from white to gold to orange, and the shadow of the fig tree crawls across the carpet to his feet. The cartoon jingle loops, a little slower each time. The line comes in the last seconds.", "sound": ["the jingle, slowing", "a clock-like tick under the music"], "lines": ["f08"] },
+      { "n": 15, "page": 5, "action": "8 s. Outside the window: the birds leave the fig tree one by one and fly off into the orange sky. A breath. No words.", "sound": ["wings", "the music fades to almost nothing"], "lines": [] },
+      { "n": 16, "page": 5, "action": "9 s. Close on Max's face, lit blue-white by the screen, eyes wide and unblinking, while the orange glow creeps up one side of his face. No words.", "sound": ["the jingle, far away"], "lines": [] },
+      { "n": 17, "page": 6, "action": "9 s. Scene 3, waking up. Max tries to stand: his legs wobble like jelly and he hops in a comic circle, zigzag lines around his legs.", "sound": ["a wobbly slide whistle", "hop, hop, hop"], "lines": ["f09"] },
+      { "n": 18, "page": 6, "action": "9 s. He reaches the window and stares at the orange sky.", "sound": ["a soft low chord"], "lines": ["f10"] },
+      { "n": 19, "page": 6, "action": "8 s. A memory flash in warm sketchy lines: the rocket under the bed. Max slaps his forehead.", "sound": ["a bright two-note sting"], "lines": ["f11"] },
+      { "n": 20, "page": 7, "action": "9 s. Max flops back on the sofa, arms folded, lip out.", "sound": ["a cushion whump", "a small sad tune on the ukulele"], "lines": ["f12"] },
+      { "n": 21, "page": 7, "action": "8 s. The episode ends. Close on the ring of dots appearing on the screen again. The narrator speaks as the screen's voice.", "sound": ["blip", "blip"], "lines": ["f13"] },
+      { "n": 22, "page": 8, "action": "6 s. Close on Max's hand finding the remote; his thumb hovers over the stop button. The music thins to one ticking note. Real but gentle suspense. No words.", "sound": ["one ticking note"], "lines": [] },
+      { "n": 23, "page": 8, "action": "5 s. Click. The dots vanish before they reach three.", "sound": ["a clear click"], "lines": ["f14"] },
+      { "n": 24, "page": 8, "action": "10 s. The dark screen. In the black glass, Max's reflection looks back at him. Total silence for three seconds, then a slow breath. No words.", "sound": ["silence", "a slow breath"], "lines": [] },
+      { "n": 25, "page": 9, "action": "12 s. Small sounds return one by one, each with its own picture: the fridge humming, a bird on the windowsill, the kitchen tap going drip, drip.", "sound": ["fridge hum", "a bird", "drip, drip"], "lines": ["f15"] },
+      { "n": 26, "page": 9, "action": "8 s. Max stretches up tall, arms high, and wiggles his toes on the carpet.", "sound": ["a long happy stretch sound"], "lines": ["f16"] },
+      { "n": 27, "page": 9, "action": "7 s. Max pulls the curtains wide open: evening air and birdsong pour into the room. No words.", "sound": ["curtain rings sliding", "birdsong"], "lines": [] },
+      { "n": 28, "page": 10, "action": "7 s. Scene 4, the rocket. Max runs down the hallway, still a little wobbly, laughing at his own feet. No words.", "sound": ["running feet", "the summer tune returns, quicker"], "lines": [] },
+      { "n": 29, "page": 10, "action": "10 s. In his room he pulls the rocket from under the bed and blows off the dust in a little cloud.", "sound": ["a scrape", "a puff of dust"], "lines": ["f17"] },
+      { "n": 30, "page": 10, "action": "8 s. He straightens the bent fin and tapes it, then carries the rocket out in both arms, very carefully. No words.", "sound": ["tape pulled from a roll", "careful footsteps"], "lines": [] },
+      { "n": 31, "page": 11, "action": "7 s. Scene 5, the garden. Mum looks up from the tomatoes, delighted.", "sound": ["evening birds"], "lines": ["f18"] },
+      { "n": 32, "page": 11, "action": "12 s. Newspaper on the grass, the pot of silver paint. Max paints the body in long strokes, then holds the second brush out to Mum.", "sound": ["brush strokes", "the tune"], "lines": ["f19", "f20"] },
+      { "n": 33, "page": 11, "action": "9 s. Mum and Max blow on the wet paint together; a drop of silver lands on Max's nose and Mum laughs. No words.", "sound": ["blowing", "Mum's laugh"], "lines": [] },
+      { "n": 34, "page": 11, "action": "8 s. The rocket shines silver in the last of the sun. Hold on it. No words.", "sound": ["a soft shimmer"], "lines": [] },
+      { "n": 35, "page": 12, "action": "12 s. Scene 6, the launch. The sky turns pink, then purple. Max stands the rocket up on its three fins and steps back.", "sound": ["crickets begin"], "lines": ["f21"] },
+      { "n": 36, "page": 12, "action": "7 s. Mum gives two thumbs up from the grass; the crickets grow louder. No words.", "sound": ["crickets", "the tune, hopeful"], "lines": [] },
+      { "n": 37, "page": 12, "action": "12 s. Max's own countdown: he holds up five fingers and folds one down on each number, slowly, on a soft drum beat.", "sound": ["five soft drum beats"], "lines": ["f22"] },
+      { "n": 38, "page": 13, "action": "8 s. On 'one', the first star appears exactly above the rocket's tip, with a single bright chime. Hold on it. No words.", "sound": ["one bright chime"], "lines": [] },
+      { "n": 39, "page": 13, "action": "8 s. Max points with his whole arm; Mum's hands fly to her mouth.", "sound": ["two gasps", "a warm rising chord"], "lines": ["f23"] },
+      { "n": 40, "page": 14, "action": "12 s. Scene 7, under the stars. Max and Mum lie on the grass beside the rocket, looking up.", "sound": ["crickets", "the tune, slow"], "lines": ["f24"] },
+      { "n": 41, "page": 14, "action": "8 s. Mum laughs softly. Max tries to count the new stars on his fingers and gives up, laughing too. No words.", "sound": ["soft laughter"], "lines": [] },
+      { "n": 42, "page": 14, "action": "12 s. More stars come out, one after another, with no sound but the crickets.", "sound": ["crickets"], "lines": ["f25"] },
+      { "n": 43, "page": 14, "action": "14 s. Closing image: the silver rocket on the dark grass under a sky full of stars, the house behind with one warm window. Nothing moves but a slow twinkle. Hold the still picture 6 s while the music ends, then stop. No countdown, no next episode, no autoplay.", "sound": ["the last notes of the tune", "crickets"], "lines": [] }
+    ]
+  },
+  "activity": {
+    "minutes": 25,
+    "materials": ["small-box", "paper", "crayons", "sticky-tape"],
+    "steps": [
+      { "n": 1, "picture": "A child wraps a small square box (a tea box or a toy box, staples already removed) in plain paper and tapes the edges; a grown-up holds the box steady.", "loop": false },
+      { "n": 2, "picture": "The child draws on the paper-covered box: one side shows a ball, and around it, as small pictures, the other sides: a kite, a book, building blocks, a skipping rope and a paintbrush.", "loop": false },
+      { "n": 3, "picture": "A television showing the ring of dots at the end of a show; the child, not the grown-up, holds the remote and presses the stop button.", "loop": false },
+      { "n": 4, "picture": "The child rolls the cube across the floor; it tumbles, and the child points, guessing which picture will land on top.", "loop": true },
+      { "n": 5, "picture": "The cube shows the building-blocks side on top; the child builds a tall tower of blocks while the grown-up watches.", "loop": false }
+    ],
+    "checkedAgainst": "docs/story-room/age-6-8.md section 7 (red list) and section 4 (activity limits), 25 Nov 2026"
+  }
+}

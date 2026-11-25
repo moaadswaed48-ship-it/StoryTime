@@ -221,6 +221,8 @@ export type OwnerDict = {
     trialLimit: string
     signoffBlocked: string
     publishBlocked: string
+    /** A save that would leave a published story incomplete. */
+    publishedIncomplete: string
     notOwner: string
     retry: string
   }

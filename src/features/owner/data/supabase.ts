@@ -17,10 +17,11 @@ import type { AuditRow, Dashboard, MediaRecord, OwnerStory, Signoff, StoryDraft,
  */
 const BUCKET = 'content'
 const SIGNED_LINK_SECONDS = 60 * 60
+const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
 
 type Row = Record<string, unknown>
 type DbSignoff = { valid: boolean; at: Iso; by: string | null }
-const KNOWN: OwnerErrorCode[] = ['not_owner', 'not_found', 'text_locked', 'trial_limit', 'publish_blocked', 'signoff_blocked']
+const KNOWN: OwnerErrorCode[] = ['not_owner', 'not_found', 'text_locked', 'trial_limit', 'publish_blocked', 'published_incomplete', 'signoff_blocked']
 
 function fail(e: unknown): never {
   if (e instanceof OwnerError) throw e
@@ -131,6 +132,8 @@ export class SupabaseOwnerApi implements OwnerApi {
   }
 
   async listAudit(storyId?: string): Promise<AuditRow[]> {
+    // The id goes into a PostgREST filter string: only a plain id may, so nothing else can be slipped into the filter.
+    if (storyId !== undefined && !UUID.test(storyId)) throw new OwnerError('not_found')
     let q = this.sb.from('audit_log').select('id, actor_id, action, target_table, target_id, detail, created_at').order('id', { ascending: false }).limit(200)
     if (storyId) q = q.or(`target_id.eq.${storyId},detail->>story_id.eq.${storyId}`)
     const rows = (await must(q)) as Row[]

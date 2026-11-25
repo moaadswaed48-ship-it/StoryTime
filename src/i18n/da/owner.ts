@@ -231,6 +231,7 @@ export default {
     trialLimit: 'Hver aldersgruppe har højst tre gratis prøvehistorier. Fjern først markeringen fra en anden historie.',
     signoffBlocked: 'Sproget er ikke komplet endnu, så det kan ikke markeres som tjekket.',
     publishBlocked: 'Ikke udgivet endnu. Se listen herunder.',
+    publishedIncomplete: 'Denne historie er udgivet, så hvert udgivet sprog skal forblive komplet, med et billede på hver side og en aldersgruppe. Ændringerne er ikke gemt: udfyld det, der mangler, eller tag først historien af siden.',
     notOwner: 'Kun sidens ejer kan gøre dette.',
     retry: 'Prøv igen',
   },

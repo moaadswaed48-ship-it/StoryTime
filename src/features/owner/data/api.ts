@@ -15,7 +15,10 @@ export interface OwnerApi {
   getStory(id: string): Promise<OwnerStory>
   /** A new, empty draft of StoryTime's own (the author's story is imported, never created here). */
   createStory(): Promise<OwnerStory>
-  /** Saves the editable parts. Refused: the author's Arabic text changed; more than 3 trial stories in a group. */
+  /**
+   * Saves the editable parts. Refused: the author's Arabic text changed; more than 3 trial stories in a group; a
+   * published story would lose a published language's words, a picture or its age group.
+   */
   saveStory(id: string, draft: StoryDraft): Promise<OwnerStory>
   /** Checks type, real content, size and licence, stores the file and records it in the media table. */
   upload(file: File, meta: UploadMeta): Promise<MediaRecord>
@@ -38,6 +41,7 @@ export type OwnerErrorCode =
   | 'text_locked'
   | 'trial_limit'
   | 'publish_blocked'
+  | 'published_incomplete'
   | 'signoff_blocked'
   | 'upload_refused'
   | 'storage_full'
