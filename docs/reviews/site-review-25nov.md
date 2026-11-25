@@ -30,8 +30,7 @@ Live preview: https://moaadswaed48-ship-it.github.io/StoryTime/next/ (test mode,
   from the book", the same words as the book in all four languages). The author's story is not on the preview.
 - Prices appear only as "Price not set yet" with a Placeholder tag. The only shekel amount is the legal fee cap
   ("100 shekels").
-- The full parent and teacher journey worked in all four languages at both sizes (12 of 12 on a re-run; see the
-  flaky item under WEAK). Arabic and Hebrew pages are right-to-left, the reader's arrows and the shelf's arrows point
+- The full parent and teacher journey worked in all four languages at both sizes (12 of 12; see item 14). Arabic and Hebrew pages are right-to-left, the reader's arrows and the shelf's arrows point
   the right way, and switching language keeps the page.
 - The research cards on the home page name real, correctly described sources (WHO 2019 under-5 guideline, Durlak
   et al. 2011, Jones, Greenberg and Crowley 2015) and say plainly that they did not study StoryTime. The impact graph
@@ -88,9 +87,8 @@ Live preview: https://moaadswaed48-ship-it.github.io/StoryTime/next/ (test mode,
     fast to the end and closes the book is saved at page 1 (`crop-he-desk-storybook.png`: "Read up to page 1" after
     a fast read-through), and the trial counter then shows "0 of 3". Suggestion: also save the last page when the
     reader closes.
-14. **Flaky under load:** in 2 of 14 parallel runs on the phone size the reader's forward arrow stopped answering
-    (4 browsers drawing the page curl in software at once). Re-run alone: both passed. Not reproduced, worth watching
-    on a real iPhone.
+14. **(Withdrawn) "Forward arrow stopped answering":** seen in 2 of 14 first runs; the screenshot shows the reader had
+    reached "The end" with the forward arrow correctly greyed out. My script kept pressing it. Not a site fault.
 15. **Some legal-page contents links are narrower than 44 px** (short words such as "Fonts", "ילדים"); they are 44 px
     tall and above the WCAG AA minimum of 24 px.
 16. **Latin words inside Arabic and Hebrew legal pages** (library names on Credits, storage key names on Cookies,
@@ -110,6 +108,15 @@ Live preview: https://moaadswaed48-ship-it.github.io/StoryTime/next/ (test mode,
   and Hebrew untouched).
 - `src/ui/SiteHeader.tsx`: site name link 44 px tall. `src/ui/controls.tsx`: compact choices fit at 390 px.
   `src/features/commerce/PlanCards.tsx`: pass card headings are level 2.
+
+## Live recheck after republishing (25 Nov 2026)
+- `npm run typecheck` 0 errors; `npm test` 354 passed (28 files); `npm run e2e` 90 passed, 4 skipped (WebKit-only and
+  once-only), 0 failed, 15.6 min.
+- Republished with `node scripts/deploy/preview.mjs` (1059 pages, all noindex). Live: the public audit re-run on all
+  64 page loads shows no sideways scroll (Danish accessibility page now 390 px wide), no console errors, no heading
+  skip, the site-name link at 44 px, Cancel and legal links everywhere. The walk-through re-run (18 runs) shows the
+  reader's "Voice coming soon" note in every language with no Listen button or auto-flip switch
+  (`qa/out/review/after/walk-*-05b-reader-page.png`, notes in `qa/out/review/after/walk-notes.txt`).
 
 ## Left open
 - C03 chopping board (Story Room, four languages). Items 4, 5, 6, 7, 8, 11, 13, 17 above.
