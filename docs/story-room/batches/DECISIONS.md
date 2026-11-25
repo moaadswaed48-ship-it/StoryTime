@@ -22,3 +22,9 @@ Apply these in the language-review pass of each batch.
 - **C07 extra morning (pages 12 to 14) and the other additions in `C1-notes.md`:** accepted if they keep within the
   age brief's limits; the review pass checks them.
 - **Tool:** guard the `|` marker before « in the Arabic build (the same crash the A2 writer met).
+- **A15 crab:** same problem as B14 (the Hebrew and the common Arabic word for crab also mean "cancer"). On a beach,
+  replace it with a **little snail** that peeps out of its shell and climbs to the top of the sandcastle, in all four
+  languages, the art notes and the film. (Arabic could use سلطعون, but Hebrew has no neutral word, and the four books
+  must show the same animal.)
+- **B13 door colour:** the door was green beside green tiles. Make it a **red door** in all four languages and the
+  art notes.
