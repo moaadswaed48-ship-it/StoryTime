@@ -35,6 +35,23 @@ describe('sample stories follow content/SCHEMA.md', () => {
     })
   }
 
+  it('every story folder: each language file agrees with story.json (pages, film lines, activity steps and materials)', () => {
+    const ids = readdirSync(ROOT, { withFileTypes: true }).filter((d) => d.isDirectory()).map((d) => d.name)
+    const bad: string[] = []
+    for (const id of ids) {
+      let story: StoryJson
+      try { story = read<StoryJson>(`${ROOT}${id}/story.json`) } catch { continue }
+      const langs = Object.fromEntries(LANGS.flatMap((l) => {
+        try { return [[l, read<LangJson>(`${ROOT}${id}/${l}.json`)]] } catch { return [] }
+      }))
+      for (const p of checkStory(story, langs)) bad.push(`${id}: ${p}`)
+    }
+    // c03: story.json lists the adult's chopping board, which no language file names yet. Adding a line in four
+    // languages is Story Room work (Arabic and Hebrew through their sources); until then this one is known.
+    const known = (p: string) => p.startsWith('c03: ') && p.endsWith('activity materials count differs from story.json')
+    expect(bad.filter((p) => !known(p))).toEqual([])
+  })
+
   it('checkStory names a missing page and a wrong word count', () => {
     const story = read<StoryJson>(`${ROOT}sample-a/story.json`)
     const en = read<LangJson>(`${ROOT}sample-a/en.json`)

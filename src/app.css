@@ -31,6 +31,13 @@
   :lang(he) {
     letter-spacing: normal !important;
   }
+  /* Long compound words (Danish "Tilgængelighedserklæring") must not push a 390 px phone sideways. Latin scripts
+     only: Arabic and Hebrew words are never split. */
+  :lang(da) :is(h1, h2, h3),
+  :lang(en) :is(h1, h2, h3) {
+    hyphens: auto;
+    overflow-wrap: break-word;
+  }
   :focus-visible {
     outline: 3px solid var(--color-focus);
     outline-offset: 2px;

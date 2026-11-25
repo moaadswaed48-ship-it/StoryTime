@@ -25,10 +25,10 @@ def ground_point(x, y):
 
 # ---------------------------------------------------------------------------------------------- haze
 
-HAZE = '#c9d6dc'
+HAZE = '#ead3ad'
 
 
-def add_haze(m, k=0.010, color=HAZE, strength=1.0):
+def add_haze(m, k=0.010, color=HAZE, strength=0.9):
     """Aerial perspective: mix the surface toward a lit haze colour by camera distance (cheap, no volumes)."""
     nt = m.node_tree
     out = nt.nodes['Material Output']
@@ -121,29 +121,16 @@ def build_far_hills():
     nt.links.new(tc.outputs['Object'], nz.inputs['Vector'])
     cr = nt.nodes.new('ShaderNodeValToRGB')
     e = cr.color_ramp.elements
-    e[0].position, e[0].color = 0.3, lin('#55703a')
-    e[1].position, e[1].color = 0.75, lin('#9aa35a')
+    e[0].position, e[0].color = 0.3, lin('#4f6e2c')
+    e[1].position, e[1].color = 0.75, lin('#8f9c46')
     nt.links.new(nz.outputs['Fac'], cr.inputs['Fac'])
     nt.links.new(cr.outputs['Color'], nt.nodes['Principled BSDF'].inputs['Base Color'])
-    add_haze(m, 0.0065)
+    add_haze(m, 0.0034, color='#b7c3bd', strength=0.85)
     rng = random.Random(5)
     for i, (x, y, w, h) in enumerate([(-140, 170, 120, 26), (-40, 210, 140, 34), (80, 190, 110, 30),
                                       (-90, 110, 70, 14), (10, 130, 80, 12), (150, 140, 90, 22),
                                       (-200, 250, 160, 40), (220, 260, 160, 46)]):
         o = ellipsoid(f'Hill.far{i}', w, w * 0.45, h, m, None, (x, y, -6), 48, 1)
-    # a few soft trees on the middle distance (round canopies of overlapping blobs)
-    leaf = principled('Hill.tree', '#4d6a2a', rough=0.8, sss=0.3, sss_scale=0.4, sheen=0.4)
-    add_haze(leaf, 0.0065)
-    bark = principled('Hill.bark', '#4a3a2c', rough=0.8)
-    add_haze(bark, 0.0065)
-    for i, (x, y, s) in enumerate([(-18, 38, 1.0), (-24, 44, 0.8), (-9, 52, 1.2), (14, 60, 1.1), (-34, 64, 1.3),
-                                   (-4, 74, 0.9), (26, 46, 1.0)]):
-        z = float(height(x, y))
-        lathe(f'Hill.trunk{i}', capsule_profile(1.8 * s, 0.14 * s, 0.1 * s), bark, None, 12, loc=(x, y, z - 0.2))
-        for k in range(7):
-            a = rng.uniform(0, 2 * math.pi); r = rng.uniform(0.3, 1.1) * s
-            ellipsoid(f'Hill.canopy{i}.{k}', 1.3 * s, 1.3 * s, 1.0 * s, leaf, None,
-                      (x + r * math.cos(a), y + r * math.sin(a), z + 2.1 * s + rng.uniform(-0.3, 0.6) * s), 16, 1)
 
 
 # ---------------------------------------------------------------------------------------------- plants
@@ -344,7 +331,7 @@ def build_plants(ground):
     mats = flower_materials()
     for i in range(5):
         anemone(f'anem{i}', fcoll, mats, open_=rng.uniform(0.6, 1.0), stem_h=rng.uniform(0.14, 0.26), seed=i)
-    g = instancer(ground, gcoll, 'grass', 2600.0, 3, 0.65, 1.35, 'Hill.grass', tilt=0.35)
+    g = instancer(ground, gcoll, 'grass', 2000.0, 3, 0.65, 1.35, 'Hill.grass', tilt=0.35)
     f = instancer(ground, fcoll, 'flowers', 26.0, 9, 0.85, 1.25, 'Hill.anemones', tilt=0.15)
     return gcoll, fcoll, mats
 
@@ -437,12 +424,31 @@ def build_sky_and_sun(sun_elev_deg=13.0, sun_azim_deg=-128.0, sun_strength=4.2):
     sky.aerosol_density = 1.2
     sky.altitude = 200
     nt.links.new(sky.outputs['Color'], bg.inputs['Color'])
-    bg.inputs['Strength'].default_value = 0.17
+    bg.inputs['Strength'].default_value = 0.12
+    # what the lens sees of the sky is art-directed (clear blue to a warm horizon); the physical sky lights the set
+    geo = nt.nodes.new('ShaderNodeNewGeometry')
+    sep = nt.nodes.new('ShaderNodeSeparateXYZ'); nt.links.new(geo.outputs['Incoming'], sep.inputs[0])
+    neg = nt.nodes.new('ShaderNodeMath'); neg.operation = 'MULTIPLY'; neg.inputs[1].default_value = -1.0
+    nt.links.new(sep.outputs['Z'], neg.inputs[0])
+    ramp = nt.nodes.new('ShaderNodeValToRGB')
+    e = ramp.color_ramp.elements
+    e[0].position, e[0].color = 0.0, lin('#f7e2bd')
+    e[1].position, e[1].color = 0.42, lin('#4d9bd0')
+    m1 = ramp.color_ramp.elements.new(0.09); m1.color = lin('#cfe0dc')
+    m2 = ramp.color_ramp.elements.new(0.2); m2.color = lin('#8cc2e2')
+    nt.links.new(neg.outputs[0], ramp.inputs['Fac'])
+    bg2 = nt.nodes.new('ShaderNodeBackground'); bg2.inputs['Strength'].default_value = 0.95
+    nt.links.new(ramp.outputs['Color'], bg2.inputs['Color'])
+    lp = nt.nodes.new('ShaderNodeLightPath')
+    mix = nt.nodes.new('ShaderNodeMixShader')
+    nt.links.new(lp.outputs['Is Camera Ray'], mix.inputs['Fac'])
+    nt.links.new(bg.outputs[0], mix.inputs[1]); nt.links.new(bg2.outputs[0], mix.inputs[2])
+    nt.links.new(mix.outputs[0], nt.nodes['World Output'].inputs['Surface'])
     sc.world = w
     ld = bpy.data.lights.new('Sun', 'SUN')
     ld.energy = sun_strength
     ld.angle = math.radians(2.2)
-    ld.color = lin('#ffbd78')[:3]
+    ld.color = lin('#ffa552')[:3]
     o = bpy.data.objects.new('Sun', ld)
     link(o)
     # direction the light travels: from the sun toward the scene

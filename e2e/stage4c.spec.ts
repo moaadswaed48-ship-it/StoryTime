@@ -70,6 +70,10 @@ async function readToTheEnd(page: Page, lang: L, id: string, info: TestInfo) {
   await page.goto(`${lang}/app/story/${id}/read?book=flat`)
   const reader = page.getByTestId('reader')
   await expect(reader).toHaveAttribute('data-mode', 'flat')
+  // No recording yet: a calm "Voice coming soon" note, never a Listen button or auto-flip switch that does nothing.
+  await expect(page.getByTestId('listen-soon')).toContainText(DICTS[lang].stories.doors.noRecording)
+  await expect(page.getByTestId('listen')).toHaveCount(0)
+  await expect(page.getByTestId('autoflip')).toHaveCount(0)
   // The reader saves the page after half a second on it (progress, and the trial counter).
   await page.waitForTimeout(800)
   let turns = 0

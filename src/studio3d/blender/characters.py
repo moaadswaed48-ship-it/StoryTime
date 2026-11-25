@@ -508,7 +508,7 @@ def build_sami():
     lathe('Sami.tee', tee, m_shirt, J['chest'], 40, sx=1.0, sy=0.8)
     t = torus('Sami.collar', 0.039, 0.0055, m_trim, J['chest'], (0, 0.002, 0.188), 40, 10)
     t.scale = (1, 0.92, 1)
-    hem = torus('Sami.teehem', 0.11, 0.0055, m_shirt, J['chest'], (0, -0.002, -0.07), 48, 10)
+    hem = torus('Sami.teehem', 0.106, 0.0042, m_shirt, J['chest'], (0, -0.002, -0.071), 48, 10)
     hem.scale = (1.0, 0.8, 1)
     shorts = [(-0.085, 0.0), (-0.08, 0.085), (-0.04, 0.108), (0.0, 0.112), (0.04, 0.11), (0.075, 0.104), (0.082, 0.0)]
     lathe('Sami.shorts', shorts, m_shorts, J['hips'], 40, sx=1.0, sy=0.85)
@@ -623,8 +623,8 @@ def build_grandpa():
     j = ch.joint
     j('hips', 'root', (0, 0, 0.93))
     j('chest', 'hips', (0, 0, 0.1))
-    j('neck', 'chest', (0, 0.0, 0.405))
-    j('head', 'neck', (0, 0, 0.06))
+    j('neck', 'chest', (0, 0.02, 0.385))
+    j('head', 'neck', (0, -0.01, 0.045))
     for s, sx in (('L', 1), ('R', -1)):
         j('shoulder.' + s, 'chest', (sx * 0.185, 0.02, 0.335))
         j('elbow.' + s, 'shoulder.' + s, (0, 0, -0.285))
@@ -635,7 +635,7 @@ def build_grandpa():
     J = ch.j
 
     hm = empty('Grandpa.headmesh', (0, 0.0, 0.13), J['head'], 0.02)
-    hm.scale = (1.13, 1.13, 1.13)
+    hm.scale = (1.24, 1.24, 1.24)
     ch.j['headmesh'] = hm
     head, dirs, pts_rest = sdf_mesh('Grandpa.head', sdf_closed, hc, level=7, mat=m_skin, parent=hm,
                                     shapes={'smile': sdf_smile})
@@ -708,8 +708,6 @@ def build_grandpa():
         # glasses: round rims, lens, temple arm
         rim = torus(f'Grandpa.rim.{sx}', 0.025, 0.0018, m_frame, hm, (sx * 0.038, -0.112, 0.008), 48, 8)
         rim.rotation_euler = (math.pi / 2, 0, sx * 0.12)
-        lens = ellipsoid(f'Grandpa.lens.{sx}', 0.025, 0.025, 0.0012, m_glass, hm, (sx * 0.038, -0.112, 0.008), 32, 1)
-        lens.rotation_euler = (math.pi / 2, 0, sx * 0.12)
         tube_path(f'Grandpa.temple.{sx}', [(sx * 0.062, -0.108, 0.01), (sx * 0.093, -0.06, 0.012),
                                            (sx * 0.097, 0.01, 0.006), (sx * 0.092, 0.025, -0.012)],
                   0.0015, m_frame, hm, 8, True, 1)
@@ -718,22 +716,22 @@ def build_grandpa():
 
     # ---- body: long, thin, broad rounded shoulders, a slight stoop
     lathe('Grandpa.neck', capsule_profile(0.1, 0.045, 0.047), m_body, J['neck'], 24, loc=(0, 0.01, -0.03))
-    torso = [(-0.25, 0.0), (-0.248, 0.13), (-0.23, 0.162), (-0.15, 0.158), (-0.05, 0.15, -0.004), (0.06, 0.15, -0.002),
-             (0.16, 0.162, 0.006), (0.25, 0.18, 0.016), (0.31, 0.19, 0.022), (0.355, 0.178, 0.022), (0.385, 0.14, 0.018),
-             (0.405, 0.08, 0.01), (0.415, 0.0, 0.006)]
+    torso = [(-0.175, 0.0), (-0.173, 0.15), (-0.158, 0.178), (-0.16, 0.184, -0.012), (-0.06, 0.18, -0.02),
+             (0.05, 0.172, -0.012), (0.16, 0.176, 0.006), (0.25, 0.19, 0.02), (0.31, 0.196, 0.026),
+             (0.35, 0.18, 0.026), (0.38, 0.14, 0.02), (0.4, 0.08, 0.012), (0.41, 0.0, 0.008)]
     lathe('Grandpa.jumper', torso, m_jumper, J['chest'], 48, sx=1.0, sy=0.72)
     torus('Grandpa.collar', 0.05, 0.009, m_cream, J['chest'], (0, 0.006, 0.405), 40, 10)
-    torus('Grandpa.waistrib', 0.152, 0.014, m_jumper, J['chest'], (0, 0, -0.238), 48, 10).scale = (1, 0.74, 1)
-    pelvis = [(-0.11, 0.0), (-0.105, 0.1), (-0.06, 0.122), (0.0, 0.126), (0.06, 0.122), (0.1, 0.11), (0.105, 0.0)]
-    lathe('Grandpa.pelvis', pelvis, m_trouser, J['hips'], 40, sx=1.0, sy=0.68)
+    torus('Grandpa.waistrib', 0.172, 0.015, m_jumper, J['chest'], (0, -0.006, -0.165), 48, 10).scale = (1, 0.74, 1)
+    pelvis = [(-0.13, 0.0), (-0.125, 0.09), (-0.09, 0.14), (-0.03, 0.158), (0.04, 0.16), (0.1, 0.15), (0.12, 0.0)]
+    lathe('Grandpa.pelvis', pelvis, m_trouser, J['hips'], 40, sx=1.0, sy=0.74)
     for s, sx in (('L', 1), ('R', -1)):
         lathe(f'Grandpa.uarm.{s}', capsule_profile(0.285, 0.064, 0.05, bulge=0.006), m_jumper, J['shoulder.' + s], 32, down=True)
         lathe(f'Grandpa.farm.{s}', capsule_profile(0.235, 0.052, 0.045, bulge=0.004), m_jumper, J['elbow.' + s], 32, down=True)
         torus(f'Grandpa.cuff.{s}', 0.036, 0.009, m_cream, J['elbow.' + s], (0, 0, -0.232), 32, 10)
         lathe(f'Grandpa.wristskin.{s}', capsule_profile(0.04, 0.026, 0.024), m_body, J['wrist.' + s], 16, down=True,
               loc=(0, 0, 0.02))
-        lathe(f'Grandpa.thigh.{s}', capsule_profile(0.43, 0.074, 0.058, bulge=0.004), m_trouser, J['hip.' + s], 32, down=True)
-        lathe(f'Grandpa.shin.{s}', capsule_profile(0.4, 0.058, 0.056), m_trouser, J['knee.' + s], 32, down=True)
+        lathe(f'Grandpa.thigh.{s}', capsule_profile(0.43, 0.08, 0.066, bulge=0.004), m_trouser, J['hip.' + s], 32, down=True)
+        lathe(f'Grandpa.shin.{s}', capsule_profile(0.4, 0.064, 0.068), m_trouser, J['knee.' + s], 32, down=True)
         ellipsoid(f'Grandpa.shoe.{s}', 0.048, 0.13, 0.045, m_shoe, J['ankle.' + s], (0, -0.04, -0.035), 32, 1)
         ellipsoid(f'Grandpa.shoesole.{s}', 0.05, 0.133, 0.012, m_sole, J['ankle.' + s], (0, -0.04, -0.07), 32, 1)
     build_hand(ch, 1, J['wrist.L'], 1.55, m_body, curl=1.25, thumb_curl=0.8, grip=True)

@@ -112,7 +112,7 @@
   },
   "activity": {
     "minutes": 15,
-    "materials": ["two-clear-plastic-cups", "kitchen-paper", "dry-chickpeas-adult-only", "paper-strip", "crayons"],
+    "materials": ["two-clear-plastic-cups", "kitchen-paper", "dry-chickpeas-adult-only", "paper-strip-and-crayons"],
     "steps": [
       { "n": 1, "picture": "A grown-up's hands tuck damp kitchen paper into two clear plastic cups and slip a few chickpeas between the paper and the side of each cup; the child watches with hands on the table.", "loop": false },
       { "n": 2, "picture": "One cup stands on a sunny windowsill; the other goes into a dark cupboard, the child closing the cupboard door.", "loop": false },

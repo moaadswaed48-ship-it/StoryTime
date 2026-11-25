@@ -402,6 +402,7 @@ export function Reader({ content, group, startPage, listen, closeTo, onPage, acc
   const indicator = atEnd && !firstStory ? t.theEnd : pageNo ? fmt(t.pageOf, { n: num(pageNo), total: num(content.pages.length) }) : content.title
   const hasAudio = content.pages.some((p) => p.readAlong)
   const recordingIsTest = content.isSample && hasAudio
+  const voiceSoon = !hasAudio && !import.meta.env.DEV
   const activeFor = (index: number) => (voice.active && voice.active.page === index ? voice.active.word : -1)
   const canBack = pos > 0
   const canForward = pos < positions - 1
@@ -465,7 +466,7 @@ export function Reader({ content, group, startPage, listen, closeTo, onPage, acc
 
       {/* Bottom bar: back, Listen, auto-flip, forward. Always all visible. */}
       <div className="flex flex-col gap-1 px-2 pt-2 pb-[max(0.75rem,env(safe-area-inset-bottom))] sm:px-4">
-        {(notice || voice.mode === 'speech' || voice.mode === 'none' || recordingIsTest) && (
+        {(notice || voice.mode === 'speech' || (voice.mode === 'none' && !voiceSoon) || recordingIsTest) && (
           <p className="text-center text-sm text-ink-muted" aria-live="polite" data-testid="listen-note">
             {notice === 'blocked' ? t.tapToListen : notice === 'audio' ? t.audioError : voice.mode === 'speech' ? t.devVoice : voice.mode === 'none' ? t.noRecordingPage : t.testRecording}
           </p>
@@ -476,23 +477,33 @@ export function Reader({ content, group, startPage, listen, closeTo, onPage, acc
             <IconArrow className="size-7 -scale-x-100 rtl:scale-x-100" />
           </button>
           <div className="order-first flex w-full min-w-0 items-center justify-center gap-2 sm:order-none sm:w-auto sm:flex-1 sm:gap-4">
-            <button type="button" onClick={play} disabled={!hasAudio && !import.meta.env.DEV} aria-pressed={playing} data-testid="listen"
-              className="inline-flex min-h-14 shrink-0 items-center justify-center gap-2 rounded-full bg-ink px-4 text-lg sm:px-5 font-semibold text-paper shadow-sm disabled:opacity-40">
-              {playing ? <IconPause className="size-7" /> : <IconPlay className="size-7" />}
-              {playing ? t.pause : t.listen}
-            </button>
-            <button type="button" role="switch" aria-checked={prefs.autoFlip} onClick={() => setPrefs({ autoFlip: !prefs.autoFlip })} data-testid="autoflip"
-              className="inline-flex min-h-14 min-w-0 items-center gap-2 rounded-full bg-surface px-3 text-start shadow-sm ring-1 ring-black/10 max-sm:flex-1">
-              <IconAutoFlip className="size-6 shrink-0" />
-              <span className="flex min-w-0 flex-1 flex-col leading-tight">
-                <span className="text-sm font-semibold">{t.autoFlip}</span>
-                <span className="text-xs text-ink-muted max-sm:hidden">{t.autoFlipHint}</span>
-              </span>
-              <span aria-hidden="true" className={`relative h-7 w-12 shrink-0 rounded-full transition-colors motion-reduce:transition-none ${prefs.autoFlip ? 'bg-green-800' : 'bg-ink/25'}`}>
-                <span className={`absolute top-0.5 size-6 rounded-full bg-white shadow transition-[inset-inline-start] motion-reduce:transition-none ${prefs.autoFlip ? 'start-[1.375rem]' : 'start-0.5'}`} />
-              </span>
-              <span className="sr-only">{prefs.autoFlip ? t.on : t.off}</span>
-            </button>
+            {voiceSoon ? (
+              // No recording yet: no Listen button that does nothing and no auto-flip switch that waits for a voice
+              // (product checklist: Listen is never shown as a dead button). A calm note instead.
+              <p className="inline-flex min-h-14 items-center rounded-full px-4 text-base font-semibold text-ink-muted border border-dashed border-ink/30" data-testid="listen-soon">
+                {dict.stories.doors.noRecording}
+              </p>
+            ) : (
+              <>
+              <button type="button" onClick={play} disabled={!hasAudio && !import.meta.env.DEV} aria-pressed={playing} data-testid="listen"
+                className="inline-flex min-h-14 shrink-0 items-center justify-center gap-2 rounded-full bg-ink px-4 text-lg sm:px-5 font-semibold text-paper shadow-sm disabled:opacity-40">
+                {playing ? <IconPause className="size-7" /> : <IconPlay className="size-7" />}
+                {playing ? t.pause : t.listen}
+              </button>
+              <button type="button" role="switch" aria-checked={prefs.autoFlip} onClick={() => setPrefs({ autoFlip: !prefs.autoFlip })} data-testid="autoflip"
+                className="inline-flex min-h-14 min-w-0 items-center gap-2 rounded-full bg-surface px-3 text-start shadow-sm ring-1 ring-black/10 max-sm:flex-1">
+                <IconAutoFlip className="size-6 shrink-0" />
+                <span className="flex min-w-0 flex-1 flex-col leading-tight">
+                  <span className="text-sm font-semibold">{t.autoFlip}</span>
+                  <span className="text-xs text-ink-muted max-sm:hidden">{t.autoFlipHint}</span>
+                </span>
+                <span aria-hidden="true" className={`relative h-7 w-12 shrink-0 rounded-full transition-colors motion-reduce:transition-none ${prefs.autoFlip ? 'bg-green-800' : 'bg-ink/25'}`}>
+                  <span className={`absolute top-0.5 size-6 rounded-full bg-white shadow transition-[inset-inline-start] motion-reduce:transition-none ${prefs.autoFlip ? 'start-[1.375rem]' : 'start-0.5'}`} />
+                </span>
+                <span className="sr-only">{prefs.autoFlip ? t.on : t.off}</span>
+              </button>
+              </>
+            )}
           </div>
           <button type="button" onClick={() => turn(1)} disabled={!canForward} aria-label={t.nextPage} data-testid="page-forward"
             className="order-3 grid h-14 flex-1 place-items-center rounded-full bg-surface shadow-sm ring-1 ring-black/10 disabled:opacity-35 sm:order-none sm:w-14 sm:flex-none">

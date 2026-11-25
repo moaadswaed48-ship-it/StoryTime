@@ -23,7 +23,7 @@ export function SiteHeader() {
         {t.skipToContent}
       </a>
       <div className="mx-auto flex max-w-5xl flex-wrap items-center gap-x-4 gap-y-2 px-4 py-3">
-        <Link to={localPath(lang)} className="me-auto text-lg font-semibold">
+        <Link to={localPath(lang)} className="me-auto inline-flex min-h-11 items-center rounded-control text-lg font-semibold">
           <bdi>{t.siteName}</bdi>
         </Link>
         <nav aria-label={t.menu} className="flex flex-wrap items-center gap-1">

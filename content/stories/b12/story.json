@@ -113,7 +113,7 @@
   },
   "activity": {
     "minutes": 15,
-    "materials": ["ball", "small-box", "kitchen-roll-tube", "plastic-cup", "funnel", "tray", "thick-book"],
+    "materials": ["ball-small-box-kitchen-roll-tube-plastic-cup-funnel", "tray-and-thick-book"],
     "steps": [
       { "n": 1, "picture": "A child and a grown-up gather things on the floor: a ball, a small box, a kitchen-roll tube, a plastic cup and a funnel.", "loop": false },
       { "n": 2, "picture": "A tray rests with one end on a thick book, making a gentle slope. The child sets the tube on its side at the top; curved motion lines show it rolling down. The grown-up watches, hand to chin, as if asking what will happen.", "loop": true },

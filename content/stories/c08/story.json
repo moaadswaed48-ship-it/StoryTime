@@ -136,7 +136,7 @@
   },
   "activity": {
     "minutes": 25,
-    "materials": ["aluminium-foil-squares", "wide-basin-few-cm-water", "small-pebbles", "towel", "paper", "pencil"],
+    "materials": ["aluminium-foil-squares", "wide-basin-few-cm-water", "small-pebbles", "towel-paper-and-pencil"],
     "steps": [
       { "n": 1, "picture": "A child folds a square of kitchen foil into a small boat with turned-up sides; a grown-up kneels beside a wide, shallow basin of water on a towel.", "loop": false },
       { "n": 2, "picture": "The child holds up a few fingers to guess, next to a paper with a small boat drawn on it and a space beside it.", "loop": false },

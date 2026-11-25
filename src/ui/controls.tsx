@@ -147,9 +147,9 @@ export function ChoiceGroup<T extends string>({ legend, name, value, options, on
       <legend className={`mb-2 ${legendClass}`}>{legend}</legend>
       <div className={`grid gap-2 ${cols}`}>
         {options.map((o) => (
-          <label key={o.value} className={`flex min-h-14 cursor-pointer items-start rounded-control border border-ink/30 bg-surface ${compact ? 'gap-2 p-3' : 'gap-3 p-4'} has-[:checked]:border-ink has-[:checked]:ring-2 has-[:checked]:ring-ink has-[:focus-visible]:outline has-[:focus-visible]:outline-3 has-[:focus-visible]:outline-focus`}>
+          <label key={o.value} className={`flex min-h-14 cursor-pointer items-start rounded-control border border-ink/30 bg-surface ${compact ? 'min-w-0 gap-1.5 px-2 py-3 sm:gap-2 sm:p-3' : 'gap-3 p-4'} has-[:checked]:border-ink has-[:checked]:ring-2 has-[:checked]:ring-ink has-[:focus-visible]:outline has-[:focus-visible]:outline-3 has-[:focus-visible]:outline-focus`}>
             <input type="radio" name={name} value={o.value} checked={value === o.value} onChange={() => onChange(o.value)} className="mt-1 size-5 shrink-0 accent-ink focus-visible:outline-none" />
-            <span className="flex flex-col gap-0.5" lang={o.lang}>
+            <span className="flex min-w-0 flex-col gap-0.5" lang={o.lang}>
               <span className="font-medium">{o.label}</span>
               {o.hint && <span className="text-sm text-ink-muted">{o.hint}</span>}
             </span>

@@ -137,8 +137,8 @@ export async function loadContent(c: ContentStory, want: Lang): Promise<StoryCon
   const { lang, json } = picked
   const problems = checkStory(c.story, { [lang]: json })
   if (problems.length) console.warn(`[content] ${c.id}: ${problems.join('; ')}`)
-  // Only a problem with the book itself stops it opening. A mismatch in the activity's list (a14 has three material
-  // ids in story.json and two lines in every language) is shown as the language file has it.
+  // Only a problem with the book itself stops it opening. A mismatch in the activity's list is shown as the language
+  // file has it (tests/content.test.ts checks that every story folder agrees).
   const fatal = problems.filter((p) => !p.includes('activity') && !p.includes('film line'))
   if (fatal.length) throw new DataError('not_found', `${c.id}: ${fatal[0]}`)
   const dir = `${ROOT}${c.folder}/`

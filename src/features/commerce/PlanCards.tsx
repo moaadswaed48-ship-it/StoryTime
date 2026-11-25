@@ -42,7 +42,7 @@ export function PlanCards({ initialGroup = '4-5', prices = PRICES }: { initialGr
           const href = session.status === 'signed-out' ? `${localPath(lang, 'sign-up')}?next=${encodeURIComponent(to)}` : to
           return (
             <li key={months} className="flex flex-col gap-4 rounded-control border border-line bg-surface p-5" data-testid={`plan-${months}`}>
-              <h3 className="text-xl font-semibold">{t.months[months]}</h3>
+              <h2 className="text-xl font-semibold">{t.months[months]}</h2>
               <div className="flex flex-col gap-1">
                 {total ? (
                   <p className="text-2xl font-semibold"><bdi>{total}</bdi></p>

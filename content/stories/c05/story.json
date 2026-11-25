@@ -134,7 +134,7 @@
   },
   "activity": {
     "minutes": 20,
-    "materials": ["twelve-pebbles-or-dry-pasta", "five-small-plastic-bowls", "paper", "pencil"],
+    "materials": ["twelve-pebbles-or-dry-pasta", "five-small-plastic-bowls", "paper-and-pencil"],
     "steps": [
       { "n": 1, "picture": "Twelve pebbles in a row on a table, each easy to count; a child touches them one by one.", "loop": false },
       { "n": 2, "picture": "Two small bowls; the child drops one pebble into each bowl in turn.", "loop": true },

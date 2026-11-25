@@ -272,8 +272,7 @@
   "activity": {
     "minutes": 10,
     "materials": [
-      "big-box",
-      "little-box",
+      "big-box-and-little-box-staples-removed",
       "household-things-that-pass-the-tube-test"
     ],
     "steps": [

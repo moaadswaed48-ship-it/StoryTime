@@ -220,7 +220,7 @@ def sami_pose(t, sp):
             # the wave (left arm: the near side, so the hand stays clear of his face against the sky)
             rise = smooth((t - 6.15) / 0.45) * (1 - smooth((t - 9.4) / 0.5))
             wv = math.sin(2 * math.pi * 2.0 * (t - 6.5)) * smooth((t - 6.5) / 0.3) * (1 - smooth((t - 9.2) / 0.3))
-            sh = (sh[0] * (1 - rise) + D(-14) * rise, sh[1] * (1 - rise) - D(150) * rise, D(18) * rise)
+            sh = (sh[0] * (1 - rise) + D(22) * rise, sh[1] * (1 - rise) - D(138) * rise, D(10) * rise)
             el = (el[0] * (1 - rise) + D(-26) * rise, -D(34) * wv * rise, 0)
         if s == 'R':
             # small happy fist with the hops of joy
@@ -296,7 +296,7 @@ def grandpa_pose(t):
                 y_off = 0.11 - 0.22 * ease((t - 9.75) / 0.9)
             lift = 0.05 * pulse(t, 0.95, 1.8) + 0.05 * pulse(t, 9.8, 10.65)
             # stance foot stays put in the world: express relative to the moving root
-            return (sx * 0.1, y_off, 0.065 + lift)
+            return (sx * 0.115, y_off, 0.065 + lift)
         else:
             # left foot: planted, catches up between steps
             y_off = 0.11 - 0.22 * step1 * 0.0
@@ -305,24 +305,26 @@ def grandpa_pose(t):
             catch2 = ease((t - 10.4) / 0.6)
             yl = 0.22 * (step1 + step2) - 0.22 * (catch1 + catch2)
             lift = 0.035 * pulse(t, 2.0, 2.7) + 0.035 * pulse(t, 10.4, 11.0)
-            return (sx * 0.1, yl, 0.065 + lift)
+            return (sx * 0.115, yl, 0.065 + lift)
 
     sway = D(1.5) * math.sin(2 * math.pi * 0.25 * t)
     breathe = 0.004 * math.sin(2 * math.pi * 0.3 * t)
-    hipz = 0.93 - 0.012 * (pulse(t, 0.9, 1.8) + pulse(t, 9.75, 10.65)) + 0.0
-    P.loc['hips'] = (0, 0, hipz)
+    hipz = 0.9 - 0.012 * (pulse(t, 0.9, 1.8) + pulse(t, 9.75, 10.65)) + 0.0
+    P.loc['hips'] = (0.012, 0, hipz)
+    P.rot['hips'] = (0, D(-3), 0)
     for s, sx in (('L', 1), ('R', -1)):
         f = foot(s, sx)
         hx, hy, hk = leg_ik((sx * 0.088, 0, hipz - 0.03), f, 0.43, 0.405)
         P.rot['hip.' + s] = (hx, hy * 0.5, 0)
         P.rot['knee.' + s] = (hk, 0, 0)
         P.rot['ankle.' + s] = (-(hx + hk), 0, 0)
+        P.rot['hip.' + s] = (hx, hy * 0.5 + sx * D(-3), 0)
     # stooped, unhurried; looks down at the path, then up at Sami; nods while waving
     look_up = smooth((t - 3.3) / 0.9) * (1 - smooth((t - 9.4) / 0.8))
     nod = D(5) * math.sin(2 * math.pi * 0.9 * (t - 5)) * smooth((t - 5.0) / 0.4) * (1 - smooth((t - 8.0) / 0.4))
     wave_on = smooth((t - 4.55) / 0.55) * (1 - smooth((t - 7.9) / 0.6))
-    P.rot['chest'] = (D(10) - D(4) * wave_on + breathe, sway, D(-6) * wave_on)
-    P.rot['neck'] = (D(4) - D(9) * look_up, 0, D(6) * look_up)
+    P.rot['chest'] = (D(13) - D(4) * wave_on + breathe, sway + D(4), D(-6) * wave_on)
+    P.rot['neck'] = (D(10) - D(12) * look_up, D(-3), D(6) * look_up)
     P.rot['head'] = (D(14) * (1 - look_up) - D(10) * look_up + nod, D(-4) * look_up, D(12) * look_up)
     # left hand holds the stick (forearm forward), right arm hangs, then waves
     stick_fwd = 0.06 * (pulse(t, 0.4, 1.0) + pulse(t, 9.2, 9.8))
@@ -331,8 +333,8 @@ def grandpa_pose(t):
     P.rot['wrist.L'] = (D(10), 0, D(-10))
     wv = math.sin(2 * math.pi * 1.25 * (t - 5.0)) * smooth((t - 5.0) / 0.35) * (1 - smooth((t - 7.6) / 0.4))
     antic = -D(10) * pulse(t, 4.4, 4.9)
-    P.rot['shoulder.R'] = (D(-4) + (D(-18)) * wave_on, D(8) + antic + D(142) * wave_on, D(-14) * wave_on)
-    P.rot['elbow.R'] = (D(-14) - D(30) * wave_on, D(28) * wv * wave_on, 0)
+    P.rot['shoulder.R'] = (D(-6) + (D(-14)) * wave_on, D(9) + antic + D(150) * wave_on, D(-18) * wave_on)
+    P.rot['elbow.R'] = (D(-16) - D(38) * wave_on, D(30) * wv * wave_on, 0)
     P.rot['wrist.R'] = (D(-6) * wave_on, D(10) * wv * wave_on, 0)
     # stick tip target (ground, ahead-left of his left foot); it moves forward when he steps
     tip_fwd = 0.25 * (ease((t - 0.45) / 0.5) + ease((t - 9.25) / 0.5))
@@ -405,7 +407,7 @@ def build(scene_only=False):
     ground = hill.build_terrain()
     hill.build_far_hills()
     gcoll, fcoll, fmats = hill.build_plants(ground)
-    sun, sky, sdir = hill.build_sky_and_sun(sun_elev_deg=8.0, sun_azim_deg=-100.0, sun_strength=6.0)
+    sun, sky, sdir = hill.build_sky_and_sun(sun_elev_deg=8.0, sun_azim_deg=-100.0, sun_strength=9.0)
 
     # hero anemones close to the action and the lens (hand-placed for composition)
     hero = [(0.95, 3.35, 0.22, 1.1), (1.15, 2.85, 0.18, 1.0), (0.2, 3.5, 0.2, 1.0), (-0.35, 1.3, 0.16, 1.2),
@@ -426,10 +428,11 @@ def build(scene_only=False):
     tanv = tanh_ * 720 / 1280
     sxn, syn = 0.24, 0.30  # where the ladybird sits in the first frame (0..1 from left / bottom)
     ray = (fwd + right * (2 * sxn - 1) * tanh_ + up * (2 * syn - 1) * tanv).normalized()
-    lp = Vector((cx0, cy0, cz0)) + ray * 0.8 - Vector((0, 0.06, 0.0))
+    lp = Vector((cx0, cy0, cz0)) + ray * 0.52 - Vector((0, 0.05, 0.0))
     lx, ly = lp.x, lp.y
     leaf.location = lp
-    leaf.rotation_euler = (math.radians(-14), math.radians(10), math.radians(-24))
+    leaf.rotation_euler = (math.radians(-58), math.radians(14), math.radians(-160))
+    bpy.context.view_layer.update()
     from lib import tube_path
     g0 = float(hill.height(lx, ly))
     tube_path('ForeLeaf.stem', [(lx + 0.012, ly - 0.01, g0 - 0.02), (lx + 0.008, ly - 0.006, (g0 + lp.z) / 2),
@@ -441,7 +444,37 @@ def build(scene_only=False):
                                      (lx + 0.008 + 0.055 * math.cos(a), ly + 0.055 * math.sin(a), zz + 0.01)],
                   [0.002, 0.007, 0.001], leafmat, None, 8, False, 1)
     bug = hill.build_ladybird(leaf)
-    bug.scale = (1.15, 1.15, 1.15)
+    bug.scale = (1.9, 1.9, 1.9)
+
+    # soft warm ground bounce from the front (what the sunlit meadow throws back up onto faces and bellies)
+    bl_ = bpy.data.lights.new('Bounce', 'AREA'); bl_.shape = 'DISK'; bl_.size = 3.0; bl_.energy = 70.0
+    bl_.color = lin('#ffd6a0')[:3]
+    bo = bpy.data.objects.new('Bounce', bl_); sc.collection.objects.link(bo)
+    bo.location = (-0.2, 0.9, float(hill.height(-0.2, 0.9)) + 0.25)
+    bo.rotation_euler = (math.radians(102), 0, 0)  # faces +Y and slightly up, toward the actors
+    bo.visible_camera = False
+
+    # pollen and dust drifting in the sunlit air (soft bokeh specks)
+    dm = bpy.data.materials.new('Dust'); dm.use_nodes = True
+    dnt = dm.node_tree
+    for n_ in list(dnt.nodes):
+        if n_.type != 'OUTPUT_MATERIAL':
+            dnt.nodes.remove(n_)
+    de = dnt.nodes.new('ShaderNodeEmission'); de.inputs['Color'].default_value = lin('#ffe2a8')
+    de.inputs['Strength'].default_value = 2.5
+    dnt.links.new(de.outputs[0], dnt.nodes['Material Output'].inputs['Surface'])
+    dm.cycles.emission_sampling = 'NONE'  # specks glow but are never sampled as lights (keeps frames fast)
+    import random as _r
+    rr = _r.Random(4)
+    motes = []
+    for i in range(0):  # dust specks read as dead pixels at this lens; kept off
+        x0, y0 = rr.uniform(-1.4, 1.4), rr.uniform(0.7, 2.4)
+        z0 = float(hill.height(x0, y0)) + rr.uniform(0.3, 1.2)
+        from lib import ellipsoid as _el
+        m_ = _el(f'Dust{i}', 0.0012, 0.0012, 0.0012, dm, None, (x0, y0, z0), 8, 0)
+        for vis in ('visible_diffuse', 'visible_shadow', 'visible_glossy', 'visible_transmission'):
+            setattr(m_, vis, False)
+        motes.append((m_, x0, y0, z0, rr.uniform(0, 6.28), rr.uniform(0.02, 0.06)))
 
     sami = build_sami()
     gp = build_grandpa()
@@ -497,6 +530,10 @@ def build(scene_only=False):
         bug.location = (0.0015 * math.sin(t * 9), lyb, z_leaf + 0.0016)
         bug.rotation_euler = (-math.atan(0.5 * lyb / 0.12) * 1.0, 0, math.pi + 0.08 * math.sin(t * 4.5))
         bug.keyframe_insert('location', frame=f); bug.keyframe_insert('rotation_euler', frame=f)
+        for (m_, x0, y0, z0, ph_, sp_) in motes:
+            m_.location = (x0 + sp_ * t + 0.03 * math.sin(0.7 * t + ph_), y0 + 0.02 * math.sin(0.5 * t + 2 * ph_),
+                           z0 + 0.04 * math.sin(0.9 * t + ph_) + 0.006 * t)
+            m_.keyframe_insert('location', frame=f)
         # focus: ladybird first, then pull to Sami as he stops, ease a little toward Grandpa while he waves
         cam_p = Vector((cx, cy, cz))
         bug_w = leaf.matrix_world @ Vector((0, lyb, z_leaf))
@@ -533,8 +570,8 @@ def render_settings(sc, res, samples, blur):
     sc.render.use_motion_blur = blur
     sc.render.motion_blur_shutter = 0.5
     sc.view_settings.view_transform = 'AgX'
-    sc.view_settings.look = 'AgX - Medium High Contrast'
-    sc.view_settings.exposure = 0.0
+    sc.view_settings.look = 'AgX - Punchy'
+    sc.view_settings.exposure = 0.45
     sc.render.image_settings.file_format = 'PNG'
     sc.render.image_settings.color_depth = '8'
     sc.render.film_transparent = False
@@ -551,6 +588,24 @@ if __name__ == '__main__':
     t0 = time.time()
     sc, sami, gp, cam = build()
     render_settings(sc, arg('res', '1280x720'), int(arg('samples', '48')), arg('blur', '1') == '1')
+    if '--closeup' in argv:
+        # a 75 mm close-up of Sami's face from the same set and animation (for the review sheet, not the film)
+        f0 = frame_list(arg('frames', '200'))[0]
+        sc.frame_set(f0)
+        hw = sami.j['headmesh'].matrix_world.translation.copy()
+        main = sc.camera
+        d = (main.matrix_world.translation - hw); d.z = 0; d.normalize()
+        side = Vector((-d.y, d.x, 0))
+        cam2 = bpy.data.cameras.new('Close'); cam2.lens = 75; cam2.dof.use_dof = True; cam2.dof.aperture_fstop = 2.2
+        c2 = bpy.data.objects.new('Close', cam2); sc.collection.objects.link(c2)
+        c2.location = hw + d * 0.95 + side * 0.18 - Vector((0, 0, 0.06))
+        t2 = empty('CloseT', tuple(hw + Vector((0, 0, -0.03))), None, 0.02)
+        tr2 = c2.constraints.new('TRACK_TO'); tr2.target = t2; tr2.track_axis = 'TRACK_NEGATIVE_Z'; tr2.up_axis = 'UP_Y'
+        cam2.dof.focus_object = sami.face['eyeL']
+        card = bpy.data.objects.get('CatchCard')
+        if card:
+            card.parent = c2
+        sc.camera = c2
     if arg('save', None):
         bpy.ops.wm.save_as_mainfile(filepath=arg('save', None))
     out = arg('out', '/tmp/a04')

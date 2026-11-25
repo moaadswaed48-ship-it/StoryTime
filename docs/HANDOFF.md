@@ -597,3 +597,16 @@ this section.
   English, a marked placeholder on every page; C01's activity (5 steps, Print); the six legal pages in Arabic and
   English (200, titled; the new privacy sentence is live); robots noindex; no page errors.
 - Not done: no fresh-context reviewer (none can be started from this helper); Safari/WebKit not run here.
+
+## Site review (fresh reviewer, 25 Nov 2026)
+
+Status: review written, small fixes made, not committed. Full report: `docs/reviews/site-review-25nov.md`
+(findings ranked BROKEN / UNTRUE / CONFUSING / WEAK, screenshots in `qa/out/review/`).
+- Fixed: activity material ids in A14, B12, B15, C05, C06, C08 now match the language lines (ids only, no words);
+  new test that every story folder agrees with its `story.json` (C03's chopping board is the one known gap, for the
+  Story Room); the reader shows "Voice coming soon" instead of a dead Listen button and auto-flip switch; the Danish
+  accessibility title no longer scrolls the phone sideways; 44 px site-name link; compact age chips fit at 390 px;
+  pass-card heading level.
+- Open (owner or Story Room): home-page hero promises films, pictures and a voice in the present tense; two menus on
+  signed-in pages; footer lacks Help, Contact, language picker and business details; library is word-heavy for small
+  children; fast page flips are not saved; axe, Lighthouse and Safari not run (not installed).

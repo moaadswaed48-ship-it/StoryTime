@@ -137,7 +137,7 @@
   },
   "activity": {
     "minutes": 25,
-    "materials": ["four-same-size-plastic-bottles-caps-off", "water", "jug", "towel"],
+    "materials": ["four-same-size-plastic-bottles-caps-off", "water-and-jug", "towel"],
     "steps": [
       { "n": 1, "picture": "Four identical plastic bottles in a row on a towel; a grown-up kneels beside them while a child pours water from a jug, a different amount into each bottle.", "loop": false },
       { "n": 2, "picture": "The child points at one bottle with a questioning face; a small thought cloud shows a high, thin curving line.", "loop": false },
