@@ -41,7 +41,7 @@ export function Cover({ story, locked, className = '', style }: { story: Pick<St
           <span className="absolute inset-x-[24%] top-[26%] aspect-square" style={{ background: b.palette.foil, maskImage: mask, WebkitMaskImage: mask, maskSize: 'contain', WebkitMaskSize: 'contain', maskRepeat: 'no-repeat', WebkitMaskRepeat: 'no-repeat' } as CSSProperties} />
           {/* Marked as a stand-in: a dashed inner frame and, where the board is big enough, the words. */}
           <span className="absolute inset-[6%] rounded-[3px] border border-dashed" style={{ borderColor: b.palette.foil, opacity: 0.7 }} data-testid="cover-placeholder" />
-          <span className="absolute inset-x-[8%] bottom-[9%] hidden text-center text-[0.65rem] leading-tight font-medium @[6rem]:block" style={{ color: b.palette.ink }}>{dict.stories.placeholder.cover}</span>
+          <span className="absolute inset-x-[8%] bottom-[9%] hidden text-center text-[0.65rem] leading-tight font-medium @[4.5rem]:block" style={{ color: b.palette.ink }}>{dict.stories.placeholder.cover}</span>
         </>
       )}
       {/* The spine's shadow, on the binding side. */}

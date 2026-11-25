@@ -61,14 +61,16 @@ cam = bpy.data.cameras.new('cam')
 co = bpy.data.objects.new('cam', cam); sc.collection.objects.link(co); sc.camera = co
 if view == 'face':
     cam.lens = 85
-    tgt = sami.j['headmesh']
     co.location = (0.35 + 0.25, -1.4, 0.8)
+elif view == 'gface':
+    cam.lens = 85
+    co.location = (-0.35 + 0.35, -1.6, 1.72)
 else:
     cam.lens = 50
     tgt = None
     co.location = (0.9 if view == 'three' else 0.0, -4.2, 0.95)
 t = bpy.data.objects.new('tgt', None); sc.collection.objects.link(t)
-t.location = (0.35, 0, 0.78) if view == 'face' else (0.0, 0, 0.8)
+t.location = (0.35, 0, 0.77) if view == 'face' else ((-0.35, 0.1, 1.68) if view == 'gface' else (0.0, 0, 0.8))
 tr = co.constraints.new('TRACK_TO'); tr.target = t
 
 sc.render.engine = 'CYCLES'

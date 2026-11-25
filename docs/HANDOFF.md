@@ -515,4 +515,85 @@ stories in `content/stories/` (a12, c03, another helper) push `sample-b` out of 
 
 ## Stage 4, part C (Builder, 25 Nov 2026): gaps that do not depend on the look
 
-Status: IN PROGRESS. If this line is still here, the job was cut short; see the list below for what is done.
+Status: BUILT AND CHECKED (25 Nov 2026), not committed. Neutral tokens only. Final check numbers are at the end of
+this section.
+
+- [x] **Privacy: no address left in the email log after deletion.** Migration
+      `20261125120000_email_log_privacy.sql`: `email_log.to_email` may be null, new `to_email_hash` (salted SHA-256,
+      same salt and formula as `private.trial_ledger`, function `private.email_hash()`, no client may call it).
+      `delete_my_account()` replaces the address in every earlier row of the account at once; trigger
+      `email_log_forget_deleted` replaces the address of the account-deleted email as soon as it leaves
+      queued/sending (sent, skipped, failed for good, bounced). Rows of accounts deleted earlier are hashed by the
+      migration. Kept per row: template, language, status, times, message id, dedupe key. Local backend: the outbox
+      does the same (`toHash`, `to: null`; the goodbye email counts as sent at once in test mode). Tests that failed
+      before and pass after: `tests/db/email-log-privacy.test.ts` (6), `tests/stage4c-local.test.ts` (2).
+      `queuedEmail()` skips a row with no address. Privacy page "How long we keep it" updated in four languages
+      (draft banner kept); `docs/legal/LAWYER-PACK.md` section C updated. Still kept with the address: the
+      do-not-send list (`email_suppressions`) for bounces and complaints, as the page says.
+- [x] **All 45 stories in the app** (`content/stories/a01..c15`, each in its own age group; the samples and the
+      text-only seeds stay after them, marked "Sample", never trial stories). The author's story is NOT wired
+      (it is not in `content/stories/`, and the preview must never carry it).
+      - Trial stories (`src/data/local/trial-picks.ts`, first on the shelf): 2-3 **A04** Slow, Slow, Together, **A01**
+        One, Two, Three, Wheee! (counting), **A07** Boom, Says the Sky (a scared feeling); 4-5 **B02** The Shell That
+        Sings, **B01** Ten Goats Home (counting to ten), **B09** The Kite That Kept Falling (keep trying); 6-8 **C01**
+        Ten Pomegranates, Two Baskets, **C03** The Quiet Morning (helping Mother), **C10** Long-Legs Flies South
+        (science). One values, one numbers, one feelings or science story per group. On Supabase the owner sets
+        them in the owner's area.
+      - Placeholders, clearly marked, gone the moment a file exists: `src/features/family/Placeholder.tsx` (hatching,
+        a picture sign, a dashed tag "Placeholder: this picture is not drawn yet") on every page without a picture
+        (DOM page and the curl's canvas, `drawPlaceholder` in `features/reader/paint.ts`), activity steps and
+        materials; covers without a picture get a dashed frame and "No cover yet".
+      - Films: no player without a file. Watch page and films collection say "Film coming soon" (the films
+        collection lists planned films, `features.filmSoon`). Listen door: "Voice coming soon"; the reader's Listen
+        button is disabled. Words changed in four languages (`doors.noRecording`, `doors.noFilm`, `film.notReady`).
+      - Loader fix: a14's `story.json` lists 3 activity materials, every language file 2 (the two boxes are one
+        line). The loader now shows the language file's lines and only refuses a story for a problem with the book
+        itself. **Story Room: merge `big-box` and `little-box` in `a14/story.json`** (no text changed here).
+      - Unit test opens every story in all four languages (`tests/stage4c-local.test.ts`); e2e reads A04, B02 and C01
+        to the end in Arabic and English at 390 and 1440 px (`e2e/stage4c.spec.ts`). The "no story text in public
+        HTML" test in `e2e/stage4b1.spec.ts` still passes with all 45 stories.
+- [x] **Favourites ("My shelf")** per profile: heart button on the storybook page, "My shelf" row in the library
+      with its empty state. Table `favourites` (RLS per account, cascades with the profile, in "Download my data").
+- [x] **Print view for activities**: Print button on the activity page; print CSS in `src/app.css` prints only the
+      activity (`data-print-root`), moving steps as stills, no buttons or navigation.
+- [x] **Trial counter** "1 of 3 trial stories opened" in the access panel (`AccessSnapshot.trialOpened`: trial
+      stories that any profile has read, watched or done).
+- [x] **Settings and film position with the account**: `profiles.prefs` (only autoFlip, captions, textScale, view,
+      hintSeen; a database check refuses anything else) and `progress.film_position_s` (migration
+      `20261125130000_family_prefs_favourites.sql`). `usePrefs` copies the account's settings into the device cache
+      once when the account loads and sends each change to the account. The film saves its place about every 10 s,
+      on pause, and clears it at the end; another device starts there.
+- [x] **Email change (test mode)**: Settings, Account, "Change email address": a link to the new address
+      (`requestEmailChange`), the address changes only when the link is opened (new page `auth/confirm-email`), then a
+      notice to the old address. Refuses a bad address, an address with an account, and a second request within a
+      minute; the link works once for 24 hours. Supabase: `auth.updateUser({ email })` + `verifyOtp(type
+      'email_change')`; the auth-email-hook now links to the site page. NOT run against Supabase.
+- [x] Old tests fixed: `tests/content.test.ts` (sample-b is no longer a trial story: it now buys a test pass);
+      `tests/zone.test.ts` b11 (one long hyphenated word on a 320 px phone at the larger size: the side padding gives
+      way, words are never split, `src/reader/zone.ts`); database tests get longer timeouts in `vitest.config.ts`
+      (each file builds a Postgres with every migration). `e2e/stage4b1.spec.ts` gives its family a 4-5 pass so the
+      sample with test recordings stays open. The Supabase stand-in in `tests/db/supabase-data-layer.test.ts`
+      learned `.in()`.
+
+### Not done here: needs the owner's accounts or a decision
+- Real voice, films and art (Studio work); the author's story (her written consent, and never on the preview).
+- Supabase project (prefs, favourites, film position, email change and the trial counter are written for it and
+  the SQL is proven in PGlite, but nothing ran against a real project), Resend (real emails, including the
+  email-change emails), the payment company (receipts, payment history links, refunds).
+- Supabase content import: real stories, trial flags and media links reach the Supabase backend only through the
+  owner's area; `getStoryContent` there still returns no pictures, zones, film or activity.
+- Classroom mode, "privacy promise for kindergartens", contact form and owner inbox, owner refund processing.
+
+### Checks (25 Nov 2026, on the final code)
+- `npm run typecheck`: 0 errors. `npm test`: 353 pass in 28 files (new: `tests/db/email-log-privacy.test.ts` 6,
+  `tests/db/family-prefs.test.ts` 5, `tests/stage4c-local.test.ts` 14).
+- `npm run e2e` (build included, so `npm run build` passed): 90 passed, 4 skipped (WebKit-only and once-only
+  checks), 0 failed, in 18 minutes; new `e2e/stage4c.spec.ts` 6 tests at 390 and 1440 px. Screenshots in
+  `qa/out/stage4c/` looked at (reader pages with placeholders in Arabic and English, library per group, storybook
+  doors, activity and its print view, my shelf, email change).
+- Preview republished (`node scripts/deploy/preview.mjs`: 1059 pages, 58 story ids, all noindex). Live check at
+  390 px in Chromium on https://moaadswaed48-ship-it.github.io/StoryTime/next/: test-mode sign-up lands on B02; each
+  group lists its 15 stories (4-5: 3 open); A04, B02 and C01 read to the end in Arabic (Arabic text checked) and in
+  English, a marked placeholder on every page; C01's activity (5 steps, Print); the six legal pages in Arabic and
+  English (200, titled; the new privacy sentence is live); robots noindex; no page errors.
+- Not done: no fresh-context reviewer (none can be started from this helper); Safari/WebKit not run here.

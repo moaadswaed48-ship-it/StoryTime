@@ -40,7 +40,7 @@ export function signInPath(lang: Lang, here: string) {
  * Test mode only: shows the link the email would have carried, since no email is sent yet. Reads the local
  * backend's outbox. Nothing is shown with the Supabase backend, where real emails go out.
  */
-export function TestEmailPanel({ email, kind, refreshKey }: { email: string; kind: 'confirm' | 'reset'; refreshKey?: unknown }) {
+export function TestEmailPanel({ email, kind, refreshKey }: { email: string; kind: 'confirm' | 'reset' | 'email_change'; refreshKey?: unknown }) {
   const { dict } = useLang()
   const [link, setLink] = useState<string | null>(null)
   useEffect(() => {
@@ -58,7 +58,7 @@ export function TestEmailPanel({ email, kind, refreshKey }: { email: string; kin
       <p className="text-sm">{dict.account.auth.testEmailLead}</p>
       <div>
         <a href={link} data-testid="test-email-link" className="inline-flex min-h-12 items-center rounded-control border border-ink px-4 font-medium underline underline-offset-4">
-          {kind === 'confirm' ? dict.account.auth.testOpenConfirm : dict.account.auth.testOpenReset}
+          {kind === 'confirm' ? dict.account.auth.testOpenConfirm : kind === 'reset' ? dict.account.auth.testOpenReset : dict.account.auth.testOpenEmailChange}
         </a>
       </div>
     </Notice>

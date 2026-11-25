@@ -33,6 +33,11 @@ export function AccessPanel({ access, onStartTrial }: { access: AccessSnapshot; 
     <div className="flex flex-col gap-3" data-testid="access-panel">
       {trialActive && access.trial && (
         <Notice tone="info" title={fmt(t.trialActive, timeLeft(access.trial.endsAt, access.now))}>
+          {access.trialOpened && (
+            <p className="font-medium" data-testid="trial-opened">
+              {fmt(dict.stories.library.trialOpened, { n: access.trialOpened.length, total: access.trial.storyIds.length })}
+            </p>
+          )}
           <p>{t.trialStoriesNote}</p>
         </Notice>
       )}

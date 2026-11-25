@@ -11,7 +11,7 @@ import { IconArrow, IconList, IconShelf } from '@/features/family/icons'
 import { usePrefs, useReducedMotion } from '@/features/family/prefs'
 import { Avatar, ProfilePicker } from '@/features/family/ProfilePicker'
 import { Shelf, supports3d } from '@/features/family/Shelf'
-import { keepTogether, useIsOpen, useLearners, useProgress, useStories } from '@/features/family/useFamily'
+import { keepTogether, useFavourites, useIsOpen, useLearners, useProgress, useStories } from '@/features/family/useFamily'
 import { isRtl } from '@/i18n/config'
 import { fmt } from '@/i18n/format'
 import { useLang } from '@/i18n/use-dict'
@@ -36,6 +36,9 @@ export default function Library() {
   const [group, setGroup] = useState<AgeGroup | null>(null)
   const { stories, error, reload, storyLang } = useStories(group)
   const progress = useProgress(active?.id ?? null)
+  const favourites = useFavourites(active?.id ?? null)
+  // "My shelf" holds books of any age group, so it reads the whole catalogue (facts only, never story text).
+  const all = useStories(favourites.ids?.length ? 'all' : null)
   const [prefs, setPrefs] = usePrefs()
   const reduced = useReducedMotion()
   const [can3d, setCan3d] = useState(true)
@@ -118,6 +121,29 @@ export default function Library() {
           progress.loaded && <p className="text-ink-muted" data-testid="nothing-started">{t.nothingStarted}</p>
         )}
       </section>
+
+      {active && (
+        <section aria-labelledby="my-shelf-h" className="flex flex-col gap-3" data-testid="my-shelf">
+          <h2 id="my-shelf-h" className="text-xl font-semibold">{t.myShelf}</h2>
+          {favourites.ids && !favourites.ids.length && <p className="text-ink-muted" data-testid="my-shelf-empty">{t.myShelfEmpty}</p>}
+          {!!favourites.ids?.length && (
+            <ul className="flex gap-3 overflow-x-auto pb-2">
+              {favourites.ids.map((fid) => {
+                const s = all.stories?.find((x) => x.id === fid)
+                if (!s) return null
+                return (
+                  <li key={fid} className="shrink-0">
+                    <Link to={storyPath(s)} className="flex w-28 flex-col gap-2 rounded-control p-1 hover:bg-surface" data-testid="my-shelf-book">
+                      <Cover story={s} locked={!isOpen(s)} className="h-36 w-28" />
+                      <span className="line-clamp-2 text-sm font-medium" lang={storyLang}><bdi>{s.title}</bdi></span>
+                    </Link>
+                  </li>
+                )
+              })}
+            </ul>
+          )}
+        </section>
+      )}
 
       <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
         {group && (

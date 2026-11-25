@@ -96,7 +96,7 @@ describe('all 45 stories are in the app', () => {
       expect(list.filter((s) => s.isSample).every((s) => !s.trialIn.length)).toBe(true)
       // Catalogue facts only: no page text, a title in the asked language, features honest.
       const b = list.find((s) => s.id === ids[0])!
-      expect(b.features).toEqual({ listen: false, film: false, activity: true })
+      expect(b.features).toEqual({ listen: false, film: false, activity: true, filmSoon: true })
       expect(b.coverUrl).toBeNull()
     }
   })

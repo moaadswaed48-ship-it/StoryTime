@@ -19,7 +19,7 @@ from lib import (capsule_profile, ellipsoid, empty, hair_curves, hair_material, 
 
 
 def skin_material(name, skin, blush, cheeks, lip, mouth_dark='#2a0e0c', mouth_mid='#6e2a26', sss_scale=0.012,
-                  blush_amt=0.55, blush_r=0.032):
+                  blush_amt=0.55, blush_r=0.032, teeth=None, tongue_z=None):
     """Skin with subsurface glow, painted blush, and a mouth whose colour comes from how deep the surface sits
     under the closed-face reference ('rest' attribute): the carved mouth darkens like a real cavity."""
     m = principled(name, skin, rough=0.48, sss=1.0, sss_radius=(1.0, 0.38, 0.22), sss_scale=sss_scale, spec=0.42,
@@ -43,8 +43,14 @@ def skin_material(name, skin, blush, cheeks, lip, mouth_dark='#2a0e0c', mouth_mi
         L.new(src, n.inputs['Value'])
         return n.outputs['Result']
 
-    mouth = mr(inward, 0.0010, 0.0030, (-800, 200))
-    lipm = mr(inward, 0.0002, 0.0010, (-800, 0))
+    mz = nt.nodes.new('ShaderNodeAttribute'); mz.attribute_name = 'mzone'; mz.attribute_type = 'GEOMETRY'
+    mz.location = (-1400, -600)
+    m0 = mr(inward, 0.0010, 0.0030, (-800, 200))
+    mm = nt.nodes.new('ShaderNodeMath'); mm.operation = 'MULTIPLY'; L.new(m0, mm.inputs[0]); L.new(mz.outputs['Fac'], mm.inputs[1])
+    mouth = mm.outputs[0]
+    l0 = mr(inward, 0.0002, 0.0010, (-800, 0))
+    lmz = nt.nodes.new('ShaderNodeMath'); lmz.operation = 'MULTIPLY'; L.new(l0, lmz.inputs[0]); L.new(mz.outputs['Fac'], lmz.inputs[1])
+    lipm = lmz.outputs[0]
     deep = mr(inward, 0.003, 0.011, (-800, -200))
     # blush: distance to the two cheek points
     bl = None
@@ -79,6 +85,21 @@ def skin_material(name, skin, blush, cheeks, lip, mouth_dark='#2a0e0c', mouth_mi
     lm.location = (-500, 0); L.new(lipm, lm.inputs[0])
     c2 = mix(lm.outputs[0], c1, lin(lip), (-150, -100))
     mcol = mix(deep, lin(mouth_mid), lin(mouth_dark), (-300, 300))
+    sxyz = nt.nodes.new('ShaderNodeSeparateXYZ'); L.new(tc.outputs['Object'], sxyz.inputs[0])
+    if tongue_z is not None:  # pink tongue low in the mouth
+        tg = mr(sxyz.outputs['Z'], tongue_z + 0.004, tongue_z - 0.002, (-500, 500))
+        tgm = nt.nodes.new('ShaderNodeMath'); tgm.operation = 'MULTIPLY'; tgm.inputs[1].default_value = 0.85
+        L.new(tg, tgm.inputs[0])
+        mcol = mix(tgm.outputs[0], mcol, lin('#b5524c'), (-150, 400))
+    if teeth is not None:  # a slip of upper teeth along the curved top edge of an open mouth
+        curve, top = teeth
+        xx = nt.nodes.new('ShaderNodeMath'); xx.operation = 'MULTIPLY'; L.new(sxyz.outputs['X'], xx.inputs[0]); L.new(sxyz.outputs['X'], xx.inputs[1])
+        cx = nt.nodes.new('ShaderNodeMath'); cx.operation = 'MULTIPLY'; cx.inputs[1].default_value = curve; L.new(xx.outputs[0], cx.inputs[0])
+        zc = nt.nodes.new('ShaderNodeMath'); zc.operation = 'SUBTRACT'; L.new(sxyz.outputs['Z'], zc.inputs[0]); L.new(cx.outputs[0], zc.inputs[1])
+        tt = mr(zc.outputs[0], top - 0.0042, top - 0.0030, (-500, 650))
+        dd = mr(inward, 0.0015, 0.0035, (-500, 800))
+        tm = nt.nodes.new('ShaderNodeMath'); tm.operation = 'MULTIPLY'; L.new(tt, tm.inputs[0]); L.new(dd, tm.inputs[1])
+        mcol = mix(tm.outputs[0], mcol, lin('#f1ebe2'), (-100, 600))
     c3 = mix(mouth, c2, mcol, (0, 100))
     L.new(c3, b.inputs['Base Color'])
     inv = nt.nodes.new('ShaderNodeMath'); inv.operation = 'SUBTRACT'; inv.inputs[0].default_value = 1.0
@@ -320,12 +341,12 @@ def build_sami():
             d = smin(d, sd_sphere(p, (sx * (0.054 + cheek_out), -0.071, -0.042 + cheek_up), 0.05), 0.03)
         d = smin(d, sd_ellipsoid(p, (0, -0.058, -0.068), (0.062, 0.058, 0.05)), 0.028)
         d = smin(d, sd_ellipsoid(p, (0, -0.1, -0.084), (0.03, 0.022, 0.02)), 0.014)  # chin
-        d = smin(d, sd_ellipsoid(p, (0, -0.124, -0.024), (0.0175, 0.0145, 0.0135)), 0.011)  # nose
+        d = smin(d, sd_ellipsoid(p, (0, -0.122, -0.026), (0.015, 0.0125, 0.0115)), 0.011)  # nose
         for sx in (-1, 1):  # nostril wings
-            d = smin(d, sd_sphere(p, (sx * 0.0115, -0.117, -0.031), 0.0075), 0.006)
+            d = smin(d, sd_sphere(p, (sx * 0.0105, -0.115, -0.032), 0.0065), 0.006)
         if eyes:
             for sx in (-1, 1):
-                d = smax(d, -sd_sphere(p, (sx * 0.048, -0.087, -0.002), 0.0325), 0.008)
+                d = smax(d, -sd_sphere(p, (sx * 0.048, -0.087, -0.002), 0.0338), 0.008)
         return d
 
     def mouth_carve(p, w, h, d, cz, curve, flat_top=None, cy=-0.112):
@@ -340,17 +361,18 @@ def build_sami():
         return base_sdf(p)
 
     def sdf_closed(p):  # soft closed smile line
-        return smax(base_sdf(p), -mouth_carve(p, 0.017, 0.0022, 0.012, -0.061, 9.0), 0.002)
+        return smax(base_sdf(p), -mouth_carve(p, 0.02, 0.0022, 0.012, -0.062, 16.0), 0.002)
 
     def sdf_o(p):  # small round "o" of wonder
         return smax(base_sdf(p), -mouth_carve(p, 0.0095, 0.0105, 0.02, -0.064, 0.0), 0.003)
 
     def sdf_smile(p):  # big open D smile, cheeks pushed up
         return smax(base_sdf(p, cheek_up=0.006, cheek_out=0.002),
-                    -mouth_carve(p, 0.03, 0.0175, 0.024, -0.069, 11.0, flat_top=-0.0575), 0.004)
+                    -mouth_carve(p, 0.031, 0.016, 0.024, -0.071, 20.0, flat_top=-0.0575), 0.004)
 
     cheeks = [(0.056, -0.108, -0.035), (-0.056, -0.108, -0.035)]
-    m_skin = skin_material('Sami.skin', skin_hex, '#d9876a', cheeks, '#b8645a', blush_amt=0.5)
+    m_skin = skin_material('Sami.skin', skin_hex, '#d9876a', cheeks, '#b8645a', blush_amt=0.45, teeth=(20.0, -0.0575),
+                           tongue_z=-0.078)
     m_body = principled('Sami.skinbody', skin_hex, rough=0.5, sss=1.0, sss_radius=(1.0, 0.38, 0.22), sss_scale=0.012,
                         spec=0.42, sheen=0.15)
     m_lash = principled('Sami.lash', '#1c100b', rough=0.6)
@@ -368,8 +390,8 @@ def build_sami():
     j = ch.joint
     j('hips', 'root', (0, 0, 0.36))
     j('chest', 'hips', (0, 0, 0.06))
-    j('neck', 'chest', (0, 0, 0.185))
-    j('head', 'neck', (0, 0, 0.045))
+    j('neck', 'chest', (0, 0, 0.172))
+    j('head', 'neck', (0, 0, 0.026))
     for s, sx in (('L', 1), ('R', -1)):
         j('shoulder.' + s, 'chest', (sx * 0.098, 0, 0.158))
         j('elbow.' + s, 'shoulder.' + s, (0, 0, -0.112))
@@ -380,7 +402,7 @@ def build_sami():
     J = ch.j
 
     # ---- head
-    hm = empty('Sami.headmesh', (0, 0.0, 0.118), J['head'], 0.02)
+    hm = empty('Sami.headmesh', (0, 0.0, 0.112), J['head'], 0.02)
     ch.j['headmesh'] = hm
     head, dirs, pts_rest = sdf_mesh('Sami.head', sdf_closed, hc, level=7, mat=m_skin, parent=hm,
                                     shapes={'o': sdf_o, 'smile': sdf_smile})
@@ -389,11 +411,14 @@ def build_sami():
     rest_pts = march(sdf_rest, hc, dirs, 0.35)
     set_point_attr(head, 'rest', rest_pts)
     set_point_attr(head, 'rdir', dirs)
+    rp = rest_pts - hc
+    mzone = np.clip(1.6 - np.sqrt((rp[:, 0] / 0.05) ** 2 + ((rp[:, 2] + 0.064) / 0.03) ** 2), 0, 1) * (rp[:, 1] < -0.07)
+    set_point_attr(head, 'mzone', mzone, 'FLOAT')
     ch.face['head'] = head
 
     for sx in (1, -1):
-        build_eye(ch, sx, (sx * 0.048, -0.087, -0.002), 0.0305, m_eye, m_skin_lid(skin_hex), m_lash, hm,
-                  lash_r=0.0011, upper_rest=-0.42, lower_rest=1.0)
+        build_eye(ch, sx, (sx * 0.048, -0.087, -0.002), 0.0318, m_eye, m_skin_lid(skin_hex), m_lash, hm,
+                  lash_r=0.0012, upper_rest=-0.62, lower_rest=1.05)
         brow(ch, sx, sdf_rest, hc, [0.026, 0.042, 0.058, 0.072], [0.043, 0.049, 0.049, 0.041], 0.0032, m_brow, hm)
         # ears: soft C shapes with a hollow
         e = ellipsoid(f'Sami.ear.{sx}', 0.012, 0.02, 0.028, m_body, hm, (sx * 0.121, 0.012, -0.018), 24, 2)
@@ -425,59 +450,58 @@ def build_sami():
 
     rng = random.Random(7)
     nprng = np.random.default_rng(7)
-    cand = np.where(mask > 0.5)[0]
+    cand = np.where(mask > 0.35)[0]
     nprng.shuffle(cand)
     roots = []
-    minsep = 0.0062
+    minsep = 0.0068
     for i in cand:
         p = hp[i]
-        if all(np.sum((p - q) ** 2) > minsep ** 2 for q in roots[-400:]):
+        if all(np.sum((p - q) ** 2) > minsep ** 2 for q in roots[-500:]):
             roots.append(p)
-        if len(roots) > 1400:
+        if len(roots) > 1300:
             break
+
+    def ringlet(p, axis, length, rc, pitch, nstr, jit, handed, ph0, taper_start=0.15):
+        """A springy coil: every strand follows the same helix with a little jitter (a clump, not a tube)."""
+        axis = axis / np.linalg.norm(axis)
+        tmp = np.cross(axis, [0.31, 0.17, 0.93]); u = tmp / np.linalg.norm(tmp); v = np.cross(axis, u)
+        turns = max(1.2, length / pitch)
+        K = int(turns * 12) + 3
+        t = np.linspace(0, 1, K)
+        ang = ph0 + handed * t * turns * 2 * math.pi
+        rr = rc * np.minimum(1, t / taper_start) * (1 - 0.25 * t)
+        out = []
+        for k in range(nstr):
+            o = nprng.normal(0, jit, (3,))
+            o2 = nprng.normal(0, jit * 0.6, (3,))
+            c = p[None, :] + (t * length)[:, None] * axis[None, :]
+            s_ = c + (np.cos(ang) * rr)[:, None] * u + (np.sin(ang) * rr)[:, None] * v
+            s_ = s_ + o[None, :] * t[:, None] + o2[None, :] * np.sin(t * 7)[:, None]
+            out.append(s_)
+        return out
+
     strands = []
     for p in roots:
-        n = (p - hc); n /= np.linalg.norm(n)
         rel = p - hc
-        top = np.clip((rel[2] - 0.0) / 0.12, 0, 1)
-        length = 0.011 + 0.020 * top ** 1.2 + rng.uniform(-0.002, 0.003)
-        # comb slightly back and down, a mop on top
-        back = np.array([0, 1.0, -0.4]) * 0.25
-        cdir = n + back * (1 - top) * 0.6
-        cdir /= np.linalg.norm(cdir)
-        rc = 0.0028 + rng.uniform(0, 0.0012)
-        pitch = 0.0042 + rng.uniform(0, 0.001)
-        turns = max(1.5, length / pitch)
-        tmp = np.cross(cdir, [0.3, 0.2, 0.9]); u = tmp / np.linalg.norm(tmp); v = np.cross(cdir, u)
-        ph0 = rng.uniform(0, 2 * math.pi)
-        handed = rng.choice((-1, 1))
-        for k in range(4):
-            ph = ph0 + k * 2 * math.pi / 4 + rng.uniform(-0.3, 0.3)
-            K = int(turns * 9) + 2
-            t = np.linspace(0, 1, K)
-            ang = ph + handed * t * turns * 2 * math.pi
-            rr = rc * np.minimum(1, t * 6) * (1 + rng.uniform(-0.15, 0.15))
-            jit = 0.0006 * k / 4
-            c = p[None, :] + (t * length)[:, None] * cdir[None, :] - n[None, :] * 0.002
-            s = c + (np.cos(ang) * (rr + jit))[:, None] * u + (np.sin(ang) * (rr + jit))[:, None] * v
-            strands.append(s)
-    # the forehead curl (Sami's mark)
-    fc_root = surface_point(sdf_rest, hc, (0.006, -0.11, 0.065))
-    for k in range(7):
-        K = 40
-        t = np.linspace(0, 1, K)
-        center = fc_root[None, :] + np.array([0.004, -0.012, -0.027])[None, :] * t[:, None] + \
-            np.array([0, -0.006, 0])[None, :] * np.sin(t * math.pi)[:, None]
-        ang = k * 2 * math.pi / 7 + t * 2.6 * 2 * math.pi
-        rr = 0.0045 * np.minimum(1, t * 4)
-        s = center + (np.cos(ang) * rr)[:, None] * np.array([1, 0, 0]) + (np.sin(ang) * rr)[:, None] * \
-            np.array([0, 0.6, 0.8])
-        strands.append(s)
-    hair = hair_curves('Sami.hair', strands, 0.00055, 0.00035, m_hair, hm)
+        n = rel / np.linalg.norm(rel)
+        top = np.clip((rel[2] + 0.01) / 0.12, 0, 1)
+        # comb: away from the face, down at the sides and back, a soft mop on top
+        horiz = np.array([rel[0], rel[1] + 0.03, 0.0]); horiz /= (np.linalg.norm(horiz) + 1e-9)
+        comb = 0.5 * horiz + np.array([0, 0.25, -0.7]) * (1 - top)
+        axis = n * (0.55 + 0.25 * top) + comb * 0.6
+        length = 0.010 + 0.015 * top + rng.uniform(-0.002, 0.004)
+        rc = 0.0032 + rng.uniform(0, 0.0013)
+        strands += ringlet(p - n * 0.0015, axis, length, rc, 0.0044 + rng.uniform(0, 0.0012), 5, 0.00045,
+                           rng.choice((-1, 1)), rng.uniform(0, 2 * math.pi))
+    # the forehead curl (Sami's mark): one bigger ringlet hanging from the hairline onto the forehead
+    fc_root = surface_point(sdf_rest, hc, (0.008, -0.105, 0.072))
+    strands += ringlet(fc_root + np.array([0, -0.004, 0.0]), np.array([0.12, -0.45, -1.0]), 0.024, 0.0052, 0.0105, 12,
+                       0.0005, 1, 0.3, taper_start=0.2)
+    hair = hair_curves('Sami.hair', strands, 0.0006, 0.0004, m_hair, hm)
     ch.face['hair'] = hair
 
     # ---- body
-    lathe('Sami.neck', capsule_profile(0.07, 0.034, 0.036), m_body, J['neck'], 24, loc=(0, 0.004, -0.02))
+    lathe('Sami.neck', capsule_profile(0.06, 0.036, 0.038), m_body, J['neck'], 24, loc=(0, 0.004, -0.02))
     tee = [(-0.075, 0.0), (-0.074, 0.06), (-0.068, 0.1), (-0.04, 0.115), (0.0, 0.123, -0.01), (0.04, 0.127, -0.014),
            (0.08, 0.124, -0.01), (0.12, 0.117, -0.004), (0.15, 0.106), (0.17, 0.088), (0.185, 0.062), (0.192, 0.04),
            (0.195, 0.0)]
@@ -492,8 +516,8 @@ def build_sami():
         lathe(f'Sami.shortleg.{s}', [(0.0, 0.0), (0.0, 0.05), (0.04, 0.056), (0.095, 0.058), (0.1, 0.0)], m_shorts,
               J['hip.' + s], 32, down=True, loc=(sx * 0.006, 0, 0.012))
         torus(f'Sami.shorthem.{s}', 0.056, 0.004, m_shorts, J['hip.' + s], (sx * 0.006, 0, -0.085), 32, 8)
-        lathe(f'Sami.sleeve.{s}', [(-0.03, 0.0), (-0.028, 0.03), (0.0, 0.046), (0.04, 0.046), (0.07, 0.044),
-                                   (0.071, 0.0)], m_shirt, J['shoulder.' + s], 32, down=True)
+        lathe(f'Sami.sleeve.{s}', [(-0.05, 0.0), (-0.046, 0.026), (-0.03, 0.041), (0.0, 0.048), (0.04, 0.047),
+                                   (0.07, 0.045), (0.071, 0.0)], m_shirt, J['shoulder.' + s], 32, down=True)
         torus(f'Sami.sleevehem.{s}', 0.042, 0.005, m_trim, J['shoulder.' + s], (0, 0, -0.068), 32, 8)
         lathe(f'Sami.uarm.{s}', capsule_profile(0.112, 0.031, 0.027, bulge=0.004), m_body, J['shoulder.' + s], 24,
               down=True)
@@ -602,7 +626,7 @@ def build_grandpa():
     j('neck', 'chest', (0, 0.0, 0.405))
     j('head', 'neck', (0, 0, 0.06))
     for s, sx in (('L', 1), ('R', -1)):
-        j('shoulder.' + s, 'chest', (sx * 0.19, 0.01, 0.36))
+        j('shoulder.' + s, 'chest', (sx * 0.185, 0.02, 0.335))
         j('elbow.' + s, 'shoulder.' + s, (0, 0, -0.285))
         j('wrist.' + s, 'elbow.' + s, (0, 0, -0.255))
         j('hip.' + s, 'hips', (sx * 0.088, 0, -0.03))
@@ -610,7 +634,8 @@ def build_grandpa():
         j('ankle.' + s, 'knee.' + s, (0, 0, -0.405))
     J = ch.j
 
-    hm = empty('Grandpa.headmesh', (0, 0.0, 0.118), J['head'], 0.02)
+    hm = empty('Grandpa.headmesh', (0, 0.0, 0.13), J['head'], 0.02)
+    hm.scale = (1.13, 1.13, 1.13)
     ch.j['headmesh'] = hm
     head, dirs, pts_rest = sdf_mesh('Grandpa.head', sdf_closed, hc, level=7, mat=m_skin, parent=hm,
                                     shapes={'smile': sdf_smile})
@@ -618,6 +643,9 @@ def build_grandpa():
     rest_pts = march(sdf_rest, hc, dirs, 0.35)
     set_point_attr(head, 'rest', rest_pts)
     set_point_attr(head, 'rdir', dirs)
+    rp = rest_pts - hc
+    mzone = np.clip(1.6 - np.sqrt((rp[:, 0] / 0.04) ** 2 + ((rp[:, 2] + 0.062) / 0.025) ** 2), 0, 1) * (rp[:, 1] < -0.06)
+    set_point_attr(head, 'mzone', mzone, 'FLOAT')
     ch.face['head'] = head
     _, faces = icosphere_dirs(7)
 
@@ -690,21 +718,22 @@ def build_grandpa():
 
     # ---- body: long, thin, broad rounded shoulders, a slight stoop
     lathe('Grandpa.neck', capsule_profile(0.1, 0.045, 0.047), m_body, J['neck'], 24, loc=(0, 0.01, -0.03))
-    torso = [(-0.11, 0.0), (-0.108, 0.1), (-0.09, 0.15), (-0.03, 0.158), (0.05, 0.155, -0.008), (0.15, 0.15, -0.012),
-             (0.25, 0.158, -0.006), (0.32, 0.165), (0.37, 0.15), (0.395, 0.11), (0.41, 0.07), (0.415, 0.0)]
-    lathe('Grandpa.jumper', torso, m_jumper, J['chest'], 48, sx=1.0, sy=0.7)
+    torso = [(-0.25, 0.0), (-0.248, 0.13), (-0.23, 0.162), (-0.15, 0.158), (-0.05, 0.15, -0.004), (0.06, 0.15, -0.002),
+             (0.16, 0.162, 0.006), (0.25, 0.18, 0.016), (0.31, 0.19, 0.022), (0.355, 0.178, 0.022), (0.385, 0.14, 0.018),
+             (0.405, 0.08, 0.01), (0.415, 0.0, 0.006)]
+    lathe('Grandpa.jumper', torso, m_jumper, J['chest'], 48, sx=1.0, sy=0.72)
     torus('Grandpa.collar', 0.05, 0.009, m_cream, J['chest'], (0, 0.006, 0.405), 40, 10)
-    torus('Grandpa.waistrib', 0.152, 0.012, m_jumper, J['chest'], (0, 0, -0.095), 48, 10).scale = (1, 0.72, 1)
-    pelvis = [(-0.11, 0.0), (-0.105, 0.11), (-0.06, 0.135), (0.0, 0.14), (0.06, 0.138), (0.11, 0.13), (0.115, 0.0)]
-    lathe('Grandpa.pelvis', pelvis, m_trouser, J['hips'], 40, sx=1.0, sy=0.78)
+    torus('Grandpa.waistrib', 0.152, 0.014, m_jumper, J['chest'], (0, 0, -0.238), 48, 10).scale = (1, 0.74, 1)
+    pelvis = [(-0.11, 0.0), (-0.105, 0.1), (-0.06, 0.122), (0.0, 0.126), (0.06, 0.122), (0.1, 0.11), (0.105, 0.0)]
+    lathe('Grandpa.pelvis', pelvis, m_trouser, J['hips'], 40, sx=1.0, sy=0.68)
     for s, sx in (('L', 1), ('R', -1)):
-        lathe(f'Grandpa.uarm.{s}', capsule_profile(0.285, 0.05, 0.043), m_jumper, J['shoulder.' + s], 32, down=True)
-        lathe(f'Grandpa.farm.{s}', capsule_profile(0.235, 0.043, 0.037), m_jumper, J['elbow.' + s], 32, down=True)
+        lathe(f'Grandpa.uarm.{s}', capsule_profile(0.285, 0.064, 0.05, bulge=0.006), m_jumper, J['shoulder.' + s], 32, down=True)
+        lathe(f'Grandpa.farm.{s}', capsule_profile(0.235, 0.052, 0.045, bulge=0.004), m_jumper, J['elbow.' + s], 32, down=True)
         torus(f'Grandpa.cuff.{s}', 0.036, 0.009, m_cream, J['elbow.' + s], (0, 0, -0.232), 32, 10)
         lathe(f'Grandpa.wristskin.{s}', capsule_profile(0.04, 0.026, 0.024), m_body, J['wrist.' + s], 16, down=True,
               loc=(0, 0, 0.02))
-        lathe(f'Grandpa.thigh.{s}', capsule_profile(0.43, 0.068, 0.05), m_trouser, J['hip.' + s], 32, down=True)
-        lathe(f'Grandpa.shin.{s}', capsule_profile(0.4, 0.05, 0.047), m_trouser, J['knee.' + s], 32, down=True)
+        lathe(f'Grandpa.thigh.{s}', capsule_profile(0.43, 0.074, 0.058, bulge=0.004), m_trouser, J['hip.' + s], 32, down=True)
+        lathe(f'Grandpa.shin.{s}', capsule_profile(0.4, 0.058, 0.056), m_trouser, J['knee.' + s], 32, down=True)
         ellipsoid(f'Grandpa.shoe.{s}', 0.048, 0.13, 0.045, m_shoe, J['ankle.' + s], (0, -0.04, -0.035), 32, 1)
         ellipsoid(f'Grandpa.shoesole.{s}', 0.05, 0.133, 0.012, m_sole, J['ankle.' + s], (0, -0.04, -0.07), 32, 1)
     build_hand(ch, 1, J['wrist.L'], 1.55, m_body, curl=1.25, thumb_curl=0.8, grip=True)

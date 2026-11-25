@@ -40,7 +40,7 @@
 /* Print view (Stage 4, part C): an activity page prints only the activity (data-print-root), in black on white,
    with still pictures; buttons, navigation and banners stay on screen. */
 @media print {
-  body:has([data-print-root]) * { visibility: hidden; }
+  :where(body:has([data-print-root])) * { visibility: hidden; }
   [data-print-root], [data-print-root] * { visibility: visible; }
   [data-print-root] { position: absolute; inset-inline: 0; top: 0; padding: 0 12mm; }
   [data-print-root] [data-no-print] { display: none !important; }

@@ -49,7 +49,8 @@ function siteLink(redirectTo: string, lang: Lang, page: string, tokenHash: strin
   return u.toString()
 }
 
-/** Email change has no page of its own on the site yet, so Auth's own verify endpoint checks it and redirects. */
+/** No longer used: email change links open the site's own page, auth/confirm-email (Stage 4, part C). */
+// deno-lint-ignore no-unused-vars
 function verifyLink(tokenHash: string, type: string, redirectTo: string) {
   const u = new URL(`${env('SUPABASE_URL')}/auth/v1/verify`)
   u.searchParams.set('token', tokenHash)
@@ -87,11 +88,11 @@ Deno.serve(async (req) => {
         if (d.token_hash_new) {
           // Secure email change: confirm on both addresses (hash names reversed, see the header).
           results = [
-            await send({ template: 'email_change_confirm', lang, to: user.email, accountId: user.id, params: { link: verifyLink(d.token_hash_new, 'email_change', d.redirect_to), newEmail, hours: CONFIRM_HOURS } }),
-            await send({ template: 'email_change_confirm', lang, to: newEmail, accountId: user.id, params: { link: verifyLink(d.token_hash, 'email_change', d.redirect_to), newEmail, hours: CONFIRM_HOURS } }),
+            await send({ template: 'email_change_confirm', lang, to: user.email, accountId: user.id, params: { link: siteLink(d.redirect_to, lang, 'auth/confirm-email', d.token_hash_new, 'email_change'), newEmail, hours: CONFIRM_HOURS } }),
+            await send({ template: 'email_change_confirm', lang, to: newEmail, accountId: user.id, params: { link: siteLink(d.redirect_to, lang, 'auth/confirm-email', d.token_hash, 'email_change'), newEmail, hours: CONFIRM_HOURS } }),
           ]
         } else {
-          results = [await send({ template: 'email_change_confirm', lang, to: newEmail, accountId: user.id, params: { link: verifyLink(d.token_hash, 'email_change', d.redirect_to), newEmail, hours: CONFIRM_HOURS } })]
+          results = [await send({ template: 'email_change_confirm', lang, to: newEmail, accountId: user.id, params: { link: siteLink(d.redirect_to, lang, 'auth/confirm-email', d.token_hash, 'email_change'), newEmail, hours: CONFIRM_HOURS } })]
         }
         break
       }

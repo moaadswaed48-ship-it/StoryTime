@@ -47,6 +47,22 @@ async function newFamily(page: Page, lang: L, email: string) {
   await page.getByRole('button', { name: d.actions.next }).click()
   await page.getByRole('button', { name: o.trialStart }).click()
   await expect(page.getByTestId('storybook')).toHaveAttribute('data-state', 'open')
+  await grantPass(page, email)
+}
+
+/**
+ * The 4-5 sample (the only story with test recordings, a film file and step pictures) is not a trial story since
+ * part C (the trial is three real stories), so these walk-throughs give the family a 4-5 pass in the test-mode
+ * database, the way owner.spec.ts sets the owner role. Buying a pass is walked through in account.spec.ts.
+ */
+async function grantPass(page: Page, email: string, group = '4-5') {
+  await page.evaluate(({ email, group }) => {
+    const db = JSON.parse(localStorage.getItem('storytime.local.v1')!)
+    const u = db.users.find((x: { email: string }) => x.email === email)
+    const now = Date.now()
+    db.passes.push({ id: crypto.randomUUID(), accountId: u.id, orderId: null, ageGroup: group, months: 1, startsAt: new Date(now - 60_000).toISOString(), endsAt: new Date(now + 30 * 86_400_000).toISOString(), status: 'active', cancelledAt: null })
+    localStorage.setItem('storytime.local.v1', JSON.stringify(db))
+  }, { email, group })
 }
 
 const reader = (page: Page) => page.getByTestId('reader')

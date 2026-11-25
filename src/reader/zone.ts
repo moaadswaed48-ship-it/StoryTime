@@ -91,9 +91,13 @@ export function layoutZone(i: ZoneInput): ZoneLayout {
 
   const fit = (kind: 'band' | 'column', font: number) => {
     const lineHeight = round(font * LINE[i.script])
-    const padX = round(font * 0.8)
     const padY = round(font * 0.55)
     const w = kind === 'band' ? i.pageW - 2 * margin : round(i.pageW * COLUMN[zone.size] - margin)
+    // Words are never split. One long word (b11's "Boom-boom-boom-boom." on a 320 px phone at the larger text size)
+    // takes the room it needs from the side padding, down to a third of it, instead of running past the wash.
+    let padX = round(font * 0.8)
+    const longest = Math.max(0, ...i.text.split(/\s+/).filter(Boolean).map((word) => i.measure(word, font)))
+    if (longest > w - 2 * padX) padX = Math.max(round(font * 0.25), Math.floor((w - longest) / 2))
     const inner = w - 2 * padX
     const lines = wrap(i.text, inner, (s) => i.measure(s, font))
     const h = lines.length * lineHeight + 2 * padY

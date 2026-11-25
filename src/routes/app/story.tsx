@@ -68,10 +68,10 @@ export default function Storybook() {
           {active && favourites.ids && (() => {
             const on = favourites.ids.includes(id)
             return (
-              <button type="button" aria-pressed={on} onClick={() => void favourites.toggle(id)} data-testid="favourite"
-                className="inline-flex min-h-12 items-center gap-2 self-center rounded-full border-2 border-ink/20 bg-surface px-4 font-medium aria-pressed:border-ink sm:self-start">
+              <button type="button" data-state={on ? 'on' : 'off'} onClick={() => void favourites.toggle(id)} data-testid="favourite"
+                className="inline-flex min-h-12 items-center gap-2 self-center rounded-full border-2 border-ink/20 bg-surface px-4 font-medium data-[state=on]:border-ink sm:self-start">
                 <IconHeart filled={on} className={`size-6 ${on ? 'text-[#b3261e]' : ''}`} />
-                {on ? t.onShelf : dict.stories.library.addFavourite}
+                {on ? dict.stories.library.removeFavourite : dict.stories.library.addFavourite}
               </button>
             )
           })()}

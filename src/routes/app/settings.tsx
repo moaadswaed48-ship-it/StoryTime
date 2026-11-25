@@ -8,7 +8,7 @@ import { AGE_GROUPS, type AgeGroup, type Learner, type Order } from '@/data/type
 import { useAccess } from '@/features/access/useAccess'
 import { errorText, strengthOf } from '@/features/account/messages'
 import { ParentGate } from '@/features/account/ParentGate'
-import { justDeleted } from '@/features/account/parts'
+import { justDeleted, TestEmailPanel } from '@/features/account/parts'
 import { useSession } from '@/features/account/session'
 import { usePrefs } from '@/features/family/prefs'
 import { CancelPass } from '@/features/commerce/CancelPass'
@@ -75,8 +75,39 @@ function AccountSection() {
     <Section title={t.accountTitle}>
       <p className="font-medium"><bdi>{account.email}</bdi></p>
       <p className="text-ink-muted">{account.role === 'teacher' ? t.roleTeacher : t.roleParent}</p>
+      <EmailChange />
       <Button variant="secondary" className="self-start" onClick={async () => { await (await getApi()).signOut(); navigate(localPath(lang), { replace: true }) }}>{t.signOut}</Button>
     </Section>
+  )
+}
+
+/** Change of sign-in address: a link to the new address; nothing changes until it is opened (product checklist 17). */
+function EmailChange() {
+  const { lang, dict } = useLang()
+  const t = dict.account.settings
+  const [open, setOpen] = useState(false)
+  const [email, setEmail] = useState('')
+  const [sentTo, setSentTo] = useState<string | null>(null)
+  const { busy, error, run } = useAction()
+  const submit = (e: FormEvent) => {
+    e.preventDefault()
+    void run(async () => {
+      await (await getApi()).requestEmailChange(email, lang)
+      setSentTo(email.trim().toLowerCase())
+    })
+  }
+  if (!open) return <Button variant="secondary" className="self-start" onClick={() => setOpen(true)} data-testid="change-email">{t.changeEmail}</Button>
+  return (
+    <form onSubmit={submit} className="flex flex-col gap-3 rounded-control border border-line p-4" data-testid="email-change-form">
+      <TextField label={t.newEmail} hint={t.emailChangeNote} type="email" inputMode="email" autoComplete="email" dir="ltr" required value={email} onChange={(e) => setEmail(e.target.value)} />
+      {error && <Notice tone="error">{errorText(dict, error)}</Notice>}
+      {sentTo && <Notice tone="success" title={fmt(t.emailLinkSent, { email: `\u2068${sentTo}\u2069` })} />}
+      {sentTo && <TestEmailPanel email={sentTo} kind="email_change" />}
+      <div className="flex flex-wrap gap-3">
+        <Button type="submit" busy={busy}>{t.sendEmailLink}</Button>
+        <Button variant="quiet" onClick={() => { setOpen(false); setSentTo(null); setEmail('') }}>{t.cancel}</Button>
+      </div>
+    </form>
   )
 }
 
