@@ -1,0 +1,181 @@
+{
+  "title": "Tak, mor",
+  "names": {
+    "a03-lina": "Lina",
+    "a03-mama": "mor"
+  },
+  "pages": [
+    {
+      "n": 1,
+      "text": "Mor henter Lina i børnehaven. »Mor!« Lina løber hen til hende.",
+      "speech": "Mor henter Lina i børnehaven. »Mor!« Lina løber hen til hende."
+    },
+    {
+      "n": 2,
+      "text": "Mor finder Linas hat. »Tak, mor,« siger Lina.",
+      "speech": "Mor finder Linas hat. »Tak, mor,« siger Lina."
+    },
+    {
+      "n": 3,
+      "text": "Mor binder Linas sko. »Tak, mor.«",
+      "speech": "Mor binder Linas sko. »Tak, mor.«"
+    },
+    {
+      "n": 4,
+      "text": "Mor giver hende koldt vand. »Tak, mor.«",
+      "speech": "Mor giver hende koldt vand. »Tak, mor.«"
+    },
+    {
+      "n": 5,
+      "text": "Mor bærer løbehjulet og sin taske. Og det store billede! Hun har hænderne fulde.",
+      "speech": "Mor bærer løbehjulet og sin taske. Og det store billede! Hun har hænderne fulde."
+    },
+    {
+      "n": 6,
+      "text": "Klirr! Mors nøgler falder ned.",
+      "speech": "Klirr! Mors nøgler falder ned."
+    },
+    {
+      "n": 7,
+      "text": "Lina samler dem op. »Værsgo, mor!«",
+      "speech": "Lina samler dem op. »Værsgo, mor!«"
+    },
+    {
+      "n": 8,
+      "text": "Derhjemme giver Lina mor det store billede. »Værsgo, mor!«",
+      "speech": "Derhjemme giver Lina mor det store billede. »Værsgo, mor!«"
+    },
+    {
+      "n": 9,
+      "text": "Mor sætter sig. Lina henter hendes hjemmesko. »Værsgo, mor!«",
+      "speech": "Mor sætter sig. Lina henter hendes hjemmesko. »Værsgo, mor!«"
+    },
+    {
+      "n": 10,
+      "text": "Mor åbner armene. »Tak, Lina.« Et stort, stort knus.",
+      "speech": "Mor åbner armene. »Tak, Lina.« Et stort, stort knus."
+    }
+  ],
+  "film": [
+    {
+      "id": "f01",
+      "speaker": "narrator",
+      "text": "Eftermiddag ved børnehavens låge.",
+      "speech": "Eftermiddag ved børnehavens låge.",
+      "emotion": "warm and easy, summer afternoon"
+    },
+    {
+      "id": "f02",
+      "speaker": "a03-lina",
+      "text": "Mor!",
+      "speech": "Mor!",
+      "emotion": "pure delight, running"
+    },
+    {
+      "id": "f03",
+      "speaker": "a03-mama",
+      "text": "Her er din hat.",
+      "speech": "Her er din hat.",
+      "emotion": "gentle and smiling"
+    },
+    {
+      "id": "f04",
+      "speaker": "a03-lina",
+      "text": "Tak, mor.",
+      "speech": "Tak, mor.",
+      "emotion": "sweet and simple, the first time of the refrain"
+    },
+    {
+      "id": "f05",
+      "speaker": "a03-lina",
+      "text": "Tak, mor.",
+      "speech": "Tak, mor.",
+      "emotion": "the same little tune, a bit more sure"
+    },
+    {
+      "id": "f06",
+      "speaker": "a03-lina",
+      "text": "Tak, mor.",
+      "speech": "Tak, mor.",
+      "emotion": "the same tune, after a big drink, a little out of breath"
+    },
+    {
+      "id": "f07",
+      "speaker": "narrator",
+      "text": "Løbehjulet … tasken … det store billede …",
+      "speech": "Løbehjulet … tasken … det store billede …",
+      "emotion": "counting it up, playful, each thing heavier"
+    },
+    {
+      "id": "f08",
+      "speaker": "a03-mama",
+      "text": "Puha! Jeg har hænderne fulde.",
+      "speech": "Puha! Jeg har hænderne fulde.",
+      "emotion": "good-humoured, a comic puff, not complaining"
+    },
+    {
+      "id": "f09",
+      "speaker": "a03-lina",
+      "text": "Værsgo, mor!",
+      "speech": "Værsgo, mor!",
+      "emotion": "proud and helpful, holding the keys up high"
+    },
+    {
+      "id": "f10",
+      "speaker": "a03-lina",
+      "text": "Værsgo, mor! En sol til dig!",
+      "speech": "Værsgo, mor! En sol til dig!",
+      "emotion": "excited, giving a present"
+    },
+    {
+      "id": "f11",
+      "speaker": "a03-lina",
+      "text": "Værsgo, mor!",
+      "speech": "Værsgo, mor!",
+      "emotion": "careful and serious, carrying the slippers with both hands"
+    },
+    {
+      "id": "f12",
+      "speaker": "a03-mama",
+      "text": "Tak, Lina.",
+      "speech": "Tak, Lina.",
+      "emotion": "moved and warm, slow, the same tune as Lina's thank you"
+    },
+    {
+      "id": "f13",
+      "speaker": "narrator",
+      "text": "Et stort, stort knus.",
+      "speech": "Et stort, stort knus.",
+      "emotion": "soft and glowing"
+    }
+  ],
+  "activity": {
+    "title": "Værsgo og tak",
+    "goal": "At bruge ordene »værsgo« og »tak« i leg.",
+    "materials": [
+      "En pude",
+      "Et tomt plastikkrus"
+    ],
+    "steps": [
+      {
+        "n": 1,
+        "caption": "Tag en pude."
+      },
+      {
+        "n": 2,
+        "caption": "Ræk den frem: »Værsgo!«"
+      },
+      {
+        "n": 3,
+        "caption": "Tag imod: »Tak!«"
+      },
+      {
+        "n": 4,
+        "caption": "Byt roller, og leg igen."
+      }
+    ],
+    "safety": "Kun bløde, lette ting: en pude eller et tomt plastikkrus. Gå, og løb ikke, med fulde hænder. Sker der et uheld, så ring til det lokale alarmnummer.",
+    "forAdult": "I historien siger Lina »tak« når hun får noget, og »værsgo« når hun giver noget. I denne leg øver barnet begge ord, med hænder og ord på én gang. Barnet bærer en pude hen til en i familien, rækker den frem med begge hænder og siger »værsgo«. Den anden tager imod og siger »tak«. Så bytter I roller og bærer noget andet: et tomt krus, en bog, et tøjdyr. Begynd selv, så barnet kan se hvordan det gøres. Gør det lettere med en meget kort afstand, bare to skridt. Gør det sværere ved at sige navnet på den barnet skal give tingen til. Fem til ti minutter er rigeligt.",
+    "inClass": "Børnene sidder i små rundkredse med én voksen og højst fire børn i hver. Én pude går fra hånd til hånd: Den der giver, siger »værsgo«, og den der tager imod, siger »tak«. Den voksne begynder, og puden går rundt til den er tilbage ved starten."
+  }
+}

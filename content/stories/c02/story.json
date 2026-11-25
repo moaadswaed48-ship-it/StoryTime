@@ -1,0 +1,630 @@
+{
+  "id": "c02",
+  "ageGroups": [
+    "6-8"
+  ],
+  "owner": "storytime",
+  "lesson": "Invite a classmate who is left out into the game.",
+  "cast": [
+    "c02-mira",
+    "c02-adrian",
+    "c02-fast-jumper",
+    "c02-first-grader"
+  ],
+  "pages": [
+    {
+      "n": 1,
+      "art": "A school playground on a spring morning at break time: a corner by a low wall, an almond tree in pale blossom, a long rope swinging so fast it is a blur. Two children turn it, two more wait in a short line; one jumper is mid-air in the middle. Mira (ponytail, coral T-shirt) waits in the line, bouncing on her toes. Feeling: speed and noise, fun. Calm area: the plain sky across the top.",
+      "zone": {
+        "side": "full",
+        "v": "top",
+        "size": "m"
+      },
+      "image": null
+    },
+    {
+      "n": 2,
+      "art": "Two moments side by side in one picture. On one side Mira is in the rope, both feet in the air, ponytail flying, laughing. On the other side Adrian (tall, long-legged, curly hair, blue striped T-shirt) has the rope caught round one ankle; the turners have stopped; two children in the line groan with their heads back. Adrian's ears are red. Feeling: Mira's joy, Adrian's embarrassment, nobody cruel. Calm area: the sky across the top.",
+      "zone": {
+        "side": "full",
+        "v": "top",
+        "size": "m"
+      },
+      "image": null
+    },
+    {
+      "n": 3,
+      "art": "A wooden bench by the wire fence at the edge of the playground, in the light shade of the almond tree. Adrian sits on it alone, hands under his legs, feet swinging, watching the rope game far off (small, at the other side of the picture). In the rope game, Mira is the only one turning her head towards the bench. Feeling: quiet, a little lonely; lots of empty ground between the bench and the game. Calm area: the empty playground surface across the bottom.",
+      "zone": {
+        "side": "full",
+        "v": "bottom",
+        "size": "m"
+      },
+      "image": null
+    },
+    {
+      "n": 4,
+      "art": "A memory, drawn in softer, paler colours inside a rounded frame: a smaller Mira, new at the school, sitting alone on the same bench, holding the strap of a big new school bag, watching other children turn the rope. Around the frame, the real Mira today stands still in the line, looking towards the bench. Feeling: remembering, understanding. Calm area: the plain wall across the top.",
+      "zone": {
+        "side": "full",
+        "v": "top",
+        "size": "m"
+      },
+      "image": null
+    },
+    {
+      "n": 5,
+      "art": "Mira stands by the bench, holding out one hand towards Adrian, smiling. Adrian, still sitting, shrugs, half hopeful. Behind Mira, a basket of play things by the wall with an old, faded rope coiled on top. Feeling: a small, brave invitation. Calm area: the sky and blossom across the top.",
+      "zone": {
+        "side": "full",
+        "v": "top",
+        "size": "m"
+      },
+      "image": null
+    },
+    {
+      "n": 6,
+      "art": "In a quiet patch of playground, Mira and Adrian turn the old rope together. The rope is drawn as one big, slow, wide arc high above their heads (a clear visible loop, not a blur), with a soft dust puff where it touches the ground. Their arms move at the same height, like a mirror. Feeling: calm, together, in time. Calm area: the sky across the top, above the arc.",
+      "zone": {
+        "side": "full",
+        "v": "top",
+        "size": "s"
+      },
+      "image": null
+    },
+    {
+      "n": 7,
+      "art": "A small first-grader (much smaller than Mira and Adrian, short bob, green dress) jumps over the slow rope with both feet tucked up, arms out, mouth wide open in a delighted laugh. Adrian, turning, leans towards her, encouraging. Feeling: a first time, pure delight. Calm area: the sky across the top.",
+      "zone": {
+        "side": "full",
+        "v": "top",
+        "size": "m"
+      },
+      "image": null
+    },
+    {
+      "n": 8,
+      "art": "A short line of three little first-graders waiting their turn at the slow rope, one already jumping. One small child has just stumbled and sits laughing on the ground; Mira and Adrian have paused, rope resting on the ground, smiling and waiting. At most six figures. Feeling: patient, happy. Calm area: the playground surface across the bottom.",
+      "zone": {
+        "side": "full",
+        "v": "bottom",
+        "size": "m"
+      },
+      "image": null
+    },
+    {
+      "n": 9,
+      "art": "The fast jumpers have stopped their game and come over: the fastest jumper (tall, orange T-shirt) stands in front with his arms folded and one eyebrow up. The little first-graders look down at their shoes. Adrian's hands are frozen on the rope. Mira holds her breath, cheeks puffed. Feeling: a tense, uncertain moment. Calm area: the sky across the top.",
+      "zone": {
+        "side": "full",
+        "v": "top",
+        "size": "m"
+      },
+      "image": null
+    },
+    {
+      "n": 10,
+      "art": "Comedy: the fastest jumper is in the air far too early, while the slow rope is still high above his head; he lands as the rope comes down on the backs of his legs. His face: surprised, then laughing. Mira and Adrian keep turning, calm. Feeling: a funny surprise, nobody unkind. Calm area: the sky across the top.",
+      "zone": {
+        "side": "full",
+        "v": "top",
+        "size": "m"
+      },
+      "image": null
+    },
+    {
+      "n": 11,
+      "art": "Adrian explains with one hand: he points at the spot where the rope touches the ground. The fast jumpers watch him closely. One of them is crouched, waiting, knees bent, very serious; another has tripped and is laughing on the ground, and the little ones laugh too. Feeling: learning together, laughing together. Calm area: the playground surface across the bottom.",
+      "zone": {
+        "side": "full",
+        "v": "bottom",
+        "size": "m"
+      },
+      "image": null
+    },
+    {
+      "n": 12,
+      "art": "A huddle by the wall: the fastest jumper, Mira, Adrian and two first-graders, heads close together, agreeing. The fastest jumper holds up two fingers and then one. Everyone nods. No writing or signs anywhere. Feeling: a plan everyone shares. Calm area: the sky across the top.",
+      "zone": {
+        "side": "full",
+        "v": "top",
+        "size": "m"
+      },
+      "image": null
+    },
+    {
+      "n": 13,
+      "art": "The next day: one long rope, turned slowly by the fastest jumper and Mira in a wide, visible arc. Adrian is in the middle of it, mid-jump, landing neatly, arms loose, smiling. Two first-graders at the side clap the beat. Feeling: lightness, belonging. Calm area: the sky across the top.",
+      "zone": {
+        "side": "full",
+        "v": "top",
+        "size": "m"
+      },
+      "image": null
+    },
+    {
+      "n": 14,
+      "art": "The last picture: wide on the playground. In the corner, a long line of children of every size waits for the slow rope (shown as five or six figures and a row of repeated shapes going out of the picture). In the front, the wooden bench by the fence stands empty in the spring sun, with a few almond petals on its seat. Feeling: warm, full, calm. Calm area: the plain sky across the top.",
+      "zone": {
+        "side": "full",
+        "v": "top",
+        "size": "m"
+      },
+      "image": null
+    }
+  ],
+  "film": {
+    "targetSeconds": 368,
+    "shots": [
+      {
+        "n": 1,
+        "page": 1,
+        "action": "14 s. Scene 1, the fast rope. Wide on the school playground on a spring morning; the bell rings and children run out. The camera drifts to the corner by the wall and the almond tree. No words. Keep the lower fifth calm for captions in every shot.",
+        "sound": [
+          "a school bell",
+          "running feet",
+          "birds",
+          "light marimba tune, quick"
+        ],
+        "lines": []
+      },
+      {
+        "n": 2,
+        "page": 1,
+        "action": "11 s. The rope game: the rope speeds up until it is a blur. Jumpers hop in and out.",
+        "sound": [
+          "the rope slapping the ground, getting faster"
+        ],
+        "lines": [
+          "f01"
+        ]
+      },
+      {
+        "n": 3,
+        "page": 1,
+        "action": "7 s. Close on the fastest jumper, cupping his hands to shout.",
+        "sound": [
+          "the rope, very fast"
+        ],
+        "lines": [
+          "f02"
+        ]
+      },
+      {
+        "n": 4,
+        "page": 2,
+        "action": "8 s. Mira runs in, bounces many times without missing, runs out, laughing.",
+        "sound": [
+          "quick light hops",
+          "the tune skipping along"
+        ],
+        "lines": [
+          "f03"
+        ]
+      },
+      {
+        "n": 5,
+        "page": 2,
+        "action": "8 s. Adrian runs in; the rope catches his ankle; everything stops. The others groan.",
+        "sound": [
+          "the rope snags: a dull flop",
+          "the music stops"
+        ],
+        "lines": [
+          "f04"
+        ]
+      },
+      {
+        "n": 6,
+        "page": 2,
+        "action": "6 s. Adrian, ears red, walks slowly to the back of the line. No words.",
+        "sound": [
+          "a falling two-note sigh on marimba"
+        ],
+        "lines": []
+      },
+      {
+        "n": 7,
+        "page": 2,
+        "action": "6 s. The rope starts again without him and goes faster and faster. No words.",
+        "sound": [
+          "the rope slapping, fast"
+        ],
+        "lines": []
+      },
+      {
+        "n": 8,
+        "page": 3,
+        "action": "12 s. Scene 2, the bench. Another break. Wide: the bench by the fence, far from the game; Adrian sits on it alone.",
+        "sound": [
+          "the rope game far away",
+          "a bird on the fence"
+        ],
+        "lines": [
+          "f05"
+        ]
+      },
+      {
+        "n": 9,
+        "page": 3,
+        "action": "8 s. Close on his feet swinging under the bench, out of time with the far-off rope. Breathing room, no words.",
+        "sound": [
+          "the far rope",
+          "wind in the almond tree"
+        ],
+        "lines": []
+      },
+      {
+        "n": 10,
+        "page": 3,
+        "action": "8 s. In the game, Mira lands and turns her head towards the bench. She stops.",
+        "sound": [
+          "the rope",
+          "one quiet note"
+        ],
+        "lines": [
+          "f06"
+        ]
+      },
+      {
+        "n": 11,
+        "page": 4,
+        "action": "14 s. Scene 3, the memory. The colours soften and pale: a smaller Mira, new, sits on the same bench with a big school bag, watching. The sun's shadow creeps slowly across the ground to show a long, long break. Then the colours come back.",
+        "sound": [
+          "the tune slowed and quiet",
+          "a ticking wood block, slow"
+        ],
+        "lines": [
+          "f07"
+        ]
+      },
+      {
+        "n": 12,
+        "page": 4,
+        "action": "6 s. Back to today. Mira steps out of the line. No words.",
+        "sound": [
+          "her footsteps"
+        ],
+        "lines": []
+      },
+      {
+        "n": 13,
+        "page": 5,
+        "action": "9 s. Scene 4, the invitation. Mira at the bench, holding out her hand. Adrian shrugs.",
+        "sound": [
+          "a soft chord"
+        ],
+        "lines": [
+          "f08",
+          "f09"
+        ]
+      },
+      {
+        "n": 14,
+        "page": 5,
+        "action": "8 s. Mira grins, as if slow is the best news she has heard all day.",
+        "sound": [
+          "a bright little rising run"
+        ],
+        "lines": [
+          "f10"
+        ]
+      },
+      {
+        "n": 15,
+        "page": 5,
+        "action": "7 s. She pulls the old rope out of the play basket by the wall; it uncoils like a lazy snake. No words.",
+        "sound": [
+          "rope sliding out of the basket"
+        ],
+        "lines": []
+      },
+      {
+        "n": 16,
+        "page": 6,
+        "action": "14 s. Scene 5, the slow rope. In a quiet patch, they turn it together: a wide, round, visible arc, landing with a soft thump. The tune slows to the rope's beat.",
+        "sound": [
+          "swish",
+          "a soft thump",
+          "the tune on the slow beat"
+        ],
+        "lines": [
+          "f11"
+        ]
+      },
+      {
+        "n": 17,
+        "page": 6,
+        "action": "6 s. Close on their two hands turning at exactly the same moment. No words.",
+        "sound": [
+          "swish, thump"
+        ],
+        "lines": []
+      },
+      {
+        "n": 18,
+        "page": 6,
+        "action": "8 s. A sparrow on the wall bobs its head on every thump. A small sound joke, no words.",
+        "sound": [
+          "swish, thump",
+          "a chirp on each thump"
+        ],
+        "lines": []
+      },
+      {
+        "n": 19,
+        "page": 7,
+        "action": "8 s. A small first-grader edges closer and whispers.",
+        "sound": [
+          "swish, thump"
+        ],
+        "lines": [
+          "f12"
+        ]
+      },
+      {
+        "n": 20,
+        "page": 7,
+        "action": "8 s. Adrian leans towards her as he turns.",
+        "sound": [
+          "swish, thump"
+        ],
+        "lines": [
+          "f13"
+        ]
+      },
+      {
+        "n": 21,
+        "page": 7,
+        "action": "10 s. She jumps: once, twice, three times, landing each time on the thump. Her face lights up. No words.",
+        "sound": [
+          "three happy hops",
+          "a delighted giggle"
+        ],
+        "lines": []
+      },
+      {
+        "n": 22,
+        "page": 8,
+        "action": "14 s. More first-graders come; they hop in one by one, slow and careful.",
+        "sound": [
+          "swish, thump, hop",
+          "the tune, gentle"
+        ],
+        "lines": [
+          "f14"
+        ]
+      },
+      {
+        "n": 23,
+        "page": 8,
+        "action": "8 s. One little one stumbles and sits down, laughing; the turners simply wait, then start again. Nobody groans. No words.",
+        "sound": [
+          "a soft bump",
+          "a giggle",
+          "swish, thump again"
+        ],
+        "lines": []
+      },
+      {
+        "n": 24,
+        "page": 8,
+        "action": "8 s. The waiting little ones clap the slow beat together. No words.",
+        "sound": [
+          "small hands clapping on the beat"
+        ],
+        "lines": []
+      },
+      {
+        "n": 25,
+        "page": 9,
+        "action": "9 s. Scene 6, the challenge. The fast jumpers come over; the fastest folds his arms.",
+        "sound": [
+          "the music thins out"
+        ],
+        "lines": [
+          "f15"
+        ]
+      },
+      {
+        "n": 26,
+        "page": 9,
+        "action": "7 s. The little ones look down; Adrian's hands stop; Mira holds her breath. Silence. No words.",
+        "sound": [
+          "silence",
+          "one bird"
+        ],
+        "lines": []
+      },
+      {
+        "n": 27,
+        "page": 10,
+        "action": "6 s. Mira starts turning again, calm.",
+        "sound": [
+          "swish, thump"
+        ],
+        "lines": [
+          "f16"
+        ]
+      },
+      {
+        "n": 28,
+        "page": 10,
+        "action": "9 s. The fastest jumper runs in and jumps far too early; the rope taps the backs of his legs. Comic. No words.",
+        "sound": [
+          "a hop too soon",
+          "a comic plucked boing"
+        ],
+        "lines": []
+      },
+      {
+        "n": 29,
+        "page": 10,
+        "action": "8 s. He tries again: too early again. He bursts out laughing at himself.",
+        "sound": [
+          "boing",
+          "his laugh"
+        ],
+        "lines": [
+          "f17"
+        ]
+      },
+      {
+        "n": 30,
+        "page": 11,
+        "action": "8 s. Adrian points at the spot where the rope touches the ground.",
+        "sound": [
+          "swish, thump"
+        ],
+        "lines": [
+          "f18"
+        ]
+      },
+      {
+        "n": 31,
+        "page": 11,
+        "action": "14 s. The fast jumpers try the slow rope one after another; some trip; everyone laughs together, the little ones loudest.",
+        "sound": [
+          "boing",
+          "laughter",
+          "swish, thump"
+        ],
+        "lines": [
+          "f19"
+        ]
+      },
+      {
+        "n": 32,
+        "page": 11,
+        "action": "8 s. The fastest jumper waits, waits… and lands it. He punches the air. No words.",
+        "sound": [
+          "a clean hop",
+          "a cheer"
+        ],
+        "lines": []
+      },
+      {
+        "n": 33,
+        "page": 12,
+        "action": "11 s. Scene 7, the new rule. A huddle by the wall; the fastest holds up two fingers, then one.",
+        "sound": [
+          "the tune returns, warm"
+        ],
+        "lines": [
+          "f20"
+        ]
+      },
+      {
+        "n": 34,
+        "page": 12,
+        "action": "6 s. Everyone nods; the bell rings and they run to class.",
+        "sound": [
+          "the school bell",
+          "running feet"
+        ],
+        "lines": [
+          "f21"
+        ]
+      },
+      {
+        "n": 35,
+        "page": 13,
+        "action": "8 s. Scene 8, the Slow Round. Next day: the rope goes fast, fast (a blur), then slows into the wide arc. No words.",
+        "sound": [
+          "fast slaps, fast slaps, then swish, thump"
+        ],
+        "lines": []
+      },
+      {
+        "n": 36,
+        "page": 13,
+        "action": "16 s. Adrian runs in and jumps, landing on every beat; the first-graders clap the rhythm.",
+        "sound": [
+          "swish, thump, hop, three times",
+          "clapping on the beat"
+        ],
+        "lines": [
+          "f22"
+        ]
+      },
+      {
+        "n": 37,
+        "page": 13,
+        "action": "6 s. Close on Adrian's face mid-jump: a big, easy grin. No words.",
+        "sound": [
+          "the tune at full warmth"
+        ],
+        "lines": []
+      },
+      {
+        "n": 38,
+        "page": 14,
+        "action": "12 s. Scene 9, the end of the week. The slow rope's long line: big and small children waiting their turn (five or six figures and repeated shapes).",
+        "sound": [
+          "swish, thump",
+          "happy voices"
+        ],
+        "lines": [
+          "f23"
+        ]
+      },
+      {
+        "n": 39,
+        "page": 14,
+        "action": "8 s. Mira and Adrian turning the rope together, smiling at each other across it. No words.",
+        "sound": [
+          "swish, thump"
+        ],
+        "lines": []
+      },
+      {
+        "n": 40,
+        "page": 14,
+        "action": "16 s. Closing image: the bench by the fence, empty in the spring sun, a few almond petals on the seat. The narrator's line comes first; then hold the still picture 6 s while the tune ends, then stop. No autoplay.",
+        "sound": [
+          "the rope far away, slowing",
+          "the last notes of the tune",
+          "birds"
+        ],
+        "lines": [
+          "f24"
+        ]
+      }
+    ]
+  },
+  "activity": {
+    "minutes": 20,
+    "materials": [
+      "long-rope",
+      "open-flat-space"
+    ],
+    "steps": [
+      {
+        "n": 1,
+        "picture": "Five children stand in a circle, clapping together, mouths open as if chanting; a long rope lies straight on the ground beside them.",
+        "loop": true
+      },
+      {
+        "n": 2,
+        "picture": "Two children hold the two ends of a long rope at hip height and turn it slowly in a wide arc; the rope touches the ground in the middle.",
+        "loop": true
+      },
+      {
+        "n": 3,
+        "picture": "One child jumps over the rope just as it touches the ground; the others stand at the side clapping the beat.",
+        "loop": true
+      },
+      {
+        "n": 4,
+        "picture": "A child holds up two hands as if weighing two choices: on one side a blurred fast rope, on the other a wide slow arc.",
+        "loop": false
+      },
+      {
+        "n": 5,
+        "picture": "The two turners hand the rope ends to two new children; the rope lies on the ground between them.",
+        "loop": false
+      }
+    ],
+    "checkedAgainst": "docs/story-room/age-6-8.md section 7 (red list) and section 4 (activity limits), 25 Nov 2026"
+  }
+}

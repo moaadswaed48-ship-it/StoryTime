@@ -20,7 +20,7 @@
     { "id": "f03", "speaker": "narrator", "text": "Klap, klap, klap.", "speech": "Klap, klap, klap.", "emotion": "light and bouncy, one word on each pat" },
     { "id": "f04", "speaker": "a09-dina", "text": "Puf!", "speech": "Puf!", "emotion": "delighted, a little surprised" },
     { "id": "f05", "speaker": "a09-uncle", "text": "Du har mel på næsen!", "speech": "Du har mel på næsen!", "emotion": "laughing gently" },
-    { "id": "f06", "speaker": "narrator", "text": "Den store ovn går op. Varm luft strømmer ud.", "speech": "Den store ovn går op. Varm luft strømmer ud.", "emotion": "slow, full of wonder" },
+    { "id": "f06", "speaker": "narrator", "text": "Ovnen går op. Varm luft strømmer ud.", "speech": "Ovnen går op. Varm luft strømmer ud.", "emotion": "slow, full of wonder" },
     { "id": "f07", "speaker": "a09-uncle", "text": "Varmt!", "speech": "Varmt!", "emotion": "firm and clear, calm, never angry or loud" },
     { "id": "f08", "speaker": "a09-uncle", "text": "Varmt, varmt! Hænderne væk.", "speech": "Varmt, varmt! Hænderne væk.", "emotion": "steady and kind, explaining" },
     { "id": "f09", "speaker": "a09-dina", "text": "Hænderne væk.", "speech": "Hænderne væk.", "emotion": "small and serious, proud of herself" },

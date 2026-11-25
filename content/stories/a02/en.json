@@ -1,0 +1,207 @@
+{
+  "title": "The Sparrow’s Warm Nest",
+  "names": {
+    "a02-sparrow": "the sparrow",
+    "a02-knitter": "the old man"
+  },
+  "pages": [
+    {
+      "n": 1,
+      "text": "A cold winter morning. A little sparrow wakes on the market roof.",
+      "speech": "A cold winter morning. A little sparrow wakes on the market roof."
+    },
+    {
+      "n": 2,
+      "text": "Her nest is thin and grey. Brrr! She shivers.",
+      "speech": "Her nest is thin and grey. Brrr! She shivers."
+    },
+    {
+      "n": 3,
+      "text": "Hop, hop, down to the stalls. Yellow lemons! Too heavy.",
+      "speech": "Hop, hop, down to the stalls. Yellow lemons! Too heavy."
+    },
+    {
+      "n": 4,
+      "text": "Hop, hop. Green cucumbers! Too cold.",
+      "speech": "Hop, hop. Green cucumbers! Too cold."
+    },
+    {
+      "n": 5,
+      "text": "Hop, hop. Red tomatoes! Too squishy.",
+      "speech": "Hop, hop. Red tomatoes! Too squishy."
+    },
+    {
+      "n": 6,
+      "text": "Not yellow. Not green. Not red. The little sparrow is still cold.",
+      "speech": "Not yellow. Not green. Not red. The little sparrow is still cold."
+    },
+    {
+      "n": 7,
+      "text": "Hop, hop, to the very last stall. An old man is knitting. Click, click.",
+      "speech": "Hop, hop, to the very last stall. An old man is knitting. Click, click."
+    },
+    {
+      "n": 8,
+      "text": "Little bits of wool fall by his feet. Red, yellow, green… and one long blue!",
+      "speech": "Little bits of wool fall by his feet. Red, yellow, green… and one long blue!"
+    },
+    {
+      "n": 9,
+      "text": "She carries them up, one by one. Red, yellow, green, blue.",
+      "speech": "She carries them up, one by one. Red, yellow, green, blue."
+    },
+    {
+      "n": 10,
+      "text": "Red, yellow, green and blue. Now her nest is warm and bright.",
+      "speech": "Red, yellow, green and blue. Now her nest is warm and bright."
+    },
+    {
+      "n": 11,
+      "text": "On the blue, she sings: cheep, cheep! The old man waves his needles.",
+      "speech": "On the blue, she sings: cheep, cheep! The old man waves his needles."
+    }
+  ],
+  "film": [
+    {
+      "id": "f01",
+      "speaker": "narrator",
+      "text": "A cold morning on the market roof.",
+      "speech": "A cold morning on the market roof.",
+      "emotion": "hushed and wintry, slow"
+    },
+    {
+      "id": "f02",
+      "speaker": "a02-sparrow",
+      "text": "Brrr! Cold, cold!",
+      "speech": "Brrr! Cold, cold!",
+      "emotion": "small and shivery, a little comic"
+    },
+    {
+      "id": "f03",
+      "speaker": "narrator",
+      "text": "Her nest is thin and grey.",
+      "speech": "Her nest is thin and grey.",
+      "emotion": "gentle, a touch of pity"
+    },
+    {
+      "id": "f04",
+      "speaker": "a02-sparrow",
+      "text": "Yellow lemons!",
+      "speech": "Yellow lemons!",
+      "emotion": "hopeful, excited"
+    },
+    {
+      "id": "f05",
+      "speaker": "narrator",
+      "text": "Too heavy!",
+      "speech": "Too heavy!",
+      "emotion": "playful, straining with her"
+    },
+    {
+      "id": "f06",
+      "speaker": "a02-sparrow",
+      "text": "Green cucumbers! Too cold!",
+      "speech": "Green cucumbers! Too cold!",
+      "emotion": "pleased, then a shiver"
+    },
+    {
+      "id": "f07",
+      "speaker": "a02-sparrow",
+      "text": "Red tomatoes! Too squishy!",
+      "speech": "Red tomatoes! Too squishy!",
+      "emotion": "curious, then a surprised little squeal"
+    },
+    {
+      "id": "f08",
+      "speaker": "narrator",
+      "text": "Not yellow. Not green. Not red.",
+      "speech": "Not yellow. Not green. Not red.",
+      "emotion": "soft and slow, a small sigh"
+    },
+    {
+      "id": "f09",
+      "speaker": "narrator",
+      "text": "And at the very last stall…",
+      "speech": "And at the very last stall…",
+      "emotion": "curious, leaning in"
+    },
+    {
+      "id": "f10",
+      "speaker": "narrator",
+      "text": "Click, click, go the needles.",
+      "speech": "Click, click, go the needles.",
+      "emotion": "cosy, in time with the needles"
+    },
+    {
+      "id": "f11",
+      "speaker": "a02-sparrow",
+      "text": "Red! Yellow! Green!",
+      "speech": "Red! Yellow! Green!",
+      "emotion": "delighted, one colour per falling piece"
+    },
+    {
+      "id": "f12",
+      "speaker": "a02-sparrow",
+      "text": "And blue!",
+      "speech": "And blue!",
+      "emotion": "breathless wonder"
+    },
+    {
+      "id": "f13",
+      "speaker": "narrator",
+      "text": "One by one, up to the roof.",
+      "speech": "One by one, up to the roof.",
+      "emotion": "busy and happy, light"
+    },
+    {
+      "id": "f14",
+      "speaker": "narrator",
+      "text": "Red, yellow, green, blue. A warm nest.",
+      "speech": "Red, yellow, green, blue. A warm nest.",
+      "emotion": "warm and satisfied, slowing down"
+    },
+    {
+      "id": "f15",
+      "speaker": "a02-sparrow",
+      "text": "Cheep, cheep!",
+      "speech": "Cheep, cheep!",
+      "emotion": "a happy song, bright"
+    },
+    {
+      "id": "f16",
+      "speaker": "a02-knitter",
+      "text": "Good morning, little bird.",
+      "speech": "Good morning, little bird.",
+      "emotion": "kind and smiling, an old, soft voice"
+    }
+  ],
+  "activity": {
+    "title": "Sock Pairs",
+    "goal": "Find two things that are exactly the same, and name their colour.",
+    "materials": [
+      "Clean socks in different colours, in pairs (red, yellow, green and blue are ideal)",
+      "A basket"
+    ],
+    "steps": [
+      {
+        "n": 1,
+        "caption": "Tip out the socks."
+      },
+      {
+        "n": 2,
+        "caption": "Find two the same."
+      },
+      {
+        "n": 3,
+        "caption": "Lay them together. Say the colour!"
+      },
+      {
+        "n": 4,
+        "caption": "All pairs in the basket!"
+      }
+    ],
+    "safety": "Clean socks in child or adult sizes only: no tiny baby socks, and no tights (they can make a loop). Nothing goes round the neck or over the face. If there is an accident, call your local emergency number.",
+    "forAdult": "In the story, the sparrow looks for colours for her nest and finds them one by one: red, yellow, green and blue. In this game the child looks for two socks that are exactly the same, and hears the colour’s name with every pair. Finding an exact match is practice in looking closely. Tip the basket onto the floor. Hold up one sock and ask, “Where is its twin?” When the child finds it, lay the two socks side by side and say the colour clearly: “Red!” To make it easier, use only three pairs in very different colours. To make it harder, use socks of similar colours, or ask the child to name the colour. Five to ten minutes is plenty. At the end, put the pairs back in the basket together.",
+    "inClass": "Each child takes one sock from the basket and walks round to find the child holding its twin. When the two meet, they hold up their socks and say the colour together. One adult for every four children."
+  }
+}

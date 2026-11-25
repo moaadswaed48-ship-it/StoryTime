@@ -1,0 +1,31 @@
+[
+  {
+    "id": "a02-sparrow",
+    "name": { "ar": "العُصفورة", "he": "צִפּוֹר הַדְּרוֹר", "en": "the sparrow", "da": "spurven" },
+    "stage": "child",
+    "build": { "height": 0.2, "heads": 2, "girth": 0.8, "shoulders": 1 },
+    "skin": "#a9805a",
+    "hair": { "style": "tuft", "color": "#7a5636" },
+    "eyes": { "color": "#1e1612", "size": 0.9 },
+    "top": { "style": "tee", "color": "#d8c7ac", "pattern": "plain" },
+    "bottom": { "style": "none", "color": "#6e5038" },
+    "shoes": { "style": "bare", "color": "#d39a78" },
+    "manner": "A small female house sparrow, not a humanoid: the Sheet type has no animal body yet, so the Studio must add one (as for B02's wheelchair). Read the colours as: skin = back and wings, warm brown with darker streaks; hair = the crown; top = the pale breast; bottom = the tail; shoes = the pink legs. She hops with both feet together and never walks; fluffs into a round ball when she is cold; tilts her head to look at things with one eye."
+  },
+  {
+    "id": "a02-knitter",
+    "name": { "ar": "العَجوز الطَيِّب", "he": "הָאִישׁ הַזָּקֵן", "en": "the old man", "da": "den gamle mand" },
+    "stage": "elder",
+    "build": { "height": 0.92, "heads": 5.8, "girth": 0.62, "shoulders": 1.45 },
+    "skin": "#c4916a",
+    "hair": { "style": "short", "color": "#e8e4dc" },
+    "eyes": { "color": "#4a3526", "size": 0.5 },
+    "brows": { "color": "#e2ddd6", "weight": 0.8 },
+    "top": { "style": "coat", "color": "#6f7f5c", "trim": "#d9c9a8", "pattern": "plain" },
+    "bottom": { "style": "trousers", "color": "#5a4a40" },
+    "shoes": { "style": "boots", "color": "#4a3528" },
+    "extras": ["hat", "glasses", "moustache"],
+    "extraColors": { "hat": "#c8453a", "glasses": "#3a2a20" },
+    "manner": "Sits on a low stool behind his stall and knits without looking at his hands; hums while he works; trims the loose ends of his wool with small scissors and lets the bits fall; waves his needles instead of his hand."
+  }
+]

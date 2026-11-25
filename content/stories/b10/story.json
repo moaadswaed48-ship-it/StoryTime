@@ -1,0 +1,124 @@
+{
+  "id": "b10",
+  "ageGroups": ["4-5"],
+  "owner": "storytime",
+  "lesson": "Feel loved and find a helping role when a new baby comes.",
+  "cast": ["b10-zaki", "b10-baby", "b10-mum", "b10-dad"],
+  "pages": [
+    {
+      "n": 1,
+      "art": "A family living room on a summer afternoon. Mum sits on the sofa holding the new baby, wrapped in a pale pink blanket; Dad leans over the back of the sofa; both gaze down at her, smiling. Zaki (5) stands at the edge of the picture holding up a drawing he has made; nobody is looking at it. Feeling: everyone's love pointed one way; Zaki outside it, not sad yet, puzzled. Calm area: the plain wall across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 2,
+      "art": "Three small scenes in one picture, side by side like a strip, with no frames or letters: at the breakfast table the baby cries in Mum's arms while Zaki's spoon stops mid-air; at lunch Dad walks the crying baby while Zaki eats alone; at night a dark window with a little lamp, the baby's crying shown as curved lines. Mum and Dad look more tired in each scene. Feeling: busy, noisy, a bit funny, a bit lonely. Calm area: the floor band along the bottom.",
+      "zone": { "side": "full", "v": "bottom", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 3,
+      "art": "Zaki sits alone on the bottom stair of the house, chin in both hands, elbows on his knees. Through the doorway behind him, Mum and Dad bend over the baby. Feeling: left out, small. Calm area: the wall above the stairs, across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 4,
+      "art": "Outside the house on a hot summer night: deep blue sky, a big round moon, the bedroom window wide open and glowing warm yellow, a thin curtain lifting in the warm air. Small dark bushes; a few stars. Feeling: still, warm, waiting. Calm area: the sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "l" },
+      "image": null
+    },
+    {
+      "n": 5,
+      "art": "Inside the parents' bedroom by lamplight: Mum, in her nightclothes, rocks the crying baby in her arms; curved cry lines (no letters) rise from the baby. The moon looks in at the open window. Feeling: tired love. Calm area: the wall across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 6,
+      "art": "Dad walks up and down the bedroom with the crying baby on his shoulder, patting her back; a faint dotted path on the floor shows his back-and-forth walk. Mum sits on the edge of the bed, head in her hand, exhausted. Feeling: nothing works; nobody is cross. Calm area: the floor band along the bottom.",
+      "zone": { "side": "full", "v": "bottom", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 7,
+      "art": "Zaki stands in the bedroom doorway in his striped pyjamas, holding the door frame, watching. Above his head, a soft round glow like a thought: a smaller Zaki on Mum's lap, the moon and a little fish (a remembered picture, pale and dreamy, no letters). Feeling: remembering, an idea forming. Calm area: the dark hallway wall across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 8,
+      "art": "Zaki climbs onto the big bed and kneels right beside his baby sister, who lies crying on a blanket between Mum and Dad. Mum and Dad, sitting on the bed, look at him in surprise. Zaki takes a big breath, cheeks round. Feeling: brave, gentle. Calm area: the wall above the bed, across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 9,
+      "art": "Close and dreamy: Zaki sings, eyes half closed, his face near the baby's. The moonlight from the window lies across the bed; on the wall, the shadow of a little fish seems to swim towards the moon. Soft musical curls float from Zaki's mouth (no notes, no letters). Feeling: tender, magical. Calm area: the wall and moonlight across the top.",
+      "zone": { "side": "full", "v": "top", "size": "l" },
+      "image": null
+    },
+    {
+      "n": 10,
+      "art": "Close-up: the baby has stopped crying and looks up at Zaki with wide, wet eyes. Her tiny hand is wrapped round his finger. Zaki's face: amazed and very careful. Feeling: the turn of the story; a quiet, enormous moment. Calm area: the blanket along the bottom.",
+      "zone": { "side": "full", "v": "bottom", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 11,
+      "art": "The whole family on the big bed in moonlight: Dad leans in, whispering; Mum smiles at Zaki with tired, shining eyes, one hand on his back; the baby is calm, still holding Zaki's finger. Feeling: warm, together. Calm area: the wall across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 12,
+      "art": "Last picture of the book, another evening: Zaki stands proudly beside the baby's cot, one hand resting on its side rail, singing; the baby lies asleep on her back in her cot; Mum leans in the doorway, smiling and resting. The moon in the open window. Feeling: proud, peaceful, needed. Calm area: the wall across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    }
+  ],
+  "film": {
+    "targetSeconds": 255,
+    "shots": [
+      { "n": 1, "page": 1, "action": "14 s. Scene 1, the new baby. Black, then a soft music-box tune; fade up on the living room: Mum on the sofa holding the baby, Dad leaning over, both gazing at her. Zaki at the edge of the frame. Keep the lower fifth calm for captions in every shot.", "sound": ["a soft music-box tune", "a baby's small gurgle"], "lines": ["f01"] },
+      { "n": 2, "page": 1, "action": "7 s. Zaki holds up a drawing and waits; nobody turns. He lowers it slowly. No words.", "sound": ["the music box, slowing"], "lines": [] },
+      { "n": 3, "page": 2, "action": "10 s. Breakfast: the baby cries in Mum's arms; Zaki's spoon stops halfway to his mouth.", "sound": ["a baby crying, not loud", "a spoon on a bowl"], "lines": [] },
+      { "n": 4, "page": 2, "action": "7 s. Lunch: Dad walks past with the crying baby; Zaki eats alone at the table.", "sound": ["crying, passing by", "a clock ticking"], "lines": [] },
+      { "n": 5, "page": 3, "action": "6 s. Zaki tugs Mum's sleeve; she answers without looking away from the baby.", "sound": ["soft crying"], "lines": ["f02"] },
+      { "n": 6, "page": 3, "action": "5 s. Zaki tugs Dad's sleeve; the same.", "sound": ["soft crying"], "lines": ["f03"] },
+      { "n": 7, "page": 3, "action": "14 s. Zaki sits on the bottom stair, chin in his hands. A breathing moment: hold. His thought is spoken softly over the shot (his lips do not move).", "sound": ["a single low cello note", "far-off crying"], "lines": ["f04"] },
+      { "n": 8, "page": 4, "action": "14 s. Scene 2, the hot night. Outside the house: deep blue sky, the big round moon, the open window glowing. Slow push in towards the window.", "sound": ["cicadas", "a warm night breeze"], "lines": ["f05"] },
+      { "n": 9, "page": 4, "action": "6 s. Inside: the curtain lifts in the warm air; moonlight lies on the floor.", "sound": ["cicadas, softer", "a curtain stirring"], "lines": [] },
+      { "n": 10, "page": 5, "action": "9 s. Zaki in his own bed, awake, hears the crying through the wall. He pulls his pillow over his ears, then takes it off and sits up.", "sound": ["crying through a wall"], "lines": [] },
+      { "n": 11, "page": 5, "action": "9 s. The parents' bedroom: the baby cries; Mum lifts her and rocks her, back and forth.", "sound": ["the baby crying", "a creaking floorboard"], "lines": ["f06"] },
+      { "n": 12, "page": 5, "action": "8 s. Mum rocking, eyes closing with tiredness.", "sound": ["crying"], "lines": ["f07"] },
+      { "n": 13, "page": 6, "action": "10 s. Dad takes the baby and walks her up and down, up and down. The crying goes on.", "sound": ["footsteps up and down", "crying"], "lines": ["f08"] },
+      { "n": 14, "page": 7, "action": "8 s. Scene 3, the song. Zaki in the doorway in his pyjamas, watching.", "sound": ["crying, a little lower"], "lines": [] },
+      { "n": 15, "page": 7, "action": "11 s. Close on Zaki remembering: a soft glow, and inside it a smaller Zaki on Mum's lap, the moon and a little fish; a faint hummed tune without words. The glow fades.", "sound": ["Mum humming the lullaby tune, far and soft"], "lines": ["f09"] },
+      { "n": 16, "page": 8, "action": "8 s. Zaki climbs onto the big bed and kneels beside the baby. Mum and Dad look at him, surprised.", "sound": ["the bed creaks", "crying"], "lines": [] },
+      { "n": 17, "page": 8, "action": "6 s. Zaki takes a deep breath. Mum and Dad glance at each other.", "sound": ["one breath", "crying"], "lines": [] },
+      { "n": 18, "page": 9, "action": "12 s. Zaki sings the first half of the song; the crying grows smaller under his voice. The moon in the window seems to lean closer.", "sound": ["Zaki's voice alone", "the crying fading"], "lines": ["f10"] },
+      { "n": 19, "page": 9, "action": "12 s. The second half; a plucked string joins his tune very softly. On the wall, the shadow of a little fish swims across the moonlight.", "sound": ["Zaki singing", "a plucked string joining in"], "lines": ["f11"] },
+      { "n": 20, "page": 10, "action": "6 s. Silence. The baby's eyes open and look at Zaki.", "sound": ["cicadas only"], "lines": ["f12"] },
+      { "n": 21, "page": 10, "action": "10 s. Close-up: a tiny hand finds Zaki's finger and holds on. Hold 3 s after it closes. No words.", "sound": ["one soft chime"], "lines": [] },
+      { "n": 22, "page": 11, "action": "7 s. Dad leans in and whispers.", "sound": ["cicadas"], "lines": ["f13"] },
+      { "n": 23, "page": 11, "action": "7 s. Mum smiles at Zaki, her eyes shining.", "sound": ["the lullaby tune, very soft"], "lines": ["f14"] },
+      { "n": 24, "page": 11, "action": "6 s. Mum's hand rests on Zaki's back.", "sound": ["the lullaby tune"], "lines": ["f15"] },
+      { "n": 25, "page": 11, "action": "8 s. A breathing moment: the family on the bed in moonlight; nobody moves; only the curtain stirs.", "sound": ["cicadas", "the curtain"], "lines": [] },
+      { "n": 26, "page": 12, "action": "10 s. Scene 4, the big brother's job. Another evening: the baby cries in her cot; Mum calls from the doorway; Zaki runs in and stands by the cot.", "sound": ["a small cry", "quick footsteps"], "lines": [] },
+      { "n": 27, "page": 12, "action": "8 s. Zaki hums the song at the cot side; the baby calms; Mum and Dad sit down together and rest.", "sound": ["Zaki humming the tune"], "lines": ["f16"] },
+      { "n": 28, "page": 12, "action": "16 s. Closing image: the baby asleep on her back in her cot, Zaki beside it, the moon in the open window. Hold the still picture 6 s while the music ends, then stop. No autoplay.", "sound": ["the last notes of the lullaby", "cicadas"], "lines": [] }
+    ]
+  },
+  "activity": {
+    "minutes": 15,
+    "materials": ["doll-or-soft-toy", "small-blanket"],
+    "steps": [
+      { "n": 1, "picture": "A child sits on a sofa holding a doll the right way: one hand under its head and neck, one under its bottom, the doll close to the chest. A grown-up sits beside them, showing the same hold with their own hands.", "loop": false },
+      { "n": 2, "picture": "The child, still sitting, rocks the doll gently from side to side and sings; small curved lines show the slow rocking and soft musical curls float up (no notes, no letters).", "loop": true },
+      { "n": 3, "picture": "The child lays the doll on its back on a small blanket on the floor, the blanket's edge below the doll's shoulders, and whispers to it.", "loop": false }
+    ],
+    "checkedAgainst": "docs/story-room/age-4-5.md section 7 (red list) and section 4 (activity limits), 25 Nov 2026"
+  }
+}

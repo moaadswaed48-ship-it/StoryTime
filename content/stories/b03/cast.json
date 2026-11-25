@@ -1,0 +1,50 @@
+[
+  {
+    "id": "b03-nina",
+    "name": { "ar": "نِينا", "he": "נִינָה", "en": "Nina", "da": "Nina" },
+    "stage": "child",
+    "build": { "height": 0.62, "heads": 4.5, "girth": 0.42, "shoulders": 1.12 },
+    "skin": "#e2b48c",
+    "hair": { "style": "braids", "color": "#4a2a1c" },
+    "eyes": { "color": "#4a3020", "size": 0.86 },
+    "brows": { "color": "#4a2a1c", "weight": 0.6 },
+    "top": { "style": "tee", "color": "#3f8fb0", "trim": "#fff3d6", "pattern": "plain" },
+    "bottom": { "style": "shorts", "color": "#e8a33c" },
+    "shoes": { "style": "sandals", "color": "#b0563a" },
+    "extras": ["hat"],
+    "extraColors": { "hat": "#f4e3a1" },
+    "manner": "Busy and absorbed; draws with her whole arm and kneels close to her work; her feelings show at once in her face and fists, and she says exactly what she feels, loudly, then calms just as clearly."
+  },
+  {
+    "id": "b03-rami",
+    "name": { "ar": "رامِي", "he": "רָמִי", "en": "Rami", "da": "Rami" },
+    "stage": "child",
+    "build": { "height": 0.63, "heads": 4.5, "girth": 0.48, "shoulders": 1.18 },
+    "skin": "#9a6240",
+    "hair": { "style": "short", "color": "#1c1210" },
+    "eyes": { "color": "#2a1a12", "size": 0.82 },
+    "brows": { "color": "#1c1210", "weight": 0.7 },
+    "top": { "style": "tee", "color": "#e2674a", "trim": "#f4e3bd", "pattern": "stripes" },
+    "bottom": { "style": "shorts", "color": "#3d4f7c" },
+    "shoes": { "style": "shoes", "color": "#f1ead8" },
+    "extras": ["hat"],
+    "extraColors": { "hat": "#2f8f83" },
+    "manner": "Always wears his bike helmet on the scooter (drawn as the 'hat' extra, a round helmet); fast and cheerful, looks ahead instead of down; when he sees he has hurt someone he goes pink, rubs the back of his helmet and wants to help."
+  },
+  {
+    "id": "b03-dad",
+    "name": { "ar": "أَبُو نِينا", "he": "אַבָּא שֶׁל נִינָה", "en": "Nina’s dad", "da": "Ninas far" },
+    "stage": "adult",
+    "build": { "height": 1, "heads": 6, "girth": 0.55, "shoulders": 1.55 },
+    "skin": "#d9a47c",
+    "hair": { "style": "short", "color": "#3a2520" },
+    "eyes": { "color": "#4a3020", "size": 0.55 },
+    "brows": { "color": "#3a2520", "weight": 0.8 },
+    "top": { "style": "shirt", "color": "#f2e6c8", "trim": "#8fb7a8", "pattern": "check" },
+    "bottom": { "style": "trousers", "color": "#4a4a5e" },
+    "shoes": { "style": "sandals", "color": "#6b4030" },
+    "extras": ["beard", "glasses"],
+    "extraColors": { "glasses": "#2a3a5a" },
+    "manner": "Watches from the balcony with his pot plants and watering can; stays where he is while the children sort things out, ready but calm; laughs out loud when something makes him proud."
+  }
+]

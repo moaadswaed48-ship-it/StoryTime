@@ -1,4 +1,3 @@
-import type { LandingDict } from './landing-schema'
 import type { LegalDoc } from '../seo/paths'
 import type { StoriesDict } from './stories-schema'
 
@@ -368,5 +367,4 @@ export type Dict = {
   account: AccountDict
   commerce: CommerceDict
   stories: StoriesDict
-  landing: LandingDict
 }

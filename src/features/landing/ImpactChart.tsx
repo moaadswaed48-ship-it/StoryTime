@@ -1,5 +1,5 @@
 import { useEffect, useId, useRef } from 'react'
-import { useLang } from '@/i18n/use-dict'
+import type { LandingDict } from '@/i18n/landing-schema'
 import './impact-chart.css'
 
 /**
@@ -41,9 +41,7 @@ const POINTS = SAMPLE.map((v, i) => [px(i), py(v)] as [number, number])
 const LINE = curve(POINTS)
 const AREA = `${LINE} L${PLOT.x1},${PLOT.y1} L${PLOT.x0},${PLOT.y1} Z`
 
-export function ImpactChart() {
-  const { dict } = useLang()
-  const t = dict.landing.evidence.chart
+export function ImpactChart({ words: t }: { words: LandingDict['evidence']['chart'] }) {
   const ref = useRef<HTMLElement>(null)
   const titleId = useId()
   const descId = useId()
@@ -76,7 +74,7 @@ export function ImpactChart() {
         </span>
       </figcaption>
       {/* Time runs left to right in every language, as in Arabic and Hebrew newspaper charts; the words are not mirrored art. */}
-      <svg viewBox={`0 0 ${W} ${H}`} role="img" aria-labelledby={`${titleId} ${descId}`} direction="ltr" className="h-auto w-full max-w-xl text-ink">
+      <svg viewBox={`0 0 ${W} ${H}`} role="img" aria-labelledby={titleId} aria-describedby={descId} direction="ltr" className="h-auto w-full max-w-xl text-ink">
         <title id={titleId}>{t.title}</title>
         <desc id={descId}>{`${t.label} ${t.alt}`}</desc>
         <g aria-hidden="true">

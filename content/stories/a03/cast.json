@@ -1,0 +1,32 @@
+[
+  {
+    "id": "a03-lina",
+    "name": { "ar": "لِينا", "he": "לִינָה", "en": "Lina", "da": "Lina" },
+    "stage": "toddler",
+    "build": { "height": 0.5, "heads": 3.6, "girth": 0.56, "shoulders": 1.05 },
+    "skin": "#d39a6e",
+    "hair": { "style": "bob", "color": "#2c1a12" },
+    "eyes": { "color": "#3a2418", "size": 0.95 },
+    "brows": { "color": "#2c1a12", "weight": 0.45 },
+    "top": { "style": "dress", "color": "#e8735a", "trim": "#fff1e0", "pattern": "dots" },
+    "bottom": { "style": "none", "color": "#e8735a" },
+    "shoes": { "style": "sandals", "color": "#f2c14e" },
+    "manner": "Runs with her arms wide open; when she is careful she sticks the tip of her tongue out; holds things out to people with both hands, straight-armed and proud."
+  },
+  {
+    "id": "a03-mama",
+    "name": { "ar": "ماما", "he": "אִמָּא", "en": "Mama", "da": "mor" },
+    "stage": "adult",
+    "build": { "height": 0.96, "heads": 6, "girth": 0.52, "shoulders": 1.5 },
+    "skin": "#c98e62",
+    "hair": { "style": "bun", "color": "#2a1814" },
+    "eyes": { "color": "#3a2418", "size": 0.6 },
+    "brows": { "color": "#2a1814", "weight": 0.6 },
+    "top": { "style": "shirt", "color": "#5b7fa6", "trim": "#eef2f6", "pattern": "plain" },
+    "bottom": { "style": "trousers", "color": "#3e4a5c" },
+    "shoes": { "style": "shoes", "color": "#7a4a32" },
+    "extras": ["bag"],
+    "extraColors": { "bag": "#a0643a" },
+    "manner": "Comes straight from work and is never in a rush with Lina; crouches to her height for every small job; laughs easily at her own clumsiness; puts both hands to her cheeks when she is touched."
+  }
+]

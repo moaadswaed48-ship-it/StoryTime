@@ -470,3 +470,22 @@ Live: https://moaadswaed48-ship-it.github.io/StoryTime/next/ (the old site at `/
   Never publish the preview with the author's story in `content/stories/`.
 - Fixed while publishing: `/:lang/legal/*` threw "loader is not defined" in the browser (`clientLoader = loader`;
   the client build strips `loader`).
+
+## Landing words (Stage 8 copy, helper, 25 Nov 2026)
+
+Status: words and plain structure DONE; visual design not started (by design). Not committed by the helper.
+- Words in four languages: `src/i18n/<lang>/landing.ts`, typed by `src/i18n/landing-schema.ts` (`satisfies`, so a
+  missing key fails `tsc`). They load only with the landing route (`src/i18n/landing.ts`, route `loader` and
+  `clientLoader`): the shared `Dict` is serialised into every page's HTML, so landing words there would put the story
+  excerpt on every page.
+- Page `src/routes/landing.tsx`: hero, what is inside a story (A04), values, evidence with the illustration graph
+  (`src/features/landing/ImpactChart.tsx`, draw-in only when not reduced motion), how it works, age groups, plans
+  teaser with the law's "Cancel a purchase" box, questions and answers. Footer unchanged.
+- Copy decisions, sources, lines to update and lines for a native editor: `docs/landing/COPY-NOTES.md`.
+- Checks: `tsc` clean for these files; `tests/landing.test.ts` (keys, scripts, excerpt equals A04 page 5, headline
+  length, illustration label); `e2e/landing.spec.ts` 14 tests pass at 390 and 1440 (sections, graph name and
+  description, reduced motion static, draw-in, excerpt only on the landing pages); `e2e/public.spec.ts` and the
+  "no story text" test in `e2e/stage4b1.spec.ts` pass (it now allows exactly A04 page 5, with a comment). Run on a
+  private copy of the build. Phone screenshots in `qa/out/landing/` looked at.
+- Not done: no fresh-context review; the 3D hero, teaser shelf and parent/teacher chooser from the product
+  checklist are not on the page; the graph should go public only with the owner's papers (checklist open decision 4).

@@ -1,0 +1,212 @@
+{
+  "title": "Rundt og rundt",
+  "names": {
+    "a11-daniel": "Daniel",
+    "a11-uncle": "onkel",
+    "a11-driver": "togføreren"
+  },
+  "pages": [
+    {
+      "n": 1,
+      "text": "Daniel og onkel venter på stationen. De skal til havet!",
+      "speech": "Daniel og onkel venter på stationen. De skal til havet!"
+    },
+    {
+      "n": 2,
+      "text": "Daniel kigger op. Et ur! Rundt, rundt, rundt.",
+      "speech": "Daniel kigger op. Et ur! Rundt, rundt, rundt."
+    },
+    {
+      "n": 3,
+      "text": "Daniel kigger ud. Et lys! Det bliver grønt. Rundt, rundt, rundt.",
+      "speech": "Daniel kigger ud. Et lys! Det bliver grønt. Rundt, rundt, rundt."
+    },
+    {
+      "n": 4,
+      "text": "Daniel kigger på onkel. Knapper på hans skjorte! Rundt, rundt, rundt.",
+      "speech": "Daniel kigger på onkel. Knapper på hans skjorte! Rundt, rundt, rundt."
+    },
+    {
+      "n": 5,
+      "text": "»Rund!« siger Daniel. Han tegner en cirkel i luften. Rundt, rundt, rundt.",
+      "speech": "»Rund!« siger Daniel. Han tegner en cirkel i luften. Rundt, rundt, rundt."
+    },
+    {
+      "n": 6,
+      "text": "Tuuut, tuuut! Der kommer toget.",
+      "speech": "Tuuut, tuuut! Der kommer toget."
+    },
+    {
+      "n": 7,
+      "text": "Under toget drejer hjulene. Rundt og rundt og rundt.",
+      "speech": "Under toget drejer hjulene. Rundt og rundt og rundt."
+    },
+    {
+      "n": 8,
+      "text": "Daniel og onkel stiger på. Togføreren vinker. Hej!",
+      "speech": "Daniel og onkel stiger på. Togføreren vinker. Hej!"
+    },
+    {
+      "n": 9,
+      "text": "Daniel kigger ud ad det runde vindue. Byen glider væk.",
+      "speech": "Daniel kigger ud ad det runde vindue. Byen glider væk."
+    },
+    {
+      "n": 10,
+      "text": "Daniel kigger ud. Havet! Solen går ned.",
+      "speech": "Daniel kigger ud. Havet! Solen går ned."
+    },
+    {
+      "n": 11,
+      "text": "Solen er rund. Den største runde ting af alle! Rundt, rundt, rundt.",
+      "speech": "Solen er rund. Den største runde ting af alle! Rundt, rundt, rundt."
+    }
+  ],
+  "film": [
+    {
+      "id": "f01",
+      "speaker": "narrator",
+      "text": "Eftermiddag på den store station.",
+      "speech": "Eftermiddag på den store station.",
+      "emotion": "warm and bright, a summer afternoon"
+    },
+    {
+      "id": "f02",
+      "speaker": "a11-uncle",
+      "text": "Snart kommer toget. Og så havet!",
+      "speech": "Snart kommer toget. Og så havet!",
+      "emotion": "cheerful, promising"
+    },
+    {
+      "id": "f03",
+      "speaker": "a11-daniel",
+      "text": "Et ur! Det er rundt!",
+      "speech": "Et ur! Det er rundt!",
+      "emotion": "excited discovery"
+    },
+    {
+      "id": "f04",
+      "speaker": "narrator",
+      "text": "Rundt, rundt, rundt.",
+      "speech": "Rundt, rundt, rundt.",
+      "emotion": "a little sing-song, drawing with the voice"
+    },
+    {
+      "id": "f05",
+      "speaker": "a11-daniel",
+      "text": "Et lys! Nu er det grønt.",
+      "speech": "Et lys! Nu er det grønt.",
+      "emotion": "pleased, pointing"
+    },
+    {
+      "id": "f06",
+      "speaker": "a11-daniel",
+      "text": "Knapper! Runde, runde!",
+      "speech": "Knapper! Runde, runde!",
+      "emotion": "giggly, close"
+    },
+    {
+      "id": "f07",
+      "speaker": "a11-uncle",
+      "text": "Så mange runde ting!",
+      "speech": "Så mange runde ting!",
+      "emotion": "laughing, impressed"
+    },
+    {
+      "id": "f08",
+      "speaker": "narrator",
+      "text": "Daniel tegner en cirkel i luften.",
+      "speech": "Daniel tegner en cirkel i luften.",
+      "emotion": "light, following the finger"
+    },
+    {
+      "id": "f09",
+      "speaker": "narrator",
+      "text": "Tuuut, tuuut! Der kommer toget.",
+      "speech": "Tuuut, tuuut! Der kommer toget.",
+      "emotion": "rising, happy, a big moment"
+    },
+    {
+      "id": "f10",
+      "speaker": "narrator",
+      "text": "Hjulene drejer rundt og rundt.",
+      "speech": "Hjulene drejer rundt og rundt.",
+      "emotion": "slow and rolling, on the rhythm of the wheels"
+    },
+    {
+      "id": "f11",
+      "speaker": "a11-driver",
+      "text": "Hej! Hop bare ind.",
+      "speech": "Hej! Hop bare ind.",
+      "emotion": "friendly and welcoming"
+    },
+    {
+      "id": "f12",
+      "speaker": "a11-daniel",
+      "text": "Hej!",
+      "speech": "Hej!",
+      "emotion": "small and shy, then a big smile"
+    },
+    {
+      "id": "f13",
+      "speaker": "narrator",
+      "text": "Byen glider væk.",
+      "speech": "Byen glider væk.",
+      "emotion": "soft and dreamy, looking out"
+    },
+    {
+      "id": "f14",
+      "speaker": "a11-daniel",
+      "text": "Havet!",
+      "speech": "Havet!",
+      "emotion": "a gasp of wonder"
+    },
+    {
+      "id": "f15",
+      "speaker": "a11-daniel",
+      "text": "Solen! Den er også rund!",
+      "speech": "Solen! Den er også rund!",
+      "emotion": "amazed, almost whispering"
+    },
+    {
+      "id": "f16",
+      "speaker": "a11-uncle",
+      "text": "Den største runde ting af alle.",
+      "speech": "Den største runde ting af alle.",
+      "emotion": "warm and slow, the last words"
+    }
+  ],
+  "activity": {
+    "title": "Vandcirkler",
+    "goal": "At tegne en cirkel efter en voksen.",
+    "materials": [
+      "En pensel eller en svamp",
+      "En kop vand"
+    ],
+    "steps": [
+      {
+        "n": 1,
+        "caption": "Mærk på muren. Lun, ikke varm?"
+      },
+      {
+        "n": 2,
+        "caption": "Dyp penslen i vandet."
+      },
+      {
+        "n": 3,
+        "caption": "Den voksne maler en stor cirkel."
+      },
+      {
+        "n": 4,
+        "caption": "Nu dig! Også en cirkel."
+      },
+      {
+        "n": 5,
+        "caption": "Se den tørre. Mal igen!"
+      }
+    ],
+    "safety": "Mærk først muren eller fliserne med håndryggen: lune, ikke varme. Vælg skygge på varme dage, og husk solhat. Kun lidt vand i en kop, og bliv inden for rækkevidde. Sker der et uheld, så ring til det lokale alarmnummer.",
+    "forAdult": "I historien finder Daniel cirkler overalt og tegner en i luften. Omkring treårsalderen kan mange børn tegne en cirkel efter når de ser en voksen gøre det, og den er tit den første figur de tegner. At male med vand er en gratis og ren måde at øve det på i stort format, og cirklerne forsvinder af sig selv, så der bliver ingen »fejl« stående på muren. Vælg en mur eller fliser der er lune, ikke varme, og mærk efter med håndryggen først. Mal én stor cirkel langsomt mens du siger »rundt og rundt«, og giv så penslen videre. Enhver streg der kommer tilbage til hvor den startede, er en succes. Det må gerne være skævt. Se sammen hvordan cirklen tørrer og forsvinder, og mal igen. Gør det lettere ved at holde penslen sammen med barnets hånd og gå én gang rundt. Gør det sværere ved at male en stor og en lille cirkel eller en cirkel inden i en cirkel. Fem til ti minutter er rigeligt. Tøm koppen når I er færdige.",
+    "inClass": "Én voksen med højst fire børn, og hvert barn har en pensel og et lille stykke mur. Den voksne maler én cirkel ad gangen, langsomt, og børnene maler efter. Alle ser cirklerne tørre og maler så igen. Tøm vandkopperne til sidst."
+  }
+}

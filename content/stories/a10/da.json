@@ -1,0 +1,215 @@
+{
+  "title": "Blød hånd, langsom hånd",
+  "names": {
+    "a10-ella": "Ella",
+    "a10-brother": "hendes storebror",
+    "a10-cloud": "Sky"
+  },
+  "pages": [
+    {
+      "n": 1,
+      "text": "Det her er Sky. Sky er en grå kat. Hun bor i gården.",
+      "speech": "Det her er Sky. Sky er en grå kat. Hun bor i gården."
+    },
+    {
+      "n": 2,
+      "text": "Hver eftermiddag går Sky hen ad muren. Trip, trip, trip.",
+      "speech": "Hver eftermiddag går Sky hen ad muren. Trip, trip, trip."
+    },
+    {
+      "n": 3,
+      "text": "I dag hopper Sky ned. Hop! Trip, trip, trip … hun kommer tæt på.",
+      "speech": "I dag hopper Sky ned. Hop! Trip, trip, trip … hun kommer tæt på."
+    },
+    {
+      "n": 4,
+      "text": "Ella breder armene ud. Hun vil klemme Sky helt fast!",
+      "speech": "Ella breder armene ud. Hun vil klemme Sky helt fast!"
+    },
+    {
+      "n": 5,
+      "text": "»Vent,« hvisker hendes storebror. Han holder én finger frem, lavt og stille.",
+      "speech": "»Vent,« hvisker hendes storebror. Han holder én finger frem, lavt og stille."
+    },
+    {
+      "n": 6,
+      "text": "Sky snuser til hans finger. Snif, snif. »Blød hånd, langsom hånd,« hvisker han.",
+      "speech": "Sky snuser til hans finger. Snif, snif. »Blød hånd, langsom hånd,« hvisker han."
+    },
+    {
+      "n": 7,
+      "text": "Ella holder også én finger frem. Snif, snif. Knurhårene kilder!",
+      "speech": "Ella holder også én finger frem. Snif, snif. Knurhårene kilder!"
+    },
+    {
+      "n": 8,
+      "text": "Ella stryger Sky over ryggen. Fra hoved til hale. Blød hånd, langsom hånd.",
+      "speech": "Ella stryger Sky over ryggen. Fra hoved til hale. Blød hånd, langsom hånd."
+    },
+    {
+      "n": 9,
+      "text": "Sky spinder: prrr, prrr. Halen går i vejret. Blød hånd, langsom hånd.",
+      "speech": "Sky spinder: prrr, prrr. Halen går i vejret. Blød hånd, langsom hånd."
+    },
+    {
+      "n": 10,
+      "text": "Så rejser Sky sig. Trip, trip, trip … hen i solen. »Hej hej, Sky,« siger Ella.",
+      "speech": "Så rejser Sky sig. Trip, trip, trip … hen i solen. »Hej hej, Sky,« siger Ella."
+    },
+    {
+      "n": 11,
+      "text": "Ella og storebror vasker hænder. Plask! Sky vasker sit ansigt i solen.",
+      "speech": "Ella og storebror vasker hænder. Plask! Sky vasker sit ansigt i solen."
+    }
+  ],
+  "film": [
+    {
+      "id": "f01",
+      "speaker": "narrator",
+      "text": "Her kommer Sky, katten fra gården.",
+      "speech": "Her kommer Sky, katten fra gården.",
+      "emotion": "calm and warm, a friendly hello"
+    },
+    {
+      "id": "f02",
+      "speaker": "narrator",
+      "text": "Trip, trip, trip, hen ad muren.",
+      "speech": "Trip, trip, trip, hen ad muren.",
+      "emotion": "light and rhythmic, on the paw steps"
+    },
+    {
+      "id": "f03",
+      "speaker": "a10-ella",
+      "text": "Sky!",
+      "speech": "Sky!",
+      "emotion": "a delighted gasp"
+    },
+    {
+      "id": "f04",
+      "speaker": "narrator",
+      "text": "Hun kommer tæt på.",
+      "speech": "Hun kommer tæt på.",
+      "emotion": "soft, a little expectant"
+    },
+    {
+      "id": "f05",
+      "speaker": "a10-ella",
+      "text": "Jeg vil klemme hende!",
+      "speech": "Jeg vil klemme hende!",
+      "emotion": "bursting with love, too excited"
+    },
+    {
+      "id": "f06",
+      "speaker": "a10-brother",
+      "text": "Vent. Se på mig.",
+      "speech": "Vent. Se på mig.",
+      "emotion": "a gentle whisper, never cross"
+    },
+    {
+      "id": "f07",
+      "speaker": "narrator",
+      "text": "Snif, snif.",
+      "speech": "Snif, snif.",
+      "emotion": "quiet and close, almost a whisper"
+    },
+    {
+      "id": "f08",
+      "speaker": "a10-brother",
+      "text": "Blød hånd, langsom hånd.",
+      "speech": "Blød hånd, langsom hånd.",
+      "emotion": "a slow, soft whisper"
+    },
+    {
+      "id": "f09",
+      "speaker": "a10-ella",
+      "text": "Det kilder!",
+      "speech": "Det kilder!",
+      "emotion": "giggling, scrunched up"
+    },
+    {
+      "id": "f10",
+      "speaker": "narrator",
+      "text": "Fra hoved til hale. Blød hånd, langsom hånd.",
+      "speech": "Fra hoved til hale. Blød hånd, langsom hånd.",
+      "emotion": "slow and smooth, following the hand"
+    },
+    {
+      "id": "f11",
+      "speaker": "narrator",
+      "text": "Prrr, prrr.",
+      "speech": "Prrr, prrr.",
+      "emotion": "low and cosy, like the purr itself"
+    },
+    {
+      "id": "f12",
+      "speaker": "a10-ella",
+      "text": "Blød hånd, langsom hånd.",
+      "speech": "Blød hånd, langsom hånd.",
+      "emotion": "whispering to herself, very serious"
+    },
+    {
+      "id": "f13",
+      "speaker": "narrator",
+      "text": "Så går Sky sin vej.",
+      "speech": "Så går Sky sin vej.",
+      "emotion": "calm, matter-of-fact, no sadness"
+    },
+    {
+      "id": "f14",
+      "speaker": "a10-ella",
+      "text": "Hej hej, Sky!",
+      "speech": "Hej hej, Sky!",
+      "emotion": "a happy little wave in the voice"
+    },
+    {
+      "id": "f15",
+      "speaker": "a10-ella",
+      "text": "Plask, plask!",
+      "speech": "Plask, plask!",
+      "emotion": "bright and splashy"
+    },
+    {
+      "id": "f16",
+      "speaker": "narrator",
+      "text": "Og Sky vasker sit ansigt i solen.",
+      "speech": "Og Sky vasker sit ansigt i solen.",
+      "emotion": "slow and peaceful, the last words"
+    }
+  ],
+  "activity": {
+    "title": "Føleposen",
+    "goal": "At sætte ord på hvordan ting føles: blød, ru, glat og svampet.",
+    "materials": [
+      "En stofpose uden snor",
+      "En uldhue",
+      "En stor kogle",
+      "En glat sten, større end barnets knytnæve",
+      "En ny køkkensvamp"
+    ],
+    "steps": [
+      {
+        "n": 1,
+        "caption": "Fire ting kommer i posen."
+      },
+      {
+        "n": 2,
+        "caption": "Hånden ned. Føl på én ting."
+      },
+      {
+        "n": 3,
+        "caption": "Blød? Ru? Glat? Svampet?"
+      },
+      {
+        "n": 4,
+        "caption": "Tag den op. Se!"
+      },
+      {
+        "n": 5,
+        "caption": "Nu føler den voksne."
+      }
+    ],
+    "safety": "Alle ting er større end barnets knytnæve, og intet kommer i munden. Fjern svampen eller koglen hvis barnet tygger på den, eller hvis den går i stykker. Posen må ikke have snor. Sker der et uheld, så ring til det lokale alarmnummer.",
+    "forAdult": "I historien lærer Ella at have en blød, langsom hånd over for katten Sky. At være forsigtig begynder med at mærke hvordan ting føles, og denne leg giver barnet ordene for det. Læg de fire ting i posen. Barnet stikker hånden ned, tager fat i én ting og føler på den. Spørg »Hvordan føles den?«, og vent lidt før du hjælper med ordet: blød, ru, glat eller svampet. Så tager barnet tingen op for at se efter, og I siger ordet sammen. Stryg langsomt over uldhuen og sig »Blød hånd, langsom hånd«, ligesom Ella. Byt så: Du føler, og barnet spørger. Gør det lettere ved kun at bruge to ting der føles meget forskellige, for eksempel huen og stenen. Gør det sværere ved at lade barnet gætte tingen før den kommer op (»Er det stenen?«). Fem til ti minutter er rigeligt. Vask hænder bagefter hvis tingene har været udenfor.",
+    "inClass": "Sid i en lille rundkreds: én voksen med højst fire børn. Posen går rundt. Hvert barn føler på én ting, siger et ord for den og tager den op for at se efter, mens alle siger ordet sammen. Tingen kommer tilbage i posen til det næste barn."
+  }
+}

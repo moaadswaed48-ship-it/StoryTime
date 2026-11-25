@@ -1,7 +1,10 @@
 import { useId, type ReactNode } from 'react'
+import { data, useLoaderData } from 'react-router'
 import { PRICES } from '@/data/prices'
 import { PASS_MONTHS } from '@/data/types'
 import { ImpactChart } from '@/features/landing/ImpactChart'
+import { isLang } from '@/i18n/config'
+import { loadLanding } from '@/i18n/landing'
 import { useLang } from '@/i18n/use-dict'
 import { langData, pageMeta } from '@/seo/meta'
 import { localPath } from '@/seo/paths'
@@ -15,6 +18,14 @@ export const meta: Route.MetaFunction = ({ matches }) => {
   const d = langData(matches)
   return d ? pageMeta({ lang: d.lang, page: '', title: d.dict.pages.landing.title, description: d.dict.pages.landing.description, siteName: d.dict.common.siteName }) : []
 }
+
+async function load(lang: string | undefined) {
+  if (!isLang(lang)) throw data(null, { status: 404 })
+  return { landing: await loadLanding(lang) }
+}
+/** The landing words load here, not in the shared dictionary, so other pages never carry them (src/i18n/landing.ts). */
+export const loader = ({ params }: Route.LoaderArgs) => load(params.lang)
+export const clientLoader = ({ params }: Route.ClientLoaderArgs) => load(params.lang)
 
 /** Sources for the research lines (docs/research/ages-raw.md: WHO in section C, the two studies in section F). */
 const SOURCES = {
@@ -30,7 +41,7 @@ const SOURCES = {
  */
 export default function Landing() {
   const { lang, dict } = useLang()
-  const t = dict.landing
+  const t = useLoaderData<typeof loader>().landing
   const c = dict.commerce
   const signUp = localPath(lang, 'sign-up')
   const plans = localPath(lang, 'plans')
@@ -99,7 +110,7 @@ export default function Landing() {
         {/* 4. Evidence: illustration graph beside verified research only. */}
         <Block title={t.evidence.title}>
           <div className="grid gap-6 md:grid-cols-2 md:items-start">
-            <ImpactChart />
+            <ImpactChart words={t.evidence.chart} />
             <div className="flex flex-col gap-3">
               <h3 className="text-lg font-semibold">{t.evidence.researchTitle}</h3>
               <ul className="flex flex-col gap-3">
@@ -126,7 +137,7 @@ export default function Landing() {
                 <span aria-hidden="true" className="grid size-9 shrink-0 place-items-center rounded-full bg-ink text-lg font-semibold text-paper">{i + 1}</span>
                 <div className="flex flex-col gap-1">
                   <h3 className="font-semibold">{t.steps[k].title}</h3>
-                  <p className="text-ink-muted">{t.steps[k].text}</p>
+                  <p className="text-ink-muted"><Ranges text={t.steps[k].text} /></p>
                 </div>
               </li>
             ))}
@@ -186,7 +197,7 @@ export default function Landing() {
                   <span>{item.q}</span>
                   <span aria-hidden="true" className="grid size-7 shrink-0 place-items-center rounded-full border border-ink text-lg leading-none transition-transform group-open:rotate-45 motion-reduce:transition-none">+</span>
                 </summary>
-                <p className="px-4 pb-4">{item.a}</p>
+                <p className="px-4 pb-4"><Ranges text={item.a} /></p>
               </details>
             ))}
           </div>
@@ -204,11 +215,16 @@ function Block({ title, lead, children }: { title: string; lead?: string; childr
     <section aria-labelledby={id} className="flex flex-col gap-5 border-t border-line py-10 sm:py-14">
       <div className="flex flex-col gap-2">
         <h2 id={id} className="text-2xl font-semibold text-balance sm:text-3xl">{title}</h2>
-        {lead && <p className="max-w-prose text-lg text-ink-muted">{lead}</p>}
+        {lead && <p className="max-w-prose text-lg text-ink-muted"><Ranges text={lead} /></p>}
       </div>
       {children}
     </section>
   )
+}
+
+/** Keeps an age range such as "2–3" on one line, so a phone never breaks it after the dash. */
+function Ranges({ text }: { text: string }) {
+  return <>{text.split(/(\d+–\d+)/).map((part, i) => (i % 2 ? <span key={i} className="whitespace-nowrap">{part}</span> : part))}</>
 }
 
 function Chip({ children }: { children: string }) {

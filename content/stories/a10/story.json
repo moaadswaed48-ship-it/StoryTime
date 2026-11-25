@@ -1,0 +1,197 @@
+{
+  "id": "a10",
+  "ageGroups": ["2-3"],
+  "owner": "storytime",
+  "lesson": "Touch an animal gently, and let it go when it walks away.",
+  "cast": ["a10-ella", "a10-brother", "a10-cloud"],
+  "pages": [
+    {
+      "n": 1,
+      "art": "Spring afternoon in the courtyard of a block of flats: a few windows above, plant pots, a low stone wall along one side, a garden tap, and a bright patch of sun in one corner. Cloud, a round grey cat with a white chest, sits on top of the wall, tail curled round her paws, looking straight at the reader. Feeling: a calm hello. Calm area: the plain wall of the building across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 2,
+      "art": "Cloud walks along the top of the wall, tail held straight up, one paw lifted. Below, on the front step of the building, Ella and her big brother sit side by side and watch her, heads turned the same way. Feeling: a daily ritual, peaceful. Calm area: the building wall across the top.",
+      "zone": { "side": "full", "v": "top", "size": "s" },
+      "image": null
+    },
+    {
+      "n": 3,
+      "art": "Cloud lands softly on the courtyard tiles, front paws first, and walks towards the step. Ella's mouth is a round O of surprise. Her brother smiles. Feeling: excitement, something new. Calm area: the plain tiles across the bottom.",
+      "zone": { "side": "full", "v": "bottom", "size": "s" },
+      "image": null
+    },
+    {
+      "n": 4,
+      "art": "Ella stands up with both arms flung wide, fingers spread, ready to grab; her face full of love and too much excitement. Cloud has stopped, ears a little back, one paw raised. Her brother is just turning towards Ella. Comic and warm, not scary: Cloud only looks unsure. Calm area: the wall across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 5,
+      "art": "The brother crouches low, one hand resting lightly on Ella's arm, his other hand held out near the ground with one finger pointing gently towards Cloud, very still. He whispers, his face calm. Ella has lowered her arms and watches him. Calm area: the wall across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 6,
+      "art": "Close-up: Cloud stretches her neck and sniffs the brother's fingertip; her whiskers point forward, her eyes half-closed. Ella's face, close behind, watches with great attention. Calm area: soft plain background across the top.",
+      "zone": { "side": "full", "v": "top", "size": "s" },
+      "image": null
+    },
+    {
+      "n": 7,
+      "art": "Ella crouches and holds out one small finger, low. Cloud sniffs it; her whiskers touch Ella's hand. Ella scrunches her shoulders up and giggles. Feeling: delight, a ticklish surprise. Calm area: the plain tiles across the bottom.",
+      "zone": { "side": "full", "v": "bottom", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 8,
+      "art": "Ella strokes Cloud's back with a flat, open hand, from the head towards the tail. A faint curved line behind her hand shows the direction of the stroke (a soft line, not an arrow). Cloud leans into the hand. Her brother watches, smiling. Calm area: the wall across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 9,
+      "art": "Cloud with eyes closed, tail straight up with the tip curled, two or three tiny wavy lines round her body showing the purr. Ella's hand rests still on her back; Ella's eyes are closed too, smiling. Feeling: deep calm. Calm area: the wall across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 10,
+      "art": "Cloud has stood up and walks away across the courtyard towards the sunny corner, tail up. Ella stays on the step and waves one hand; her brother waves too. Nobody follows her. Feeling: a calm goodbye. Calm area: the shady wall across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 11,
+      "art": "At the garden tap, Ella and her brother wash their hands: a few round water drops sparkle. In the sunny corner behind them, Cloud sits and licks one paw to wash her face. Last picture: warm late light, everyone content. Calm area: the building wall across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    }
+  ],
+  "film": {
+    "targetSeconds": 145,
+    "shots": [
+      {
+        "n": 1,
+        "page": 1,
+        "action": "10 s. Scene 1, the courtyard. Wide and still: plant pots, the low wall, the tap, a patch of sun in one corner. Hold 3 s on the empty courtyard, then Cloud's head appears over the top of the wall and she hops up onto it. Keep the lower fifth calm for captions.",
+        "sound": ["sparrows in the distance", "a soft breeze", "gentle music: a light, slow tune on a xylophone"],
+        "lines": ["f01"]
+      },
+      {
+        "n": 2,
+        "page": 2,
+        "action": "10 s. Cloud walks along the top of the wall, tail up; the camera follows her slowly. Below, Ella and her brother on the step turn their heads together as she passes.",
+        "sound": ["the tune, one note on each paw step"],
+        "lines": ["f02"]
+      },
+      {
+        "n": 3,
+        "page": 3,
+        "action": "8 s. Cloud jumps down and lands softly. Ella's mouth opens in a round O.",
+        "sound": ["a soft landing", "Ella's gasp"],
+        "lines": ["f03"]
+      },
+      {
+        "n": 4,
+        "page": 3,
+        "action": "8 s. Cloud walks towards the step, slowly. 3 s with no words, then the line.",
+        "sound": ["quiet paw steps"],
+        "lines": ["f04"]
+      },
+      {
+        "n": 5,
+        "page": 4,
+        "action": "8 s. Ella jumps up with her arms wide open. Cloud stops, one paw in the air, ears a little back. The music pauses on one note.",
+        "sound": ["the tune stops on a held note"],
+        "lines": ["f05"]
+      },
+      {
+        "n": 6,
+        "page": 5,
+        "action": "9 s. The brother lays a hand lightly on Ella's arm and whispers. Then he crouches and holds out one finger near the ground, very still. Ella lowers her arms.",
+        "sound": ["a whisper", "the held note fades"],
+        "lines": ["f06"]
+      },
+      {
+        "n": 7,
+        "page": 6,
+        "action": "10 s. Scene 2, the slow way. Close-up: Cloud stretches her neck and sniffs the brother's finger; her whiskers twitch. Only Cloud moves.",
+        "sound": ["two tiny sniffs", "the tune returns, softer"],
+        "lines": ["f07", "f08"]
+      },
+      {
+        "n": 8,
+        "page": 7,
+        "action": "10 s. Ella crouches and holds out one finger. Cloud sniffs it; her whiskers brush Ella's hand. Ella scrunches up her shoulders and giggles.",
+        "sound": ["a sniff", "Ella's giggle"],
+        "lines": ["f09"]
+      },
+      {
+        "n": 9,
+        "page": 8,
+        "action": "12 s. Ella's open hand strokes Cloud's back from head to tail, slowly, twice. A faint soft trail of light follows the hand along the fur. The line falls on the strokes.",
+        "sound": ["a soft brush of fur", "the tune, slow"],
+        "lines": ["f10"]
+      },
+      {
+        "n": 10,
+        "page": 9,
+        "action": "10 s. Cloud closes her eyes; tiny wavy lines round her body pulse gently with the purr; her tail rises. 3 s of purring with no words after the line: a breathing moment.",
+        "sound": ["a low, gentle purr"],
+        "lines": ["f11"]
+      },
+      {
+        "n": 11,
+        "page": 9,
+        "action": "8 s. Close on Ella, eyes closed, whispering the refrain to herself, her hand still on Cloud's back.",
+        "sound": ["the purr, quieter"],
+        "lines": ["f12"]
+      },
+      {
+        "n": 12,
+        "page": 10,
+        "action": "10 s. Scene 3, letting go. Cloud stands, stretches long, and walks away towards the sunny corner. Ella's hand stays in the air for a moment, then she waves.",
+        "sound": ["paw steps", "the tune, one last phrase"],
+        "lines": ["f13", "f14"]
+      },
+      {
+        "n": 13,
+        "page": 10,
+        "action": "8 s. Cloud settles in the patch of sun and curls her tail round her paws. No words: a breathing moment.",
+        "sound": ["sparrows", "a soft breeze"],
+        "lines": []
+      },
+      {
+        "n": 14,
+        "page": 11,
+        "action": "10 s. At the tap: Ella and her brother wash their hands; a few water drops sparkle and fall.",
+        "sound": ["water from a tap", "Ella's happy laugh"],
+        "lines": ["f15"]
+      },
+      {
+        "n": 15,
+        "page": 11,
+        "action": "14 s. Closing image. Cloud in the sunny corner licks one paw and washes her face. Then she stops and closes her eyes. Nothing moves. Hold 6 s while the music ends, then stop. No autoplay, no next film.",
+        "sound": ["the last note of the tune", "sparrows far away"],
+        "lines": ["f16"]
+      }
+    ]
+  },
+  "activity": {
+    "minutes": 10,
+    "materials": ["cloth-bag-no-drawstring", "woolly-hat", "large-pinecone", "smooth-stone-bigger-than-fist", "new-kitchen-sponge"],
+    "steps": [
+      { "n": 1, "picture": "The grown-up puts four things into a cloth bag: a woolly hat, a big pinecone, a big smooth stone and a kitchen sponge.", "loop": false },
+      { "n": 2, "picture": "The child's hand reaches into the bag; the bag is held open by the grown-up. The child's face is concentrating, eyes looking up.", "loop": true },
+      { "n": 3, "picture": "The child's face says a word, eyes wide; four small pictures float beside: a soft hat, a rough pinecone, a smooth stone, a squishy sponge.", "loop": false },
+      { "n": 4, "picture": "The child pulls the woolly hat out of the bag and holds it up, laughing.", "loop": true },
+      { "n": 5, "picture": "Now the grown-up's hand is in the bag and the child holds it open: they swap.", "loop": false }
+    ],
+    "checkedAgainst": "docs/story-room/age-2-3.md section 7 (tube test, no drawstring loops, nothing in the mouth) and section 4 (activity limits), 25 Nov 2026"
+  }
+}

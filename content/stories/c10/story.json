@@ -1,0 +1,150 @@
+{
+  "id": "c10",
+  "ageGroups": ["6-8"],
+  "owner": "storytime",
+  "lesson": "Many birds fly far between their summer and winter homes, and why: white storks ride rising warm air over land, by day, to where there is food in winter.",
+  "cast": ["c10-girl", "c10-grandfather"],
+  "pages": [
+    {
+      "n": 1,
+      "art": "Late summer in a cool northern country: green fields, a marsh with reeds, a village rooftop with a big round stork nest of sticks. On the nest stands Long-Legs, a young white stork (white body, black wing feathers, long red legs and a long red beak, a little scruffy, the beak still slightly darker than an adult's). In the pale sky above the fields, a great loose circle of storks, drawn as one stork silhouette repeated in a turning ring. Feeling: the end of summer, something about to begin. Calm area: the pale sky across the top, above the circling ring.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 2,
+      "art": "On the edge of a field, Long-Legs stands beside a big stork (taller, neater feathers, a bright red beak, calm eyes), looking up at her. The big stork has her beak pointed up as she clatters it. Behind them, the marsh is still and grey; a few dry reeds. Feeling: a question, a gentle answer. Calm area: the grey sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 3,
+      "art": "Long-Legs just above the field, flapping hard, feathers ruffled, a few little motion lines; he is barely off the ground and his legs dangle. The big stork stands below on the grass, watching, head tilted. Feeling: effort, comic frustration. Calm area: the empty sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 4,
+      "art": "Early morning: a line of storks standing still on a field and on a fence, waiting. The low sun has just cleared the hills and lights the ground gold. Above the brightest patch of field, the rising warm air is shown as a few faint, wavy, transparent stripes curling upward in a tall column, like heat shimmer made visible. Feeling: patience, a secret about to be shown. Calm area: the sky across the top, beside the shimmer.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 5,
+      "art": "Inside the invisible tower: the big stork and Long-Legs circling upward with wings spread wide and still, the faint wavy stripes of warm air turning around them; below, the fields grow smaller. Long-Legs' eyes are wide with delight. Feeling: lift, joy, wonder. Calm area: the open sky at the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 6,
+      "art": "A wide view across the sky: on the left, a tall spiral of storks (one silhouette repeated, turning); from its top, a long line of storks gliding down and away to the right, necks stretched forward, towards a second spiral far away. The land below in flat bands of green and brown. Feeling: the rhythm of the journey: up, glide, up. Calm area: the plain sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 7,
+      "art": "The flock at the edge of the land: below them a curving shore, and beyond it a wide, flat, blue sea in layered bands reaching to the horizon, with no birds over it. Long-Legs leans towards the sea; the big stork turns along the shore, and the flock bends after her. Feeling: a wise choice. Calm area: the sky above the sea, across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 8,
+      "art": "Evening: storks resting in a field and on a tall bare tree, many standing on one leg with their beaks tucked down on their chests. Long-Legs on a low branch, eyes half closed. The sky deep blue with the first stars. Feeling: rest, safety, a long day done. Calm area: the night sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 9,
+      "art": "A tall picture of the land below changing, seen from above in horizontal bands from top to bottom: dark green forest with a river, then brown rolling hills, then pale dry fields and a few small white houses. A short line of storks gliding across the middle. Feeling: distance, days passing. Calm area: a plain band of pale sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 10,
+      "art": "A green valley between brown hills, its floor a patchwork of rectangular fishponds shining silver and blue, with green fields between them. A great white spiral of storks (one silhouette repeated) is coming down into the valley; many already stand at the edges of the ponds. Feeling: arrival, plenty. Calm area: the sky above the hills, across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 11,
+      "art": "On a dry grassy hill above the valley, in the shade of a small tree, a girl kneels with binoculars to her eyes; her grandfather sits beside her on a folding stool with a notebook open on his knee, drawing tally marks (four upright lines and one across, no digits). Below them, the valley of ponds and storks. Afternoon light. Feeling: excitement, sharing. Calm area: the sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 12,
+      "art": "Split picture: on the left, close on the notebook page filling up with rows of tally gates (four lines and one across), the girl's pencil moving. On the right, down by a pond, Long-Legs standing on one leg, looking up towards the hill; the girl, small on the hilltop, lowers her binoculars and waves. Feeling: a meeting without words. Calm area: the sky above the hill, across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 13,
+      "art": "Morning in the valley: the ponds pale and misty, then sun on the field. Long-Legs, first, wings spread, rising in a turn; behind and below him the other storks lift into the same spiral. The faint wavy stripes of warm air turn around them. Feeling: confidence, he knows the way now. Calm area: the sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 14,
+      "art": "Last picture of the book: the girl and her grandfather on the hill, seen from behind, looking up at a slow white spiral of storks drifting away to the south in the morning sky. The girl holds her open notebook against her chest; on the open page is her own small drawing of a stork. Feeling: goodbye and hope. Calm area: the sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    }
+  ],
+  "film": {
+    "targetSeconds": 377,
+    "shots": [
+      { "n": 1, "page": 1, "action": "12 s. Scene 1, the north. Wide on green fields and a marsh in cool late-summer light; a village roof with a big stick nest. The camera drifts slowly towards the nest. No words. Keep the lower fifth calm for captions in every shot.", "sound": ["wind in reeds", "a slow, airy tune on a wooden flute"], "lines": [] },
+      { "n": 2, "page": 1, "action": "10 s. Long-Legs on the nest, stretching his long legs, wobbling, then standing proud.", "sound": ["a soft beak clatter"], "lines": ["f01", "f02"] },
+      { "n": 3, "page": 1, "action": "10 s. He looks up: a great ring of storks circles over the fields (one silhouette repeated in a turning ring), clattering their beaks.", "sound": ["many beaks clattering, like soft wooden rattles"], "lines": [] },
+      { "n": 4, "page": 1, "action": "8 s. The ring of storks passes over the nest; its shadow slides over the roof. Long-Legs ducks, then looks up again, curious. No words.", "sound": ["wings passing overhead"], "lines": [] },
+      { "n": 5, "page": 2, "action": "9 s. On the edge of the field, Long-Legs stands beside the big stork and looks up at her.", "sound": ["cool wind"], "lines": ["f03"] },
+      { "n": 6, "page": 2, "action": "11 s. The big stork lifts her beak and clatters, then answers. The camera looks past her at the still marsh and the dry reeds.", "sound": ["a beak clatter", "the tune, low"], "lines": ["f04"] },
+      { "n": 7, "page": 3, "action": "8 s. Long-Legs flaps as hard as he can: up a little, down again, up a little. Comic, no words.", "sound": ["frantic flapping", "a wobbly bassoon note"], "lines": [] },
+      { "n": 8, "page": 3, "action": "7 s. He lands in a heap, puffing.", "sound": ["a soft thump", "puffing"], "lines": ["f05"] },
+      { "n": 9, "page": 3, "action": "7 s. The big stork tilts her head and looks at the sky.", "sound": ["a gentle chord"], "lines": ["f06"] },
+      { "n": 10, "page": 4, "action": "10 s. Scene 2, the warm air. Dawn: storks stand still on the cold field and on a fence, waiting. Nobody moves. A breath, no words.", "sound": ["morning birds", "silence between notes"], "lines": [] },
+      { "n": 11, "page": 4, "action": "12 s. The sun clears the hills and lights the ground gold. Above the brightest patch, faint wavy stripes appear and begin to turn and rise in a tall, slow column: the warm air made visible.", "sound": ["a soft rising shimmer", "the flute climbing"], "lines": ["f07"] },
+      { "n": 12, "page": 5, "action": "6 s. The big stork opens her wings.", "sound": ["a whoosh of wings"], "lines": ["f08"] },
+      { "n": 13, "page": 5, "action": "12 s. The big stork steps into the column and is carried up in slow circles without one flap; Long-Legs follows, wings wide and still, and rises too. The camera turns with them as the fields shrink below.", "sound": ["wind rushing softly", "the tune swells, turning like a waltz"], "lines": ["f09"] },
+      { "n": 14, "page": 5, "action": "8 s. Close on Long-Legs' face in the turning air: eyes wide, delighted. No words.", "sound": ["a happy trill in the flute"], "lines": [] },
+      { "n": 15, "page": 6, "action": "12 s. At the top of the tower, the storks are tiny specks. They stretch out their necks and glide south in a long, slanting line, down and down, towards the next turning tower far away.", "sound": ["a long gliding note"], "lines": ["f10"] },
+      { "n": 16, "page": 6, "action": "10 s. Rhythm of the journey in one smooth move: circle up, glide down, circle up again, the flock drawn as one repeated silhouette. No words.", "sound": ["the waltz tune, up and down"], "lines": [] },
+      { "n": 17, "page": 7, "action": "9 s. Scene 3, the sea. The land ends in a curving shore; beyond it, a flat blue sea in layered bands, all the way to the sky. No birds over it.", "sound": ["far-off waves", "gulls"], "lines": [] },
+      { "n": 18, "page": 7, "action": "6 s. Long-Legs tilts towards the sea, eager.", "sound": ["a bright little note"], "lines": ["f11"] },
+      { "n": 19, "page": 7, "action": "9 s. Over the water the warm-air stripes are missing: the air lies flat and still. The big stork turns along the shore and answers.", "sound": ["the tune, calm and sure"], "lines": ["f12"] },
+      { "n": 20, "page": 7, "action": "8 s. The whole flock bends after her and follows the coastline, a long white curve. No words.", "sound": ["wings", "waves"], "lines": [] },
+      { "n": 21, "page": 8, "action": "10 s. Scene 4, evening. The air cools, the warm towers fade, and the storks come down to a field and a tall bare tree.", "sound": ["wings settling", "crickets"], "lines": ["f13"] },
+      { "n": 22, "page": 8, "action": "10 s. Storks on one leg, beaks tucked down; Long-Legs on a low branch, eyes closing. The first stars come out. A breath, no words.", "sound": ["crickets", "a soft lullaby phrase on the flute"], "lines": [] },
+      { "n": 23, "page": 9, "action": "12 s. Scene 5, the journey. Seen from above, the land slides by beneath the flying flock in flat bands: dark forest and a river, then brown hills, then dry fields and small white houses. Day, night, day again in quick soft fades.", "sound": ["the journey tune, steady"], "lines": ["f14"] },
+      { "n": 24, "page": 9, "action": "8 s. Long-Legs glides easily now, no puffing, steady among the others. No words.", "sound": ["wind"], "lines": [] },
+      { "n": 25, "page": 10, "action": "10 s. Scene 6, the valley. A green valley full of shining ponds opens below. The big stork calls.", "sound": ["a beak clatter", "a bright chord"], "lines": ["f15"] },
+      { "n": 26, "page": 10, "action": "12 s. A great white spiral of storks pours down into the valley, turning, landing at the edges of the ponds; the camera follows Long-Legs down to the water.", "sound": ["hundreds of wings", "splashes", "beaks clattering"], "lines": ["f16"] },
+      { "n": 27, "page": 10, "action": "8 s. Storks walk in the shallow edges and eat. Long-Legs looks around at so many storks. No words.", "sound": ["water", "frogs"], "lines": [] },
+      { "n": 28, "page": 10, "action": "8 s. Evening in the valley: the ponds turn pink, and storks stand in long rows along the banks. A breath. No words.", "sound": ["frogs", "crickets"], "lines": [] },
+      { "n": 29, "page": 11, "action": "9 s. Scene 7, the hill. Up on a dry hill, a girl lies on her tummy with binoculars; her grandfather sits on a folding stool with a notebook.", "sound": ["grasshoppers", "a new, warm theme on guitar"], "lines": ["f17"] },
+      { "n": 30, "page": 11, "action": "10 s. The grandfather draws four upright lines and one across them in the notebook, slowly, then hands her the pencil.", "sound": ["pencil scratches"], "lines": ["f18"] },
+      { "n": 31, "page": 12, "action": "11 s. The girl counts and draws, counts and draws; rows of little gates fill the page. She counts on the beat.", "sound": ["pencil strokes in a rhythm", "five beats and a chime, again"], "lines": ["f19"] },
+      { "n": 32, "page": 12, "action": "9 s. Through the binoculars (a circle view): one young stork by a pond, standing on one leg, looking straight up at the hill.", "sound": ["a single soft note"], "lines": ["f20"] },
+      { "n": 33, "page": 12, "action": "8 s. She lowers the binoculars and waves. Far below, Long-Legs tilts his head. No words.", "sound": ["the warm theme, tender"], "lines": [] },
+      { "n": 34, "page": 13, "action": "9 s. Scene 8, morning. Mist on the ponds; the storks wait. The sun warms the field and the faint stripes start to turn.", "sound": ["morning birds", "the shimmer"], "lines": ["f21"] },
+      { "n": 35, "page": 13, "action": "8 s. Long-Legs opens his wings first and steps into the warm air.", "sound": ["one whoosh"], "lines": ["f22"] },
+      { "n": 36, "page": 13, "action": "12 s. He circles up, and the others rise behind him into the same turning tower, round and round, up and up. The camera turns with them.", "sound": ["the waltz tune returns, full"], "lines": ["f23"] },
+      { "n": 37, "page": 13, "action": "8 s. The turning tower of storks leans and drifts south; below, the ponds and the hill grow small. No words.", "sound": ["the waltz, drifting away"], "lines": [] },
+      { "n": 38, "page": 14, "action": "9 s. On the hill, the girl and her grandfather watch the slow white tower drift south.", "sound": ["the warm theme and the waltz together"], "lines": ["f24", "f25"] },
+      { "n": 39, "page": 14, "action": "8 s. The girl draws one more stork in her notebook, smiling.", "sound": ["pencil"], "lines": ["f26"] },
+      { "n": 40, "page": 14, "action": "14 s. Closing image: an empty, bright morning sky with one last faint spiral far to the south, and the valley of shining ponds below. Nothing moves but the light. Hold the still picture 6 s while the music ends, then stop. No autoplay.", "sound": ["the last notes of the flute", "wind"], "lines": [] }
+    ]
+  },
+  "activity": {
+    "minutes": 20,
+    "materials": ["paper", "pencil"],
+    "steps": [
+      { "n": 1, "picture": "A child and a grown-up sit on a blanket in the shade of a tree in the early evening, both in sun hats, a water bottle beside them. The child draws three columns on a sheet of paper, with a small, a medium and a big bird drawn at the top of each.", "loop": false },
+      { "n": 2, "picture": "The child looks up and points at a bird flying across the sky; the grown-up looks where the child points.", "loop": true },
+      { "n": 3, "picture": "Close on the paper: the child draws one more tally line in the 'big bird' column; earlier marks are grouped as four upright lines with a fifth line across.", "loop": true },
+      { "n": 4, "picture": "The child counts the tally gates in one column, a finger on each gate, lips moving.", "loop": false },
+      { "n": 5, "picture": "The child circles the column with the most gates and grins; the grown-up holds up a thumb.", "loop": false }
+    ],
+    "checkedAgainst": "docs/story-room/age-6-8.md section 7 (red list, outdoors) and section 4 (activity limits), 25 Nov 2026"
+  }
+}

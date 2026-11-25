@@ -85,7 +85,7 @@
     }
   ],
   "film": {
-    "targetSeconds": 262,
+    "targetSeconds": 250,
     "shots": [
       { "n": 1, "page": 1, "action": "12 s. Scene 1, evening on the hills. Fade up on flat bands of gold and purple sky; the sun sinks slowly behind the far hill. Slow pan across the slope to the goats grazing. Keep the lower fifth calm for captions in every shot.", "sound": ["evening wind in dry grass", "a few goat bells, far away", "gentle music"], "lines": ["f01"] },
       { "n": 2, "page": 1, "action": "8 s. Auntie lifts her staff and calls; one by one the goats raise their heads. Rafi skips to her side.", "sound": ["bells, closer"], "lines": ["f02"] },

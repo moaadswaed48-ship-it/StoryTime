@@ -1,0 +1,58 @@
+[
+  {
+    "id": "c02-mira",
+    "name": { "ar": "مِيرا", "he": "מִירָה", "en": "Mira", "da": "Mira" },
+    "stage": "child",
+    "build": { "height": 0.68, "heads": 4.9, "girth": 0.42, "shoulders": 1.15 },
+    "skin": "#c68a5e",
+    "hair": { "style": "ponytail", "color": "#2a1a14" },
+    "eyes": { "color": "#3a2418", "size": 0.74 },
+    "brows": { "color": "#2a1a14", "weight": 0.6 },
+    "top": { "style": "tee", "color": "#e8705a", "trim": "#fff3d6", "pattern": "plain" },
+    "bottom": { "style": "trousers", "color": "#36507e" },
+    "shoes": { "style": "shoes", "color": "#f4f0e6" },
+    "manner": "Quick and bouncy, always moving on her toes; notices things from the corner of her eye; when she decides something she goes very still for a breath, then walks straight to it."
+  },
+  {
+    "id": "c02-adrian",
+    "name": { "ar": "أَدْرِيان", "he": "אַדְרִיאָן", "en": "Adrian", "da": "Adrian" },
+    "stage": "child",
+    "build": { "height": 0.72, "heads": 5, "girth": 0.4, "shoulders": 1.1 },
+    "skin": "#f0cfae",
+    "hair": { "style": "curls", "color": "#7a4a2c" },
+    "eyes": { "color": "#4f7a5a", "size": 0.72 },
+    "brows": { "color": "#7a4a2c", "weight": 0.6 },
+    "top": { "style": "tee", "color": "#4f8fbf", "trim": "#f4ecd8", "pattern": "stripes" },
+    "bottom": { "style": "shorts", "color": "#3a3a44" },
+    "shoes": { "style": "shoes", "color": "#d8563e" },
+    "manner": "Tall with long legs he has not quite caught up with; careful and thoughtful; goes red at the ears when he is embarrassed; once he trusts the beat, he moves smoothly and calmly."
+  },
+  {
+    "id": "c02-fast-jumper",
+    "name": { "ar": "أَسْرَع القافِزين", "he": "הַקּוֹפֵץ הַמָּהִיר", "en": "the fastest jumper", "da": "den hurtigste hopper" },
+    "stage": "child",
+    "build": { "height": 0.74, "heads": 5, "girth": 0.46, "shoulders": 1.25 },
+    "skin": "#8a5636",
+    "hair": { "style": "short", "color": "#1c1210" },
+    "eyes": { "color": "#2e1c14", "size": 0.7 },
+    "brows": { "color": "#1c1210", "weight": 0.8 },
+    "top": { "style": "tee", "color": "#f0a030", "trim": "#ffffff", "pattern": "plain" },
+    "bottom": { "style": "shorts", "color": "#2f5f6a" },
+    "shoes": { "style": "shoes", "color": "#ffffff" },
+    "manner": "Loud, quick and sure of himself; folds his arms and raises one eyebrow; but when he gets something wrong he laughs first and loudest, and he likes a fair rule."
+  },
+  {
+    "id": "c02-first-grader",
+    "name": { "ar": "بِنت مِن الصَفّ الأوَّل", "he": "יַלְדָּה מִכִּתָּה רִאשׁוֹנָה", "en": "a first-grader", "da": "en pige fra første klasse" },
+    "stage": "child",
+    "build": { "height": 0.56, "heads": 4.3, "girth": 0.48, "shoulders": 1.05 },
+    "skin": "#e7b48a",
+    "hair": { "style": "bob", "color": "#3b2118" },
+    "eyes": { "color": "#5a3a24", "size": 0.85 },
+    "brows": { "color": "#3b2118", "weight": 0.5 },
+    "top": { "style": "dress", "color": "#6aa56f", "trim": "#fff3d6", "pattern": "dots" },
+    "bottom": { "style": "none", "color": "#6aa56f" },
+    "shoes": { "style": "sandals", "color": "#d8563e" },
+    "manner": "Small and shy at first, edging closer one step at a time; whispers; when something works, her whole body laughs and she wants to do it again straight away."
+  }
+]

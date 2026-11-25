@@ -1,0 +1,45 @@
+[
+  {
+    "id": "a10-ella",
+    "name": { "ar": "إِيلا", "he": "אֵלָה", "en": "Ella", "da": "Ella" },
+    "stage": "toddler",
+    "build": { "height": 0.46, "heads": 3.5, "girth": 0.6, "shoulders": 1.05 },
+    "skin": "#e8bc94",
+    "hair": { "style": "curls", "color": "#8a5232" },
+    "eyes": { "color": "#4f6a4a", "size": 1 },
+    "brows": { "color": "#8a5232", "weight": 0.35 },
+    "top": { "style": "dress", "color": "#f2c14e", "trim": "#ffffff", "pattern": "dots" },
+    "bottom": { "style": "none", "color": "#f2c14e" },
+    "shoes": { "style": "sandals", "color": "#d8563e" },
+    "manner": "All feelings at full size: arms fly open, shoulders scrunch up when she giggles; when she copies her brother she does it very seriously, tongue between her lips."
+  },
+  {
+    "id": "a10-brother",
+    "name": { "ar": "أَخوها", "he": "הָאָח הַגָּדוֹל", "en": "her big brother", "da": "hendes storebror" },
+    "stage": "child",
+    "build": { "height": 0.66, "heads": 4.6, "girth": 0.42, "shoulders": 1.15 },
+    "skin": "#e2b48a",
+    "hair": { "style": "short", "color": "#6e3f24" },
+    "eyes": { "color": "#4f6a4a", "size": 0.75 },
+    "brows": { "color": "#6e3f24", "weight": 0.5 },
+    "top": { "style": "tee", "color": "#4a7fb8", "trim": "#ffffff", "pattern": "stripes" },
+    "bottom": { "style": "shorts", "color": "#5b5f6a" },
+    "shoes": { "style": "shoes", "color": "#f2efe8" },
+    "manner": "About nine; quiet and patient with his little sister; crouches to her height to explain; moves slowly near animals and whispers so he will not startle them."
+  },
+  {
+    "id": "a10-cloud",
+    "name": { "ar": "غَيْمة", "he": "עֲנָנָה", "en": "Cloud", "da": "Sky" },
+    "stage": "toddler",
+    "build": { "height": 0.22, "heads": 3, "girth": 0.7, "shoulders": 1 },
+    "skin": "#9aa0a8",
+    "hair": { "style": "none", "color": "#9aa0a8" },
+    "eyes": { "color": "#c8b24a", "size": 0.8 },
+    "brows": { "color": "#9aa0a8", "weight": 0 },
+    "top": { "style": "tee", "color": "#f2f0ec", "trim": "#9aa0a8", "pattern": "plain" },
+    "bottom": { "style": "none", "color": "#9aa0a8" },
+    "shoes": { "style": "bare", "color": "#f2f0ec" },
+    "animal": "cat",
+    "manner": "NOT A HUMAN FIGURE: a round grey courtyard cat with a white chest and white paws (top colour = chest, skin = grey fur, eyes = amber). Walks with her tail straight up; sniffs a held-out finger with her neck stretched; leans into a gentle hand; walks away calmly when she has had enough. The Studio needs an animal sheet type before drawing her."
+  }
+]

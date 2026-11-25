@@ -1,0 +1,32 @@
+[
+  {
+    "id": "b09-rita",
+    "name": { "ar": "رِيتا", "he": "רִיטָה", "en": "Rita", "da": "Rita" },
+    "stage": "child",
+    "build": { "height": 0.62, "heads": 4.5, "girth": 0.42, "shoulders": 1.12 },
+    "skin": "#c9875e",
+    "hair": { "style": "curls", "color": "#33201a" },
+    "eyes": { "color": "#3a2418", "size": 0.85 },
+    "brows": { "color": "#33201a", "weight": 0.55 },
+    "top": { "style": "jumper", "color": "#2f8f83", "trim": "#f4e3bd", "pattern": "plain" },
+    "bottom": { "style": "trousers", "color": "#4a4a6a" },
+    "shoes": { "style": "shoes", "color": "#c8453a" },
+    "manner": "Quick and determined; runs before she thinks; when cross she crosses her arms and pushes out her bottom lip; when an idea comes, her whole body jumps with it."
+  },
+  {
+    "id": "b09-uncle",
+    "name": { "ar": "خالُها", "he": "הַדּוֹד", "en": "her uncle", "da": "hendes onkel" },
+    "stage": "adult",
+    "build": { "height": 1.02, "heads": 6, "girth": 0.5, "shoulders": 1.6 },
+    "skin": "#b77a52",
+    "hair": { "style": "short", "color": "#241715" },
+    "eyes": { "color": "#3a2418", "size": 0.55 },
+    "brows": { "color": "#241715", "weight": 0.8 },
+    "top": { "style": "coat", "color": "#6b7a4a", "trim": "#e8dcc0", "pattern": "plain" },
+    "bottom": { "style": "trousers", "color": "#3d3a5c" },
+    "shoes": { "style": "shoes", "color": "#5b3420" },
+    "extras": ["beard", "scarf"],
+    "extraColors": { "scarf": "#e9a23b" },
+    "manner": "Calm and patient; says very little; sits close instead of giving advice; his long scarf always blows with the wind, so it shows where the wind comes from."
+  }
+]

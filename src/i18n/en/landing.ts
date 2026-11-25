@@ -46,7 +46,7 @@ export default {
     researchTitle: 'What published research says',
     who: { text: 'The World Health Organization encourages reading and storytelling with a caregiver when children under 5 are sitting still.', source: 'World Health Organization, 2019' },
     durlak: { text: 'A review of 213 school programmes that teach social and emotional skills found that, where school results were measured, children’s results rose by about 11 percentile points.', source: 'Durlak and colleagues, 2011, Child Development' },
-    jones: { text: 'Children whom their kindergarten teachers rated as more helpful and cooperative did better in education and work 13 to 19 years later. This is a link seen over time, not proof of cause.', source: 'Jones, Greenberg and Crowley, 2015, American Journal of Public Health' },
+    jones: { text: 'Children rated by their kindergarten teachers as more helpful and cooperative did better in education and work 13 to 19 years later. This is a link seen over time, not proof of cause.', source: 'Jones, Greenberg and Crowley, 2015, American Journal of Public Health' },
     scope: 'These studies looked at school programmes and at children followed over years. They did not study StoryTime.',
     ownStudy: 'The founders have run their own study with children. It will be published here when it is ready.',
   },

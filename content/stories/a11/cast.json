@@ -1,0 +1,148 @@
+[
+  {
+    "id": "a11-daniel",
+    "name": {
+      "ar": "دانْيال",
+      "he": "דָּנִיֵּאל",
+      "en": "Daniel",
+      "da": "Daniel"
+    },
+    "stage": "toddler",
+    "build": {
+      "height": 0.5,
+      "heads": 3.5,
+      "girth": 0.58,
+      "shoulders": 1.05
+    },
+    "skin": "#a86a44",
+    "hair": {
+      "style": "curls",
+      "color": "#1c1210"
+    },
+    "eyes": {
+      "color": "#2e1c14",
+      "size": 0.95
+    },
+    "brows": {
+      "color": "#1c1210",
+      "weight": 0.5
+    },
+    "top": {
+      "style": "tee",
+      "color": "#e8705a",
+      "trim": "#ffffff",
+      "pattern": "stripes"
+    },
+    "bottom": {
+      "style": "shorts",
+      "color": "#3f6f9a"
+    },
+    "shoes": {
+      "style": "sandals",
+      "color": "#7a4a2c"
+    },
+    "manner": "Points at everything with one straight finger; draws circles in the air with his whole arm; when he finds something he spins round to share it with Uncle."
+  },
+  {
+    "id": "a11-uncle",
+    "name": {
+      "ar": "خالي",
+      "he": "הַדּוֹד",
+      "en": "Uncle",
+      "da": "onkel"
+    },
+    "stage": "adult",
+    "build": {
+      "height": 0.98,
+      "heads": 6,
+      "girth": 0.5,
+      "shoulders": 1.55
+    },
+    "skin": "#b77a50",
+    "hair": {
+      "style": "short",
+      "color": "#241715"
+    },
+    "eyes": {
+      "color": "#3a2418",
+      "size": 0.55
+    },
+    "brows": {
+      "color": "#241715",
+      "weight": 0.8
+    },
+    "top": {
+      "style": "shirt",
+      "color": "#f1ead8",
+      "trim": "#c9b48e",
+      "pattern": "plain"
+    },
+    "bottom": {
+      "style": "trousers",
+      "color": "#4f6a5a"
+    },
+    "shoes": {
+      "style": "shoes",
+      "color": "#6b4030"
+    },
+    "extras": [
+      "glasses",
+      "bag"
+    ],
+    "extraColors": {
+      "glasses": "#3a2a20",
+      "bag": "#3f9a8f"
+    },
+    "manner": "Easy-going and playful; laughs with his whole body; copies Daniel's game at once; always holds Daniel's hand near the platform edge."
+  },
+  {
+    "id": "a11-driver",
+    "name": {
+      "ar": "السائِق",
+      "he": "הַנֶּהָג",
+      "en": "the driver",
+      "da": "togføreren"
+    },
+    "stage": "adult",
+    "build": {
+      "height": 1,
+      "heads": 6,
+      "girth": 0.56,
+      "shoulders": 1.55
+    },
+    "skin": "#d6a07a",
+    "hair": {
+      "style": "bun",
+      "color": "#4a2a22"
+    },
+    "eyes": {
+      "color": "#4a2f22",
+      "size": 0.6
+    },
+    "brows": {
+      "color": "#4a2a22",
+      "weight": 0.6
+    },
+    "top": {
+      "style": "shirt",
+      "color": "#3c4f78",
+      "trim": "#e9c46a",
+      "pattern": "plain"
+    },
+    "bottom": {
+      "style": "trousers",
+      "color": "#2f3a55"
+    },
+    "shoes": {
+      "style": "shoes",
+      "color": "#2a2a2a"
+    },
+    "extras": [
+      "hat"
+    ],
+    "extraColors": {
+      "hat": "#3c4f78"
+    },
+    "manner": "Background figure: seen only through the train's front window; a big friendly wave with a whole open hand."
+  }
+]

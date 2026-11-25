@@ -1,0 +1,130 @@
+{
+  "id": "b03",
+  "ageGroups": ["4-5"],
+  "owner": "storytime",
+  "lesson": "When you are angry, say what is wrong with words, not with your hands.",
+  "cast": ["b03-nina", "b03-rami", "b03-dad"],
+  "pages": [
+    {
+      "n": 1,
+      "art": "A summer morning in a city street. A pale block of flats with a row of balconies (simple repeated rectangles); the pavement in front of it lies in the building's cool morning shade, while the road beyond is bright with sun. Nina, in a sun hat, kneels on the pavement beside an open box of coloured chalk sticks. On a first-floor balcony her father leans on the railing with a watering can by his pot plants, watching her. Feeling: easy, warm, the whole morning ahead. Calm area: the pale wall of the building across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 2,
+      "art": "Seen from above: Nina has drawn a giant chalk sun across the grey pavement slabs: a big yellow circle with an orange middle, nearly as wide as Nina is tall. She sits back on her heels, yellow chalk dust on her fingers and knees, admiring it. Feeling: pride, a big achievement. Calm area: the plain pavement in the bottom band.",
+      "zone": { "side": "full", "v": "bottom", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 3,
+      "art": "Rami, in a bike helmet, whizzes round the corner on his scooter, leaning forward, grinning, looking ahead down the street, not at the ground. His front wheel has just crossed the chalk sun, leaving a smudged grey stripe straight through the middle. A few curved speed lines behind him (no letters). Nina, at the edge of the picture, gasps. Feeling: a sudden, fast surprise. Calm area: the wall across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 4,
+      "art": "Close on Nina: her face is red, warm orange and red colour rising behind her like heat from a road; her hands are tight fists at her sides; her shoulders are up. Rami, a little way off, has stopped his scooter but does not yet see what happened. Feeling: hot, big anger, held inside. Calm area: the plain pavement in the bottom band.",
+      "zone": { "side": "full", "v": "bottom", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 5,
+      "art": "Nina stamps one foot on the pavement (a few small curved lines around her foot) and shouts, mouth wide, one arm pointing at the stripe through her sun. Her fists are open now: one hand points, the other is pressed to her side. Rami's eyebrows shoot up. On the balcony, her father has straightened, listening, but stays where he is. Feeling: loud, clear, honest. Calm area: the wall across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 6,
+      "art": "Rami stands beside his scooter, looking down at the chalk sun and the stripe his wheel made. His cheeks are pink; one hand rubs the back of his helmet. He looks sorry. Nina, arms folded, is still breathing hard. Feeling: the anger meets an apology; things begin to cool. Calm area: the wall across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 7,
+      "art": "Close, from above: the chalk sun with its grey stripe running out from the middle like a long straight ray. Nina's face at the edge, looking at it with her head tilted; the red glow behind her is fading to soft yellow. Feeling: cooling down; an idea arriving. Calm area: the plain pavement in the bottom band.",
+      "zone": { "side": "full", "v": "bottom", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 8,
+      "art": "Rami has laid his scooter down on its side by the wall. He crouches by the chalk box and holds up a yellow chalk stick towards Nina, eyebrows raised in a question. Nina, arms unfolding, gives a small nod. Feeling: a shy offer, accepted. Calm area: the wall across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 9,
+      "art": "Seen from above: Nina and Rami kneel on opposite sides of the sun, both drawing beams outward: long straight beams, short ones, wiggly ones, in yellow and orange. Chalk dust on both of them. The grey stripe is now one beam among many. Feeling: busy, happy teamwork. Calm area: the plain pavement in the bottom band.",
+      "zone": { "side": "full", "v": "bottom", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 10,
+      "art": "Close on the sun's face: Rami draws two round eyes; Nina draws a wide smile and then, laughing, a pair of big dark sunglasses over the eyes. Both children are giggling. Feeling: silly, shared fun. Calm area: the wall across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 11,
+      "art": "Wide: the finished chalk sun fills the pavement from the bench to the lamp post, its beams reaching to the kerb, wearing its sunglasses and smile; the grey stripe is the longest beam. Nina and Rami stand back side by side, chalky hands on hips. Feeling: amazed at what they made together. Calm area: the wall across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 12,
+      "art": "Her father leans over the balcony railing, smiling broadly, one hand cupped to call down. Below, Nina and Rami look up and laugh. Feeling: warm, proud, the day turned good. Calm area: the plain pavement in the bottom band.",
+      "zone": { "side": "full", "v": "bottom", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 13,
+      "art": "Nina and Rami sit side by side on the doorstep of the building, in the shade, chalky and happy, the scooter beside them. In front of them the giant chalk sun with the long grey beam through the middle. Last picture of the book: calm and bright. Calm area: the wall across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    }
+  ],
+  "film": {
+    "targetSeconds": 252,
+    "shots": [
+      { "n": 1, "page": 1, "action": "12 s. Scene 1, the sun. Fade up on the block of flats in morning light; birds; the camera tilts down from the balconies to the shaded pavement where Nina kneels by her chalk box. Keep the lower fifth calm for captions in every shot.", "sound": ["city birds", "a distant car", "light summer music"], "lines": ["f01"] },
+      { "n": 2, "page": 1, "action": "8 s. On the balcony, her father waters his pot plants and glances down at her with a smile.", "sound": ["water from a watering can"], "lines": [] },
+      { "n": 3, "page": 2, "action": "14 s. From above, fast motion: the chalk sun grows stroke by stroke, a big yellow circle, then the orange middle. Nina hums as she draws.", "sound": ["chalk scratching on stone", "Nina humming"], "lines": ["f02"] },
+      { "n": 4, "page": 2, "action": "8 s. Her father leans on the railing and calls down.", "sound": ["music"], "lines": ["f03"] },
+      { "n": 5, "page": 2, "action": "8 s. Nina sits back on her heels, yellow fingers, and admires her sun.", "sound": ["a satisfied little chord"], "lines": ["f04"] },
+      { "n": 6, "page": 3, "action": "4 s. Scene 2, swish. A rattle of small wheels, coming closer. Nina looks up. No words.", "sound": ["scooter wheels rolling closer"], "lines": [] },
+      { "n": 7, "page": 3, "action": "5 s. Rami whizzes round the corner, helmet on, grinning, looking down the street, and rides straight across the sun. The wheel leaves a grey stripe. Not loud: a quick swish.", "sound": ["a quick swish of wheels"], "lines": ["f05"] },
+      { "n": 8, "page": 3, "action": "8 s. Slow push in on the stripe through the middle of the sun. The music stops. Hold.", "sound": ["silence, then one low note"], "lines": [] },
+      { "n": 9, "page": 4, "action": "10 s. Close on Nina. Warm orange and red rise behind her like heat over a road, and her cheeks go red.", "sound": ["a low, warm hum rising slowly"], "lines": ["f06"] },
+      { "n": 10, "page": 4, "action": "9 s. Her hands close into fists. Her shoulders lift. The red glow is at its strongest. No sudden loud sound.", "sound": ["the hum holds"], "lines": ["f07"] },
+      { "n": 11, "page": 4, "action": "8 s. Nina glances at Rami's scooter. Her fists tighten. Hold the moment of choice. No words.", "sound": ["a heartbeat-like soft drum, slow"], "lines": [] },
+      { "n": 12, "page": 5, "action": "9 s. Nina stamps her foot, opens her hands, points at the stripe and shouts. Her voice is loud but clear; the red glow pulses once and starts to fade.", "sound": ["one foot stamp", "the hum breaks off"], "lines": ["f08"] },
+      { "n": 13, "page": 5, "action": "5 s. On the balcony, her father straightens and watches, ready, but stays where he is. No words.", "sound": ["quiet"], "lines": [] },
+      { "n": 14, "page": 6, "action": "8 s. Rami looks down at the sun and the stripe. His cheeks go pink.", "sound": ["a soft, sorry note"], "lines": ["f09"] },
+      { "n": 15, "page": 6, "action": "5 s. He looks up at Nina.", "sound": ["quiet"], "lines": ["f10"] },
+      { "n": 16, "page": 7, "action": "12 s. Scene 3, the sunbeam. Nina looks at the stripe for a long time. The red behind her fades to soft yellow. Her fists open slowly. Breathing moment: no words for 5 s.", "sound": ["one long, slow breath", "the music returns, very soft"], "lines": ["f11"] },
+      { "n": 17, "page": 7, "action": "9 s. From above: the camera turns so that the stripe points out from the sun like a ray. Nina tilts her head.", "sound": ["a light chime"], "lines": ["f12"] },
+      { "n": 18, "page": 8, "action": "9 s. Rami lays his scooter down carefully, crouches by the chalk box and holds up a yellow stick.", "sound": ["the scooter laid down", "chalk sticks clinking in the box"], "lines": ["f13"] },
+      { "n": 19, "page": 8, "action": "8 s. Nina nods and hands him a second yellow stick.", "sound": ["music, warmer"], "lines": ["f14"] },
+      { "n": 20, "page": 9, "action": "16 s. Scene 4, beams. Fast motion from above: beams spring out all round the sun, long and short, straight and wiggly, in yellow and orange.", "sound": ["chalk scratching in rhythm", "bouncy music"], "lines": ["f15", "f16"] },
+      { "n": 21, "page": 10, "action": "10 s. Close: Rami draws two eyes; Nina draws a smile, then sunglasses. Both burst out laughing.", "sound": ["chalk", "giggles"], "lines": ["f17"] },
+      { "n": 22, "page": 11, "action": "12 s. The camera rises slowly to show the whole sun, from the bench to the lamp post, with the grey stripe as its longest beam. No words: let the picture land.", "sound": ["music swelling gently"], "lines": [] },
+      { "n": 23, "page": 11, "action": "8 s. Nina and Rami stand back, hands on hips, looking at it.", "sound": ["birds"], "lines": [] },
+      { "n": 24, "page": 12, "action": "9 s. Scene 5, the biggest sun. Her father leans over the balcony and calls down, laughing.", "sound": ["music"], "lines": ["f18"] },
+      { "n": 25, "page": 12, "action": "6 s. Nina and Rami look up and laugh.", "sound": ["laughter"], "lines": [] },
+      { "n": 26, "page": 13, "action": "10 s. They sit on the doorstep in the shade, side by side, chalky, the scooter next to them.", "sound": ["birds", "warm music"], "lines": ["f19"] },
+      { "n": 27, "page": 13, "action": "8 s. Nina leans her shoulder against Rami's.", "sound": ["warm music"], "lines": ["f20"] },
+      { "n": 28, "page": 13, "action": "14 s. Closing image from above: the giant chalk sun on the pavement with its sunglasses and its long grey beam, the two children small on the doorstep. Hold the still picture 6 s while the music ends, then stop. No autoplay.", "sound": ["the last notes of the music", "birds"], "lines": [] }
+    ]
+  },
+  "activity": {
+    "minutes": 10,
+    "materials": ["long-strip-of-paper-or-card", "crayon", "wooden-clothes-peg"],
+    "steps": [
+      { "n": 1, "picture": "A long strip of paper drawn as a ladder of three steps: a small step at the bottom with a small, calm face; a middle step with a bigger, frowning face; a big step at the top with a big, red, stormy face. A crayon lies beside it.", "loop": false },
+      { "n": 2, "picture": "A grown-up and a child sit together. The grown-up speaks (a speech bubble with a small drawing of a block tower falling, no letters); the child clips a wooden clothes peg on the middle step of the ladder.", "loop": true },
+      { "n": 3, "picture": "The child speaks and points at the peg (a speech bubble with a small drawing of an angry face and an open mouth, no letters). Two curved arrows between child and grown-up show that they swap: now the grown-up holds the peg.", "loop": false }
+    ],
+    "checkedAgainst": "docs/story-room/age-4-5.md section 7 (red list) and section 4 (activity limits), 25 Nov 2026"
+  }
+}

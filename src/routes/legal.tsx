@@ -37,7 +37,7 @@ export default function Legal({ loaderData: v }: Route.ComponentProps) {
   const anchor = (id: string) => `${v.doc}-${id}`
   return (
     <Shell>
-      <article className="mx-auto flex max-w-3xl flex-col gap-8 text-lg leading-relaxed">
+      <article className="mx-auto flex max-w-3xl flex-col gap-8 text-lg leading-[1.9]">
         <header className="flex flex-col gap-4">
           <h1 id="top" className="text-3xl font-semibold text-balance sm:text-4xl">{v.title}</h1>
           <p className="max-w-prose text-ink-muted">{v.summary}</p>
@@ -52,11 +52,14 @@ export default function Legal({ loaderData: v }: Route.ComponentProps) {
               {v.doc === 'terms' || v.doc === 'privacy' ? (
                 <>
                   {' · '}
-                  <span dir="auto">{fmt(c.version, { version: TERMS_VERSION })}</span>
+                  {/* The version name is Latin: isolated, so it never breaks apart inside Arabic or Hebrew. */}
+                  {c.version.split('{version}')[0]}
+                  <bdi dir="ltr" className="whitespace-nowrap">{TERMS_VERSION}</bdi>
+                  {c.version.split('{version}')[1]}
                 </>
               ) : null}
             </p>
-            <p className="text-sm"><Inline text={c.languageNote} lang={lang} placeholderLabel={c.placeholder} /></p>
+            <p className="text-sm leading-[2.1]"><Inline text={c.languageNote} lang={lang} placeholderLabel={c.placeholder} /></p>
           </div>
         </header>
 

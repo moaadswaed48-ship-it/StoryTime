@@ -1,0 +1,210 @@
+{
+  "id": "a02",
+  "ageGroups": ["2-3"],
+  "owner": "storytime",
+  "lesson": "Name four colours: red, yellow, green and blue.",
+  "cast": ["a02-sparrow", "a02-knitter"],
+  "pages": [
+    {
+      "n": 1,
+      "art": "A city market at the first light of a cold winter morning. A row of flat market roofs in cool blue-grey; the sky pale, washed with a little pink at the bottom. On the nearest roof, by a chimney pipe, a small sparrow wakes up in a nest and stretches one wing. Below, the stalls are still in shadow; their colours are not lit yet. Feeling: cold, quiet, very early. Calm area: the pale sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 2,
+      "art": "Close on the nest: a thin, flat ring of grey twigs and dust, with gaps you can see through. The sparrow sits in it, fluffed up into a round ball, feathers on end, shivering (two or three small shake lines). A single grey wisp blows away in the wind. Feeling: small and cold, a little sorry for her. Calm area: the plain sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "s" },
+      "image": null
+    },
+    {
+      "n": 3,
+      "art": "The first stall, now lit by the rising sun: a crate of bright yellow lemons, the yellow glowing as the only strong colour in the picture. The sparrow stands on one lemon, beak clamped on its stalk, pulling with her whole body; the lemon does not move. A seller is only a soft shape in the background. Feeling: effort, comedy. Calm area: the shaded awning across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 4,
+      "art": "The second stall: a heap of long green cucumbers, the green the strongest colour. The sparrow sits on one cucumber and shivers, her feathers puffed. A second seller in the background, a soft shape. Feeling: a funny shiver. Calm area: the awning across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 5,
+      "art": "The third stall: a crate of round red tomatoes. The sparrow has just stepped on one; her foot sinks a little into it and she hops back in surprise, wings up. No mess, no burst fruit: just a soft dent. A third seller in the background. Feeling: a surprised giggle. Calm area: the awning across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 6,
+      "art": "The sparrow sits alone on the edge of an empty wooden crate, small in the middle of the picture, fluffed up and still. Behind her, softly out of focus, the three stalls she has visited: a yellow, a green and a red patch of colour, side by side. Feeling: a little sad and cold, but calm. Calm area: the plain wall across the top.",
+      "zone": { "side": "full", "v": "top", "size": "s" },
+      "image": null
+    },
+    {
+      "n": 7,
+      "art": "The very last stall, at the end of the row: piles of soft wool in many colours. An old man sits on a low stool in a knitted hat, knitting with two long needles, his eyes kind, a scarf growing in his lap. The sparrow hops towards him along the ground, head tilted. Feeling: warmth, cosiness, curiosity. Calm area: the plain awning across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 8,
+      "art": "At the old man's feet, on the ground, short bits of wool he has trimmed off: one red, one yellow, one green, and one long blue piece, larger than the others and curling. Each bit is clearly separate so a child can point to each colour. The sparrow stands in front of them, eyes wide, beak open. Feeling: discovery, delight. Calm area: the plain ground across the bottom.",
+      "zone": { "side": "full", "v": "bottom", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 9,
+      "art": "The sparrow flying up from the market to the roof with the red bit of wool in her beak. Below her, a faint dotted path shows the way back down, and at the bottom of the picture the yellow, green and blue bits wait in a row (one trip for each colour). Feeling: busy, purposeful, light. Calm area: the sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 10,
+      "art": "The nest on the roof, now round and thick, woven through with red, yellow, green and a long loop of blue. The sun is up; the roof is warm gold. The sparrow sits in the middle of the nest, on the blue, fluffed in a happy way, eyes half closed. Feeling: warm at last, proud. Calm area: the sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 11,
+      "art": "A view from the roof edge down to the wool stall: the sparrow on the roof, beak open, singing (three small curved song marks); far below, the old man looks up, smiling, and waves his two knitting needles in the air. Last picture of the book: bright, warm and friendly. Calm area: the sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    }
+  ],
+  "film": {
+    "targetSeconds": 158,
+    "shots": [
+      {
+        "n": 1,
+        "page": 1,
+        "action": "10 s. Scene 1, the cold roof. Wide and still: the market roofs in blue-grey dawn light. Hold 3 s, then the camera drifts slowly to the nest by the chimney pipe. The stalls below are grey. Keep the lower fifth calm for captions.",
+        "sound": ["a soft winter wind", "a far rooster", "gentle music: a slow, quiet tune on a celesta"],
+        "lines": ["f01"]
+      },
+      {
+        "n": 2,
+        "page": 1,
+        "action": "8 s. The sparrow wakes, stretches one wing, then fluffs up and shivers in three small shakes.",
+        "sound": ["a tiny chirp", "three soft shiver rustles"],
+        "lines": ["f02"]
+      },
+      {
+        "n": 3,
+        "page": 2,
+        "action": "9 s. Close on the thin grey nest. The wind lifts one grey wisp out of it and carries it away. Hold 2 s.",
+        "sound": ["wind", "one sad low note"],
+        "lines": ["f03"]
+      },
+      {
+        "n": 4,
+        "page": 3,
+        "action": "10 s. Scene 2, the stalls. The sparrow hops down along the gutter to the first stall. As she lands, the morning light reaches the lemons and their yellow wakes up: the first colour in the film.",
+        "sound": ["hop, hop, hop: three light taps", "a bright chime as the yellow appears"],
+        "lines": ["f04"]
+      },
+      {
+        "n": 5,
+        "page": 3,
+        "action": "8 s. She pulls a lemon by its stalk; it does not move; she tumbles back onto her tail feathers.",
+        "sound": ["a straining squeak", "a soft bump"],
+        "lines": ["f05"]
+      },
+      {
+        "n": 6,
+        "page": 4,
+        "action": "9 s. Hop, hop to the cucumbers; the green wakes up with the light. She sits on one and shivers all over.",
+        "sound": ["hop taps", "a chime for the green", "a shiver rustle"],
+        "lines": ["f06"]
+      },
+      {
+        "n": 7,
+        "page": 5,
+        "action": "9 s. Hop, hop to the tomatoes; the red wakes up. She steps on one; it gives softly; she hops back, wings up.",
+        "sound": ["hop taps", "a chime for the red", "a soft squish"],
+        "lines": ["f07"]
+      },
+      {
+        "n": 8,
+        "page": 6,
+        "action": "10 s. She sits on the edge of an empty crate. Behind her the three colours glow side by side. Only her breathing feathers move. A breathing moment: 3 s of quiet after the line.",
+        "sound": ["the tune slows to a few soft notes"],
+        "lines": ["f08"]
+      },
+      {
+        "n": 9,
+        "page": 7,
+        "action": "9 s. Scene 3, the wool stall. The camera follows her hop, hop along the ground to the end of the row and finds the old man knitting on his stool.",
+        "sound": ["hop taps", "a warm hum from the old man"],
+        "lines": ["f09"]
+      },
+      {
+        "n": 10,
+        "page": 7,
+        "action": "9 s. Close on the two needles clicking; the scarf grows a row. He trims a loose end with small scissors and the bit drifts down.",
+        "sound": ["needles: tick, tick, tick", "a tiny snip"],
+        "lines": ["f10"]
+      },
+      {
+        "n": 11,
+        "page": 8,
+        "action": "10 s. Three bits of wool drift down one after another, red, yellow, green, each landing on its own beat; the sparrow's head follows each one.",
+        "sound": ["three soft landing notes, one for each colour"],
+        "lines": ["f11"]
+      },
+      {
+        "n": 12,
+        "page": 8,
+        "action": "8 s. Last, a long blue piece floats down slowly, curling, and lands in front of her. She goes completely still. Hold 2 s.",
+        "sound": ["a long, gentle falling note"],
+        "lines": ["f12"]
+      },
+      {
+        "n": 13,
+        "page": 9,
+        "action": "12 s. Four short trips: up to the roof with red, down; up with yellow, down; up with green; up with the long blue streaming behind her. The same path each time, so the pattern is easy to follow.",
+        "sound": ["wing flutters", "the tune skips along, a little faster"],
+        "lines": ["f13"]
+      },
+      {
+        "n": 14,
+        "page": 10,
+        "action": "10 s. The colours weave into the nest one by one, red, yellow, green, blue; the sun reaches the roof and turns it gold. She settles on the blue.",
+        "sound": ["a warm chord", "a contented chirp"],
+        "lines": ["f14"]
+      },
+      {
+        "n": 15,
+        "page": 11,
+        "action": "9 s. She lifts her head and sings down from the roof edge.",
+        "sound": ["a happy sparrow song"],
+        "lines": ["f15"]
+      },
+      {
+        "n": 16,
+        "page": 11,
+        "action": "9 s. Below, the old man looks up, smiles and waves his two needles in the air.",
+        "sound": ["needles tap together once"],
+        "lines": ["f16"]
+      },
+      {
+        "n": 17,
+        "page": 11,
+        "action": "9 s. Closing image. Wide: the bright nest on the sunny roof, the colourful market waking below. Then nothing moves. Hold 6 s while the tune ends, then stop. No autoplay, no next film.",
+        "sound": ["the last note of the tune", "soft market murmur, far"],
+        "lines": []
+      }
+    ]
+  },
+  "activity": {
+    "minutes": 8,
+    "materials": ["clean-socks-in-pairs", "basket"],
+    "steps": [
+      { "n": 1, "picture": "A grown-up and a child tip a basket of clean socks onto a rug: socks of four colours, red, yellow, green and blue, all jumbled.", "loop": false },
+      { "n": 2, "picture": "The grown-up holds up one red sock; the child searches the pile and finds the red sock that matches.", "loop": true },
+      { "n": 3, "picture": "The child lays the two red socks side by side on the floor; the grown-up points at them and says the colour.", "loop": true },
+      { "n": 4, "picture": "All the pairs lie in a row; together they put them back in the basket.", "loop": false }
+    ],
+    "checkedAgainst": "docs/story-room/age-2-3.md section 7 (red list and tube test) and section 4 (activity limits), 25 Nov 2026"
+  }
+}

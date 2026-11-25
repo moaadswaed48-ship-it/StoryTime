@@ -2,16 +2,25 @@ import { mkdirSync, readdirSync, readFileSync, statSync } from 'node:fs'
 import { join } from 'node:path'
 import { expect, test, type Page } from '@playwright/test'
 import ar from '../src/i18n/ar/index.ts'
+import arLanding from '../src/i18n/ar/landing.ts'
 import da from '../src/i18n/da/index.ts'
+import daLanding from '../src/i18n/da/landing.ts'
 import en from '../src/i18n/en/index.ts'
+import enLanding from '../src/i18n/en/landing.ts'
 import he from '../src/i18n/he/index.ts'
+import heLanding from '../src/i18n/he/landing.ts'
 
 /**
  * The landing page's words and its illustration graph, in all four languages: pre-rendered, right-to-left where it
  * should be, no side scroll at 390 px, the graph labelled as an illustration with a text alternative, static with
  * reduced motion, drawn in otherwise. Phone screenshots go to qa/out/landing/ for a person to look at.
  */
-const DICTS = { ar, he, en, da } as const
+const DICTS = {
+  ar: { commerce: ar.commerce, landing: arLanding },
+  he: { commerce: he.commerce, landing: heLanding },
+  en: { commerce: en.commerce, landing: enLanding },
+  da: { commerce: da.commerce, landing: daLanding },
+}
 const SHOTS = 'qa/out/landing'
 mkdirSync(SHOTS, { recursive: true })
 
@@ -35,7 +44,7 @@ for (const [lang, d] of Object.entries(DICTS) as [keyof typeof DICTS, (typeof DI
       await expect(page.getByRole('heading', { level: 2, name: h })).toBeVisible()
     }
     await expect(page.getByRole('link', { name: t.hero.primary }).first()).toBeVisible()
-    await expect(page.getByRole('link', { name: d.commerce.cancel.homeLink })).toBeVisible()
+    await expect(page.getByRole('main').getByRole('link', { name: d.commerce.cancel.homeLink })).toBeVisible() // and the footer keeps its own
     // The graph: an image with a text alternative that says it is an illustration, and the visible fixed label.
     const graph = page.getByRole('img', { name: t.evidence.chart.title })
     await expect(graph).toBeVisible()
@@ -95,6 +104,7 @@ test('the story excerpt appears only on the landing pages', async ({}, info) => 
   walk('build/client')
   for (const [lang, d] of Object.entries(DICTS)) {
     const hits = files.filter((f) => readFileSync(f, 'utf8').includes(d.landing.inside.excerpt))
+    // Its own landing page only: the words load with the landing route, not with the dictionary every page carries.
     expect(hits.map((f) => f.replace(/\\/g, '/')), lang).toEqual([expect.stringMatching(new RegExp(`/${lang}/index\\.html$`))])
   }
 })

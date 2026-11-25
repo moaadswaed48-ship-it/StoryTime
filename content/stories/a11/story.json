@@ -1,0 +1,337 @@
+{
+  "id": "a11",
+  "ageGroups": [
+    "2-3"
+  ],
+  "owner": "storytime",
+  "lesson": "Spot circles in everyday things.",
+  "cast": [
+    "a11-daniel",
+    "a11-uncle",
+    "a11-driver"
+  ],
+  "pages": [
+    {
+      "n": 1,
+      "art": "Summer afternoon in a big city train station: a tall hall with an arched roof, warm low sunlight through tall windows, one long platform. Daniel and Uncle sit on a bench; a small beach bag with a rolled towel sits beside them. Daniel swings his legs. Feeling: excited waiting. Calm area: the plain upper wall of the hall across the top.",
+      "zone": {
+        "side": "full",
+        "v": "top",
+        "size": "m"
+      },
+      "image": null
+    },
+    {
+      "n": 2,
+      "art": "Daniel looks up, head tipped right back, at a big round station clock on the wall: a white face with twelve short marks round the edge and two hands, no numbers. Uncle looks up too, smiling. The clock is the clear centre of the picture. Calm area: the plain wall beside the clock, across the top.",
+      "zone": {
+        "side": "full",
+        "v": "top",
+        "size": "s"
+      },
+      "image": null
+    },
+    {
+      "n": 3,
+      "art": "At the end of the platform, a tall signal post with two round lights, one above the other: the top one dark red, the bottom one just turned bright green. Daniel points at it from the bench. Calm area: the evening sky through the open end of the station, across the top.",
+      "zone": {
+        "side": "full",
+        "v": "top",
+        "size": "s"
+      },
+      "image": null
+    },
+    {
+      "n": 4,
+      "art": "Close: Daniel kneels on the bench and gently touches one of the round buttons on Uncle's shirt with his fingertip. Uncle laughs, chin tucked in. A row of four round buttons is clear. Feeling: playful, close. Calm area: the plain wall across the top.",
+      "zone": {
+        "side": "full",
+        "v": "top",
+        "size": "m"
+      },
+      "image": null
+    },
+    {
+      "n": 5,
+      "art": "Daniel stands on the platform, well back from the edge behind the painted line, and draws a big circle in the air with his whole arm. A soft trail of light follows his finger and almost closes into a ring. Uncle copies him, drawing a circle too. Calm area: the upper hall across the top.",
+      "zone": {
+        "side": "full",
+        "v": "top",
+        "size": "m"
+      },
+      "image": null
+    },
+    {
+      "n": 6,
+      "art": "The train comes in round the bend into the station: a simple rounded front with a big round headlight, two windows and a few carriages behind. Daniel holds Uncle's hand, both well behind the line on the platform, Daniel up on his toes with excitement. Calm area: the roof of the hall across the top.",
+      "zone": {
+        "side": "full",
+        "v": "top",
+        "size": "m"
+      },
+      "image": null
+    },
+    {
+      "n": 7,
+      "art": "Low, close view under the train: three big round wheels on the rail, with a few curved lines showing them turning. Daniel's face peeps at them from the safe side of the platform, holding Uncle's hand. Calm area: the plain dark underside of the carriage across the top.",
+      "zone": {
+        "side": "full",
+        "v": "top",
+        "size": "s"
+      },
+      "image": null
+    },
+    {
+      "n": 8,
+      "art": "Daniel and Uncle climb up the train step, hand in hand. At the front window of the train, the driver smiles and waves; Daniel waves back with his free hand. Calm area: the side of the train above the windows, across the top.",
+      "zone": {
+        "side": "full",
+        "v": "top",
+        "size": "m"
+      },
+      "image": null
+    },
+    {
+      "n": 9,
+      "art": "Inside the carriage, Daniel kneels on the seat with his face close to a round window. Through it, the city slides past as simple shapes of buildings, stretched by a few speed lines. Uncle sits beside him with the beach bag. Calm area: the plain carriage wall above the window, across the top.",
+      "zone": {
+        "side": "full",
+        "v": "top",
+        "size": "m"
+      },
+      "image": null
+    },
+    {
+      "n": 10,
+      "art": "Through the round window: the sea, as three flat layered bands of blue, and a big orange sun low over it, in the west. Daniel's hands and nose press against the glass. Feeling: wonder, arrival. Calm area: the plain sky in the window across the top.",
+      "zone": {
+        "side": "full",
+        "v": "top",
+        "size": "m"
+      },
+      "image": null
+    },
+    {
+      "n": 11,
+      "art": "Last picture, wide: the small train runs along the coast; the big round sun is half sunk into the sea, its reflection a soft band on the water. In one window, two small figures: Daniel drawing a circle round the sun with his finger on the glass, Uncle beside him. Still and golden. Calm area: the evening sky across the top.",
+      "zone": {
+        "side": "full",
+        "v": "top",
+        "size": "l"
+      },
+      "image": null
+    }
+  ],
+  "film": {
+    "targetSeconds": 145,
+    "shots": [
+      {
+        "n": 1,
+        "page": 1,
+        "action": "10 s. Scene 1, the station. Wide and still: the tall hall, low warm sunlight through the windows, an empty platform. Hold 3 s, then Daniel and Uncle walk in and sit on the bench. Keep the lower fifth calm for captions.",
+        "sound": [
+          "a big, soft station echo",
+          "pigeons cooing far up",
+          "gentle music: a bouncy tune on a ukulele"
+        ],
+        "lines": [
+          "f01"
+        ]
+      },
+      {
+        "n": 2,
+        "page": 1,
+        "action": "8 s. Daniel swings his legs; Uncle points down the empty track.",
+        "sound": [
+          "the tune"
+        ],
+        "lines": [
+          "f02"
+        ]
+      },
+      {
+        "n": 3,
+        "page": 2,
+        "action": "10 s. Daniel tips his head back. The camera rises with his look to the big round clock (twelve marks, no numbers). The long hand moves one small step with a soft tick.",
+        "sound": [
+          "one soft tick"
+        ],
+        "lines": [
+          "f03"
+        ]
+      },
+      {
+        "n": 4,
+        "page": 2,
+        "action": "8 s. Daniel draws a small circle in the air with one finger; a trail of light follows it, closes into a ring and fades. The line falls on the drawing.",
+        "sound": [
+          "a little rising chime"
+        ],
+        "lines": [
+          "f04"
+        ]
+      },
+      {
+        "n": 5,
+        "page": 3,
+        "action": "9 s. The signal at the end of the platform: the red circle goes dark, then the green circle lights up. Hold 2 s on the green light before the line.",
+        "sound": [
+          "a soft click"
+        ],
+        "lines": [
+          "f05"
+        ]
+      },
+      {
+        "n": 6,
+        "page": 4,
+        "action": "8 s. Daniel turns and gently taps the round buttons on Uncle's shirt, one, two, three. Uncle laughs.",
+        "sound": [
+          "three tiny taps",
+          "Uncle's laugh"
+        ],
+        "lines": [
+          "f06",
+          "f07"
+        ]
+      },
+      {
+        "n": 7,
+        "page": 5,
+        "action": "9 s. Daniel stands well back from the platform edge and draws a big circle with his whole arm; the light trail makes a big ring. Uncle copies him.",
+        "sound": [
+          "the rising chime, bigger"
+        ],
+        "lines": [
+          "f08"
+        ]
+      },
+      {
+        "n": 8,
+        "page": 6,
+        "action": "10 s. Scene 2, the train. Far down the track the train appears and grows slowly bigger. Its horn sounds twice, soft and friendly, never sudden. Daniel holds Uncle's hand.",
+        "sound": [
+          "a gentle two-note horn",
+          "a rising hum on the rails"
+        ],
+        "lines": [
+          "f09"
+        ]
+      },
+      {
+        "n": 9,
+        "page": 7,
+        "action": "10 s. Low and close: the big round wheels turn slower and slower as the train stops, then stand still. The line falls while they turn.",
+        "sound": [
+          "a slow rhythm of wheels",
+          "a long soft sigh of brakes"
+        ],
+        "lines": [
+          "f10"
+        ]
+      },
+      {
+        "n": 10,
+        "page": 8,
+        "action": "9 s. The driver waves from the front window; Daniel waves back, and he and Uncle climb aboard, hand in hand.",
+        "sound": [
+          "doors opening softly"
+        ],
+        "lines": [
+          "f11",
+          "f12"
+        ]
+      },
+      {
+        "n": 11,
+        "page": 9,
+        "action": "12 s. Scene 3, the ride. Inside: Daniel's face at the round window. Outside, the city slides past, then fields. No words for 4 s first: a breathing moment with the music.",
+        "sound": [
+          "a gentle rocking rhythm of the train",
+          "the tune, slower"
+        ],
+        "lines": [
+          "f13"
+        ]
+      },
+      {
+        "n": 12,
+        "page": 10,
+        "action": "10 s. Through the round window, the sea appears: three flat bands of blue, and the big orange sun low above them. Daniel's hands press on the glass.",
+        "sound": [
+          "the tune opens up softly"
+        ],
+        "lines": [
+          "f14"
+        ]
+      },
+      {
+        "n": 13,
+        "page": 11,
+        "action": "10 s. The sun touches the sea. Daniel draws a circle round it on the window with his finger; the light trail rings the sun.",
+        "sound": [
+          "the chime, warm and low"
+        ],
+        "lines": [
+          "f15"
+        ]
+      },
+      {
+        "n": 14,
+        "page": 11,
+        "action": "8 s. Uncle leans close to Daniel and both look at the sun.",
+        "sound": [
+          "the train's rhythm, quieter"
+        ],
+        "lines": [
+          "f16"
+        ]
+      },
+      {
+        "n": 15,
+        "page": 11,
+        "action": "14 s. Closing image. Outside, wide: the little train runs along the coast as the sun sinks halfway into the sea. Then the train is gone and nothing moves. Hold 6 s while the music ends, then stop. No autoplay, no next film.",
+        "sound": [
+          "the last notes of the tune",
+          "soft waves"
+        ],
+        "lines": []
+      }
+    ]
+  },
+  "activity": {
+    "minutes": 10,
+    "materials": [
+      "paintbrush-or-sponge",
+      "cup-of-water"
+    ],
+    "steps": [
+      {
+        "n": 1,
+        "picture": "A grown-up touches a sunny wall with the back of the hand to check it is warm, not hot; the child copies.",
+        "loop": false
+      },
+      {
+        "n": 2,
+        "picture": "The child dips a big paintbrush into a cup of water held on the ground.",
+        "loop": true
+      },
+      {
+        "n": 3,
+        "picture": "The grown-up paints a big wet circle on the wall; it shows darker than the dry wall.",
+        "loop": false
+      },
+      {
+        "n": 4,
+        "picture": "The child paints a wobbly circle next to it, smiling.",
+        "loop": true
+      },
+      {
+        "n": 5,
+        "picture": "The two circles fade as they dry; the child dips the brush again.",
+        "loop": true
+      }
+    ],
+    "checkedAgainst": "docs/story-room/age-2-3.md section 7 (heat: wall checked by hand; water only in a cup, adult within reach) and section 4 (activity limits), 25 Nov 2026"
+  }
+}

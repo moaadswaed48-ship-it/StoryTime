@@ -1,0 +1,34 @@
+[
+  {
+    "id": "c10-girl",
+    "name": { "ar": "البِنت", "he": "הַיַּלְדָּה", "en": "the girl", "da": "pigen" },
+    "stage": "child",
+    "build": { "height": 0.64, "heads": 4.7, "girth": 0.4, "shoulders": 1.1 },
+    "skin": "#b97a50",
+    "hair": { "style": "ponytail", "color": "#2a1a14" },
+    "eyes": { "color": "#3a2418", "size": 0.8 },
+    "brows": { "color": "#2a1a14", "weight": 0.55 },
+    "top": { "style": "tee", "color": "#e2674a", "trim": "#fff3d6", "pattern": "plain" },
+    "bottom": { "style": "shorts", "color": "#3d4f7c" },
+    "shoes": { "style": "sandals", "color": "#7a4a2c" },
+    "extras": ["hat"],
+    "extraColors": { "hat": "#f2e3c6" },
+    "manner": "Eager and quick; lies on her tummy to look, kicks her feet when she is excited; counts under her breath with her lips moving; holds her notebook against her chest like treasure."
+  },
+  {
+    "id": "c10-grandfather",
+    "name": { "ar": "جَدّ البِنت", "he": "סַבָּא", "en": "her grandfather", "da": "bedstefar" },
+    "stage": "elder",
+    "build": { "height": 0.95, "heads": 5.8, "girth": 0.5, "shoulders": 1.45 },
+    "skin": "#a8703f",
+    "hair": { "style": "short", "color": "#d9d4cf" },
+    "eyes": { "color": "#3a2a1e", "size": 0.5 },
+    "brows": { "color": "#cfc9c2", "weight": 0.8 },
+    "top": { "style": "shirt", "color": "#8fb7a8", "trim": "#f4ecd8", "pattern": "check" },
+    "bottom": { "style": "trousers", "color": "#8a6f5c" },
+    "shoes": { "style": "boots", "color": "#5a3a2a" },
+    "extras": ["hat", "glasses"],
+    "extraColors": { "hat": "#c8a46a", "glasses": "#4a3a2a" },
+    "manner": "Slow, patient and very quiet outdoors; speaks in a low voice so as not to scare the birds; shows rather than tells, then hands over the pencil; smiles with his whole face when she gets it."
+  }
+]

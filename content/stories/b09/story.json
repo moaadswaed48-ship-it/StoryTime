@@ -1,0 +1,125 @@
+{
+  "id": "b09",
+  "ageGroups": ["4-5"],
+  "owner": "storytime",
+  "lesson": "Keep trying when something is hard, and try a new way.",
+  "cast": ["b09-rita", "b09-uncle"],
+  "pages": [
+    {
+      "n": 1,
+      "art": "A grassy hill in a city park on the first windy afternoon of autumn. Behind it, the flat roofs of the city; far away on the LEFT, a flat blue band of sea. Clouds race across the sky as soft flat shapes. The long grass is drawn as layered wavy bands, all leaning to the right. Rita climbs the hill beside her uncle, hugging a diamond-shaped kite, red and yellow, with a long tail of ribbons. Rule for every picture: the sea stays on the left, because the wind comes from it, so grass, hair, scarf and ribbons always lean to the right. Feeling: bright, breezy, hopeful. Calm area: the sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 2,
+      "art": "Rita runs hard to the right along the hilltop, the string pulled tight behind her. The kite does not fly: it drags face-down over the grass, bouncing on the bumps, with little curved bounce lines (no letters). Her uncle watches from the side, hands in his pockets. Feeling: eager effort, a little comic. Calm area: the sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 3,
+      "art": "Mid-air: the kite has leapt up, flipped upside down, and is diving nose-first towards the grass. Rita, still running, looks back over her shoulder, mouth open. Feeling: oops. Calm area: the sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 4,
+      "art": "At the edge of the hill the kite sits caught in a prickly bush, its ribbons tangled. Rita stands with her arms flung out, cross. Her uncle kneels and lifts the kite out with careful fingers, keeping clear of the thorns. Feeling: frustrated, still a little funny; nobody is hurt. Calm area: the grass along the bottom.",
+      "zone": { "side": "full", "v": "bottom", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 5,
+      "art": "Rita has dropped onto the grass with a bump: arms crossed, bottom lip out, frowning. The kite lies beside her. Her uncle lowers himself to sit next to her, quiet, his face kind, hands resting on his knees. Feeling: sulky, but not alone. Calm area: the sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 6,
+      "art": "Wide and calm: Rita and her uncle sit side by side on the hilltop, small in the picture. All around them the long grass leans to the right in wavy bands; the clouds stream the same way; Rita's hair, her uncle's scarf and the kite's ribbons lean the same way too. Feeling: quiet, waiting. Calm area: the big sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "l" },
+      "image": null
+    },
+    {
+      "n": 7,
+      "art": "Close on Rita in profile, her eyes following the grass towards the band of sea on the left. One of her hands rests on a tuft of grass that bends away from the sea. Feeling: noticing; a thought is starting. Calm area: the sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 8,
+      "art": "Rita leaps to her feet, one arm pointing at the sea, the kite in her other hand, her face lit up. Her uncle looks up at her from the grass, eyebrows raised, beginning to smile. Feeling: an idea arrives. Calm area: the sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 9,
+      "art": "Rita stands still with her back to the sea, facing right. The wind blows her hair forward over her cheeks. She holds the kite up high at arm's length, the string reel in her other hand, and waits. Her uncle sits behind her on the grass, watching. Feeling: patient and brave. Calm area: the sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 10,
+      "art": "The wind has lifted the kite out of her hand: it hangs in the air just above and in front of her, tilted to one side. Rita stands with her feet planted, not running, letting the string slide slowly through her fingers. Feeling: breath held, hopeful. Calm area: the grass along the bottom.",
+      "zone": { "side": "full", "v": "bottom", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 11,
+      "art": "The kite flies high above the hill and the treetops, its ribbon tail dancing in curves. Far below, Rita stands small, both arms up, shouting with joy; her uncle is getting to his feet. Feeling: triumph. Calm area: the grass along the bottom.",
+      "zone": { "side": "full", "v": "bottom", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 12,
+      "art": "Last picture of the book: her uncle claps and laughs; Rita holds the string tight with both hands, grinning up at the sky; the kite is high in the upper corner. Grass, clouds, hair and ribbons all lean the same way. Warm late-afternoon light. Feeling: happy and proud. Calm area: the sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    }
+  ],
+  "film": {
+    "targetSeconds": 255,
+    "shots": [
+      { "n": 1, "page": 1, "action": "14 s. Scene 1, the windy hill. Open on the sky: flat clouds race across. Tilt down to the hill: the long grass ripples in layered bands, all leaning right; city roofs behind; the flat blue band of sea on the far left. The sea stays on the left in every shot. Keep the lower fifth calm for captions in every shot.", "sound": ["gusts of wind", "grass rustling", "a bright plucked-string tune"], "lines": ["f01"] },
+      { "n": 2, "page": 1, "action": "8 s. Rita and her uncle walk up into the frame. She hugs the red-and-yellow kite; its ribbon tail flutters to the right; his scarf flaps the same way.", "sound": ["footsteps in grass", "wind"], "lines": ["f02"] },
+      { "n": 3, "page": 1, "action": "7 s. Her uncle hands her the string reel; she grips it in both fists and nods. No words.", "sound": ["wind", "the tune goes on"], "lines": [] },
+      { "n": 4, "page": 2, "action": "10 s. Scene 2, three tries. Rita runs right along the hilltop; the kite drags behind her, face-down in the grass.", "sound": ["running feet", "a scraping, bumping kite"], "lines": ["f03"] },
+      { "n": 5, "page": 2, "action": "6 s. Close on the kite skidding and bouncing over the bumps. A sound joke: no words.", "sound": ["bump, bump, bump", "a comic boing"], "lines": [] },
+      { "n": 6, "page": 3, "action": "6 s. Rita stops, frowns, sets her jaw and turns round.", "sound": ["wind"], "lines": ["f04"] },
+      { "n": 7, "page": 3, "action": "8 s. A faster run: the kite jumps up, flips over in the air and crashes nose-first. Thump.", "sound": ["running feet", "a flap", "thump"], "lines": [] },
+      { "n": 8, "page": 4, "action": "5 s. Rita, louder, picks the kite up again.", "sound": ["wind"], "lines": ["f05"] },
+      { "n": 9, "page": 4, "action": "10 s. Her fastest run: the kite swoops, dives and lands in a prickly bush. Quick and funny; nobody is hurt.", "sound": ["fast feet", "a whoosh", "a rustle of leaves"], "lines": [] },
+      { "n": 10, "page": 4, "action": "7 s. Her uncle kneels and lifts the kite out of the bush with careful fingers. No words.", "sound": ["leaves rustling", "the tune slows"], "lines": [] },
+      { "n": 11, "page": 5, "action": "8 s. Scene 3, the stop. Rita drops onto the grass, arms crossed, the kite beside her.", "sound": ["a soft bump on grass", "the music stops"], "lines": ["f06"] },
+      { "n": 12, "page": 5, "action": "6 s. Close on the kite lying on the grass; its tail lifts and flutters a little in the wind.", "sound": ["wind only"], "lines": [] },
+      { "n": 13, "page": 5, "action": "12 s. Her uncle sits down next to her. Neither speaks. A breathing moment: hold the two of them, side by side, for the whole shot.", "sound": ["wind", "far-off city hum"], "lines": ["f07"] },
+      { "n": 14, "page": 6, "action": "14 s. Scene 4, the wind shows itself. Wide: a gust sweeps across the hill; the grass bands ripple and all lean right; the clouds race the same way; the kite's ribbons point the same way. A soft, curious music returns.", "sound": ["a long gust", "grass swishing", "soft, curious music"], "lines": [] },
+      { "n": 15, "page": 6, "action": "9 s. Close on Rita watching; her eyes follow a wave travelling through the grass.", "sound": ["grass swishing"], "lines": ["f08"] },
+      { "n": 16, "page": 7, "action": "8 s. The camera follows the leaning grass back, left, all the way to the flat blue band of the sea.", "sound": ["wind", "very faint waves"], "lines": ["f09"] },
+      { "n": 17, "page": 7, "action": "7 s. A gust: the grass and Rita's hair lean the same way at the same moment. Hold 3 s on her face: the viewer's moment to guess.", "sound": ["a gust", "one bright note"], "lines": [] },
+      { "n": 18, "page": 8, "action": "7 s. Rita jumps up and points at the sea.", "sound": ["the music lifts"], "lines": ["f10"] },
+      { "n": 19, "page": 8, "action": "7 s. She looks at the kite in her hand, thinking.", "sound": ["wind"], "lines": ["f11"] },
+      { "n": 20, "page": 9, "action": "10 s. Scene 5, the new way. Rita turns her back to the sea; the wind blows her hair forward over her face. She does not run.", "sound": ["wind", "quiet music"], "lines": [] },
+      { "n": 21, "page": 9, "action": "8 s. She lifts the kite high in one hand, the reel in the other, and stands very still.", "sound": ["wind"], "lines": ["f12"] },
+      { "n": 22, "page": 9, "action": "4 s. Stillness: only the grass moves.", "sound": ["wind only"], "lines": [] },
+      { "n": 23, "page": 10, "action": "10 s. Whoosh: the wind lifts the kite out of her hand and it rises in front of her.", "sound": ["a rising whoosh", "a flutter of ribbons"], "lines": ["f13"] },
+      { "n": 24, "page": 10, "action": "9 s. The kite wobbles left, then right; Rita stands planted and lets the string out slowly.", "sound": ["string whirring off the reel", "a playful wobble in the music"], "lines": ["f14"] },
+      { "n": 25, "page": 11, "action": "12 s. Scene 6, flying. The kite climbs high over the hill and the trees; its tail dances.", "sound": ["the full tune, joyful", "wind"], "lines": ["f15"] },
+      { "n": 26, "page": 11, "action": "10 s. The view from up beside the kite: tiny Rita and her uncle on the hill, the grass bands, the roofs, the band of sea. No words.", "sound": ["high wind", "the tune"], "lines": [] },
+      { "n": 27, "page": 12, "action": "9 s. Her uncle gets up, claps and laughs.", "sound": ["clapping", "laughter"], "lines": ["f16"] },
+      { "n": 28, "page": 12, "action": "9 s. Rita holds the string tight and grins up at the sky.", "sound": ["wind", "the tune"], "lines": ["f17"] },
+      { "n": 29, "page": 12, "action": "14 s. Closing image: Rita and her uncle sit on the hilltop, the kite high above, grass and clouds all leaning one way. Hold the still picture 6 s while the music ends, then stop. No autoplay.", "sound": ["the last notes", "wind"], "lines": [] }
+    ]
+  },
+  "activity": {
+    "minutes": 15,
+    "materials": ["paper-cups"],
+    "steps": [
+      { "n": 1, "picture": "A child kneels on the floor, building a tower of paper cups three rows high, with a pile of cups beside them. A grown-up sits nearby, watching.", "loop": false },
+      { "n": 2, "picture": "The tower has fallen. The child, thinking, builds again with one change; three small drawings beside them show the choices (a wider bottom row, cups upside down, fewer cups in each row), with no letters.", "loop": true },
+      { "n": 3, "picture": "The child stands proudly beside a taller tower, holding up fingers to count the tries; a paper beside them has a row of tick marks, one for each try (no digits).", "loop": false }
+    ],
+    "checkedAgainst": "docs/story-room/age-4-5.md section 7 (red list) and section 4 (activity limits), 25 Nov 2026"
+  }
+}

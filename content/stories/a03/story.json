@@ -1,0 +1,197 @@
+{
+  "id": "a03",
+  "ageGroups": ["2-3"],
+  "owner": "storytime",
+  "lesson": "Say thank you to Mama, and give back by doing a small thing for her.",
+  "cast": ["a03-lina", "a03-mama"],
+  "pages": [
+    {
+      "n": 1,
+      "art": "The gate of a city kindergarten on a summer afternoon: warm, golden light, a low fence with a simple painted gate, a shady tree. Mama has just arrived from work, her work bag on her shoulder; she crouches with her arms open. Lina runs to her from the yard, arms out, her hat missing, one shoelace undone. One or two other children and a teacher are soft background shapes. Feeling: the joy of being fetched. Calm area: the sky and the tree's shade across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 2,
+      "art": "Mama holds up Lina's small sun hat (yellow), which she has found on the grass by the gate, and puts it on Lina's head. Lina looks up at her, smiling. Feeling: being looked after. Calm area: the sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 3,
+      "art": "Mama kneels and ties Lina's shoelace in a bow; Lina holds on to Mama's shoulder with one hand and watches the bow. Close enough to see the bow being made. Feeling: patient, close. Calm area: the plain wall behind them, across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 4,
+      "art": "Mama holds a water bottle and Lina drinks from it, both hands round the bottle, eyes closed with pleasure. The heat of the afternoon shows in the bright light. Feeling: relief, care. Calm area: the sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "s" },
+      "image": null
+    },
+    {
+      "n": 5,
+      "art": "The walk home along a city pavement. Mama carries everything: Lina's small scooter under one arm, her own work bag on her shoulder, and Lina's big painting (a big yellow sun and two figures, shown from the back so it reads as a picture, with no words) held in her other hand. Her arms are clearly full. Lina walks beside her with empty hands, looking up. Feeling: busy, a little comic, not stressful. Calm area: the sky above the flats, across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 6,
+      "art": "At the door of their block of flats. Mama's keys slip out of her full hand and fall towards the ground (small motion lines). Mama's mouth is an O; she cannot bend down. Lina's eyes follow the keys. Feeling: a small problem. Calm area: the plain door and wall across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 7,
+      "art": "Lina crouches, picks up the keys and holds them up high to Mama with both hands, beaming. Mama bends a little so Lina can reach. Feeling: pride, the turn of the story: now Lina helps. Calm area: the plain wall across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 8,
+      "art": "Inside the flat, by the door. Mama has put the scooter and bag down. Lina holds out her big painting to Mama with both arms, facing her: now we see the painting's front, a big yellow sun and two smiling figures, one big and one small (no words, no letters). Mama's hands are on her cheeks in delight. Feeling: giving a present. Calm area: the plain wall across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 9,
+      "art": "Mama sits on a sofa, shoes off, tired and smiling. Lina walks towards her carrying a pair of soft slippers in both hands, very carefully, tongue out with concentration. Feeling: tender, a child taking care of her mother. Calm area: the plain wall across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 10,
+      "art": "Mama, in her slippers, opens her arms wide and Lina runs into a big hug; both have their eyes closed. On the wall behind them, Lina's sun painting is now hung up. Last picture of the book: warm and still. Calm area: the plain wall across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    }
+  ],
+  "film": {
+    "targetSeconds": 151,
+    "shots": [
+      {
+        "n": 1,
+        "page": 1,
+        "action": "11 s. Scene 1, the gate. Wide, still: the kindergarten gate in warm afternoon light; a leaf shadow moves on the path. Hold 3 s, then Mama walks in from the side and stops at the gate. Keep the lower fifth calm for captions.",
+        "sound": ["far children's voices, soft", "a bird", "gentle music: a light tune on a ukulele"],
+        "lines": ["f01"]
+      },
+      {
+        "n": 2,
+        "page": 1,
+        "action": "9 s. Lina sees Mama, runs across the yard and into her arms. Mama lifts her for a moment and sets her down.",
+        "sound": ["quick little footsteps", "a happy squeal"],
+        "lines": ["f02"]
+      },
+      {
+        "n": 3,
+        "page": 2,
+        "action": "9 s. Mama picks up the yellow hat from the grass and puts it on Lina's head. Lina says the refrain; a small two-note chime marks it (the 'thank you' tune that returns each time).",
+        "sound": ["the two-note thank-you chime"],
+        "lines": ["f03", "f04"]
+      },
+      {
+        "n": 4,
+        "page": 3,
+        "action": "9 s. Close on the shoe: Mama's fingers make a bow, slowly. Lina's refrain and the same two-note chime.",
+        "sound": ["the two-note thank-you chime"],
+        "lines": ["f05"]
+      },
+      {
+        "n": 5,
+        "page": 4,
+        "action": "9 s. Lina drinks from the water bottle, then breathes out, 'ahh'. The refrain and the chime again.",
+        "sound": ["three soft gulps", "the two-note thank-you chime"],
+        "lines": ["f06"]
+      },
+      {
+        "n": 6,
+        "page": 5,
+        "action": "10 s. Scene 2, the walk home. One thing at a time: Mama tucks the scooter under her arm; then the bag goes on her shoulder; then she takes the painting. Each thing lands with a soft, slightly lower note.",
+        "sound": ["three notes, each lower and heavier, playful"],
+        "lines": ["f07"]
+      },
+      {
+        "n": 7,
+        "page": 5,
+        "action": "8 s. Side view: Mama walks along the pavement, arms full, a little wobble; Lina skips beside her.",
+        "sound": ["footsteps", "the tune, a bit wobbly"],
+        "lines": ["f08"]
+      },
+      {
+        "n": 8,
+        "page": 6,
+        "action": "9 s. At the door. The keys slip from Mama's fingers and fall in slow motion, turning once. They land softly.",
+        "sound": ["a clink of keys on stone, soft, never sharp"],
+        "lines": []
+      },
+      {
+        "n": 9,
+        "page": 6,
+        "action": "8 s. A breathing moment with no words: Mama looks at the keys, then at her full arms; Lina looks at the keys, then up at Mama. Hold.",
+        "sound": ["the music pauses on one note"],
+        "lines": []
+      },
+      {
+        "n": 10,
+        "page": 7,
+        "action": "9 s. Lina's small hand reaches in, picks up the keys and lifts them high with both hands. A new chime: the same two notes, but rising (the 'here you are' tune).",
+        "sound": ["a jingle of keys", "the rising here-you-are chime"],
+        "lines": ["f09"]
+      },
+      {
+        "n": 11,
+        "page": 7,
+        "action": "8 s. Mama bends; Lina drops the keys into Mama's fingers; the door opens.",
+        "sound": ["the door opens with a soft click"],
+        "lines": []
+      },
+      {
+        "n": 12,
+        "page": 8,
+        "action": "10 s. Scene 3, home. Inside, Lina turns the painting round and holds it up: the big sun. Mama's hands go to her cheeks.",
+        "sound": ["the rising here-you-are chime", "a happy 'oh!' from Mama, no words"],
+        "lines": ["f10"]
+      },
+      {
+        "n": 13,
+        "page": 9,
+        "action": "10 s. Mama sits on the sofa and slips off her shoes. Lina trots off and comes back carrying the slippers in both hands, very carefully.",
+        "sound": ["little footsteps away and back", "the rising here-you-are chime"],
+        "lines": ["f11"]
+      },
+      {
+        "n": 14,
+        "page": 10,
+        "action": "10 s. Mama puts on the slippers and opens her arms. She says the thank-you line to the same two-note tune Lina used.",
+        "sound": ["the two-note thank-you chime, warmer"],
+        "lines": ["f12"]
+      },
+      {
+        "n": 15,
+        "page": 10,
+        "action": "10 s. The hug. The camera pushes in slowly; the tune plays both chimes together, softly.",
+        "sound": ["the tune, both chimes together"],
+        "lines": ["f13"]
+      },
+      {
+        "n": 16,
+        "page": 10,
+        "action": "12 s. Closing image. The camera drifts up from the hug to the sun painting hanging on the wall above them. Then nothing moves. Hold 6 s while the music ends, then stop. No autoplay, no next film.",
+        "sound": ["the last note of the tune"],
+        "lines": []
+      }
+    ]
+  },
+  "activity": {
+    "minutes": 8,
+    "materials": ["cushion", "plastic-cup"],
+    "steps": [
+      { "n": 1, "picture": "A child picks up a cushion from the sofa, holding it in front of her with both arms.", "loop": false },
+      { "n": 2, "picture": "The child walks a few steps to a grown-up and holds the cushion out with both hands, saying the giving words (a small speech bubble with a gift-shape, no letters).", "loop": true },
+      { "n": 3, "picture": "The grown-up takes the cushion with both hands and smiles, saying thank you (a speech bubble with a heart-shape, no letters).", "loop": true },
+      { "n": 4, "picture": "They swap: the grown-up holds out an empty plastic cup to the child, who reaches for it.", "loop": true }
+    ],
+    "checkedAgainst": "docs/story-room/age-2-3.md section 7 (red list and tube test) and section 4 (activity limits), 25 Nov 2026"
+  }
+}
