@@ -18,7 +18,7 @@
     { "n": 9, "text": "»Lille måne, rund og stor. Lille fisk, hvor havet bor. Luk dine øjne, lille ven. Sov nu sødt, og sov igen.«", "speech": "»Lille måne, rund og stor. Lille fisk, hvor havet bor. Luk dine øjne, lille ven. Sov nu sødt, og sov igen.«" },
     { "n": 10, "text": "Babyen holdt op med at græde. Hun åbnede øjnene og kiggede på Zaki. Så fandt en bitte lille hånd hans finger og holdt godt fast.", "speech": "Babyen holdt op med at græde. Hun åbnede øjnene og kiggede på Zaki. Så fandt en bitte lille hånd hans finger og holdt godt fast." },
     { "n": 11, "text": "»Hun kan lide din stemme,« hviskede far. Mor smilede. »Det var min sang til dig,« sagde hun stille. »Nu er det din sang til hende.«", "speech": "»Hun kan lide din stemme,« hviskede far. Mor smilede. »Det var min sang til dig,« sagde hun stille. »Nu er det din sang til hende.«" },
-    { "n": 12, "text": "Og hver gang babyen græd efter den nat, råbte mor: »Zaki, vi skal bruge storebrorsangen!« Så sang Zaki. Ingen andre kunne synge den helt som han.", "speech": "Og hver gang babyen græd efter den nat, råbte mor: »Zaki, vi skal bruge storebrorsangen!« Så sang Zaki. Ingen andre kunne synge den helt som han." }
+    { "n": 12, "text": "Og hver gang babyen græd efter den nat, kaldte mor på Zaki. »Vi skal bruge storebrorsangen!« Så sang Zaki. Ingen andre kunne synge den helt som han.", "speech": "Og hver gang babyen græd efter den nat, kaldte mor på Zaki. »Vi skal bruge storebrorsangen!« Så sang Zaki. Ingen andre kunne synge den helt som han." }
   ],
   "film": [
     { "id": "f01", "speaker": "narrator", "text": "Siden babyen kom hjem, kiggede alle kun på hende.", "speech": "Siden babyen kom hjem, kiggede alle kun på hende.", "emotion": "warm, a little wistful" },

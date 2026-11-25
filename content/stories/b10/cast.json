@@ -1,0 +1,58 @@
+[
+  {
+    "id": "b10-zaki",
+    "name": { "ar": "زَكِيّ", "he": "זַכִּי", "en": "Zaki", "da": "Zaki" },
+    "stage": "child",
+    "build": { "height": 0.63, "heads": 4.5, "girth": 0.48, "shoulders": 1.15 },
+    "skin": "#b07a55",
+    "hair": { "style": "curls", "color": "#1f1410" },
+    "eyes": { "color": "#2e1c14", "size": 0.85 },
+    "brows": { "color": "#1f1410", "weight": 0.6 },
+    "top": { "style": "tee", "color": "#7fa7d9", "trim": "#f4f0e6", "pattern": "stripes" },
+    "bottom": { "style": "trousers", "color": "#7fa7d9" },
+    "shoes": { "style": "bare", "color": "#000000" },
+    "manner": "Wears striped pyjamas, which serve as his home clothes too. Watches before he acts; sulks quietly with his chin in his hands; when he sings he closes his eyes halfway and moves very slowly, as if the baby might break."
+  },
+  {
+    "id": "b10-baby",
+    "name": { "ar": "الصَغيرة", "he": "הַקְּטַנָּה", "en": "the baby", "da": "babyen" },
+    "stage": "toddler",
+    "build": { "height": 0.28, "heads": 3, "girth": 0.75, "shoulders": 1 },
+    "skin": "#c48a62",
+    "hair": { "style": "none", "color": "#3a2418" },
+    "eyes": { "color": "#2e1c14", "size": 1 },
+    "top": { "style": "dress", "color": "#f3d9e0", "trim": "#ffffff", "pattern": "plain" },
+    "bottom": { "style": "none", "color": "#f3d9e0" },
+    "shoes": { "style": "bare", "color": "#000000" },
+    "manner": "A newborn of a few weeks, never walking or sitting: always held, or lying on her back, wrapped in a pale pink blanket (the Sheet type has no baby stage yet: the Studio must add one or draw her swaddled). Cries with her whole face; when calm, her tiny fingers curl round whatever they find."
+  },
+  {
+    "id": "b10-mum",
+    "name": { "ar": "أُمّ زَكِيّ", "he": "אִמָּא", "en": "Mum", "da": "mor" },
+    "stage": "adult",
+    "build": { "height": 0.96, "heads": 6, "girth": 0.55, "shoulders": 1.5 },
+    "skin": "#b98058",
+    "hair": { "style": "long", "color": "#241510" },
+    "eyes": { "color": "#3a2418", "size": 0.6 },
+    "brows": { "color": "#241510", "weight": 0.6 },
+    "top": { "style": "tunic", "color": "#c46b5a", "trim": "#f3e7cf", "pattern": "plain" },
+    "bottom": { "style": "trousers", "color": "#4a4a5e" },
+    "shoes": { "style": "bare", "color": "#000000" },
+    "manner": "Loving and worn out; rocks from habit even when her arms are empty; when she smiles at Zaki at last, it is slow and full."
+  },
+  {
+    "id": "b10-dad",
+    "name": { "ar": "أَبو زَكِيّ", "he": "אַבָּא", "en": "Dad", "da": "far" },
+    "stage": "adult",
+    "build": { "height": 1.03, "heads": 6, "girth": 0.6, "shoulders": 1.65 },
+    "skin": "#a06a45",
+    "hair": { "style": "short", "color": "#1c1210" },
+    "eyes": { "color": "#2e1c14", "size": 0.5 },
+    "brows": { "color": "#1c1210", "weight": 0.8 },
+    "top": { "style": "tee", "color": "#4f8a8c", "trim": "#e8dcc0", "pattern": "plain" },
+    "bottom": { "style": "trousers", "color": "#5a4a3c" },
+    "shoes": { "style": "bare", "color": "#000000" },
+    "extras": ["beard"],
+    "manner": "Big and gentle; pats the baby's back in a steady beat while he walks; whispers when he is moved."
+  }
+]
