@@ -195,3 +195,16 @@ export function reminderParams(d: DueEmail, siteUrl: string, unsubscribeUrl?: st
     }
   }
 }
+
+/**
+ * An email the database queued itself (email_claim_queued() in supabase/migrations/20261122120000_owner_emails_review.sql):
+ * today only "account deleted", queued by delete_my_account() with the address captured before the account went.
+ * Returns what to send, or null when it must not go (unknown template or language, a suppressed address).
+ */
+export type QueuedRow = { id: string; to_email: string; template: string; lang: string; created_at: Iso }
+export function queuedEmail(row: QueuedRow, suppressed: ReadonlySet<string>): { template: 'account_deleted'; lang: Lang; to: string; params: Params['account_deleted']; idempotencyKey: string } | null {
+  const to = row.to_email.trim().toLowerCase()
+  if (row.template !== 'account_deleted' || !to || suppressed.has(to)) return null
+  if (!['ar', 'he', 'en', 'da'].includes(row.lang)) return null
+  return { template: 'account_deleted', lang: row.lang as Lang, to, params: { deletedAt: row.created_at }, idempotencyKey: `queued:${row.id}` }
+}

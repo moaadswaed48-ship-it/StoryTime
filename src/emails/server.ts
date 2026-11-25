@@ -4,7 +4,7 @@
  * function can only import files inside supabase/functions.
  */
 export { renderEmail, PLACEHOLDER_SENDER } from './render'
-export { dueEmails, reminderParams, isQuietHour, type AudienceMember, type DueEmail, type NewStory } from './schedule'
+export { dueEmails, reminderParams, isQuietHour, queuedEmail, type AudienceMember, type DueEmail, type NewStory, type QueuedRow } from './schedule'
 export { resendTransport, SendError, type EmailTransport, type OutgoingEmail } from './send'
 export { unsubscribeUrl, verifyUnsubscribe } from './unsubscribe'
 export { verifySvix } from './webhook-verify'
