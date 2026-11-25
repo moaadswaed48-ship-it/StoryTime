@@ -186,3 +186,16 @@ C13 p6, C14 p8): legal, but worth hearing aloud.
   bottle up high and locks the cupboard; calm, no fear). The forAdult text (en, da) now adds after the poison-centre
   line: do not wait for signs, do not try to make the child sick, and keep the product to read out its label.
   Arabic and Hebrew: please add the same. "Warning pictures in a red-edged diamond" remains [U] for Israeli labels.
+
+## Fact flag from the Arabic reviewer (REVIEW-ar-C.md §4), fixed 25 Nov 2026
+
+- **C13, children lifting a storm-felled branch while the mother only watches.** Fact: after storms, large or
+  trapped limbs are for adults or professionals, and children are kept away from the heavy work [S: Husqvarna
+  "Storm cleanup" guide; Clemson Extension storm-cleanup safety; CDC "Chain saw safety" on keeping others clear,
+  fetched 25 Nov 2026; no source found that sets an exact weight for children, so the line drawn here is a
+  judgement, D]. Change: the mother still checks the wires first, then says she will take the heavy end; she holds
+  the thick end in the muddle (p8) and in the lift (p10, "Diana's mother and four pairs of small hands"); the
+  corner girl now places her at the thick end, the twins in the middle and Diana and the baker's boy at the thin,
+  light end (p9). The teamwork lesson and the girl's leadership stay. Film: f13 "No wires down. I'll take the heavy
+  end.", f14 "Five children, one mother, one branch.", f17 "Diana's mum at the thick end. Twins in the middle. You
+  two at the thin end." All four languages; art for pages 7, 8, 10, 11 and film shots 19, 20, 21, 25 in story.json.

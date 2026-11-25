@@ -155,3 +155,24 @@ says "Look too". The cousin still makes the game and models the steps; Noah stil
 rule. The aunt is a silent background adult with no cast sheet (cast.json not touched). The forAdult text now says
 child-safety organisations advise crossing with an adult until about nine or ten. The Arabic and Hebrew files must
 follow (p1, p2, p3, p5, p6, p8, p9, p10, p12, p14, f01; details in `REVIEW-en-C.md`, C07).
+
+## Fact flags from the Arabic reviewer (REVIEW-ar-C.md §4), fixed 25 Nov 2026
+
+- **C08, the lifeguard leaving her tower.** Fact: a lifeguard on watch does not leave the stand unless another
+  lifeguard has taken over or to start a rescue [S: University of Georgia Recreational Sports, Aquatics Standard
+  Operating Procedures 07.2026, recsports.uga.edu; aquaticsintl.com "Changing of the Guards", fetched 25 Nov 2026].
+  The old p11 had her climb up (watch begun) and then walk away with the ball. Change: she arrives at the start of
+  her day, her chair still empty, brings the ball over first, and only then climbs up (p11 and the first sentence of
+  p13, all four languages; page 11 art and film shots 3 and 4 in story.json). Film lines unchanged (f14 "Then the
+  lifeguard arrived", f18 "Now the chair was not empty" already fit the new order). The beach-filling-before-watch
+  detail stays; the story still teaches: swim only when a lifeguard is on duty.
+- **C06, tapping plastic bottles.** Fact: blowing across a bottle sounds the air column, so more water gives a
+  higher note (true for plastic, which the activity uses); the reverse effect when tapping comes from the vessel and
+  water vibrating and rings clearly in glass [S: Science Buddies "Musical bottles"; Science World "Musical bottles";
+  snexplores.org "Making music with bottles", fetched 25 Nov 2026]. A tapped plastic bottle gives a dull, weak sound
+  [D, general knowledge, as the reviewer says]. The activity itself (blowing, plastic only, no glass) was already
+  true and safe. Change: the forAdult bracket no longer promises tapped notes; it says tapping plastic gives only a
+  soft, dull sound, so here we blow, and clear tapped notes come from glass, which this activity leaves out (all
+  four languages).
+- **Safety line, Arabic (all 45 stories).** A01 to A15, B01 to B15 and C01 now read «إِذَا وَقَعَ حَادِثٌ،
+  فَاتَّصِلُوا بِرَقْمِ الطَّوَارِئِ فِي بَلَدِكُمْ», the same as C02 to C15 (the فَ after a conditional clause).
