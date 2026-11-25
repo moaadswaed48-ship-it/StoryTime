@@ -19,7 +19,11 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[4]
 SRC = ROOT / 'docs/story-room/pilots/src'
 OUT = ROOT / 'content/stories'
-STORIES = ['a04', 'b02', 'c01']
+# Every story folder named like a01, b02, c15 (the library's own stories; samples and the author's story excluded).
+# A command may name stories after it: "check a01 a02", "build ar a01".
+import re as _re
+STORIES = sorted(d.name for d in (Path(__file__).resolve().parents[4] / 'content' / 'stories').iterdir()
+                 if d.is_dir() and _re.fullmatch(r'[abc]\d\d', d.name))
 LANGS = ['ar', 'he', 'en', 'da']
 
 # ---------------------------------------------------------------- Arabic
@@ -396,8 +400,12 @@ def check():
 
 if __name__ == '__main__':
     cmd = sys.argv[1] if len(sys.argv) > 1 else 'check'
+    rest = sys.argv[2:]
+    ids = [a for a in rest if _re.fullmatch(r'[abc]\d\d', a)]
+    if ids:
+        STORIES[:] = ids
     if cmd == 'build':  # "build" = Arabic and Hebrew; "build ar" or "build he" = one language only
-        build(tuple(sys.argv[2:]) or ('ar', 'he'))
+        build(tuple(a for a in rest if a in ('ar', 'he')) or ('ar', 'he'))
     elif cmd == 'light':
         for line in sys.stdin:
             print(ar_light(line.rstrip('\n')))

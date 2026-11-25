@@ -1,0 +1,146 @@
+{
+  "id": "c14",
+  "ageGroups": ["6-8"],
+  "owner": "storytime",
+  "lesson": "Settle a disagreement with a friend by listening and making a plan you both accept.",
+  "cast": ["c14-celine", "c14-rani", "c14-father"],
+  "pages": [
+    {
+      "n": 1,
+      "art": "Summer woods in the afternoon: tall trees with dappled light, a shallow stream drawn as flat layered bands of blue and green, widening into a still, quiet pool with stones at its edge and a small wooden footbridge further along. Rani's father sits on a folding stool on the bank with a book, glancing up at the water. Celine and Rani kneel on the bank beside a small heap of toy animals: a rabbit, a bear, a hedgehog. Two dragonflies hover over the pool. Feeling: cool shade, a lazy summer day full of plans. Calm area: the leafy canopy across the top, kept simple.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 2,
+      "art": "Celine and Rani face each other across a pile of sticks: Celine stretches one arm high above her head (tall sail); Rani holds both arms out wide and flat (wide floor). Both have their chins stuck out. Feeling: a friendly plan turning into an argument. Calm area: the trees and sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 3,
+      "art": "A big mossy rock on the bank: Celine builds on one side, Rani on the other, their backs to the rock, both frowning. Exactly in the middle, above the rock, a dragonfly hovers as if it cannot choose. Feeling: cross and comic. Calm area: the trees across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 4,
+      "art": "Celine's raft: two sticks tied with long grass, a tall twig mast and a white paper napkin as a big sail. Celine, kneeling at the edge of the pool, lowers it onto the water with the toy rabbit on board, proud. Feeling: hope. Calm area: the still water across the bottom.",
+      "zone": { "side": "full", "v": "bottom", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 5,
+      "art": "The tall raft has tipped onto its side; the sail lies flat on the water and the rabbit floats beside it. Celine, still on the bank, reaches out with a long stick to fish the rabbit back. A splash ring spreads. Feeling: a small disappointment. Calm area: the trees across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 6,
+      "art": "Rani's raft: six sticks side by side, tied with grass, wide and flat, the toy bear sitting in the middle. It floats perfectly level on the still pool but has turned sideways, with a curved dotted line showing a slow circle. Rani, on the bank, leans forward with both hands out as if to push it with wishing. Feeling: stuck, comic. Calm area: the trees across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 7,
+      "art": "Celine and Rani sit on the bank, an arm's length apart, knees up, not looking at each other. The wet rabbit lies drying on a stone; the bear sits on Rani's flat raft at the water's edge. Two dragonflies zip over the pool. Behind them, Rani's father turns a page and glances over his glasses. Feeling: a quiet, sulky pause. Calm area: the canopy across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 8,
+      "art": "Rani has turned towards Celine. Celine holds up the damp paper napkin by two corners and the breeze fills it into a round little sail that tugs at her fingers. Rani watches it, interested. Feeling: listening, the ice breaking. Calm area: the trees across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 9,
+      "art": "Rani presses his flat raft with one finger at the water's edge; it stays perfectly level. Celine leans in to watch, chin on her fists. Feeling: curiosity, respect. Calm area: the trees across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 10,
+      "art": "Celine and Rani shake hands very seriously, like two ship captains, standing on the bank; both are trying not to laugh. Between them on the ground lie the wide flat raft and the torn napkin. A dragonfly lands on Rani's shoulder. Feeling: agreement, delight. Calm area: the trees across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 11,
+      "art": "Building together: Rani holds the wide flat floor steady on a flat stone; Celine pushes a short twig into its middle and fixes half of the napkin on it as a small sail; a blade of grass is tied round the mast. Both concentrate, heads close together. Feeling: teamwork. Calm area: the trees across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 12,
+      "art": "At the edge of the pool, Celine and Rani lower the new raft together, each holding one side; the toy hedgehog sits on board facing forward. Light ripples run over the water as a breeze arrives through the trees, and the small sail is just beginning to fill. Feeling: suspense, hope. Calm area: the trees across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 13,
+      "art": "Wide view: the little raft with its small full sail glides across the middle of the still pool, perfectly level, leaving a thin V of ripples; two dragonflies fly beside it. On the near bank, Celine and Rani hold their breath, hands clasped; on the far bank, stones where the raft will land. Feeling: wonder, success. Calm area: the canopy across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 14,
+      "art": "Last picture of the book: Celine and Rani on the little wooden footbridge, laughing, Rani holding the raft with the hedgehog on board and Celine holding the dried rabbit. Rani's father stands on the bank with his book closed under his arm, clapping. Late golden light through the trees. Feeling: joy, friendship. Calm area: the canopy across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    }
+  ],
+  "film": {
+    "targetSeconds": 343,
+    "shots": [
+      { "n": 1, "page": 1, "action": "12 s. Scene 1, the woods. Dappled summer light; the camera follows the shallow stream (flat moving bands) to the wide still pool. Dragonflies dart. No words. Keep the lower fifth calm for captions in every shot.", "sound": ["a trickling stream", "birdsong", "a light, playful tune on guitar and flute"], "lines": [] },
+      { "n": 2, "page": 1, "action": "8 s. A water strider skates across the pool; tiny rings spread out. A breath before the story starts. No words.", "sound": ["a tiny ripple sound"], "lines": [] },
+      { "n": 3, "page": 1, "action": "11 s. Rani's father settles on his stool with a book; Celine and Rani tip their toy animals out on the bank.", "sound": ["a book opening", "toys tumbling onto grass"], "lines": ["f01"] },
+      { "n": 4, "page": 2, "action": "10 s. Rani jumps up with the idea.", "sound": ["a bright rising note"], "lines": ["f02"] },
+      { "n": 5, "page": 2, "action": "11 s. Celine stretches one arm up high; then Rani spreads both arms wide and flat.", "sound": ["a high note", "a low note"], "lines": ["f03", "f04"] },
+      { "n": 6, "page": 2, "action": "10 s. Ping-pong close-ups, each one a little closer: Celine, Rani, Celine, Rani.", "sound": ["a high note", "a low note", "faster"], "lines": ["f05", "f06"] },
+      { "n": 7, "page": 3, "action": "11 s. They turn their backs on each other.", "sound": ["two huffs"], "lines": ["f07", "f08"] },
+      { "n": 8, "page": 3, "action": "8 s. Split screen across the mossy rock: two children building crossly on two sides; a dragonfly hovers in the middle, turning its head from one to the other. Comic, no words.", "sound": ["sticks snapping", "a buzzing dragonfly"], "lines": [] },
+      { "n": 9, "page": 4, "action": "10 s. Scene 2, two rafts. Celine ties two sticks, pushes in a tall twig and fixes her napkin as a big sail; she places the rabbit on board.", "sound": ["grass being tied", "a hopeful little tune"], "lines": ["f09"] },
+      { "n": 10, "page": 4, "action": "7 s. She lowers it onto the pool. It wobbles. Hold. No words.", "sound": ["a gentle splash", "a wobbly note"], "lines": [] },
+      { "n": 11, "page": 5, "action": "9 s. The sail leans, leans, and the raft tips over: plop. The rabbit floats beside it.", "sound": ["a plop", "a falling trombone"], "lines": ["f10"] },
+      { "n": 12, "page": 5, "action": "8 s. Celine fishes the dripping rabbit out with a long stick, from the bank. No words.", "sound": ["drips"], "lines": [] },
+      { "n": 13, "page": 6, "action": "10 s. On the other side of the rock, Rani lays six sticks side by side, ties them, seats the bear and pushes the wide raft out. It floats perfectly level.", "sound": ["a satisfied chord"], "lines": ["f11"] },
+      { "n": 14, "page": 6, "action": "9 s. Rani flaps his hands at it, willing it to go.", "sound": ["a hurry-up drum roll"], "lines": ["f12"] },
+      { "n": 15, "page": 6, "action": "10 s. The raft does not go anywhere. It turns, slowly, in a full circle on the still water, the bear going round and round.", "sound": ["a slow music-box turn"], "lines": ["f13"] },
+      { "n": 16, "page": 7, "action": "12 s. Scene 3, the quiet. A long breathing moment: the two children sit apart on the bank; dragonflies zip; water trickles; Rani's father turns a page and glances at them over his glasses, then goes on reading.", "sound": ["the stream", "a dragonfly", "a page turning"], "lines": ["f14"] },
+      { "n": 17, "page": 7, "action": "8 s. Close on the wet rabbit drying on a warm stone next to the bear's flat raft. A small visual joke: the rabbit looks offended. No words.", "sound": ["drip", "a sulky bassoon note"], "lines": [] },
+      { "n": 18, "page": 7, "action": "6 s. Rani sneaks a look at Celine. Celine sneaks a look at Rani. They both look away. No words.", "sound": ["two plucked notes"], "lines": [] },
+      { "n": 19, "page": 8, "action": "10 s. Rani turns to Celine and speaks.", "sound": ["the music softens"], "lines": ["f15"] },
+      { "n": 20, "page": 8, "action": "10 s. Celine holds up the napkin by two corners; the breeze fills it and tugs at her fingers. Rani watches, fascinated.", "sound": ["a puff of wind", "the napkin fluttering"], "lines": ["f16"] },
+      { "n": 21, "page": 9, "action": "9 s. Celine turns to Rani.", "sound": ["a warm note"], "lines": ["f17"] },
+      { "n": 22, "page": 9, "action": "10 s. Rani presses his flat raft with one finger; it stays level. Celine leans in, impressed.", "sound": ["a gentle bob in the water"], "lines": ["f18"] },
+      { "n": 23, "page": 9, "action": "7 s. Celine looks at the floor. Rani looks at the sail. Their eyes meet. No words.", "sound": ["silence", "a rising two-note idea, together"], "lines": [] },
+      { "n": 24, "page": 10, "action": "10 s. They both burst out at once, one finishing the other's sentence.", "sound": ["a bright chord"], "lines": ["f19", "f20"] },
+      { "n": 25, "page": 10, "action": "11 s. Setting the size, with their hands: Rani lowers Celine's raised hand; Celine pushes Rani's hands up a little.", "sound": ["two little notes meeting in the middle"], "lines": ["f21", "f22"] },
+      { "n": 26, "page": 10, "action": "7 s. A very serious handshake, like two captains; a dragonfly lands on Rani's shoulder. No words.", "sound": ["a tiny fanfare"], "lines": [] },
+      { "n": 27, "page": 11, "action": "12 s. Scene 4, building together. Quick cuts: Rani holds the floor steady; Celine tears the napkin in half and fixes the small sail; Rani ties it tight; Celine checks it.", "sound": ["paper tearing", "grass being tied", "the tune, busy and together"], "lines": [] },
+      { "n": 28, "page": 12, "action": "9 s. Choosing a passenger: the wet rabbit shakes its head (in their imagination), the bear yawns; the hedgehog is set on board.", "sound": ["a comic plucked note", "a yawn", "a brave little trumpet"], "lines": [] },
+      { "n": 29, "page": 12, "action": "8 s. They lower the raft together. The trees sway; a breeze ripples across the pool. Hold. No words.", "sound": ["leaves rustling", "the music holds its breath"], "lines": [] },
+      { "n": 30, "page": 13, "action": "12 s. The small sail fills, and the raft glides across the pool, steady and level, a thin V of ripples behind it; two dragonflies fly alongside.", "sound": ["the full tune, gliding", "a soft wind"], "lines": ["f23"] },
+      { "n": 31, "page": 13, "action": "8 s. Close on Celine and Rani on the bank, holding their breath, hands clasped. No words.", "sound": ["the tune, rising"], "lines": [] },
+      { "n": 32, "page": 13, "action": "8 s. The raft bumps gently against a stone on the far bank. The hedgehog has crossed. No words.", "sound": ["a soft bump", "a happy chord"], "lines": [] },
+      { "n": 33, "page": 13, "action": "8 s. The dragonflies circle the raft once as if to inspect it, then settle on the far stones. No words.", "sound": ["a buzzing circle", "a light chime"], "lines": [] },
+      { "n": 34, "page": 14, "action": "10 s. Scene 5, the end. The children cheer and run round over the little wooden footbridge to fetch the raft; Rani's father puts his book down and claps.", "sound": ["cheers", "running over wooden planks", "clapping"], "lines": ["f24"] },
+      { "n": 35, "page": 14, "action": "10 s. On the bridge, they look at each other and name the raft, one half each.", "sound": ["two notes that make one chord"], "lines": ["f25", "f26"] },
+      { "n": 36, "page": 14, "action": "14 s. Closing image: the pool in late golden light, the little raft with its small sail resting by the far stones, a dragonfly perched on its mast. Nothing moves but the light on the water. Hold the still picture 6 s while the music ends, then stop. No autoplay.", "sound": ["the last notes of the tune", "the stream"], "lines": [] }
+    ]
+  },
+  "activity": {
+    "minutes": 25,
+    "materials": ["paper", "two-books", "pebbles-or-coins"],
+    "steps": [
+      { "n": 1, "picture": "Two books of the same height lie a hand's width apart on a table; a flat sheet of paper rests across them like a bridge. Two children kneel at the table.", "loop": false },
+      { "n": 2, "picture": "One child places pebbles one by one in the middle of the flat paper; it sags and the pebbles slide off; the other child keeps count with fingers.", "loop": true },
+      { "n": 3, "picture": "The two children fold a new sheet of paper back and forth into a zigzag, like a fan, pressing each fold flat together.", "loop": false },
+      { "n": 4, "picture": "The zigzag paper lies across the two books; the children add pebbles one by one and it holds many; both lean in, amazed.", "loop": true },
+      { "n": 5, "picture": "The children count the pebbles back into a cup together and compare two small heaps: one for the flat bridge, a much bigger one for the zigzag bridge.", "loop": false }
+    ],
+    "checkedAgainst": "docs/story-room/age-6-8.md section 7 (red list, coins only when counted back) and section 4 (activity limits), 25 Nov 2026"
+  }
+}
