@@ -1,0 +1,149 @@
+{
+  "id": "c04",
+  "ageGroups": ["6-8"],
+  "owner": "storytime",
+  "lesson": "Be patient with an older person who hears less: come close, face them, speak clearly and say it another way.",
+  "cast": ["c04-leo", "c04-grandpa", "c04-cousin-big", "c04-cousin-small"],
+  "pages": [
+    {
+      "n": 1,
+      "art": "A stone village house on a summer evening, the sky turning apricot behind soft round hills. On the porch, Grandpa (white moustache, flat cap, waistcoat) sits in a wooden chair beside pots of herbs and a small lemon tree. Through the open kitchen window across the yard, Leo (eight, short dark hair, yellow T-shirt) leans out, calling. The distance between them is wide and clear. Feeling: summer, slow, a small mix-up. Calm area: the sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 2,
+      "art": "Leo in the kitchen doorway with a jug of lemonade, rolling his eyes, mouth open in a shout. Far off on the porch, Grandpa has turned his chair towards the hills; we see only his back and the side of his quiet face. Feeling: a small unkindness, a cold little gap. Calm area: the plain kitchen wall across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 3,
+      "art": "The porch at dusk, crowded and cheerful: the big cousin (ten, long braid) waving her hands as she talks, the little cousin (six) bouncing on his chair, Leo laughing. Grandpa sits at the far end, a little apart. Lines of chatter and cicada sound shown as small flicks in the air, no letters. Feeling: noise and fun, someone at the edge. Calm area: the darkening sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 4,
+      "art": "The cousins laugh with their heads thrown back. Grandpa smiles politely, a beat behind, his eyes not quite laughing, his hand cupped near one ear. Leo, in the middle of the picture, has stopped laughing and is watching Grandpa's face. Feeling: a quiet noticing. Calm area: the sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 5,
+      "art": "Close on Leo: his cheeks pink, his eyes on the open kitchen window across the yard, where the lemonade jug still stands on the sill. Behind him, out of focus, Grandpa looks at the hills. Feeling: understanding, a little shame turning into care. Calm area: the plain wall across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 6,
+      "art": "Leo carries his wooden chair across the porch, held in front of him with both arms, and sets it down right in front of Grandpa, so their knees almost touch. Grandpa's eyebrows are raised in surprise. The porch lamp lights both their faces. Feeling: a turn, a small brave move. Calm area: the floorboards across the bottom.",
+      "zone": { "side": "full", "v": "bottom", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 7,
+      "art": "Face to face in the lamplight: Leo speaks with a calm, open face; Grandpa leans in, watching Leo's mouth closely, one hand on his knee. Behind them the cousins have gone quiet, mouths closed, curious. Feeling: attention, respect. Calm area: the dark sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 8,
+      "art": "Leo touches his own neck with two fingers, eyebrows up, as if saying 'this one'. Grandpa frowns in puzzlement, head tilted. Feeling: a puzzle, patient and playful. Calm area: the sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 9,
+      "art": "Leo draws a bottle shape in the air with both hands, round at the bottom and narrow at the top, then tips an invisible bottle to his lips. Grandpa's eyes are lighting up. Feeling: almost there. Calm area: the sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 10,
+      "art": "Grandpa laughing a huge laugh, head back, hand slapping his knee, his cap tipping; the laugh drawn as soft warm ripples of light rolling off the porch down towards the dark hills. The cousins laugh with him; the little cousin has fallen against Leo's shoulder. Feeling: joy, release. Calm area: the hills and sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 11,
+      "art": "The little cousin drags his chair across the porch; the big cousin carries hers. Now four chairs stand in a tight half circle around Grandpa, everyone facing him. The big cousin is making a hand shape to help a word along. Feeling: everyone joining in. Calm area: the floorboards across the bottom.",
+      "zone": { "side": "full", "v": "bottom", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 12,
+      "art": "Grandpa leans forward with his elbows on his knees, one finger raised, about to begin a story; the three children lean in so far their chairs tip forward a little. A moth circles the porch lamp. Feeling: anticipation. Calm area: the night sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 13,
+      "art": "Grandpa's story as a picture inside a soft rounded frame, in earthy colours: a young shepherd boy on a hillside singing with his mouth wide open, and a herd of goats (one goat silhouette repeated) running away downhill towards a little stone pen. Below the frame, real Grandpa sings a note with his eyes shut, and the children cover their ears, laughing. Feeling: comedy. Calm area: the sky above the frame across the top.",
+      "zone": { "side": "full", "v": "top", "size": "s" },
+      "image": null
+    },
+    {
+      "n": 14,
+      "art": "Night: stars over the dark hills. On the lit porch, Grandpa is telling another story with his hands; the cousins are curled up laughing in their chairs; Leo sits in his chair exactly face to face with Grandpa, chin in his hands. Last picture of the book: warm, close, starry. Calm area: the starry sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    }
+  ],
+  "film": {
+    "targetSeconds": 364,
+    "shots": [
+      { "n": 1, "page": 1, "action": "16 s. Scene 1, the village. A stone house among soft hills on a summer evening; the camera drifts in over the yard to the porch. No words. Keep the lower fifth calm for captions in every shot.", "sound": ["cicadas", "a warm oud-like plucked tune, slow", "a distant goat bell"], "lines": [] },
+      { "n": 2, "page": 1, "action": "8 s. The porch, the herbs, the small lemon tree.", "sound": ["cicadas", "the tune"], "lines": ["f01"] },
+      { "n": 3, "page": 1, "action": "8 s. Grandpa waters his herbs, humming to himself. No words.", "sound": ["water from a small can", "Grandpa humming"], "lines": [] },
+      { "n": 4, "page": 1, "action": "8 s. In the kitchen, with the tap running, Leo calls out of the window.", "sound": ["a running tap"], "lines": ["f02"] },
+      { "n": 5, "page": 1, "action": "9 s. Grandpa's side: we hear Leo's call again as Grandpa hears it, muffled and blurred, under the cicadas. Grandpa answers cheerfully, about the wrong thing.", "sound": ["Leo's call, muffled", "cicadas, loud"], "lines": ["f03"] },
+      { "n": 6, "page": 2, "action": "6 s. Leo rolls his eyes and shouts.", "sound": ["the tap shuts off with a squeak"], "lines": ["f04"] },
+      { "n": 7, "page": 2, "action": "10 s. Grandpa's smile fades. He turns his chair towards the hills and looks at them.", "sound": ["the chair scraping", "the tune stops"], "lines": ["f05"] },
+      { "n": 8, "page": 2, "action": "7 s. Leo pours the lemonade alone; the ice clinks too loudly in the quiet. No words.", "sound": ["ice clinking", "silence"], "lines": [] },
+      { "n": 9, "page": 3, "action": "8 s. Scene 2, the noisy porch. The cousins run up the path.", "sound": ["running feet", "happy shouts"], "lines": ["f06"] },
+      { "n": 10, "page": 3, "action": "6 s. The little cousin hugs Grandpa round the neck; Grandpa pats his back. No words.", "sound": ["a laugh"], "lines": [] },
+      { "n": 11, "page": 3, "action": "14 s. Dusk on the porch: everyone talks at once; voices pile up with the cicadas into one jumble. Grandpa sits a little apart. No words to caption: the voices are only a sound.", "sound": ["overlapping chatter", "cicadas", "a dog far away"], "lines": [] },
+      { "n": 12, "page": 4, "action": "9 s. The big cousin leans forward and tells her riddle.", "sound": ["the chatter dips"], "lines": ["f07"] },
+      { "n": 13, "page": 4, "action": "14 s. Grandpa's side: the sound goes muffled, as if heard through a wall; the laughter is a blur. Grandpa laughs a beat late, small and careful.", "sound": ["muffled laughter", "Grandpa's small late laugh, clear"], "lines": ["f08"] },
+      { "n": 14, "page": 4, "action": "8 s. Close on Leo, watching Grandpa's face; his own voice, thinking.", "sound": ["the jumble fades under him"], "lines": ["f09"] },
+      { "n": 15, "page": 5, "action": "8 s. Scene 3, Leo understands. A quick echo of the kitchen: the window far across the yard, the running tap.", "sound": ["an echo of 'Never mind!'", "the tap"], "lines": ["f10"] },
+      { "n": 16, "page": 5, "action": "6 s. Leo looks from the kitchen window to Grandpa and back. No words.", "sound": ["one low note"], "lines": [] },
+      { "n": 17, "page": 6, "action": "12 s. Scene 4, face to face. Leo stands, lifts his chair and carries it across the porch, then sets it down right in front of Grandpa. No words.", "sound": ["chair legs bumping on boards", "the tune returns, gently"], "lines": [] },
+      { "n": 18, "page": 6, "action": "6 s. Two faces in the lamplight, very close.", "sound": ["the tune"], "lines": ["f11"] },
+      { "n": 19, "page": 7, "action": "9 s. Leo speaks slowly and clearly, not loudly. From Grandpa's side the sound is now clear and close.", "sound": ["Leo's voice, clear"], "lines": ["f12"] },
+      { "n": 20, "page": 7, "action": "6 s. Grandpa watches Leo's mouth and nods.", "sound": ["the tune"], "lines": ["f13"] },
+      { "n": 21, "page": 7, "action": "10 s. The cousins stop talking one by one; even the cicadas seem to quieten. Breathing room, no words.", "sound": ["the chatter stopping", "softer cicadas"], "lines": [] },
+      { "n": 22, "page": 8, "action": "8 s. Leo asks the riddle, slowly.", "sound": ["quiet"], "lines": ["f14"] },
+      { "n": 23, "page": 8, "action": "6 s. Grandpa frowns, puzzled.", "sound": ["a questioning plucked note"], "lines": ["f15"] },
+      { "n": 24, "page": 8, "action": "8 s. Leo does not shout. He touches his own neck with two fingers.", "sound": ["a soft tap"], "lines": ["f16"] },
+      { "n": 25, "page": 9, "action": "9 s. Grandpa thinks aloud while Leo draws a bottle shape in the air and pretends to drink.", "sound": ["a gulping sound joke"], "lines": ["f17"] },
+      { "n": 26, "page": 9, "action": "6 s. Hold on Grandpa's face, just about to get it. No words.", "sound": ["a rising note"], "lines": [] },
+      { "n": 27, "page": 10, "action": "6 s. Scene 5, the big laugh. Grandpa cries out the answer.", "sound": ["a bright chord"], "lines": ["f18"] },
+      { "n": 28, "page": 10, "action": "14 s. His big laugh rolls off the porch as warm ripples of light over the dark hills; the cousins laugh with him. No words.", "sound": ["Grandpa's big laugh", "the children's laughter", "the tune, full"], "lines": [] },
+      { "n": 29, "page": 11, "action": "10 s. The cousins drag their chairs over; everyone sits close, facing Grandpa.", "sound": ["chairs scraping", "giggles"], "lines": ["f19"] },
+      { "n": 30, "page": 11, "action": "8 s. Grandpa misses a word; the big cousin says it another way, with her hands; Grandpa nods. No words.", "sound": ["soft voices, clear"], "lines": [] },
+      { "n": 31, "page": 11, "action": "6 s. The porch lamp glows brighter as the sky darkens; a moth circles it. No words.", "sound": ["a soft hum of the night"], "lines": [] },
+      { "n": 32, "page": 12, "action": "10 s. Scene 6, Grandpa's story. He leans in, finger raised; everyone leans in.", "sound": ["the tune, playful"], "lines": ["f20"] },
+      { "n": 33, "page": 12, "action": "8 s. Close on Grandpa's face, remembering. No words.", "sound": ["a far-off goat bell"], "lines": [] },
+      { "n": 34, "page": 13, "action": "18 s. The memory in earthy paper-cut colours: a young shepherd boy on a hillside sings loudly and badly; the goats (one repeated silhouette) flee downhill into their pen. No words.", "sound": ["an off-key boy's song", "goat bells running", "a gate banging shut"], "lines": [] },
+      { "n": 35, "page": 13, "action": "8 s. Back on the porch, Grandpa delivers the punchline.", "sound": ["the children laughing"], "lines": ["f21"] },
+      { "n": 36, "page": 14, "action": "8 s. The little cousin nearly falls off his chair laughing.", "sound": ["laughter"], "lines": ["f22"] },
+      { "n": 37, "page": 14, "action": "16 s. Time passes: stars appear one by one over the hills while Grandpa's hands tell another story and another. No words.", "sound": ["cicadas, softer", "the tune, slow"], "lines": [] },
+      { "n": 38, "page": 14, "action": "10 s. Leo, chin in his hands, still face to face with Grandpa.", "sound": ["the tune"], "lines": ["f23"] },
+      { "n": 39, "page": 14, "action": "16 s. Closing image: two wooden chairs face to face on the empty porch under the stars, the lamp still glowing. Hold the still picture 6 s while the music ends, then stop. No autoplay.", "sound": ["the last notes of the tune", "a cricket"], "lines": [] }
+    ]
+  },
+  "activity": {
+    "minutes": 20,
+    "materials": ["paper", "pencil"],
+    "steps": [
+      { "n": 1, "picture": "Two children sit on chairs face to face, close together, in good light, both smiling.", "loop": false },
+      { "n": 2, "picture": "One child makes the word 'sleep' with no sound: eyes closed, head resting on two hands pressed together, lips moving.", "loop": true },
+      { "n": 3, "picture": "The other child points and guesses with a big smile; both children are about to swap places.", "loop": false },
+      { "n": 4, "picture": "A sheet of paper with a few small drawings (a cat, a cup of water, a bed) and ticks beside some of them; a pencil.", "loop": false },
+      { "n": 5, "picture": "A child 'says' a short sentence with hands and face: one hand rubs the tummy, the other points to the mouth; the partner laughs, guessing.", "loop": false }
+    ],
+    "checkedAgainst": "docs/story-room/age-6-8.md section 7 (red list: no materials of concern) and section 4, 25 Nov 2026"
+  }
+}

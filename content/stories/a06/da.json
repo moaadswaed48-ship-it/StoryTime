@@ -1,0 +1,215 @@
+{
+  "title": "Lille Flodhests store gab",
+  "names": {
+    "a06-little-hippo": "Lille Flodhest",
+    "a06-papa-hippo": "Far Flodhest"
+  },
+  "pages": [
+    {
+      "n": 1,
+      "text": "Natten kommer til floden. Vandet bliver mørkt og stille.",
+      "speech": "Natten kommer til floden. Vandet bliver mørkt og stille."
+    },
+    {
+      "n": 2,
+      "text": "Far Flodhest åbner munden helt op. »Så skal der børstes tænder!«",
+      "speech": "Far Flodhest åbner munden helt op. »Så skal der børstes tænder!«"
+    },
+    {
+      "n": 3,
+      "text": "Lille Flodhest åbner også munden. Bare lidt.",
+      "speech": "Lille Flodhest åbner også munden. Bare lidt."
+    },
+    {
+      "n": 4,
+      "text": "Fars tandbørste er stor, stor, stor. Lille Flodhests er bitte lille.",
+      "speech": "Fars tandbørste er stor, stor, stor. Lille Flodhests er bitte lille."
+    },
+    {
+      "n": 5,
+      "text": "Børst, børst, de øverste tænder. Børst, børst, de nederste tænder.",
+      "speech": "Børst, børst, de øverste tænder. Børst, børst, de nederste tænder."
+    },
+    {
+      "n": 6,
+      "text": "Børst, børst … Lille Flodhest fniser. Det kilder!",
+      "speech": "Børst, børst … Lille Flodhest fniser. Det kilder!"
+    },
+    {
+      "n": 7,
+      "text": "»Gab op!« siger far. Større … og større … og større …",
+      "speech": "»Gab op!« siger far. Større … og større … og større …"
+    },
+    {
+      "n": 8,
+      "text": "Aaaah! Det største gab på hele floden!",
+      "speech": "Aaaah! Det største gab på hele floden!"
+    },
+    {
+      "n": 9,
+      "text": "Far gaber også. Aaaaaah! Et endnu større gab!",
+      "speech": "Far gaber også. Aaaaaah! Et endnu større gab!"
+    },
+    {
+      "n": 10,
+      "text": "Skyl, spyt, plask. Børst, børst, helt rene.",
+      "speech": "Skyl, spyt, plask. Børst, børst, helt rene."
+    },
+    {
+      "n": 11,
+      "text": "To rene smil i månelyset. Lille Flodhest læner sig søvnigt mod far.",
+      "speech": "To rene smil i månelyset. Lille Flodhest læner sig søvnigt mod far."
+    }
+  ],
+  "film": [
+    {
+      "id": "f01",
+      "speaker": "narrator",
+      "text": "Natten kommer til floden.",
+      "speech": "Natten kommer til floden.",
+      "emotion": "slow and soft, the day winding down"
+    },
+    {
+      "id": "f02",
+      "speaker": "narrator",
+      "text": "Nu skal vi gøre klar til at sove.",
+      "speech": "Nu skal vi gøre klar til at sove.",
+      "emotion": "cosy and gentle"
+    },
+    {
+      "id": "f03",
+      "speaker": "a06-papa-hippo",
+      "text": "Så skal der børstes tænder!",
+      "speech": "Så skal der børstes tænder!",
+      "emotion": "big, deep and cheerful, a playful announcement"
+    },
+    {
+      "id": "f04",
+      "speaker": "a06-little-hippo",
+      "text": "Sådan her?",
+      "speech": "Sådan her?",
+      "emotion": "small and a little shy, mouth only a bit open"
+    },
+    {
+      "id": "f05",
+      "speaker": "narrator",
+      "text": "En stor, stor børste … og en bitte lille.",
+      "speech": "En stor, stor børste … og en bitte lille.",
+      "emotion": "big voice for the big brush, tiny voice for the tiny one"
+    },
+    {
+      "id": "f06",
+      "speaker": "a06-papa-hippo",
+      "text": "Børst, børst, de øverste tænder.",
+      "speech": "Børst, børst, de øverste tænder.",
+      "emotion": "sing-song, steady rhythm"
+    },
+    {
+      "id": "f07",
+      "speaker": "a06-little-hippo",
+      "text": "Børst, børst, de øverste tænder!",
+      "speech": "Børst, børst, de øverste tænder!",
+      "emotion": "copying Papa, proud, a little higher"
+    },
+    {
+      "id": "f08",
+      "speaker": "a06-papa-hippo",
+      "text": "Børst, børst, de nederste tænder.",
+      "speech": "Børst, børst, de nederste tænder.",
+      "emotion": "sing-song, steady rhythm"
+    },
+    {
+      "id": "f09",
+      "speaker": "a06-little-hippo",
+      "text": "Børst, børst, de nederste tænder!",
+      "speech": "Børst, børst, de nederste tænder!",
+      "emotion": "copying Papa, proud, a little higher"
+    },
+    {
+      "id": "f10",
+      "speaker": "a06-little-hippo",
+      "text": "Hi hi! Det kilder!",
+      "speech": "Hi hi! Det kilder!",
+      "emotion": "giggling, ticklish"
+    },
+    {
+      "id": "f11",
+      "speaker": "a06-papa-hippo",
+      "text": "Gab op!",
+      "speech": "Gab op!",
+      "emotion": "encouraging, opening his own mouth to show her"
+    },
+    {
+      "id": "f12",
+      "speaker": "narrator",
+      "text": "Større … og større …",
+      "speech": "Større … og større …",
+      "emotion": "slow and stretching, building up"
+    },
+    {
+      "id": "f13",
+      "speaker": "a06-little-hippo",
+      "text": "Aaaah!",
+      "speech": "Aaaah!",
+      "emotion": "a long, sleepy, comic yawn"
+    },
+    {
+      "id": "f14",
+      "speaker": "a06-papa-hippo",
+      "text": "Aaaaaaah!",
+      "speech": "Aaaaaaah!",
+      "emotion": "an even longer, deeper yawn, very funny, never loud"
+    },
+    {
+      "id": "f15",
+      "speaker": "narrator",
+      "text": "Skyl, spyt, plask.",
+      "speech": "Skyl, spyt, plask.",
+      "emotion": "playful, one beat per sound"
+    },
+    {
+      "id": "f16",
+      "speaker": "a06-papa-hippo",
+      "text": "To rene smil.",
+      "speech": "To rene smil.",
+      "emotion": "proud and soft, nearly whispering"
+    },
+    {
+      "id": "f17",
+      "speaker": "a06-little-hippo",
+      "text": "Godnat, far.",
+      "speech": "Godnat, far.",
+      "emotion": "very sleepy, half asleep already"
+    }
+  ],
+  "activity": {
+    "title": "Børst til sangen",
+    "goal": "At blive ved med noget til sangen er slut: en sang som ur.",
+    "materials": [
+      "En tandbørste til hver",
+      "Tandpasta i den mængde tandlægen eller sundhedsplejersken anbefaler",
+      "Et spejl"
+    ],
+    "steps": [
+      {
+        "n": 1,
+        "caption": "Hver sin tandbørste, side om side."
+      },
+      {
+        "n": 2,
+        "caption": "Syng, og børst foroven."
+      },
+      {
+        "n": 3,
+        "caption": "Syng, og børst forneden."
+      },
+      {
+        "n": 4,
+        "caption": "Sangen er slut: Spyt, og smil!"
+      }
+    ],
+    "safety": "Alle bruger kun deres egen tandbørste. Brug den mængde tandpasta tandlægen eller sundhedsplejersken anbefaler. Barnet står stille mens det børster: Det går og løber ikke med tandbørsten i munden. Sker der et uheld, så ring til det lokale alarmnummer.",
+    "forAdult": "I historien børster Lille Flodhest de øverste og de nederste tænder side om side med far. Denne aktivitet gør tandbørstningen til en sang med en tydelig slutning: Man børster mens man synger, og stopper når sangen stopper. En sang er et ur som et lille barn kan høre. Syng historiens omkvæd to gange, på en hvilken som helst melodi: »Børst, børst, de øverste tænder. Børst, børst, de nederste tænder.« Stil jer side om side foran et spejl, hver med sin egen tandbørste, og børst dine egne tænder mens du synger, så barnet kan efterligne dig. Børst derefter også barnets tænder, sådan som tandlægen eller sundhedsplejersken anbefaler. Gør det lettere ved at synge sangen én gang og langsomt. Gør det sværere ved at lade barnet styre sangen. Vil barnet ikke åbne munden, så leg Lille Flodhests gabeleg: Hvem kan gabe størst?",
+    "inClass": "Ingen fælles tandbørster og ingen rigtig tandbørstning i børnehaven. Når alle har vasket hænder, sidder børnene i en rundkreds, højst fire børn med én voksen, og »børster« med en ren finger mens alle synger sangen to gange: først foroven, så forneden. Den rigtige tandbørstning foregår derhjemme."
+  }
+}

@@ -1,0 +1,137 @@
+[
+  {
+    "id": "a14-rayan",
+    "name": {
+      "ar": "رَيّان",
+      "he": "רַיָּאן",
+      "en": "Rayan",
+      "da": "Rayan"
+    },
+    "stage": "toddler",
+    "build": {
+      "height": 0.5,
+      "heads": 3.5,
+      "girth": 0.6,
+      "shoulders": 1.05
+    },
+    "skin": "#c48a5e",
+    "hair": {
+      "style": "tuft",
+      "color": "#2a1814"
+    },
+    "eyes": {
+      "color": "#3a2418",
+      "size": 0.95
+    },
+    "brows": {
+      "color": "#2a1814",
+      "weight": 0.5
+    },
+    "top": {
+      "style": "tee",
+      "color": "#f2c94c",
+      "trim": "#ffffff",
+      "pattern": "plain"
+    },
+    "bottom": {
+      "style": "shorts",
+      "color": "#4f7a5a"
+    },
+    "shoes": {
+      "style": "shoes",
+      "color": "#e8705a"
+    },
+    "manner": "A helper who loves a job with a sound in it; carries things with both arms out in front; when he has a funny idea his eyes go wide and he does it at once."
+  },
+  {
+    "id": "a14-dad",
+    "name": {
+      "ar": "بابا",
+      "he": "אַבָּא",
+      "en": "Dad",
+      "da": "far"
+    },
+    "stage": "adult",
+    "build": {
+      "height": 1.02,
+      "heads": 6,
+      "girth": 0.58,
+      "shoulders": 1.6
+    },
+    "skin": "#b97a50",
+    "hair": {
+      "style": "short",
+      "color": "#241715"
+    },
+    "eyes": {
+      "color": "#3a2418",
+      "size": 0.55
+    },
+    "brows": {
+      "color": "#241715",
+      "weight": 0.9
+    },
+    "top": {
+      "style": "shirt",
+      "color": "#7fb0d8",
+      "trim": "#ffffff",
+      "pattern": "check"
+    },
+    "bottom": {
+      "style": "trousers",
+      "color": "#5a5a6a"
+    },
+    "shoes": {
+      "style": "shoes",
+      "color": "#6b4030"
+    },
+    "extras": [
+      "beard"
+    ],
+    "manner": "Relaxed and cheerful; turns tidying into a song; holds the basket or bag low so Rayan can reach; laughs loudest."
+  },
+  {
+    "id": "a14-sister",
+    "name": {
+      "ar": "أُخْتُه الكَبيرة",
+      "he": "הָאָחוֹת הַגְּדוֹלָה",
+      "en": "his big sister",
+      "da": "storesøster"
+    },
+    "stage": "child",
+    "build": {
+      "height": 0.6,
+      "heads": 4.5,
+      "girth": 0.42,
+      "shoulders": 1.1
+    },
+    "skin": "#c48a5e",
+    "hair": {
+      "style": "braids",
+      "color": "#2a1814"
+    },
+    "eyes": {
+      "color": "#3a2418",
+      "size": 0.8
+    },
+    "brows": {
+      "color": "#2a1814",
+      "weight": 0.4
+    },
+    "top": {
+      "style": "jumper",
+      "color": "#e2674a",
+      "trim": "#f4e3bd",
+      "pattern": "plain"
+    },
+    "bottom": {
+      "style": "trousers",
+      "color": "#34507e"
+    },
+    "shoes": {
+      "style": "shoes",
+      "color": "#f2efe8"
+    },
+    "manner": "About seven; quick and capable; rolls the blanket neatly, then laughs so hard she has to sit down."
+  }
+]

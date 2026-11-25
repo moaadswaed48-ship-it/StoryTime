@@ -1,0 +1,124 @@
+{
+  "id": "b12",
+  "ageGroups": ["4-5"],
+  "owner": "storytime",
+  "lesson": "Tell solid shapes apart: ball, cube, cylinder and cone.",
+  "cast": ["b12-dana", "b12-mum"],
+  "pages": [
+    {
+      "n": 1,
+      "art": "A summer morning in a garden at the edge of a village: a lawn that slopes gently down to a row of tomato plants staked on sticks; low hills behind. Dana's mother, in work clothes and gloves, and Dana carry a pile of leftover pieces down the garden between them: wooden blocks, a long pipe, an orange cone; Dana's ball is tucked under her arm. Feeling: busy, sunny, a project starting. Calm area: the sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 2,
+      "art": "Close on the wooden cubes on the grass, each clearly a cube with flat square faces, in plain wood colours (no letters or numbers on them). Dana, tongue between her teeth, sets one cube on top of two others; a little wall of cubes is growing. Her mother kneels beside her, turning a cube to show its faces. Feeling: careful, proud. Calm area: the grass along the bottom.",
+      "zone": { "side": "full", "v": "bottom", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 3,
+      "art": "Dana holds the long round pipe up to one eye like a telescope; through its round end we see a circle of blue sky and a small cloud. Her mother laughs, hands on hips. Feeling: playful wonder. Calm area: the sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 4,
+      "art": "The old orange cone stands on the grass, wide at the bottom, pointed at the top. Dana's ball sits beside it, round all over. Dana's mother points at the cone, then up into the air, as if placing it on a roof. Feeling: curious, a puzzle taking shape. Calm area: the sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 5,
+      "art": "Wide: the garden slope is clear now, running down to the tomato plants. The pipe lies on its side on the grass where Dana's mother has just put it down, already beginning to turn; little curved motion lines (no letters). Dana's mother has turned away to fetch a board. Feeling: a small surprise about to happen. Calm area: the sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 6,
+      "art": "The pipe rolls fast down the slope towards the bright red tomatoes, motion lines behind it. Dana's mother, hands on her cheeks, mouth open, more comic than frightened. Feeling: light, funny suspense. Calm area: the sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 7,
+      "art": "Close on Dana thinking fast, eyes wide. Around her head, three small floating pictures (no letters): a ball with curved motion lines, a tube with curved motion lines, a box standing still. Feeling: an idea arriving. Calm area: the plain sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "l" },
+      "image": null
+    },
+    {
+      "n": 8,
+      "art": "Dana, mid-stride, has shoved a wooden cube into the path of the pipe; the pipe has bumped against it and stopped, a hand's width from the first tomato plant. A tiny bump star where they meet (a shape, no letters). Feeling: saved, triumphant. Calm area: the grass in the foreground along the bottom.",
+      "zone": { "side": "full", "v": "bottom", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 9,
+      "art": "Dana's mother laughs, bending forward, and stands the pipe up on its flat end on the grass; Dana nudges it with one finger and it does not roll. Feeling: warm teasing, a builder's secret shared. Calm area: the sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 10,
+      "art": "Building together: walls of stacked cubes, knee-high to Dana; her mother lays a flat board across the top for a roof; the pipe stands upright on the roof as a chimney. Feeling: teamwork, busy hands. Calm area: the sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 11,
+      "art": "Dana, standing on the grass, reaches up and sets the orange cone on top of the little roof, point upwards. The toy house is only as tall as her shoulder, so she needs no step. Feeling: the finishing touch. Calm area: the sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 12,
+      "art": "Last picture of the book: the finished toy house at the bottom of the garden: cube walls, a cylinder chimney, an orange cone on top. A teddy bear and a toy horse peek out of the doorway. In front of it, in a little patch of grass, sits the round ball. Dana and her mother sit on the lawn admiring it, tomato plants behind. Feeling: proud, sunny, complete. Calm area: the sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    }
+  ],
+  "film": {
+    "targetSeconds": 250,
+    "shots": [
+      { "n": 1, "page": 1, "action": "14 s. Scene 1, the garden. Morning at the edge of a village: the sloping lawn, the row of tomato plants at the bottom, hills behind. Dana and her mother carry the pieces down the garden. Keep the lower fifth calm for captions in every shot.", "sound": ["birdsong", "a cheerful plucked-string tune"], "lines": ["f01"] },
+      { "n": 2, "page": 1, "action": "8 s. They drop the pile: each shape moves in its own way. The cubes thud and stay; the ball bounces away; the cone wobbles and settles; the pipe lies still for now.", "sound": ["thud, thud", "a bouncing ball", "a wobble"], "lines": [] },
+      { "n": 3, "page": 1, "action": "7 s. Dana's mother pulls on her work gloves and checks each piece; Dana copies her, very seriously.", "sound": ["the tune"], "lines": [] },
+      { "n": 4, "page": 2, "action": "9 s. Her mother turns a cube in her hand, showing its flat faces one by one.", "sound": ["a soft wooden knock"], "lines": ["f02"] },
+      { "n": 5, "page": 2, "action": "12 s. Dana stacks cubes, one knock per cube; a little wall grows.", "sound": ["tok, tok, tok on the beat"], "lines": ["f03"] },
+      { "n": 6, "page": 3, "action": "8 s. Her mother lifts the long pipe.", "sound": ["a hollow pipe sound"], "lines": ["f04"] },
+      { "n": 7, "page": 3, "action": "7 s. Dana peeks through the pipe: through the round end we see sky and a cloud drifting.", "sound": ["a breathy hum through the pipe"], "lines": ["f05"] },
+      { "n": 8, "page": 4, "action": "8 s. Her mother sets the cone on the grass, wide end down, point up.", "sound": ["a light tap"], "lines": ["f06"] },
+      { "n": 9, "page": 4, "action": "7 s. Dana's ball rolls off in a new direction every time she puts it down; she chases it and sits it by the wall.", "sound": ["a rolling ball", "giggles"], "lines": [] },
+      { "n": 10, "page": 4, "action": "8 s. Dana tips the cone onto its side: it rolls round in a little circle around its point. She giggles.", "sound": ["a circling roll", "a giggle"], "lines": [] },
+      { "n": 11, "page": 5, "action": "8 s. Scene 2, the runaway pipe. Her mother lays the pipe down on the grass and turns to fetch a board. The pipe begins to turn.", "sound": ["a creak", "the music pauses"], "lines": ["f07"] },
+      { "n": 12, "page": 6, "action": "12 s. The pipe rolls down the slope, faster and faster; the camera follows at grass height; the tomato plants grow bigger ahead.", "sound": ["a rolling rumble", "quick comic music"], "lines": [] },
+      { "n": 13, "page": 6, "action": "5 s. Her mother, hands on cheeks.", "sound": ["a gasp"], "lines": ["f08"] },
+      { "n": 14, "page": 7, "action": "10 s. Close on Dana thinking: three quick simple pictures float by her head, a ball rolling, a tube rolling, a box sitting still.", "sound": ["three quick notes, then a held one"], "lines": ["f09"] },
+      { "n": 15, "page": 8, "action": "7 s. She grabs a cube and shoves it in front of the pipe. Bump.", "sound": ["a hollow bump"], "lines": ["f10"] },
+      { "n": 16, "page": 8, "action": "6 s. The pipe rests against the cube, a hand's width from the tomatoes. A tomato plant sways. A breath.", "sound": ["leaves rustling", "a relieved sigh"], "lines": [] },
+      { "n": 17, "page": 9, "action": "7 s. Her mother laughs, hands on knees.", "sound": ["laughter"], "lines": ["f11"] },
+      { "n": 18, "page": 9, "action": "9 s. Her mother stands the pipe on its flat end; Dana nudges it; it stays.", "sound": ["a soft wooden tap"], "lines": ["f12"] },
+      { "n": 19, "page": 9, "action": "7 s. Dana tries to make the standing pipe roll; it only rocks and settles again. She laughs.", "sound": ["a rocking clunk", "a laugh"], "lines": [] },
+      { "n": 20, "page": 10, "action": "16 s. Scene 3, building. A montage on the beat: cubes stacked into walls, a board laid on as a roof, the pipe stood up as a chimney. Each piece lands on a beat of the music.", "sound": ["building music, a clear steady beat", "taps on each beat"], "lines": [] },
+      { "n": 21, "page": 10, "action": "8 s. Dana tries to stack the ball on a cube: it rolls straight off. She shrugs and laughs.", "sound": ["a rolling ball", "a comic plink"], "lines": [] },
+      { "n": 22, "page": 11, "action": "9 s. Dana sets the cone on the roof, point up.", "sound": ["a bright chime"], "lines": ["f13"] },
+      { "n": 23, "page": 11, "action": "6 s. A breathing moment: Dana and her mother step back to look.", "sound": ["birdsong"], "lines": [] },
+      { "n": 24, "page": 11, "action": "6 s. A butterfly lands on the cone's tip and opens its wings.", "sound": ["a soft flutter"], "lines": [] },
+      { "n": 25, "page": 12, "action": "10 s. Scene 4, moving in. Dana carries her toys in one by one: a teddy, a toy horse.", "sound": ["the tune returns, warm"], "lines": ["f14"] },
+      { "n": 26, "page": 12, "action": "9 s. The ball sits in the little patch of grass in front of the house.", "sound": ["the tune"], "lines": ["f15"] },
+      { "n": 27, "page": 12, "action": "10 s. The camera circles the toy house once, slowly: cube, cylinder, cone, and the ball.", "sound": ["the tune, slowing"], "lines": [] },
+      { "n": 28, "page": 12, "action": "16 s. Closing image: the toy house at the bottom of the garden, tomatoes behind, Dana and her mother sitting on the lawn. Hold the still picture 6 s while the music ends, then stop. No autoplay.", "sound": ["the last notes", "birdsong"], "lines": [] }
+    ]
+  },
+  "activity": {
+    "minutes": 15,
+    "materials": ["ball", "small-box", "kitchen-roll-tube", "plastic-cup", "funnel", "tray", "thick-book"],
+    "steps": [
+      { "n": 1, "picture": "A child and a grown-up gather things on the floor: a ball, a small box, a kitchen-roll tube, a plastic cup and a funnel.", "loop": false },
+      { "n": 2, "picture": "A tray rests with one end on a thick book, making a gentle slope. The child sets the tube on its side at the top; curved motion lines show it rolling down. The grown-up watches, hand to chin, as if asking what will happen.", "loop": true },
+      { "n": 3, "picture": "Three sheets of paper on the floor, each with a simple drawing: a curved arrow, a little tower, and both together. The child places each object on a sheet: the ball on the arrow, the box on the tower, the cup on both.", "loop": false }
+    ],
+    "checkedAgainst": "docs/story-room/age-4-5.md section 7 (red list) and section 4 (activity limits), 25 Nov 2026"
+  }
+}

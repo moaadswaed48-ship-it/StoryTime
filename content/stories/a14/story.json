@@ -1,0 +1,308 @@
+{
+  "id": "a14",
+  "ageGroups": [
+    "2-3"
+  ],
+  "owner": "storytime",
+  "lesson": "Help tidy up by putting each thing back in its place.",
+  "cast": [
+    "a14-rayan",
+    "a14-dad",
+    "a14-sister"
+  ],
+  "pages": [
+    {
+      "n": 1,
+      "art": "Spring day in the pine woods: tall pine trunks, soft slanted bands of sunlight, a carpet of brown needles. A picnic blanket with a few cups, a picnic basket, a cloth bag, a ball and some peeled oranges. Dad sits peeling an orange; Rayan eats an orange segment, sitting down; his big sister bounces the ball. Feeling: happy, relaxed. Calm area: the plain tree canopy across the top.",
+      "zone": {
+        "side": "full",
+        "v": "top",
+        "size": "m"
+      },
+      "image": null
+    },
+    {
+      "n": 2,
+      "art": "Dad stands and looks round at the mess, hands on hips, smiling: cups lying here and there, the ball rolled to a tree root, orange peels on the needles, the blanket rumpled. Rayan looks up at him. Feeling: comic 'oh dear', not cross. Calm area: the canopy across the top.",
+      "zone": {
+        "side": "full",
+        "v": "top",
+        "size": "m"
+      },
+      "image": null
+    },
+    {
+      "n": 3,
+      "art": "Dad holds the open picnic basket low; Rayan drops a cup into it, two more cups in his other hand. A small arc shows the cup's path into the basket. Calm area: the canopy across the top.",
+      "zone": {
+        "side": "full",
+        "v": "top",
+        "size": "m"
+      },
+      "image": null
+    },
+    {
+      "n": 4,
+      "art": "Rayan pushes the ball with both hands into the open cloth bag that Dad holds; the ball is halfway in. Calm area: the canopy across the top.",
+      "zone": {
+        "side": "full",
+        "v": "top",
+        "size": "s"
+      },
+      "image": null
+    },
+    {
+      "n": 5,
+      "art": "His big sister kneels and rolls up the picnic blanket from one end; Rayan watches, crouching, eyes full of an idea. Calm area: the canopy across the top.",
+      "zone": {
+        "side": "full",
+        "v": "top",
+        "size": "m"
+      },
+      "image": null
+    },
+    {
+      "n": 6,
+      "art": "The blanket is rolled up with Rayan inside it like a filling: only his round, grinning face peeps out of one end; his sister laughs, still holding the other end. Calm area: the canopy across the top.",
+      "zone": {
+        "side": "full",
+        "v": "top",
+        "size": "m"
+      },
+      "image": null
+    },
+    {
+      "n": 7,
+      "art": "Dad, the sister and Rayan (still in the blanket roll, face out) all laugh together, heads thrown back. Feeling: the biggest laugh of the book. Calm area: the canopy across the top.",
+      "zone": {
+        "side": "full",
+        "v": "top",
+        "size": "m"
+      },
+      "image": null
+    },
+    {
+      "n": 8,
+      "art": "Rayan walks along the path carrying a handful of orange peels to a simple bin by the path, Dad close behind him. Calm area: the canopy across the top.",
+      "zone": {
+        "side": "full",
+        "v": "top",
+        "size": "s"
+      },
+      "image": null
+    },
+    {
+      "n": 9,
+      "art": "The clean picnic spot: only pine needles and a few pinecones on the ground, in bands of sunlight. On a low branch, a jay (pinkish-brown body, a bright blue patch on its wing) sings with its beak open. The family is at the edge of the picture, ready to go. Calm area: the canopy across the top.",
+      "zone": {
+        "side": "full",
+        "v": "top",
+        "size": "m"
+      },
+      "image": null
+    },
+    {
+      "n": 10,
+      "art": "Last picture: the family walks home along the path through the pines: Dad with the basket, the sister with the rolled blanket, Rayan holding the bag with the ball, hand in hand with Dad. The jay flies overhead. Warm late light. Calm area: the canopy across the top.",
+      "zone": {
+        "side": "full",
+        "v": "top",
+        "size": "l"
+      },
+      "image": null
+    }
+  ],
+  "film": {
+    "targetSeconds": 130,
+    "shots": [
+      {
+        "n": 1,
+        "page": 1,
+        "action": "10 s. Scene 1, the picnic. Wide and still in the pine woods: bands of sunlight move very slowly; the family on the blanket. Keep the lower fifth calm for captions.",
+        "sound": [
+          "wind in the pines",
+          "far birdsong",
+          "gentle music: a light walking tune on a guitar"
+        ],
+        "lines": [
+          "f01"
+        ]
+      },
+      {
+        "n": 2,
+        "page": 1,
+        "action": "9 s. The sister rolls the ball gently to Rayan; he stops it with both hands and laughs.",
+        "sound": [
+          "a soft ball on needles",
+          "laughter"
+        ],
+        "lines": [
+          "f02"
+        ]
+      },
+      {
+        "n": 3,
+        "page": 2,
+        "action": "9 s. Dad stands and stretches, then looks round at the mess. The camera pans slowly across cups, ball, peels and blanket.",
+        "sound": [
+          "the tune pauses on a funny little note"
+        ],
+        "lines": [
+          "f03",
+          "f04"
+        ]
+      },
+      {
+        "n": 4,
+        "page": 3,
+        "action": "10 s. Scene 2, tidy-up. Dad holds the basket low. Rayan drops in the cups, one, two, three, each with its own note.",
+        "sound": [
+          "three plinks",
+          "three rising notes"
+        ],
+        "lines": [
+          "f05",
+          "f06"
+        ]
+      },
+      {
+        "n": 5,
+        "page": 4,
+        "action": "9 s. Rayan pushes the ball into the bag Dad holds open. It drops in with a soft bump.",
+        "sound": [
+          "a soft bump"
+        ],
+        "lines": [
+          "f07",
+          "f08"
+        ]
+      },
+      {
+        "n": 6,
+        "page": 5,
+        "action": "9 s. The sister kneels and rolls up the blanket from one end, slowly.",
+        "sound": [
+          "the soft swish of cloth"
+        ],
+        "lines": [
+          "f09",
+          "f10"
+        ]
+      },
+      {
+        "n": 7,
+        "page": 6,
+        "action": "10 s. Rayan lies down at the end of the blanket and the roll gathers him in; only his grinning face peeps out. 2 s of comic stillness after his line.",
+        "sound": [
+          "a muffled giggle"
+        ],
+        "lines": [
+          "f11"
+        ]
+      },
+      {
+        "n": 8,
+        "page": 7,
+        "action": "9 s. Everyone laughs together; the camera gently bobs with the laughter.",
+        "sound": [
+          "big shared laughter",
+          "the tune returns, bouncy"
+        ],
+        "lines": [
+          "f12"
+        ]
+      },
+      {
+        "n": 9,
+        "page": 8,
+        "action": "10 s. Rayan carries the orange peels along the path and drops them into the bin by the path, Dad behind him.",
+        "sound": [
+          "footsteps on needles",
+          "a soft drop"
+        ],
+        "lines": [
+          "f13",
+          "f14"
+        ]
+      },
+      {
+        "n": 10,
+        "page": 9,
+        "action": "10 s. Scene 3, clean and calm. The empty, clean picnic spot in bands of sunlight. No words for 4 s: a breathing moment.",
+        "sound": [
+          "wind in the pines"
+        ],
+        "lines": [
+          "f15"
+        ]
+      },
+      {
+        "n": 11,
+        "page": 9,
+        "action": "10 s. A jay lands on a low branch, flashes its blue wing patch and sings.",
+        "sound": [
+          "a jay's call, clear and not too loud"
+        ],
+        "lines": []
+      },
+      {
+        "n": 12,
+        "page": 10,
+        "action": "10 s. The family walks along the path, each carrying a thing: basket, rolled blanket, bag.",
+        "sound": [
+          "footsteps",
+          "the walking tune"
+        ],
+        "lines": [
+          "f16"
+        ]
+      },
+      {
+        "n": 13,
+        "page": 10,
+        "action": "15 s. Closing image. Wide: the path through the pines, the family small in the distance, the sunbands still. Then the path is empty and nothing moves. Hold 6 s while the music ends, then stop. No autoplay, no next film.",
+        "sound": [
+          "the last notes of the tune",
+          "wind in the pines"
+        ],
+        "lines": []
+      }
+    ]
+  },
+  "activity": {
+    "minutes": 10,
+    "materials": [
+      "big-box",
+      "little-box",
+      "household-things-that-pass-the-tube-test"
+    ],
+    "steps": [
+      {
+        "n": 1,
+        "picture": "A big cardboard box and a little cardboard box side by side on the floor.",
+        "loop": false
+      },
+      {
+        "n": 2,
+        "picture": "The child walks back carrying one thing from round the home: a pot.",
+        "loop": true
+      },
+      {
+        "n": 3,
+        "picture": "The child holds up a sock beside a pot, looking from one to the other; the grown-up crouches beside them.",
+        "loop": false
+      },
+      {
+        "n": 4,
+        "picture": "The child drops the pot into the big box.",
+        "loop": true
+      },
+      {
+        "n": 5,
+        "picture": "Both boxes filled: a pot, a shoe and a soft toy in the big box; a sock and a wooden spoon in the little box. Child and grown-up clap.",
+        "loop": false
+      }
+    ],
+    "checkedAgainst": "docs/story-room/age-2-3.md section 7 (tube test; no laces, no plastic bags; staples out of boxes) and section 4 (activity limits), 25 Nov 2026"
+  }
+}

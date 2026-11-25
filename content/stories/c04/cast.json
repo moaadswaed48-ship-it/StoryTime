@@ -1,0 +1,60 @@
+[
+  {
+    "id": "c04-leo",
+    "name": { "ar": "لِيو", "he": "לֵאוֹ", "en": "Leo", "da": "Leo" },
+    "stage": "child",
+    "build": { "height": 0.68, "heads": 4.9, "girth": 0.45, "shoulders": 1.18 },
+    "skin": "#c98e62",
+    "hair": { "style": "short", "color": "#241715" },
+    "eyes": { "color": "#3a2418", "size": 0.72 },
+    "brows": { "color": "#241715", "weight": 0.8 },
+    "top": { "style": "tee", "color": "#f0c23c", "trim": "#ffffff", "pattern": "plain" },
+    "bottom": { "style": "shorts", "color": "#3f6f8c" },
+    "shoes": { "style": "sandals", "color": "#7a4a2c" },
+    "manner": "Quick and a bit impatient at first, rolls his eyes and sighs; when he notices something he goes still and watches faces closely; when he decides to help, he moves with purpose and speaks slowly and kindly."
+  },
+  {
+    "id": "c04-grandpa",
+    "name": { "ar": "جَدّه", "he": "סַבָּא", "en": "Grandpa", "da": "bedstefar" },
+    "stage": "elder",
+    "build": { "height": 0.95, "heads": 5.8, "girth": 0.58, "shoulders": 1.5 },
+    "skin": "#b98058",
+    "hair": { "style": "short", "color": "#e6e1da" },
+    "eyes": { "color": "#4a3a2c", "size": 0.48 },
+    "brows": { "color": "#e6e1da", "weight": 1 },
+    "top": { "style": "shirt", "color": "#f1ead8", "trim": "#6b7a5a", "pattern": "stripes" },
+    "bottom": { "style": "trousers", "color": "#5b5048" },
+    "shoes": { "style": "shoes", "color": "#4a3028" },
+    "extras": ["moustache", "hat"],
+    "extraColors": { "hat": "#6b5a48" },
+    "manner": "A former shepherd, broad hands, slow and warm; tilts his head and cups a hand by his ear when he cannot hear; goes quiet and looks at the hills when he feels left out; his big laugh slaps his knee and shakes his cap."
+  },
+  {
+    "id": "c04-cousin-big",
+    "name": { "ar": "ابنة العَمّ الكَبيرة", "he": "בַּת הַדּוֹד הַגְּדוֹלָה", "en": "the big cousin", "da": "den store kusine" },
+    "stage": "child",
+    "build": { "height": 0.74, "heads": 5.1, "girth": 0.42, "shoulders": 1.2 },
+    "skin": "#c98e62",
+    "hair": { "style": "braids", "color": "#2a1a14" },
+    "eyes": { "color": "#3a2418", "size": 0.7 },
+    "brows": { "color": "#2a1a14", "weight": 0.6 },
+    "top": { "style": "tunic", "color": "#3f9a8f", "trim": "#ffd872", "pattern": "plain" },
+    "bottom": { "style": "trousers", "color": "#36507e" },
+    "shoes": { "style": "sandals", "color": "#d8563e" },
+    "manner": "Ten years old, a talker with busy hands; tells riddles with great drama; once she sees what Leo does, she copies it straight away and helps words along with her hands."
+  },
+  {
+    "id": "c04-cousin-small",
+    "name": { "ar": "ابن العَمّ الصَغير", "he": "בֶּן הַדּוֹד הַקָּטָן", "en": "the little cousin", "da": "den lille fætter" },
+    "stage": "child",
+    "build": { "height": 0.55, "heads": 4.3, "girth": 0.5, "shoulders": 1.05 },
+    "skin": "#c98e62",
+    "hair": { "style": "curls", "color": "#2a1a14" },
+    "eyes": { "color": "#3a2418", "size": 0.86 },
+    "brows": { "color": "#2a1a14", "weight": 0.5 },
+    "top": { "style": "tee", "color": "#e8705a", "trim": "#fff3d6", "pattern": "stripes" },
+    "bottom": { "style": "shorts", "color": "#6b7a6a" },
+    "shoes": { "style": "sandals", "color": "#7a4a2c" },
+    "manner": "Six years old, bouncy and loud; cannot sit still; laughs so hard he slides off his chair; adores Grandpa and hugs him round the neck."
+  }
+]

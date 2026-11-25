@@ -1,0 +1,133 @@
+{
+  "id": "b06",
+  "ageGroups": ["4-5"],
+  "owner": "storytime",
+  "lesson": "If you are lost, stand still and ask a worker or a parent with children for help.",
+  "cast": ["b06-karam", "b06-dad", "b06-worker"],
+  "pages": [
+    {
+      "n": 1,
+      "art": "A grey, rain-washed winter morning in a city street. The front of a big supermarket: wide glass doors and a plain coloured band where a sign would be (no words, no brand). Karam in a puffy coat and his father in a blue cap stand by the doors; his father crouches to Karam's height; Karam lifts both arms high. Feeling: cosy, ready, a little game between them. Calm area: the grey sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 2,
+      "art": "Inside, seen from a small child's height: long rows of tall shelves (one repeated shelf shape, coloured boxes and tins as simple blocks, no words on anything) rising far above Karam's head. Karam holds the side of the trolley; his father's blue cap bobs ahead. Bright, even light. Feeling: big, busy, interesting. Calm area: the plain floor in the bottom band.",
+      "zone": { "side": "full", "v": "bottom", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 3,
+      "art": "The fruit corner: a shop worker in a green apron builds a tall pyramid of oranges on a low table, one orange in her hand. Karam stands in front of it, mouth open, completely absorbed. Behind him, out of focus, the trolley and the blue cap are moving away round the end of the aisle. Feeling: fascination; the reader sees what Karam does not. Calm area: the wall across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 4,
+      "art": "The worker places the last orange on the very top; the tower is perfect. Karam has turned round, smiling, one hand pointing back at the tower, and finds an empty aisle behind him: no trolley, no blue cap. Feeling: the smile about to fall. Calm area: the plain floor in the bottom band.",
+      "zone": { "side": "full", "v": "bottom", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 5,
+      "art": "Karam small in the middle of a crossing of aisles; four identical shelf corridors stretch away in every direction (repeated shapes). He looks left and right, hands clutching his coat. Muted colours around him. Feeling: lost, tight in the tummy, but not in danger. Calm area: the plain floor in the bottom band.",
+      "zone": { "side": "full", "v": "bottom", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 6,
+      "art": "Karam stands with his feet planted beside the orange tower, very still, taking a deep breath, eyes closed for a moment. A faint ghost of himself running away down an aisle fades out behind him. Feeling: brave, holding steady. Calm area: the wall across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 7,
+      "art": "Karam looks around from where he stands. In view: a mother pushing a pram with a little girl holding the handle, and, nearest, the worker in the green apron arranging apples. A soft glow around the green apron. Feeling: searching, then hope. Calm area: the wall across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 8,
+      "art": "Seen from above: Karam is one small still figure among the shelf rows, both arms raised high and waving slowly; a few curved lines show the slow wave (no letters). The worker in the green apron has looked up and is turning towards him. Feeling: clear, visible, safe. Calm area: the plain floor in the bottom band.",
+      "zone": { "side": "full", "v": "bottom", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 9,
+      "art": "The worker kneels on one knee in front of Karam so their faces are level; she smiles kindly, her hands on her own knees. Karam nods, his chin wobbling a little. Feeling: kindness, relief beginning. Calm area: the wall across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 10,
+      "art": "Close on Karam talking, standing up straight, one hand on his chest, the other pointing away (towards where his father might be). The worker listens carefully, nodding. Feeling: brave and clear. Calm area: the wall across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 11,
+      "art": "The worker speaks into a small microphone on the wall by the fruit; round sound waves spread out over the tops of all the shelves (curved lines, no letters). Karam stands beside her, holding the edge of her apron. Feeling: the message flying out. Calm area: the wall across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 12,
+      "art": "At the end of an aisle, Karam's father hurries round the corner, coat flapping, the blue cap in his hand, his face searching and then lighting up. Karam, by the oranges, sees him. Feeling: here he is. Calm area: the plain floor in the bottom band.",
+      "zone": { "side": "full", "v": "bottom", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 13,
+      "art": "Karam's father lifts him up in a big hug, both laughing; the blue cap is back on his head, a little crooked. The worker in the green apron gives them a thumbs up beside the orange tower, which is still standing. Last picture of the book: warm and safe. Calm area: the wall across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    }
+  ],
+  "film": {
+    "targetSeconds": 242,
+    "shots": [
+      { "n": 1, "page": 1, "action": "12 s. Scene 1, the rule. A rain-washed winter street; Karam and his father walk to the supermarket doors. No words or brands on any sign. Keep the lower fifth calm for captions in every shot.", "sound": ["light rain", "city sounds, soft", "calm music"], "lines": ["f01"] },
+      { "n": 2, "page": 1, "action": "8 s. At the doors his father crouches to Karam's height and asks.", "sound": ["the doors slide open"], "lines": ["f02"] },
+      { "n": 3, "page": 1, "action": "6 s. Karam answers and waves both arms high, grinning.", "sound": ["a playful chord"], "lines": ["f03"] },
+      { "n": 4, "page": 2, "action": "12 s. Inside, the camera at a small child's height: tall shelves glide past, repeated shapes; the trolley wheels squeak. No words.", "sound": ["trolley wheels", "soft shop music", "distant beeps"], "lines": [] },
+      { "n": 5, "page": 2, "action": "6 s. Looking up the aisle: shelves on both sides.", "sound": ["shop sounds"], "lines": ["f04"] },
+      { "n": 6, "page": 3, "action": "10 s. Scene 2, the tower. The worker in the green apron stacks oranges into a tower, one at a time.", "sound": ["oranges set down softly, one by one"], "lines": ["f05"] },
+      { "n": 7, "page": 3, "action": "7 s. Karam stares, fascinated. Behind him, out of focus, the trolley and the blue cap move away round the corner.", "sound": ["the trolley squeak fading away"], "lines": ["f06"] },
+      { "n": 8, "page": 4, "action": "6 s. The last orange goes on the top: a tiny wobble, then it holds. No words.", "sound": ["a held breath", "a tiny triumphant note"], "lines": [] },
+      { "n": 9, "page": 4, "action": "6 s. Karam turns round, smiling, to show his father.", "sound": ["quiet"], "lines": ["f07"] },
+      { "n": 10, "page": 4, "action": "5 s. An empty aisle.", "sound": ["the shop music, thin and far"], "lines": ["f08"] },
+      { "n": 11, "page": 5, "action": "12 s. Scene 3, lost. The camera turns slowly at Karam's height: every aisle looks the same. The music becomes small and worried; no sudden loud sound.", "sound": ["a soft, worried tune", "distant shop sounds"], "lines": ["f09"] },
+      { "n": 12, "page": 5, "action": "8 s. Close on Karam: quick breaths, hands clutching his coat. No words.", "sound": ["quick, soft breathing"], "lines": [] },
+      { "n": 13, "page": 6, "action": "7 s. He plants his feet beside the oranges and takes one big breath.", "sound": ["one long breath out", "the worried tune steadies"], "lines": ["f10"] },
+      { "n": 14, "page": 6, "action": "8 s. The camera rises: Karam is one small still figure among the shelf rows. No words.", "sound": ["a steady, calm note"], "lines": [] },
+      { "n": 15, "page": 7, "action": "7 s. Karam looks around carefully.", "sound": ["calmer music"], "lines": ["f11"] },
+      { "n": 16, "page": 7, "action": "9 s. What he sees, one after another: a mother with a pram and a little girl; then the worker in the green apron.", "sound": ["a gentle 'found' chime on the green apron"], "lines": ["f12"] },
+      { "n": 17, "page": 7, "action": "4 s. Karam's face brightens.", "sound": ["a bright note"], "lines": ["f13"] },
+      { "n": 18, "page": 8, "action": "10 s. Karam lifts both arms and waves, high and slow. The camera rises above the shelves to show him as one waving figure. No words.", "sound": ["slow, hopeful music"], "lines": [] },
+      { "n": 19, "page": 8, "action": "5 s. The worker looks up and sees him at once.", "sound": ["the music warms"], "lines": [] },
+      { "n": 20, "page": 9, "action": "8 s. Scene 4, the helper. She comes over and kneels down to his height.", "sound": ["footsteps", "warm music"], "lines": ["f14"] },
+      { "n": 21, "page": 10, "action": "10 s. Karam answers. As he starts on his full name and his father's full name, his voice goes soft under the music, so no real family name is ever heard.", "sound": ["Karam's voice fading under the music"], "lines": ["f15"] },
+      { "n": 22, "page": 10, "action": "5 s. The worker nods.", "sound": ["warm music"], "lines": ["f16"] },
+      { "n": 23, "page": 11, "action": "8 s. She walks with Karam to the small microphone on the wall by the fruit. No words.", "sound": ["footsteps"], "lines": [] },
+      { "n": 24, "page": 11, "action": "8 s. Her voice rings out over the shop; round sound waves spread over the shelves.", "sound": ["a two-note chime", "an echoing voice"], "lines": ["f17"] },
+      { "n": 25, "page": 12, "action": "9 s. Scene 5, found. Quick footsteps; Karam's father hurries round a corner, the blue cap in his hand. No words.", "sound": ["hurrying footsteps", "music rising"], "lines": [] },
+      { "n": 26, "page": 12, "action": "4 s. He sees Karam and calls.", "sound": ["music"], "lines": ["f18"] },
+      { "n": 27, "page": 13, "action": "10 s. He scoops Karam up in a big hug; both laugh. No words.", "sound": ["laughter", "warm music"], "lines": [] },
+      { "n": 28, "page": 13, "action": "6 s. Still holding him, his father says it.", "sound": ["warm music"], "lines": ["f19"] },
+      { "n": 29, "page": 13, "action": "5 s. Karam answers, proud.", "sound": ["warm music"], "lines": ["f20"] },
+      { "n": 30, "page": 13, "action": "5 s. The worker waves goodbye.", "sound": ["warm music"], "lines": ["f21"] },
+      { "n": 31, "page": 13, "action": "16 s. Closing image: father and son walk on down the aisle, Karam's hand on the trolley; the orange tower still standing behind them. Hold the still picture 6 s while the music ends, then stop. No autoplay.", "sound": ["the last notes of the music", "a trolley squeak"], "lines": [] }
+    ]
+  },
+  "activity": {
+    "minutes": 10,
+    "materials": ["none"],
+    "steps": [
+      { "n": 1, "picture": "A grown-up kneels to a child's height and asks a question with a friendly face (a speech bubble with a small drawing of a question mark shape made of dots, no letters).", "loop": false },
+      { "n": 2, "picture": "The child stands up straight and answers, pointing to themself and then to the grown-up (a speech bubble with two small faces, the child's and the grown-up's).", "loop": false },
+      { "n": 3, "picture": "Now the child kneels and asks, playing the helper, and the grown-up answers; two curved arrows show they swapped.", "loop": true }
+    ],
+    "checkedAgainst": "docs/story-room/age-4-5.md section 7 (red list) and section 4 (activity limits), 25 Nov 2026"
+  }
+}

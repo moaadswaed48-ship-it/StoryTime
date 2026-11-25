@@ -1,0 +1,46 @@
+[
+  {
+    "id": "c11-felix",
+    "name": { "ar": "فِيلِكْس", "he": "פֶלִיקְס", "en": "Felix", "da": "Felix" },
+    "stage": "child",
+    "build": { "height": 0.65, "heads": 4.7, "girth": 0.44, "shoulders": 1.15 },
+    "skin": "#d8a27a",
+    "hair": { "style": "tuft", "color": "#2e1c16" },
+    "eyes": { "color": "#3a2418", "size": 0.8 },
+    "brows": { "color": "#2e1c16", "weight": 0.6 },
+    "top": { "style": "jumper", "color": "#3f9a8f", "trim": "#f4ecd8", "pattern": "plain" },
+    "bottom": { "style": "shorts", "color": "#5b6a9a" },
+    "shoes": { "style": "shoes", "color": "#d8563e" },
+    "manner": "Always in motion: runs everywhere with one shoelace flapping, squints and tilts his head when something puzzles him; when he gets something right he sings it under his breath and sways."
+  },
+  {
+    "id": "c11-grandpa",
+    "name": { "ar": "جَدّ فِيلِكْس", "he": "סַבָּא שֶׁל פֶלִיקְס", "en": "Grandpa", "da": "bedstefar" },
+    "stage": "elder",
+    "build": { "height": 0.92, "heads": 5.8, "girth": 0.6, "shoulders": 1.45 },
+    "skin": "#e0b08a",
+    "hair": { "style": "none", "color": "#e6e1da" },
+    "eyes": { "color": "#4a3a2c", "size": 0.5 },
+    "brows": { "color": "#e6e1da", "weight": 1 },
+    "top": { "style": "shirt", "color": "#f1ead8", "trim": "#7a4a2c", "pattern": "plain" },
+    "bottom": { "style": "trousers", "color": "#4a4a5e" },
+    "shoes": { "style": "boots", "color": "#5a3a2a" },
+    "extras": ["hat", "moustache"],
+    "extraColors": { "hat": "#6b5a4a" },
+    "manner": "Steady and unhurried, like his clock; climbs stairs at one even pace; explains with one finger and lets the child do the rest; raises one eyebrow very slowly instead of saying 'wrong'."
+  },
+  {
+    "id": "c11-friend",
+    "name": { "ar": "صَدِيقة فِيلِكْس", "he": "הַחֲבֵרָה שֶׁל פֶלִיקְס", "en": "Felix's friend", "da": "Felix' veninde" },
+    "stage": "child",
+    "build": { "height": 0.63, "heads": 4.6, "girth": 0.42, "shoulders": 1.1 },
+    "skin": "#8a5636",
+    "hair": { "style": "curls", "color": "#1c1210" },
+    "eyes": { "color": "#2e1c14", "size": 0.82 },
+    "brows": { "color": "#1c1210", "weight": 0.5 },
+    "top": { "style": "coat", "color": "#f2c94c", "trim": "#e2674a", "pattern": "plain" },
+    "bottom": { "style": "trousers", "color": "#36507e" },
+    "shoes": { "style": "boots", "color": "#e2674a" },
+    "manner": "Bouncy and full of plans; always hides a surprise behind her back; arrives running and talks before she has caught her breath."
+  }
+]

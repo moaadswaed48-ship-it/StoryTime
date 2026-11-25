@@ -1,0 +1,46 @@
+[
+  {
+    "id": "a08-elias",
+    "name": { "ar": "إِلْياس", "he": "אֵלִיאָס", "en": "Elias", "da": "Elias" },
+    "stage": "toddler",
+    "build": { "height": 0.46, "heads": 3.5, "girth": 0.6, "shoulders": 1.05 },
+    "skin": "#c58b62",
+    "hair": { "style": "short", "color": "#1f1410" },
+    "eyes": { "color": "#2e1c12", "size": 1 },
+    "brows": { "color": "#1f1410", "weight": 0.5 },
+    "top": { "style": "jumper", "color": "#6aa58e", "trim": "#f2ecd9", "pattern": "plain" },
+    "bottom": { "style": "trousers", "color": "#7a5a8c" },
+    "shoes": { "style": "shoes", "color": "#d6503c" },
+    "manner": "Holds on with both fists when he does not want something to end; looks at the door between everything he does; once he is busy, his tongue pokes out and he forgets to look; runs with his whole body leaning forward."
+  },
+  {
+    "id": "a08-papa",
+    "name": { "ar": "بابا", "he": "אַבָּא", "en": "Papa", "da": "far" },
+    "stage": "adult",
+    "build": { "height": 1, "heads": 6, "girth": 0.55, "shoulders": 1.6 },
+    "skin": "#b97f56",
+    "hair": { "style": "curls", "color": "#241812" },
+    "eyes": { "color": "#2e1c12", "size": 0.55 },
+    "brows": { "color": "#241812", "weight": 0.7 },
+    "top": { "style": "jumper", "color": "#d9a43a", "trim": "#2f3f6e", "pattern": "stripes" },
+    "bottom": { "style": "trousers", "color": "#3b3f4a" },
+    "shoes": { "style": "shoes", "color": "#5a3c2c" },
+    "extras": ["glasses"],
+    "extraColors": { "glasses": "#2a2a30" },
+    "manner": "Always kneels to Elias's height to talk; says important things slowly and once; his mustard-and-blue striped jumper is the thing Elias recognises from across the room (keep the stripes bold and identical in every picture)."
+  },
+  {
+    "id": "a08-teacher",
+    "name": { "ar": "المُعَلّمة", "he": "הַגַּנֶּנֶת", "en": "the teacher", "da": "pædagogen" },
+    "stage": "adult",
+    "build": { "height": 0.95, "heads": 6, "girth": 0.6, "shoulders": 1.5 },
+    "skin": "#e0b48e",
+    "hair": { "style": "ponytail", "color": "#7a4a2a" },
+    "eyes": { "color": "#4a6a50", "size": 0.6 },
+    "brows": { "color": "#7a4a2a", "weight": 0.55 },
+    "top": { "style": "shirt", "color": "#e98a6a", "trim": "#fff4e8", "pattern": "plain" },
+    "bottom": { "style": "trousers", "color": "#4a5a6a" },
+    "shoes": { "style": "shoes", "color": "#3a4a5a" },
+    "manner": "Crouches beside a child rather than in front of them, so they look at things together; points with her whole arm; speaks softly and counts the parts of the day on her fingers."
+  }
+]

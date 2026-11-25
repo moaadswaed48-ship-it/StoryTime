@@ -1,0 +1,152 @@
+[
+  {
+    "id": "a15-maya",
+    "name": {
+      "ar": "مايا",
+      "he": "מָאיָה",
+      "en": "Maya",
+      "da": "Maja"
+    },
+    "stage": "toddler",
+    "build": {
+      "height": 0.5,
+      "heads": 3.5,
+      "girth": 0.58,
+      "shoulders": 1.05
+    },
+    "skin": "#b97a50",
+    "hair": {
+      "style": "bob",
+      "color": "#1f1416"
+    },
+    "eyes": {
+      "color": "#2e1c14",
+      "size": 0.95
+    },
+    "brows": {
+      "color": "#1f1416",
+      "weight": 0.45
+    },
+    "top": {
+      "style": "tee",
+      "color": "#f2a98f",
+      "trim": "#ffffff",
+      "pattern": "stripes"
+    },
+    "bottom": {
+      "style": "shorts",
+      "color": "#3f9a8f"
+    },
+    "shoes": {
+      "style": "bare",
+      "color": "#b97a50"
+    },
+    "extras": [
+      "hat"
+    ],
+    "extraColors": {
+      "hat": "#f2c94c"
+    },
+    "manner": "Holds things tight to her chest when she loves them; feelings show at once and pass quickly; claps with her whole body."
+  },
+  {
+    "id": "a15-amir",
+    "name": {
+      "ar": "أَمِير",
+      "he": "אָמִיר",
+      "en": "Amir",
+      "da": "Amir"
+    },
+    "stage": "toddler",
+    "build": {
+      "height": 0.52,
+      "heads": 3.5,
+      "girth": 0.62,
+      "shoulders": 1.08
+    },
+    "skin": "#e2b48a",
+    "hair": {
+      "style": "curls",
+      "color": "#5b3420"
+    },
+    "eyes": {
+      "color": "#4a2f22",
+      "size": 0.9
+    },
+    "brows": {
+      "color": "#5b3420",
+      "weight": 0.5
+    },
+    "top": {
+      "style": "tee",
+      "color": "#5a79c4",
+      "trim": "#ffffff",
+      "pattern": "plain"
+    },
+    "bottom": {
+      "style": "shorts",
+      "color": "#e8b84a"
+    },
+    "shoes": {
+      "style": "bare",
+      "color": "#e2b48a"
+    },
+    "extras": [
+      "hat"
+    ],
+    "extraColors": {
+      "hat": "#ffffff"
+    },
+    "manner": "Busy and serious about sand; reaches with both hands; once he gets the rhythm of turns he sings along to it."
+  },
+  {
+    "id": "a15-mum",
+    "name": {
+      "ar": "أُمّ مايا",
+      "he": "אִמָּא שֶׁל מָאיָה",
+      "en": "Maya’s mum",
+      "da": "Majas mor"
+    },
+    "stage": "adult",
+    "build": {
+      "height": 0.98,
+      "heads": 6,
+      "girth": 0.5,
+      "shoulders": 1.5
+    },
+    "skin": "#b47a52",
+    "hair": {
+      "style": "long",
+      "color": "#2a1714"
+    },
+    "eyes": {
+      "color": "#3a2418",
+      "size": 0.6
+    },
+    "brows": {
+      "color": "#2a1714",
+      "weight": 0.6
+    },
+    "top": {
+      "style": "shirt",
+      "color": "#f3e7cf",
+      "trim": "#d9603f",
+      "pattern": "plain"
+    },
+    "bottom": {
+      "style": "trousers",
+      "color": "#5b6f9e"
+    },
+    "shoes": {
+      "style": "sandals",
+      "color": "#8a4a3a"
+    },
+    "extras": [
+      "hat"
+    ],
+    "extraColors": {
+      "hat": "#e9dcc4"
+    },
+    "manner": "Calm, kneels to the children's height; never takes sides; smooths the sand flat as if wiping the quarrel away, then gives each child a turn."
+  }
+]

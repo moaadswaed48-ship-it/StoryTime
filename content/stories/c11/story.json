@@ -1,0 +1,150 @@
+{
+  "id": "c11",
+  "ageGroups": ["6-8"],
+  "owner": "storytime",
+  "lesson": "Read a clock to the hour and the half hour.",
+  "cast": ["c11-felix", "c11-grandpa", "c11-friend"],
+  "pages": [
+    {
+      "n": 1,
+      "art": "A sunny city square in spring: pale stone paving, a round fountain in the middle, a bakery with a striped awning, flower boxes with red geraniums, and on one side a tall stone clock tower with a big round white clock face carrying twelve black marks and two black hands (no numerals, no words; the hands show twenty to five, a time the text does not name). Felix, in the foreground, runs in with his shoelace undone, too late: the football game is over and two children are walking away with the ball. Felix looks up at the clock, puzzled. Feeling: comic frustration. Calm area: the blue sky across the top, beside the tower.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 2,
+      "art": "The arched wooden door at the foot of the clock tower stands open. Grandpa, the clock keeper, in a waistcoat and flat cap, with a ring of big keys on his belt, holds out his hand to Felix. Felix looks up at the tower, eyes wide. Feeling: an invitation, a secret place opening. Calm area: the stone wall of the tower above the door, across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 3,
+      "art": "A narrow spiral stone staircase seen from below, winding up; small slit windows let in stripes of sky. Grandpa climbs steadily ahead with one hand on the rope rail; Felix follows, a step behind, counting on his fingers. Feeling: adventure, a long climb. Calm area: the plain curved wall at the top of the picture.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 4,
+      "art": "The clock room at the top: a small room with a wooden floor. In the middle, three or four big brass gear wheels on a simple frame, their teeth meshing, one turning the next (simple shapes, no fine detail). One whole wall is the back of the giant clock face: round, pale, lit from outside by the sun, the twelve marks glowing through it as dark shadows. Felix stands still, mouth open; Grandpa smiles beside him. Feeling: wonder, like standing inside a heart. Calm area: the dim upper part of the room, across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 5,
+      "art": "Grandpa winding the clock with a big iron crank handle fitted into the frame, leaning into it, cheeks pink. On a small workbench nearby lies an old wooden practice clock face with twelve marks and two movable hands, one short and one long. Felix is already reaching for it. Feeling: work, then a lesson about to start. Calm area: the upper wall, across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 6,
+      "art": "Close: Grandpa and Felix bent over the wooden practice clock on the workbench. The long hand points straight up; the short hand points at the third mark after the top (three o'clock). Grandpa's finger rests on the short hand; Felix's finger traces the marks. Feeling: careful learning. Calm area: the plain workbench wood across the bottom.",
+      "zone": { "side": "full", "v": "bottom", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 7,
+      "art": "The same practice clock, now with the long hand pointing straight down and the short hand halfway between the third and fourth marks (half past three). A curved dotted arrow shows the long hand's half-turn from top to bottom. Felix, eyes closed, sways a little as if singing to himself; Grandpa nods. Feeling: it clicks. Calm area: the plain upper wall of the clock room, across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 8,
+      "art": "Three small scenes of Felix practising, in one picture like a strip: at the breakfast table pointing at a round kitchen clock; at his bedroom window looking at the tower clock far away; at Grandpa's kitchen table, pointing at a clock showing ten o'clock (long hand up, short hand at the tenth mark), mouth open in a shout, while Grandpa raises one eyebrow. Feeling: effort, a funny mistake, practice. Calm area: a plain band of wall across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 9,
+      "art": "The square in the late morning: Felix's friend, a girl with short curly hair and a yellow jacket, runs up to Felix with one hand hiding something behind her back, the other hand pointing at the fountain. Felix stands by the fountain's stone edge, swallowing. The tower clock in the background shows a little after eleven. Feeling: a promise, a little nerves. Calm area: the sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 10,
+      "art": "In front of the bakery, Felix kneels on the paving with a few glass marbles in a chalk circle. He has just looked up: the tower clock in the background clearly shows half past three (long hand straight down, short hand halfway between the third and fourth marks). His hand is frozen mid-flick. Feeling: remembering just in time. Calm area: the sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 11,
+      "art": "Felix walking across the square towards the fountain, hands in his pockets, marbles bulging in one pocket. Pigeons strut out of his way. The fountain splashes in flat layered arcs of water. The clock shows a little after half past three. Feeling: calm, purposeful. Calm area: the sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 12,
+      "art": "Felix sitting on the stone edge of the fountain, chin in his hands, staring up at the tower clock: the long hand is nearly straight up, just before four. Two pigeons sit beside him. Feeling: waiting, a little suspense. Calm area: the sky beside the tower, across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 13,
+      "art": "Four o'clock exactly on the tower clock (long hand straight up, short hand at the fourth mark). Sound shown only as a few big curved lines rippling out from the tower, no letters. A burst of pigeons flies up from the square. Round the corner of the bakery, the friend comes running, cheeks red, waving. Felix stands up on the fountain edge, grinning. Feeling: triumph, joy. Calm area: the sky across the top, above the pigeons.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 14,
+      "art": "Last picture of the book: the friend holds up a red and yellow paper windmill on a stick that spins in the breeze; Felix laughs. High up, in the small window under the tower clock (still showing just after four), Grandpa leans out and waves; Felix waves back. Warm afternoon light over the whole square. Feeling: pride, friendship, time on his side. Calm area: the stone paving across the bottom.",
+      "zone": { "side": "full", "v": "bottom", "size": "m" },
+      "image": null
+    }
+  ],
+  "film": {
+    "targetSeconds": 372,
+    "shots": [
+      { "n": 1, "page": 1, "action": "12 s. Scene 1, the square. Wide on the spring square: fountain, bakery, the tall clock tower with its twelve-mark face (no numerals anywhere, in any shot). The hands sweep in fast motion while people cross the square; then they slow to normal. No words. Keep the lower fifth calm for captions in every shot.", "sound": ["a ticking beat", "a light, bouncy tune on pizzicato strings", "the fountain"], "lines": [] },
+      { "n": 2, "page": 1, "action": "9 s. Felix runs into the square, shoelace flapping; the football game has just ended, the last two children walk off with the ball.", "sound": ["running feet", "a ball bouncing away"], "lines": ["f01"] },
+      { "n": 3, "page": 1, "action": "11 s. Quick comic montage: Felix arriving at Grandpa's table as the plates are cleared; Felix arriving at a party just as the last crumb of cake is eaten.", "sound": ["a plate clink", "a deflating trombone"], "lines": ["f02"] },
+      { "n": 4, "page": 1, "action": "8 s. Felix stands in the square and squints up at the clock face. Push in slowly on the face.", "sound": ["tick, tock"], "lines": ["f03"] },
+      { "n": 5, "page": 1, "action": "8 s. Felix tilts his head one way, then the other, as if the clock might make more sense sideways. No words.", "sound": ["a puzzled plucked note, twice"], "lines": [] },
+      { "n": 6, "page": 2, "action": "9 s. Scene 2, the tower. The old wooden door creaks open; Grandpa, keys jingling, holds out his hand.", "sound": ["a creaking door", "keys jingling"], "lines": ["f04"] },
+      { "n": 7, "page": 3, "action": "12 s. The spiral stairs: the camera climbs with them, round and round; stripes of light flick past from the slit windows. Felix counts on his fingers, loses count, starts again.", "sound": ["footsteps echoing on stone", "the tune climbing note by note"], "lines": ["f05"] },
+      { "n": 8, "page": 4, "action": "8 s. They step into the clock room. The ticking is suddenly loud and close. Hold on Felix's face. No words.", "sound": ["a big, slow tick... tock"], "lines": [] },
+      { "n": 9, "page": 4, "action": "12 s. The few big wheels turn slowly, each one pushing the next; then the camera turns to the back of the giant face, glowing with sun, the twelve marks dark against it.", "sound": ["deep ticking", "a soft hum of the gears"], "lines": ["f06"] },
+      { "n": 10, "page": 4, "action": "8 s. Felix steps up to the glowing face and lays his palm flat on it; the ticking runs through his hand. No words.", "sound": ["a deep tick, felt more than heard"], "lines": [] },
+      { "n": 11, "page": 5, "action": "10 s. Grandpa fits the big iron handle and winds, and winds; the wheels speed up a little, then settle. Comic puffing. No words.", "sound": ["a ratchet clicking", "Grandpa puffing"], "lines": [] },
+      { "n": 12, "page": 5, "action": "7 s. Grandpa wipes his hands and brings the wooden practice clock to the workbench.", "sound": ["wood set down on wood"], "lines": [] },
+      { "n": 13, "page": 6, "action": "10 s. Scene 3, the lesson. Close on the practice clock: Grandpa's finger moves the short hand from mark to mark.", "sound": ["one soft click per mark"], "lines": ["f07"] },
+      { "n": 14, "page": 6, "action": "10 s. He sets the long hand straight up and the short hand on the third mark. A small chime.", "sound": ["a bright chime"], "lines": ["f08"] },
+      { "n": 15, "page": 7, "action": "12 s. Grandpa turns the long hand half a turn, from top to bottom; the short hand creeps halfway towards the fourth mark. A dotted arc traces the path.", "sound": ["a slow whirr", "a lower chime"], "lines": ["f09"] },
+      { "n": 16, "page": 7, "action": "9 s. Felix closes his eyes and sings the rule to himself, swaying; Grandpa taps the beat on the bench.", "sound": ["two taps per line"], "lines": ["f10"] },
+      { "n": 17, "page": 7, "action": "9 s. Felix moves the hands himself: straight up, straight down, straight up again; Grandpa claps once. No words.", "sound": ["click", "click", "a single clap"], "lines": [] },
+      { "n": 18, "page": 8, "action": "10 s. Scene 4, practice. A morning at the breakfast table: Felix points at the kitchen clock, mouth full of bread. Then at his window, he squints at the tower clock far away. No words.", "sound": ["the bouncy tune", "a spoon in a bowl"], "lines": [] },
+      { "n": 19, "page": 8, "action": "7 s. At Grandpa's kitchen table, Felix points at the clock (long hand up, short hand on the tenth mark) and shouts.", "sound": ["a proud trumpet note"], "lines": ["f11"] },
+      { "n": 20, "page": 8, "action": "7 s. Grandpa raises one eyebrow, very slowly.", "sound": ["a questioning plucked note"], "lines": ["f12"] },
+      { "n": 21, "page": 8, "action": "8 s. Felix looks again, then slaps his forehead and laughs; Grandpa laughs too.", "sound": ["laughter"], "lines": ["f13"] },
+      { "n": 22, "page": 8, "action": "9 s. Evening at Felix's window: the tower clock glows across the rooftops; Felix points and whispers the rule to himself. No words.", "sound": ["evening birds", "a soft tick"], "lines": [] },
+      { "n": 23, "page": 9, "action": "11 s. Scene 5, the promise. In the square, Felix's friend runs up, one hand hidden behind her back.", "sound": ["running feet", "the fountain"], "lines": ["f14"] },
+      { "n": 24, "page": 9, "action": "8 s. Felix gulps, looks up at the tower, and squares his shoulders.", "sound": ["one deep tick"], "lines": ["f15"] },
+      { "n": 25, "page": 10, "action": "11 s. Scene 6, the afternoon. In front of the bakery, Felix plays marbles in a chalk circle.", "sound": ["glass marbles clicking", "a rolling sound"], "lines": ["f16"] },
+      { "n": 26, "page": 10, "action": "6 s. Mid-flick, he stops. Slowly he looks up at the tower. No words.", "sound": ["the music stops"], "lines": [] },
+      { "n": 27, "page": 10, "action": "9 s. The clock face, close: long hand straight down, short hand halfway between the third and fourth marks. Felix works it out.", "sound": ["tick, tock"], "lines": ["f17", "f18"] },
+      { "n": 28, "page": 11, "action": "10 s. Felix scoops up his marbles, puts them in his pocket and walks across the square; pigeons strut out of his way. No words.", "sound": ["marbles clinking in a pocket", "pigeons cooing"], "lines": [] },
+      { "n": 29, "page": 11, "action": "9 s. He sits on the edge of the fountain. The water arcs in flat layered bands.", "sound": ["the fountain", "a calm version of the tune"], "lines": ["f19"] },
+      { "n": 30, "page": 11, "action": "8 s. Life of the square while he waits: a breeze ruffles the water, the bakery door jingles, a child chases a pigeon. No words.", "sound": ["a shop bell", "the fountain", "children's voices far off"], "lines": [] },
+      { "n": 31, "page": 12, "action": "12 s. Waiting, in a few gentle dissolves: the long hand climbs; Felix's chin rests on his hands; a pigeon sits down beside him; the hand climbs higher. Real but gentle suspense.", "sound": ["ticking, slowly getting louder"], "lines": ["f20"] },
+      { "n": 32, "page": 12, "action": "6 s. Close on the long hand, one breath from the top. Silence for a moment. No words.", "sound": ["silence", "one tick"], "lines": [] },
+      { "n": 33, "page": 13, "action": "12 s. The long hand reaches the top. The clock strikes four: four deep bongs, each with sound rings rippling out from the tower, and a burst of pigeons flying up.", "sound": ["bong", "bong", "bong", "bong", "pigeons' wings"], "lines": [] },
+      { "n": 34, "page": 13, "action": "8 s. On the last bong, the friend comes running round the corner of the bakery, puffing and waving.", "sound": ["running feet", "the tune bursts back in"], "lines": ["f21"] },
+      { "n": 35, "page": 14, "action": "9 s. She pulls the red and yellow paper windmill from behind her back; it spins in the breeze.", "sound": ["a whirring paper windmill", "a delighted chord"], "lines": ["f22"] },
+      { "n": 36, "page": 14, "action": "8 s. The friend hands Felix the windmill; he holds it up and they both blow on it, laughing, and it whirls. No words.", "sound": ["blowing", "the paper windmill whirring"], "lines": [] },
+      { "n": 37, "page": 14, "action": "9 s. Felix looks up at the clock and says it, proud and quiet.", "sound": ["a warm tick"], "lines": ["f23"] },
+      { "n": 38, "page": 14, "action": "8 s. High in the little window under the clock, Grandpa leans out and waves; Felix and his friend wave back. No words.", "sound": ["the tune, warm"], "lines": [] },
+      { "n": 39, "page": 14, "action": "10 s. The two friends run off across the square with the windmill spinning.", "sound": ["laughing", "running feet"], "lines": ["f24"] },
+      { "n": 40, "page": 14, "action": "13 s. Closing image: the clock tower against the spring sky, the face showing just after four, the square quiet, the fountain glittering. Nothing moves but the long hand, very slowly. Hold the still picture 6 s while the music ends, then stop. No autoplay.", "sound": ["the last notes of the tune", "one soft tick"], "lines": [] }
+    ]
+  },
+  "activity": {
+    "minutes": 20,
+    "materials": ["timer-or-phone", "paper", "pencil"],
+    "steps": [
+      { "n": 1, "picture": "A child sits cross-legged with eyes closed; a grown-up beside them holds a kitchen timer showing only a ring (no digits) and has just pressed start.", "loop": false },
+      { "n": 2, "picture": "The child opens their eyes and says 'now'; the grown-up shows the timer ring. On paper, a line with a small rabbit at one end (too early) and a small tortoise at the other end (too late); the child draws a dot on it.", "loop": false },
+      { "n": 3, "picture": "The child tries again with eyes closed, lips moving, tapping one finger slowly on their knee as they count.", "loop": false },
+      { "n": 4, "picture": "The child hops on one foot in a clear space while the grown-up holds the timer; on the floor, a paper with tally marks for the hops.", "loop": true },
+      { "n": 5, "picture": "The child counts on their fingers, naming fruit (a little thought bubble shows an orange, a banana, grapes, a fig); the grown-up holds the timer and smiles.", "loop": false }
+    ],
+    "checkedAgainst": "docs/story-room/age-6-8.md section 7 (red list) and section 4 (activity limits), 25 Nov 2026"
+  }
+}

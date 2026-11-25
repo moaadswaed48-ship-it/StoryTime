@@ -1,0 +1,58 @@
+[
+  {
+    "id": "b11-tala",
+    "name": { "ar": "تالا", "he": "טָלָה", "en": "Tala", "da": "Tala" },
+    "stage": "child",
+    "build": { "height": 0.6, "heads": 4.5, "girth": 0.42, "shoulders": 1.1 },
+    "skin": "#d29a70",
+    "hair": { "style": "braids", "color": "#2a1814" },
+    "eyes": { "color": "#3a2418", "size": 0.88 },
+    "brows": { "color": "#2a1814", "weight": 0.5 },
+    "top": { "style": "dress", "color": "#e8705a", "trim": "#ffe9c4", "pattern": "dots" },
+    "bottom": { "style": "trousers", "color": "#34507e" },
+    "shoes": { "style": "sandals", "color": "#f6d98a" },
+    "manner": "Bright and bouncy; sits on her knees so she can spring up; thinks with a finger on her chin; when she is happy she claps without noticing."
+  },
+  {
+    "id": "b11-drummer",
+    "name": { "ar": "عازِف الطَبل", "he": "הַמְּתוֹפֵף", "en": "the drummer", "da": "trommeslageren" },
+    "stage": "adult",
+    "build": { "height": 1.0, "heads": 6, "girth": 0.42, "shoulders": 1.55 },
+    "skin": "#8a5636",
+    "hair": { "style": "curls", "color": "#17110f" },
+    "eyes": { "color": "#2a1a12", "size": 0.55 },
+    "brows": { "color": "#17110f", "weight": 0.7 },
+    "top": { "style": "shirt", "color": "#f0c23c", "trim": "#3f7f8c", "pattern": "plain" },
+    "bottom": { "style": "trousers", "color": "#39384f" },
+    "shoes": { "style": "shoes", "color": "#e8e4da" },
+    "manner": "A young man with a playful twinkle; talks with his eyebrows; lets his eyes give the clues before his hands play; laughs with his head thrown back. His big round drum has no markings or letters, only a plain painted band."
+  },
+  {
+    "id": "b11-boy",
+    "name": { "ar": "وَلَد", "he": "יֶלֶד", "en": "a boy", "da": "en dreng" },
+    "stage": "child",
+    "build": { "height": 0.64, "heads": 4.5, "girth": 0.5, "shoulders": 1.18 },
+    "skin": "#e9c2a0",
+    "hair": { "style": "short", "color": "#6b3f22" },
+    "eyes": { "color": "#4f7a5a", "size": 0.78 },
+    "top": { "style": "tee", "color": "#4f8a5c", "trim": "#f4e3bd", "pattern": "stripes" },
+    "bottom": { "style": "shorts", "color": "#3d4f7c" },
+    "shoes": { "style": "shoes", "color": "#c8553d" },
+    "extras": ["hat"],
+    "extraColors": { "hat": "#d9603f" },
+    "manner": "Background figure who speaks twice. Wears a cap; always first with his hand up, sure he knows the answer; shrugs with his whole body when he doesn't."
+  },
+  {
+    "id": "b11-mum",
+    "name": { "ar": "أُمّ تالا", "he": "אִמָּא שֶׁל טָלָה", "en": "Tala’s mum", "da": "Talas mor" },
+    "stage": "adult",
+    "build": { "height": 0.95, "heads": 6, "girth": 0.5, "shoulders": 1.5 },
+    "skin": "#c98e62",
+    "hair": { "style": "covered", "color": "#2a1714", "cover": "#8fb7a8" },
+    "eyes": { "color": "#3a2418", "size": 0.55 },
+    "top": { "style": "coat", "color": "#7a5a8a", "trim": "#f4ecd8", "pattern": "plain" },
+    "bottom": { "style": "trousers", "color": "#3d3a4c" },
+    "shoes": { "style": "shoes", "color": "#5b3420" },
+    "manner": "Background figure, never speaks. Watches from the bench with quiet pride; claps along softly; holds Tala's hand on the way home."
+  }
+]

@@ -1,0 +1,152 @@
+{
+  "id": "c12",
+  "ageGroups": ["6-8"],
+  "owner": "storytime",
+  "lesson": "Enjoy reading aloud to someone, taking turns with the words and the pictures.",
+  "cast": ["c12-tamara", "c12-brother", "c12-mother", "c12-nurse", "c12-boy"],
+  "pages": [
+    {
+      "n": 1,
+      "art": "A bright children's ward in a city hospital on an autumn afternoon: two beds with pale green covers, a big window with a few raindrops on the glass and a grey sky with soft light. In the near bed sits Tamara's little brother, four years old, one leg in a big white cast resting on a pillow, arms folded, bottom lip out. Tamara, six, stands by the bed with something hidden behind her back. In the far bed, a boy of about seven with a bandaged arm lies with his eyes shut. Feeling: grumpy, a little dull, a surprise coming. Calm area: the pale wall above the beds, across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 2,
+      "art": "Tamara sits on the edge of the bed and holds up a picture book with a plain cover: a small green tortoise on a round hill (no title, no letters). Her brother rolls his eyes up at the ceiling but his eyes slide towards the cover. Feeling: hopeful sister, pretend-bored brother. Calm area: the wall across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 3,
+      "art": "Close: the open book on Tamara's knees. The text on the inner page is drawn as neat grey lines (no real letters). Tamara's finger rests under the first line; her lips are moving, her face serious. Her brother wriggles against his pillow, impatient. Feeling: effort and impatience. Calm area: the plain bedcover across the bottom.",
+      "zone": { "side": "full", "v": "bottom", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 4,
+      "art": "Tamara stuck: her finger has stopped under one very long grey line-word, her forehead wrinkled, the tip of her tongue showing in concentration. The facing page of the inner book shows a picture of the tortoise at the top of a hill, tipping forward. Feeling: stuck, a tense pause. Calm area: the wall across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 5,
+      "art": "The brother sitting bolt upright, both arms flung up, mouth wide (shouting the word). Tamara has snapped the book shut on her lap, cheeks red, frowning at him. Now two cross faces. Feeling: a quarrel, comic but real. Calm area: the wall across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 6,
+      "art": "A quiet moment: Tamara and her brother each look away, she at the closed book on her knees, he at the cast on his leg. Through the open door behind them, a nurse pushes a trolley past along the corridor. The light from the window is softer. Feeling: sulky silence, then a small softening. Calm area: the wall across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 7,
+      "art": "The book open again between them. The inner picture (big, clear, simple shapes): the tortoise rolling head over heels down a green hill, a rabbit laughing, a small bird flapping away in surprise. Tamara points at the picture and looks at her brother; he is considering, one eyebrow up. Feeling: an idea. Calm area: the wall across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 8,
+      "art": "Taking turns: Tamara's finger under a grey line of text on the left page; her brother's finger on the laughing rabbit on the right page, his face lit up as he talks. The rabbit in the picture has fallen on its back laughing; a bird has dropped a worm. Feeling: teamwork, delight. Calm area: the bedcover across the bottom.",
+      "zone": { "side": "full", "v": "bottom", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 9,
+      "art": "The boy in the next bed, bandaged arm in a sling, has one eye open and is sitting halfway up, peeking over at the book. Tamara, noticing, turns the book a little so he can see. Feeling: curiosity, the circle opening. Calm area: the wall between the beds, across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 10,
+      "art": "The inner picture fills half the spread: the tortoise climbing out of a round pond with a surprised frog sitting on his head. On the other half, the boy in the next bed laughing with his head thrown back; in the doorway, Mum has come back carrying a jug of water, smiling, about to sit down. Feeling: laughter spreading. Calm area: the wall across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 11,
+      "art": "The nurse, in a light blue uniform with a clipboard, stands at the foot of the bed checking the cast; her head is turned towards the book, listening, a smile starting. Tamara keeps reading, finger under the words; Mum sits in the chair by the bed. Feeling: the room slowing down to listen. Calm area: the wall across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 12,
+      "art": "Tamara, very concentrated, finger under another long grey word; her brother has both hands clapped over his own mouth so as not to shout, eyes sparkling. The boy in the next bed and Mum lean in. Feeling: suspense, then triumph. Calm area: the wall across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 13,
+      "art": "The inner book's last picture, large: all the animals having a party on top of the hill under paper lanterns, the little tortoise in the middle, a snail at the very edge. Behind the real bed, the window has turned deep blue, and small yellow city lights dot the dark. Feeling: celebration, evening coming. Calm area: the dark sky in the window across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 14,
+      "art": "Last picture of the book: evening on the ward, a warm lamp over the bed. Tamara sits on the bed with the closed book; her brother beams beside her; around the bed sit three listeners: the boy from the next bed (holding out his own book), Mum, and the nurse on a stool with her clipboard on her knee. Everybody is smiling. Feeling: warmth, togetherness. Calm area: the darker wall above the lamp, across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    }
+  ],
+  "film": {
+    "targetSeconds": 365,
+    "shots": [
+      { "n": 1, "page": 1, "action": "12 s. Scene 1, the ward. Outside, a city hospital on a grey autumn afternoon, a little rain on the windows; the camera drifts in through a window to the children's ward. No words. Keep the lower fifth calm for captions in every shot.", "sound": ["soft rain", "a gentle tune on a celesta", "a distant hospital hum"], "lines": [] },
+      { "n": 2, "page": 1, "action": "9 s. The little brother in bed, cast on a pillow, arms folded, glaring at the ceiling.", "sound": ["a big sigh"], "lines": ["f01"] },
+      { "n": 3, "page": 1, "action": "7 s. He kicks his good foot under the blanket.", "sound": ["a grumpy grunt"], "lines": ["f02"] },
+      { "n": 4, "page": 2, "action": "9 s. Tamara steps in from behind the bed and swings the tortoise book out from behind her back.", "sound": ["a bright little chime"], "lines": ["f03"] },
+      { "n": 5, "page": 2, "action": "7 s. He groans and turns his head away, but his eyes slide back to the cover. Comic, no words.", "sound": ["a groan", "one plucked note"], "lines": [] },
+      { "n": 6, "page": 2, "action": "8 s. Tamara sits on the edge of the bed, smooths the cover and opens the book on her knees like something precious. No words.", "sound": ["the bed creaks", "a soft page sound"], "lines": [] },
+      { "n": 7, "page": 3, "action": "7 s. Tamara takes a deep breath before the first word; her brother rolls his eyes. No words.", "sound": ["a deep breath"], "lines": [] },
+      { "n": 8, "page": 3, "action": "11 s. Scene 2, reading. Close on the open book: Tamara's finger moves under the grey lines of text, one word at a time, very slowly.", "sound": ["the page turning", "a slow, careful tune"], "lines": ["f04"] },
+      { "n": 9, "page": 3, "action": "6 s. The brother wriggles and drums his fingers on the blanket.", "sound": ["finger drumming"], "lines": ["f05"] },
+      { "n": 10, "page": 4, "action": "9 s. Tamara reads on; her finger stops under one very long word. She frowns, tongue between her teeth.", "sound": ["the tune stops on a held note"], "lines": ["f06"] },
+      { "n": 11, "page": 4, "action": "6 s. Silence. The long word sits on the page. Hold on Tamara's stuck face. No words.", "sound": ["a clock ticking in the corridor"], "lines": [] },
+      { "n": 12, "page": 5, "action": "7 s. The brother bursts out with the word, arms flung up.", "sound": ["a cymbal crash, comic"], "lines": ["f07"] },
+      { "n": 13, "page": 5, "action": "8 s. Tamara slams the book shut, cheeks red.", "sound": ["a book snapping shut"], "lines": ["f08"] },
+      { "n": 14, "page": 5, "action": "8 s. Two cross faces, turned away from each other, side by side on the bed.", "sound": ["two low grumbling notes"], "lines": ["f09"] },
+      { "n": 15, "page": 6, "action": "12 s. A long quiet moment: a trolley rattles past in the corridor; rain on the window; Tamara looks at the book, her brother at his cast. A breathing moment, no words.", "sound": ["a trolley rattling past", "rain"], "lines": [] },
+      { "n": 16, "page": 6, "action": "8 s. The brother speaks to his cast, very quietly.", "sound": ["the celesta, soft"], "lines": ["f10"] },
+      { "n": 17, "page": 7, "action": "8 s. Tamara opens the book again, slowly; the picture of the tortoise rolling down the hill.", "sound": ["a page turning"], "lines": ["f11"] },
+      { "n": 18, "page": 7, "action": "6 s. The brother raises one eyebrow, thinks, and nods once.", "sound": ["a hopeful note"], "lines": ["f12"] },
+      { "n": 19, "page": 7, "action": "7 s. They shake on it, very seriously, a small hand and an even smaller hand. No words.", "sound": ["a tiny drum roll"], "lines": [] },
+      { "n": 20, "page": 8, "action": "10 s. Scene 3, taking turns. Tamara reads a line, her finger under the words; then the camera dives into the picture.", "sound": ["the tune returns, lighter"], "lines": [] },
+      { "n": 21, "page": 8, "action": "12 s. Story inside the story: the book's picture comes alive in flat paper shapes as the brother tells it. The tortoise tumbles head over heels down the hill; the rabbit laughs so hard he falls on his back; a bird drops its worm.", "sound": ["a tumbling xylophone run", "a rabbit's squeaky giggle", "a bird's flap"], "lines": ["f13"] },
+      { "n": 22, "page": 8, "action": "8 s. Back on the bed: brother and sister grinning at each other over the book. No words.", "sound": ["a warm chord"], "lines": [] },
+      { "n": 23, "page": 9, "action": "9 s. In the next bed, the boy with the bandaged arm opens one eye, then both, and sits up.", "sound": ["a creaky bed spring"], "lines": ["f14"] },
+      { "n": 24, "page": 9, "action": "6 s. Tamara turns the book so he can see. No words.", "sound": ["a page turning"], "lines": [] },
+      { "n": 25, "page": 10, "action": "11 s. Story inside the story: the tortoise rolls into a pond with a splash and climbs out with a frog sitting on his head, both looking astonished.", "sound": ["a big splash", "a frog's croak"], "lines": ["f15", "f16"] },
+      { "n": 26, "page": 10, "action": "8 s. The boy in the next bed laughs and laughs; Mum appears in the doorway with a jug of water.", "sound": ["laughter", "footsteps"], "lines": ["f17"] },
+      { "n": 27, "page": 10, "action": "6 s. Mum pulls up a chair and sits down to listen. No words.", "sound": ["a chair scraping"], "lines": [] },
+      { "n": 28, "page": 10, "action": "8 s. Mum quietly pours water into three cups and hands them round without stopping the story. No words.", "sound": ["water pouring", "the tune"], "lines": [] },
+      { "n": 29, "page": 11, "action": "9 s. Scene 4, the listeners. The nurse comes in with her clipboard to check the cast, sees the book, and smiles.", "sound": ["soft shoes on the floor"], "lines": ["f18"] },
+      { "n": 30, "page": 11, "action": "9 s. The nurse checks the cast and writes on her clipboard, listening with one ear, then turns to listen with both. No words.", "sound": ["a pen scratching", "the tune"], "lines": [] },
+      { "n": 31, "page": 11, "action": "8 s. The nurse pulls up a stool, sits down and rests her arms on her clipboard to listen. No words.", "sound": ["a stool scraping", "the tune"], "lines": [] },
+      { "n": 32, "page": 12, "action": "9 s. Tamara reaches another long word. The brother clamps both hands over his mouth, eyes sparkling, to stop himself shouting.", "sound": ["a held, suspenseful note"], "lines": [] },
+      { "n": 33, "page": 12, "action": "11 s. Tamara breaks the word into pieces, one at a time, her finger hopping along under it; then she says the whole word.", "sound": ["one plucked note per piece", "a bright chord at the end"], "lines": ["f19"] },
+      { "n": 34, "page": 12, "action": "7 s. Everybody claps; the boy in the next bed claps his one good hand against his knee. No words.", "sound": ["clapping", "laughter"], "lines": [] },
+      { "n": 35, "page": 13, "action": "12 s. Story inside the story: the last picture comes alive, all the animals dancing at a party on the hill under paper lanterns, the tortoise in the middle, and a snail arriving very late at the edge.", "sound": ["a little party dance on the celesta", "a snail's tiny trumpet"], "lines": [] },
+      { "n": 36, "page": 13, "action": "10 s. Back in the ward: the window behind the bed has turned deep blue; the city lights come on one by one.", "sound": ["the rain has stopped", "a calm evening tune"], "lines": ["f20"] },
+      { "n": 37, "page": 13, "action": "8 s. Close on the brother's face, lit by the lamp, telling the snail's part with his hands; the others laugh. No words.", "sound": ["soft laughter"], "lines": [] },
+      { "n": 38, "page": 14, "action": "8 s. Scene 5, evening. Tamara closes the book. Wide on the three listeners around the bed.", "sound": ["the book closing softly"], "lines": [] },
+      { "n": 39, "page": 14, "action": "8 s. The brother bounces against his pillow.", "sound": ["a happy squeak of the bed"], "lines": ["f21"] },
+      { "n": 40, "page": 14, "action": "8 s. The boy from the next bed holds out a book of his own, hopefully.", "sound": ["a hopeful little rising note"], "lines": ["f22"] },
+      { "n": 41, "page": 14, "action": "11 s. Tamara looks round at all the smiling faces, then opens the first book again.", "sound": ["the tune, warm and full"], "lines": ["f23"] },
+      { "n": 42, "page": 14, "action": "14 s. Closing image: the ward at night from the doorway, a warm lamp over one bed and a small circle of people around a book, the city lights in the window. Nothing moves but the page turning, slowly. Hold the still picture 6 s while the music ends, then stop. No autoplay.", "sound": ["the last notes of the celesta"], "lines": [] }
+    ]
+  },
+  "activity": {
+    "minutes": 30,
+    "materials": ["two-sheets-paper", "sticky-tape", "pencils", "crayons"],
+    "steps": [
+      { "n": 1, "picture": "Two sheets of paper folded in half, one slipped inside the other, like a little book; the child's hands press the fold flat.", "loop": false },
+      { "n": 2, "picture": "The child runs a strip of sticky tape along the outside of the fold, so the pages hold together; a grown-up holds the book closed.", "loop": false },
+      { "n": 3, "picture": "The open book: on each page a simple drawing in crayon (a cat, a tree, a cat up the tree, a ladder); the child is drawing the next one.", "loop": true },
+      { "n": 4, "picture": "Under each drawing, the child writes a few words as grey lines (no real letters shown), pencil in hand, tongue out in concentration.", "loop": true },
+      { "n": 5, "picture": "The child sits beside a grown-up on a sofa and reads the little book aloud, finger under the words; the grown-up points at the picture and tells what is happening in it.", "loop": false }
+    ],
+    "checkedAgainst": "docs/story-room/age-6-8.md section 7 (red list) and section 4 (activity limits), 25 Nov 2026"
+  }
+}

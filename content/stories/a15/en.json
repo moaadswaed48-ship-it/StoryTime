@@ -1,0 +1,219 @@
+{
+  "title": "My Turn, Your Turn",
+  "names": {
+    "a15-maya": "Maya",
+    "a15-amir": "Amir",
+    "a15-mum": "Maya’s mum"
+  },
+  "pages": [
+    {
+      "n": 1,
+      "text": "Maya and Amir go to the same kindergarten. Today they meet at the beach.",
+      "speech": "Maya and Amir go to the same kindergarten. Today they meet at the beach."
+    },
+    {
+      "n": 2,
+      "text": "One red bucket. Two children. Uh-oh!",
+      "speech": "One red bucket. Two children. Uh-oh!"
+    },
+    {
+      "n": 3,
+      "text": "Maya has the bucket. Amir wants the bucket.",
+      "speech": "Maya has the bucket. Amir wants the bucket."
+    },
+    {
+      "n": 4,
+      "text": "Pull! Pull! Sand everywhere!",
+      "speech": "Pull! Pull! Sand everywhere!"
+    },
+    {
+      "n": 5,
+      "text": "Maya cries. Amir cries. A little crab peeps out of its hole.",
+      "speech": "Maya cries. Amir cries. A little crab peeps out of its hole."
+    },
+    {
+      "n": 6,
+      "text": "Maya’s mum smooths the sand. “Maya scoops one. Amir scoops one.”",
+      "speech": "Maya’s mum smooths the sand. “Maya scoops one. Amir scoops one.”"
+    },
+    {
+      "n": 7,
+      "text": "Maya scoops. Amir scoops. My turn, your turn.",
+      "speech": "Maya scoops. Amir scoops. My turn, your turn."
+    },
+    {
+      "n": 8,
+      "text": "Maya, Amir, Maya, Amir. My turn, your turn. The bucket is full!",
+      "speech": "Maya, Amir, Maya, Amir. My turn, your turn. The bucket is full!"
+    },
+    {
+      "n": 9,
+      "text": "Flip it over… pat, pat… up! A sandcastle!",
+      "speech": "Flip it over… pat, pat… up! A sandcastle!"
+    },
+    {
+      "n": 10,
+      "text": "The crab climbs to the very top. Maya claps. Amir claps.",
+      "speech": "The crab climbs to the very top. Maya claps. Amir claps."
+    },
+    {
+      "n": 11,
+      "text": "“Again!” say Maya and Amir. “My turn, your turn!”",
+      "speech": "“Again!” say Maya and Amir. “My turn, your turn!”"
+    }
+  ],
+  "film": [
+    {
+      "id": "f01",
+      "speaker": "narrator",
+      "text": "A sunny morning at the beach.",
+      "speech": "A sunny morning at the beach.",
+      "emotion": "bright and fresh, an autumn morning"
+    },
+    {
+      "id": "f02",
+      "speaker": "a15-maya",
+      "text": "Amir! Hello!",
+      "speech": "Amir! Hello!",
+      "emotion": "happy surprise, waving"
+    },
+    {
+      "id": "f03",
+      "speaker": "a15-amir",
+      "text": "Maya!",
+      "speech": "Maya!",
+      "emotion": "happy, calling back"
+    },
+    {
+      "id": "f04",
+      "speaker": "narrator",
+      "text": "One red bucket. Two children.",
+      "speech": "One red bucket. Two children.",
+      "emotion": "slow, a little 'uh-oh'"
+    },
+    {
+      "id": "f05",
+      "speaker": "a15-amir",
+      "text": "I want the bucket!",
+      "speech": "I want the bucket!",
+      "emotion": "wanting, insistent"
+    },
+    {
+      "id": "f06",
+      "speaker": "narrator",
+      "text": "Pull! Pull!",
+      "speech": "Pull! Pull!",
+      "emotion": "quick and comic, on the pulls"
+    },
+    {
+      "id": "f07",
+      "speaker": "narrator",
+      "text": "Maya cries. Amir cries.",
+      "speech": "Maya cries. Amir cries.",
+      "emotion": "soft and sympathetic, no blame"
+    },
+    {
+      "id": "f08",
+      "speaker": "a15-mum",
+      "text": "Maya scoops one. Amir scoops one.",
+      "speech": "Maya scoops one. Amir scoops one.",
+      "emotion": "calm, kind, unhurried"
+    },
+    {
+      "id": "f09",
+      "speaker": "narrator",
+      "text": "Maya scoops. Amir scoops.",
+      "speech": "Maya scoops. Amir scoops.",
+      "emotion": "even and rhythmic, one name per scoop"
+    },
+    {
+      "id": "f10",
+      "speaker": "a15-maya",
+      "text": "My turn, your turn!",
+      "speech": "My turn, your turn!",
+      "emotion": "bright, getting it"
+    },
+    {
+      "id": "f11",
+      "speaker": "narrator",
+      "text": "Maya, Amir, Maya, Amir.",
+      "speech": "Maya, Amir, Maya, Amir.",
+      "emotion": "sing-song, building up"
+    },
+    {
+      "id": "f12",
+      "speaker": "a15-amir",
+      "text": "It’s full!",
+      "speech": "It’s full!",
+      "emotion": "amazed and proud"
+    },
+    {
+      "id": "f13",
+      "speaker": "narrator",
+      "text": "Flip it over… pat, pat…",
+      "speech": "Flip it over… pat, pat…",
+      "emotion": "slow and suspenseful"
+    },
+    {
+      "id": "f14",
+      "speaker": "a15-maya",
+      "text": "A sandcastle!",
+      "speech": "A sandcastle!",
+      "emotion": "delighted"
+    },
+    {
+      "id": "f15",
+      "speaker": "narrator",
+      "text": "The crab climbs to the very top.",
+      "speech": "The crab climbs to the very top.",
+      "emotion": "light and playful, climbing"
+    },
+    {
+      "id": "f16",
+      "speaker": "a15-maya",
+      "text": "Again!",
+      "speech": "Again!",
+      "emotion": "eager, bouncing"
+    },
+    {
+      "id": "f17",
+      "speaker": "a15-amir",
+      "text": "Your turn, my turn!",
+      "speech": "Your turn, my turn!",
+      "emotion": "generous and happy, the last words"
+    }
+  ],
+  "activity": {
+    "title": "Carry It Together",
+    "goal": "Move in step with a partner to carry something together.",
+    "materials": [
+      "A towel",
+      "A soft toy"
+    ],
+    "steps": [
+      {
+        "n": 1,
+        "caption": "Teddy on the towel."
+      },
+      {
+        "n": 2,
+        "caption": "Two corners for you, two for me."
+      },
+      {
+        "n": 3,
+        "caption": "Lift… together!"
+      },
+      {
+        "n": 4,
+        "caption": "Slow steps to the mat."
+      },
+      {
+        "n": 5,
+        "caption": "Teddy is home! Swap and go again."
+      }
+    ],
+    "safety": "Clear the floor first, and walk, never run. Carry the towel low. Only a soft toy on the towel, nothing heavy. If there is an accident, call your local emergency number.",
+    "forAdult": "In the story, Maya and Amir find that taking turns works better than pulling. Carrying something together is the next step: two people have to watch each other and move at the same time. Lay a soft toy in the middle of a towel. You hold two corners and the child holds the other two. Say “Lift… together!” and walk slowly across the room to a “home”, such as a mat or a cushion, watching each other as you go. If the toy falls off, laugh, put it back and try again: that is part of the game. Then swap who walks in front. To make it easier, carry it only a few steps. To make it harder, walk round a chair on the way, or let two children carry it while you watch. Five to ten minutes is plenty.",
+    "inClass": "Children work in pairs, with one towel and one soft toy per pair: one adult with up to four children. Each pair carries its toy to a “home” mat and back, then the pair swaps who leads. The other pair cheers: “Together!”"
+  }
+}

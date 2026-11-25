@@ -1,0 +1,204 @@
+{
+  "title": "Hvor er Lille Pindsvin?",
+  "names": {
+    "a13-little-hedgehog": "Lille Pindsvin",
+    "a13-mama-hedgehog": "Mor Pindsvin"
+  },
+  "pages": [
+    {
+      "n": 1,
+      "text": "Den varme dag er forbi. Haven er kølig. Stjernerne kommer frem.",
+      "speech": "Den varme dag er forbi. Haven er kølig. Stjernerne kommer frem."
+    },
+    {
+      "n": 2,
+      "text": "»Skal vi lege gemmeleg?« spørger Lille Pindsvin. Mor Pindsvin lukker øjnene.",
+      "speech": "»Skal vi lege gemmeleg?« spørger Lille Pindsvin. Mor Pindsvin lukker øjnene."
+    },
+    {
+      "n": 3,
+      "text": "En, to, tre … Hvor er Lille Pindsvin?",
+      "speech": "En, to, tre … Hvor er Lille Pindsvin?"
+    },
+    {
+      "n": 4,
+      "text": "Hvor er Lille Pindsvin? Under bænken? Nej! Det er en bille.",
+      "speech": "Hvor er Lille Pindsvin? Under bænken? Nej! Det er en bille."
+    },
+    {
+      "n": 5,
+      "text": "Hvor er Lille Pindsvin? Bag vandkanden? Nej! Det er en snegl.",
+      "speech": "Hvor er Lille Pindsvin? Bag vandkanden? Nej! Det er en snegl."
+    },
+    {
+      "n": 6,
+      "text": "Hvor er Lille Pindsvin? På muren? Nej! Det er en ugle. Blink, blink.",
+      "speech": "Hvor er Lille Pindsvin? På muren? Nej! Det er en ugle. Blink, blink."
+    },
+    {
+      "n": 7,
+      "text": "Mor Pindsvin snuser den her vej. Snif, snif. Hun snuser den anden vej. Snif, snif.",
+      "speech": "Mor Pindsvin snuser den her vej. Snif, snif. Hun snuser den anden vej. Snif, snif."
+    },
+    {
+      "n": 8,
+      "text": "Hi hi! Et lille fnis. Hvor er Lille Pindsvin?",
+      "speech": "Hi hi! Et lille fnis. Hvor er Lille Pindsvin?"
+    },
+    {
+      "n": 9,
+      "text": "I den gamle støvle! »Der er du!« siger Mor Pindsvin.",
+      "speech": "I den gamle støvle! »Der er du!« siger Mor Pindsvin."
+    },
+    {
+      "n": 10,
+      "text": "Lille Pindsvin ligger rullet helt sammen. Rund og stikkende.",
+      "speech": "Lille Pindsvin ligger rullet helt sammen. Rund og stikkende."
+    },
+    {
+      "n": 11,
+      "text": "Mor Pindsvin ruller sig sammen ved støvlen. »Uhu,« siger uglen. Godnat.",
+      "speech": "Mor Pindsvin ruller sig sammen ved støvlen. »Uhu,« siger uglen. Godnat."
+    }
+  ],
+  "film": [
+    {
+      "id": "f01",
+      "speaker": "narrator",
+      "text": "Den varme dag er forbi. Haven er kølig.",
+      "speech": "Den varme dag er forbi. Haven er kølig.",
+      "emotion": "slow and soft, a cool evening"
+    },
+    {
+      "id": "f02",
+      "speaker": "narrator",
+      "text": "Stjernerne kommer frem, én efter én.",
+      "speech": "Stjernerne kommer frem, én efter én.",
+      "emotion": "hushed wonder"
+    },
+    {
+      "id": "f03",
+      "speaker": "a13-little-hedgehog",
+      "text": "Mor! Skal vi lege gemmeleg?",
+      "speech": "Mor! Skal vi lege gemmeleg?",
+      "emotion": "bouncy and excited"
+    },
+    {
+      "id": "f04",
+      "speaker": "a13-mama-hedgehog",
+      "text": "En … to … tre …",
+      "speech": "En … to … tre …",
+      "emotion": "slow and playful, counting"
+    },
+    {
+      "id": "f05",
+      "speaker": "a13-mama-hedgehog",
+      "text": "Hvor er Lille Pindsvin?",
+      "speech": "Hvor er Lille Pindsvin?",
+      "emotion": "curious, a sing-song question"
+    },
+    {
+      "id": "f06",
+      "speaker": "a13-mama-hedgehog",
+      "text": "Under bænken? Nej, en bille!",
+      "speech": "Under bænken? Nej, en bille!",
+      "emotion": "playful surprise, a little laugh"
+    },
+    {
+      "id": "f07",
+      "speaker": "a13-mama-hedgehog",
+      "text": "Bag vandkanden? Nej, en snegl!",
+      "speech": "Bag vandkanden? Nej, en snegl!",
+      "emotion": "playful surprise"
+    },
+    {
+      "id": "f08",
+      "speaker": "a13-mama-hedgehog",
+      "text": "På muren? Nej, en ugle!",
+      "speech": "På muren? Nej, en ugle!",
+      "emotion": "playful, then a soft laugh"
+    },
+    {
+      "id": "f09",
+      "speaker": "narrator",
+      "text": "Blink, blink.",
+      "speech": "Blink, blink.",
+      "emotion": "slow and sleepy, like the owl"
+    },
+    {
+      "id": "f10",
+      "speaker": "narrator",
+      "text": "Snif, snif. Den her vej … den vej.",
+      "speech": "Snif, snif. Den her vej … den vej.",
+      "emotion": "soft and close, sniffing along"
+    },
+    {
+      "id": "f11",
+      "speaker": "a13-little-hedgehog",
+      "text": "Hi hi!",
+      "speech": "Hi hi!",
+      "emotion": "a tiny, muffled giggle"
+    },
+    {
+      "id": "f12",
+      "speaker": "a13-mama-hedgehog",
+      "text": "I den gamle støvle! Der er du!",
+      "speech": "I den gamle støvle! Der er du!",
+      "emotion": "delighted, warm"
+    },
+    {
+      "id": "f13",
+      "speaker": "a13-little-hedgehog",
+      "text": "Du fandt mig!",
+      "speech": "Du fandt mig!",
+      "emotion": "giggling, proud of his hiding place"
+    },
+    {
+      "id": "f14",
+      "speaker": "a13-mama-hedgehog",
+      "text": "Godnat, min lille.",
+      "speech": "Godnat, min lille.",
+      "emotion": "tender, almost a whisper"
+    },
+    {
+      "id": "f15",
+      "speaker": "narrator",
+      "text": "Uhu. Godnat, have.",
+      "speech": "Uhu. Godnat, have.",
+      "emotion": "very soft, the last words"
+    }
+  ],
+  "activity": {
+    "title": "Kassetunnellen",
+    "goal": "At bevæge hele kroppen igennem, ind i, rundt om og hen over ting.",
+    "materials": [
+      "En stor papkasse uden hæfteklammer, med tape på kanterne",
+      "En pude"
+    ],
+    "steps": [
+      {
+        "n": 1,
+        "caption": "Igennem kassen! Kravl."
+      },
+      {
+        "n": 2,
+        "caption": "Ind i kassen. Sid!"
+      },
+      {
+        "n": 3,
+        "caption": "Rundt om kassen. Gå!"
+      },
+      {
+        "n": 4,
+        "caption": "Hen over puden. Klatr!"
+      },
+      {
+        "n": 5,
+        "caption": "Igen! Igennem, ind, rundt, over."
+      }
+    ],
+    "safety": "Tag alle hæfteklammer ud, og sæt tape på kassens kanter. Hold begge ender åbne, og luk aldrig flapperne over et barn. Brug et blødt gulv, og den voksne er lige ved siden af kassen. Sker der et uheld, så ring til det lokale alarmnummer.",
+    "forAdult": "I historien kigger Mor Pindsvin under, bag og oven på ting og finder Lille Pindsvin i den gamle støvle. Små børn får en fornemmelse for den slags ord når deres egen krop kommer igennem, ind i, rundt om og hen over ting. Åbn begge ender af en stor papkasse, tag alle hæfteklammer ud og sæt tape på kanterne. Læg en pude ved siden af. Sig ét ord ad gangen, og gør det sammen med barnet: »Igennem!« når barnet kravler igennem, »Ind!« når det sætter sig i kassen, »Rundt!« når I går rundt om den sammen, »Over!« når det klatrer over puden. Sig ordet mens kroppen bevæger sig, hver gang. Gem så en bamse under, bag, på eller i kassen og spørg: »Hvor er Bamse?« Gør det lettere ved kun at bruge »ind« og »igennem«. Gør det sværere ved at lade barnet sige ordet mens du bevæger dig. Fem til ti minutter er rigeligt.",
+    "inClass": "To eller tre kasser på række bliver til en lille bane på et blødt gulv, med én voksen ved siden af og højst fire børn. Ét barn ad gangen, og de andre venter på deres tur. Gruppen råber hvert ord sammen: »Igennem! Ind! Rundt! Over!«"
+  }
+}

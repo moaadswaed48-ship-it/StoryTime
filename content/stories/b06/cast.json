@@ -1,0 +1,47 @@
+[
+  {
+    "id": "b06-karam",
+    "name": { "ar": "كَرَم", "he": "כֶּרֶם", "en": "Karam", "da": "Karam" },
+    "stage": "child",
+    "build": { "height": 0.62, "heads": 4.5, "girth": 0.5, "shoulders": 1.15 },
+    "skin": "#c8946a",
+    "hair": { "style": "short", "color": "#2a1a14" },
+    "eyes": { "color": "#3a2418", "size": 0.9 },
+    "brows": { "color": "#2a1a14", "weight": 0.6 },
+    "top": { "style": "coat", "color": "#d9603f", "trim": "#f4e3bd" },
+    "bottom": { "style": "trousers", "color": "#3d4f7c" },
+    "shoes": { "style": "boots", "color": "#5b3420" },
+    "manner": "Gets absorbed in things that are being built; when he is scared he plants his feet and breathes; waves with both arms, big and slow, the way he practised."
+  },
+  {
+    "id": "b06-dad",
+    "name": { "ar": "أَبُو كَرَم", "he": "אַבָּא שֶׁל כֶּרֶם", "en": "Karam’s dad", "da": "Karams far" },
+    "stage": "adult",
+    "build": { "height": 1.02, "heads": 6, "girth": 0.55, "shoulders": 1.6 },
+    "skin": "#b98058",
+    "hair": { "style": "short", "color": "#1f1416" },
+    "eyes": { "color": "#2e1c14", "size": 0.55 },
+    "brows": { "color": "#1f1416", "weight": 0.8 },
+    "top": { "style": "coat", "color": "#6b6f78", "trim": "#d9d4cf" },
+    "bottom": { "style": "trousers", "color": "#2f3a4a" },
+    "shoes": { "style": "shoes", "color": "#3a3a44" },
+    "extras": ["hat"],
+    "extraColors": { "hat": "#3a6fc4" },
+    "manner": "Always in his blue cap (the 'hat' extra, drawn as a cap); crouches to talk to Karam face to face; hurries with his cap in his hand and laughs with relief."
+  },
+  {
+    "id": "b06-worker",
+    "name": { "ar": "العامِلة", "he": "הָעוֹבֶדֶת", "en": "the shop worker", "da": "ekspedienten" },
+    "stage": "adult",
+    "build": { "height": 0.96, "heads": 6, "girth": 0.5, "shoulders": 1.5 },
+    "skin": "#e0ae86",
+    "hair": { "style": "ponytail", "color": "#8a4a26" },
+    "eyes": { "color": "#4f7a5a", "size": 0.6 },
+    "brows": { "color": "#8a4a26", "weight": 0.5 },
+    "top": { "style": "apron", "color": "#3f9a5c", "trim": "#f1ead8" },
+    "bottom": { "style": "trousers", "color": "#3d3a4c" },
+    "shoes": { "style": "shoes", "color": "#f1ead8" },
+    "extras": ["freckles"],
+    "manner": "Careful and playful with her orange towers; notices everything on her shop floor; always kneels to a child's height and speaks slowly and kindly."
+  }
+]

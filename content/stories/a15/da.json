@@ -1,0 +1,219 @@
+{
+  "title": "Min tur, din tur",
+  "names": {
+    "a15-maya": "Maja",
+    "a15-amir": "Amir",
+    "a15-mum": "Majas mor"
+  },
+  "pages": [
+    {
+      "n": 1,
+      "text": "Maja og Amir går i samme børnehave. I dag mødes de på stranden.",
+      "speech": "Maja og Amir går i samme børnehave. I dag mødes de på stranden."
+    },
+    {
+      "n": 2,
+      "text": "Én rød spand. To børn. Åh nej!",
+      "speech": "Én rød spand. To børn. Åh nej!"
+    },
+    {
+      "n": 3,
+      "text": "Maja har spanden. Amir vil have spanden.",
+      "speech": "Maja har spanden. Amir vil have spanden."
+    },
+    {
+      "n": 4,
+      "text": "Hiv! Hiv! Sand overalt!",
+      "speech": "Hiv! Hiv! Sand overalt!"
+    },
+    {
+      "n": 5,
+      "text": "Maja græder. Amir græder. En lille krabbe kigger op af sit hul.",
+      "speech": "Maja græder. Amir græder. En lille krabbe kigger op af sit hul."
+    },
+    {
+      "n": 6,
+      "text": "Majas mor glatter sandet ud. »Først Maja. Så Amir.«",
+      "speech": "Majas mor glatter sandet ud. »Først Maja. Så Amir.«"
+    },
+    {
+      "n": 7,
+      "text": "Maja øser. Amir øser. Min tur, din tur.",
+      "speech": "Maja øser. Amir øser. Min tur, din tur."
+    },
+    {
+      "n": 8,
+      "text": "Maja, Amir, Maja, Amir. Min tur, din tur. Spanden er fuld!",
+      "speech": "Maja, Amir, Maja, Amir. Min tur, din tur. Spanden er fuld!"
+    },
+    {
+      "n": 9,
+      "text": "Vend den om … klap, klap … op! Et sandslot!",
+      "speech": "Vend den om … klap, klap … op! Et sandslot!"
+    },
+    {
+      "n": 10,
+      "text": "Krabben kravler helt op på toppen. Maja klapper. Amir klapper.",
+      "speech": "Krabben kravler helt op på toppen. Maja klapper. Amir klapper."
+    },
+    {
+      "n": 11,
+      "text": "»Igen!« siger Maja og Amir. »Min tur, din tur!«",
+      "speech": "»Igen!« siger Maja og Amir. »Min tur, din tur!«"
+    }
+  ],
+  "film": [
+    {
+      "id": "f01",
+      "speaker": "narrator",
+      "text": "En solrig morgen på stranden.",
+      "speech": "En solrig morgen på stranden.",
+      "emotion": "bright and fresh, an autumn morning"
+    },
+    {
+      "id": "f02",
+      "speaker": "a15-maya",
+      "text": "Amir! Hej!",
+      "speech": "Amir! Hej!",
+      "emotion": "happy surprise, waving"
+    },
+    {
+      "id": "f03",
+      "speaker": "a15-amir",
+      "text": "Maja!",
+      "speech": "Maja!",
+      "emotion": "happy, calling back"
+    },
+    {
+      "id": "f04",
+      "speaker": "narrator",
+      "text": "Én rød spand. To børn.",
+      "speech": "Én rød spand. To børn.",
+      "emotion": "slow, a little 'uh-oh'"
+    },
+    {
+      "id": "f05",
+      "speaker": "a15-amir",
+      "text": "Jeg vil have spanden!",
+      "speech": "Jeg vil have spanden!",
+      "emotion": "wanting, insistent"
+    },
+    {
+      "id": "f06",
+      "speaker": "narrator",
+      "text": "Hiv! Hiv!",
+      "speech": "Hiv! Hiv!",
+      "emotion": "quick and comic, on the pulls"
+    },
+    {
+      "id": "f07",
+      "speaker": "narrator",
+      "text": "Maja græder. Amir græder.",
+      "speech": "Maja græder. Amir græder.",
+      "emotion": "soft and sympathetic, no blame"
+    },
+    {
+      "id": "f08",
+      "speaker": "a15-mum",
+      "text": "Først Maja. Så Amir.",
+      "speech": "Først Maja. Så Amir.",
+      "emotion": "calm, kind, unhurried"
+    },
+    {
+      "id": "f09",
+      "speaker": "narrator",
+      "text": "Maja øser. Amir øser.",
+      "speech": "Maja øser. Amir øser.",
+      "emotion": "even and rhythmic, one name per scoop"
+    },
+    {
+      "id": "f10",
+      "speaker": "a15-maya",
+      "text": "Min tur, din tur!",
+      "speech": "Min tur, din tur!",
+      "emotion": "bright, getting it"
+    },
+    {
+      "id": "f11",
+      "speaker": "narrator",
+      "text": "Maja, Amir, Maja, Amir.",
+      "speech": "Maja, Amir, Maja, Amir.",
+      "emotion": "sing-song, building up"
+    },
+    {
+      "id": "f12",
+      "speaker": "a15-amir",
+      "text": "Den er fuld!",
+      "speech": "Den er fuld!",
+      "emotion": "amazed and proud"
+    },
+    {
+      "id": "f13",
+      "speaker": "narrator",
+      "text": "Vend den om … klap, klap …",
+      "speech": "Vend den om … klap, klap …",
+      "emotion": "slow and suspenseful"
+    },
+    {
+      "id": "f14",
+      "speaker": "a15-maya",
+      "text": "Et sandslot!",
+      "speech": "Et sandslot!",
+      "emotion": "delighted"
+    },
+    {
+      "id": "f15",
+      "speaker": "narrator",
+      "text": "Krabben kravler helt op på toppen.",
+      "speech": "Krabben kravler helt op på toppen.",
+      "emotion": "light and playful, climbing"
+    },
+    {
+      "id": "f16",
+      "speaker": "a15-maya",
+      "text": "Igen!",
+      "speech": "Igen!",
+      "emotion": "eager, bouncing"
+    },
+    {
+      "id": "f17",
+      "speaker": "a15-amir",
+      "text": "Din tur, min tur!",
+      "speech": "Din tur, min tur!",
+      "emotion": "generous and happy, the last words"
+    }
+  ],
+  "activity": {
+    "title": "Bær den sammen",
+    "goal": "At gå i takt med en makker og bære noget sammen.",
+    "materials": [
+      "Et håndklæde",
+      "En bamse"
+    ],
+    "steps": [
+      {
+        "n": 1,
+        "caption": "Bamse på håndklædet."
+      },
+      {
+        "n": 2,
+        "caption": "To hjørner til dig, to til mig."
+      },
+      {
+        "n": 3,
+        "caption": "Løft … sammen!"
+      },
+      {
+        "n": 4,
+        "caption": "Langsomme skridt hen til måtten."
+      },
+      {
+        "n": 5,
+        "caption": "Bamse er hjemme! Byt og gør det igen."
+      }
+    ],
+    "safety": "Ryd gulvet først, og gå, løb ikke. Bær håndklædet lavt. Kun en bamse på håndklædet, ikke noget tungt. Sker der et uheld, så ring til det lokale alarmnummer.",
+    "forAdult": "I historien finder Maja og Amir ud af at det går bedre at skiftes end at hive. At bære noget sammen er det næste skridt: To skal holde øje med hinanden og bevæge sig på samme tid. Læg en bamse midt på et håndklæde. Du holder to hjørner, og barnet holder de to andre. Sig »Løft … sammen!«, og gå langsomt gennem rummet hen til et »hjem«, for eksempel en måtte eller en pude, mens I kigger på hinanden. Hvis bamsen falder af, så grin, læg den tilbage og prøv igen: Det hører med til legen. Byt så om på hvem der går forrest. Gør det lettere ved kun at bære den et par skridt. Gør det sværere ved at gå uden om en stol på vejen eller lade to børn bære mens du kigger på. Fem til ti minutter er rigeligt.",
+    "inClass": "Børnene arbejder to og to, med ét håndklæde og én bamse til hvert par: én voksen med højst fire børn. Hvert par bærer sin bamse hen til »hjem«-måtten og tilbage, og så bytter parret om på hvem der går forrest. Det andet par hepper: »Sammen!«"
+  }
+}

@@ -1,0 +1,147 @@
+{
+  "id": "c05",
+  "ageGroups": ["6-8"],
+  "owner": "storytime",
+  "lesson": "Share fairly, also with children who are not in my group.",
+  "cast": ["c05-julia", "c05-alex", "c05-teacher", "c05-classmate"],
+  "pages": [
+    {
+      "n": 1,
+      "art": "A big city sports ground on a bright spring morning: a green field with white lines, a running track, a low fence, a few blocks of flats and a palm tree beyond. On one side, four or five children in green T-shirts (Julia among them, curly ponytail); on the other side, four or five in blue (Alex among them, short hair, a cap). Mid-race, mid-jump, a beanbag in the air. Feeling: energy, two separate teams. Calm area: the clear sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 2,
+      "art": "On the green side, a wooden crate opened on the grass: eleven big bright oranges with a few green leaves, every orange easy to count. Julia and the green class kneel round it, proud. A small inset in a rounded frame shows yesterday: the same children on tiptoe under an orange tree in a school garden. Feeling: pride, sunshine. Calm area: the sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 3,
+      "art": "On the blue side, children search: one looks under a bench, one behind a pile of bags. Alex stands with his hand on his forehead, remembering. Through the fence, an empty road where a bus has just gone (only its shape far away at a corner). Feeling: oh no. Calm area: the sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 4,
+      "art": "The blue class sits on the grass, very still: Alex with his arms round his knees and a brave face; a small girl in blue with her chin on her knees. Nobody cries. A long stretch of empty grass separates them from the green side in the background. Feeling: quiet hunger, polite. Calm area: the grass across the bottom.",
+      "zone": { "side": "full", "v": "bottom", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 5,
+      "art": "On the green side, the classmate (a boy with glasses and a green cap) holds the crate close against his chest, frowning, mouth to one side as he mutters. Julia beside him looks across at the blue class, torn. Feeling: 'mine', and a first doubt. Calm area: the sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 6,
+      "art": "Julia stands in the middle, pointing with one finger as she counts. Above the two classes, two rows of small soft dots float like a thought: one row of green dots and one row of blue dots (no digits), and above them a row of orange circles. Feeling: thinking hard. Calm area: the sky across the top, above the dots.",
+      "zone": { "side": "full", "v": "top", "size": "s" },
+      "image": null
+    },
+    {
+      "n": 7,
+      "art": "The classmate shrugs with both palms up, as if to say 'see?'. Julia counts on her fingers, forehead wrinkled. The row of orange circles is clearly shorter than the row of dots. Feeling: a problem that seems to have no answer. Calm area: the grass across the bottom.",
+      "zone": { "side": "full", "v": "bottom", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 8,
+      "art": "Close on Julia holding one orange up to the sun; a dotted line runs across its middle, and above her head the row of orange circles has become a row of half-circles, one half above every dot. Her face is lit with the idea. Feeling: the 'aha' moment. Calm area: the sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 9,
+      "art": "The classmate looks down into the crate, then over at the blue class, then nods slowly. Julia is already running towards her teacher (a tall man with a beard, a whistle round his neck and a green cap), who is opening a small cutting board on the bench. Feeling: a change of heart. Calm area: the sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 10,
+      "art": "The teacher, at the bench, cuts oranges in half on the board. Julia walks between the two classes carrying an orange half in each hand, juice running down her wrists; children in green and children in blue hold out their hands. Feeling: generosity, rhythm. Calm area: the sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 11,
+      "art": "The empty crate except for one last orange half. Julia stands beside it, looking round, puzzled; everyone else is already holding a half. The classmate, laughing, holds the last half out towards Julia. Feeling: a funny surprise, kindness coming back. Calm area: the sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 12,
+      "art": "Green T-shirts and blue T-shirts sitting mixed together on the grass, eating orange halves; Alex wipes his chin with the back of his hand and grins at Julia; peel in a neat pile. Feeling: warmth, sticky, happy. Calm area: the sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 13,
+      "art": "The afternoon relay: one long line of runners in alternating green and blue T-shirts (five or six figures and a row of repeated shapes); a baton passes from Julia's hand to Alex's. Feeling: speed and togetherness. Calm area: the sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 14,
+      "art": "At the finish line, green and blue tumble together in a laughing heap on the grass; Julia and Alex in the middle. In the front, the empty wooden crate with a small pile of bright orange peel inside, glowing in the sun. Last picture of the book: joy, colour, everyone together. Calm area: the sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    }
+  ],
+  "film": {
+    "targetSeconds": 368,
+    "shots": [
+      { "n": 1, "page": 1, "action": "16 s. Scene 1, the sports ground. Two buses pull up by a city sports ground on a spring morning; children pour out, green T-shirts from one, blue from the other. No words. Keep the lower fifth calm for captions in every shot.", "sound": ["bus doors hissing", "excited voices", "a bright brass-and-drum tune"], "lines": [] },
+      { "n": 2, "page": 1, "action": "9 s. Wide on the green field and the track under a clear sky.", "sound": ["the tune", "birds"], "lines": ["f01"] },
+      { "n": 3, "page": 1, "action": "9 s. The two classes settle on opposite sides of the field.", "sound": ["a whistle"], "lines": ["f02"] },
+      { "n": 4, "page": 1, "action": "16 s. A quick morning montage: a sprint, a long jump, a beanbag throw; each class cheers only for its own colour. No words.", "sound": ["running feet", "a thump in the sand pit", "cheers from two sides"], "lines": [] },
+      { "n": 5, "page": 2, "action": "6 s. Julia's teacher blows his whistle and calls out.", "sound": ["a whistle"], "lines": ["f03"] },
+      { "n": 6, "page": 2, "action": "9 s. The green class opens its crate: eleven big oranges glow in the sun.", "sound": ["a wooden lid", "a warm chord"], "lines": ["f04"] },
+      { "n": 7, "page": 2, "action": "12 s. A short memory in paper-cut colours: yesterday, the same children on tiptoe under an orange tree in their school garden, picking oranges into the crate. No words.", "sound": ["leaves rustling", "children laughing", "a soft thud of fruit in a crate"], "lines": [] },
+      { "n": 8, "page": 3, "action": "10 s. Scene 2, the missing box. On the blue side, children search under benches and behind bags. No words.", "sound": ["rummaging", "the tune falters"], "lines": [] },
+      { "n": 9, "page": 3, "action": "7 s. Alex claps a hand to his forehead.", "sound": ["a comic plucked 'oops' note"], "lines": ["f05"] },
+      { "n": 10, "page": 3, "action": "9 s. Through the fence: the empty road, and far away a bus turning the corner and disappearing.", "sound": ["a distant engine fading"], "lines": ["f06"] },
+      { "n": 11, "page": 4, "action": "12 s. The blue class sits down on the grass, very quiet. Alex's tummy rumbles; he pretends it didn't. No words.", "sound": ["a small tummy rumble", "wind in the grass"], "lines": [] },
+      { "n": 12, "page": 4, "action": "7 s. A small girl in blue rests her chin on her knees. Breathing room, no words.", "sound": ["one soft note"], "lines": [] },
+      { "n": 13, "page": 5, "action": "8 s. Scene 3, ours. The classmate hugs the crate to his chest and mutters.", "sound": ["the music thins out"], "lines": ["f07"] },
+      { "n": 14, "page": 5, "action": "8 s. Close on Julia; her own thought, quiet.", "sound": ["a heartbeat-slow drum"], "lines": ["f08"] },
+      { "n": 15, "page": 6, "action": "14 s. Julia looks across the grass and starts to count. A row of small green dots appears above her class and a row of blue dots above Alex's class, one dot per child, appearing on a soft beat (dots only, never digits).", "sound": ["a soft tick for each dot"], "lines": ["f09"] },
+      { "n": 16, "page": 6, "action": "8 s. The two rows slide together into one long row; above it, a row of eleven orange circles.", "sound": ["a sliding whoosh", "a questioning note"], "lines": ["f10"] },
+      { "n": 17, "page": 7, "action": "7 s. The classmate shrugs, palms up.", "sound": ["a flat note"], "lines": ["f11"] },
+      { "n": 18, "page": 7, "action": "8 s. Julia counts again on her fingers, worried; the row of oranges is clearly shorter than the row of dots. No words.", "sound": ["soft ticks"], "lines": [] },
+      { "n": 19, "page": 8, "action": "14 s. Scene 4, the idea. Close on one orange held up to the sun; a dotted line runs across it and it parts into two halves. Then every orange in the row splits, and now there is one half above every dot.", "sound": ["a bright pop for each split, faster and faster", "a rising run of notes"], "lines": ["f12"] },
+      { "n": 20, "page": 8, "action": "8 s. Julia says it slowly, sure now.", "sound": ["a warm chord"], "lines": ["f13"] },
+      { "n": 21, "page": 9, "action": "8 s. The classmate looks into the crate for a long moment, then nods.", "sound": ["a gentle note"], "lines": ["f14"] },
+      { "n": 22, "page": 9, "action": "8 s. Julia runs to her teacher; he smiles and opens a cutting board on the bench.", "sound": ["running feet", "the tune returns"], "lines": ["f15"] },
+      { "n": 23, "page": 10, "action": "10 s. Scene 5, halves. Close on the teacher's hands cutting oranges in half on the board (an adult with the knife). No words.", "sound": ["a knife on a board", "juicy cuts"], "lines": [] },
+      { "n": 24, "page": 10, "action": "16 s. Julia carries the halves round on a steady beat, one at a time: green, blue, green, blue; hands reach out from both sides.", "sound": ["a hand drum on each half", "the tune, steady"], "lines": ["f16"] },
+      { "n": 25, "page": 10, "action": "8 s. Juice runs down her wrists; she laughs. No words.", "sound": ["a laugh"], "lines": [] },
+      { "n": 26, "page": 11, "action": "8 s. One half is left in the crate. Julia looks round: everyone has one already.", "sound": ["a puzzled plucked note"], "lines": ["f17"] },
+      { "n": 27, "page": 11, "action": "6 s. The classmate laughs and holds the last half out to her.", "sound": ["laughter"], "lines": ["f18"] },
+      { "n": 28, "page": 12, "action": "14 s. Scene 6, together. Green and blue eat side by side in the sun; peel piles up; sticky smiles. No words.", "sound": ["happy chatter", "birds", "the tune, warm"], "lines": [] },
+      { "n": 29, "page": 12, "action": "9 s. Alex wipes his chin and grins at Julia.", "sound": ["laughter with mouths full"], "lines": ["f19"] },
+      { "n": 30, "page": 13, "action": "9 s. Scene 7, the relay. The teams line up; Alex has an idea.", "sound": ["a whistle"], "lines": ["f20"] },
+      { "n": 31, "page": 13, "action": "10 s. The children swap places: green, blue, green, blue, all the way down the line.", "sound": ["shuffling feet", "giggles"], "lines": ["f21"] },
+      { "n": 32, "page": 13, "action": "16 s. The relay: the baton passes from hand to hand on the same steady beat as the orange halves.", "sound": ["the hand drum beat", "running feet", "cheers from everyone"], "lines": ["f22"] },
+      { "n": 33, "page": 14, "action": "8 s. The finish line: everybody cheers.", "sound": ["a big cheer"], "lines": ["f23"] },
+      { "n": 34, "page": 14, "action": "7 s. Alex answers; Julia laughs.", "sound": ["laughter"], "lines": ["f24"] },
+      { "n": 35, "page": 14, "action": "6 s. The two teachers shake hands, laughing. No words.", "sound": ["the tune"], "lines": [] },
+      { "n": 36, "page": 14, "action": "12 s. Everyone collapses in a happy heap on the grass, green and blue all mixed up. No words.", "sound": ["laughter", "the tune at full warmth"], "lines": [] },
+      { "n": 37, "page": 14, "action": "16 s. Closing image: the empty crate in the sun with a little pile of bright orange peel inside; behind it, out of focus, the mixed colours. Hold the still picture 6 s while the music ends, then stop. No autoplay.", "sound": ["the last notes of the tune", "birds"], "lines": [] }
+    ]
+  },
+  "activity": {
+    "minutes": 20,
+    "materials": ["twelve-pebbles-or-dry-pasta", "five-small-plastic-bowls", "paper", "pencil"],
+    "steps": [
+      { "n": 1, "picture": "Twelve pebbles in a row on a table, each easy to count; a child touches them one by one.", "loop": false },
+      { "n": 2, "picture": "Two small bowls; the child drops one pebble into each bowl in turn.", "loop": true },
+      { "n": 3, "picture": "Three bowls with the same number of pebbles in each; next to them, four bowls with the same number in each.", "loop": false },
+      { "n": 4, "picture": "Five bowls with two pebbles in each and two pebbles left over on the table; the child looks at the leftovers, thinking.", "loop": false },
+      { "n": 5, "picture": "The child draws circles for bowls on paper and dots inside them; a grown-up sits beside, interested.", "loop": false }
+    ],
+    "checkedAgainst": "docs/story-room/age-6-8.md section 7 (red list: no glass, small items kept from younger children, wash hands after outdoor pebbles) and section 4, 25 Nov 2026"
+  }
+}

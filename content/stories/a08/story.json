@@ -1,0 +1,196 @@
+{
+  "id": "a08",
+  "ageGroups": ["2-3"],
+  "owner": "storytime",
+  "lesson": "Cope with goodbye by knowing that the parent comes back after a known moment of the day.",
+  "cast": ["a08-elias", "a08-papa", "a08-teacher"],
+  "pages": [
+    {
+      "n": 1,
+      "art": "The gate of a kindergarten on an autumn morning: a low fence, a painted gate, a big tree with green and yellow leaves still on its branches (nothing falling). Soft, low morning light. Papa kneels on one knee in front of Elias, holding both his hands and looking into his eyes. Papa wears a jumper with bold horizontal stripes (mustard and dark blue): the stripes must be clear, because his sleeve returns at the end. Feeling: a tender, serious promise. Calm area: the sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 2,
+      "art": "Elias holds on to Papa's striped sleeve with both hands. In a second moment beside it, Papa waves from the gate and Elias stands holding the teacher's hand, two small tears on his cheeks, mouth wobbling. Not a big cry. Feeling: a small sadness, held. Calm area: the sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 3,
+      "art": "Inside the kindergarten room: the teacher crouches beside Elias and points at a round glass bowl on a low shelf with one orange goldfish swimming in it. Elias's face is turned to the fish; his tears have stopped. On the floor, a patch of morning sunlight near the door (it will move across the floor in later pictures to show time passing). Feeling: interest, a first small comfort. Calm area: the plain wall across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 4,
+      "art": "Song time: four or five children sit on a rug in a circle with the teacher, clapping; music notes float up. Elias sits among them, clapping a little, but his head is turned towards the door. The sun patch on the floor has moved a little. Feeling: joining in, still waiting. Calm area: the wall across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 5,
+      "art": "Snack time at a low table: Elias eats a piece of soft bread; on his plate are thin slices of cucumber. Two other children eat beside him. He chews and looks towards the door. The sun patch has moved further. Feeling: ordinary and calm. Calm area: the wall across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 6,
+      "art": "Outside in the sandpit: Elias digs with a small spade, smiling now, next to another child. He glances once towards the kindergarten door, but he is busy. The sun is higher. Feeling: playing, enjoying himself. Calm area: the sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 7,
+      "art": "The nap room: a row of small mats with blankets, curtains drawn so the light is soft and dim. Elias lies down on his mat with a blanket, the teacher tucking it round him. Feeling: quiet, safe, sleepy. Calm area: the curtain across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 8,
+      "art": "Close on Elias asleep on his mat, eyes closed, mouth a little open, one hand under his cheek. A thin line of afternoon light comes through the gap in the curtain. Feeling: hush. Calm area: the dark curtain across the top.",
+      "zone": { "side": "full", "v": "top", "size": "s" },
+      "image": null
+    },
+    {
+      "n": 9,
+      "art": "Elias wakes and sits up on his mat, rubbing one eye. In the doorway, just at the edge of the picture, a striped sleeve (mustard and dark blue, the same as page 1) appears round the door frame. We do not see the rest of Papa yet. Elias has seen it: his eyes are wide. Feeling: a happy surprise about to happen. Calm area: the wall across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 10,
+      "art": "Elias running across the room towards the door, arms out, blanket left behind on the mat, mouth wide open in a shout. The teacher smiles from the side. Feeling: joy, speed. Calm area: the wall across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 11,
+      "art": "Papa, in his striped jumper, has scooped Elias up high in his arms in the doorway; Elias hugs his neck, laughing. Afternoon light, golden, behind them. Last picture of the book: warm, complete. Calm area: the wall above the doorway, across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    }
+  ],
+  "film": {
+    "targetSeconds": 154,
+    "shots": [
+      {
+        "n": 1,
+        "page": 1,
+        "action": "11 s. Scene 1, the goodbye. Wide and still on the kindergarten gate in soft morning light. Hold 3 s, then Papa and Elias walk in, hand in hand, and stop at the gate. Keep the lower fifth calm for captions.",
+        "sound": ["morning birds", "far children's voices, soft", "gentle music: a simple tune on a piano, the 'after' tune"],
+        "lines": ["f01"]
+      },
+      {
+        "n": 2,
+        "page": 1,
+        "action": "10 s. Papa kneels and holds Elias's hands; the camera is at Elias's eye level. Papa says the promise slowly. Hold 2 s on Elias's face after it.",
+        "sound": ["the 'after' tune, soft"],
+        "lines": ["f02"]
+      },
+      {
+        "n": 3,
+        "page": 2,
+        "action": "10 s. Elias holds the striped sleeve; Papa hugs him, stands, waves from the gate and walks away. Elias, holding the teacher's hand, has two small tears.",
+        "sound": ["a gate closing softly", "a small sniff"],
+        "lines": ["f03"]
+      },
+      {
+        "n": 4,
+        "page": 3,
+        "action": "10 s. Scene 2, the day. Inside, the teacher crouches beside Elias and points at the goldfish bowl. A bright patch of sunlight lies on the floor near the door.",
+        "sound": ["a soft water bubble"],
+        "lines": ["f04"]
+      },
+      {
+        "n": 5,
+        "page": 3,
+        "action": "10 s. A breathing moment with no words: the goldfish swims a slow circle; Elias's face softens and he leans closer to the bowl.",
+        "sound": ["two soft bubbles", "the tune, gently"],
+        "lines": []
+      },
+      {
+        "n": 6,
+        "page": 4,
+        "action": "10 s. Song circle. The sun patch on the floor has moved a little (this is how the film shows time passing). Elias claps, then looks at the door.",
+        "sound": ["children singing softly, la la la", "clapping"],
+        "lines": ["f05"]
+      },
+      {
+        "n": 7,
+        "page": 5,
+        "action": "10 s. Snack at the low table: bread and thin cucumber slices. The sun patch has moved again. Elias chews and looks at the door.",
+        "sound": ["soft munching", "the 'after' tune"],
+        "lines": ["f06"]
+      },
+      {
+        "n": 8,
+        "page": 6,
+        "action": "10 s. Outside, the sandpit: Elias digs with a small spade next to another child; the sun is higher.",
+        "sound": ["a spade in sand", "a giggle"],
+        "lines": ["f07"]
+      },
+      {
+        "n": 9,
+        "page": 6,
+        "action": "10 s. Elias stops digging, looks up at the teacher and asks; she crouches and answers, counting the next thing on one finger.",
+        "sound": ["sand trickling"],
+        "lines": ["f08", "f09"]
+      },
+      {
+        "n": 10,
+        "page": 7,
+        "action": "10 s. Scene 3, the nap. The nap room, curtains drawn, soft dim light; Elias lies down on his mat and the teacher tucks the blanket round him.",
+        "sound": ["the tune slows to a lullaby"],
+        "lines": ["f10"]
+      },
+      {
+        "n": 11,
+        "page": 8,
+        "action": "10 s. Elias asleep. A thin line of light from the curtain slides slowly across the floor (time passes while he sleeps).",
+        "sound": ["quiet breathing", "the lullaby, very soft"],
+        "lines": ["f11"]
+      },
+      {
+        "n": 12,
+        "page": 9,
+        "action": "10 s. Elias wakes and sits up. The camera turns slowly to the doorway: a striped sleeve appears round the frame. Hold 2 s on the sleeve.",
+        "sound": ["the 'after' tune returns, brighter"],
+        "lines": ["f12"]
+      },
+      {
+        "n": 13,
+        "page": 10,
+        "action": "10 s. Elias jumps up and runs to the door, the blanket sliding off.",
+        "sound": ["quick little footsteps"],
+        "lines": ["f13"]
+      },
+      {
+        "n": 14,
+        "page": 11,
+        "action": "10 s. Papa scoops Elias up high and hugs him. The camera holds on the hug.",
+        "sound": ["a happy laugh", "the tune, full and warm, never loud"],
+        "lines": ["f14", "f15"]
+      },
+      {
+        "n": 15,
+        "page": 11,
+        "action": "13 s. Closing image. Wide: Papa and Elias walk out through the gate in golden afternoon light, hand in hand, the striped sleeve and the small hand together. Then nothing moves. Hold 6 s while the tune ends, then stop. No autoplay, no next film.",
+        "sound": ["the last note of the tune", "far birds"],
+        "lines": []
+      }
+    ]
+  },
+  "activity": {
+    "minutes": 8,
+    "materials": ["three-large-sheets-of-paper", "chunky-crayons"],
+    "steps": [
+      { "n": 1, "picture": "A grown-up and a child at a table drawing three simple pictures on three big sheets: a bowl (breakfast), a ball (playing), a door (going home). The child colours one.", "loop": false },
+      { "n": 2, "picture": "The three pictures lie mixed up on the floor, face up.", "loop": false },
+      { "n": 3, "picture": "The child lays the pictures one under the other, from top to bottom: bowl, ball, door (a column reads the same way in every language); the grown-up points to the top one.", "loop": true },
+      { "n": 4, "picture": "The child points to each picture in turn while the grown-up and child talk (three small speech bubbles with the same three shapes, no words).", "loop": true }
+    ],
+    "checkedAgainst": "docs/story-room/age-2-3.md section 7 (red list and tube test) and section 4 (activity limits), 25 Nov 2026"
+  }
+}

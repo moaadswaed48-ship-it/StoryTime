@@ -1,0 +1,334 @@
+{
+  "id": "a13",
+  "ageGroups": [
+    "2-3"
+  ],
+  "owner": "storytime",
+  "lesson": "Understand the position words in, on, under and behind.",
+  "cast": [
+    "a13-little-hedgehog",
+    "a13-mama-hedgehog"
+  ],
+  "pages": [
+    {
+      "n": 1,
+      "art": "A small garden behind a house on a summer night, just after the hot day: deep blue sky with the first stars, the warm-lit window of the house, a wooden bench, a watering can, a low stone wall, a bush and an old boot lying on its side in the grass. Cool blue light, soft and friendly, never dark or scary. Calm area: the night sky across the top.",
+      "zone": {
+        "side": "full",
+        "v": "top",
+        "size": "m"
+      },
+      "image": null
+    },
+    {
+      "n": 2,
+      "art": "Under the bush, Little Hedgehog bounces on his toes, nose up, excited; Mama Hedgehog, bigger and rounder, covers her eyes with her front paws. Feeling: the start of a game. Calm area: the night sky across the top.",
+      "zone": {
+        "side": "full",
+        "v": "top",
+        "size": "m"
+      },
+      "image": null
+    },
+    {
+      "n": 3,
+      "art": "Mama Hedgehog, still covering her eyes, counts. Behind her, only the tip of Little Hedgehog's back and a little puff of movement show as he scurries away out of the picture. The garden waits: bench, watering can, wall, boot. Calm area: the sky across the top.",
+      "zone": {
+        "side": "full",
+        "v": "top",
+        "size": "s"
+      },
+      "image": null
+    },
+    {
+      "n": 4,
+      "art": "Mama Hedgehog peeks under the wooden bench. Under it sits a shiny black beetle, waving its feelers at her. No Little Hedgehog. Gentle surprise. Calm area: the plain seat of the bench and the sky above, across the top.",
+      "zone": {
+        "side": "full",
+        "v": "top",
+        "size": "s"
+      },
+      "image": null
+    },
+    {
+      "n": 5,
+      "art": "Mama Hedgehog peeks behind the green watering can. Behind it, a snail on a stone turns its eye-stalks towards her. Calm area: the sky across the top.",
+      "zone": {
+        "side": "full",
+        "v": "top",
+        "size": "s"
+      },
+      "image": null
+    },
+    {
+      "n": 6,
+      "art": "Mama Hedgehog looks up at the low stone wall. On top of it sits a small round owl with two big round eyes, one eye blinking. Friendly, not spooky. Calm area: the starry sky above the wall, across the top.",
+      "zone": {
+        "side": "full",
+        "v": "top",
+        "size": "m"
+      },
+      "image": null
+    },
+    {
+      "n": 7,
+      "art": "Close on Mama Hedgehog's face and twitching nose: she sniffs to one side, with two small curved lines by her nose; a faint second outline of her head shows her turning the other way. Calm area: the plain grass across the bottom.",
+      "zone": {
+        "side": "full",
+        "v": "bottom",
+        "size": "s"
+      },
+      "image": null
+    },
+    {
+      "n": 8,
+      "art": "Mama Hedgehog freezes, ears turned towards the old boot at the side of the picture. From inside the boot, three tiny curved lines show a giggle (no letters). The boot is the only thing in that corner. Calm area: the sky across the top.",
+      "zone": {
+        "side": "full",
+        "v": "top",
+        "size": "m"
+      },
+      "image": null
+    },
+    {
+      "n": 9,
+      "art": "Mama Hedgehog's nose pokes into the opening of the old boot, which lies on its side; inside, a small round prickly back is just visible. Mama's eyes smile. Calm area: the sky across the top.",
+      "zone": {
+        "side": "full",
+        "v": "top",
+        "size": "m"
+      },
+      "image": null
+    },
+    {
+      "n": 10,
+      "art": "Cut-away view into the boot: Little Hedgehog curled up tight into a round prickly ball, one eye open, giggling. Calm area: the plain dark inside of the boot across the top.",
+      "zone": {
+        "side": "full",
+        "v": "top",
+        "size": "s"
+      },
+      "image": null
+    },
+    {
+      "n": 11,
+      "art": "Last picture: Mama Hedgehog curled up in the grass right beside the boot, Little Hedgehog's nose peeping out of it towards her. On the wall, the owl with eyes half closed. Stars above, the house window warm. Still and sleepy. Calm area: the starry sky across the top.",
+      "zone": {
+        "side": "full",
+        "v": "top",
+        "size": "l"
+      },
+      "image": null
+    }
+  ],
+  "film": {
+    "targetSeconds": 145,
+    "shots": [
+      {
+        "n": 1,
+        "page": 1,
+        "action": "12 s. Scene 1, night comes. Wide and still on the garden at dusk: the last warm glow fades, the sky turns deep blue. Only the light moves. Keep the lower fifth calm for captions.",
+        "sound": [
+          "crickets, soft",
+          "a far, gentle breeze",
+          "calm music: a slow tune on a music box"
+        ],
+        "lines": [
+          "f01"
+        ]
+      },
+      {
+        "n": 2,
+        "page": 1,
+        "action": "8 s. Stars light up one by one and turn very slowly; the house window glows warm.",
+        "sound": [
+          "a tiny chime for each star"
+        ],
+        "lines": [
+          "f02"
+        ]
+      },
+      {
+        "n": 3,
+        "page": 2,
+        "action": "10 s. Under the bush, two hedgehogs wake and come out, noses sniffing. Little Hedgehog bounces on his toes.",
+        "sound": [
+          "rustling leaves",
+          "small snuffles"
+        ],
+        "lines": [
+          "f03"
+        ]
+      },
+      {
+        "n": 4,
+        "page": 2,
+        "action": "8 s. Mama Hedgehog covers her eyes with her paws and counts slowly.",
+        "sound": [
+          "the tune, three soft notes"
+        ],
+        "lines": [
+          "f04"
+        ]
+      },
+      {
+        "n": 5,
+        "page": 3,
+        "action": "8 s. Little Hedgehog scurries away out of the picture. Mama uncovers her eyes and looks round.",
+        "sound": [
+          "tiny quick footsteps in grass"
+        ],
+        "lines": [
+          "f05"
+        ]
+      },
+      {
+        "n": 6,
+        "page": 4,
+        "action": "10 s. Scene 2, the search. Mama peeks under the bench: a beetle waves its feelers at her. Hold 2 s on the beetle after the line.",
+        "sound": [
+          "a tiny click",
+          "the tune, curious"
+        ],
+        "lines": [
+          "f06"
+        ]
+      },
+      {
+        "n": 7,
+        "page": 5,
+        "action": "10 s. Mama peeks behind the watering can: a snail slowly turns its eye-stalks towards her.",
+        "sound": [
+          "a slow, soft slide"
+        ],
+        "lines": [
+          "f07"
+        ]
+      },
+      {
+        "n": 8,
+        "page": 6,
+        "action": "10 s. Mama looks up at the wall: two big round eyes blink, slowly. It is a small friendly owl.",
+        "sound": [
+          "a soft feather ruffle"
+        ],
+        "lines": [
+          "f08",
+          "f09"
+        ]
+      },
+      {
+        "n": 9,
+        "page": 7,
+        "action": "10 s. Close on Mama's nose: it twitches to one side, then the other. A breathing moment: 2 s of only sniffing before the line.",
+        "sound": [
+          "sniffs, left and right"
+        ],
+        "lines": [
+          "f10"
+        ]
+      },
+      {
+        "n": 10,
+        "page": 8,
+        "action": "9 s. A tiny giggle is heard from one side before anything is seen. Mama's ears turn towards it; the camera turns slowly with her.",
+        "sound": [
+          "a tiny giggle, from one side"
+        ],
+        "lines": [
+          "f11"
+        ]
+      },
+      {
+        "n": 11,
+        "page": 9,
+        "action": "10 s. Scene 3, found. The camera finds the old boot lying on its side; a small nose and a few prickles peep out. Mama pokes her nose in.",
+        "sound": [
+          "the tune, a happy rising phrase"
+        ],
+        "lines": [
+          "f12"
+        ]
+      },
+      {
+        "n": 12,
+        "page": 10,
+        "action": "10 s. Inside the boot: Little Hedgehog curled up tight, round and prickly. He opens one eye and giggles.",
+        "sound": [
+          "giggles from both"
+        ],
+        "lines": [
+          "f13"
+        ]
+      },
+      {
+        "n": 13,
+        "page": 11,
+        "action": "10 s. Mama curls up in the grass beside the boot. 3 s of stillness: a breathing moment.",
+        "sound": [
+          "crickets",
+          "the tune, slow"
+        ],
+        "lines": [
+          "f14"
+        ]
+      },
+      {
+        "n": 14,
+        "page": 11,
+        "action": "8 s. On the wall the owl hoots once, softly, and closes its eyes.",
+        "sound": [
+          "one soft owl hoot"
+        ],
+        "lines": [
+          "f15"
+        ]
+      },
+      {
+        "n": 15,
+        "page": 11,
+        "action": "12 s. Closing image. Wide: the garden at night, the stars turning very slowly, the boot and the two hedgehogs still. Hold 6 s while the music ends, then stop. No autoplay, no next film.",
+        "sound": [
+          "the last notes of the music box",
+          "crickets fading"
+        ],
+        "lines": []
+      }
+    ]
+  },
+  "activity": {
+    "minutes": 10,
+    "materials": [
+      "large-cardboard-box-staples-removed",
+      "cushion"
+    ],
+    "steps": [
+      {
+        "n": 1,
+        "picture": "A big cardboard box, open at both ends, on a soft floor. The child crawls through it; the grown-up kneels at the far end, smiling.",
+        "loop": true
+      },
+      {
+        "n": 2,
+        "picture": "The child sits inside the box, waving.",
+        "loop": false
+      },
+      {
+        "n": 3,
+        "picture": "Child and grown-up walk around the box, hand in hand.",
+        "loop": true
+      },
+      {
+        "n": 4,
+        "picture": "The child climbs over a cushion on the floor beside the box.",
+        "loop": true
+      },
+      {
+        "n": 5,
+        "picture": "The whole little course: box and cushion, with four small pictures of the child going through, in, around and over.",
+        "loop": false
+      }
+    ],
+    "checkedAgainst": "docs/story-room/age-2-3.md section 7 (staples out of cardboard boxes, edges taped; flaps never closed over a child) and section 4 (activity limits), 25 Nov 2026"
+  }
+}

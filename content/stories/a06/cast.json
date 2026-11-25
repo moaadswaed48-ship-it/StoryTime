@@ -1,0 +1,30 @@
+[
+  {
+    "id": "a06-little-hippo",
+    "name": { "ar": "فَرَس النَهر الصَغيرة", "he": "הִיפּוֹ הַקְּטַנָּה", "en": "Little Hippo", "da": "Lille Flodhest" },
+    "stage": "toddler",
+    "build": { "height": 0.45, "heads": 2.6, "girth": 0.95, "shoulders": 1.2 },
+    "skin": "#9a8fa8",
+    "hair": { "style": "none", "color": "#9a8fa8" },
+    "eyes": { "color": "#2a2030", "size": 0.95 },
+    "brows": { "color": "#6f6680", "weight": 0.3 },
+    "top": { "style": "tee", "color": "#e8b7c1", "pattern": "plain" },
+    "bottom": { "style": "none", "color": "#8a7f98" },
+    "shoes": { "style": "bare", "color": "#7d7290" },
+    "manner": "A young hippopotamus, a girl, not a humanoid: the Sheet type has no animal body yet, so the Studio must add one (as for B02's wheelchair). Read the colours as: skin = her grey-violet body; top = the pink belly, cheeks and inside of the mouth; shoes = her four short round feet. Round as a pebble, with tiny ears that twitch when she giggles; copies everything Papa does, a beat later and a size smaller."
+  },
+  {
+    "id": "a06-papa-hippo",
+    "name": { "ar": "بابا", "he": "אַבָּא הִיפּוֹ", "en": "Papa Hippo", "da": "Far Flodhest" },
+    "stage": "adult",
+    "build": { "height": 1.1, "heads": 3, "girth": 1, "shoulders": 1.4 },
+    "skin": "#7e7590",
+    "hair": { "style": "none", "color": "#7e7590" },
+    "eyes": { "color": "#2a2030", "size": 0.6 },
+    "brows": { "color": "#5d556c", "weight": 0.5 },
+    "top": { "style": "tee", "color": "#d99aa8", "pattern": "plain" },
+    "bottom": { "style": "none", "color": "#6f6680" },
+    "shoes": { "style": "bare", "color": "#655d75" },
+    "manner": "A grown hippopotamus, not a humanoid: the Sheet type has no animal body yet, so the Studio must add one. Colours read as for Little Hippo. Huge, slow and gentle; makes everything a game; opens his mouth as wide as a doorway to make her laugh; his yawns are the biggest thing on the river."
+  }
+]

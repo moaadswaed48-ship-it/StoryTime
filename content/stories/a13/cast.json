@@ -1,0 +1,92 @@
+[
+  {
+    "id": "a13-little-hedgehog",
+    "name": {
+      "ar": "القُنْفُذ الصَّغير",
+      "he": "קִפּוֹד קָטָן",
+      "en": "Little Hedgehog",
+      "da": "Lille Pindsvin"
+    },
+    "stage": "toddler",
+    "build": {
+      "height": 0.12,
+      "heads": 2,
+      "girth": 0.9,
+      "shoulders": 1
+    },
+    "skin": "#e8d2b0",
+    "hair": {
+      "style": "none",
+      "color": "#7a5a3e"
+    },
+    "eyes": {
+      "color": "#1c1210",
+      "size": 0.9
+    },
+    "brows": {
+      "color": "#e8d2b0",
+      "weight": 0
+    },
+    "top": {
+      "style": "tee",
+      "color": "#f2e6cf",
+      "trim": "#7a5a3e",
+      "pattern": "plain"
+    },
+    "bottom": {
+      "style": "none",
+      "color": "#e8d2b0"
+    },
+    "shoes": {
+      "style": "bare",
+      "color": "#5a3a2a"
+    },
+    "animal": "hedgehog",
+    "manner": "NOT A HUMAN FIGURE: a small southern white-breasted hedgehog (Israel's garden hedgehog): pale face and white chest (skin and top colours), brown spines (hair colour), tiny dark paws. Bouncy and giggly; scurries in quick little runs; curls into a tight round ball to hide. The Studio needs an animal sheet type before drawing him."
+  },
+  {
+    "id": "a13-mama-hedgehog",
+    "name": {
+      "ar": "ماما قُنْفُذة",
+      "he": "אִמָּא קִפּוֹדָה",
+      "en": "Mama Hedgehog",
+      "da": "Mor Pindsvin"
+    },
+    "stage": "adult",
+    "build": {
+      "height": 0.18,
+      "heads": 2,
+      "girth": 0.95,
+      "shoulders": 1
+    },
+    "skin": "#e2c8a4",
+    "hair": {
+      "style": "none",
+      "color": "#6a4a32"
+    },
+    "eyes": {
+      "color": "#1c1210",
+      "size": 0.7
+    },
+    "brows": {
+      "color": "#e2c8a4",
+      "weight": 0
+    },
+    "top": {
+      "style": "tee",
+      "color": "#f2e6cf",
+      "trim": "#6a4a32",
+      "pattern": "plain"
+    },
+    "bottom": {
+      "style": "none",
+      "color": "#e2c8a4"
+    },
+    "shoes": {
+      "style": "bare",
+      "color": "#4a3020"
+    },
+    "animal": "hedgehog",
+    "manner": "NOT A HUMAN FIGURE: a bigger, rounder hedgehog of the same kind, with darker spines. Slow and patient; her long nose twitches and leads the way; she plays along, peeks carefully and laughs softly. The Studio needs an animal sheet type before drawing her."
+  }
+]

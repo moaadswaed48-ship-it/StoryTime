@@ -1,0 +1,203 @@
+{
+  "id": "a06",
+  "ageGroups": ["2-3"],
+  "owner": "storytime",
+  "lesson": "Brush the top teeth and the bottom teeth as part of going to bed.",
+  "cast": ["a06-little-hippo", "a06-papa-hippo"],
+  "pages": [
+    {
+      "n": 1,
+      "art": "A wide, slow river at dusk in autumn, drawn as flat layered bands: dark green banks, reeds as repeated simple blades, the water in three calm bands of blue-grey. The sky goes from soft orange at the bottom to deep blue at the top, with a first small star. Papa Hippo and Little Hippo stand in the shallows, only their backs, ears and eyes above the water line. Feeling: the day winding down, peaceful. Calm area: the deep blue sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 2,
+      "art": "Papa Hippo, standing on the muddy bank, opens his mouth enormously wide (a big round pink cave with a few square teeth), eyes crinkled with fun. Little Hippo looks up at him from beside his front leg. Feeling: a big, playful announcement. Calm area: the dusk sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 3,
+      "art": "Little Hippo opens her mouth only a little: a small, shy oval showing two little teeth. She glances sideways at Papa. Close on her face. Feeling: shy, a little hesitant, sweet. Calm area: the plain sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "s" },
+      "image": null
+    },
+    {
+      "n": 4,
+      "art": "The two toothbrushes side by side, held up by their owners: Papa's is enormous, with a long handle and a huge block of bristles; Little Hippo's is tiny in her hand. Both hippos look at the brushes and smile. A big-and-small picture a child can point to. Feeling: comedy of size. Calm area: the sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 5,
+      "art": "Little Hippo and Papa brushing side by side, mirror-like. Two small panels in one picture: on the left, both brush their top teeth (brushes up high, small arrows of up-and-down motion); on the right, both brush their bottom teeth. Foam is a few soft white bubbles. Feeling: rhythm, doing it together. Calm area: the sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 6,
+      "art": "Little Hippo giggling with the tiny brush in her mouth, eyes squeezed shut, shoulders up, a few bubbles floating up. Papa looks at her fondly, his own brush paused. Feeling: ticklish giggles. Calm area: the sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "s" },
+      "image": null
+    },
+    {
+      "n": 7,
+      "art": "Little Hippo opening her mouth wider in three steps, shown as three soft overlapping outlines of her open mouth, each bigger than the last. Papa demonstrates with his own wide mouth beside her. The moon is now rising behind them. Feeling: stretching, building up. Calm area: the night sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 8,
+      "art": "Little Hippo in the middle of a huge yawn: mouth fully open, eyes closed, her little arms stretched up. A few reeds bend as if blown by the yawn. Feeling: big, funny, sleepy. Calm area: the night sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 9,
+      "art": "Papa Hippo yawning an even bigger yawn, so big that his head tips back and his whole body leans; Little Hippo, beside him, covers her mouth and laughs. Feeling: the funniest moment, warm laughter. Calm area: the night sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 10,
+      "art": "Rinsing at the water's edge: Little Hippo swishes water in her cheeks (puffed, round), Papa spits a small arc of water into the river, and a little splash rises where it lands. Both brushes rest on a flat rock. Feeling: playful, nearly done. Calm area: the night sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 11,
+      "art": "Night: a round moon over the river, its light a soft stripe on the water. Papa Hippo lies on the bank; Little Hippo leans against his big warm side, eyes almost closed, a small clean smile. Papa smiles a clean smile too. Last picture of the book: calm, sleepy, safe. Calm area: the night sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    }
+  ],
+  "film": {
+    "targetSeconds": 151,
+    "shots": [
+      {
+        "n": 1,
+        "page": 1,
+        "action": "11 s. Scene 1, dusk. Wide and still on the river bands. Over 8 s the sky colour slides from orange to deep blue and the first star appears. The two hippos are small in the shallows. Keep the lower fifth calm for captions.",
+        "sound": ["soft river water", "crickets starting", "gentle music: a slow lullaby on a marimba"],
+        "lines": ["f01"]
+      },
+      {
+        "n": 2,
+        "page": 1,
+        "action": "8 s. The two hippos wade out onto the bank, slowly, Papa first. One thing moves at a time.",
+        "sound": ["slow, heavy, friendly footsteps in mud"],
+        "lines": ["f02"]
+      },
+      {
+        "n": 3,
+        "page": 2,
+        "action": "9 s. Scene 2, brushing. Papa opens his mouth enormously wide, holds it 1 s, then makes his announcement.",
+        "sound": ["a low, funny 'boing' as his mouth opens"],
+        "lines": ["f03"]
+      },
+      {
+        "n": 4,
+        "page": 3,
+        "action": "8 s. Close on Little Hippo opening her mouth just a little.",
+        "sound": ["a tiny 'pip' as her mouth opens"],
+        "lines": ["f04"]
+      },
+      {
+        "n": 5,
+        "page": 4,
+        "action": "10 s. The two brushes appear: Papa's slides in from one side, huge; Little Hippo's pops up small from the other. Hold 2 s on the pair.",
+        "sound": ["a deep note for the big brush", "a high note for the small one"],
+        "lines": ["f05"]
+      },
+      {
+        "n": 6,
+        "page": 5,
+        "action": "10 s. Side by side, they brush their top teeth in rhythm, Papa saying the line, Little Hippo echoing it. The brushing moves on the beat.",
+        "sound": ["soft brushing swish on each beat", "the lullaby tune, a little perkier"],
+        "lines": ["f06", "f07"]
+      },
+      {
+        "n": 7,
+        "page": 5,
+        "action": "10 s. The same for the bottom teeth: line, echo, brushing on the beat.",
+        "sound": ["soft brushing swish on each beat"],
+        "lines": ["f08", "f09"]
+      },
+      {
+        "n": 8,
+        "page": 6,
+        "action": "8 s. Little Hippo giggles; three bubbles float up from her mouth and pop softly.",
+        "sound": ["a giggle", "three tiny bubble pops"],
+        "lines": ["f10"]
+      },
+      {
+        "n": 9,
+        "page": 7,
+        "action": "9 s. Scene 3, the yawn. Papa shows her: he opens wide. Little Hippo begins to open hers.",
+        "sound": ["the music slows"],
+        "lines": ["f11"]
+      },
+      {
+        "n": 10,
+        "page": 7,
+        "action": "8 s. Her mouth opens wider in three slow steps; the moon rises behind them, one step for each.",
+        "sound": ["three rising notes"],
+        "lines": ["f12"]
+      },
+      {
+        "n": 11,
+        "page": 8,
+        "action": "10 s. The biggest yawn: her arms stretch up; the reeds bend gently; hold 2 s on her open mouth, then she blinks.",
+        "sound": ["a long sleepy yawn", "reeds rustling"],
+        "lines": ["f13"]
+      },
+      {
+        "n": 12,
+        "page": 9,
+        "action": "10 s. Papa yawns an even bigger yawn; his head tips back; Little Hippo laughs. Comic, slow, never loud.",
+        "sound": ["a very long, deep yawn", "a giggle"],
+        "lines": ["f14"]
+      },
+      {
+        "n": 13,
+        "page": 10,
+        "action": "10 s. Rinsing: swish in the cheeks, a small spit into the river, a little splash, each on its own beat.",
+        "sound": ["swish", "a soft 'ptoo'", "a small splash"],
+        "lines": ["f15"]
+      },
+      {
+        "n": 14,
+        "page": 11,
+        "action": "10 s. Scene 4, goodnight. They lie down on the bank; both smile, clean teeth showing. The moon lights them.",
+        "sound": ["crickets", "the lullaby, very soft"],
+        "lines": ["f16"]
+      },
+      {
+        "n": 15,
+        "page": 11,
+        "action": "9 s. Little Hippo leans against Papa's side; her eyes close slowly.",
+        "sound": ["a small sigh"],
+        "lines": ["f17"]
+      },
+      {
+        "n": 16,
+        "page": 11,
+        "action": "11 s. Closing image. Wide: the moonlit river, two sleeping hippos on the bank. Then nothing moves. Hold 6 s while the lullaby ends, then stop. No autoplay, no next film.",
+        "sound": ["the last note of the lullaby", "river water"],
+        "lines": []
+      }
+    ]
+  },
+  "activity": {
+    "minutes": 5,
+    "materials": ["own-toothbrush-each", "toothpaste-as-advised", "mirror"],
+    "steps": [
+      { "n": 1, "picture": "A grown-up and a child stand side by side in front of a bathroom mirror, each holding their own toothbrush.", "loop": false },
+      { "n": 2, "picture": "Both brush their top teeth, mouths open, musical notes floating between them (they are singing).", "loop": true },
+      { "n": 3, "picture": "Both brush their bottom teeth, still singing (musical notes).", "loop": true },
+      { "n": 4, "picture": "The song is over: the child spits into the sink and both show big clean smiles in the mirror.", "loop": false }
+    ],
+    "checkedAgainst": "docs/story-room/age-2-3.md section 7 (red list and tube test) and section 4 (activity limits), 25 Nov 2026"
+  }
+}

@@ -1,0 +1,134 @@
+{
+  "id": "b05",
+  "ageGroups": ["4-5"],
+  "owner": "storytime",
+  "lesson": "Understand that a friend does not know what they did not see, and tell them.",
+  "cast": ["b05-yasmin", "b05-cousin", "b05-mum", "b05-uncle"],
+  "pages": [
+    {
+      "n": 1,
+      "art": "A desert oasis on an autumn afternoon: tall date palms (one palm shape repeated) with heavy orange-gold date bunches, sand in flat warm bands, a round stone well with a camel resting beside it. Two grown-ups stand on ladders in the palms, lowering date bunches. Yasmin and her little cousin carry woven baskets between the trunks. Feeling: busy, golden, a shared job. Calm area: the pale sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 2,
+      "art": "Yasmin kneels on a straw mat, choosing the shiniest dates from a big basket and putting them into a small round basket on her lap. Her eyes sparkle; one finger at her lips. In the background the grown-ups work on their ladders. Feeling: a secret plan, excited. Calm area: the plain sand in the bottom band.",
+      "zone": { "side": "full", "v": "bottom", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 3,
+      "art": "The big palm, wider than the others: Yasmin tucks the small basket against its trunk, at its foot, in a patch of shade. Beyond, she is drawn a second time, small, running off across the oasis towards the far palms, where her mother waves. By the well, the camel watches with half-closed eyes. Feeling: playful, hurrying. Calm area: the sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 4,
+      "art": "Later: the palm's shadow has moved round, and the little basket now sits in full bright sun. Yasmin's little cousin stands over it, hands on knees, frowning at the shiny dates; a few wavy heat lines rise from the basket (no letters). Far in the background, Yasmin is small, busy with the grown-ups, her back turned. Feeling: a caring thought. Calm area: the plain sand in the bottom band.",
+      "zone": { "side": "full", "v": "bottom", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 5,
+      "art": "The cousin carries the basket in both arms, puffing, towards the well and its cool blue shade. Then (second small figure) he sets it down beside the resting camel and skips away to play. Yasmin is still far away, her back turned. Feeling: pleased with himself. Calm area: the sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 6,
+      "art": "Yasmin, back at the big palm, searches: peering round the trunk, lifting a fallen palm frond, patting the sand with both hands. Her face is surprised and worried. The empty patch of shade where the basket was. Feeling: confusion, a little worry. Calm area: the sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 7,
+      "art": "A split view the child reader can follow: on one side, Yasmin searching under the big palm; on the other side, the basket safe by the well next to the camel. Between them, the cousin stands with his head tilted, looking at Yasmin, puzzled, one finger on his chin. Feeling: the reader knows something Yasmin does not. Calm area: the plain sand in the bottom band.",
+      "zone": { "side": "full", "v": "bottom", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 8,
+      "art": "Close on the cousin: his eyes go wide and his mouth makes an O; above his head a small thought picture (no letters) shows the basket still under the big palm, the way Yasmin remembers it. Feeling: the moment of understanding. Calm area: the sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "l" },
+      "image": null
+    },
+    {
+      "n": 9,
+      "art": "The cousin has run to Yasmin and holds her hand, pointing towards the well with his other arm, talking eagerly. Yasmin looks at him, listening, her worried face beginning to brighten. Feeling: help offered, hope. Calm area: the sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 10,
+      "art": "By the well in the cool blue shade: the little basket of dates, safe, beside the big sleepy camel lying with its legs folded. Yasmin and her cousin arrive hand in hand; Yasmin's face lights up. Feeling: relief and delight. Calm area: the plain sand in the bottom band.",
+      "zone": { "side": "full", "v": "bottom", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 11,
+      "art": "Yasmin kneels and touches the dates with her fingertips, surprised at how cool they are. Her cousin stands beside her, grinning from ear to ear, chest puffed out. Feeling: thanks and pride. Calm area: the sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 12,
+      "art": "The two children carry the small basket between them, one handle each, towards the grown-ups, who sit resting on a mat in the shade of the palms, fanning themselves. Both children call out, faces bright. Feeling: the surprise about to land. Calm area: the plain sand in the bottom band.",
+      "zone": { "side": "full", "v": "bottom", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 13,
+      "art": "Late golden light. The grown-ups cheer, arms up, the open basket of dates in the middle of the mat; the children hand dates to them. Yasmin leans to whisper in her cousin's ear. By the well, the camel opens one eye. Last picture of the book: warm, together, glowing. Calm area: the sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    }
+  ],
+  "film": {
+    "targetSeconds": 246,
+    "shots": [
+      { "n": 1, "page": 1, "action": "14 s. Scene 1, the oasis. Wide: palms, flat bands of warm sand, the well and the resting camel. Slow pan. Keep the lower fifth calm for captions in every shot.", "sound": ["a warm breeze in palm leaves", "a ladder creaking", "gentle music with a hand drum"], "lines": ["f01"] },
+      { "n": 2, "page": 1, "action": "7 s. On a ladder, Yasmin's uncle lowers a heavy date bunch into a basket the children hold up.", "sound": ["rustling dates"], "lines": ["f02"] },
+      { "n": 3, "page": 1, "action": "10 s. The children carry baskets between the palms. By the well, the camel chews slowly. No words.", "sound": ["footsteps in sand", "the camel chewing", "music"], "lines": [] },
+      { "n": 4, "page": 2, "action": "9 s. Yasmin chooses the shiniest dates and fills a small basket, finger to her lips.", "sound": ["dates dropped softly into a basket"], "lines": ["f03"] },
+      { "n": 5, "page": 3, "action": "8 s. She tucks the basket at the foot of the big palm, in its shade, and looks around. No words.", "sound": ["a sneaky little tune"], "lines": [] },
+      { "n": 6, "page": 3, "action": "6 s. She whispers across to the camel; the camel blinks slowly.", "sound": ["a slow camel blink, a tiny comic sound"], "lines": ["f04"] },
+      { "n": 7, "page": 3, "action": "6 s. Yasmin's mother calls from the far palms; Yasmin runs off across the oasis.", "sound": ["running footsteps"], "lines": ["f05"] },
+      { "n": 8, "page": 4, "action": "10 s. Scene 2, the move. Time passes in one shot: the palm's shadow slides away and the little basket sits in full sun. No words.", "sound": ["a ticking-like soft rhythm", "the breeze"], "lines": [] },
+      { "n": 9, "page": 4, "action": "8 s. The cousin wanders in, finds the basket and bends over it.", "sound": ["small footsteps"], "lines": ["f06"] },
+      { "n": 10, "page": 4, "action": "5 s. He touches a date and frowns.", "sound": ["quiet"], "lines": ["f07"] },
+      { "n": 11, "page": 5, "action": "11 s. He carries the basket to the well, puffing, small steps; the camel turns its head to watch. Comic, no words.", "sound": ["puffing", "sand footsteps", "a plodding tune"], "lines": [] },
+      { "n": 12, "page": 5, "action": "6 s. He sets it down in the cool shade beside the camel.", "sound": ["a basket set down"], "lines": ["f08"] },
+      { "n": 13, "page": 5, "action": "5 s. He skips off to play. No words.", "sound": ["skipping footsteps"], "lines": [] },
+      { "n": 14, "page": 5, "action": "5 s. Cut to Yasmin, far away, helping the grown-ups with her back turned.", "sound": ["the breeze"], "lines": ["f09"] },
+      { "n": 15, "page": 6, "action": "8 s. Scene 3, the search. Yasmin runs back to the big palm: nothing there.", "sound": ["running footsteps", "the music stops"], "lines": ["f10"] },
+      { "n": 16, "page": 6, "action": "11 s. She searches behind the trunk, under a palm frond, in the sand.", "sound": ["rustling fronds", "sand patted"], "lines": ["f11"] },
+      { "n": 17, "page": 7, "action": "7 s. The cousin watches, puzzled. Cut between Yasmin at the palm and the basket at the well, so the viewer sees what Yasmin does not.", "sound": ["a questioning little tune"], "lines": ["f12"] },
+      { "n": 18, "page": 7, "action": "8 s. Breathing moment: hold on the cousin's thinking face. A soft thought picture shows the basket under the palm. No words.", "sound": ["a soft held note"], "lines": [] },
+      { "n": 19, "page": 8, "action": "6 s. His eyes go wide.", "sound": ["a bright 'idea' chime"], "lines": ["f13"] },
+      { "n": 20, "page": 9, "action": "8 s. Scene 4, telling. He runs to Yasmin and takes her hand.", "sound": ["running footsteps"], "lines": ["f14"] },
+      { "n": 21, "page": 9, "action": "6 s. He points towards the well.", "sound": ["music returning"], "lines": ["f15"] },
+      { "n": 22, "page": 10, "action": "11 s. Hand in hand they walk to the well. No words.", "sound": ["warm music", "footsteps in sand"], "lines": [] },
+      { "n": 23, "page": 10, "action": "5 s. Yasmin sees the basket by the sleeping camel.", "sound": ["a happy chord"], "lines": ["f16"] },
+      { "n": 24, "page": 11, "action": "7 s. She touches the dates: cool.", "sound": ["quiet"], "lines": ["f17"] },
+      { "n": 25, "page": 11, "action": "4 s. She turns to her cousin.", "sound": ["quiet"], "lines": ["f18"] },
+      { "n": 26, "page": 11, "action": "5 s. He grins from ear to ear. No words.", "sound": ["a small proud trumpet note"], "lines": [] },
+      { "n": 27, "page": 12, "action": "9 s. Scene 5, the surprise. They carry the basket between them to the resting grown-ups.", "sound": ["music building"], "lines": ["f19"] },
+      { "n": 28, "page": 12, "action": "6 s. Her uncle sits up, delighted.", "sound": ["laughter"], "lines": ["f20"] },
+      { "n": 29, "page": 13, "action": "6 s. Her mother claps.", "sound": ["clapping"], "lines": ["f21"] },
+      { "n": 30, "page": 13, "action": "9 s. The children hand out dates to the grown-ups in the golden light. No words.", "sound": ["warm music", "happy chatter"], "lines": [] },
+      { "n": 31, "page": 13, "action": "7 s. Yasmin whispers in her cousin's ear.", "sound": ["music softens"], "lines": ["f22"] },
+      { "n": 32, "page": 13, "action": "13 s. Closing image: the oasis at golden hour; by the well the camel opens one eye and closes it again. Hold the still picture 6 s while the music ends, then stop. No autoplay.", "sound": ["the last notes of the music", "the breeze"], "lines": ["f23"] }
+    ]
+  },
+  "activity": {
+    "minutes": 15,
+    "materials": ["one-soft-toy"],
+    "steps": [
+      { "n": 1, "picture": "One child waits outside a half-open door with a grown-up; inside, another child tucks a soft toy under a cushion on the floor.", "loop": false },
+      { "n": 2, "picture": "The seeker walks into the room; the hider stands still with hands behind their back and talks (a speech bubble with three small arrow and shape drawings for under, behind and next to, no letters).", "loop": true },
+      { "n": 3, "picture": "The seeker lifts the cushion and finds the toy, both children laughing; two curved arrows show they swap roles.", "loop": false }
+    ],
+    "checkedAgainst": "docs/story-room/age-4-5.md section 7 (red list) and section 4 (activity limits), 25 Nov 2026"
+  }
+}

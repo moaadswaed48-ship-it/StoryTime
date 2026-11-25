@@ -1,0 +1,207 @@
+{
+  "title": "Everything Has a Home",
+  "names": {
+    "a14-rayan": "Rayan",
+    "a14-dad": "Dad",
+    "a14-sister": "his big sister"
+  },
+  "pages": [
+    {
+      "n": 1,
+      "text": "A picnic in the pine woods! Rayan’s family eats and plays.",
+      "speech": "A picnic in the pine woods! Rayan’s family eats and plays."
+    },
+    {
+      "n": 2,
+      "text": "Now it is time to go home. But everything is everywhere!",
+      "speech": "Now it is time to go home. But everything is everywhere!"
+    },
+    {
+      "n": 3,
+      "text": "Dad holds the basket. “The cups go home in the basket.” In, in, in!",
+      "speech": "Dad holds the basket. “The cups go home in the basket.” In, in, in!"
+    },
+    {
+      "n": 4,
+      "text": "Dad holds the bag. “The ball goes home in the bag.” In!",
+      "speech": "Dad holds the bag. “The ball goes home in the bag.” In!"
+    },
+    {
+      "n": 5,
+      "text": "“The blanket goes home…” His big sister rolls it up. Roll, roll, roll.",
+      "speech": "“The blanket goes home…” His big sister rolls it up. Roll, roll, roll."
+    },
+    {
+      "n": 6,
+      "text": "Rayan rolls up inside it too! Only his face peeps out.",
+      "speech": "Rayan rolls up inside it too! Only his face peeps out."
+    },
+    {
+      "n": 7,
+      "text": "Everyone laughs. “Rayan goes home in the blanket!” says his sister.",
+      "speech": "Everyone laughs. “Rayan goes home in the blanket!” says his sister."
+    },
+    {
+      "n": 8,
+      "text": "Last, the orange peels. Their home is the bin by the path. In!",
+      "speech": "Last, the orange peels. Their home is the bin by the path. In!"
+    },
+    {
+      "n": 9,
+      "text": "The ground is clean. A jay sings on a branch.",
+      "speech": "The ground is clean. A jay sings on a branch."
+    },
+    {
+      "n": 10,
+      "text": "The family walks home. Everything is in its home.",
+      "speech": "The family walks home. Everything is in its home."
+    }
+  ],
+  "film": [
+    {
+      "id": "f01",
+      "speaker": "narrator",
+      "text": "A picnic in the pine woods.",
+      "speech": "A picnic in the pine woods.",
+      "emotion": "warm and easy, a sunny day"
+    },
+    {
+      "id": "f02",
+      "speaker": "a14-sister",
+      "text": "Rayan! Catch!",
+      "speech": "Rayan! Catch!",
+      "emotion": "playful, calling"
+    },
+    {
+      "id": "f03",
+      "speaker": "a14-dad",
+      "text": "Time to go home!",
+      "speech": "Time to go home!",
+      "emotion": "cheerful, clapping his hands"
+    },
+    {
+      "id": "f04",
+      "speaker": "narrator",
+      "text": "But everything is everywhere!",
+      "speech": "But everything is everywhere!",
+      "emotion": "a comic 'oh dear', smiling"
+    },
+    {
+      "id": "f05",
+      "speaker": "a14-dad",
+      "text": "The cups go home in the basket.",
+      "speech": "The cups go home in the basket.",
+      "emotion": "sing-song, making it a game"
+    },
+    {
+      "id": "f06",
+      "speaker": "a14-rayan",
+      "text": "In, in, in!",
+      "speech": "In, in, in!",
+      "emotion": "bouncy, one word per cup"
+    },
+    {
+      "id": "f07",
+      "speaker": "a14-dad",
+      "text": "The ball goes home in the bag.",
+      "speech": "The ball goes home in the bag.",
+      "emotion": "sing-song"
+    },
+    {
+      "id": "f08",
+      "speaker": "a14-rayan",
+      "text": "In!",
+      "speech": "In!",
+      "emotion": "proud"
+    },
+    {
+      "id": "f09",
+      "speaker": "a14-sister",
+      "text": "The blanket goes home…",
+      "speech": "The blanket goes home…",
+      "emotion": "sing-song, slowing down"
+    },
+    {
+      "id": "f10",
+      "speaker": "narrator",
+      "text": "Roll, roll, roll.",
+      "speech": "Roll, roll, roll.",
+      "emotion": "soft and rolling"
+    },
+    {
+      "id": "f11",
+      "speaker": "a14-rayan",
+      "text": "Me too!",
+      "speech": "Me too!",
+      "emotion": "giggly, muffled"
+    },
+    {
+      "id": "f12",
+      "speaker": "a14-sister",
+      "text": "Rayan goes home in the blanket!",
+      "speech": "Rayan goes home in the blanket!",
+      "emotion": "laughing out loud"
+    },
+    {
+      "id": "f13",
+      "speaker": "a14-dad",
+      "text": "Last, the orange peels.",
+      "speech": "Last, the orange peels.",
+      "emotion": "warm"
+    },
+    {
+      "id": "f14",
+      "speaker": "a14-rayan",
+      "text": "In the bin!",
+      "speech": "In the bin!",
+      "emotion": "proud and quick"
+    },
+    {
+      "id": "f15",
+      "speaker": "narrator",
+      "text": "The ground is clean.",
+      "speech": "The ground is clean.",
+      "emotion": "calm and pleased"
+    },
+    {
+      "id": "f16",
+      "speaker": "narrator",
+      "text": "Everything in its home.",
+      "speech": "Everything in its home.",
+      "emotion": "slow and content, the last words"
+    }
+  ],
+  "activity": {
+    "title": "Big Box, Little Box",
+    "goal": "Compare and sort things by size: big and little.",
+    "materials": [
+      "One big box and one little box, staples taken out",
+      "Safe things from around the home, each too big to fit through an empty toilet-paper tube"
+    ],
+    "steps": [
+      {
+        "n": 1,
+        "caption": "A big box. A little box."
+      },
+      {
+        "n": 2,
+        "caption": "Find one thing."
+      },
+      {
+        "n": 3,
+        "caption": "Big? Little?"
+      },
+      {
+        "n": 4,
+        "caption": "In it goes!"
+      },
+      {
+        "n": 5,
+        "caption": "Everything has a home!"
+      }
+    ],
+    "safety": "Every thing must be too big to fit through an empty toilet-paper tube. No shoes with laces and no plastic bags. Take the staples out of the boxes. If there is an accident, call your local emergency number.",
+    "forAdult": "In the story, Rayan helps tidy up the picnic, and each thing goes home to its own place. Sorting by size is the same idea for a small child: big things go home in the big box, little things in the little box. Put the two boxes side by side and gather a few safe things from around the home: a shoe, a sock, a pot, a wooden spoon, a soft toy. Hold up one thing and ask “Big or little?” Let the child decide and put it in. If a choice surprises you, ask about it rather than correcting: a sock really is little next to a pot. Each time, say “In it goes! The sock is home.” To make it easier, use only very big and very small things. To make it harder, add a middle-sized box, or look together for the biggest thing in the room. At the end, put everything back in its real home together. Five to ten minutes is plenty.",
+    "inClass": "Put one big and one little box in the middle of the room. Each child fetches one thing from the room, shows it to the group and puts it in the big or the little box, while the group calls “Big!” or “Little!”. At the end, everyone helps to put the things back. One adult with up to four children at a time."
+  }
+}

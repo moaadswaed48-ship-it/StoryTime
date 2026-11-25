@@ -1,0 +1,51 @@
+{
+  "title": "The Blue-White Path",
+  "names": {
+    "b13-ilan": "Ilan",
+    "b13-tiler": "the tiler",
+    "b13-neighbour": "the neighbour"
+  },
+  "pages": [
+    { "n": 1, "text": "In the old part of the city there was a narrow alley. At the very end was Ilan’s green door. One summer morning, a tiler came with a cart full of tiles.", "speech": "In the old part of the city there was a narrow alley. At the very end was Ilan’s green door. One summer morning, a tiler came with a cart full of tiles." },
+    { "n": 2, "text": "Every morning Ilan sat on his doorstep and watched. The tiler laid a tile. Click. Blue. Then another one. Click. White.", "speech": "Every morning Ilan sat on his doorstep and watched. The tiler laid a tile. Click. Blue. Then another one. Click. White." },
+    { "n": 3, "text": "Blue, white, blue, white. Click, click, click, click. Ilan nodded along. “Blue, white, blue, white,” he sang.", "speech": "Blue, white, blue, white. Click, click, click, click. Ilan nodded along. “Blue, white, blue, white,” he sang." },
+    { "n": 4, "text": "Day by day, the path grew longer. It came closer and closer to Ilan’s door. Blue, white, blue, white.", "speech": "Day by day, the path grew longer. It came closer and closer to Ilan’s door. Blue, white, blue, white." },
+    { "n": 5, "text": "One morning, a neighbour stopped to chat. The tiler talked and laughed. And while he talked, he kept laying tiles. Click. Click. Click.", "speech": "One morning, a neighbour stopped to chat. The tiler talked and laughed. And while he talked, he kept laying tiles. Click. Click. Click." },
+    { "n": 6, "text": "Ilan frowned. He looked at the path. Blue, white, blue, white… white! Can you see what is wrong?", "speech": "Ilan frowned. He looked at the path. Blue, white, blue, white… white! Can you see what is wrong?" },
+    { "n": 7, "text": "Ilan wanted to shout. But the grown-ups were talking, so he waited. He waited on one foot. He waited on the other foot.", "speech": "Ilan wanted to shout. But the grown-ups were talking, so he waited. He waited on one foot. He waited on the other foot." },
+    { "n": 8, "text": "At last the neighbour waved goodbye. Ilan jumped up and pointed. “That one should be blue!”", "speech": "At last the neighbour waved goodbye. Ilan jumped up and pointed. “That one should be blue!”" },
+    { "n": 9, "text": "The tiler looked. He looked again. Then he laughed. “You’re right. White after white!” He lifted the white tile and put down a blue one. Click.", "speech": "The tiler looked. He looked again. Then he laughed. “You’re right. White after white!” He lifted the white tile and put down a blue one. Click." },
+    { "n": 10, "text": "Now only two tiles were left. The tiler held them out to Ilan. “You finish it.” Ilan looked at the last tile. It was white. So next came… blue. Click. And then… white. Click.", "speech": "Now only two tiles were left. The tiler held them out to Ilan. “You finish it.” Ilan looked at the last tile. It was white. So next came… blue. Click. And then… white. Click." },
+    { "n": 11, "text": "The path was finished, right up to Ilan’s green door. Blue, white, blue, white, all the way.", "speech": "The path was finished, right up to Ilan’s green door. Blue, white, blue, white, all the way." },
+    { "n": 12, "text": "The next morning, when the path was dry, Ilan hopped along it. Blue, white, blue, white! Hop, hop, hop, hop, all the way to his door. The tiler clapped.", "speech": "The next morning, when the path was dry, Ilan hopped along it. Blue, white, blue, white! Hop, hop, hop, hop, all the way to his door. The tiler clapped." }
+  ],
+  "film": [
+    { "id": "f01", "speaker": "narrator", "text": "In the old part of the city, a tiler was laying a new path.", "speech": "In the old part of the city, a tiler was laying a new path.", "emotion": "calm, sunny, in time with the music" },
+    { "id": "f02", "speaker": "b13-ilan", "text": "Blue, white, blue, white!", "speech": "Blue, white, blue, white!", "emotion": "sung, bouncy, keeping the beat" },
+    { "id": "f03", "speaker": "narrator", "text": "Day by day, the path came closer.", "speech": "Day by day, the path came closer.", "emotion": "warm, steady" },
+    { "id": "f04", "speaker": "b13-neighbour", "text": "Good morning! How is the work going?", "speech": "Good morning! How is the work going?", "emotion": "friendly, chatty" },
+    { "id": "f05", "speaker": "b13-tiler", "text": "One tile at a time!", "speech": "One tile at a time!", "emotion": "cheerful, distracted, laughing" },
+    { "id": "f06", "speaker": "narrator", "text": "Ilan frowned. Something was wrong.", "speech": "Ilan frowned. Something was wrong.", "emotion": "a small worry, slower" },
+    { "id": "f07", "speaker": "b13-ilan", "text": "Blue, white, blue, white… white?", "speech": "Blue, white, blue, white… white?", "emotion": "a whisper, checking, puzzled" },
+    { "id": "f08", "speaker": "narrator", "text": "But the grown-ups were talking. So Ilan waited.", "speech": "But the grown-ups were talking. So Ilan waited.", "emotion": "patient, with a hint of fun" },
+    { "id": "f09", "speaker": "b13-ilan", "text": "That one should be blue!", "speech": "That one should be blue!", "emotion": "polite but bursting, pointing" },
+    { "id": "f10", "speaker": "b13-tiler", "text": "You’re right. White after white!", "speech": "You’re right. White after white!", "emotion": "surprised, laughing at himself, grateful" },
+    { "id": "f11", "speaker": "b13-tiler", "text": "Two tiles left. You finish it.", "speech": "Two tiles left. You finish it.", "emotion": "warm, trusting" },
+    { "id": "f12", "speaker": "b13-ilan", "text": "White… so now comes blue.", "speech": "White… so now comes blue.", "emotion": "careful, thinking aloud, proud" },
+    { "id": "f13", "speaker": "narrator", "text": "Blue, white, blue, white, all the way to the green door.", "speech": "Blue, white, blue, white, all the way to the green door.", "emotion": "satisfied, rhythmic" },
+    { "id": "f14", "speaker": "b13-ilan", "text": "Hop, hop, hop, hop!", "speech": "Hop, hop, hop, hop!", "emotion": "joyful, one hop per word" }
+  ],
+  "activity": {
+    "title": "Nature Pattern Line",
+    "goal": "Invent a repeating pattern of your own.",
+    "materials": ["Fallen leaves", "Stones bigger than a toilet-paper tube opening", "A few small sticks"],
+    "steps": [
+      { "n": 1, "caption": "Collect leaves and big stones, with a grown-up." },
+      { "n": 2, "caption": "Leaf, stone, leaf, stone. What comes next?" },
+      { "n": 3, "caption": "Make your own pattern for the grown-up." }
+    ],
+    "safety": "Collect only fallen leaves, sticks and stones bigger than a toilet-paper tube opening, with a grown-up. Never pick plants from flower beds, and nothing goes in the mouth. Wash hands afterwards. On hot days, collect before 10:00 or after 16:00, with a hat and shade. If there is an accident, call your local emergency number.",
+    "forAdult": "In the story, Ilan spots a mistake in the tile pattern and then finishes the path himself. This activity turns patterns into a game outdoors. Go out together and collect a handful of fallen leaves, small sticks and stones, each bigger than the opening of a toilet-paper tube. Lay a line on the ground: leaf, stone, leaf, stone. Ask: “What comes next?” and let the child add the next pieces. Then swap roles: the child invents a new pattern (leaf, leaf, stone… or stick, stone, stone…) and you continue it. Now and then, make a mistake on purpose and let the child catch it, just like Ilan. Ten to twenty minutes is plenty. To make it easier, use two kinds of things and a simple “one, then the other” pattern. To make it harder, use three kinds (leaf, stone, stick) or a longer repeat. Collect only plants you know: oleander, arum and castor bean in Israel, and yew and laburnum in Denmark, are poisonous. Wash hands when you come in.",
+    "inClass": "Each group of four to six children lays a pattern line across the yard, with an adult nearby. When the lines are long enough, the groups move round: each group continues the next group’s line without being told its rule. End by walking along every line together and saying each pattern out loud."
+  }
+}

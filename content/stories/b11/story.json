@@ -1,0 +1,125 @@
+{
+  "id": "b11",
+  "ageGroups": ["4-5"],
+  "owner": "storytime",
+  "lesson": "Hear the beats (syllables) in a word by clapping them.",
+  "cast": ["b11-tala", "b11-drummer", "b11-boy", "b11-mum"],
+  "pages": [
+    {
+      "n": 1,
+      "art": "A small city square in spring at dusk: the sky fades from pink to deep blue; round street lamps have just come on, each a soft circle of light. Stone steps on one side; a low wall with a small tree beside it; a fruit cart in a corner, piled with round watermelons and oranges. The drummer, a young man, sits on the steps with a big round drum between his knees. Feeling: warm, the day winding down, something about to begin. Calm area: the evening sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 2,
+      "art": "Five children run in and sit on the ground in a half circle round the drummer. Tala sits right at the front, knees up, eyes bright. Her mother sits on a bench behind them. Pigeons (one pigeon shape, repeated) strut between the children's feet, pecking at crumbs. Feeling: lively, expectant. Calm area: the paving along the bottom.",
+      "zone": { "side": "full", "v": "bottom", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 3,
+      "art": "The drummer leans forward with a twinkle, one hand raised over the drum. His eyes glance sideways at the low wall, where a cat lies dozing under the small tree; the children follow his glance. One soft curved beat line rises from the drum (no letters). Feeling: a game starts, playful. Calm area: the sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 4,
+      "art": "A boy in a cap shoots his hand up, shouting, sure of himself; the drummer points back at him, grinning. Then the drummer's eyes drop to the pigeons at the children's feet; two beat lines rise from the drum. Feeling: quick, cheerful. Calm area: the sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 5,
+      "art": "Tala bounces up on her knees, shouting her guess, arms wide. All the pigeons burst into the air at once, wings everywhere, circling the street lamps; the children duck and laugh. The drummer nods, smiling. Feeling: a joyful flurry. Calm area: the paving along the bottom.",
+      "zone": { "side": "full", "v": "bottom", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 6,
+      "art": "The drummer's hands bounce on the drum four times (four small beat lines, no digits). The children look at each other, shrugging, one scratching his head, Tala frowning in thought. Feeling: puzzled, funny. Calm area: the sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 7,
+      "art": "The drummer points to the fruit cart in the corner, piled with watermelons and oranges. All the children clap together, hands in the air, mouths open in a shout. Feeling: the answer, all together. Calm area: the sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 8,
+      "art": "Quiet: the drummer looks straight at Tala and taps the drum very softly with two fingers (two faint beat lines). The other children turn to look at Tala too. The lamps glow; the pigeons are gone. Feeling: a hush, a mystery. Calm area: the sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 9,
+      "art": "Close on Tala thinking hard: eyes glancing up at the empty sky where the pigeons were, a finger on her chin. Behind her, out of focus, the drummer watches her with a small smile. Feeling: puzzling it out, almost there. Calm area: the dusky sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "l" },
+      "image": null
+    },
+    {
+      "n": 10,
+      "art": "Tala jumps to her feet, hands on her chest, face shining with surprise and delight. The drummer laughs, head back, both hands on the drum. Feeling: the joy of being seen. Calm area: the sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 11,
+      "art": "The whole group claps together, the drummer keeping the beat; Tala in the middle, beaming. Each child has a different happy face; one has eyes shut, concentrating on their own name. Tala's mother claps on her bench. Feeling: belonging, rhythm, fun. Calm area: the paving along the bottom.",
+      "zone": { "side": "full", "v": "bottom", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 12,
+      "art": "Last picture of the book: a quiet street at night lined with street lamps; a round moon; a tree. Tala walks home holding her mother's hand, clapping her free hand against her mother's, looking up at a lamp. At the end of the street, her front door with a lit window. Feeling: sleepy, happy, still humming with the game. Calm area: the night sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    }
+  ],
+  "film": {
+    "targetSeconds": 250,
+    "shots": [
+      { "n": 1, "page": 1, "action": "14 s. Scene 1, the square at dusk. The sky turns from pink to blue; the street lamps come on one by one, each a soft round glow. Keep the lower fifth calm for captions in every shot. The drum track is laid per language with the voice (beat counts differ by language): the picture never shows how many beats are played.", "sound": ["evening city hum", "swifts calling far above", "pigeons cooing"], "lines": ["f01"] },
+      { "n": 2, "page": 1, "action": "8 s. The drummer walks in with his big round drum, sits on the steps and taps it once to test it.", "sound": ["footsteps on stone", "one soft drum beat"], "lines": [] },
+      { "n": 3, "page": 2, "action": "10 s. Children run in and sit round him; Tala slides in at the front; her mother sits on a bench behind.", "sound": ["running feet", "children's chatter"], "lines": [] },
+      { "n": 4, "page": 2, "action": "6 s. Pigeons strut between the children's feet, pecking. A small comic beat: one pigeon pecks a shoelace.", "sound": ["pigeons cooing", "a giggle"], "lines": [] },
+      { "n": 5, "page": 2, "action": "8 s. The drummer warms up with a little rhythm; the pigeons bob their heads in time.", "sound": ["a light drum rhythm"], "lines": [] },
+      { "n": 6, "page": 3, "action": "9 s. Scene 2, the game. The drummer leans forward, eyes twinkling.", "sound": ["the rhythm stops", "an expectant hush"], "lines": ["f02"] },
+      { "n": 7, "page": 3, "action": "7 s. He glances at the low wall: a cat dozes under the small tree. He plays the word's beats, laid per language.", "sound": ["the drum: the word's beats in this language"], "lines": [] },
+      { "n": 8, "page": 4, "action": "5 s. A boy in a cap shoots his hand up.", "sound": ["a quick shout"], "lines": ["f03"] },
+      { "n": 9, "page": 4, "action": "5 s. The drummer points at him and grins.", "sound": ["laughter"], "lines": ["f04"] },
+      { "n": 10, "page": 4, "action": "6 s. He looks down at the pigeons and plays the next word's beats.", "sound": ["the drum: the next word's beats"], "lines": [] },
+      { "n": 11, "page": 5, "action": "6 s. Tala bounces up on her knees.", "sound": ["a bright shout"], "lines": ["f05"] },
+      { "n": 12, "page": 5, "action": "10 s. All the pigeons flap up at once and circle the lamps; the children duck and laugh.", "sound": ["a burst of wings", "laughter"], "lines": [] },
+      { "n": 13, "page": 6, "action": "10 s. The drummer plays a long word, his hands bouncing.", "sound": ["the drum: the long word's beats"], "lines": ["f06"] },
+      { "n": 14, "page": 6, "action": "7 s. The children look at each other and shrug. A breathing pause.", "sound": ["a puzzled little musical rise"], "lines": [] },
+      { "n": 15, "page": 7, "action": "7 s. The drummer points at the fruit cart piled with watermelons and oranges.", "sound": ["a playful drum roll"], "lines": [] },
+      { "n": 16, "page": 7, "action": "6 s. The boy shouts the answer; the others join in.", "sound": ["children shouting together"], "lines": ["f07"] },
+      { "n": 17, "page": 7, "action": "10 s. Everyone claps the word together, one clap per beat, hands high.", "sound": ["claps in this language's beats", "laughter"], "lines": [] },
+      { "n": 18, "page": 8, "action": "8 s. Scene 3, the riddle. The drummer turns and looks straight at Tala. The square goes quiet; only pigeons coo far away.", "sound": ["far-off cooing", "a held note"], "lines": ["f08"] },
+      { "n": 19, "page": 8, "action": "7 s. Close on his hands: two very soft beats.", "sound": ["two soft drum beats"], "lines": [] },
+      { "n": 20, "page": 9, "action": "11 s. Close on Tala, thinking: she looks up for the pigeons (gone), then back into the drummer's eyes.", "sound": ["a gentle ticking rhythm"], "lines": ["f09"] },
+      { "n": 21, "page": 9, "action": "4 s. Hold on her face: the viewer's moment to guess.", "sound": ["silence, then one bright note"], "lines": [] },
+      { "n": 22, "page": 10, "action": "7 s. Tala jumps to her feet.", "sound": ["a delighted gasp"], "lines": ["f10"] },
+      { "n": 23, "page": 10, "action": "7 s. The drummer laughs and drums her name again, softly.", "sound": ["two soft beats", "laughter"], "lines": [] },
+      { "n": 24, "page": 10, "action": "7 s. A breathing moment: Tala sits down, glowing; on the bench, her mother claps without a sound.", "sound": ["warm music begins"], "lines": [] },
+      { "n": 25, "page": 11, "action": "12 s. Scene 4, everyone's names. All the children clap Tala's name together, again and again.", "sound": ["group claps in time", "the drum keeping the beat"], "lines": ["f11"] },
+      { "n": 26, "page": 11, "action": "12 s. Quick close-ups, about 2 s each: every child claps their own name; the drummer plays along.", "sound": ["claps", "drum", "happy music"], "lines": [] },
+      { "n": 27, "page": 12, "action": "9 s. Scene 5, home. Tala and her mother walk down a quiet street lined with lamps.", "sound": ["footsteps", "a soft night tune"], "lines": ["f12"] },
+      { "n": 28, "page": 12, "action": "12 s. Tala claps at the moon, at a tree, at her door, one clap per beat; her mother claps along.", "sound": ["claps in this language's beats", "crickets"], "lines": ["f13"] },
+      { "n": 29, "page": 12, "action": "16 s. Closing image: Tala's house at night, the window glowing, a street lamp, the moon above. Hold the still picture 6 s while the music ends, then stop. No autoplay.", "sound": ["the last notes", "crickets"], "lines": [] }
+    ]
+  },
+  "activity": {
+    "minutes": 15,
+    "materials": ["pot-or-plastic-bowl", "wooden-spoon"],
+    "steps": [
+      { "n": 1, "picture": "A child kneels on the floor in front of an upside-down cooking pot and beats it with a wooden spoon. Above the pot, a few dots show the beats of the child's name (dots only, no letters or digits). A grown-up sits beside them, clapping along.", "loop": false },
+      { "n": 2, "picture": "The same child drums while small pictures of family faces float above (a grandparent, a parent, a baby, a cat), each with a short row of dots underneath for its beats.", "loop": true },
+      { "n": 3, "picture": "The family faces are lined up in a row with spoons laid under each one, one spoon per beat; the child points to the longest row, delighted.", "loop": false }
+    ],
+    "checkedAgainst": "docs/story-room/age-4-5.md section 7 (red list) and section 4 (activity limits), 25 Nov 2026"
+  }
+}

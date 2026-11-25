@@ -1,0 +1,62 @@
+[
+  {
+    "id": "b05-yasmin",
+    "name": { "ar": "ياسْمِين", "he": "יַסְמִין", "en": "Yasmin", "da": "Jasmin" },
+    "stage": "child",
+    "build": { "height": 0.62, "heads": 4.5, "girth": 0.42, "shoulders": 1.12 },
+    "skin": "#b97a50",
+    "hair": { "style": "ponytail", "color": "#1f1416" },
+    "eyes": { "color": "#2e1c14", "size": 0.88 },
+    "brows": { "color": "#1f1416", "weight": 0.6 },
+    "top": { "style": "tunic", "color": "#e07a5f", "trim": "#f6e3c0", "pattern": "plain" },
+    "bottom": { "style": "trousers", "color": "#3f6e8c" },
+    "shoes": { "style": "sandals", "color": "#8a5a3a" },
+    "extras": ["hat"],
+    "extraColors": { "hat": "#f2e6c8" },
+    "manner": "Full of plans; whispers secrets with a finger on her lips; runs everywhere; when she cannot find something she searches fast and everywhere at once, then stops and listens."
+  },
+  {
+    "id": "b05-cousin",
+    "name": { "ar": "ابن عَمّ ياسْمِين", "he": "בֶּן הַדּוֹד שֶׁל יַסְמִין", "en": "Yasmin’s little cousin", "da": "Jasmins lille fætter" },
+    "stage": "child",
+    "build": { "height": 0.55, "heads": 4.3, "girth": 0.5, "shoulders": 1.1 },
+    "skin": "#c48a5e",
+    "hair": { "style": "curls", "color": "#2a1a14" },
+    "eyes": { "color": "#3a2418", "size": 0.92 },
+    "top": { "style": "tee", "color": "#f2c94c", "trim": "#3f7f8c", "pattern": "stripes" },
+    "bottom": { "style": "shorts", "color": "#5a6a4a" },
+    "shoes": { "style": "sandals", "color": "#7a4a2c" },
+    "manner": "Four years old, small and solemn; thinks with his head on one side and a finger on his chin; when he understands something his whole face opens and he runs to share it."
+  },
+  {
+    "id": "b05-mum",
+    "name": { "ar": "أُمّ ياسْمِين", "he": "אִמָּא שֶׁל יַסְמִין", "en": "Yasmin’s mum", "da": "Jasmins mor" },
+    "stage": "adult",
+    "build": { "height": 0.98, "heads": 6, "girth": 0.5, "shoulders": 1.5 },
+    "skin": "#b0764c",
+    "hair": { "style": "bun", "color": "#2a1714" },
+    "eyes": { "color": "#2e1c14", "size": 0.58 },
+    "top": { "style": "tunic", "color": "#4f8a7c", "trim": "#f3e6c8" },
+    "bottom": { "style": "trousers", "color": "#3d3a5c" },
+    "shoes": { "style": "sandals", "color": "#6b4030" },
+    "extras": ["hat"],
+    "extraColors": { "hat": "#e9c46a" },
+    "manner": "Background figure. Works steadily, calls cheerfully across the oasis, claps her hands when she is pleased."
+  },
+  {
+    "id": "b05-uncle",
+    "name": { "ar": "عَمّ ياسْمِين", "he": "הַדּוֹד", "en": "Yasmin’s uncle", "da": "Jasmins farbror" },
+    "stage": "adult",
+    "build": { "height": 1.02, "heads": 6, "girth": 0.62, "shoulders": 1.6 },
+    "skin": "#a8703f",
+    "hair": { "style": "short", "color": "#1c1210" },
+    "eyes": { "color": "#2a1a12", "size": 0.52 },
+    "brows": { "color": "#1c1210", "weight": 0.9 },
+    "top": { "style": "shirt", "color": "#f1ead8", "trim": "#c8553d", "pattern": "check" },
+    "bottom": { "style": "trousers", "color": "#6b5a4a" },
+    "shoes": { "style": "boots", "color": "#4a3028" },
+    "extras": ["moustache", "hat"],
+    "extraColors": { "hat": "#e9d8b4" },
+    "manner": "Background figure. Up a ladder most of the time, big and slow, laughs with his whole body; the cousin's father."
+  }
+]

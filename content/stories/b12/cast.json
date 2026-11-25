@@ -1,0 +1,33 @@
+[
+  {
+    "id": "b12-dana",
+    "name": { "ar": "دانا", "he": "דָּנָה", "en": "Dana", "da": "Dana" },
+    "stage": "child",
+    "build": { "height": 0.61, "heads": 4.5, "girth": 0.46, "shoulders": 1.12 },
+    "skin": "#e6b58c",
+    "hair": { "style": "bob", "color": "#5b3420" },
+    "eyes": { "color": "#4a2f22", "size": 0.84 },
+    "brows": { "color": "#5b3420", "weight": 0.5 },
+    "top": { "style": "tee", "color": "#f2c94c", "trim": "#3f7f8c", "pattern": "plain" },
+    "bottom": { "style": "shorts", "color": "#3f7f8c" },
+    "shoes": { "style": "sandals", "color": "#c8553d" },
+    "extras": ["freckles"],
+    "manner": "Busy and practical; copies her mother's way of working, gloves and all; sticks her tongue between her teeth when she concentrates; thinks fast and acts faster."
+  },
+  {
+    "id": "b12-mum",
+    "name": { "ar": "أُمّ دانا", "he": "אִמָּא", "en": "Mum", "da": "mor" },
+    "stage": "adult",
+    "build": { "height": 0.97, "heads": 6, "girth": 0.55, "shoulders": 1.6 },
+    "skin": "#d9a47c",
+    "hair": { "style": "ponytail", "color": "#3b2118" },
+    "eyes": { "color": "#4a2f22", "size": 0.55 },
+    "brows": { "color": "#3b2118", "weight": 0.6 },
+    "top": { "style": "shirt", "color": "#e2674a", "trim": "#f3e7cf", "pattern": "check" },
+    "bottom": { "style": "trousers", "color": "#5a6a7a" },
+    "shoes": { "style": "boots", "color": "#7a4a2c" },
+    "extras": ["hat"],
+    "extraColors": { "hat": "#f0c23c" },
+    "manner": "A builder: strong, calm, quick to laugh; wears a yellow work hat (a plain hard-hat shape, no logo) and work gloves; shows rather than tells; enjoys being surprised by her daughter."
+  }
+]

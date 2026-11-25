@@ -1,0 +1,204 @@
+{
+  "id": "a07",
+  "ageGroups": ["2-3"],
+  "owner": "storytime",
+  "lesson": "Let a cuddle and a favourite soft toy calm a scared feeling.",
+  "cast": ["a07-yara", "a07-grandma"],
+  "pages": [
+    {
+      "n": 1,
+      "art": "Inside Grandma's village house on a winter night: a small bedroom with a wooden bed under a thick, patterned blanket, a window with a curtain half open, the room lit only by a faint blue night light from the window. Yara sleeps on her side with her toy lamb (soft cream wool, pale pink ears, a little worn) tucked under her chin. Feeling: safe, quiet, cosy. Calm area: the plain dark wall across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 2,
+      "art": "Close on the window: rain runs down the glass in a few simple straight streaks and round drops; outside, the dark shapes of a village roof and a tree. On the sill, a small potted plant. Feeling: gentle rhythm, nothing scary yet. Calm area: the dark sky in the window's top part.",
+      "zone": { "side": "full", "v": "top", "size": "s" },
+      "image": null
+    },
+    {
+      "n": 3,
+      "art": "The same room, lit for a moment by a soft white glow from the window (the lightning seen only as light, never as a jagged bolt). The curtain moves a little. Yara is still asleep but her eyebrows have jumped. Feeling: a sudden big noise, shown softly. Calm area: the wall across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 4,
+      "art": "Yara sitting up in bed, eyes wide and round, holding her lamb tight against her chest with both arms. The blanket is pushed down. Her face is worried but not crying. Feeling: startled, a little scared. Calm area: the plain wall across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 5,
+      "art": "Grandma in the doorway in a long dressing gown, carrying a small lamp with a warm yellow glow; the warm light spreads into the blue room. In a second, smaller moment beside it, she sits on the bed and holds Yara close, her cheek on Yara's hair. Feeling: warmth arriving, safety. Calm area: the wall above the door, across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 6,
+      "art": "Another soft glow at the window. Yara squeezes her lamb, eyes shut tight; Grandma's arm is round her, Grandma's face calm and smiling. The lamp glows on the bedside table. Feeling: the scared moment, held safely. Calm area: the wall across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 7,
+      "art": "Grandma and Yara breathing together: two small curls of breath drawn above them going in, then out. The lamb lies on Yara's chest and rises with her breath (two soft outlines show it up and down). Feeling: slowing down, calm coming. Calm area: the wall across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 8,
+      "art": "The window again: a much fainter glow, far away behind the hills. Yara, in Grandma's arms, only looks towards it; her shoulders are down now. Feeling: the storm moving away. Calm area: the dark sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "s" },
+      "image": null
+    },
+    {
+      "n": 9,
+      "art": "Only rain: the window with gentle streaks, the warm lamp glow inside reflected on the glass. Yara lies back down on the pillow with her lamb; Grandma sits beside her on the bed. Feeling: quiet returning. Calm area: the wall across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 10,
+      "art": "Close on the blanket: Grandma's wrinkled fingers tap on it in time with the rain, and Yara's small fingers tap beside them. The lamb is tucked under Yara's arm. Feeling: playful, rhythmic, together. Calm area: the plain pillow and wall across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 11,
+      "art": "Yara asleep, the lamb under her chin as on the first page; Grandma's hand rests on the blanket; the lamp turned down to a small warm glow; the rain on the window is just a few drops. Last picture of the book: still, warm and safe. Calm area: the dark wall across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    }
+  ],
+  "film": {
+    "targetSeconds": 157,
+    "shots": [
+      {
+        "n": 1,
+        "page": 1,
+        "action": "11 s. Scene 1, the rainy night. Wide and still on the village house at night, the window faintly lit, rain falling in soft straight lines. Hold 3 s, then the camera drifts slowly towards the window. Keep the lower fifth calm for captions.",
+        "sound": ["soft steady rain", "gentle music: a slow lullaby on a music box"],
+        "lines": ["f01"]
+      },
+      {
+        "n": 2,
+        "page": 1,
+        "action": "9 s. Inside: Yara asleep with her lamb under her chin. Only her breathing moves.",
+        "sound": ["rain, a little quieter inside", "the lullaby"],
+        "lines": ["f02"]
+      },
+      {
+        "n": 3,
+        "page": 2,
+        "action": "10 s. Close on the window: drops run down the glass in a slow, even rhythm, one tap per drop.",
+        "sound": ["three clear soft taps on the glass"],
+        "lines": ["f03"]
+      },
+      {
+        "n": 4,
+        "page": 3,
+        "action": "10 s. Scene 2, the boom. First a soft white glow fills the window (the warning), then 1 s later a low, rounded rumble. The boom is compressed and gentle, never sharp or loud, and the music simply pauses. Yara's eyebrows jump.",
+        "sound": ["a soft glow sound (a light shimmer)", "a low rounded rumble, kept quiet"],
+        "lines": ["f04"]
+      },
+      {
+        "n": 5,
+        "page": 4,
+        "action": "9 s. Yara sits up, eyes wide, and hugs her lamb. Hold on her face.",
+        "sound": ["a rustle of blanket"],
+        "lines": ["f05"]
+      },
+      {
+        "n": 6,
+        "page": 5,
+        "action": "10 s. The door opens and warm lamp light spreads across the blue room as Grandma comes in, slowly.",
+        "sound": ["a soft door creak", "slippers on the floor", "the lullaby returns"],
+        "lines": ["f06"]
+      },
+      {
+        "n": 7,
+        "page": 5,
+        "action": "9 s. A breathing moment with no words: Grandma sits on the bed and holds Yara close; the lamp glows beside them.",
+        "sound": ["rain", "the lullaby, soft"],
+        "lines": []
+      },
+      {
+        "n": 8,
+        "page": 6,
+        "action": "9 s. Another soft glow, then a smaller rumble. Yara squeezes her lamb; Grandma's arm stays round her. The narrator names it calmly.",
+        "sound": ["a light shimmer", "a smaller rumble"],
+        "lines": ["f07"]
+      },
+      {
+        "n": 9,
+        "page": 7,
+        "action": "12 s. Grandma breathes slowly; the lamb on Yara's chest rises and falls with Yara's breath. Two slow breaths for Grandma's line, two for Yara's, each about 3 s.",
+        "sound": ["two long soft breaths", "the lullaby slows down"],
+        "lines": ["f08", "f09"]
+      },
+      {
+        "n": 10,
+        "page": 8,
+        "action": "9 s. A faint glow far behind the hills; a tiny rumble, almost nothing. Yara only looks towards the window.",
+        "sound": ["a very far, very soft rumble"],
+        "lines": ["f10"]
+      },
+      {
+        "n": 11,
+        "page": 9,
+        "action": "9 s. Scene 3, only rain. The window, rain streaks slowing; the lamp's warm glow reflected on the glass.",
+        "sound": ["rain taps on the glass"],
+        "lines": ["f11"]
+      },
+      {
+        "n": 12,
+        "page": 10,
+        "action": "10 s. Close on the blanket: Grandma's fingers tap in time with the rain.",
+        "sound": ["finger taps in time with the rain taps"],
+        "lines": ["f12"]
+      },
+      {
+        "n": 13,
+        "page": 10,
+        "action": "9 s. Yara's small fingers join, tapping beside Grandma's.",
+        "sound": ["two sets of soft taps"],
+        "lines": ["f13"]
+      },
+      {
+        "n": 14,
+        "page": 11,
+        "action": "10 s. The taps slow down and get softer; Yara's eyes close.",
+        "sound": ["taps fading", "the lullaby, very soft"],
+        "lines": ["f14"]
+      },
+      {
+        "n": 15,
+        "page": 11,
+        "action": "9 s. A breathing moment with no words: Grandma turns the lamp down to a small glow and stays sitting by the bed.",
+        "sound": ["a tiny click of the lamp", "rain, softer"],
+        "lines": []
+      },
+      {
+        "n": 16,
+        "page": 11,
+        "action": "12 s. Closing image. Wide: the house at night, a small warm glow in the window, the rain almost stopped. Then nothing moves. Hold 6 s while the lullaby ends, then stop. No autoplay, no next film.",
+        "sound": ["the last note of the music box", "a few raindrops"],
+        "lines": []
+      }
+    ]
+  },
+  "activity": {
+    "minutes": 8,
+    "materials": ["one-full-newspaper-sheet"],
+    "steps": [
+      { "n": 1, "picture": "A grown-up and a child crumple one whole sheet of newspaper together into one big round ball, bigger than the child's two fists.", "loop": false },
+      { "n": 2, "picture": "Both lie on their tummies on the floor, facing each other about an arm's length apart, the paper ball between them.", "loop": false },
+      { "n": 3, "picture": "The grown-up blows a long, slow breath (a long curling breath line); the ball rolls towards the child.", "loop": true },
+      { "n": 4, "picture": "The child blows the ball back with a long breath, cheeks round.", "loop": true },
+      { "n": 5, "picture": "The child washes hands at a sink with soap, the grown-up beside them.", "loop": false }
+    ],
+    "checkedAgainst": "docs/story-room/age-2-3.md section 7 (red list and tube test) and section 4 (activity limits), 25 Nov 2026"
+  }
+}

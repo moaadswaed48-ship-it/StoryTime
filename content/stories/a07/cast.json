@@ -1,0 +1,32 @@
+[
+  {
+    "id": "a07-yara",
+    "name": { "ar": "يارا", "he": "יָארָה", "en": "Yara", "da": "Jara" },
+    "stage": "toddler",
+    "build": { "height": 0.5, "heads": 3.6, "girth": 0.55, "shoulders": 1.05 },
+    "skin": "#e6bd96",
+    "hair": { "style": "curls", "color": "#5a3622" },
+    "eyes": { "color": "#4a3020", "size": 1 },
+    "brows": { "color": "#5a3622", "weight": 0.4 },
+    "top": { "style": "tee", "color": "#b9a6d8", "trim": "#f6f0fb", "pattern": "dots" },
+    "bottom": { "style": "trousers", "color": "#8f7fc0" },
+    "shoes": { "style": "bare", "color": "#e6bd96" },
+    "manner": "Holds her toy lamb by one ear wherever she goes and tucks it under her chin to sleep; when something surprises her, her eyebrows jump up first; copies Grandma's movements exactly, a little slower."
+  },
+  {
+    "id": "a07-grandma",
+    "name": { "ar": "جَدّتي", "he": "סַבְתָּא", "en": "Grandma", "da": "bedstemor" },
+    "stage": "elder",
+    "build": { "height": 0.88, "heads": 5.6, "girth": 0.68, "shoulders": 1.4 },
+    "skin": "#c99872",
+    "hair": { "style": "bun", "color": "#d8d2ca" },
+    "eyes": { "color": "#4a3526", "size": 0.5 },
+    "brows": { "color": "#cfc8be", "weight": 0.6 },
+    "top": { "style": "coat", "color": "#5f8a8b", "trim": "#e9dcc4", "pattern": "plain" },
+    "bottom": { "style": "skirt", "color": "#4e6e6f" },
+    "shoes": { "style": "shoes", "color": "#8a5a44" },
+    "extras": ["glasses"],
+    "extraColors": { "glasses": "#6a4a30" },
+    "manner": "Moves slowly and never seems surprised; her dressing gown is a long soft coat; speaks in a low, smiling voice; taps rhythms with her fingers on anything near her, the table, the blanket, Yara's back."
+  }
+]

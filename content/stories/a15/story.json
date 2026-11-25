@@ -1,0 +1,330 @@
+{
+  "id": "a15",
+  "ageGroups": [
+    "2-3"
+  ],
+  "owner": "storytime",
+  "lesson": "Take turns with a toy: my turn, then your turn.",
+  "cast": [
+    "a15-maya",
+    "a15-amir",
+    "a15-mum"
+  ],
+  "pages": [
+    {
+      "n": 1,
+      "art": "Autumn morning on a sandy beach: the sea as three flat layered bands of blue, soft low waves, a pale sky. Maya, holding her mum's hand, waves at Amir, who sits on the sand. Amir's father sits on a towel close behind him (a background figure, not part of the story). Feeling: a happy surprise, two friends. Calm area: the sky across the top.",
+      "zone": {
+        "side": "full",
+        "v": "top",
+        "size": "m"
+      },
+      "image": null
+    },
+    {
+      "n": 2,
+      "art": "Close: one bright red bucket on the sand, exactly between Maya and Amir, who both look at it. Calm area: the plain sand across the bottom.",
+      "zone": {
+        "side": "full",
+        "v": "bottom",
+        "size": "s"
+      },
+      "image": null
+    },
+    {
+      "n": 3,
+      "art": "Maya holds the red bucket to her chest; Amir reaches out for it with both hands, eyes on the bucket. Calm area: the sky across the top.",
+      "zone": {
+        "side": "full",
+        "v": "top",
+        "size": "s"
+      },
+      "image": null
+    },
+    {
+      "n": 4,
+      "art": "Tug of war: both children pull the bucket, leaning back; a spray of sand dots flies up between them. Comic and lively, nobody hurt. Calm area: the sky across the top.",
+      "zone": {
+        "side": "full",
+        "v": "top",
+        "size": "s"
+      },
+      "image": null
+    },
+    {
+      "n": 5,
+      "art": "Both children sit on the sand crying, mouths open, a few tears; the bucket lies on its side between them. At the edge of the picture, a little crab peeps out of a hole in the sand, eyes on stalks. Sad but small and safe. Calm area: the sky across the top.",
+      "zone": {
+        "side": "full",
+        "v": "top",
+        "size": "m"
+      },
+      "image": null
+    },
+    {
+      "n": 6,
+      "art": "Maya's mum kneels between them and smooths a flat patch of sand with her open hand; she has set the bucket upright in the middle. Both children watch her, tears drying. Feeling: calm returning. Calm area: the sky across the top.",
+      "zone": {
+        "side": "full",
+        "v": "top",
+        "size": "m"
+      },
+      "image": null
+    },
+    {
+      "n": 7,
+      "art": "Maya drops a handful of sand into the bucket while Amir waits, his own handful ready. Small arcs of sand show the movement. Calm area: the sky across the top.",
+      "zone": {
+        "side": "full",
+        "v": "top",
+        "size": "m"
+      },
+      "image": null
+    },
+    {
+      "n": 8,
+      "art": "Rhythm picture: Maya and Amir kneel facing each other over the bucket, which is now full to the brim; their hands are a soft blur of turns. Both smile. Calm area: the sky across the top.",
+      "zone": {
+        "side": "full",
+        "v": "top",
+        "size": "m"
+      },
+      "image": null
+    },
+    {
+      "n": 9,
+      "art": "The bucket has been flipped and lifted: a smooth round sandcastle stands on the sand. Maya and Amir pat its sides; Maya's mum holds the empty bucket up, smiling. Calm area: the sky across the top.",
+      "zone": {
+        "side": "full",
+        "v": "top",
+        "size": "m"
+      },
+      "image": null
+    },
+    {
+      "n": 10,
+      "art": "The little crab has climbed to the very top of the sandcastle and lifts one claw. Maya and Amir clap, laughing. Calm area: the sky across the top.",
+      "zone": {
+        "side": "full",
+        "v": "top",
+        "size": "m"
+      },
+      "image": null
+    },
+    {
+      "n": 11,
+      "art": "Last picture: Maya and Amir both hold the red bucket handle together, ready to fill it again; the sandcastle with the crab on top beside them, waves sliding in as flat bands. Warm and bright. Calm area: the sky across the top.",
+      "zone": {
+        "side": "full",
+        "v": "top",
+        "size": "l"
+      },
+      "image": null
+    }
+  ],
+  "film": {
+    "targetSeconds": 140,
+    "shots": [
+      {
+        "n": 1,
+        "page": 1,
+        "action": "10 s. Scene 1, the beach. Wide and still: the sea as flat bands, small waves sliding in and out. Hold 3 s, then Maya and her mum walk in. Keep the lower fifth calm for captions.",
+        "sound": [
+          "soft waves",
+          "a far seagull",
+          "gentle music: a light tune on a marimba"
+        ],
+        "lines": [
+          "f01"
+        ]
+      },
+      {
+        "n": 2,
+        "page": 1,
+        "action": "9 s. Maya sees Amir and waves; Amir waves back from the sand.",
+        "sound": [
+          "the tune, a happy phrase"
+        ],
+        "lines": [
+          "f02",
+          "f03"
+        ]
+      },
+      {
+        "n": 3,
+        "page": 2,
+        "action": "8 s. Close on the red bucket on the sand between them. Both look at it. The music stops on one note.",
+        "sound": [
+          "one held note"
+        ],
+        "lines": [
+          "f04"
+        ]
+      },
+      {
+        "n": 4,
+        "page": 3,
+        "action": "8 s. Maya picks up the bucket and hugs it; Amir reaches for it.",
+        "sound": [
+          "waves"
+        ],
+        "lines": [
+          "f05"
+        ]
+      },
+      {
+        "n": 5,
+        "page": 4,
+        "action": "9 s. Scene 2, pull. Tug of war: they pull, lean back, and sand sprays up between them. Both sit down hard on the soft sand. Comic, never rough.",
+        "sound": [
+          "two little grunts",
+          "a soft spray of sand"
+        ],
+        "lines": [
+          "f06"
+        ]
+      },
+      {
+        "n": 6,
+        "page": 5,
+        "action": "9 s. Both cry, small and short. A little crab peeps out of its hole and looks at them. 2 s of only waves after the line.",
+        "sound": [
+          "two small cries",
+          "waves"
+        ],
+        "lines": [
+          "f07"
+        ]
+      },
+      {
+        "n": 7,
+        "page": 6,
+        "action": "10 s. Scene 3, turns. Maya's mum kneels, smooths a patch of sand with her open hand and sets the bucket upright between them. Her voice is calm and kind.",
+        "sound": [
+          "a soft brush of sand",
+          "the tune returns, slow"
+        ],
+        "lines": [
+          "f08"
+        ]
+      },
+      {
+        "n": 8,
+        "page": 7,
+        "action": "10 s. Maya drops a handful of sand into the bucket (one note), then Amir (another note).",
+        "sound": [
+          "two soft pours of sand",
+          "two notes"
+        ],
+        "lines": [
+          "f09",
+          "f10"
+        ]
+      },
+      {
+        "n": 9,
+        "page": 8,
+        "action": "12 s. The turns become music: Maya, Amir, Maya, Amir, one note each, faster and happier, until the bucket is full to the top.",
+        "sound": [
+          "a little four-note melody, repeated"
+        ],
+        "lines": [
+          "f11",
+          "f12"
+        ]
+      },
+      {
+        "n": 10,
+        "page": 9,
+        "action": "10 s. Mum flips the bucket over; the children pat it twice; Mum lifts it slowly. A round sandcastle stands.",
+        "sound": [
+          "two pats",
+          "a soft 'ta-da' chord"
+        ],
+        "lines": [
+          "f13",
+          "f14"
+        ]
+      },
+      {
+        "n": 11,
+        "page": 10,
+        "action": "10 s. The crab climbs, step by sideways step, to the very top of the castle and lifts one claw.",
+        "sound": [
+          "tiny tapping steps",
+          "a rising run of notes"
+        ],
+        "lines": [
+          "f15"
+        ]
+      },
+      {
+        "n": 12,
+        "page": 10,
+        "action": "8 s. Maya and Amir clap and laugh. No words: a breathing moment.",
+        "sound": [
+          "clapping",
+          "laughter"
+        ],
+        "lines": []
+      },
+      {
+        "n": 13,
+        "page": 11,
+        "action": "10 s. Both children take hold of the bucket handle together, not pulling, ready to start again.",
+        "sound": [
+          "the tune, its last phrase"
+        ],
+        "lines": [
+          "f16",
+          "f17"
+        ]
+      },
+      {
+        "n": 14,
+        "page": 11,
+        "action": "14 s. Closing image. Wide: two small figures by the sandcastle, the crab on top, the waves sliding in. Then nothing moves but the gentle waves. Hold 6 s while the music ends, then stop. No autoplay, no next film.",
+        "sound": [
+          "the last note of the tune",
+          "soft waves"
+        ],
+        "lines": []
+      }
+    ]
+  },
+  "activity": {
+    "minutes": 10,
+    "materials": [
+      "towel",
+      "soft-toy"
+    ],
+    "steps": [
+      {
+        "n": 1,
+        "picture": "A soft toy lies in the middle of a bath towel spread on the floor.",
+        "loop": false
+      },
+      {
+        "n": 2,
+        "picture": "The child holds two corners of the towel and the grown-up holds the other two, facing each other.",
+        "loop": false
+      },
+      {
+        "n": 3,
+        "picture": "Both lift the towel together, low, the toy lying safely in the middle.",
+        "loop": false
+      },
+      {
+        "n": 4,
+        "picture": "They walk slowly across the room, watching each other, towards a mat marked as 'home' by a cushion.",
+        "loop": true
+      },
+      {
+        "n": 5,
+        "picture": "The toy is set down on the home mat; child and grown-up swap sides, smiling.",
+        "loop": true
+      }
+    ],
+    "checkedAgainst": "docs/story-room/age-2-3.md section 7 (clear floor, walking only, soft toy only) and section 4 (activity limits), 25 Nov 2026"
+  }
+}

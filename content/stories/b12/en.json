@@ -1,0 +1,51 @@
+{
+  "title": "Ball, Box, Tube, Cone",
+  "names": {
+    "b12-dana": "Dana",
+    "b12-mum": "Mum"
+  },
+  "pages": [
+    { "n": 1, "text": "Dana’s mum was a builder. One summer morning, they carried a pile of leftover pieces down the garden. “Today we’re building a house,” said Mum. “For my toys!” said Dana.", "speech": "Dana’s mum was a builder. One summer morning, they carried a pile of leftover pieces down the garden. “Today we’re building a house,” said Mum. “For my toys!” said Dana." },
+    { "n": 2, "text": "First came the wooden blocks. Each one had six flat sides, just like a box. “These are cubes,” said Mum. Dana stacked them. Cube on cube on cube: a wall!", "speech": "First came the wooden blocks. Each one had six flat sides, just like a box. “These are cubes,” said Mum. Dana stacked them. Cube on cube on cube: a wall!" },
+    { "n": 3, "text": "Next came a long pipe, round like a tube. “This is a cylinder,” said Mum. “It will be our chimney.” Dana peeked through it. She could see the sky.", "speech": "Next came a long pipe, round like a tube. “This is a cylinder,” said Mum. “It will be our chimney.” Dana peeked through it. She could see the sky." },
+    { "n": 4, "text": "Then came an old orange cone. It was wide at the bottom and pointy at the top. “This goes on the very top,” said Mum. Dana had brought her ball too. It was round all over.", "speech": "Then came an old orange cone. It was wide at the bottom and pointy at the top. “This goes on the very top,” said Mum. Dana had brought her ball too. It was round all over." },
+    { "n": 5, "text": "Mum laid the pipe down on the grass. But the garden sloped down towards the tomato plants. And the pipe began to roll.", "speech": "Mum laid the pipe down on the grass. But the garden sloped down towards the tomato plants. And the pipe began to roll." },
+    { "n": 6, "text": "Roll, roll, roll! Down the slope it went, faster and faster, straight towards the tomatoes. “Oh no,” gasped Mum.", "speech": "Roll, roll, roll! Down the slope it went, faster and faster, straight towards the tomatoes. “Oh no,” gasped Mum." },
+    { "n": 7, "text": "What could stop a rolling tube? Dana thought fast. Balls roll. Tubes roll. But boxes don’t roll!", "speech": "What could stop a rolling tube? Dana thought fast. Balls roll. Tubes roll. But boxes don’t roll!" },
+    { "n": 8, "text": "Dana grabbed a cube and pushed it in front of the pipe. Bump! The pipe stopped. The tomatoes were safe.", "speech": "Dana grabbed a cube and pushed it in front of the pipe. Bump! The pipe stopped. The tomatoes were safe." },
+    { "n": 9, "text": "Mum laughed. “You’re hired!” she said. Then she showed Dana a trick. She stood the pipe up on its flat end. Now it couldn’t roll at all.", "speech": "Mum laughed. “You’re hired!” she said. Then she showed Dana a trick. She stood the pipe up on its flat end. Now it couldn’t roll at all." },
+    { "n": 10, "text": "Together they built the house. Walls of cubes, cube on cube. A board for a roof. And on top, the pipe stood up straight, a fine chimney.", "speech": "Together they built the house. Walls of cubes, cube on cube. A board for a roof. And on top, the pipe stood up straight, a fine chimney." },
+    { "n": 11, "text": "Last of all, Dana put the cone on top of the roof, point up. “Now it’s finished,” she said.", "speech": "Last of all, Dana put the cone on top of the roof, point up. “Now it’s finished,” she said." },
+    { "n": 12, "text": "At last the toy house stood in the garden. It had cube walls, a tube chimney and a cone on top. Dana’s toys moved in. And the ball? It sat in the little garden, round all over, ready to roll.", "speech": "At last the toy house stood in the garden. It had cube walls, a tube chimney and a cone on top. Dana’s toys moved in. And the ball? It sat in the little garden, round all over, ready to roll." }
+  ],
+  "film": [
+    { "id": "f01", "speaker": "narrator", "text": "One summer morning, Dana and her mum built a house.", "speech": "One summer morning, Dana and her mum built a house.", "emotion": "bright, busy, cheerful" },
+    { "id": "f02", "speaker": "b12-mum", "text": "These are cubes. Flat sides, like a box.", "speech": "These are cubes. Flat sides, like a box.", "emotion": "warm, showing, an expert who loves her job" },
+    { "id": "f03", "speaker": "b12-dana", "text": "Cube on cube… a wall!", "speech": "Cube on cube… a wall!", "emotion": "proud, concentrating, then delighted" },
+    { "id": "f04", "speaker": "b12-mum", "text": "This is a cylinder. Our chimney.", "speech": "This is a cylinder. Our chimney.", "emotion": "playful, holding it up like a prize" },
+    { "id": "f05", "speaker": "b12-dana", "text": "I can see the sky!", "speech": "I can see the sky!", "emotion": "amazed, giggly" },
+    { "id": "f06", "speaker": "b12-mum", "text": "And a cone, for the very top.", "speech": "And a cone, for the very top.", "emotion": "bright, a little mysterious" },
+    { "id": "f07", "speaker": "narrator", "text": "Then the pipe began to roll.", "speech": "Then the pipe began to roll.", "emotion": "light suspense, quickening" },
+    { "id": "f08", "speaker": "b12-mum", "text": "Oh no… the tomatoes!", "speech": "Oh no… the tomatoes!", "emotion": "a gasp, more comic than scared" },
+    { "id": "f09", "speaker": "b12-dana", "text": "Boxes don’t roll!", "speech": "Boxes don’t roll!", "emotion": "a quick idea, said fast and sure" },
+    { "id": "f10", "speaker": "narrator", "text": "Bump. The pipe stopped.", "speech": "Bump. The pipe stopped.", "emotion": "relieved, with a little laugh" },
+    { "id": "f11", "speaker": "b12-mum", "text": "You’re hired!", "speech": "You’re hired!", "emotion": "laughing, proud, teasing" },
+    { "id": "f12", "speaker": "b12-mum", "text": "Stand it on its flat end. Now it won’t roll.", "speech": "Stand it on its flat end. Now it won’t roll.", "emotion": "sharing a builder's secret, calm" },
+    { "id": "f13", "speaker": "b12-dana", "text": "Now it’s finished!", "speech": "Now it’s finished!", "emotion": "satisfied, a big smile" },
+    { "id": "f14", "speaker": "narrator", "text": "Cube walls, a tube chimney and a cone on top.", "speech": "Cube walls, a tube chimney and a cone on top.", "emotion": "warm, slow, listing with pleasure" },
+    { "id": "f15", "speaker": "narrator", "text": "And the ball? Round all over, ready to roll.", "speech": "And the ball? Round all over, ready to roll.", "emotion": "playful, a wink at the end" }
+  ],
+  "activity": {
+    "title": "Roll or Stack?",
+    "goal": "Test which solid shapes roll and which stack.",
+    "materials": ["Things from home: a ball, a small box, a kitchen-roll tube, a plastic cup, a funnel", "A tray and a thick book"],
+    "steps": [
+      { "n": 1, "caption": "Collect shapes from home." },
+      { "n": 2, "caption": "Put it on the slope. Does it roll?" },
+      { "n": 3, "caption": "Sort: rolls, stacks or both." }
+    ],
+    "safety": "Use unbreakable things only: no glass and nothing heavy. Everything should be too big to fit inside a toilet-paper tube. If there is an accident, call your local emergency number.",
+    "forAdult": "In the story, Dana learns that each solid shape behaves in its own way: a ball rolls every way, a tube rolls one way, a box stays where it is, and a cone has a point on top. This activity lets the child find that out with their own hands. Make a gentle slope by resting one end of a tray on a thick book. Collect four or five things together: a ball, a small box, a kitchen-roll tube, a plastic cup, a funnel. Before each test, ask: “What do you think will happen?” Then let the child put the object at the top of the slope. Does it roll? Can you stack two of them? Sort the objects into three groups: rolls, stacks, and both. The tube and the cup are good surprises: lying down they roll, standing up they stack. Use the shape words as you play: ball, cube, cylinder, cone. Ten to fifteen minutes is enough. To make it easier, test only a ball and a box. To make it harder, build a tower that uses every shape, like Dana’s house.",
+    "inClass": "Groups of four, each with a tray, a book and five objects. Each child first says what they think will happen, then tests one object. The group sorts its objects onto three sheets of paper, each with a drawing: a curved arrow for rolls, a little tower for stacks, and both drawings for both. Then the groups compare: did everyone put the cup in the same place?"
+  }
+}
