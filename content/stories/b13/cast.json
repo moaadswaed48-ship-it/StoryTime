@@ -1,0 +1,46 @@
+[
+  {
+    "id": "b13-ilan",
+    "name": { "ar": "إِيلان", "he": "אִילָן", "en": "Ilan", "da": "Ilan" },
+    "stage": "child",
+    "build": { "height": 0.56, "heads": 4.3, "girth": 0.5, "shoulders": 1.1 },
+    "skin": "#e0ae86",
+    "hair": { "style": "curls", "color": "#4a2c20" },
+    "eyes": { "color": "#3a2418", "size": 0.9 },
+    "brows": { "color": "#4a2c20", "weight": 0.5 },
+    "top": { "style": "tee", "color": "#d9603f", "trim": "#f4e3bd", "pattern": "plain" },
+    "bottom": { "style": "shorts", "color": "#4f6a4a" },
+    "shoes": { "style": "sandals", "color": "#7a4a2c" },
+    "manner": "A small, watchful four-year-old; sits very still when he is interested; nods to any rhythm he hears; when he must wait he hops from foot to foot."
+  },
+  {
+    "id": "b13-tiler",
+    "name": { "ar": "عامِل البَلاط", "he": "הָרַצָּף", "en": "the tiler", "da": "fliselæggeren" },
+    "stage": "adult",
+    "build": { "height": 1.01, "heads": 6, "girth": 0.5, "shoulders": 1.6 },
+    "skin": "#c08a62",
+    "hair": { "style": "short", "color": "#2a1814" },
+    "eyes": { "color": "#3a2418", "size": 0.55 },
+    "brows": { "color": "#2a1814", "weight": 0.7 },
+    "top": { "style": "tee", "color": "#8fb7a8", "trim": "#f4ecd8", "pattern": "plain" },
+    "bottom": { "style": "trousers", "color": "#6b5a48" },
+    "shoes": { "style": "boots", "color": "#5b3420" },
+    "extras": ["moustache"],
+    "manner": "A young man who works on his knees and whistles in time with his hands; chatty; laughs at his own mistakes without embarrassment; treats Ilan as a fellow worker."
+  },
+  {
+    "id": "b13-neighbour",
+    "name": { "ar": "الجارة", "he": "הַשְּׁכֵנָה", "en": "the neighbour", "da": "naboen" },
+    "stage": "adult",
+    "build": { "height": 0.94, "heads": 6, "girth": 0.62, "shoulders": 1.5 },
+    "skin": "#a8703f",
+    "hair": { "style": "bun", "color": "#2a1714" },
+    "eyes": { "color": "#2e1c14", "size": 0.55 },
+    "top": { "style": "tunic", "color": "#e9c46a", "trim": "#7a4f9a", "pattern": "plain" },
+    "bottom": { "style": "skirt", "color": "#5b6a9a" },
+    "shoes": { "style": "shoes", "color": "#6b4030" },
+    "extras": ["bag"],
+    "extraColors": { "bag": "#c8553d" },
+    "manner": "Background figure who speaks once. Cheerful and talkative, carries a shopping basket on her arm, waves with her whole hand."
+  }
+]

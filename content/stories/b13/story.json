@@ -1,0 +1,124 @@
+{
+  "id": "b13",
+  "ageGroups": ["4-5"],
+  "owner": "storytime",
+  "lesson": "Continue an AB pattern, and spot a mistake in it.",
+  "cast": ["b13-ilan", "b13-tiler", "b13-neighbour"],
+  "pages": [
+    {
+      "n": 1,
+      "art": "A narrow, crooked alley in the old part of a city on a summer morning: honey-coloured stone walls, a stone arch, small windows with wooden shutters, a strip of blue sky above. At the far end, a green wooden door with a stone step. A young tiler pushes a small cart stacked with square tiles, plain blue and plain white (no patterns or letters on them), into the alley. Feeling: sunny, quiet, the start of something. Calm area: the strip of sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 2,
+      "art": "Ilan (4) sits on the step of his green door, chin in his hands, watching. A few steps away the tiler kneels and presses a blue tile down beside a white one; the path is a single line of big square tiles, one tile wide, running along the alley floor. A small curved line shows the click of the tile (no letters). Feeling: calm, absorbed. Calm area: the stone wall across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 3,
+      "art": "Ilan nods along, mouth open in song, one hand beating time on his knee; the tiler glances up at him and smiles while setting the next tile. The line of tiles alternates blue, white, blue, white. Feeling: rhythm, friendship without words. Calm area: the stone wall across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 4,
+      "art": "Seen from above, like a map of the alley: the blue-white line of tiles stretches from the corner most of the way to the green door. Shadows show morning light. Ilan stands on his step, the tiler kneels at the end of the line. Feeling: progress, getting closer. Calm area: the plain alley floor along the bottom.",
+      "zone": { "side": "full", "v": "bottom", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 5,
+      "art": "A neighbour, a woman with a shopping basket on her arm, has stopped beside the tiler; they talk and laugh. The tiler looks up at her, not at his hands, while setting another tile. Ilan watches from his step. Feeling: friendly chatter, a small slip about to happen. Calm area: the stone wall across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 6,
+      "art": "Close on the line of tiles, seen from Ilan's height: blue, white, blue, white, white. The two white tiles side by side stand out clearly. At the edge of the picture, Ilan's frowning face and pointing eyes. Feeling: something is not right; a puzzle for the reader. Calm area: the alley floor along the bottom.",
+      "zone": { "side": "full", "v": "bottom", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 7,
+      "art": "Ilan stands on one foot on his step, lips pressed together, wobbling, bursting to speak, while the two grown-ups go on chatting. Feeling: polite waiting, funny effort. Calm area: the stone wall across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 8,
+      "art": "The neighbour walks away round the corner, waving goodbye over her shoulder. Ilan has jumped off his step and points straight at the second white tile, his whole arm stretched out. Feeling: finally, his turn to speak. Calm area: the stone wall across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 9,
+      "art": "The tiler, kneeling, laughs with his head back and one hand on his forehead; with the other hand he lifts the extra white tile out. A blue tile waits beside it. Ilan beams. Feeling: a mistake owned with a laugh; respect between the two. Calm area: the stone wall across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 10,
+      "art": "The tiler, kneeling, holds out the last two tiles, one blue and one white, on his flat palms; Ilan carefully lays the blue one in the gap at the end of the line, the white one waiting in his other hand. The tiler steadies the tile beside Ilan's fingers. Feeling: trust, concentration, pride. Calm area: the alley floor along the bottom.",
+      "zone": { "side": "full", "v": "bottom", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 11,
+      "art": "Seen from above again: the finished path, blue, white, blue, white, from the corner of the alley right up to the green door's step. Ilan and the tiler stand side by side at the end, admiring it. Feeling: complete, orderly, pleased. Calm area: the plain alley floor along the bottom.",
+      "zone": { "side": "full", "v": "bottom", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 12,
+      "art": "Last picture of the book, the next morning: Ilan hops along the dry path, one foot in the air, mid-hop on a blue tile, arms out for balance. The tiler, at the corner with his empty cart, claps. Soft morning light on the stone. Feeling: joy, rhythm, home. Calm area: the strip of sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    }
+  ],
+  "film": {
+    "targetSeconds": 255,
+    "shots": [
+      { "n": 1, "page": 1, "action": "16 s. Scene 1, the alley. A summer morning in the old part of a city: stone walls, an arch, shutters, a strip of sky, the green door at the end. The tiler wheels his cart of tiles in. Keep the lower fifth calm for captions in every shot. Music rule for the whole film: every tile that goes down sounds one note on the beat, a low note for blue and a high note for white.", "sound": ["a quiet morning alley", "cart wheels on stone", "a simple marimba beat begins"], "lines": ["f01"] },
+      { "n": 2, "page": 1, "action": "8 s. The tiler kneels, smooths a flat bed for the tiles and sets the first one down on the beat.", "sound": ["a scrape", "the first tile note, low"], "lines": [] },
+      { "n": 3, "page": 1, "action": "6 s. Close on the cart: plain blue and plain white square tiles stacked side by side.", "sound": ["the beat"], "lines": [] },
+      { "n": 4, "page": 2, "action": "12 s. Ilan on his doorstep, chin in his hands. Tiles go down on the beat: blue low, white high, blue low, white high.", "sound": ["tile notes on the beat: low, high, low, high"], "lines": [] },
+      { "n": 5, "page": 3, "action": "9 s. Ilan nods and sings along with the notes.", "sound": ["Ilan's voice with the marimba"], "lines": ["f02"] },
+      { "n": 6, "page": 3, "action": "7 s. The tiler notices, smiles, and lays the next tiles exactly on Ilan's beat.", "sound": ["the beat, steady"], "lines": [] },
+      { "n": 7, "page": 4, "action": "14 s. Days pass in three short beats: the shadows swing across the alley, Ilan's shirt changes colour, the path grows closer to the door.", "sound": ["the tune repeating, a little fuller each day"], "lines": ["f03"] },
+      { "n": 8, "page": 5, "action": "8 s. Scene 2, the slip. A neighbour with a shopping basket stops by the tiler.", "sound": ["footsteps", "the beat goes on"], "lines": ["f04"] },
+      { "n": 9, "page": 5, "action": "6 s. The tiler answers, laughing, looking at her while his hands keep working.", "sound": ["laughter", "the beat"], "lines": ["f05"] },
+      { "n": 10, "page": 5, "action": "10 s. Close on the tiles going down: low, high, low, high, and then a high note again, off the beat. The music hiccups.", "sound": ["low, high, low, high, high: the last note late and wrong"], "lines": [] },
+      { "n": 11, "page": 6, "action": "7 s. Ilan frowns.", "sound": ["the music stops"], "lines": ["f06"] },
+      { "n": 12, "page": 6, "action": "7 s. Ilan counts along the path with one finger.", "sound": ["the tile notes, played softly one by one under his voice"], "lines": ["f07"] },
+      { "n": 13, "page": 6, "action": "4 s. Hold on the two white tiles side by side: the viewer's moment to spot it.", "sound": ["silence"], "lines": [] },
+      { "n": 14, "page": 7, "action": "8 s. Ilan opens his mouth, then closes it: the grown-ups are still chatting.", "sound": ["chatter"], "lines": ["f08"] },
+      { "n": 15, "page": 7, "action": "12 s. Ilan waits on one foot, then the other, wobbling. A small comic dance of patience; no words.", "sound": ["a wobbly bassoon tune", "chatter"], "lines": [] },
+      { "n": 16, "page": 8, "action": "6 s. The neighbour waves goodbye and goes round the corner.", "sound": ["footsteps fading"], "lines": [] },
+      { "n": 17, "page": 8, "action": "6 s. Ilan jumps off his step and points.", "sound": ["a hop"], "lines": ["f09"] },
+      { "n": 18, "page": 9, "action": "8 s. The tiler looks, looks again, and laughs.", "sound": ["a warm laugh"], "lines": ["f10"] },
+      { "n": 19, "page": 9, "action": "10 s. He lifts the white tile out and sets a blue one in: its low note lands right on the beat, and the tune is whole again.", "sound": ["a lift", "the low note, on the beat", "the tune resumes"], "lines": [] },
+      { "n": 20, "page": 10, "action": "8 s. Scene 3, Ilan's turn. The tiler holds out the last two tiles.", "sound": ["the beat, softer"], "lines": ["f11"] },
+      { "n": 21, "page": 10, "action": "8 s. Ilan looks at the last tile in the line, thinking.", "sound": ["one held note"], "lines": ["f12"] },
+      { "n": 22, "page": 10, "action": "11 s. Ilan lays blue, then white, very carefully, the tiler's hand beside his: two notes, both on the beat.", "sound": ["low note", "high note"], "lines": [] },
+      { "n": 23, "page": 11, "action": "14 s. Wide from above: the finished path. The camera glides along it from the corner to the green door, one note per tile: the whole tune at last.", "sound": ["the complete tile tune"], "lines": ["f13"] },
+      { "n": 24, "page": 12, "action": "8 s. The next morning: the path is dry; Ilan stands at the corner, ready.", "sound": ["birds", "a breath"], "lines": [] },
+      { "n": 25, "page": 12, "action": "12 s. Ilan hops the path, one hop per tile, each hop playing its note.", "sound": ["the tile tune, one note per hop", "giggles"], "lines": ["f14"] },
+      { "n": 26, "page": 12, "action": "6 s. The tiler, at the corner with his empty cart, claps.", "sound": ["clapping"], "lines": [] },
+      { "n": 27, "page": 12, "action": "6 s. Ilan sits on his doorstep and looks back along his path, smiling.", "sound": ["the tune, slowing"], "lines": [] },
+      { "n": 28, "page": 12, "action": "16 s. Closing image: the alley from above, the blue-white path like a line of music leading to the green door. Hold the still picture 6 s while the music ends, then stop. No autoplay.", "sound": ["the last notes"], "lines": [] }
+    ]
+  },
+  "activity": {
+    "minutes": 15,
+    "materials": ["fallen-leaves", "large-stones", "small-sticks"],
+    "steps": [
+      { "n": 1, "picture": "A grown-up and a child, both in sun hats, gather fallen leaves from the ground and fist-sized stones into a basket under a shady tree.", "loop": false },
+      { "n": 2, "picture": "On the ground, a line: leaf, stone, leaf, stone, and an empty space at the end. The child holds a leaf over the space, ready to put it down; the grown-up watches.", "loop": true },
+      { "n": 3, "picture": "The child lays a new line (leaf, leaf, stone, leaf, leaf, stone) and points to the end; the grown-up crouches to add the next piece.", "loop": false }
+    ],
+    "checkedAgainst": "docs/story-room/age-4-5.md section 7 (red list, outdoors rules) and section 4 (activity limits), 25 Nov 2026"
+  }
+}
