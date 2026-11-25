@@ -28,8 +28,8 @@
     },
     {
       "n": 5,
-      "text": "Maja græder. Amir græder. En lille krabbe kigger frem fra sit hul.",
-      "speech": "Maja græder. Amir græder. En lille krabbe kigger frem fra sit hul."
+      "text": "Maja græder. Amir græder. En lille snegl kigger ud af sit hus.",
+      "speech": "Maja græder. Amir græder. En lille snegl kigger ud af sit hus."
     },
     {
       "n": 6,
@@ -53,8 +53,8 @@
     },
     {
       "n": 10,
-      "text": "Krabben kravler helt op på toppen. Maja klapper. Amir klapper.",
-      "speech": "Krabben kravler helt op på toppen. Maja klapper. Amir klapper."
+      "text": "Sneglen kravler helt op på toppen. Maja klapper. Amir klapper.",
+      "speech": "Sneglen kravler helt op på toppen. Maja klapper. Amir klapper."
     },
     {
       "n": 11,
@@ -164,8 +164,8 @@
     {
       "id": "f15",
       "speaker": "narrator",
-      "text": "Krabben kravler helt op på toppen.",
-      "speech": "Krabben kravler helt op på toppen.",
+      "text": "Sneglen kravler helt op på toppen.",
+      "speech": "Sneglen kravler helt op på toppen.",
       "emotion": "light and playful, climbing"
     },
     {

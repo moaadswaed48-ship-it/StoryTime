@@ -145,3 +145,10 @@ above all:
 9. **"knudrede knæ"** (A05), **"Sandet flyver alle vegne"** (A05 p1), **"Den vippede til den ene side … og til den
    anden"** (B09 f14).
 10. The same open points as in the English report: B13's green door next to green tiles, and the A15 crab.
+
+## Opfølgning: dirigentens beslutninger indført (25. nov. 2026)
+
+- A15: krabben er nu en lille snegl. Side 5 »En lille snegl kigger ud af sit hus.«; side 10 og film f15 »Sneglen
+  kravler helt op på toppen.« Ordtallet er uændret.
+- B13: Ilans dør er rød: »Ilans røde dør« (side 1 og 11) og f13 »hele vejen hen til den røde dør«.
+- Punkt 10 ovenfor er dermed lukket. `storytool.py check a15 b13`: ingen danske fejl.

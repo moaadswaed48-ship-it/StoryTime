@@ -7,13 +7,13 @@
   "pages": [
     {
       "n": 1,
-      "art": "A narrow, crooked alley in the old part of a city on a summer morning: honey-coloured stone walls, a stone arch, small windows with wooden shutters, a strip of blue sky above. At the far end, a green wooden door with a stone step. A young tiler pushes a small cart stacked with square tiles, plain yellow and plain green (no patterns or letters on them), into the alley. Feeling: sunny, quiet, the start of something. Calm area: the strip of sky across the top.",
+      "art": "A narrow, crooked alley in the old part of a city on a summer morning: honey-coloured stone walls, a stone arch, small windows with wooden shutters, a strip of blue sky above. At the far end, a red wooden door with a stone step. A young tiler pushes a small cart stacked with square tiles, plain yellow and plain green (no patterns or letters on them), into the alley. Feeling: sunny, quiet, the start of something. Calm area: the strip of sky across the top.",
       "zone": { "side": "full", "v": "top", "size": "m" },
       "image": null
     },
     {
       "n": 2,
-      "art": "Ilan (4) sits on the step of his green door, chin in his hands, watching. A few steps away the tiler kneels and presses a yellow tile down beside a green one; the path is a single line of big square tiles, one tile wide, running along the alley floor. A small curved line shows the click of the tile (no letters). Feeling: calm, absorbed. Calm area: the stone wall across the top.",
+      "art": "Ilan (4) sits on the step of his red door, chin in his hands, watching. A few steps away the tiler kneels and presses a yellow tile down beside a green one; the path is a single line of big square tiles, one tile wide, running along the alley floor. A small curved line shows the click of the tile (no letters). Feeling: calm, absorbed. Calm area: the stone wall across the top.",
       "zone": { "side": "full", "v": "top", "size": "m" },
       "image": null
     },
@@ -25,7 +25,7 @@
     },
     {
       "n": 4,
-      "art": "Seen from above, like a map of the alley: the yellow-green line of tiles stretches from the corner most of the way to the green door. Shadows show morning light. Ilan stands on his step, the tiler kneels at the end of the line. Feeling: progress, getting closer. Calm area: the plain alley floor along the bottom.",
+      "art": "Seen from above, like a map of the alley: the yellow-green line of tiles stretches from the corner most of the way to the red door. Shadows show morning light. Ilan stands on his step, the tiler kneels at the end of the line. Feeling: progress, getting closer. Calm area: the plain alley floor along the bottom.",
       "zone": { "side": "full", "v": "bottom", "size": "m" },
       "image": null
     },
@@ -67,7 +67,7 @@
     },
     {
       "n": 11,
-      "art": "Seen from above again: the finished path, yellow, green, yellow, green, from the corner of the alley right up to the green door's step. Ilan and the tiler stand side by side at the end, admiring it. Feeling: complete, orderly, pleased. Calm area: the plain alley floor along the bottom.",
+      "art": "Seen from above again: the finished path, yellow, green, yellow, green, from the corner of the alley right up to the red door's step. Ilan and the tiler stand side by side at the end, admiring it. Feeling: complete, orderly, pleased. Calm area: the plain alley floor along the bottom.",
       "zone": { "side": "full", "v": "bottom", "size": "m" },
       "image": null
     },
@@ -81,7 +81,7 @@
   "film": {
     "targetSeconds": 255,
     "shots": [
-      { "n": 1, "page": 1, "action": "16 s. Scene 1, the alley. A summer morning in the old part of a city: stone walls, an arch, shutters, a strip of sky, the green door at the end. The tiler wheels his cart of tiles in. Keep the lower fifth calm for captions in every shot. Music rule for the whole film: every tile that goes down sounds one note on the beat, a low note for yellow and a high note for green.", "sound": ["a quiet morning alley", "cart wheels on stone", "a simple marimba beat begins"], "lines": ["f01"] },
+      { "n": 1, "page": 1, "action": "16 s. Scene 1, the alley. A summer morning in the old part of a city: stone walls, an arch, shutters, a strip of sky, the red door at the end. The tiler wheels his cart of tiles in. Keep the lower fifth calm for captions in every shot. Music rule for the whole film: every tile that goes down sounds one note on the beat, a low note for yellow and a high note for green.", "sound": ["a quiet morning alley", "cart wheels on stone", "a simple marimba beat begins"], "lines": ["f01"] },
       { "n": 2, "page": 1, "action": "8 s. The tiler kneels, smooths a flat bed for the tiles and sets the first one down on the beat.", "sound": ["a scrape", "the first tile note, low"], "lines": [] },
       { "n": 3, "page": 1, "action": "6 s. Close on the cart: plain yellow and plain green square tiles stacked side by side.", "sound": ["the beat"], "lines": [] },
       { "n": 4, "page": 2, "action": "12 s. Ilan on his doorstep, chin in his hands. Tiles go down on the beat: yellow low, green high, yellow low, green high.", "sound": ["tile notes on the beat: low, high, low, high"], "lines": [] },
@@ -103,12 +103,12 @@
       { "n": 20, "page": 10, "action": "8 s. Scene 3, Ilan's turn. The tiler holds out the last two tiles.", "sound": ["the beat, softer"], "lines": ["f11"] },
       { "n": 21, "page": 10, "action": "8 s. Ilan looks at the last tile in the line, thinking.", "sound": ["one held note"], "lines": ["f12"] },
       { "n": 22, "page": 10, "action": "11 s. Ilan lays yellow, then green, very carefully, the tiler's hand beside his: two notes, both on the beat.", "sound": ["low note", "high note"], "lines": [] },
-      { "n": 23, "page": 11, "action": "14 s. Wide from above: the finished path. The camera glides along it from the corner to the green door, one note per tile: the whole tune at last.", "sound": ["the complete tile tune"], "lines": ["f13"] },
+      { "n": 23, "page": 11, "action": "14 s. Wide from above: the finished path. The camera glides along it from the corner to the red door, one note per tile: the whole tune at last.", "sound": ["the complete tile tune"], "lines": ["f13"] },
       { "n": 24, "page": 12, "action": "8 s. The next morning: the path is dry; Ilan stands at the corner, ready.", "sound": ["birds", "a breath"], "lines": [] },
       { "n": 25, "page": 12, "action": "12 s. Ilan hops the path, one hop per tile, each hop playing its note.", "sound": ["the tile tune, one note per hop", "giggles"], "lines": ["f14"] },
       { "n": 26, "page": 12, "action": "6 s. The tiler, at the corner with his empty cart, claps.", "sound": ["clapping"], "lines": [] },
       { "n": 27, "page": 12, "action": "6 s. Ilan sits on his doorstep and looks back along his path, smiling.", "sound": ["the tune, slowing"], "lines": [] },
-      { "n": 28, "page": 12, "action": "16 s. Closing image: the alley from above, the yellow-green path like a line of music leading to the green door. Hold the still picture 6 s while the music ends, then stop. No autoplay.", "sound": ["the last notes"], "lines": [] }
+      { "n": 28, "page": 12, "action": "16 s. Closing image: the alley from above, the yellow-green path like a line of music leading to the red door. Hold the still picture 6 s while the music ends, then stop. No autoplay.", "sound": ["the last notes"], "lines": [] }
     ]
   },
   "activity": {

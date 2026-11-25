@@ -6,7 +6,7 @@
     "b13-neighbour": "the neighbour"
   },
   "pages": [
-    { "n": 1, "text": "In the old part of the city there was a narrow alley. At the very end was Ilan’s green door. One summer morning, a tiler came with a cart full of tiles.", "speech": "In the old part of the city there was a narrow alley. At the very end was Ilan’s green door. One summer morning, a tiler came with a cart full of tiles." },
+    { "n": 1, "text": "In the old part of the city there was a narrow alley. At the very end was Ilan’s red door. One summer morning, a tiler came with a cart full of tiles.", "speech": "In the old part of the city there was a narrow alley. At the very end was Ilan’s red door. One summer morning, a tiler came with a cart full of tiles." },
     { "n": 2, "text": "Every morning Ilan sat on his doorstep and watched. The tiler laid a tile. Click. Yellow. Then another one. Click. Green.", "speech": "Every morning Ilan sat on his doorstep and watched. The tiler laid a tile. Click. Yellow. Then another one. Click. Green." },
     { "n": 3, "text": "Yellow, green, yellow, green. Click, click, click, click. Ilan nodded along. “Yellow, green, yellow, green,” he sang.", "speech": "Yellow, green, yellow, green. Click, click, click, click. Ilan nodded along. “Yellow, green, yellow, green,” he sang." },
     { "n": 4, "text": "Day by day, the path grew longer. It came closer and closer to Ilan’s door. Yellow, green, yellow, green.", "speech": "Day by day, the path grew longer. It came closer and closer to Ilan’s door. Yellow, green, yellow, green." },
@@ -16,7 +16,7 @@
     { "n": 8, "text": "At last the neighbour waved goodbye. Ilan jumped up and pointed with his whole arm. “That one should be yellow!”", "speech": "At last the neighbour waved goodbye. Ilan jumped up and pointed with his whole arm. “That one should be yellow!”" },
     { "n": 9, "text": "The tiler looked. He looked again. Then he laughed. “You’re right. Green after green!” He lifted the green tile and put down a yellow one. Click.", "speech": "The tiler looked. He looked again. Then he laughed. “You’re right. Green after green!” He lifted the green tile and put down a yellow one. Click." },
     { "n": 10, "text": "Now only two tiles were left. The tiler held them out to Ilan. “You finish it.” Ilan looked at the last tile. It was green. So next came… yellow. Click. And then… green. Click.", "speech": "Now only two tiles were left. The tiler held them out to Ilan. “You finish it.” Ilan looked at the last tile. It was green. So next came… yellow. Click. And then… green. Click." },
-    { "n": 11, "text": "The path was finished, right up to Ilan’s green door. Yellow, green, yellow, green, all the way.", "speech": "The path was finished, right up to Ilan’s green door. Yellow, green, yellow, green, all the way." },
+    { "n": 11, "text": "The path was finished, right up to Ilan’s red door. Yellow, green, yellow, green, all the way.", "speech": "The path was finished, right up to Ilan’s red door. Yellow, green, yellow, green, all the way." },
     { "n": 12, "text": "The next morning, when the path was dry, Ilan hopped along it. Yellow, green, yellow, green! Hop, hop, hop, hop, all the way to his door. The tiler clapped.", "speech": "The next morning, when the path was dry, Ilan hopped along it. Yellow, green, yellow, green! Hop, hop, hop, hop, all the way to his door. The tiler clapped." }
   ],
   "film": [
@@ -32,7 +32,7 @@
     { "id": "f10", "speaker": "b13-tiler", "text": "You’re right. Green after green!", "speech": "You’re right. Green after green!", "emotion": "surprised, laughing at himself, grateful" },
     { "id": "f11", "speaker": "b13-tiler", "text": "Two tiles left. You finish it.", "speech": "Two tiles left. You finish it.", "emotion": "warm, trusting" },
     { "id": "f12", "speaker": "b13-ilan", "text": "Green… so now comes yellow.", "speech": "Green… so now comes yellow.", "emotion": "careful, thinking aloud, proud" },
-    { "id": "f13", "speaker": "narrator", "text": "Yellow, green, yellow, green, all the way to the green door.", "speech": "Yellow, green, yellow, green, all the way to the green door.", "emotion": "satisfied, rhythmic" },
+    { "id": "f13", "speaker": "narrator", "text": "Yellow, green, yellow, green, all the way to the red door.", "speech": "Yellow, green, yellow, green, all the way to the red door.", "emotion": "satisfied, rhythmic" },
     { "id": "f14", "speaker": "b13-ilan", "text": "Hop, hop, hop, hop!", "speech": "Hop, hop, hop, hop!", "emotion": "joyful, one hop per word" }
   ],
   "activity": {

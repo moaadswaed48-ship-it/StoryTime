@@ -53,7 +53,7 @@
     },
     {
       "n": 5,
-      "art": "Both children sit on the sand crying, mouths open, a few tears; the bucket lies on its side between them. At the edge of the picture, a little crab peeps out of a hole in the sand, eyes on stalks. Sad but small and safe. Calm area: the sky across the top.",
+      "art": "Both children sit on the sand crying, mouths open, a few tears; the bucket lies on its side between them. At the edge of the picture, a little snail on the sand peeps out of its round shell, eyes on stalks. Sad but small and safe. Calm area: the sky across the top.",
       "zone": {
         "side": "full",
         "v": "top",
@@ -103,7 +103,7 @@
     },
     {
       "n": 10,
-      "art": "The little crab has climbed to the very top of the sandcastle and lifts one claw. Maya and Amir clap, laughing. Calm area: the sky across the top.",
+      "art": "The little snail has climbed to the very top of the sandcastle and stretches its eye stalks up high, a faint shiny trail behind it. Maya and Amir clap, laughing. Calm area: the sky across the top.",
       "zone": {
         "side": "full",
         "v": "top",
@@ -113,7 +113,7 @@
     },
     {
       "n": 11,
-      "art": "Last picture: Maya and Amir both hold the red bucket handle together, ready to fill it again; the sandcastle with the crab on top beside them, waves sliding in as flat bands. Warm and bright. Calm area: the sky across the top.",
+      "art": "Last picture: Maya and Amir both hold the red bucket handle together, ready to fill it again; the sandcastle with the snail on top beside them, waves sliding in as flat bands. Warm and bright. Calm area: the sky across the top.",
       "zone": {
         "side": "full",
         "v": "top",
@@ -187,7 +187,7 @@
       {
         "n": 6,
         "page": 5,
-        "action": "9 s. Both cry, small and short. A little crab peeps out of its hole and looks at them. 2 s of only waves after the line.",
+        "action": "9 s. Both cry, small and short. A little snail peeps out of its shell and looks at them. 2 s of only waves after the line.",
         "sound": [
           "two small cries",
           "waves"
@@ -249,9 +249,9 @@
       {
         "n": 11,
         "page": 10,
-        "action": "10 s. The crab climbs, step by sideways step, to the very top of the castle and lifts one claw.",
+        "action": "10 s. The snail climbs, slowly and steadily, to the very top of the castle and stretches its eye stalks up high.",
         "sound": [
-          "tiny tapping steps",
+          "a tiny soft slide",
           "a rising run of notes"
         ],
         "lines": [
@@ -283,7 +283,7 @@
       {
         "n": 14,
         "page": 11,
-        "action": "14 s. Closing image. Wide: two small figures by the sandcastle, the crab on top, the waves sliding in. Then nothing moves but the gentle waves. Hold 6 s while the music ends, then stop. No autoplay, no next film.",
+        "action": "14 s. Closing image. Wide: two small figures by the sandcastle, the snail on top, the waves sliding in. Then nothing moves but the gentle waves. Hold 6 s while the music ends, then stop. No autoplay, no next film.",
         "sound": [
           "the last note of the tune",
           "soft waves"

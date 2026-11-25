@@ -28,8 +28,8 @@
     },
     {
       "n": 5,
-      "text": "Maya cries. Amir cries. A little crab peeps out of its hole.",
-      "speech": "Maya cries. Amir cries. A little crab peeps out of its hole."
+      "text": "Maya cries. Amir cries. A little snail peeps out of its shell.",
+      "speech": "Maya cries. Amir cries. A little snail peeps out of its shell."
     },
     {
       "n": 6,
@@ -53,8 +53,8 @@
     },
     {
       "n": 10,
-      "text": "The crab climbs to the very top. Maya claps. Amir claps.",
-      "speech": "The crab climbs to the very top. Maya claps. Amir claps."
+      "text": "The snail climbs to the very top. Maya claps. Amir claps.",
+      "speech": "The snail climbs to the very top. Maya claps. Amir claps."
     },
     {
       "n": 11,
@@ -164,8 +164,8 @@
     {
       "id": "f15",
       "speaker": "narrator",
-      "text": "The crab climbs to the very top.",
-      "speech": "The crab climbs to the very top.",
+      "text": "The snail climbs to the very top.",
+      "speech": "The snail climbs to the very top.",
       "emotion": "light and playful, climbing"
     },
     {

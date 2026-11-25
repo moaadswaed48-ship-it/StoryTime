@@ -6,7 +6,7 @@
     "b13-neighbour": "naboen"
   },
   "pages": [
-    { "n": 1, "text": "I den gamle del af byen var der en smal gyde. Helt for enden lå Ilans grønne dør. En sommermorgen kom en fliselægger med en vogn fuld af fliser.", "speech": "I den gamle del af byen var der en smal gyde. Helt for enden lå Ilans grønne dør. En sommermorgen kom en fliselægger med en vogn fuld af fliser." },
+    { "n": 1, "text": "I den gamle del af byen var der en smal gyde. Helt for enden lå Ilans røde dør. En sommermorgen kom en fliselægger med en vogn fuld af fliser.", "speech": "I den gamle del af byen var der en smal gyde. Helt for enden lå Ilans røde dør. En sommermorgen kom en fliselægger med en vogn fuld af fliser." },
     { "n": 2, "text": "Hver morgen sad Ilan på trappen foran døren og kiggede. Fliselæggeren lagde en flise. Klik. Gul. Så en til. Klik. Grøn.", "speech": "Hver morgen sad Ilan på trappen foran døren og kiggede. Fliselæggeren lagde en flise. Klik. Gul. Så en til. Klik. Grøn." },
     { "n": 3, "text": "Gul, grøn, gul, grøn. Klik, klik, klik, klik. Ilan nikkede med. »Gul, grøn, gul, grøn,« sang han.", "speech": "Gul, grøn, gul, grøn. Klik, klik, klik, klik. Ilan nikkede med. »Gul, grøn, gul, grøn,« sang han." },
     { "n": 4, "text": "Dag for dag blev stien længere. Den kom tættere og tættere på Ilans dør. Gul, grøn, gul, grøn.", "speech": "Dag for dag blev stien længere. Den kom tættere og tættere på Ilans dør. Gul, grøn, gul, grøn." },
@@ -16,7 +16,7 @@
     { "n": 8, "text": "Endelig vinkede naboen farvel og gik. Ilan sprang op og pegede med hele armen. »Den der skulle være gul!«", "speech": "Endelig vinkede naboen farvel og gik. Ilan sprang op og pegede med hele armen. »Den der skulle være gul!«" },
     { "n": 9, "text": "Fliselæggeren kiggede. Han kiggede igen. Så grinede han. »Du har ret. Grøn efter grøn!« Han løftede den grønne flise op og lagde en gul. Klik.", "speech": "Fliselæggeren kiggede. Han kiggede igen. Så grinede han. »Du har ret. Grøn efter grøn!« Han løftede den grønne flise op og lagde en gul. Klik." },
     { "n": 10, "text": "Nu var der kun to fliser tilbage. Fliselæggeren rakte dem til Ilan. »Du må gøre den færdig.« Ilan kiggede på den sidste flise. Den var grøn. Så nu kom … gul. Klik. Og så … grøn. Klik.", "speech": "Nu var der kun to fliser tilbage. Fliselæggeren rakte dem til Ilan. »Du må gøre den færdig.« Ilan kiggede på den sidste flise. Den var grøn. Så nu kom … gul. Klik. Og så … grøn. Klik." },
-    { "n": 11, "text": "Stien var færdig, helt hen til Ilans grønne dør. Gul, grøn, gul, grøn, hele vejen.", "speech": "Stien var færdig, helt hen til Ilans grønne dør. Gul, grøn, gul, grøn, hele vejen." },
+    { "n": 11, "text": "Stien var færdig, helt hen til Ilans røde dør. Gul, grøn, gul, grøn, hele vejen.", "speech": "Stien var færdig, helt hen til Ilans røde dør. Gul, grøn, gul, grøn, hele vejen." },
     { "n": 12, "text": "Næste morgen da stien var tør, hoppede Ilan hen ad den. Gul, grøn, gul, grøn! Hop, hop, hop, hop, hele vejen hen til døren. Fliselæggeren klappede.", "speech": "Næste morgen da stien var tør, hoppede Ilan hen ad den. Gul, grøn, gul, grøn! Hop, hop, hop, hop, hele vejen hen til døren. Fliselæggeren klappede." }
   ],
   "film": [
@@ -32,7 +32,7 @@
     { "id": "f10", "speaker": "b13-tiler", "text": "Du har ret. Grøn efter grøn!", "speech": "Du har ret. Grøn efter grøn!", "emotion": "surprised, laughing at himself, grateful" },
     { "id": "f11", "speaker": "b13-tiler", "text": "To fliser tilbage. Du må gøre den færdig.", "speech": "To fliser tilbage. Du må gøre den færdig.", "emotion": "warm, trusting" },
     { "id": "f12", "speaker": "b13-ilan", "text": "Grøn … så nu kommer gul.", "speech": "Grøn … så nu kommer gul.", "emotion": "careful, thinking aloud, proud" },
-    { "id": "f13", "speaker": "narrator", "text": "Gul, grøn, gul, grøn, hele vejen hen til den grønne dør.", "speech": "Gul, grøn, gul, grøn, hele vejen hen til den grønne dør.", "emotion": "satisfied, rhythmic" },
+    { "id": "f13", "speaker": "narrator", "text": "Gul, grøn, gul, grøn, hele vejen hen til den røde dør.", "speech": "Gul, grøn, gul, grøn, hele vejen hen til den røde dør.", "emotion": "satisfied, rhythmic" },
     { "id": "f14", "speaker": "b13-ilan", "text": "Hop, hop, hop, hop!", "speech": "Hop, hop, hop, hop!", "emotion": "joyful, one hop per word" }
   ],
   "activity": {

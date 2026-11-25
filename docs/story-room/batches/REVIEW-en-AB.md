@@ -123,3 +123,13 @@ read-aloud I trust less. Please read aloud, above all:
 - A02 p8 "Bits of wool fall down": the old "little bits" was nicer; it had to go to stay inside 15 words.
 - The adult notes (forAdult) are correct but long for a phone; the owner may want them cut by a third, as the pilot
   review also said.
+
+## Follow-up: conductor decisions applied (25 Nov 2026)
+
+- A15: the little crab is now a little snail. Page 5 "A little snail peeps out of its shell."; page 10 and film f15
+  "The snail climbs to the very top." Art notes (pages 5, 10, 11) and film shots 6, 11 and 14 updated; the snail
+  stretches its eye stalks up instead of lifting a claw, and its climb sounds as "a tiny soft slide". Word counts
+  unchanged.
+- B13: Ilan's door is red in the book (pages 1 and 11), film f13 ("all the way to the red door"), art notes and shot
+  notes. Tiles stay yellow and green.
+- `storytool.py check a15 b13`: no English errors.
