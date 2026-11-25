@@ -14,8 +14,8 @@
     },
     {
       "n": 2,
-      "text": "Mira elskede det hurtige tov. Hun kunne hoppe ind, hoppe tolv gange og hoppe ud igen uden at gå i stå. Men Adrian snublede altid. Tovet fangede hans ankel, og legen stoppede. »Åh, Adrian!« stønnede de andre. Adrian blev rød i hovedet og gik om bag i køen.",
-      "speech": "Mira elskede det hurtige tov. Hun kunne hoppe ind, hoppe tolv gange og hoppe ud igen uden at gå i stå. Men Adrian snublede altid. Tovet fangede hans ankel, og legen stoppede. »Åh, Adrian!« stønnede de andre. Adrian blev rød i hovedet og gik om bag i køen."
+      "text": "Mira elskede det hurtige tov. Hun kunne springe ind, hoppe tolv gange og springe ud igen uden en eneste fejl. Men Adrian snublede altid. Tovet fangede hans ankel, og legen stoppede. »Åh, Adrian!« stønnede de andre. Adrian blev rød i hovedet og stillede sig bagerst i køen.",
+      "speech": "Mira elskede det hurtige tov. Hun kunne springe ind, hoppe tolv gange og springe ud igen uden en eneste fejl. Men Adrian snublede altid. Tovet fangede hans ankel, og legen stoppede. »Åh, Adrian!« stønnede de andre. Adrian blev rød i hovedet og stillede sig bagerst i køen."
     },
     {
       "n": 3,
@@ -39,8 +39,8 @@
     },
     {
       "n": 7,
-      "text": "En lille pige fra første klasse stod og kiggede. Hun havde aldrig hoppet i et langt tov før. »Må jeg?« hviskede hun. »Hop når det rører jorden,« sagde Adrian. Svup … bump … hop! Hun klarede det. Én gang, to gange, tre gange. Hele hendes ansigt smilede.",
-      "speech": "En lille pige fra første klasse stod og kiggede. Hun havde aldrig hoppet i et langt tov før. »Må jeg?« hviskede hun. »Hop når det rører jorden,« sagde Adrian. Svup … bump … hop! Hun klarede det. Én gang, to gange, tre gange. Hele hendes ansigt smilede."
+      "text": "En lille pige fra første klasse stod og kiggede. Hun havde aldrig hoppet i et langt tov før. »Må jeg?« hviskede hun. »Hop når det rører jorden,« sagde Adrian. Svup … bump … hop! Hun klarede det. Én gang, to gange, tre gange. Hun smilede over hele ansigtet.",
+      "speech": "En lille pige fra første klasse stod og kiggede. Hun havde aldrig hoppet i et langt tov før. »Må jeg?« hviskede hun. »Hop når det rører jorden,« sagde Adrian. Svup … bump … hop! Hun klarede det. Én gang, to gange, tre gange. Hun smilede over hele ansigtet."
     },
     {
       "n": 8,
@@ -49,13 +49,13 @@
     },
     {
       "n": 9,
-      "text": "De hurtige hoppere stoppede deres leg for at kigge. Den allerhurtigste lagde armene over kors. »Langsomt?« sagde han. »Det er da alt for nemt.« De små kiggede ned på deres sko. Adrians hænder stod stille på tovet. Mira holdt vejret.",
-      "speech": "De hurtige hoppere stoppede deres leg for at kigge. Den allerhurtigste lagde armene over kors. »Langsomt?« sagde han. »Det er da alt for nemt.« De små kiggede ned på deres sko. Adrians hænder stod stille på tovet. Mira holdt vejret."
+      "text": "De hurtige hoppere stoppede deres leg for at kigge. Den allerhurtigste lagde armene over kors. »Langsomt?« sagde han. »Det er da alt for nemt.« De små kiggede ned på deres sko. Adrian holdt tovet stille. Mira holdt vejret.",
+      "speech": "De hurtige hoppere stoppede deres leg for at kigge. Den allerhurtigste lagde armene over kors. »Langsomt?« sagde han. »Det er da alt for nemt.« De små kiggede ned på deres sko. Adrian holdt tovet stille. Mira holdt vejret."
     },
     {
       "n": 10,
-      "text": "»Så prøv,« sagde Mira og begyndte at svinge igen. Den hurtigste hopper løb ind og hoppede. For tidligt! Tovet ramte ham bag på benene. Han prøvede igen. For tidligt igen. Han grinede af sig selv. »Hvordan kan I vente så længe?« spurgte han.",
-      "speech": "»Så prøv,« sagde Mira og begyndte at svinge igen. Den hurtigste hopper løb ind og hoppede. For tidligt! Tovet ramte ham bag på benene. Han prøvede igen. For tidligt igen. Han grinede af sig selv. »Hvordan kan I vente så længe?« spurgte han."
+      "text": "»Så prøv selv,« sagde Mira og begyndte at svinge igen. Den hurtigste hopper løb ind og hoppede. For tidligt! Tovet ramte ham bag på benene. Han prøvede igen. For tidligt igen. Han grinede af sig selv. »Hvordan kan I vente så længe?« spurgte han.",
+      "speech": "»Så prøv selv,« sagde Mira og begyndte at svinge igen. Den hurtigste hopper løb ind og hoppede. For tidligt! Tovet ramte ham bag på benene. Han prøvede igen. For tidligt igen. Han grinede af sig selv. »Hvordan kan I vente så længe?« spurgte han."
     },
     {
       "n": 11,
@@ -187,8 +187,8 @@
     {
       "id": "f16",
       "speaker": "c02-mira",
-      "text": "Så prøv.",
-      "speech": "Så prøv.",
+      "text": "Så prøv selv.",
+      "speech": "Så prøv selv.",
       "emotion": "calm, friendly, not a dare"
     },
     {
