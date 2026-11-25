@@ -24,7 +24,7 @@
     { "id": "f07", "speaker": "a01-adam", "text": "Nu dig, far!", "speech": "Nu dig, far!", "emotion": "bossy and delighted" },
     { "id": "f08", "speaker": "a01-papa", "text": "En … to … tre …", "speech": "En … to … tre …", "emotion": "slow and puffing, playful" },
     { "id": "f09", "speaker": "a01-papa", "text": "Åh! Jeg sidder fast!", "speech": "Åh! Jeg sidder fast!", "emotion": "surprised, then laughing at himself, never worried" },
-    { "id": "f10", "speaker": "a01-adam", "text": "Jeg skubber, far!", "speech": "Jeg skubber, far!", "emotion": "determined and helpful" },
+    { "id": "f10", "speaker": "a01-adam", "text": "Jeg skubber dig, far!", "speech": "Jeg skubber dig, far!", "emotion": "determined and helpful" },
     { "id": "f11", "speaker": "a01-adam", "text": "En, to … TRE!", "speech": "En, to … TRE!", "emotion": "building up, the last number big" },
     { "id": "f12", "speaker": "a01-papa", "text": "Wiii!", "speech": "Wiii!", "emotion": "a big happy whoop, laughing" },
     { "id": "f13", "speaker": "narrator", "text": "På vej hjem … se!", "speech": "På vej hjem … se!", "emotion": "quieter, curious" },
@@ -41,8 +41,8 @@
       { "n": 3, "caption": "Vælt dem. Igen!" },
       { "n": 4, "caption": "Ned i kassen: en, to, tre." }
     ],
-    "safety": "Kun sten der er større end barnets knytnæve, glatte og vaskede. Leg siddende på gulvet. Stenene skal slippes, ikke kastes. Intet kommer i munden. Sker der et uheld, så ring til det lokale alarmnummer.",
+    "safety": "Kun sten der er større end barnets knytnæve, glatte og vaskede. Leg siddende på gulvet. Stenene skal slippes, ikke kastes. Ikke noget i munden. Sker der et uheld, så ring til det lokale alarmnummer.",
     "forAdult": "I historien siger Adam ét tal for hvert trin og for hver due. I denne leg gør hænderne det samme: én sten, én kop, ét tal. At sige ét tal for hver ting er en af grundstenene i at tælle. Stil tre kopper på række. Stenene skal være større end barnets knytnæve, vaskede og tørre: Alt der kan komme gennem en toiletrulle, er for lille. Begynd selv: Slip den første sten ned i en kop og sig »En!« Så er det barnets tur. Tæl langsomt, ét tal hver gang en sten falder, og hold én finger mere op hver gang. Vælt så kopperne og begynd forfra. Gør det lettere med én kop og én sten. Gør det sværere med fire kopper og fire sten. Fem til ti minutter er rigeligt, og det er bedst at stoppe mens det stadig er sjovt.",
-    "inClass": "Én voksen med højst fire børn, der sidder i en rundkreds på gulvet. Hvert barn har tre kopper og tre sten. Den voksne tæller langsomt og tydeligt, og børnene slipper en sten på hvert tal. Bagefter vælter alle deres kopper på én gang og siger: »Igen!«"
+    "inClass": "Én voksen og højst fire børn sidder i en rundkreds på gulvet. Hvert barn har tre kopper og tre sten. Den voksne tæller langsomt og tydeligt, og børnene slipper en sten på hvert tal. Bagefter vælter alle deres kopper på én gang og siger: »Igen!«"
   }
 }

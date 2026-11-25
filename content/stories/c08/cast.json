@@ -1,0 +1,48 @@
+[
+  {
+    "id": "c08-miriam",
+    "name": { "ar": "مَرْيَم", "he": "מִרְיָם", "en": "Miriam", "da": "Mirjam" },
+    "stage": "child",
+    "build": { "height": 0.63, "heads": 4.7, "girth": 0.44, "shoulders": 1.12 },
+    "skin": "#c98e62",
+    "hair": { "style": "bun", "color": "#2a1714" },
+    "eyes": { "color": "#3a2418", "size": 0.78 },
+    "brows": { "color": "#2a1714", "weight": 0.6 },
+    "top": { "style": "tee", "color": "#f2c94c", "trim": "#ffffff", "pattern": "plain" },
+    "bottom": { "style": "shorts", "color": "#3f7f8c" },
+    "shoes": { "style": "bare", "color": "#000000" },
+    "manner": "Lively and quick, loves to run and catch; when something matters she goes very still, leaning forward but keeping her feet planted; hugs things with both arms and her eyes shut."
+  },
+  {
+    "id": "c08-father",
+    "name": { "ar": "أَبوها", "he": "אַבָּא", "en": "Dad", "da": "far" },
+    "stage": "adult",
+    "build": { "height": 1.04, "heads": 6.1, "girth": 0.55, "shoulders": 1.65 },
+    "skin": "#c98e62",
+    "hair": { "style": "short", "color": "#241715" },
+    "eyes": { "color": "#3a2418", "size": 0.52 },
+    "brows": { "color": "#241715", "weight": 0.8 },
+    "top": { "style": "tee", "color": "#f1ead8", "trim": "#3f7f8c", "pattern": "stripes" },
+    "bottom": { "style": "shorts", "color": "#36507e" },
+    "shoes": { "style": "sandals", "color": "#7a4a2c" },
+    "extras": ["beard", "hat"],
+    "extraColors": { "hat": "#36507e" },
+    "manner": "Calm and steady; throws the ball high for fun; when it matters he comes close, takes her hand and crouches to her height; speaks softly and squeezes her hand instead of explaining."
+  },
+  {
+    "id": "c08-lifeguard",
+    "name": { "ar": "المُنقِذة", "he": "הַמַּצִּילָה", "en": "the lifeguard", "da": "livredderen" },
+    "stage": "adult",
+    "build": { "height": 1.0, "heads": 6, "girth": 0.5, "shoulders": 1.6 },
+    "skin": "#8a5636",
+    "hair": { "style": "ponytail", "color": "#1c1210" },
+    "eyes": { "color": "#2e1c14", "size": 0.55 },
+    "brows": { "color": "#1c1210", "weight": 0.7 },
+    "top": { "style": "tee", "color": "#d8563e", "trim": "#ffffff", "pattern": "plain" },
+    "bottom": { "style": "shorts", "color": "#f2e3c6" },
+    "shoes": { "style": "sandals", "color": "#3a3a44" },
+    "extras": ["hat"],
+    "extraColors": { "hat": "#f0c23c" },
+    "manner": "Strong, cheerful and watchful; laughs easily; walks with long strides along the sand; once in her chair, her eyes keep moving over the water; bends down to a child's height to talk."
+  }
+]

@@ -6,7 +6,7 @@
     "b06-worker": "the shop worker"
   },
   "pages": [
-    { "n": 1, "text": "It was a cold winter morning. Karam and his dad went to the big supermarket. At the door, Dad asked, “What’s our rule, if we lose each other?” “Stand still and wave high,” said Karam.", "speech": "It was a cold winter morning. Karam and his dad went to the big supermarket. At the door, Dad asked, “What’s our rule, if we lose each other?” “Stand still and wave high,” said Karam." },
+    { "n": 1, "text": "It was a cold winter morning. Karam and his dad went to the big supermarket. At the door, Dad asked, “What’s our rule if we lose each other?” “Stand still and wave high,” said Karam.", "speech": "It was a cold winter morning. Karam and his dad went to the big supermarket. At the door, Dad asked, “What’s our rule if we lose each other?” “Stand still and wave high,” said Karam." },
     { "n": 2, "text": "Inside, everything was big and bright. The shelves were taller than Dad. Karam held on to the trolley, and Dad’s blue cap bobbed along in front.", "speech": "Inside, everything was big and bright. The shelves were taller than Dad. Karam held on to the trolley, and Dad’s blue cap bobbed along in front." },
     { "n": 3, "text": "By the fruit, a worker in a green apron was building a tall tower. One orange, then another, then another… higher and higher. Karam stopped to watch.", "speech": "By the fruit, a worker in a green apron was building a tall tower. One orange, then another, then another… higher and higher. Karam stopped to watch." },
     { "n": 4, "text": "The worker put one last orange on the top. What a tower! Karam turned round to show Dad. But Dad was not there.", "speech": "The worker put one last orange on the top. What a tower! Karam turned round to show Dad. But Dad was not there." },
@@ -15,14 +15,14 @@
     { "n": 7, "text": "Next, find a helper. That could be someone who works here, or a mum or dad with children. Karam looked around. There was the worker in the green apron!", "speech": "Next, find a helper. That could be someone who works here, or a mum or dad with children. Karam looked around. There was the worker in the green apron!" },
     { "n": 8, "text": "Karam lifted both arms and waved, high and slow. Wave high. The worker saw him at once.", "speech": "Karam lifted both arms and waved, high and slow. Wave high. The worker saw him at once." },
     { "n": 9, "text": "She came over and knelt down beside him. “Hello,” she said. “Are you looking for your dad or your mum?” Karam nodded.", "speech": "She came over and knelt down beside him. “Hello,” she said. “Are you looking for your dad or your mum?” Karam nodded." },
-    { "n": 10, "text": "He told her his whole name. Then he told her Dad’s whole name, just as they had practised. His voice wobbled, but every word was clear.", "speech": "He told her his whole name. Then he told her Dad’s whole name, just as they had practised. His voice wobbled, but every word was clear." },
+    { "n": 10, "text": "He told her his full name. Then he told her Dad’s full name, just as they had practised. His voice wobbled, but every word was clear.", "speech": "He told her his full name. Then he told her Dad’s full name, just as they had practised. His voice wobbled, but every word was clear." },
     { "n": 11, "text": "The worker went to the loudspeaker. Ding-dong! Her voice rang out across the whole shop, over all the shelves.", "speech": "The worker went to the loudspeaker. Ding-dong! Her voice rang out across the whole shop, over all the shelves." },
     { "n": 12, "text": "Soon there were quick footsteps. Round the corner came Dad, hurrying, with his blue cap in his hand.", "speech": "Soon there were quick footsteps. Round the corner came Dad, hurrying, with his blue cap in his hand." },
     { "n": 13, "text": "Dad scooped Karam up, laughing, and hugged him tight. “You stood still,” he said. “You waved high.” “Just like we practised,” said Karam.", "speech": "Dad scooped Karam up, laughing, and hugged him tight. “You stood still,” he said. “You waved high.” “Just like we practised,” said Karam." }
   ],
   "film": [
     { "id": "f01", "speaker": "narrator", "text": "A cold winter morning.", "speech": "A cold winter morning.", "emotion": "calm, cosy, a little grey" },
-    { "id": "f02", "speaker": "b06-dad", "text": "What’s our rule, if we lose each other?", "speech": "What’s our rule, if we lose each other?", "emotion": "light and playful, a familiar game" },
+    { "id": "f02", "speaker": "b06-dad", "text": "What’s our rule if we lose each other?", "speech": "What’s our rule if we lose each other?", "emotion": "light and playful, a familiar game" },
     { "id": "f03", "speaker": "b06-karam", "text": "Stand still and wave high!", "speech": "Stand still and wave high!", "emotion": "proud, sing-song, he knows this one" },
     { "id": "f04", "speaker": "narrator", "text": "Shelves and shelves and shelves.", "speech": "Shelves and shelves and shelves.", "emotion": "amused, a little dizzy" },
     { "id": "f05", "speaker": "b06-worker", "text": "One more… and one more…", "speech": "One more… and one more…", "emotion": "concentrating, quietly to herself" },
@@ -45,15 +45,15 @@
   ],
   "activity": {
     "title": "My Name, Your Name",
-    "goal": "Say your own whole name, and your grown-up’s whole name, clearly.",
+    "goal": "Say your own full name, and your grown-up’s full name, clearly.",
     "materials": ["Nothing at all, just the two of you"],
     "steps": [
       { "n": 1, "caption": "The helper asks: “What’s your name?”" },
-      { "n": 2, "caption": "Say your whole name, and your grown-up’s." },
+      { "n": 2, "caption": "Say your full name, and your grown-up’s." },
       { "n": 3, "caption": "Swap. Now you are the helper." }
     ],
     "safety": "Play at home or somewhere calm. Never practise by really hiding or walking away in a shop. If there is an accident, call your local emergency number.",
-    "forAdult": "In the story, Karam gets lost in a supermarket and does what he has practised with his dad: he stands still, he looks for a helper (someone who works there, or a parent with children), and he tells her his whole name and his dad’s whole name. Standing still makes it easier for the searching grown-up, and names are what a helper needs to find the family. This game practises the words in a calm moment, so they are ready if they are ever needed. Play the helper first: kneel to the child’s height and ask kindly, “Hello. What’s your name? Who are you with?” The child answers with their first name and family name, and with the whole name of the grown-up they are with, not only “Mum” or “Dad”. Then swap: the child plays the helper and asks you. Many children enjoy being the grown-up. Keep it light and friendly, never frightening, and end each round with your family rule: “Stand still, wave high, find a helper.” To make it easier, practise the child’s own name first. To make it harder, add a second grown-up’s name. Ten minutes is plenty, and you can repeat it on another day.",
-    "inClass": "Children play in pairs: one is the helper, one is the child who needs help, then they swap. The teacher plays the shop worker for anyone who wants a turn, kneeling and asking the questions. Agree first that a child may give only a first name in class; families can practise full names at home."
+    "forAdult": "In the story, Karam gets lost in a supermarket and does what he has practised with his dad: he stands still, he looks for a helper (someone who works there, or a parent with children), and he tells her his full name and his dad’s full name. Standing still makes it easier for the searching grown-up, and names are what a helper needs to find the family. This game practises the words in a calm moment, so they are ready if they are ever needed. Play the helper first: kneel to the child’s height and ask kindly, “Hello. What’s your name? Who are you with?” The child answers with their first name and family name, and with the full name of the grown-up they are with, not only “Mum” or “Dad”. Then swap: the child plays the helper and asks you. Many children enjoy being the grown-up. Keep it light and friendly, never frightening, and end each round with your family rule: “Stand still, wave high, find a helper.” To make it easier, practise the child’s own name first. To make it harder, add a second grown-up’s name. Ten minutes is plenty, and you can repeat it on another day.",
+    "inClass": "Children play in pairs: one is the helper, one is the child who needs help, then they swap. The teacher plays the shop worker for anyone who wants a turn, kneeling and asking the questions. Agree first that a child may give only a first name in class. Families can practise full names at home."
   }
 }

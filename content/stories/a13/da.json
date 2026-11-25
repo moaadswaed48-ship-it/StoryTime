@@ -12,8 +12,8 @@
     },
     {
       "n": 2,
-      "text": "»Skal vi lege gemmeleg?« spørger Lille Pindsvin. Mor Pindsvin lukker øjnene.",
-      "speech": "»Skal vi lege gemmeleg?« spørger Lille Pindsvin. Mor Pindsvin lukker øjnene."
+      "text": "»Skal vi lege skjul?« spørger Lille Pindsvin. Mor Pindsvin lukker øjnene.",
+      "speech": "»Skal vi lege skjul?« spørger Lille Pindsvin. Mor Pindsvin lukker øjnene."
     },
     {
       "n": 3,
@@ -37,8 +37,8 @@
     },
     {
       "n": 7,
-      "text": "Mor Pindsvin snuser den her vej. Snif, snif. Hun snuser den anden vej. Snif, snif.",
-      "speech": "Mor Pindsvin snuser den her vej. Snif, snif. Hun snuser den anden vej. Snif, snif."
+      "text": "Mor Pindsvin snuser herhen. Snif, snif. Hun snuser derhen. Snif, snif.",
+      "speech": "Mor Pindsvin snuser herhen. Snif, snif. Hun snuser derhen. Snif, snif."
     },
     {
       "n": 8,
@@ -79,8 +79,8 @@
     {
       "id": "f03",
       "speaker": "a13-little-hedgehog",
-      "text": "Mor! Skal vi lege gemmeleg?",
-      "speech": "Mor! Skal vi lege gemmeleg?",
+      "text": "Mor! Skal vi lege skjul?",
+      "speech": "Mor! Skal vi lege skjul?",
       "emotion": "bouncy and excited"
     },
     {
@@ -128,8 +128,8 @@
     {
       "id": "f10",
       "speaker": "narrator",
-      "text": "Snif, snif. Den her vej … den vej.",
-      "speech": "Snif, snif. Den her vej … den vej.",
+      "text": "Snif, snif. Herhen … og derhen.",
+      "speech": "Snif, snif. Herhen … og derhen.",
       "emotion": "soft and close, sniffing along"
     },
     {

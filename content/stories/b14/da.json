@@ -8,10 +8,10 @@
   },
   "pages": [
     { "n": 1, "text": "Regnen trommede på bussens tag. Visk, visk, sagde de store viskere. Amin havde den bedste plads i bussen: vinduespladsen. Far stod lige ved siden af ham og holdt i stangen.", "speech": "Regnen trommede på bussens tag. Visk, visk, sagde de store viskere. Amin havde den bedste plads i bussen: vinduespladsen. Far stod lige ved siden af ham og holdt i stangen." },
-    { "n": 2, "text": "Ruden var helt dugget. Amin tegnede på den med én finger: en stor, rund sol med lange stråler. Visk, visk, sagde viskerne.", "speech": "Ruden var helt dugget. Amin tegnede på den med én finger: en stor, rund sol med lange stråler. Visk, visk, sagde viskerne." },
-    { "n": 3, "text": "Bussen stoppede, og døren gik op. Pssst. En gammel dame steg langsomt ind. Hendes frakke var våd, og hun bar på to tunge poser.", "speech": "Bussen stoppede, og døren gik op. Pssst. En gammel dame steg langsomt ind. Hendes frakke var våd, og hun bar på to tunge poser." },
+    { "n": 2, "text": "Ruden var helt dugget til. Amin tegnede på den med én finger: en stor, rund sol med lange stråler. Visk, visk, sagde viskerne.", "speech": "Ruden var helt dugget til. Amin tegnede på den med én finger: en stor, rund sol med lange stråler. Visk, visk, sagde viskerne." },
+    { "n": 3, "text": "Bussen stoppede, og døren gik op. Psssj. En gammel dame steg langsomt ind. Hendes frakke var våd, og hun bar på to tunge poser.", "speech": "Bussen stoppede, og døren gik op. Psssj. En gammel dame steg langsomt ind. Hendes frakke var våd, og hun bar på to tunge poser." },
     { "n": 4, "text": "»Godmorgen,« sagde chaufføren. Han ventede til hun holdt godt fast. Alle pladserne i bussen var optaget.", "speech": "»Godmorgen,« sagde chaufføren. Han ventede til hun holdt godt fast. Alle pladserne i bussen var optaget." },
-    { "n": 5, "text": "Bussen kørte. Den gamle dame holdt i stangen med én hånd. Hun svajede til venstre. Hun svajede til højre. Poserne stødte mod hendes knæ.", "speech": "Bussen kørte. Den gamle dame holdt i stangen med én hånd. Hun svajede til venstre. Hun svajede til højre. Poserne stødte mod hendes knæ." },
+    { "n": 5, "text": "Bussen kørte videre. Den gamle dame holdt i stangen med én hånd. Hun svajede til venstre. Hun svajede til højre. Poserne stødte mod hendes knæ.", "speech": "Bussen kørte videre. Den gamle dame holdt i stangen med én hånd. Hun svajede til venstre. Hun svajede til højre. Poserne stødte mod hendes knæ." },
     { "n": 6, "text": "Amin kiggede på sin sol på ruden. Det var en rigtig god sol. Så kiggede han på den gamle dames hånd på stangen. Den rystede lidt. Hvad ville du gøre?", "speech": "Amin kiggede på sin sol på ruden. Det var en rigtig god sol. Så kiggede han på den gamle dames hånd på stangen. Den rystede lidt. Hvad ville du gøre?" },
     { "n": 7, "text": "Amin rejste sig. Han kiggede på den gamle dame og smilede. »Godmorgen,« sagde han. »Du kan sætte dig her.«", "speech": "Amin rejste sig. Han kiggede på den gamle dame og smilede. »Godmorgen,« sagde han. »Du kan sætte dig her.«" },
     { "n": 8, "text": "Den gamle dame satte sig med et langt, glad »Aaah«. »Tak skal du have,« sagde hun. »Kom og stå her hos mig.« Far satte hendes poser ned ved hendes fødder og blinkede til Amin.", "speech": "Den gamle dame satte sig med et langt, glad »Aaah«. »Tak skal du have,« sagde hun. »Kom og stå her hos mig.« Far satte hendes poser ned ved hendes fødder og blinkede til Amin." },
@@ -38,12 +38,12 @@
   ],
   "activity": {
     "title": "Hinkerude fra gamle dage",
-    "goal": "At lære en leg af en ældre ved at lytte til deres regler og lege den på deres måde.",
+    "goal": "At lære en leg af en ældre og lege den efter den ældres regler.",
     "materials": ["Kridt", "En sammenrullet sok"],
     "steps": [
       { "n": 1, "caption": "Spørg en ældre: Hvordan legede du?" },
-      { "n": 2, "caption": "Tegn deres hinkerude med kridt." },
-      { "n": 3, "caption": "Kast sokken. Hink på deres måde." }
+      { "n": 2, "caption": "Tegn hinkeruden med kridt." },
+      { "n": 3, "caption": "Kast sokken. Hink på den gamle måde." }
     ],
     "safety": "Leg på et fladt og tørt sted væk fra biler mens en voksen holder øje. Kridt er til jorden, ikke til munden. Sker der et uheld, så ring til det lokale alarmnummer.",
     "forAdult": "I historien hilser Amin på en gammel dame og giver hende sin plads, og hun deler sine minder med ham. Legen her er en anden måde at vise ældre respekt på: at bede dem lære os noget og så gøre det på deres måde. Spørg en bedsteforælder eller en ældre nabo hvordan de hinkede da de var børn. Mange familier i Israel og i Danmark kender en udgave, og felterne og reglerne er meget forskellige. Hjælp barnet med at spørge: »Hvordan legede du? Hvordan så felterne ud?« Den ældre beskriver eller tegner hinkeruden, og barnet tegner den efter med kridt. En sammenrullet sok er en god brik: Den triller ikke væk og hopper ikke. Leg så efter deres regler, også selv om de virker mærkelige. Kan den ældre ikke hinke, kan vedkommende være dommer eller holde tællingen. Femten til tyve minutter er rigeligt. Gør det lettere: Tegn en kort rude med fire felter. Gør det sværere: Spørg en ældre mere, og sammenlign de to lege.",

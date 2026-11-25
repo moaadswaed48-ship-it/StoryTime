@@ -7,13 +7,13 @@
     "b10-dad": "Dad"
   },
   "pages": [
-    { "n": 1, "text": "Zaki had a new baby sister. Since she came home, everyone looked at the baby. Mum looked at the baby. Dad looked at the baby. Nobody looked at Zaki.", "speech": "Zaki had a new baby sister. Since she came home, everyone looked at the baby. Mum looked at the baby. Dad looked at the baby. Nobody looked at Zaki." },
+    { "n": 1, "text": "Zaki had a new baby sister. Now that she was home, everyone looked at the baby. Mum looked at the baby. Dad looked at the baby. Nobody looked at Zaki.", "speech": "Zaki had a new baby sister. Now that she was home, everyone looked at the baby. Mum looked at the baby. Dad looked at the baby. Nobody looked at Zaki." },
     { "n": 2, "text": "The baby cried at breakfast. Waaah. She cried at lunch. Waaah. She cried all night long. WAAAH! Mum and Dad were tired, tired, tired.", "speech": "The baby cried at breakfast. Waaah. She cried at lunch. Waaah. She cried all night long. WAAAH! Mum and Dad were tired, tired, tired." },
     { "n": 3, "text": "“Not now, Zaki,” said Mum. “Later, Zaki,” said Dad. Zaki sat on the stairs with his chin in his hands. Nobody needs a big boy, he thought.", "speech": "“Not now, Zaki,” said Mum. “Later, Zaki,” said Dad. Zaki sat on the stairs with his chin in his hands. Nobody needs a big boy, he thought." },
     { "n": 4, "text": "Summer came, and the nights grew hot. One night the window stood wide open. A big round moon looked in.", "speech": "Summer came, and the nights grew hot. One night the window stood wide open. A big round moon looked in." },
     { "n": 5, "text": "Then the baby woke up. Waaah! Mum picked her up and rocked her, back and forth, back and forth. And the baby cried and cried.", "speech": "Then the baby woke up. Waaah! Mum picked her up and rocked her, back and forth, back and forth. And the baby cried and cried." },
     { "n": 6, "text": "Dad took her and walked her up and down, up and down. Nothing helped. And the baby cried and cried.", "speech": "Dad took her and walked her up and down, up and down. Nothing helped. And the baby cried and cried." },
-    { "n": 7, "text": "Zaki stood at the door in his pyjamas. He remembered a song. Mum used to sing it to him, when he was small. What do you think Zaki will do?", "speech": "Zaki stood at the door in his pyjamas. He remembered a song. Mum used to sing it to him, when he was small. What do you think Zaki will do?" },
+    { "n": 7, "text": "Zaki stood at the door in his pyjamas. He remembered a song. Mum used to sing it to him when he was small. What do you think Zaki will do?", "speech": "Zaki stood at the door in his pyjamas. He remembered a song. Mum used to sing it to him when he was small. What do you think Zaki will do?" },
     { "n": 8, "text": "Zaki climbed onto the big bed, right next to his sister. He took a deep breath. Then, very softly, he began to sing.", "speech": "Zaki climbed onto the big bed, right next to his sister. He took a deep breath. Then, very softly, he began to sing." },
     { "n": 9, "text": "“Little moon up in the sky. Little fish down in the sea. Close your eyes, my little fish. Sleep, sleep, close to me.”", "speech": "“Little moon up in the sky. Little fish down in the sea. Close your eyes, my little fish. Sleep, sleep, close to me.”" },
     { "n": 10, "text": "The baby stopped crying. She opened her eyes and looked at Zaki. Then a tiny hand found his finger, and held on tight.", "speech": "The baby stopped crying. She opened her eyes and looked at Zaki. Then a tiny hand found his finger, and held on tight." },
@@ -21,7 +21,7 @@
     { "n": 12, "text": "After that night, whenever the baby cried, Mum called for Zaki. “We need the big brother song!” And Zaki sang. Nobody else could sing it quite like him.", "speech": "After that night, whenever the baby cried, Mum called for Zaki. “We need the big brother song!” And Zaki sang. Nobody else could sing it quite like him." }
   ],
   "film": [
-    { "id": "f01", "speaker": "narrator", "text": "Since the baby came home, everyone looked at her.", "speech": "Since the baby came home, everyone looked at her.", "emotion": "warm, a little wistful" },
+    { "id": "f01", "speaker": "narrator", "text": "Now that the baby was home, everyone looked at her.", "speech": "Now that the baby was home, everyone looked at her.", "emotion": "warm, a little wistful" },
     { "id": "f02", "speaker": "b10-mum", "text": "Not now, Zaki.", "speech": "Not now, Zaki.", "emotion": "tired and kind, not cross; busy with the baby" },
     { "id": "f03", "speaker": "b10-dad", "text": "Later, Zaki.", "speech": "Later, Zaki.", "emotion": "tired, distracted, gentle" },
     { "id": "f04", "speaker": "b10-zaki", "text": "Nobody needs a big boy.", "speech": "Nobody needs a big boy.", "emotion": "a small sad thought, spoken inside his head" },

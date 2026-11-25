@@ -1,147 +1,597 @@
 {
   "id": "c07",
-  "ageGroups": ["6-8"],
+  "ageGroups": [
+    "6-8"
+  ],
   "owner": "storytime",
   "lesson": "Cross the street safely: stop at the kerb, look both ways every time, even when you hear nothing, wait for the green light, walk.",
-  "cast": ["c07-noah", "c07-cousin", "c07-rider"],
+  "cast": [
+    "c07-noah",
+    "c07-cousin",
+    "c07-rider"
+  ],
   "pages": [
     {
       "n": 1,
       "art": "A city street on a warm early-autumn morning: low blocks of flats with balconies, a few street trees, shop awnings. Noah (six, short curly hair, a school bag almost as big as his back) walks beside his big cousin (ten, long ponytail, denim jacket). She bows to him playfully, one hand on her chest, like a knight. Feeling: a new school year, a game beginning. Calm area: the sky across the top.",
-      "zone": { "side": "full", "v": "top", "size": "m" },
+      "zone": {
+        "side": "full",
+        "v": "top",
+        "size": "m"
+      },
       "image": null
     },
     {
       "n": 2,
       "art": "A crossing with a pedestrian light (shown as a small glowing walking figure, no words or numbers) and white stripes. Noah stands at the kerb, his toes right at the edge, his head turned to look along the road; his cousin stands one step behind him. A car waits at the stop line. Traffic drives on the right, as in Israel. Feeling: careful, proud. Calm area: the sky across the top.",
-      "zone": { "side": "full", "v": "top", "size": "m" },
+      "zone": {
+        "side": "full",
+        "v": "top",
+        "size": "m"
+      },
       "image": null
     },
     {
       "n": 3,
       "art": "A wider street: a simple bus passing, one car behind it. Noah waits at the kerb with his chest puffed out and his chin up, feeling very tall; his cousin hides a smile behind her hand. Feeling: confidence, almost too much. Calm area: the sky across the top.",
-      "zone": { "side": "full", "v": "top", "size": "m" },
+      "zone": {
+        "side": "full",
+        "v": "top",
+        "size": "m"
+      },
       "image": null
     },
     {
       "n": 4,
       "art": "Noah walks along the pavement with one hand cupped to his ear, eyes half closed, listening; small curved lines from a bus round the corner and a motorbike show the sounds reaching him before the vehicles appear. His cousin watches him, eyebrows raised. Feeling: clever-feeling, a little too sure. Calm area: the sky across the top.",
-      "zone": { "side": "full", "v": "top", "size": "m" },
+      "zone": {
+        "side": "full",
+        "v": "top",
+        "size": "m"
+      },
       "image": null
     },
     {
       "n": 5,
       "art": "A small, quiet side street: a little bakery with bread in the window and a curl of warm steam from a vent. White stripes cross the narrow road; there is no traffic light. Noah stands at the kerb with his eyes closed, listening. The street looks empty. Feeling: quiet, peaceful, a held breath. Calm area: the plain wall above the bakery across the top.",
-      "zone": { "side": "full", "v": "top", "size": "m" },
+      "zone": {
+        "side": "full",
+        "v": "top",
+        "size": "m"
+      },
       "image": null
     },
     {
       "n": 6,
       "art": "Noah has one foot lifted to step off the kerb, arms out, face happy and sure. His cousin's hand has just landed on his shoulder. Far down the street, very small and easy to miss, there is a bicycle coming. Feeling: the moment before. Calm area: the wall above across the top.",
-      "zone": { "side": "full", "v": "top", "size": "m" },
+      "zone": {
+        "side": "full",
+        "v": "top",
+        "size": "m"
+      },
       "image": null
     },
     {
       "n": 7,
       "art": "The bicycle with a small electric motor box glides past right in front of the kerb, quick and smooth, its rider (a woman in a helmet and a yellow jacket) leaning forward; only two soft lines behind the tyres, no sound lines at all. Noah, back on the kerb with his cousin's hand on his shoulder, has his mouth open in surprise. Nobody is hurt; the bicycle is past. Feeling: a fright, safely over. Calm area: the wall across the top.",
-      "zone": { "side": "full", "v": "top", "size": "m" },
+      "zone": {
+        "side": "full",
+        "v": "top",
+        "size": "m"
+      },
       "image": null
     },
     {
       "n": 8,
       "art": "The rider, already further down the road, turns her head and lifts one hand in an apology. On the kerb, Noah stands very still, small, his cousin's hand still on his shoulder; both look after the bicycle. Feeling: shaken, quiet. Calm area: the sky across the top.",
-      "zone": { "side": "full", "v": "top", "size": "m" },
+      "zone": {
+        "side": "full",
+        "v": "top",
+        "size": "m"
+      },
       "image": null
     },
     {
       "n": 9,
       "art": "Noah looks up at his cousin, eyes wide; she crouches beside him so their faces are level, serious and kind. Behind them the empty, quiet street and the bakery. Feeling: understanding, comfort. Calm area: the plain wall across the top.",
-      "zone": { "side": "full", "v": "top", "size": "m" },
+      "zone": {
+        "side": "full",
+        "v": "top",
+        "size": "m"
+      },
       "image": null
     },
     {
       "n": 10,
       "art": "Noah at the kerb, turning his head very carefully, his whole body following the look; his cousin beside him. Then, in the same picture, the two of them walking across the white stripes together, holding hands, past the bakery window. Feeling: careful, calm, trust. Calm area: the sky across the top.",
-      "zone": { "side": "full", "v": "top", "size": "m" },
+      "zone": {
+        "side": "full",
+        "v": "top",
+        "size": "m"
+      },
       "image": null
     },
     {
       "n": 11,
       "art": "The school gate with a few children going in. Noah's cousin grins down at him with her hands on her knees; Noah stands very straight, his chin up, a serious little smile. Feeling: pride, a promise. Calm area: the sky above the gate across the top.",
-      "zone": { "side": "full", "v": "top", "size": "m" },
+      "zone": {
+        "side": "full",
+        "v": "top",
+        "size": "m"
+      },
       "image": null
     },
     {
       "n": 12,
       "art": "The next morning: Noah walks in front, his cousin one step behind, humming with her eyes on him. At a quiet corner with no cars in sight, Noah has stopped at the kerb anyway and is looking carefully along the road. Feeling: a leader, calm and sure. Calm area: the sky across the top.",
-      "zone": { "side": "full", "v": "top", "size": "m" },
+      "zone": {
+        "side": "full",
+        "v": "top",
+        "size": "m"
+      },
       "image": null
     },
     {
       "n": 13,
       "art": "The bakery crossing again. Noah stands at the kerb, looking, and this time he sees the electric bicycle in good time, still far up the street. The rider (the same woman in the yellow jacket) has stopped before the white stripes, one foot on the ground, and waves them across with a smile. Feeling: everything working as it should, friendly. Calm area: the wall across the top.",
-      "zone": { "side": "full", "v": "top", "size": "m" },
+      "zone": {
+        "side": "full",
+        "v": "top",
+        "size": "m"
+      },
       "image": null
     },
     {
       "n": 14,
       "art": "At the school gate: the cousin makes a deep, comic knight's bow to Noah, one hand sweeping out; Noah laughs with his head back. Behind them, far off, the little bakery crossing with its white stripes in the morning light. Last picture of the book: joy, safety, a promise kept. Calm area: the sky across the top.",
-      "zone": { "side": "full", "v": "top", "size": "m" },
+      "zone": {
+        "side": "full",
+        "v": "top",
+        "size": "m"
+      },
       "image": null
     }
   ],
   "film": {
     "targetSeconds": 365,
     "shots": [
-      { "n": 1, "page": 1, "action": "16 s. Scene 1, the way to school. A city street on an early-autumn morning: balconies, trees, shop awnings opening; two or three simple vehicles go by. No words. Keep the lower fifth calm for captions in every shot.", "sound": ["city morning: birds, a shutter rolling up", "a light, walking-pace guitar tune"], "lines": [] },
-      { "n": 2, "page": 1, "action": "6 s. Close on Noah's new shoes and his big school bag bouncing as he walks. No words.", "sound": ["small quick footsteps"], "lines": [] },
-      { "n": 3, "page": 1, "action": "9 s. Noah and his cousin walk side by side along the pavement.", "sound": ["the tune"], "lines": ["f01"] },
-      { "n": 4, "page": 1, "action": "8 s. The cousin makes a playful knight's bow to Noah.", "sound": ["a little fanfare on the guitar"], "lines": ["f02"] },
-      { "n": 5, "page": 2, "action": "12 s. Scene 2, the first crossing. Noah stops at the kerb, toes at the edge, and turns his head one way, the other way, the first way again, on three soft beats. No words.", "sound": ["three soft woodblock beats"], "lines": [] },
-      { "n": 6, "page": 2, "action": "8 s. The pedestrian light shows the red figure; Noah waits. Then the green walking figure lights up and the crossing beeps. No words.", "sound": ["a car idling", "the crossing's beeping signal"], "lines": [] },
-      { "n": 7, "page": 2, "action": "8 s. He walks across the stripes, not running, proud.", "sound": ["the beeping", "footsteps"], "lines": ["f03"] },
-      { "n": 8, "page": 3, "action": "10 s. The second crossing: a bus rumbles past and a car hoots. Noah does it all again, quicker.", "sound": ["a bus rumbling", "a short car hoot"], "lines": ["f04"] },
-      { "n": 9, "page": 3, "action": "6 s. His cousin smiles and walks one step behind him. No words.", "sound": ["the tune"], "lines": [] },
-      { "n": 10, "page": 4, "action": "14 s. Scene 3, listening. Noah walks with his eyes half closed and one hand cupped to his ear; each vehicle's sound arrives before the vehicle itself appears round the corner: a bus, a motorbike, a car.", "sound": ["a bus approaching", "a motorbike buzzing", "a car humming"], "lines": [] },
-      { "n": 11, "page": 4, "action": "8 s. He plays a guessing game with his eyes shut, pointing at sounds, and gets each one right. No words.", "sound": ["a motorbike", "a delighted giggle"], "lines": [] },
-      { "n": 12, "page": 4, "action": "8 s. Noah boasts to his cousin.", "sound": ["the tune, a bit cocky"], "lines": ["f05"] },
-      { "n": 13, "page": 5, "action": "12 s. Scene 4, the quiet crossing. A small side street, a little bakery with steam curling from a vent, white stripes, no traffic light.", "sound": ["birds", "a radio far off inside the bakery"], "lines": ["f06"] },
-      { "n": 14, "page": 5, "action": "6 s. Through the bakery window, a baker (background figure) slides a tray of bread onto a shelf. No words.", "sound": ["a tray sliding"], "lines": [] },
-      { "n": 15, "page": 5, "action": "12 s. Noah stops at the kerb and closes his eyes to listen: the sound track drops to almost nothing.", "sound": ["near silence", "one bird"], "lines": ["f07"] },
-      { "n": 16, "page": 6, "action": "7 s. He opens his eyes, smiles and lifts his foot.", "sound": ["the tune starts up brightly"], "lines": ["f08"] },
-      { "n": 17, "page": 6, "action": "6 s. His cousin's hand lands on his shoulder.", "sound": ["the tune stops"], "lines": ["f09"] },
-      { "n": 18, "page": 6, "action": "6 s. Noah sighs and turns his head to look. No words.", "sound": ["a small sigh"], "lines": [] },
-      { "n": 19, "page": 7, "action": "12 s. In real time, not slowed down: the electric bicycle glides past right in front of the kerb, quick and silent; the picture shows it clearly, the sound track has only a soft hiss of tyres. Noah is safe on the kerb. No words.", "sound": ["a soft tyre hiss, nothing else"], "lines": [] },
-      { "n": 20, "page": 8, "action": "7 s. The rider calls over her shoulder and disappears round the corner.", "sound": ["the tyre hiss fading"], "lines": ["f10"] },
-      { "n": 21, "page": 8, "action": "12 s. Noah stands very still on the kerb, his cousin's hand on his shoulder. Breathing room. No words.", "sound": ["a heartbeat, slowing", "one bird"], "lines": [] },
-      { "n": 22, "page": 9, "action": "8 s. Noah looks up at his cousin.", "sound": ["quiet"], "lines": ["f11"] },
-      { "n": 23, "page": 9, "action": "9 s. She crouches down to his level.", "sound": ["a soft chord"], "lines": ["f12"] },
-      { "n": 24, "page": 9, "action": "8 s. Noah looks at the empty, quiet road. A pigeon walks across the stripes, silent too. No words.", "sound": ["a pigeon's soft steps"], "lines": [] },
-      { "n": 25, "page": 10, "action": "16 s. Scene 5, again. Noah takes a deep breath and does it slowly: stop; look one way; the other way; the first way again.", "sound": ["a breath", "three soft woodblock beats"], "lines": ["f13"] },
-      { "n": 26, "page": 10, "action": "8 s. Nothing is coming. They walk across together, holding hands, past the smell of bread.", "sound": ["footsteps", "the tune, gentle"], "lines": ["f14"] },
-      { "n": 27, "page": 11, "action": "10 s. Scene 6, the school gate. The cousin grins.", "sound": ["children's voices at the gate", "a school bell far off"], "lines": ["f15"] },
-      { "n": 28, "page": 11, "action": "8 s. Noah stands up very straight.", "sound": ["the tune"], "lines": ["f16"] },
-      { "n": 29, "page": 11, "action": "6 s. She ruffles his hair; he runs in, turning once to wave. No words.", "sound": ["running feet"], "lines": [] },
-      { "n": 30, "page": 12, "action": "16 s. Scene 7, the next morning. A montage of crossings with Noah in front: stop, look, look, look, wait, walk; his cousin humming one step behind.", "sound": ["the tune, confident", "the cousin humming", "woodblock beats at each look"], "lines": ["f17"] },
-      { "n": 31, "page": 12, "action": "8 s. A silent side street: Noah stops and looks anyway; his cousin nods. No words.", "sound": ["quiet", "one bird"], "lines": [] },
-      { "n": 32, "page": 13, "action": "12 s. The bakery crossing. Noah stops and looks, and this time sees the electric bicycle in good time, coming slowly up the street. No words.", "sound": ["a soft tyre hiss, far away"], "lines": [] },
-      { "n": 33, "page": 13, "action": "8 s. The rider stops before the stripes, puts a foot down and waves them across with a smile.", "sound": ["a gentle brake squeak"], "lines": ["f18"] },
-      { "n": 34, "page": 14, "action": "8 s. Noah looks the other way too, then walks across, waving to the rider.", "sound": ["footsteps", "the tune"], "lines": ["f19"] },
-      { "n": 35, "page": 14, "action": "6 s. From the far kerb, Noah looks back at the white stripes for a moment. No words.", "sound": ["the bakery radio, faint"], "lines": [] },
-      { "n": 36, "page": 14, "action": "10 s. The school gate: the cousin bows deeply, like a knight.", "sound": ["a little fanfare"], "lines": ["f20"] },
-      { "n": 37, "page": 14, "action": "8 s. Noah laughs, head back, and runs into school. No words.", "sound": ["laughter", "the school bell"], "lines": [] },
-      { "n": 38, "page": 14, "action": "16 s. Closing image: the little bakery crossing in the morning light, white stripes, nobody on it. The narrator says the rule softly once; then hold the still picture 6 s while the music ends, and stop. No autoplay.", "sound": ["the last notes of the tune", "birds"], "lines": ["f21"] }
+      {
+        "n": 1,
+        "page": 1,
+        "action": "16 s. Scene 1, the way to school. A city street on an early-autumn morning: balconies, trees, shop awnings opening; two or three simple vehicles go by. No words. Keep the lower fifth calm for captions in every shot.",
+        "sound": [
+          "city morning: birds, a shutter rolling up",
+          "a light, walking-pace guitar tune"
+        ],
+        "lines": []
+      },
+      {
+        "n": 2,
+        "page": 1,
+        "action": "6 s. Close on Noah's new shoes and his big school bag bouncing as he walks. No words.",
+        "sound": [
+          "small quick footsteps"
+        ],
+        "lines": []
+      },
+      {
+        "n": 3,
+        "page": 1,
+        "action": "9 s. Noah and his cousin walk side by side along the pavement.",
+        "sound": [
+          "the tune"
+        ],
+        "lines": [
+          "f01"
+        ]
+      },
+      {
+        "n": 4,
+        "page": 1,
+        "action": "8 s. The cousin makes a playful knight's bow to Noah.",
+        "sound": [
+          "a little fanfare on the guitar"
+        ],
+        "lines": [
+          "f02"
+        ]
+      },
+      {
+        "n": 5,
+        "page": 2,
+        "action": "12 s. Scene 2, the first crossing. Noah stops at the kerb, toes at the edge, and turns his head one way, the other way, the first way again, on three soft beats. No words.",
+        "sound": [
+          "three soft woodblock beats"
+        ],
+        "lines": []
+      },
+      {
+        "n": 6,
+        "page": 2,
+        "action": "8 s. The pedestrian light shows the red figure; Noah waits. Then the green walking figure lights up and the crossing beeps. No words.",
+        "sound": [
+          "a car idling",
+          "the crossing's beeping signal"
+        ],
+        "lines": []
+      },
+      {
+        "n": 7,
+        "page": 2,
+        "action": "8 s. He walks across the stripes, not running, proud.",
+        "sound": [
+          "the beeping",
+          "footsteps"
+        ],
+        "lines": [
+          "f03"
+        ]
+      },
+      {
+        "n": 8,
+        "page": 3,
+        "action": "10 s. The second crossing: a bus rumbles past and a car hoots. Noah does it all again, quicker.",
+        "sound": [
+          "a bus rumbling",
+          "a short car hoot"
+        ],
+        "lines": [
+          "f04"
+        ]
+      },
+      {
+        "n": 9,
+        "page": 3,
+        "action": "6 s. His cousin smiles and walks one step behind him. No words.",
+        "sound": [
+          "the tune"
+        ],
+        "lines": []
+      },
+      {
+        "n": 10,
+        "page": 4,
+        "action": "14 s. Scene 3, listening. Noah walks with his eyes half closed and one hand cupped to his ear; each vehicle's sound arrives before the vehicle itself appears round the corner: a bus, a motorbike, a car.",
+        "sound": [
+          "a bus approaching",
+          "a motorbike buzzing",
+          "a car humming"
+        ],
+        "lines": []
+      },
+      {
+        "n": 11,
+        "page": 4,
+        "action": "8 s. He plays a guessing game with his eyes shut, pointing at sounds, and gets each one right. No words.",
+        "sound": [
+          "a motorbike",
+          "a delighted giggle"
+        ],
+        "lines": []
+      },
+      {
+        "n": 12,
+        "page": 4,
+        "action": "8 s. Noah boasts to his cousin.",
+        "sound": [
+          "the tune, a bit cocky"
+        ],
+        "lines": [
+          "f05"
+        ]
+      },
+      {
+        "n": 13,
+        "page": 5,
+        "action": "12 s. Scene 4, the quiet crossing. A small side street, a little bakery with steam curling from a vent, white stripes, no traffic light.",
+        "sound": [
+          "birds",
+          "a radio far off inside the bakery"
+        ],
+        "lines": [
+          "f06"
+        ]
+      },
+      {
+        "n": 14,
+        "page": 5,
+        "action": "6 s. Through the bakery window, a baker (background figure) slides a tray of bread onto a shelf. No words.",
+        "sound": [
+          "a tray sliding"
+        ],
+        "lines": []
+      },
+      {
+        "n": 15,
+        "page": 5,
+        "action": "12 s. Noah stops at the kerb and closes his eyes to listen: the sound track drops to almost nothing.",
+        "sound": [
+          "near silence",
+          "one bird"
+        ],
+        "lines": [
+          "f07"
+        ]
+      },
+      {
+        "n": 16,
+        "page": 6,
+        "action": "7 s. He opens his eyes, smiles and lifts his foot.",
+        "sound": [
+          "the tune starts up brightly"
+        ],
+        "lines": [
+          "f08"
+        ]
+      },
+      {
+        "n": 17,
+        "page": 6,
+        "action": "6 s. His cousin's hand lands on his shoulder.",
+        "sound": [
+          "the tune stops"
+        ],
+        "lines": [
+          "f09"
+        ]
+      },
+      {
+        "n": 18,
+        "page": 6,
+        "action": "6 s. Noah sighs and turns his head to look. No words.",
+        "sound": [
+          "a small sigh"
+        ],
+        "lines": []
+      },
+      {
+        "n": 19,
+        "page": 7,
+        "action": "14 s. In real time, not slowed down: the electric bicycle glides past right in front of the kerb, quick and silent; the picture shows it clearly, the sound track has only a soft hiss of tyres. Noah is safe on the kerb. No words.",
+        "sound": [
+          "a soft tyre hiss, nothing else"
+        ],
+        "lines": []
+      },
+      {
+        "n": 20,
+        "page": 8,
+        "action": "7 s. The rider calls over her shoulder and disappears round the corner.",
+        "sound": [
+          "the tyre hiss fading"
+        ],
+        "lines": [
+          "f10"
+        ]
+      },
+      {
+        "n": 21,
+        "page": 8,
+        "action": "14 s. Noah stands very still on the kerb, his cousin's hand on his shoulder. Breathing room. No words.",
+        "sound": [
+          "a heartbeat, slowing",
+          "one bird"
+        ],
+        "lines": []
+      },
+      {
+        "n": 22,
+        "page": 9,
+        "action": "8 s. Noah looks up at his cousin.",
+        "sound": [
+          "quiet"
+        ],
+        "lines": [
+          "f11"
+        ]
+      },
+      {
+        "n": 23,
+        "page": 9,
+        "action": "9 s. She crouches down to his level.",
+        "sound": [
+          "a soft chord"
+        ],
+        "lines": [
+          "f12"
+        ]
+      },
+      {
+        "n": 24,
+        "page": 9,
+        "action": "8 s. Noah looks at the empty, quiet road. A pigeon walks across the stripes, silent too. No words.",
+        "sound": [
+          "a pigeon's soft steps"
+        ],
+        "lines": []
+      },
+      {
+        "n": 25,
+        "page": 10,
+        "action": "16 s. Scene 5, again. Noah takes a deep breath and does it slowly: stop; look one way; the other way; the first way again.",
+        "sound": [
+          "a breath",
+          "three soft woodblock beats"
+        ],
+        "lines": [
+          "f13"
+        ]
+      },
+      {
+        "n": 26,
+        "page": 10,
+        "action": "8 s. Nothing is coming. They walk across together, holding hands, past the smell of bread.",
+        "sound": [
+          "footsteps",
+          "the tune, gentle"
+        ],
+        "lines": [
+          "f14"
+        ]
+      },
+      {
+        "n": 27,
+        "page": 11,
+        "action": "10 s. Scene 6, the school gate. The cousin grins.",
+        "sound": [
+          "children's voices at the gate",
+          "a school bell far off"
+        ],
+        "lines": [
+          "f15"
+        ]
+      },
+      {
+        "n": 28,
+        "page": 11,
+        "action": "8 s. Noah stands up very straight.",
+        "sound": [
+          "the tune"
+        ],
+        "lines": [
+          "f16"
+        ]
+      },
+      {
+        "n": 29,
+        "page": 11,
+        "action": "6 s. She ruffles his hair; he runs in, turning once to wave. No words.",
+        "sound": [
+          "running feet"
+        ],
+        "lines": []
+      },
+      {
+        "n": 30,
+        "page": 12,
+        "action": "18 s. Scene 7, the next morning. A montage of crossings with Noah in front: stop, look, look, look, wait, walk; his cousin humming one step behind.",
+        "sound": [
+          "the tune, confident",
+          "the cousin humming",
+          "woodblock beats at each look"
+        ],
+        "lines": [
+          "f17"
+        ]
+      },
+      {
+        "n": 31,
+        "page": 12,
+        "action": "8 s. A silent side street: Noah stops and looks anyway; his cousin nods. No words.",
+        "sound": [
+          "quiet",
+          "one bird"
+        ],
+        "lines": []
+      },
+      {
+        "n": 32,
+        "page": 13,
+        "action": "12 s. The bakery crossing. Noah stops and looks, and this time sees the electric bicycle in good time, coming slowly up the street. No words.",
+        "sound": [
+          "a soft tyre hiss, far away"
+        ],
+        "lines": []
+      },
+      {
+        "n": 33,
+        "page": 13,
+        "action": "8 s. The rider stops before the stripes, puts a foot down and waves them across with a smile.",
+        "sound": [
+          "a gentle brake squeak"
+        ],
+        "lines": [
+          "f18"
+        ]
+      },
+      {
+        "n": 34,
+        "page": 14,
+        "action": "8 s. Noah looks the other way too, then walks across, waving to the rider.",
+        "sound": [
+          "footsteps",
+          "the tune"
+        ],
+        "lines": [
+          "f19"
+        ]
+      },
+      {
+        "n": 35,
+        "page": 14,
+        "action": "6 s. From the far kerb, Noah looks back at the white stripes for a moment. No words.",
+        "sound": [
+          "the bakery radio, faint"
+        ],
+        "lines": []
+      },
+      {
+        "n": 36,
+        "page": 14,
+        "action": "10 s. The school gate: the cousin bows deeply, like a knight.",
+        "sound": [
+          "a little fanfare"
+        ],
+        "lines": [
+          "f20"
+        ]
+      },
+      {
+        "n": 37,
+        "page": 14,
+        "action": "8 s. Noah laughs, head back, and runs into school. No words.",
+        "sound": [
+          "laughter",
+          "the school bell"
+        ],
+        "lines": []
+      },
+      {
+        "n": 38,
+        "page": 14,
+        "action": "17 s. Closing image: the little bakery crossing in the morning light, white stripes, nobody on it. The narrator says the rule softly once; then hold the still picture 6 s while the music ends, and stop. No autoplay.",
+        "sound": [
+          "the last notes of the tune",
+          "birds"
+        ],
+        "lines": [
+          "f21"
+        ]
+      }
     ]
   },
   "activity": {
     "minutes": 30,
-    "materials": ["paper", "crayons"],
+    "materials": [
+      "paper",
+      "crayons"
+    ],
     "steps": [
-      { "n": 1, "picture": "A grown-up and a child walk along a pavement holding hands, stopping together at a kerb with white stripes.", "loop": false },
-      { "n": 2, "picture": "At a table, the child draws a simple map: a house at one end, a shop or park at the other, the streets as two lines between them.", "loop": false },
-      { "n": 3, "picture": "Close on the map: the child draws stripes across the street lines wherever there is a crossing.", "loop": true },
-      { "n": 4, "picture": "Next to some of the stripes the child draws a small traffic light; next to one, a pair of eyes instead.", "loop": false },
-      { "n": 5, "picture": "Outside again: the child holds the map and points the way; the grown-up holds the child's other hand at the kerb.", "loop": false }
+      {
+        "n": 1,
+        "picture": "A grown-up and a child walk along a pavement holding hands, stopping together at a kerb with white stripes.",
+        "loop": false
+      },
+      {
+        "n": 2,
+        "picture": "At a table, the child draws a simple map: a house at one end, a shop or park at the other, the streets as two lines between them.",
+        "loop": false
+      },
+      {
+        "n": 3,
+        "picture": "Close on the map: the child draws stripes across the street lines wherever there is a crossing.",
+        "loop": true
+      },
+      {
+        "n": 4,
+        "picture": "Next to some of the stripes the child draws a small traffic light; next to one, a pair of eyes instead.",
+        "loop": false
+      },
+      {
+        "n": 5,
+        "picture": "Outside again: the child holds the map and points the way; the grown-up holds the child's other hand at the kerb.",
+        "loop": false
+      }
     ],
     "checkedAgainst": "docs/story-room/age-6-8.md section 7 (red list: no crossing alone; adult holds the child's hand at every crossing; daylight, short route) and section 4, 25 Nov 2026"
   }

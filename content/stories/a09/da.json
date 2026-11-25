@@ -36,7 +36,7 @@
   ],
   "activity": {
     "title": "Små brød",
-    "goal": "Styrk de små hænder ved at klemme, rulle og klappe.",
+    "goal": "At styrke de små hænder ved at klemme, rulle og klappe.",
     "materials": ["To skiver blødt brød (glutenfrit hvis det er nødvendigt)", "En skål", "En tallerken", "En skefuld vand"],
     "steps": [
       { "n": 1, "caption": "Vask hænder." },
@@ -45,8 +45,8 @@
       { "n": 4, "caption": "Klem, rul, klap. Et lille brød!" },
       { "n": 5, "caption": "Varmt, varmt! Hænderne væk. Vask så hænder." }
     ],
-    "safety": "Spørg først om hvedeallergi. Kun brød: aldrig rå mel eller modellervoks. Det er fint at smage et lille fladt stykke, siddende. Sker der et uheld, så ring til det lokale alarmnummer.",
-    "forAdult": "I historien trækker Dina hænderne til sig og venter når onkel siger »Varmt!« Her får I stemningen fra bageriet helt uden varme, for brødet er allerede bagt. Når barnet klemmer, ruller og klapper, bruger det de små muskler i hånden, de samme hænder der snart skal holde en ske og et farvekridt. Lad barnet rive brødet i stykker i skålen. Hæld selv en skefuld vand i, og klem, rul og klap hvert stykke til et lille brød. Sig hver bevægelse højt. Leg så historien sammen: »De her brød er varme, varme! Hænderne væk!« Træk hænderne til jer, pust »puh, puh«, og sig »Nu er det lunt!« Vi bruger aldrig rå mel eller modellervoks, for rå mel kan indeholde bakterier. Det er fint at smage et lille fladt stykke, siddende, men aldrig en hel kugle i munden. Gør det lettere ved at lave ét stort brød med dine hænder uden om barnets. Gør det sværere ved at lave et stort og et lille brød. Fem til ti minutter er rigeligt. Vask hænder før og efter.",
+    "safety": "Spørg først om hvedeallergi. Kun brød: aldrig rå mel eller modellervoks. Det er fint at smage et lille fladt stykke når barnet sidder ned. Sker der et uheld, så ring til det lokale alarmnummer.",
+    "forAdult": "I historien trækker Dina hænderne til sig og venter når onkel siger »Varmt!« Her får I stemningen fra bageriet helt uden varme, for brødet er allerede bagt. Når barnet klemmer, ruller og klapper, bruger det de små muskler i hånden, de samme muskler som barnet bruger når det holder en ske eller et farvekridt. Lad barnet rive brødet i stykker i skålen. Hæld selv en skefuld vand i, og klem, rul og klap hvert stykke til et lille brød. Sig hver bevægelse højt. Leg så historien sammen: »De her brød er varme, varme! Hænderne væk!« Træk hænderne til jer, pust »puh, puh«, og sig »Nu er det lunt!« Vi bruger aldrig rå mel eller modellervoks, for rå mel kan indeholde bakterier. Det er fint at smage et lille fladt stykke når barnet sidder ned, men aldrig en hel kugle i munden. Gør det lettere ved at lave ét stort brød med dine hænder uden om barnets. Gør det sværere ved at lave et stort og et lille brød. Fem til ti minutter er rigeligt. Vask hænder før og efter.",
     "inClass": "Én voksen sidder ved et bord med højst fire børn. Spørg først om allergier. Hvert barn får én skive brød på en tallerken. Den voksne siger én bevægelse ad gangen, og alle gør det sammen: riv, klem, rul, klap. Bagefter leger alle »Varmt, varmt! Hænderne væk!« sammen. Alle vasker hænder før og efter."
   }
 }

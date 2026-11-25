@@ -1,0 +1,145 @@
+{
+  "id": "c15",
+  "ageGroups": ["6-8"],
+  "owner": "storytime",
+  "lesson": "Never taste or open an unknown bottle or pill; leave it and ask an adult.",
+  "cast": ["c15-rose", "c15-cousin", "c15-grandma"],
+  "pages": [
+    {
+      "n": 1,
+      "art": "A village house in spring: a whitewashed wall, a blossoming almond tree, a few red anemones in a pot by the door. A small wooden storeroom door stands open beside the house, dark inside. Grandma, rolling up her sleeves, stands in the doorway with a broom; Rose, seven, and her little cousin, four, wait beside her in old clothes, ready to help. Feeling: a cheerful job, sunshine and dust. Calm area: the blue sky above the roof, across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 2,
+      "art": "The yard filling up with old things: stacked baskets, cracked clay flowerpots, a rusty watering can, a chair with three legs. Rose carries a basket out of the storeroom; the little cousin sneezes in a little cloud of dust, holding his tummy and pulling a thirsty face. Feeling: hot, busy, a bit comic. Calm area: the sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 3,
+      "art": "Inside the dim storeroom, behind a big cardboard box in the corner: a plain plastic bottle full of bright orange liquid stands on the floor next to a bucket and two scrubbing brushes. Its label is pale, faded and blank-looking (no words or symbols drawn). A stripe of sunlight from a gap in the wall makes the liquid glow like a lamp. The little cousin, squeezed behind the box, reaches towards the cap, eyes shining. Feeling: temptation, a held breath. Calm area: the dark upper wall across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 4,
+      "art": "Close: Rose's hand has caught her cousin's small hand in mid-air, a hand's width from the bottle; the bottle stands untouched. Rose's face is calm and firm; the little cousin's lip wobbles. Feeling: a safe stop, gentle but sure. Calm area: the plain dark wall across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 5,
+      "art": "Rose crouches at a safe distance from the bottle, hands on her knees, looking hard at it, thinking; around it, clearly not a kitchen: brushes, a bucket, a coil of old hose, a dusty shelf of tins. A small thought picture above her head shows a fridge far away with a jug of juice inside it. Feeling: careful thinking. Calm area: the upper wall across the top, beside the thought picture.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 6,
+      "art": "Rose at the storeroom door, calling out into the sunny yard with one hand cupped by her mouth; with her other hand she holds her cousin's hand. He is pouting but standing still. Outside, a small bird sings on the almond tree. Feeling: patience, waiting for the right person. Calm area: the sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 7,
+      "art": "Grandma bends over the bottle with her reading glasses on, reading the faded label closely without picking it up; then, in the same picture, she kneels and hugs both children tightly, eyes closed. Feeling: quiet relief and love; nothing frightening. Calm area: the upper wall across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 8,
+      "art": "Grandma stands looking at a low wooden shelf in the storeroom with several bottles of different colours and shapes on it (no labels with words), one hand on her chin; Rose and her cousin stand beside her, the cousin with his chest puffed out proudly. Feeling: thinking ahead. Calm area: the upper wall across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 9,
+      "art": "Grandma, standing on a sturdy low step, lifts a bottle up to the top shelf of a tall cupboard; several bottles already stand up there in a row. Rose stands back on the floor, counting on her fingers; the little cousin watches from beside Rose. The children do not touch the bottles. Feeling: careful, orderly. Calm area: the plain wall above the cupboard, across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 10,
+      "art": "The tall cupboard now closed; Grandma turns a small key in its lock and is about to hang the key on a hook high up beside the door, far out of a child's reach. The little cousin watches the key go up, head tilted back. Feeling: done properly. Calm area: the wall above the hook, across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 11,
+      "art": "At the kitchen table: Rose draws a big red hand with all five fingers spread on a sheet of paper, with a red crayon, concentrating. No words on the paper. Feeling: an idea, making something useful. Calm area: the plain kitchen wall across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 12,
+      "art": "The closed storeroom cupboard with two red-hand drawings taped side by side on its door: Rose's big five-fingered hand, and her cousin's smaller hand with four fingers and a smiley face in the palm. The cousin is pressing the last piece of tape on; Grandma laughs behind them. Feeling: pride, a family joke. Calm area: the wall above the cupboard, across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 13,
+      "art": "The front step of the house in spring sunshine: Grandma, Rose and the little cousin sit in a row, each holding a cup of orange juice poured from a clear glass jug of freshly squeezed juice on the step beside them, with a few orange halves on a plate. The almond blossom behind them. Feeling: rest, warmth, together. Calm area: the sky above the roof, across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 14,
+      "art": "Last picture of the book: close on the three of them on the step; the little cousin holds his cup in both hands and looks up at Grandma, very serious; Grandma is laughing; Rose grins. Through the open storeroom door in the background, the two red hands are just visible on the cupboard. Feeling: warm, funny, safe. Calm area: the sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    }
+  ],
+  "film": {
+    "targetSeconds": 367,
+    "shots": [
+      { "n": 1, "page": 1, "action": "12 s. Scene 1, clearing-out day. A spring morning in the village: almond blossom, a whitewashed house, the little storeroom door creaking open on darkness and dust. No words. Keep the lower fifth calm for captions in every shot.", "sound": ["birdsong", "a creaking door", "a cheerful tune on accordion and plucked strings"], "lines": [] },
+      { "n": 2, "page": 1, "action": "11 s. Grandma rolls up her sleeves with a flourish; Rose and her little cousin salute like helpers reporting for duty.", "sound": ["the tune, bouncy"], "lines": ["f01", "f02"] },
+      { "n": 3, "page": 2, "action": "12 s. Busy montage: baskets, cracked flowerpots, a rusty watering can and a three-legged chair are carried out one by one into the sunny yard; puffs of dust.", "sound": ["clattering", "thumps", "sneezes"], "lines": [] },
+      { "n": 4, "page": 2, "action": "12 s. The little cousin flops onto the three-legged chair (which tips, comically, and he hops off) and fans himself.", "sound": ["a wobbly chair", "a sigh"], "lines": ["f03"] },
+      { "n": 5, "page": 3, "action": "11 s. In the storeroom, he squeezes behind a big box in the corner. Dim light. No words.", "sound": ["cardboard scraping", "the music thins"], "lines": [] },
+      { "n": 6, "page": 3, "action": "11 s. A shaft of sunlight through a gap in the wall falls on a bottle of bright orange liquid; it glows like juice in a shop window. Slow push in. The music turns sweet and tempting.", "sound": ["a soft shimmer", "a sweet, slow melody"], "lines": [] },
+      { "n": 7, "page": 3, "action": "11 s. Close: the cousin's face lights up; his small hand reaches out towards the cap.", "sound": ["the melody rising"], "lines": ["f04"] },
+      { "n": 8, "page": 4, "action": "9 s. Rose's hand catches his, a hand's width from the bottle. The music stops dead the moment she speaks. The bottle is never touched or opened on screen.", "sound": ["the music stops"], "lines": ["f05"] },
+      { "n": 9, "page": 4, "action": "12 s. His lip wobbles.", "sound": ["a small sniff"], "lines": ["f06"] },
+      { "n": 10, "page": 4, "action": "10 s. Rose kneels to his height and speaks gently, still holding his hand.", "sound": ["a soft, low note"], "lines": ["f07"] },
+      { "n": 11, "page": 5, "action": "10 s. Scene 2, thinking. Rose crouches at a safe distance and looks at the bottle. It glows. It looks exactly like juice.", "sound": ["silence", "a single held note"], "lines": ["f08"] },
+      { "n": 12, "page": 5, "action": "10 s. The camera follows Rose's eyes: the brushes, the bucket, the old hose, the dusty tins. A small sketch-bubble shows the fridge, far away, with a jug of juice in it. Then the strange hard cap, and the faded label.", "sound": ["a thoughtful pizzicato, one note per thing"], "lines": ["f09"] },
+      { "n": 13, "page": 6, "action": "11 s. Rose goes to the door, holding her cousin's hand, and calls into the yard.", "sound": ["a bird", "her call echoing a little"], "lines": ["f10"] },
+      { "n": 14, "page": 6, "action": "10 s. The cousin pouts and scuffs his foot, but he stays. A breathing moment: the bird sings on the almond tree.", "sound": ["birdsong", "a scuffing shoe"], "lines": ["f11"] },
+      { "n": 15, "page": 6, "action": "9 s. Grandma's footsteps cross the yard towards them; the cousin squeezes Rose's hand. No words.", "sound": ["footsteps on gravel"], "lines": [] },
+      { "n": 16, "page": 7, "action": "10 s. Scene 3, Grandma. Grandma comes in wiping her hands, puts on her reading glasses and bends to read the faded label without picking up the bottle. Hold on her face as she reads.", "sound": ["footsteps", "glasses case snapping shut"], "lines": [] },
+      { "n": 17, "page": 7, "action": "10 s. Grandma straightens up and tells them, calmly.", "sound": ["a low, steady chord"], "lines": ["f12"] },
+      { "n": 18, "page": 7, "action": "11 s. She kneels and hugs both children very tight, eyes closed, rocking a little. No words. Warm, never frightening.", "sound": ["a warm swell of strings"], "lines": [] },
+      { "n": 19, "page": 8, "action": "10 s. Still kneeling, she looks at each child in turn.", "sound": ["the tune returns, softly"], "lines": ["f13", "f14"] },
+      { "n": 20, "page": 8, "action": "9 s. The little cousin gives a small proud nod and puffs out his chest. No words.", "sound": ["a tiny proud trumpet"], "lines": [] },
+      { "n": 21, "page": 8, "action": "10 s. Grandma turns and looks at the low shelf: more bottles in all colours, some shaped like drinks. She narrows her eyes.", "sound": ["a thoughtful hum"], "lines": [] },
+      { "n": 22, "page": 9, "action": "12 s. Scene 4, up high. Grandma steps onto a sturdy low step and moves the bottles up to the top shelf of the tall cupboard, one by one; Rose counts each one aloud, standing back. The children never touch the bottles.", "sound": ["seven soft clinks of bottles set down", "one plucked note per bottle"], "lines": ["f15"] },
+      { "n": 23, "page": 9, "action": "9 s. Wide on the row of seven bottles, high up.", "sound": ["a completed chord"], "lines": ["f16"] },
+      { "n": 24, "page": 10, "action": "11 s. Grandma closes the cupboard, turns the key and hangs it on a hook high by the door; the cousin's head tilts back to watch it go up and up. No words.", "sound": ["a cupboard door closing", "a key turning", "a key on a hook"], "lines": [] },
+      { "n": 25, "page": 11, "action": "11 s. Scene 5, the sign. At the kitchen table, Rose draws a big red hand with all five fingers spread, and holds it up.", "sound": ["crayon on paper", "the tune, cheerful"], "lines": ["f17"] },
+      { "n": 26, "page": 12, "action": "10 s. The cousin draws his own: four fingers and a smiley face in the palm. He holds it up proudly.", "sound": ["crayon squeaks"], "lines": ["f18"] },
+      { "n": 27, "page": 12, "action": "10 s. They tape both hands side by side on the cupboard door; Grandma laughs behind them.", "sound": ["tape ripping", "Grandma's laugh"], "lines": ["f19"] },
+      { "n": 28, "page": 12, "action": "9 s. Grandma straightens the cousin's crooked drawing, then puts it back crooked again because he frowns. No words.", "sound": ["a playful plucked note"], "lines": [] },
+      { "n": 29, "page": 13, "action": "10 s. Scene 6, real juice. Grandma washes her hands at the tap, then takes a glass jug of freshly squeezed orange juice from the fridge.", "sound": ["a running tap", "the fridge door"], "lines": ["f20"] },
+      { "n": 30, "page": 13, "action": "10 s. On the front step in the sunshine she pours three cups; they sit in a row. A breathing moment with the blossom moving. No words.", "sound": ["juice pouring", "bees", "the tune, slow and warm"], "lines": [] },
+      { "n": 31, "page": 14, "action": "10 s. The cousin holds his cup in both hands, looks at it, then up at Grandma, very serious.", "sound": ["a questioning note"], "lines": ["f21"] },
+      { "n": 32, "page": 14, "action": "10 s. Grandma laughs so much she nearly spills her juice; Rose laughs too.", "sound": ["laughter", "a bright chord"], "lines": ["f22"] },
+      { "n": 33, "page": 14, "action": "10 s. They all drink together; the cousin gets an orange moustache.", "sound": ["happy slurps"], "lines": ["f23"] },
+      { "n": 34, "page": 14, "action": "10 s. Close on the two red hands on the cupboard door, side by side, the smiley one a little crooked. A small visual joke. No words.", "sound": ["a soft chuckle in the music"], "lines": [] },
+      { "n": 35, "page": 14, "action": "14 s. Closing image: the three on the step in the spring sun, and through the open storeroom door behind them the closed cupboard with two red hands on it. Nothing moves but the almond blossom. Hold the still picture 6 s while the music ends, then stop. No autoplay.", "sound": ["the last notes of the tune", "birdsong"], "lines": [] }
+    ]
+  },
+  "activity": {
+    "minutes": 20,
+    "materials": ["household-products-closed-adult-only", "paper", "red-crayon", "sticky-tape"],
+    "steps": [
+      { "n": 1, "picture": "A grown-up takes two closed cleaning bottles down from a high cupboard and holds them, one in each hand, at the child's eye level; the child stands with hands behind their back.", "loop": false },
+      { "n": 2, "picture": "The child points (without touching) at a warning picture on a label: a red-edged diamond with a simple black symbol inside, no words or numbers.", "loop": true },
+      { "n": 3, "picture": "The child counts the warning pictures on a finger; the grown-up turns the bottle so the child can see the other side.", "loop": false },
+      { "n": 4, "picture": "The grown-up puts the bottles back on the top shelf and closes the cupboard; the child watches from a step away.", "loop": false },
+      { "n": 5, "picture": "The child draws a big red hand on paper and tapes it to the cupboard door.", "loop": false }
+    ],
+    "checkedAgainst": "docs/story-room/age-6-8.md section 7 (red list: household products only in the adult's hands, a label held by the adult) and section 4 (activity limits), 25 Nov 2026"
+  }
+}

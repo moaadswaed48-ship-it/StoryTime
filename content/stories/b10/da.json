@@ -7,12 +7,12 @@
     "b10-dad": "far"
   },
   "pages": [
-    { "n": 1, "text": "Zaki havde fået en lillesøster. Siden hun kom hjem, kiggede alle på babyen. Mor kiggede på babyen. Far kiggede på babyen. Ingen kiggede på Zaki.", "speech": "Zaki havde fået en lillesøster. Siden hun kom hjem, kiggede alle på babyen. Mor kiggede på babyen. Far kiggede på babyen. Ingen kiggede på Zaki." },
-    { "n": 2, "text": "Babyen græd til morgenmad. Uææ. Hun græd til frokost. Uææ. Hun græd hele natten. UÆÆÆ! Mor og far var trætte, trætte, trætte.", "speech": "Babyen græd til morgenmad. Uææ. Hun græd til frokost. Uææ. Hun græd hele natten. UÆÆÆ! Mor og far var trætte, trætte, trætte." },
+    { "n": 1, "text": "Zaki havde fået en lillesøster. Nu hvor hun var kommet hjem, kiggede alle på babyen. Mor kiggede på babyen. Far kiggede på babyen. Ingen kiggede på Zaki.", "speech": "Zaki havde fået en lillesøster. Nu hvor hun var kommet hjem, kiggede alle på babyen. Mor kiggede på babyen. Far kiggede på babyen. Ingen kiggede på Zaki." },
+    { "n": 2, "text": "Babyen græd ved morgenmaden. Uææ. Hun græd ved frokosten. Uææ. Hun græd hele natten. UÆÆÆ! Mor og far var trætte, trætte, trætte.", "speech": "Babyen græd ved morgenmaden. Uææ. Hun græd ved frokosten. Uææ. Hun græd hele natten. UÆÆÆ! Mor og far var trætte, trætte, trætte." },
     { "n": 3, "text": "»Ikke nu, Zaki,« sagde mor. »Senere, Zaki,« sagde far. Zaki sad på trappen med hagen i hænderne. Ingen har brug for en stor dreng, tænkte han.", "speech": "»Ikke nu, Zaki,« sagde mor. »Senere, Zaki,« sagde far. Zaki sad på trappen med hagen i hænderne. Ingen har brug for en stor dreng, tænkte han." },
     { "n": 4, "text": "Så kom sommeren, og nætterne blev varme. En nat stod vinduet helt åbent. En stor, rund måne kiggede ind.", "speech": "Så kom sommeren, og nætterne blev varme. En nat stod vinduet helt åbent. En stor, rund måne kiggede ind." },
     { "n": 5, "text": "Så vågnede babyen. Uææ! Mor tog hende op og vuggede hende, frem og tilbage, frem og tilbage. Og babyen græd og græd.", "speech": "Så vågnede babyen. Uææ! Mor tog hende op og vuggede hende, frem og tilbage, frem og tilbage. Og babyen græd og græd." },
-    { "n": 6, "text": "Far tog hende og gik rundt med hende, op og ned, op og ned. Ingenting hjalp. Og babyen græd og græd.", "speech": "Far tog hende og gik rundt med hende, op og ned, op og ned. Ingenting hjalp. Og babyen græd og græd." },
+    { "n": 6, "text": "Far tog hende og gik rundt i stuen med hende, rundt og rundt. Ingenting hjalp. Og babyen græd og græd.", "speech": "Far tog hende og gik rundt i stuen med hende, rundt og rundt. Ingenting hjalp. Og babyen græd og græd." },
     { "n": 7, "text": "Zaki stod i døren i sin pyjamas. Han kom i tanke om en sang. Mor plejede at synge den for ham da han var lille. Hvad tror du Zaki gør nu?", "speech": "Zaki stod i døren i sin pyjamas. Han kom i tanke om en sang. Mor plejede at synge den for ham da han var lille. Hvad tror du Zaki gør nu?" },
     { "n": 8, "text": "Zaki kravlede op i den store seng, helt hen til sin lillesøster. Han trak vejret dybt. Så begyndte han at synge, helt stille.", "speech": "Zaki kravlede op i den store seng, helt hen til sin lillesøster. Han trak vejret dybt. Så begyndte han at synge, helt stille." },
     { "n": 9, "text": "»Lille måne, rund og stor. Lille fisk der i havet bor. Luk dine øjne, lille ven. Sov nu sødt, og sov igen.«", "speech": "»Lille måne, rund og stor. Lille fisk der i havet bor. Luk dine øjne, lille ven. Sov nu sødt, og sov igen.«" },
@@ -21,7 +21,7 @@
     { "n": 12, "text": "Og hver gang babyen græd efter den nat, kaldte mor på Zaki. »Vi skal bruge storebrorsangen!« Så sang Zaki. Ingen andre kunne synge den helt som han.", "speech": "Og hver gang babyen græd efter den nat, kaldte mor på Zaki. »Vi skal bruge storebrorsangen!« Så sang Zaki. Ingen andre kunne synge den helt som han." }
   ],
   "film": [
-    { "id": "f01", "speaker": "narrator", "text": "Siden babyen kom hjem, kiggede alle kun på hende.", "speech": "Siden babyen kom hjem, kiggede alle kun på hende.", "emotion": "warm, a little wistful" },
+    { "id": "f01", "speaker": "narrator", "text": "Nu hvor babyen var kommet hjem, kiggede alle kun på hende.", "speech": "Nu hvor babyen var kommet hjem, kiggede alle kun på hende.", "emotion": "warm, a little wistful" },
     { "id": "f02", "speaker": "b10-mum", "text": "Ikke nu, Zaki.", "speech": "Ikke nu, Zaki.", "emotion": "tired and kind, not cross; busy with the baby" },
     { "id": "f03", "speaker": "b10-dad", "text": "Senere, Zaki.", "speech": "Senere, Zaki.", "emotion": "tired, distracted, gentle" },
     { "id": "f04", "speaker": "b10-zaki", "text": "Ingen har brug for en stor dreng.", "speech": "Ingen har brug for en stor dreng.", "emotion": "a small sad thought, spoken inside his head" },

@@ -52,8 +52,8 @@
     },
     {
       "n": 10,
-      "text": "Mor åbner armene. »Tak, Lina.« Et stort, stort knus.",
-      "speech": "Mor åbner armene. »Tak, Lina.« Et stort, stort knus."
+      "text": "Mor breder armene ud. »Tak, Lina.« Et stort, stort knus.",
+      "speech": "Mor breder armene ud. »Tak, Lina.« Et stort, stort knus."
     }
   ],
   "film": [
@@ -171,10 +171,10 @@
       },
       {
         "n": 4,
-        "caption": "Byt roller, og leg igen."
+        "caption": "Byt roller og leg igen."
       }
     ],
-    "safety": "Kun bløde, lette ting: en pude eller et tomt plastikkrus. Gå, og løb ikke, med fulde hænder. Sker der et uheld, så ring til det lokale alarmnummer.",
+    "safety": "Kun bløde, lette ting: en pude eller et tomt plastikkrus. Gå langsomt, og løb ikke med noget i hænderne. Sker der et uheld, så ring til det lokale alarmnummer.",
     "forAdult": "I historien siger Lina »tak« når hun får noget, og »værsgo« når hun giver noget. I denne leg øver barnet begge ord, med hænder og ord på én gang. Barnet bærer en pude hen til en i familien, rækker den frem med begge hænder og siger »værsgo«. Den anden tager imod og siger »tak«. Så bytter I roller og bærer noget andet: et tomt krus, en bog, et tøjdyr. Begynd selv, så barnet kan se hvordan det gøres. Gør det lettere med en meget kort afstand, bare to skridt. Gør det sværere ved at sige navnet på den barnet skal give tingen til. Fem til ti minutter er rigeligt.",
     "inClass": "Børnene sidder i små rundkredse med én voksen og højst fire børn i hver. Én pude går fra hånd til hånd: Den der giver, siger »værsgo«, og den der tager imod, siger »tak«. Den voksne begynder, og puden går rundt til den er tilbage ved starten."
   }

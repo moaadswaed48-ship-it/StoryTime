@@ -1,0 +1,46 @@
+[
+  {
+    "id": "c15-rose",
+    "name": { "ar": "رُوز", "he": "רוֹז", "en": "Rose", "da": "Rose" },
+    "stage": "child",
+    "build": { "height": 0.66, "heads": 4.8, "girth": 0.42, "shoulders": 1.12 },
+    "skin": "#c98e62",
+    "hair": { "style": "braids", "color": "#241715" },
+    "eyes": { "color": "#3a2418", "size": 0.8 },
+    "brows": { "color": "#241715", "weight": 0.65 },
+    "top": { "style": "shirt", "color": "#e48a9e", "trim": "#fff0d0", "pattern": "plain" },
+    "bottom": { "style": "trousers", "color": "#5b6a9a" },
+    "shoes": { "style": "shoes", "color": "#f4f0e6" },
+    "manner": "Steady and thoughtful, the big cousin: kneels down to the little one's height to talk; crouches and looks hard before she touches anything; holds his hand firmly and kindly; grins with her whole face when the job is done."
+  },
+  {
+    "id": "c15-cousin",
+    "name": { "ar": "ابن خالة رُوز", "he": "בֶּן הַדּוֹד שֶׁל רוֹז", "en": "Rose's little cousin", "da": "Roses lille fætter" },
+    "stage": "toddler",
+    "build": { "height": 0.5, "heads": 3.8, "girth": 0.58, "shoulders": 1.05 },
+    "skin": "#c98e62",
+    "hair": { "style": "curls", "color": "#241715" },
+    "eyes": { "color": "#3a2418", "size": 0.95 },
+    "brows": { "color": "#241715", "weight": 0.5 },
+    "top": { "style": "tee", "color": "#f2c94c", "trim": "#e2674a", "pattern": "stripes" },
+    "bottom": { "style": "shorts", "color": "#3f7f8c" },
+    "shoes": { "style": "sandals", "color": "#8a4a3a" },
+    "manner": "Four years old and always on the move: squeezes into small spaces, grabs first and asks later at the start, pouts with a wobbly lip, then puffs out his chest with pride when he gets it right."
+  },
+  {
+    "id": "c15-grandma",
+    "name": { "ar": "جَدّة رُوز", "he": "סַבְתָּא", "en": "Grandma", "da": "bedstemor" },
+    "stage": "elder",
+    "build": { "height": 0.9, "heads": 5.8, "girth": 0.66, "shoulders": 1.45 },
+    "skin": "#d9a47c",
+    "hair": { "style": "covered", "color": "#d9d4cf", "cover": "#6aa56f" },
+    "eyes": { "color": "#5a4636", "size": 0.5 },
+    "brows": { "color": "#a9a29c", "weight": 0.4 },
+    "top": { "style": "apron", "color": "#f2e3c6", "trim": "#e2674a", "pattern": "dots" },
+    "bottom": { "style": "skirt", "color": "#5b6a9a" },
+    "shoes": { "style": "shoes", "color": "#6b4030" },
+    "extras": ["glasses"],
+    "extraColors": { "glasses": "#8a6a4a" },
+    "manner": "Brisk and cheerful at work, rolling up her sleeves; calm in a scare, going quiet rather than loud; reads slowly with her glasses on the end of her nose; laughs until she nearly spills her drink."
+  }
+]

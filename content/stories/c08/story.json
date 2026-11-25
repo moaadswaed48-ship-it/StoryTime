@@ -1,0 +1,149 @@
+{
+  "id": "c08",
+  "ageGroups": ["6-8"],
+  "owner": "storytime",
+  "lesson": "Never chase anything into the water; swim only when a lifeguard is on duty and an adult is watching.",
+  "cast": ["c08-miriam", "c08-father", "c08-lifeguard"],
+  "pages": [
+    {
+      "n": 1,
+      "art": "Early summer morning at the sea: pale sky, low sun, the sea drawn as flat layered bands of grey-green with small white crests. A wide, nearly empty beach of cool sand. Miriam (seven, dark curls in a high bun, a sunflower-yellow swimsuit with a T-shirt over it) and her dad (tall, short beard, blue shorts, a cap) throw a striped ball near the water's edge. Feeling: fresh, early, happy. Calm area: the sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 2,
+      "art": "The ball mid-air between Miriam and Dad, tugged sideways by the wind (a few curved wind lines). Up on the sand stands a simple wooden lifeguard tower with a big chair at the top; the chair is clearly empty, and a gull sits on its rail. No flags anywhere. Feeling: play, with something missing. Calm area: the sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 3,
+      "art": "A gust lifts the striped ball just over Miriam's reaching fingertips; Dad's arm is still up from the throw. Below, the ball's path is shown by a dotted line: one bounce on the wet sand, then into the foam at the edge of the first water band. Feeling: a sudden 'oh no'. Calm area: the sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 4,
+      "art": "The sea as flat bands; the striped ball sits on the second band, then (shown faintly, as earlier positions) a little farther on each band beyond, so the eye feels it drifting out. Small on the shore, Miriam stands watching, hands at her mouth. Feeling: the sea's pull, distance growing. Calm area: the sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 5,
+      "art": "Close and low at the water's edge: Miriam's feet with her toes in the white foam, the water drawn pulling back from her ankles in soft curved lines. Above, her face: leaning forward, wanting, but standing still. Far out, the bright ball. Feeling: temptation, a held breath. Calm area: the sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 6,
+      "art": "Miriam turns her head to look at the lifeguard tower: the big chair is still empty. She stands very straight and still at the edge, one hand cupped to call. Feeling: a wise, hard choice. Calm area: the sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 7,
+      "art": "Dad stands beside Miriam at the water's edge, holding her hand, both looking out at the waves rolling in one after another. His face is calm and serious; hers is sad. Feeling: safety, love, a decision. Calm area: the sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 8,
+      "art": "Dad crouches to Miriam's height, still holding her hand, speaking gently; her lip trembles, her eyes are wet. Behind them the sea, and far out a tiny bright dot. Feeling: comfort. Calm area: the sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 9,
+      "art": "From behind: Miriam leans against Dad's side, his arm around her, both looking at the empty sea where the ball was. A single tear on her cheek. The sun a little higher. Feeling: quiet sadness, held. Calm area: the sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 10,
+      "art": "Midmorning: Miriam and Dad kneel by a sandcastle with a moat and shells pressed into its walls. Behind them the beach has filled: striped umbrellas and towels drawn as a few repeated shapes, a few families. Miriam glances towards the sea. Feeling: life going on, a little thought still there. Calm area: the sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 11,
+      "art": "The lifeguard (a strong woman with a sun hat, a red top and a whistle on a cord tucked into her top) walks down the beach towards them, laughing, the striped ball under one arm. Behind her, her tower; the chair has a towel on it now. Feeling: surprise and relief coming. Calm area: the sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 12,
+      "art": "Miriam hugs the striped ball with both arms, eyes shut, beaming; the lifeguard bends towards her with a warm smile; Dad stands behind with a hand on his heart. Feeling: joy, being seen doing the right thing. Calm area: the sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 13,
+      "art": "The lifeguard sits high in her chair, watching the water. In the sea close to the tower, Miriam and Dad float together on a gentle band of wave, Miriam holding Dad's hands, both laughing. The tower and the two swimmers are clearly near each other. Feeling: safe, free, happy. Calm area: the sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    },
+    {
+      "n": 14,
+      "art": "Wide and bright: Miriam in the shallows waves up at the tower and the lifeguard waves back; Dad splashes Miriam and she splashes back. On their towel on the sand, the striped ball rests with Dad's sandal on top of it. Last picture of the book: sunny, busy, safe. Calm area: the sky across the top.",
+      "zone": { "side": "full", "v": "top", "size": "m" },
+      "image": null
+    }
+  ],
+  "film": {
+    "targetSeconds": 366,
+    "shots": [
+      { "n": 1, "page": 1, "action": "16 s. Scene 1, the early sea. Dawn light over the sea drawn as flat bands; an empty beach; the lifeguard tower as a silhouette; gulls. No words. Keep the lower fifth calm for captions in every shot.", "sound": ["soft waves", "gulls", "a light, airy guitar-and-flute tune"], "lines": [] },
+      { "n": 2, "page": 1, "action": "9 s. The beach in the early sun.", "sound": ["waves", "the tune"], "lines": ["f01"] },
+      { "n": 3, "page": 1, "action": "8 s. Miriam and Dad arrive barefoot with the striped ball, leaving footprints in the cool sand. No words.", "sound": ["footsteps on sand"], "lines": [] },
+      { "n": 4, "page": 2, "action": "14 s. Throw and catch on a light beat; the wind tugs the ball sideways each time.", "sound": ["a thump on each catch", "wind gusts"], "lines": ["f02"] },
+      { "n": 5, "page": 2, "action": "9 s. The tower: the big chair at the top is empty.", "sound": ["wind", "waves"], "lines": ["f03"] },
+      { "n": 6, "page": 2, "action": "6 s. A gull lands on the empty chair and looks round as if it were on duty. A small joke, no words.", "sound": ["a gull's cry"], "lines": [] },
+      { "n": 7, "page": 3, "action": "7 s. Dad throws high; a gust lifts the ball over Miriam's fingertips. No words.", "sound": ["a strong gust"], "lines": [] },
+      { "n": 8, "page": 3, "action": "6 s. The ball bounces once on the wet sand, rolls into the foam and floats.", "sound": ["a bounce", "a soft splash"], "lines": ["f04"] },
+      { "n": 9, "page": 4, "action": "14 s. The sea's pull: with each wave band the ball rides a little farther out, measured against Miriam standing small and still on the shore.", "sound": ["waves in a slow rhythm", "the tune thins to one low note"], "lines": ["f05"] },
+      { "n": 10, "page": 5, "action": "8 s. Miriam runs to the edge of the water and stops, toes in the foam. No words.", "sound": ["running on wet sand", "foam fizzing"], "lines": [] },
+      { "n": 11, "page": 5, "action": "12 s. Close on her ankles: the water pulls back, lets go, pulls again. Her own thought, whispered.", "sound": ["the hiss of the backwash"], "lines": ["f06"] },
+      { "n": 12, "page": 6, "action": "8 s. She turns to look at the tower: still empty.", "sound": ["wind"], "lines": ["f07"] },
+      { "n": 13, "page": 6, "action": "8 s. She stands very still while the ball drifts farther. No words.", "sound": ["waves"], "lines": [] },
+      { "n": 14, "page": 6, "action": "6 s. Far out, the ball is now just a bright dot between the bands. No words.", "sound": ["a far gull"], "lines": [] },
+      { "n": 15, "page": 6, "action": "5 s. Miriam calls out.", "sound": ["her call carried by the wind"], "lines": ["f08"] },
+      { "n": 16, "page": 7, "action": "10 s. Dad comes, looks at the ball and at the waves, and takes her hand.", "sound": ["a warm, low chord"], "lines": ["f09"] },
+      { "n": 17, "page": 8, "action": "8 s. Miriam's voice wobbles.", "sound": ["waves"], "lines": ["f10"] },
+      { "n": 18, "page": 8, "action": "10 s. Dad crouches to her height and squeezes her hand.", "sound": ["the tune returns, gentle"], "lines": ["f11"] },
+      { "n": 19, "page": 9, "action": "16 s. They watch together as the bright dot shrinks and is gone; a tear on her cheek, dried by the wind.", "sound": ["waves", "wind", "one soft sustained note"], "lines": ["f12"] },
+      { "n": 20, "page": 9, "action": "6 s. Close on Miriam's hand inside Dad's. Breathing room, no words.", "sound": ["waves"], "lines": [] },
+      { "n": 21, "page": 9, "action": "8 s. Miriam leans against Dad's side. No words.", "sound": ["the tune, quiet"], "lines": [] },
+      { "n": 22, "page": 10, "action": "16 s. Scene 2, the morning goes on. A montage: digging a moat, pressing shells into the castle walls, the sun climbing, umbrellas popping up across the beach as repeated shapes.", "sound": ["digging", "umbrellas opening with a pop", "children's voices far off"], "lines": ["f13"] },
+      { "n": 23, "page": 10, "action": "8 s. Miriam buries Dad's feet in sand; he wiggles his toes and she laughs. No words.", "sound": ["laughter"], "lines": [] },
+      { "n": 24, "page": 10, "action": "8 s. Miriam looks out to sea for a moment. No words.", "sound": ["waves"], "lines": [] },
+      { "n": 25, "page": 11, "action": "9 s. Scene 3, the lifeguard. She arrives, shoos the gull off her chair and climbs the tower.", "sound": ["a gull squawk", "steps on a wooden ladder"], "lines": ["f14"] },
+      { "n": 26, "page": 11, "action": "8 s. The chair is not empty any more: she settles in and scans the water. No words.", "sound": ["a short whistle blast, friendly"], "lines": [] },
+      { "n": 27, "page": 11, "action": "12 s. A little later she walks down the beach towards them, laughing, a striped ball under her arm. No words.", "sound": ["the tune brightens"], "lines": [] },
+      { "n": 28, "page": 12, "action": "9 s. She holds out the ball.", "sound": ["waves"], "lines": ["f15"] },
+      { "n": 29, "page": 12, "action": "6 s. Miriam hugs the ball tight.", "sound": ["a happy squeal"], "lines": ["f16"] },
+      { "n": 30, "page": 12, "action": "5 s. Miriam smiles up at the lifeguard; the lifeguard winks. No words.", "sound": ["a bright note"], "lines": [] },
+      { "n": 31, "page": 12, "action": "10 s. The lifeguard bends to Miriam's height.", "sound": ["the tune"], "lines": ["f17"] },
+      { "n": 32, "page": 13, "action": "7 s. Scene 4, together in the sea. The lifeguard climbs back up into her chair.", "sound": ["ladder steps"], "lines": ["f18"] },
+      { "n": 33, "page": 13, "action": "9 s. Dad and Miriam wade in, close to the tower.", "sound": ["splashing steps"], "lines": ["f19"] },
+      { "n": 34, "page": 13, "action": "6 s. Miriam grins up at Dad.", "sound": ["the tune swells"], "lines": ["f20"] },
+      { "n": 35, "page": 13, "action": "16 s. Floating together near the tower: each wave band lifts them up and sets them gently down; the lifeguard watches from her chair.", "sound": ["gentle waves", "laughter", "the tune, flowing"], "lines": ["f21"] },
+      { "n": 36, "page": 14, "action": "8 s. Miriam waves up at the tower and the lifeguard waves back. No words.", "sound": ["a gull"], "lines": [] },
+      { "n": 37, "page": 14, "action": "8 s. On their towel, the striped ball rests under Dad's sandal. A small joke at the wind, which tugs and fails. No words.", "sound": ["a gust", "a soft flap of the towel"], "lines": [] },
+      { "n": 38, "page": 14, "action": "10 s. Miriam and Dad splash each other in the shallows. No words.", "sound": ["splashes", "laughter"], "lines": [] },
+      { "n": 39, "page": 14, "action": "16 s. Closing image: the tower with the lifeguard in her chair, the busy, sunny sea in flat bands, the striped ball on the towel. Hold the still picture 6 s while the music ends, then stop. No autoplay.", "sound": ["the last notes of the tune", "waves", "gulls"], "lines": [] }
+    ]
+  },
+  "activity": {
+    "minutes": 25,
+    "materials": ["aluminium-foil-squares", "wide-basin-few-cm-water", "small-pebbles", "towel", "paper", "pencil"],
+    "steps": [
+      { "n": 1, "picture": "A child folds a square of kitchen foil into a small boat with turned-up sides; a grown-up kneels beside a wide, shallow basin of water on a towel.", "loop": false },
+      { "n": 2, "picture": "The child holds up a few fingers to guess, next to a paper with a small boat drawn on it and a space beside it.", "loop": false },
+      { "n": 3, "picture": "The foil boat floats in the basin; the child places one pebble in it, a small pile of pebbles waiting beside; the grown-up watches the water.", "loop": true },
+      { "n": 4, "picture": "A second boat, wider and flatter with higher sides, floating with more pebbles in it than the first.", "loop": false },
+      { "n": 5, "picture": "The two boats side by side on the towel; the child points at the wide one, explaining; the grown-up listens. The basin is already empty.", "loop": false }
+    ],
+    "checkedAgainst": "docs/story-room/age-6-8.md section 7 (red list: water only with an adult watching the whole time, a few centimetres only, basin emptied straight after; foil edges folded; pebbles kept from toddlers) and section 4, 25 Nov 2026"
+  }
+}

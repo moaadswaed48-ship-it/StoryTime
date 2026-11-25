@@ -8,8 +8,8 @@
   "pages": [
     {
       "n": 1,
-      "text": "At the kindergarten gate, Papa kneels down. “After the nap, I come back.”",
-      "speech": "At the kindergarten gate, Papa kneels down. “After the nap, I come back.”"
+      "text": "At the kindergarten gate, Papa kneels down. “After the nap, I’ll come back.”",
+      "speech": "At the kindergarten gate, Papa kneels down. “After the nap, I’ll come back.”"
     },
     {
       "n": 2,
@@ -73,8 +73,8 @@
     {
       "id": "f02",
       "speaker": "a08-papa",
-      "text": "After the nap, I come back.",
-      "speech": "After the nap, I come back.",
+      "text": "After the nap, I’ll come back.",
+      "speech": "After the nap, I’ll come back.",
       "emotion": "warm, slow and very sure, looking into Elias's eyes"
     },
     {
@@ -122,8 +122,8 @@
     {
       "id": "f09",
       "speaker": "a08-teacher",
-      "text": "Not yet. After the sand, the nap.",
-      "speech": "Not yet. After the sand, the nap.",
+      "text": "Not yet. After the sandpit, the nap.",
+      "speech": "Not yet. After the sandpit, the nap.",
       "emotion": "gentle and clear, smiling"
     },
     {
@@ -195,7 +195,7 @@
       }
     ],
     "safety": "Chunky crayons labelled as suitable for young children, and crayons stay out of the mouth. Large sheets of paper, not small scraps. If there is an accident, call your local emergency number.",
-    "forAdult": "In the story, Elias copes with goodbye by following the order of his day: after the fish, a song; after the song, a snack; and after the nap, Papa comes back. Knowing what comes next makes waiting easier for a small child. This game practises putting three moments of the day in order. Draw three simple pictures together on three sheets: breakfast (a bowl), playing (a ball) and going home (a door). The child can colour them in. Name each one as you draw it. Then mix them up and lay them out together, one under the other: “First breakfast, then playing, then home.” Point to each picture as you say it. Mix them again, and this time let the child lay them out while you say the words. To make it easier, use only two pictures. To make it harder, add a fourth (a nap), or draw the child’s own day at kindergarten. Five to ten minutes is plenty.",
+    "forAdult": "In the story, Elias copes with goodbye by following the order of his day. After the fish comes a song, after the song a snack, and after the nap Papa comes back. Knowing what comes next makes waiting easier for a small child. This game practises putting three moments of the day in order. Draw three simple pictures together on three sheets: breakfast (a bowl), playing (a ball) and going home (a door). The child can colour them in. Name each one as you draw it. Then mix them up and lay them out together, one under the other: “First breakfast, then playing, then home.” Point to each picture as you say it. Mix them again, and this time let the child lay them out while you say the words. To make it easier, use only two pictures. To make it harder, add a fourth (a nap), or draw the child’s own day at kindergarten. Five to ten minutes is plenty.",
     "inClass": "The teacher draws the kindergarten day in three big pictures: arriving, playing and going home. In small groups of up to four, children take turns to lay the pictures in order, one under the other, while everyone says “first, then, last”. The pictures can then hang by the door."
   }
 }

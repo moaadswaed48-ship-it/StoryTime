@@ -6,7 +6,7 @@
     "b06-worker": "ekspedienten"
   },
   "pages": [
-    { "n": 1, "text": "Det var en kold vintermorgen. Karam og hans far skulle i det store supermarked. Ved døren spurgte far: »Hvad er vores regel, hvis vi mister hinanden?« »Stå stille og vink højt,« sagde Karam.", "speech": "Det var en kold vintermorgen. Karam og hans far skulle i det store supermarked. Ved døren spurgte far: »Hvad er vores regel, hvis vi mister hinanden?« »Stå stille og vink højt,« sagde Karam." },
+    { "n": 1, "text": "Det var en kold vintermorgen. Karam og hans far skulle i det store supermarked. Ved døren spurgte far: »Hvad er vores regel hvis vi bliver væk fra hinanden?« »Stå stille og vink højt,« sagde Karam.", "speech": "Det var en kold vintermorgen. Karam og hans far skulle i det store supermarked. Ved døren spurgte far: »Hvad er vores regel hvis vi bliver væk fra hinanden?« »Stå stille og vink højt,« sagde Karam." },
     { "n": 2, "text": "Derinde var alt stort og lyst. Hylderne var højere end far. Karam holdt fast i indkøbsvognen, og fars blå kasket vippede foran ham.", "speech": "Derinde var alt stort og lyst. Hylderne var højere end far. Karam holdt fast i indkøbsvognen, og fars blå kasket vippede foran ham." },
     { "n": 3, "text": "Ved frugten stod en ekspedient i et grønt forklæde. Hun byggede et tårn af appelsiner. Én appelsin, én til og én til … højere og højere. Karam stoppede op og kiggede.", "speech": "Ved frugten stod en ekspedient i et grønt forklæde. Hun byggede et tårn af appelsiner. Én appelsin, én til og én til … højere og højere. Karam stoppede op og kiggede." },
     { "n": 4, "text": "Ekspedienten lagde en sidste appelsin på toppen. Sikke et tårn! Karam vendte sig om for at vise det til far. Men far var der ikke.", "speech": "Ekspedienten lagde en sidste appelsin på toppen. Sikke et tårn! Karam vendte sig om for at vise det til far. Men far var der ikke." },
@@ -22,7 +22,7 @@
   ],
   "film": [
     { "id": "f01", "speaker": "narrator", "text": "En kold vintermorgen.", "speech": "En kold vintermorgen.", "emotion": "calm, cosy, a little grey" },
-    { "id": "f02", "speaker": "b06-dad", "text": "Hvad er vores regel, hvis vi mister hinanden?", "speech": "Hvad er vores regel, hvis vi mister hinanden?", "emotion": "light and playful, a familiar game" },
+    { "id": "f02", "speaker": "b06-dad", "text": "Hvad er vores regel hvis vi bliver væk fra hinanden?", "speech": "Hvad er vores regel hvis vi bliver væk fra hinanden?", "emotion": "light and playful, a familiar game" },
     { "id": "f03", "speaker": "b06-karam", "text": "Stå stille og vink højt!", "speech": "Stå stille og vink højt!", "emotion": "proud, sing-song, he knows this one" },
     { "id": "f04", "speaker": "narrator", "text": "Hylder og hylder og hylder.", "speech": "Hylder og hylder og hylder.", "emotion": "amused, a little dizzy" },
     { "id": "f05", "speaker": "b06-worker", "text": "Én til … og én til …", "speech": "Én til … og én til …", "emotion": "concentrating, quietly to herself" },
@@ -54,6 +54,6 @@
     ],
     "safety": "Leg legen derhjemme eller et roligt sted. Øv aldrig ved at gemme sig eller gå væk i en rigtig butik. Sker der et uheld, så ring til det lokale alarmnummer.",
     "forAdult": "I historien bliver Karam væk i et supermarked og gør det han har øvet med sin far: Han står stille, han finder en hjælper (en der arbejder der, eller en forælder med børn), og han siger hele sit navn og hele sin fars navn. Når barnet står stille, er det lettere for den voksne der leder, og navnene er det en hjælper skal bruge for at finde familien. Legen her øver ordene i et roligt øjeblik, så de er klar hvis der en dag bliver brug for dem. Vær hjælperen først: Gå ned i barnets højde og spørg venligt: »Hej. Hvad hedder du? Hvem er du sammen med?« Barnet svarer med fornavn og efternavn og med det fulde navn på den voksne det er sammen med, ikke kun »mor« eller »far«. Byt så: Barnet er hjælperen og spørger dig. Mange børn kan godt lide at være den voksne. Hold legen let og venlig, aldrig skræmmende, og slut hver runde med jeres regel: »Stå stille, vink højt, find en hjælper.« Gør det lettere: Øv barnets eget navn først. Gør det sværere: Tilføj navnet på en voksen mere. Ti minutter er rigeligt, og I kan gentage legen en anden dag.",
-    "inClass": "Børnene leger to og to: Den ene er hjælperen, den anden er barnet der har brug for hjælp, og så bytter de. Pædagogen er ekspedient for dem der har lyst, går ned i knæ og stiller spørgsmålene. Aftal først at et barn må nøjes med sit fornavn i gruppen. Familierne kan øve de fulde navne derhjemme."
+    "inClass": "Børnene leger to og to: Den ene er hjælperen, den anden er barnet der har brug for hjælp, og så bytter de. Pædagogen er ekspedient for dem der har lyst, sætter sig på hug og stiller spørgsmålene. Aftal først at et barn må nøjes med sit fornavn i gruppen. Familierne kan øve de fulde navne derhjemme."
   }
 }

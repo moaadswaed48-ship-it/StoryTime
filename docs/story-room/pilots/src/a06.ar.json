@@ -24,7 +24,7 @@
     { "id": "f07", "speaker": "a06-little-hippo", "speech": "فَرْكْ، فَرْكْ، الْأَسْنَانُ الْعُلْيَا!", "emotion": "copying Papa, proud, a little higher" },
     { "id": "f08", "speaker": "a06-papa-hippo", "speech": "فَرْكْ، فَرْكْ، الْأَسْنَانُ السُّفْلَى.", "emotion": "sing-song, steady rhythm" },
     { "id": "f09", "speaker": "a06-little-hippo", "speech": "فَرْكْ، فَرْكْ، الْأَسْنَانُ السُّفْلَى!", "emotion": "copying Papa, proud, a little higher" },
-    { "id": "f10", "speaker": "a06-little-hippo", "speech": "هِي هِي! الْفُرْشَاةُ تُدَغْدِغُنِي!", "emotion": "giggling, ticklish" },
+    { "id": "f10", "speaker": "a06-little-hippo", "speech": "هِهِهْ! الْفُرْشَاةُ تُدَغْدِغُنِي!", "emotion": "giggling, ticklish" },
     { "id": "f11", "speaker": "a06-papa-hippo", "speech": "افْتَحِي أَكْثَرْ!", "emotion": "encouraging, opening his own mouth to show her" },
     { "id": "f12", "speaker": "narrator", "speech": "أَوْسَعْ… وَ|أَوْسَعْ…", "emotion": "slow and stretching, building up" },
     { "id": "f13", "speaker": "a06-little-hippo", "speech": "آآآهْ!", "emotion": "a long, sleepy, comic yawn" },

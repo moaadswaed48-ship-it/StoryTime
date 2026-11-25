@@ -58,8 +58,8 @@
     },
     {
       "n": 11,
-      "text": "The sun is round. The biggest round of all! Round, round, round.",
-      "speech": "The sun is round. The biggest round of all! Round, round, round."
+      "text": "The sun is round. The biggest round thing of all! Round, round, round.",
+      "speech": "The sun is round. The biggest round thing of all! Round, round, round."
     }
   ],
   "film": [
@@ -73,8 +73,8 @@
     {
       "id": "f02",
       "speaker": "a11-uncle",
-      "text": "Soon the train comes. Then, the sea!",
-      "speech": "Soon the train comes. Then, the sea!",
+      "text": "The train is coming soon. Then the sea!",
+      "speech": "The train is coming soon. Then the sea!",
       "emotion": "cheerful, promising"
     },
     {
@@ -171,8 +171,8 @@
     {
       "id": "f16",
       "speaker": "a11-uncle",
-      "text": "The biggest round of all.",
-      "speech": "The biggest round of all.",
+      "text": "The biggest round thing of all.",
+      "speech": "The biggest round thing of all.",
       "emotion": "warm and slow, the last words"
     }
   ],
@@ -206,7 +206,7 @@
       }
     ],
     "safety": "Touch the wall or pavement with the back of your hand first: warm, not hot. On hot days choose shade and wear a sun hat. Only a little water, in a cup, and stay within arm’s reach. If there is an accident, call your local emergency number.",
-    "forAdult": "In the story, Daniel finds circles everywhere and draws one in the air. At about three, many children can copy a circle when they see a grown-up draw one, and it is often the first shape they draw. Painting with water is a free, clean way to practise it big, and the circles disappear by themselves, so no “mistake” stays on the wall. Choose a wall or pavement that is warm, not hot, and touch it with the back of your hand first. Paint one big circle slowly while you say “round and round”, then hand over the brush. Any line that comes back to where it started is a success; wobbly is fine. Watch together as the circle dries and fades, then paint again. To make it easier, hold the brush together with the child’s hand and go round once. To make it harder, paint a big circle and a little one, or a circle inside a circle. Five to ten minutes is plenty. Empty the cup when you finish.",
+    "forAdult": "In the story, Daniel finds circles everywhere and draws one in the air. At about three, many children can copy a circle when they see a grown-up draw one, and it is often the first shape they draw. Painting with water is a free, clean way to practise it big, and the circles disappear by themselves, so no “mistake” stays on the wall. Choose a wall or pavement that is warm, not hot, and touch it with the back of your hand first. Paint one big circle slowly while you say “round and round”, then hand over the brush. Any line that comes back to where it started is a success, and wobbly is fine. Watch together as the circle dries and fades, then paint again. To make it easier, hold the brush together with the child’s hand and go round once. To make it harder, paint a big circle and a little one, or a circle inside a circle. Five to ten minutes is plenty. Empty the cup when you finish.",
     "inClass": "One adult with up to four children, each with a brush and a patch of wall. The adult paints one circle at a time, slowly, and the children copy it. Everyone watches the circles dry, then paints again. Empty the water cups at the end."
   }
 }

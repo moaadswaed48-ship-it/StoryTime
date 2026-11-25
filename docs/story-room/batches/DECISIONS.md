@@ -14,3 +14,11 @@ Apply these in the language-review pass of each batch.
   name ledger with names in four languages.
 - **A-group sound word "Wheee" (A1 batch):** the Arabic became وي, which can read as "woe". Restore a joyful stretched
   sound once the check tool accepts stretched sound words (tool fix pending).
+- **C07 (road crossing):** a safety story must show the safest practice. Child-safety bodies commonly advise that
+  children under about 10 cross roads with an adult (for example Safe Kids Worldwide; Israel's Beterem gives similar
+  age guidance; to be confirmed against their own pages in review). So the 10-year-old does not take the 6-year-old
+  across alone: an adult (a parent or the crossing guard) is present at every crossing, and the older child's role is
+  to model the steps (stop, look, listen, hold hands). Apply in all four languages, the art notes and the film.
+- **C07 extra morning (pages 12 to 14) and the other additions in `C1-notes.md`:** accepted if they keep within the
+  age brief's limits; the review pass checks them.
+- **Tool:** guard the `|` marker before « in the Arabic build (the same crash the A2 writer met).

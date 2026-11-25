@@ -8,8 +8,8 @@
   "pages": [
     {
       "n": 1,
-      "text": "Ved børnehavens låge sætter far sig på knæ. »Efter luren kommer jeg tilbage.«",
-      "speech": "Ved børnehavens låge sætter far sig på knæ. »Efter luren kommer jeg tilbage.«"
+      "text": "Ved børnehavens låge sætter far sig på hug. »Efter luren kommer jeg tilbage.«",
+      "speech": "Ved børnehavens låge sætter far sig på hug. »Efter luren kommer jeg tilbage.«"
     },
     {
       "n": 2,
@@ -122,8 +122,8 @@
     {
       "id": "f09",
       "speaker": "a08-teacher",
-      "text": "Ikke endnu. Efter sandet kommer luren.",
-      "speech": "Ikke endnu. Efter sandet kommer luren.",
+      "text": "Ikke endnu. Efter sandkassen kommer luren.",
+      "speech": "Ikke endnu. Efter sandkassen kommer luren.",
       "emotion": "gentle and clear, smiling"
     },
     {
@@ -191,7 +191,7 @@
       },
       {
         "n": 4,
-        "caption": "Fortæl om dagen, og peg."
+        "caption": "Fortæl om dagen og peg."
       }
     ],
     "safety": "Tykke farvekridt der er beregnet til små børn, og farvekridt kommer ikke i munden. Store ark papir, ikke små stykker. Sker der et uheld, så ring til det lokale alarmnummer.",

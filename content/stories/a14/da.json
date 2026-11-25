@@ -28,13 +28,13 @@
     },
     {
       "n": 5,
-      "text": "»Tæppet skal hjem …« Storesøster ruller det sammen. Rul, rul, rul.",
-      "speech": "»Tæppet skal hjem …« Storesøster ruller det sammen. Rul, rul, rul."
+      "text": "»Tæppet skal hjem …« siger storesøster. Hun ruller det sammen. Rul, rul, rul.",
+      "speech": "»Tæppet skal hjem …« siger storesøster. Hun ruller det sammen. Rul, rul, rul."
     },
     {
       "n": 6,
-      "text": "Rayan ruller sig ind i det med! Kun hans ansigt kigger ud.",
-      "speech": "Rayan ruller sig ind i det med! Kun hans ansigt kigger ud."
+      "text": "Rayan ruller sig også ind i det! Kun hans ansigt kigger ud.",
+      "speech": "Rayan ruller sig også ind i det! Kun hans ansigt kigger ud."
     },
     {
       "n": 7,
@@ -53,8 +53,8 @@
     },
     {
       "n": 10,
-      "text": "Familien går hjem. Alting er i sit hjem.",
-      "speech": "Familien går hjem. Alting er i sit hjem."
+      "text": "Familien går hjem. Alting er kommet hjem.",
+      "speech": "Familien går hjem. Alting er kommet hjem."
     }
   ],
   "film": [
@@ -166,8 +166,8 @@
     {
       "id": "f16",
       "speaker": "narrator",
-      "text": "Alting i sit hjem.",
-      "speech": "Alting i sit hjem.",
+      "text": "Alting er hjemme.",
+      "speech": "Alting er hjemme.",
       "emotion": "slow and content, the last words"
     }
   ],
@@ -202,6 +202,6 @@
     ],
     "safety": "Alle ting skal være for store til at komme igennem en tom toiletrulle. Ingen sko med snørebånd og ingen plastikposer. Tag hæfteklammerne ud af kasserne. Sker der et uheld, så ring til det lokale alarmnummer.",
     "forAdult": "I historien hjælper Rayan med at rydde op efter skovturen, og hver ting kommer hjem på sin egen plads. At sortere efter størrelse er den samme idé for et lille barn: Store ting skal hjem i den store kasse, små ting i den lille. Stil de to kasser ved siden af hinanden, og find nogle sikre ting rundt omkring i hjemmet: en sko, en strømpe, en gryde, en træske, en bamse. Hold én ting op og spørg: »Stor eller lille?« Lad barnet bestemme og lægge den i. Hvis et valg overrasker dig, så spørg til det i stedet for at rette: En strømpe er faktisk lille ved siden af en gryde. Sig hver gang: »Ind med den! Strømpen er hjemme.« Gør det lettere ved kun at bruge meget store og meget små ting. Gør det sværere med en mellemstor kasse, eller let sammen efter den største ting i rummet. Til sidst lægger I alt tilbage på sin rigtige plads sammen. Fem til ti minutter er rigeligt.",
-    "inClass": "Stil en stor og en lille kasse midt i rummet. Hvert barn henter én ting i rummet, viser den til gruppen og lægger den i den store eller den lille kasse, mens gruppen råber »Stor!« eller »Lille!«. Til sidst hjælper alle med at lægge tingene på plads. Én voksen med højst fire børn ad gangen."
+    "inClass": "Stil en stor og en lille kasse midt i rummet. Hvert barn henter én ting i rummet, viser den til gruppen og lægger den i den store eller den lille kasse, mens gruppen råber »Stor!« eller »Lille!« Til sidst hjælper alle med at lægge tingene på plads. Én voksen med højst fire børn ad gangen."
   }
 }

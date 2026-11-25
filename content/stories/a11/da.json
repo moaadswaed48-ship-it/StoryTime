@@ -23,8 +23,8 @@
     },
     {
       "n": 4,
-      "text": "Daniel kigger på onkel. Knapper på hans skjorte! Rundt, rundt, rundt.",
-      "speech": "Daniel kigger på onkel. Knapper på hans skjorte! Rundt, rundt, rundt."
+      "text": "Daniel kigger på onkel. Knapper på skjorten! Rundt, rundt, rundt.",
+      "speech": "Daniel kigger på onkel. Knapper på skjorten! Rundt, rundt, rundt."
     },
     {
       "n": 5,
@@ -58,8 +58,8 @@
     },
     {
       "n": 11,
-      "text": "Solen er rund. Den største runde ting af alle! Rundt, rundt, rundt.",
-      "speech": "Solen er rund. Den største runde ting af alle! Rundt, rundt, rundt."
+      "text": "Solen er rund. Den allerstørste runde ting! Rundt, rundt, rundt.",
+      "speech": "Solen er rund. Den allerstørste runde ting! Rundt, rundt, rundt."
     }
   ],
   "film": [
@@ -171,8 +171,8 @@
     {
       "id": "f16",
       "speaker": "a11-uncle",
-      "text": "Den største runde ting af alle.",
-      "speech": "Den største runde ting af alle.",
+      "text": "Den allerstørste runde ting.",
+      "speech": "Den allerstørste runde ting.",
       "emotion": "warm and slow, the last words"
     }
   ],
@@ -198,15 +198,15 @@
       },
       {
         "n": 4,
-        "caption": "Nu dig! Også en cirkel."
+        "caption": "Nu dig! Mal en cirkel."
       },
       {
         "n": 5,
-        "caption": "Se den tørre. Mal igen!"
+        "caption": "Se den forsvinde. Mal igen!"
       }
     ],
     "safety": "Mærk først muren eller fliserne med håndryggen: lune, ikke varme. Vælg skygge på varme dage, og husk solhat. Kun lidt vand i en kop, og bliv inden for rækkevidde. Sker der et uheld, så ring til det lokale alarmnummer.",
-    "forAdult": "I historien finder Daniel cirkler overalt og tegner en i luften. Omkring treårsalderen kan mange børn tegne en cirkel efter når de ser en voksen gøre det, og den er tit den første figur de tegner. At male med vand er en gratis og ren måde at øve det på i stort format, og cirklerne forsvinder af sig selv, så der bliver ingen »fejl« stående på muren. Vælg en mur eller fliser der er lune, ikke varme, og mærk efter med håndryggen først. Mal én stor cirkel langsomt mens du siger »rundt og rundt«, og giv så penslen videre. Enhver streg der kommer tilbage til hvor den startede, er en succes. Det må gerne være skævt. Se sammen hvordan cirklen tørrer og forsvinder, og mal igen. Gør det lettere ved at holde penslen sammen med barnets hånd og gå én gang rundt. Gør det sværere ved at male en stor og en lille cirkel eller en cirkel inden i en cirkel. Fem til ti minutter er rigeligt. Tøm koppen når I er færdige.",
+    "forAdult": "I historien finder Daniel cirkler overalt og tegner en i luften. Omkring treårsalderen kan mange børn tegne en cirkel efter når de ser en voksen gøre det, og den er tit den første figur de tegner. At male med vand er en gratis og ren måde at øve det på i stort format, og cirklerne forsvinder af sig selv, så der ikke bliver nogen »fejl« stående på muren. Vælg en mur eller fliser der er lune, ikke varme, og mærk efter med håndryggen først. Mal én stor cirkel langsomt mens du siger »rundt og rundt«, og giv så penslen videre. Enhver streg der kommer tilbage til der hvor den startede, er en succes. Det må gerne være skævt. Se sammen hvordan cirklen tørrer og forsvinder, og mal igen. Gør det lettere ved at holde penslen sammen med barnets hånd og gå én gang rundt. Gør det sværere ved at male en stor og en lille cirkel eller en cirkel inden i en cirkel. Fem til ti minutter er rigeligt. Tøm koppen når I er færdige.",
     "inClass": "Én voksen med højst fire børn, og hvert barn har en pensel og et lille stykke mur. Den voksne maler én cirkel ad gangen, langsomt, og børnene maler efter. Alle ser cirklerne tørre og maler så igen. Tøm vandkopperne til sidst."
   }
 }

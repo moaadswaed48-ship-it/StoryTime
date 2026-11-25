@@ -22,13 +22,13 @@
     },
     {
       "n": 4,
-      "text": "Jara sætter sig op. Hendes øjne er store. Hun holder fast om sit lam.",
-      "speech": "Jara sætter sig op. Hendes øjne er store. Hun holder fast om sit lam."
+      "text": "Jara sætter sig op. Hun får store øjne. Hun holder fast om sit lam.",
+      "speech": "Jara sætter sig op. Hun får store øjne. Hun holder fast om sit lam."
     },
     {
       "n": 5,
-      "text": "Bedstemor kommer med en lille lampe. »Et stort brag,« siger hun. Hun krammer Jara.",
-      "speech": "Bedstemor kommer med en lille lampe. »Et stort brag,« siger hun. Hun krammer Jara."
+      "text": "Bedstemor kommer med en lille lampe. »Et stort brag,« siger hun. Hun holder om Jara.",
+      "speech": "Bedstemor kommer med en lille lampe. »Et stort brag,« siger hun. Hun holder om Jara."
     },
     {
       "n": 6,
@@ -57,8 +57,8 @@
     },
     {
       "n": 11,
-      "text": "Dryp … dryp … stille og stillere. Jaras øjne lukker sig.",
-      "speech": "Dryp … dryp … stille og stillere. Jaras øjne lukker sig."
+      "text": "Dryp … dryp … stillere og stillere. Jaras øjne lukker sig.",
+      "speech": "Dryp … dryp … stillere og stillere. Jaras øjne lukker sig."
     }
   ],
   "film": [
@@ -156,8 +156,8 @@
     {
       "id": "f14",
       "speaker": "a07-grandma",
-      "text": "Stille … og stillere …",
-      "speech": "Stille … og stillere …",
+      "text": "Stillere … og stillere …",
+      "speech": "Stillere … og stillere …",
       "emotion": "a whisper fading away"
     }
   ],
@@ -189,8 +189,8 @@
         "caption": "Bagefter: Vask hænder."
       }
     ],
-    "safety": "Ét helt ark krøllet til én stor kugle: ingen små iturevne stykker, og intet i munden. Et par langsomme pust og så en pause, og stop hvis barnet bliver svimmelt. Vask hænder bagefter (avisens tryksværte). Sker der et uheld, så ring til det lokale alarmnummer.",
-    "forAdult": "I historien hjælper bedstemor Jara med at falde til ro ved at trække vejret langsomt sammen med hende: ind … ud … Denne leg øver den samme lange, langsomme udånding, gennem leg. Voksne trækker vejret langsomt for at falde til ro, og en kugle der triller, gør et pust til noget et lille barn kan se. Krøl et helt ark avispapir sammen til én stor kugle; barnet kan hjælpe med at klemme. Læg jer på maven, ansigt til ansigt, cirka en armslængde fra hinanden. Træk vejret ind, og pust så langsomt og længe ud, »fuuu …«, så kuglen triller hen til barnet. Så puster barnet den tilbage. Ros det lange, langsomme pust, ikke farten. Gør det lettere ved at ligge tættere. Gør det sværere med to bøger som en port som kuglen skal igennem. Et par pust ad gangen med pauser imellem; fem til ti minutter i alt er rigeligt. Vask hænder bagefter, for avisens tryksværte smitter af på fingrene. Legen passer også godt ved sengetid eller en stormfuld nat.",
-    "inClass": "Par ligger ansigt til ansigt på en måtte med én papirkugle per par, og der er én voksen for hver fire børn. Den voksne leder et langsomt »fuuu …« for alle, og alle kuglerne triller på én gang. Så puster det andet barn i hvert par. Bagefter vasker alle hænder."
+    "safety": "Ét helt ark krøllet til én stor kugle: ingen små iturevne stykker, og ikke noget i munden. Et par langsomme pust og så en pause, og stop hvis barnet bliver svimmelt. Vask hænder bagefter (avisens tryksværte). Sker der et uheld, så ring til det lokale alarmnummer.",
+    "forAdult": "I historien hjælper bedstemor Jara med at falde til ro ved at trække vejret langsomt sammen med hende: ind … ud … Denne leg øver den samme lange, langsomme udånding, gennem leg. Voksne trækker vejret langsomt for at falde til ro, og en kugle der triller, gør et pust til noget et lille barn kan se. Krøl et helt ark avispapir sammen til én stor kugle. Barnet kan hjælpe med at klemme. Læg jer på maven, ansigt til ansigt, cirka en armslængde fra hinanden. Træk vejret ind, og pust så langsomt og længe ud, »fuuu …«, så kuglen triller hen til barnet. Så puster barnet den tilbage. Ros det lange, langsomme pust, ikke farten. Gør det lettere ved at ligge tættere. Gør det sværere ved at stille to bøger op som en port kuglen skal igennem. Et par pust ad gangen med pauser imellem. Fem til ti minutter i alt er rigeligt. Vask hænder bagefter, for avisens tryksværte smitter af på fingrene. Legen passer også godt ved sengetid eller på en stormfuld nat.",
+    "inClass": "Børnene ligger to og to, ansigt til ansigt, på en måtte. Hvert par har én papirkugle, og der er én voksen for hver fire børn. Den voksne leder et langsomt »fuuu …« for alle, og alle kuglerne triller på én gang. Så puster det andet barn i hvert par. Bagefter vasker alle hænder."
   }
 }

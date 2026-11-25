@@ -38,13 +38,13 @@
     },
     {
       "n": 7,
-      "text": "Plip, plip! »Jeg gjorde det!« siger Nadja.",
-      "speech": "Plip, plip! »Jeg gjorde det!« siger Nadja."
+      "text": "Plip, plip! »Jeg har tisset!« siger Nadja.",
+      "speech": "Plip, plip! »Jeg har tisset!« siger Nadja."
     },
     {
       "n": 8,
-      "text": "Tør. Op med trusserne. Vask hænder med mor. Bobler, bobler!",
-      "speech": "Tør. Op med trusserne. Vask hænder med mor. Bobler, bobler!"
+      "text": "Tør dig. Op med trusserne. Vask hænder med mor. Bobler, bobler!",
+      "speech": "Tør dig. Op med trusserne. Vask hænder med mor. Bobler, bobler!"
     },
     {
       "n": 9,
@@ -117,8 +117,8 @@
     {
       "id": "f09",
       "speaker": "a12-nadia",
-      "text": "Jeg gjorde det, Bamse!",
-      "speech": "Jeg gjorde det, Bamse!",
+      "text": "Jeg har tisset, Bamse!",
+      "speech": "Jeg har tisset, Bamse!",
       "emotion": "bursting with pride"
     },
     {

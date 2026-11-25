@@ -37,8 +37,8 @@
     },
     {
       "n": 7,
-      "text": "Hop, hop, hen til den sidste bod. En gammel mand sidder og strikker. Klik, klik.",
-      "speech": "Hop, hop, hen til den sidste bod. En gammel mand sidder og strikker. Klik, klik."
+      "text": "Hop, hop, hen til den allersidste bod. En gammel mand sidder og strikker. Klik, klik.",
+      "speech": "Hop, hop, hen til den allersidste bod. En gammel mand sidder og strikker. Klik, klik."
     },
     {
       "n": 8,
@@ -57,8 +57,8 @@
     },
     {
       "n": 11,
-      "text": "På det blå synger hun: pip, pip! Den gamle mand vinker med pindene.",
-      "speech": "På det blå synger hun: pip, pip! Den gamle mand vinker med pindene."
+      "text": "Hun sidder på det blå og synger. Pip, pip! Den gamle mand vinker med pindene.",
+      "speech": "Hun sidder på det blå og synger. Pip, pip! Den gamle mand vinker med pindene."
     }
   ],
   "film": [

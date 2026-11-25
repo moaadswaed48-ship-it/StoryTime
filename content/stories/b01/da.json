@@ -15,7 +15,7 @@
     { "n": 8, "text": "»Hvor er Prik?« sagde Rafi. Så gik han og moster op ad stien igen, i det lilla aftenlys. »Prik!« råbte Rafi. Kun vinden svarede.", "speech": "»Hvor er Prik?« sagde Rafi. Så gik han og moster op ad stien igen, i det lilla aftenlys. »Prik!« råbte Rafi. Kun vinden svarede." },
     { "n": 9, "text": "Den første stjerne kom frem. Rafi stod helt stille og lyttede. Og inde under det gamle johannesbrødtræ lød der en lille lyd. »Mæh.«", "speech": "Den første stjerne kom frem. Rafi stod helt stille og lyttede. Og inde under det gamle johannesbrødtræ lød der en lille lyd. »Mæh.«" },
     { "n": 10, "text": "Dér var Prik. Hun sad fast mellem to sten. Hun så slet ikke bekymret ud. Hun gumlede på en tidsel.", "speech": "Dér var Prik. Hun sad fast mellem to sten. Hun så slet ikke bekymret ud. Hun gumlede på en tidsel." },
-    { "n": 11, "text": "Rafi holdt godt fast og løftede hende op. Hun var varm og sprællede, og hun lugtede af tidsler. Moster lo, og så gik de ned ad stien.", "speech": "Rafi holdt godt fast og løftede hende op. Hun var varm og sprællede, og hun lugtede af tidsler. Moster lo, og så gik de ned ad stien." },
+    { "n": 11, "text": "Rafi løftede hende op og holdt godt fast. Hun var varm og sprællede, og hun lugtede af tidsler. Moster lo, og så gik de ned ad stien.", "speech": "Rafi løftede hende op og holdt godt fast. Hun var varm og sprællede, og hun lugtede af tidsler. Moster lo, og så gik de ned ad stien." },
     { "n": 12, "text": "Ved lågen talte Rafi en gang til. »En, to, tre, fire, fem, seks, syv, otte, ni …« Og den sidste der hoppede ind, var Prik. »Ti!«", "speech": "Ved lågen talte Rafi en gang til. »En, to, tre, fire, fem, seks, syv, otte, ni …« Og den sidste der hoppede ind, var Prik. »Ti!«" },
     { "n": 13, "text": "»Ti geder,« sagde moster og lukkede lågen. Rafi smilede op mod stjernerne. »Ti geder hjemme,« sagde han.", "speech": "»Ti geder,« sagde moster og lukkede lågen. Rafi smilede op mod stjernerne. »Ti geder hjemme,« sagde han." }
   ],
@@ -36,7 +36,7 @@
     { "id": "f14", "speaker": "narrator", "text": "Kun vinden svarede.", "speech": "Kun vinden svarede.", "emotion": "quiet, a little lonely" },
     { "id": "f15", "speaker": "narrator", "text": "Men så, inde under det gamle johannesbrødtræ …", "speech": "Men så, inde under det gamle johannesbrødtræ …", "emotion": "hushed, leaning in, full of hope" },
     { "id": "f16", "speaker": "b01-rafi", "text": "Dér er du jo!", "speech": "Dér er du jo!", "emotion": "huge relief, laughing" },
-    { "id": "f17", "speaker": "b01-aunt", "text": "Hun sidder fast og spiser stadig!", "speech": "Hun sidder fast og spiser stadig!", "emotion": "amused, shaking her head" },
+    { "id": "f17", "speaker": "b01-aunt", "text": "Hun sidder fast og spiser bare videre!", "speech": "Hun sidder fast og spiser bare videre!", "emotion": "amused, shaking her head" },
     { "id": "f18", "speaker": "b01-rafi", "text": "Op med dig.", "speech": "Op med dig.", "emotion": "gentle, a little out of breath from lifting" },
     { "id": "f19", "speaker": "b01-rafi", "text": "En, to, tre, fire, fem, seks, syv, otte, ni …", "speech": "En, to, tre, fire, fem, seks, syv, otte, ni …", "emotion": "steady and sure, building up to the last one" },
     { "id": "f20", "speaker": "b01-rafi", "text": "… ti!", "speech": "… ti!", "emotion": "triumphant, bright" },
@@ -46,14 +46,14 @@
   "activity": {
     "title": "Ti i folden, så én mindre",
     "goal": "At se at når man tager én væk, er der én mindre: ti, så ni.",
-    "materials": ["Kridt, eller et stort stykke papir og et farvekridt", "Ti store grankogler eller ti sten der er større end en knytnæve"],
+    "materials": ["Kridt, eller et stort stykke papir og et farvekridt", "Ti store kogler eller ti sten der er større end en knytnæve"],
     "steps": [
       { "n": 1, "caption": "Én kogle i hvert felt. Tæl dem." },
       { "n": 2, "caption": "Luk øjnene. Tag én væk." },
       { "n": 3, "caption": "Tæl igen. Hvor mange nu? Byt." }
     ],
-    "safety": "Brug store kogler eller sten der er større end en knytnæve, aldrig små sten. Intet i munden. Vask hænder efter legen udenfor. Sker der et uheld, så ring til det lokale alarmnummer.",
+    "safety": "Brug store kogler eller sten der er større end en knytnæve, aldrig små sten. Ikke noget i munden. Vask hænder efter legen udenfor. Sker der et uheld, så ring til det lokale alarmnummer.",
     "forAdult": "I historien tæller Rafi gederne, og det sidste tal han siger, fortæller hvor mange der er: ni, og så ti. Legen her øver netop det, og én ting mere: Tager man én væk, er der én mindre. Tegn en fold med ti felter (to rækker med fem) med kridt udenfor eller på et stort stykke papir. Læg én kogle i hvert felt, og tæl dem sammen mens I rører ved hver kogle. Spørg så: »Hvor mange er der?« og lyt efter om barnet svarer med det sidste tal uden at tælle igen. Bagefter lukker barnet øjnene mens du tager én væk. Tæl igen: »Hvor mange nu?« Byt så roller, så barnet tager én væk og du tæller. Hvis tællingen går galt, så tæl langsomt igen og rør ved hver kogle, som Rafi gjorde. Gør det lettere: Begynd med fem felter. Gør det sværere: Tag to væk, eller spørg »Hvor mange tog jeg?« før I tæller. Ti til femten minutter er rigeligt.",
-    "inClass": "Grupper på fire børn med én kridtfold og ti kogler i hver gruppe og en voksen tæt på. Ét barn gemmer en kogle mens de andre lukker øjnene, og spørger så gruppen: »Hvor mange nu?« Gruppen tæller højt sammen og rører ved hver kogle. Alle får en tur med at gemme."
+    "inClass": "Grupper på fire børn, hver med én kridtfold og ti kogler, og med en voksen tæt på. Ét barn gemmer en kogle mens de andre lukker øjnene, og spørger så gruppen: »Hvor mange nu?« Gruppen tæller højt sammen og rører ved hver kogle. Alle får en tur med at gemme."
   }
 }

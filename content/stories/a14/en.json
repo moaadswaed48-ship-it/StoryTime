@@ -18,18 +18,18 @@
     },
     {
       "n": 3,
-      "text": "Dad holds the basket. “The cups go home in the basket.” In, in, in!",
-      "speech": "Dad holds the basket. “The cups go home in the basket.” In, in, in!"
+      "text": "Dad sings. “The cups go home in the basket.” In, in, in!",
+      "speech": "Dad sings. “The cups go home in the basket.” In, in, in!"
     },
     {
       "n": 4,
-      "text": "Dad holds the bag. “The ball goes home in the bag.” In!",
-      "speech": "Dad holds the bag. “The ball goes home in the bag.” In!"
+      "text": "Dad sings again. “The ball goes home in the bag.” In!",
+      "speech": "Dad sings again. “The ball goes home in the bag.” In!"
     },
     {
       "n": 5,
-      "text": "“The blanket goes home…” His big sister rolls it up. Roll, roll, roll.",
-      "speech": "“The blanket goes home…” His big sister rolls it up. Roll, roll, roll."
+      "text": "“The blanket goes home…” sings his big sister. She rolls it up. Roll, roll, roll.",
+      "speech": "“The blanket goes home…” sings his big sister. She rolls it up. Roll, roll, roll."
     },
     {
       "n": 6,
@@ -48,8 +48,8 @@
     },
     {
       "n": 9,
-      "text": "The ground is clean. A jay sings on a branch.",
-      "speech": "The ground is clean. A jay sings on a branch."
+      "text": "The ground is clean. A jay calls from a branch.",
+      "speech": "The ground is clean. A jay calls from a branch."
     },
     {
       "n": 10,
@@ -202,6 +202,6 @@
     ],
     "safety": "Every thing must be too big to fit through an empty toilet-paper tube. No shoes with laces and no plastic bags. Take the staples out of the boxes. If there is an accident, call your local emergency number.",
     "forAdult": "In the story, Rayan helps tidy up the picnic, and each thing goes home to its own place. Sorting by size is the same idea for a small child: big things go home in the big box, little things in the little box. Put the two boxes side by side and gather a few safe things from around the home: a shoe, a sock, a pot, a wooden spoon, a soft toy. Hold up one thing and ask “Big or little?” Let the child decide and put it in. If a choice surprises you, ask about it rather than correcting: a sock really is little next to a pot. Each time, say “In it goes! The sock is home.” To make it easier, use only very big and very small things. To make it harder, add a middle-sized box, or look together for the biggest thing in the room. At the end, put everything back in its real home together. Five to ten minutes is plenty.",
-    "inClass": "Put one big and one little box in the middle of the room. Each child fetches one thing from the room, shows it to the group and puts it in the big or the little box, while the group calls “Big!” or “Little!”. At the end, everyone helps to put the things back. One adult with up to four children at a time."
+    "inClass": "Put one big and one little box in the middle of the room. Each child fetches one thing from the room, shows it to the group and puts it in the big or the little box, while the group calls “Big!” or “Little!” At the end, everyone helps to put the things back. One adult with up to four children at a time."
   }
 }

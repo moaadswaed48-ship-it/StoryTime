@@ -74,11 +74,19 @@ set up, then a few minutes a day for one or two weeks).
   grass bends away from the sea. B15: the dark cup sprouts too, long, thin and pale, and greens in the light.
 - **B10 safe sleep.** The activity ends with the doll on its back, "because babies sleep on their backs". This is
   standard public-health advice I know well, but it is not in our research files: tag it [U] until a source is added.
+  **Verified [S] (added in the English/Danish review, 25 Nov 2026, per `DECISIONS.md`):** American Academy of
+  Pediatrics, "Sleep-Related Infant Deaths: Updated 2022 Recommendations for Reducing Infant Deaths in the Sleep
+  Environment", *Pediatrics* 2022;150(1):e2022057990 (Moon, Carlin, Hand; PMID 35726558, checked on PubMed): place every baby on the back for every sleep. The activity line
+  "because babies sleep on their backs" matches it. Note: the same statement advises no soft bedding for a real
+  baby; the blanket "no higher than the shoulders" in the doll activity is UK-style advice, fine for doll play.
 - **B13 colours (please decide).** In Hebrew, "כחול-לבן" (blue-white) is the fixed phrase for the Israeli flag and
   national identity; in English for Israeli readers it can carry the same echo. That clashes with the neutrality
   rule. I kept the outline's blue and white tiles, but gave the Hebrew and Arabic books neutral titles ("שביל
   המרצפות", "ممرّ البلاط"). If the owner agrees, a second colour pair (for example blue and yellow) is a two-minute
   change in all four files and the art notes.
+  **Decided (`DECISIONS.md`): yellow and green.** Applied on 25 Nov 2026 in `en.json` ("The Yellow-Green Path"),
+  `da.json` ("Den gule og grønne sti") and the art and film notes in `story.json`; Arabic and Hebrew are with their
+  reviewers.
 - **B14 crab became a seagull.** Hebrew סרטן and Arabic سرطان both also mean cancer; a seagull keeps the sea memory
   without that word. The picture is shared, so all four languages changed.
 - **"Old city".** Hebrew "העיר העתיקה" points to one real place, so every language says "the old part of a city".

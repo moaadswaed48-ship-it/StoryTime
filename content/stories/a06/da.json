@@ -7,13 +7,13 @@
   "pages": [
     {
       "n": 1,
-      "text": "Natten kommer til floden. Vandet bliver mørkt og stille.",
-      "speech": "Natten kommer til floden. Vandet bliver mørkt og stille."
+      "text": "Natten falder på ved floden. Vandet bliver mørkt og stille.",
+      "speech": "Natten falder på ved floden. Vandet bliver mørkt og stille."
     },
     {
       "n": 2,
-      "text": "Far Flodhest åbner munden helt op. »Så skal der børstes tænder!«",
-      "speech": "Far Flodhest åbner munden helt op. »Så skal der børstes tænder!«"
+      "text": "Far Flodhest åbner munden helt op. »Nu skal vi børste tænder!«",
+      "speech": "Far Flodhest åbner munden helt op. »Nu skal vi børste tænder!«"
     },
     {
       "n": 3,
@@ -65,22 +65,22 @@
     {
       "id": "f01",
       "speaker": "narrator",
-      "text": "Natten kommer til floden.",
-      "speech": "Natten kommer til floden.",
+      "text": "Natten falder på ved floden.",
+      "speech": "Natten falder på ved floden.",
       "emotion": "slow and soft, the day winding down"
     },
     {
       "id": "f02",
       "speaker": "narrator",
-      "text": "Nu skal vi gøre klar til at sove.",
-      "speech": "Nu skal vi gøre klar til at sove.",
+      "text": "Nu er det snart sengetid.",
+      "speech": "Nu er det snart sengetid.",
       "emotion": "cosy and gentle"
     },
     {
       "id": "f03",
       "speaker": "a06-papa-hippo",
-      "text": "Så skal der børstes tænder!",
-      "speech": "Så skal der børstes tænder!",
+      "text": "Nu skal vi børste tænder!",
+      "speech": "Nu skal vi børste tænder!",
       "emotion": "big, deep and cheerful, a playful announcement"
     },
     {
@@ -184,7 +184,7 @@
   ],
   "activity": {
     "title": "Børst til sangen",
-    "goal": "At blive ved med noget til sangen er slut: en sang som ur.",
+    "goal": "At blive ved med noget indtil sangen er slut: sangen er æggeuret.",
     "materials": [
       "En tandbørste til hver",
       "Tandpasta i den mængde tandlægen eller sundhedsplejersken anbefaler",
@@ -197,19 +197,19 @@
       },
       {
         "n": 2,
-        "caption": "Syng, og børst foroven."
+        "caption": "Syng og børst de øverste tænder."
       },
       {
         "n": 3,
-        "caption": "Syng, og børst forneden."
+        "caption": "Syng og børst de nederste tænder."
       },
       {
         "n": 4,
-        "caption": "Sangen er slut: Spyt, og smil!"
+        "caption": "Sangen er slut: Spyt ud og smil!"
       }
     ],
     "safety": "Alle bruger kun deres egen tandbørste. Brug den mængde tandpasta tandlægen eller sundhedsplejersken anbefaler. Barnet står stille mens det børster: Det går og løber ikke med tandbørsten i munden. Sker der et uheld, så ring til det lokale alarmnummer.",
-    "forAdult": "I historien børster Lille Flodhest de øverste og de nederste tænder side om side med far. Denne aktivitet gør tandbørstningen til en sang med en tydelig slutning: Man børster mens man synger, og stopper når sangen stopper. En sang er et ur som et lille barn kan høre. Syng historiens omkvæd to gange, på en hvilken som helst melodi: »Børst, børst, de øverste tænder. Børst, børst, de nederste tænder.« Stil jer side om side foran et spejl, hver med sin egen tandbørste, og børst dine egne tænder mens du synger, så barnet kan efterligne dig. Børst derefter også barnets tænder, sådan som tandlægen eller sundhedsplejersken anbefaler. Gør det lettere ved at synge sangen én gang og langsomt. Gør det sværere ved at lade barnet styre sangen. Vil barnet ikke åbne munden, så leg Lille Flodhests gabeleg: Hvem kan gabe størst?",
-    "inClass": "Ingen fælles tandbørster og ingen rigtig tandbørstning i børnehaven. Når alle har vasket hænder, sidder børnene i en rundkreds, højst fire børn med én voksen, og »børster« med en ren finger mens alle synger sangen to gange: først foroven, så forneden. Den rigtige tandbørstning foregår derhjemme."
+    "forAdult": "I historien børster Lille Flodhest de øverste og de nederste tænder side om side med far. Denne aktivitet gør tandbørstningen til en sang med en tydelig slutning: Man børster mens man synger, og stopper når sangen stopper. En sang er et æggeur som et lille barn kan høre. Syng historiens omkvæd to gange, på en hvilken som helst melodi: »Børst, børst, de øverste tænder. Børst, børst, de nederste tænder.« Stil jer side om side foran et spejl, hver med sin egen tandbørste, og børst dine egne tænder mens du synger, så barnet kan efterligne dig. Børst derefter også barnets tænder, sådan som tandlægen eller sundhedsplejersken anbefaler. Gør det lettere ved at synge sangen én gang og langsomt. Gør det sværere ved at lade barnet styre sangen. Vil barnet ikke åbne munden, så leg Lille Flodhests gabeleg: Hvem kan gabe størst?",
+    "inClass": "Ingen fælles tandbørster og ingen rigtig tandbørstning i børnehaven. Når alle har vasket hænder, sidder børnene i en rundkreds, højst fire børn med én voksen, og »børster« med en ren finger mens alle synger sangen to gange: først de øverste tænder, så de nederste. Den rigtige tandbørstning foregår derhjemme."
   }
 }
