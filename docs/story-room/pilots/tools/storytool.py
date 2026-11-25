@@ -212,6 +212,11 @@ def ar_fully_marked(s):
                 continue
             if c == 'ل' and nxt and SHADDA in nxt[1] and (i == 0 or (i == 1 and prev[0] == 'ل')):
                 continue
+            # F13: a stretched sound word repeats one letter three or more times (وِييي، مَاااءْ); the repeats after
+            # the first stay bare. Real words never hold three identical letters in a row.
+            run = [x[0] for x in cl]
+            if prev and prev[0] == c and (run[i - 2:i + 1] == [c] * 3 or run[i - 1:i + 2] == [c] * 3):
+                continue
             errs.append(f'{w}: bare {c}')
     # pausal form before . ! ? ؟ : » … (style-ar F7)
     for m in re.finditer('([ء-يً-ْ]+)\\s*([.!؟?:»…])', s):

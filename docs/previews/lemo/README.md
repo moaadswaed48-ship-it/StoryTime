@@ -57,8 +57,8 @@ The same 30-second opening of A04 "Slow, Slow, Together" in all three, so the lo
 ### 2-paper-popup-book.mp4 (style 79) — the best of the three
 A real pop-up book open on a wooden desk, with a lamp and a teacup softly blurred behind it. The hill is a paper ramp that springs up at the start, the red anemones are cut-paper flowers, the sky is the standing back page with a sun on a stick. Sami and Grandpa are flat cut-out cards with a white paper border, lit by real light and casting cut-out shadows; Sami turns around by flipping the card, as the style prescribes.
 - **Looks:** the most appealing by far. Sami has big shiny eyes, rosy cheeks and curls and reads as a lovable three-year-old; Grandpa (glasses, white beard, rust jumper, stick) is warm and recognisable. The material and the lens blur make even simple poses feel alive.
-- **Weak points:** the walk is only two drawings, so it is a little stiff close up; the overall colour is quite warm and slightly hazy; one tree throws a big dark shadow on the back hill.
-- **Cost here:** about 10 seconds per frame on this machine (no graphics card), about 45 to 60 minutes for 30 seconds.
+- **Weak points:** the walk is only two drawings, so it is a little stiff close up; the two hands meet but do not clearly hold each other in the close shot; the overall colour is quite warm and slightly hazy; one tree throws a big dark shadow on the back hill.
+- **Cost here:** about 10 seconds per frame on this machine (no graphics card); the 30 seconds took 23 minutes to render at 720p.
 
 ### 3-risograph.mp4 (style 28) — good, calm, graphic
 Looks like a print from a small risograph press: three spot inks (blue, yellow, red) overprinted on warm paper, halftone dots, slight misregistration. Side view: a long green hill rising to the right, a big yellow sun, red anemones at the top, the captions printed on a paper-white strip.
@@ -69,7 +69,7 @@ Looks like a print from a small risograph press: three spot inks (blue, yellow, 
 ### 1-crayon-world-3d.mp4 (style 85) — interesting, but not for us as made
 A 3D world redrawn 12 times a second in wax crayon, like a child's drawing: scribbled green hill, crayon sky, a strip of blank paper at the top for the words.
 - **Looks:** it really looks like a child drew it, and the camera moves through the world. But the characters are crude tube figures, mostly seen from behind, faces small or hidden; they look stiff. The last frames cut the two off at the edge of the picture.
-- **Cost here:** about 1 second per frame; 30 seconds in about 15 minutes.
+- **Cost here:** about 1 second per frame; 30 seconds in about 12 minutes.
 
 ### Compared with our rejected attempt (`docs/previews/stage3/`)
 The stage 3 drawings are more detailed and have more facial expressions than any of these three. The problem there was the feel: stiff, slightly mannequin-like bodies and flat lighting. **Paper Pop-up is better** than stage 3 for small children: fewer details, but a clear, friendly character design and a real, tactile world. **Risograph is about as good**, in a cleaner, calmer way. **Crayon World is worse**: more naive and less appealing than stage 3.

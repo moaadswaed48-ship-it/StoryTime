@@ -1,35 +1,35 @@
 {
-  "title": "وَاحِدْ، اثْنَانْ، ثَلَاثَةْ… وِي!",
+  "title": "وَاحِدْ، اثْنَانْ، ثَلَاثَةْ… وِييي!",
   "names": { "a01-adam": "آدَم", "a01-papa": "بابا" },
   "pages": [
     { "n": 1, "speech": "صَبَاحٌ بَاكِرٌ، قَبْلَ الْحَرّْ. يَذْهَبُ آدَمُ وَ|بَابَا إِلَى الزَّلَّاقَةِ الصَّغِيرَةْ." },
-    { "n": 2, "speech": "لِ|لزَّلَّاقَةِ ثَلَاثُ دَرَجَاتْ. يَصْعَدُ آدَمْ: وَاحِدْ! اثْنَانْ! ثَلَاثَةْ! وِي!" },
-    { "n": 3, "speech": "«مَرَّةً أُخْرَى!» يَقُولُ آدَمْ. وَاحِدْ! اثْنَانْ! ثَلَاثَةْ! وِي!" },
+    { "n": 2, "speech": "لِ|لزَّلَّاقَةِ ثَلَاثُ دَرَجَاتْ. يَصْعَدُ آدَمْ: وَاحِدْ! اثْنَانْ! ثَلَاثَةْ! وِييي!" },
+    { "n": 3, "speech": "«مَرَّةً أُخْرَى!» يَقُولُ آدَمْ. وَاحِدْ! اثْنَانْ! ثَلَاثَةْ! وِييي!" },
     { "n": 4, "speech": "«دَوْرُكَ^ يَا بَابَا!» يَقُولُ آدَمْ. يَصْعَدُ بَابَا: وَاحِدْ… اثْنَانْ… ثَلَاثَةْ…" },
     { "n": 5, "speech": "يَجْلِسُ بَابَا فِي الْأَعْلَى. رُكْبَتَاهُ عِنْدَ أُذُنَيْهْ." },
-    { "n": 6, "speech": "وِي؟ لَا. بَابَا لَا يَتَحَرَّكْ. بَابَا عَالِقْ!" },
+    { "n": 6, "speech": "وِييي؟ لَا. بَابَا لَا يَتَحَرَّكْ. بَابَا عَالِقْ!" },
     { "n": 7, "speech": "يَدْفَعُ آدَمُ ظَهْرَ بَابَا: وَاحِدْ، اثْنَانْ… ثَلَاثَةْ!" },
-    { "n": 8, "speech": "هُوبْ! يَنْزَلِقُ بَابَا إِلَى الْأَسْفَلْ. وِي! يَضْحَكُ بَابَا، وَ|يَضْحَكُ آدَمْ." },
+    { "n": 8, "speech": "هُوبْ! يَنْزَلِقُ بَابَا إِلَى الْأَسْفَلْ. وِييي! يَضْحَكُ بَابَا، وَ|يَضْحَكُ آدَمْ." },
     { "n": 9, "speech": "فِي الطَّرِيقِ إِلَى الْبَيْتْ… ثَلَاثُ حَمَامَاتٍ عَلَى سُورْ." },
     { "n": 10, "speech": "يُشِيرُ آدَمْ: وَاحِدْ! اثْنَانْ! ثَلَاثَةْ!" },
-    { "n": 11, "speech": "رَفْرَفْ، رَفْرَفْ، رَفْرَفْ! تَطِيرُ الْحَمَامَاتُ عَالِيًا. وِي!" }
+    { "n": 11, "speech": "رَفْرَفْ، رَفْرَفْ، رَفْرَفْ! تَطِيرُ الْحَمَامَاتُ عَالِيًا. وِييي!" }
   ],
   "film": [
     { "id": "f01", "speaker": "narrator", "speech": "صَبَاحٌ بَاكِرٌ، وَ|الْجَوُّ لَطِيفْ.", "emotion": "fresh and quiet, a smile in the voice" },
     { "id": "f02", "speaker": "a01-adam", "speech": "بَابَا! الزَّلَّاقَةْ!", "emotion": "excited, pointing" },
     { "id": "f03", "speaker": "narrator", "speech": "ثَلَاثُ دَرَجَاتْ. عُدُّوا مَعَ آدَمْ!", "emotion": "inviting, speaking to the child watching" },
     { "id": "f04", "speaker": "a01-adam", "speech": "وَاحِدْ! اثْنَانْ! ثَلَاثَةْ!", "emotion": "one number on each step, proud" },
-    { "id": "f05", "speaker": "a01-adam", "speech": "وِي!", "emotion": "pure joy, a long sliding sound" },
-    { "id": "f06", "speaker": "a01-adam", "speech": "مَرَّةً أُخْرَى! وَاحِدْ! اثْنَانْ! ثَلَاثَةْ! وِي!", "emotion": "faster, giggling" },
+    { "id": "f05", "speaker": "a01-adam", "speech": "وِييي!", "emotion": "pure joy, a long sliding sound" },
+    { "id": "f06", "speaker": "a01-adam", "speech": "مَرَّةً أُخْرَى! وَاحِدْ! اثْنَانْ! ثَلَاثَةْ! وِييي!", "emotion": "faster, giggling" },
     { "id": "f07", "speaker": "a01-adam", "speech": "دَوْرُكَ^ يَا بَابَا!", "emotion": "bossy and delighted" },
     { "id": "f08", "speaker": "a01-papa", "speech": "وَاحِدْ… اثْنَانْ… ثَلَاثَةْ…", "emotion": "slow and puffing, playful" },
     { "id": "f09", "speaker": "a01-papa", "speech": "أُوهْ! أَنَا عَالِقْ!", "emotion": "surprised, then laughing at himself, never worried" },
     { "id": "f10", "speaker": "a01-adam", "speech": "سَأَدْفَعُكَ^ يَا بَابَا!", "emotion": "determined and helpful" },
     { "id": "f11", "speaker": "a01-adam", "speech": "وَاحِدْ، اثْنَانْ… ثَلَاثَةْ!", "emotion": "building up, the last number big" },
-    { "id": "f12", "speaker": "a01-papa", "speech": "وِي!", "emotion": "a big happy whoop, laughing" },
+    { "id": "f12", "speaker": "a01-papa", "speech": "وِييي!", "emotion": "a big happy whoop, laughing" },
     { "id": "f13", "speaker": "narrator", "speech": "فِي الطَّرِيقِ إِلَى الْبَيْتْ… انْظُرُوا!", "emotion": "quieter, curious" },
     { "id": "f14", "speaker": "a01-adam", "speech": "وَاحِدْ! اثْنَانْ! ثَلَاثَةْ!", "emotion": "whispered counting, pointing at each pigeon" },
-    { "id": "f15", "speaker": "narrator", "speech": "رَفْرَفْ، رَفْرَفْ، رَفْرَفْ. وِي!", "emotion": "soft and light, rising with the birds" }
+    { "id": "f15", "speaker": "narrator", "speech": "رَفْرَفْ، رَفْرَفْ، رَفْرَفْ. وِييي!", "emotion": "soft and light, rising with the birds" }
   ],
   "activity": {
     "title": "حَجَرٌ فِي كُلِّ كُوبْ",

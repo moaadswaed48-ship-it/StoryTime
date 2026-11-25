@@ -75,6 +75,7 @@ improve ElevenLabs pronunciation is unknown and must be tested [S that it is unk
 | F10 | Numbers are written as words, with full agreement (3 to 10 take the opposite gender of the singular noun; the noun follows in the genitive plural). | ثَلاثَةُ قَوارِبَ (قارِب is masculine) |
 | F11 | When a word could be read two ways, the writer chooses by meaning and marks every letter; no letter of the full layer is left bare except those F4 and F5 name. | كُسِرَ (was broken) not كَسَرَ |
 | F12 | No tatweel (ـ) anywhere; text stored in Unicode NFC, with each mark typed directly after its letter. | |
+| F13 | **Stretched sound words** (a joyful slide, a bleat, a long call) are stretched by **repeating one letter three times or more**, never by tatweel. The first letter of the run carries its mark as usual; the repeats stay bare. Use it only in sound words and calls, at most once a sentence. The check tool accepts a bare letter only inside such a run (no real word has three identical letters in a row). Added 25 Nov 2026 (DECISIONS: A-group "Wheee"). | وِييي! (Wheee), مَاااءْ |
 
 **Open point for the voice test [P]:** F7 writes the pausal tanwin fatha as ـًا. If the voice reads it as "-an"
 instead of "-ā", the speech layer may switch to a plain alif with fatha (ـَا) at pauses only. Decide in the Stage 10
