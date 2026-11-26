@@ -790,3 +790,33 @@ Status: BUILT AND CHECKED (26 Nov 2026), not committed. Neutral tokens only; the
   wording, needs the lawyer pack and the owner), the "receipt in the name of" field for a kindergarten (needs the
   payment company), and the LATER items (class licence, assigning stories, class reports, moving between home and
   class accounts).
+
+## Launch readiness (26 Nov 2026)
+
+Status: DONE for the parts that need neither the look nor an outside account; not committed by the helper. Full
+report, numbers and open items: `docs/reviews/launch-readiness-26nov.md`.
+- [x] **Accessibility:** `e2e/a11y.spec.ts` (new, in the suite): axe-core 4.14.0 (WCAG 2.2 A/AA + best practice) and
+      a 44 px touch-target check on every public page type, the not-found pages and 19 signed-in screens, English and
+      Arabic, 390 and 1440 px (140 audits, 0 violations); keyboard walks (skip link, visible focus on every stop,
+      sign-up to reader by keyboard). Fixed: test-mode notice moved inside the header (landmarks, every page); film
+      player captions toggle and time display; text-field borders 3:1; legal contents links full-row; Latin names in
+      Arabic and Hebrew legal text isolated (no words changed).
+- [x] **Speed:** `scripts/qa/lighthouse.mjs` (lighthouse 13.6.0, mobile, median of 3). Public pages no longer load the
+      data backend for a visitor with no session (`mayHaveSession`, `whenApiLoaded` in `src/data/index.ts`): 12 of
+      14 page types went from about 1.17 MB to about 0.52 MB. "Cancel a purchase" no longer shifts; no favicon 404.
+      After: performance 99-100, accessibility, best practices, SEO 100 on all 56 public pages.
+- [x] **Search and sharing:** `sitemap.xml` and `robots.txt` at build time (`src/seo/sitemap.ts`; preview disallows
+      all, launch allows public pages and names the sitemap); canonical and hreflang verified on all 57 pre-rendered
+      pages (`e2e/launch.spec.ts`); Open Graph words (no picture); `WebSite` structured data on home pages only; a
+      real not-found page in four languages (`src/ui/NotFound.tsx`).
+- [x] **Review items 8, 15, 16 done** (trial box "3 days left" with each language's plurals).
+- [x] **Safety read:** no secrets, no story text beyond A04 page 5, none of the author's story in any built file.
+- New for everyone: `BUILD_DIR=/some/dir npm run build` and `BUILD_DIR=... node scripts/serve.mjs` build and serve a
+  private copy (outside the project the folder above needs a `node_modules` link). New dev dependencies, vetted in
+  `docs/SKILLS.md`: `axe-core`, `@axe-core/playwright`, `lighthouse`.
+- For other helpers: **owner's area (prices)** — `usePrices` on the public home and plans pages loads the whole
+  backend for every visitor (1.2 MB in test mode); keep the static list there or fetch prices without the backend.
+  **Classroom** — `Classroom.tsx` renders its own test-mode notice outside any landmark (axe "region"); the header now
+  carries it. **Launch checklist** — keep `ALLOW_TEST_PAYMENTS` off on the payment function; set `SITE_ORIGIN`.
+- Open (design stage or owner): icons, web app manifest and share picture; domain; Search Console; Safari/VoiceOver
+  (WebKit not installed here); native readers for the new words; Hebrew and Danish signed-in screens not axe-audited.
