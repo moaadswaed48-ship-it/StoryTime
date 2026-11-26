@@ -1,5 +1,7 @@
-import { mkdirSync, readdirSync, readFileSync, statSync } from 'node:fs'
-import { join } from 'node:path'
+import { execFileSync } from 'node:child_process'
+import { existsSync, mkdirSync, mkdtempSync, readdirSync, readFileSync, rmSync, statSync, symlinkSync } from 'node:fs'
+import { tmpdir } from 'node:os'
+import { join, resolve } from 'node:path'
 import { expect, test, type Page, type TestInfo } from '@playwright/test'
 import ar from '../src/i18n/ar/index.ts'
 import en from '../src/i18n/en/index.ts'
@@ -272,4 +274,104 @@ test('the built public pages carry no story text', async ({}, info) => {
   }
   expect(needles.length).toBeGreaterThan(50)
   for (const page of html) for (const n of needles) expect(page.includes(n), n).toBe(false)
+})
+
+/**
+ * Hard rule 6 (review 26 Nov, finding 2): a launch build (Supabase configured) publishes no story words in ANY file,
+ * scripts included, and does not carry the test-mode backend at all. Every string of 20 characters or more in the
+ * stories' language files (pages, film words, activities) and in the author's story is looked for in every file the
+ * build writes, with JavaScript's \u escapes decoded first. The one excerpt the plan allows in public (page 5 of A04,
+ * on the landing page) and any line contained in it are not looked for.
+ */
+function storyLines(): string[] {
+  const out = new Set<string>()
+  const allowed: Record<string, string> = {}
+  const stories = 'content/stories'
+  const strings = (v: unknown, acc: string[]) => {
+    if (typeof v === 'string') acc.push(v)
+    else if (Array.isArray(v)) v.forEach((x) => strings(x, acc))
+    else if (v && typeof v === 'object') Object.values(v).forEach((x) => strings(x, acc))
+    return acc
+  }
+  for (const id of readdirSync(stories)) {
+    for (const lang of ['ar', 'he', 'en', 'da']) {
+      let j: { title?: string; names?: unknown; pages?: { text: string }[] }
+      try {
+        j = JSON.parse(readFileSync(`${stories}/${id}/${lang}.json`, 'utf8'))
+      } catch {
+        continue // a folder still being written
+      }
+      if (id === 'a04') allowed[lang] = j.pages?.[4]?.text ?? ''
+      const { title: _t, names: _n, ...rest } = j
+      for (const s of strings(rest, [])) if (s.trim().length >= 20) out.add(s.trim())
+    }
+  }
+  // The author's story (content/author/*.ts): every quoted string of 20 characters or more.
+  for (const f of readdirSync('content/author')) {
+    const src = readFileSync(`content/author/${f}`, 'utf8')
+    for (const m of src.matchAll(/'((?:[^'\\\n]|\\.){20,})'|"((?:[^"\\\n]|\\.){20,})"/g)) out.add((m[1] ?? m[2])!.replace(/\\(.)/g, '$1'))
+  }
+  const excerpts = Object.values(allowed)
+  return [...out].filter((s) => !excerpts.some((e) => e.includes(s)))
+}
+
+function builtFiles(root: string): { path: string; text: string }[] {
+  const files: { path: string; text: string }[] = []
+  const walk = (dir: string) => {
+    for (const f of readdirSync(dir)) {
+      const p = join(dir, f)
+      if (statSync(p).isDirectory()) walk(p)
+      else if (!/\.(webp|png|jpe?g|gif|ico|mp3|m4a|mp4|webm|woff2?|ttf|glb|wasm)$/i.test(p)) {
+        const raw = readFileSync(p, 'utf8')
+        const text = raw.replace(/\\u\{([0-9a-fA-F]+)\}|\\u([0-9a-fA-F]{4})/g, (_, a: string | undefined, b: string | undefined) => String.fromCodePoint(parseInt(a ?? b!, 16)))
+        files.push({ path: p, text })
+      }
+    }
+  }
+  walk(root)
+  return files
+}
+
+const hits = (files: { path: string; text: string }[], lines: string[]) =>
+  lines.flatMap((l) => files.filter((f) => f.text.includes(l)).map((f) => `${f.path.split(/[\\/]/).slice(-2).join('/')}: ${l.slice(0, 50)}`))
+
+test('a launch build publishes no story text and no test-mode backend, in any file', async ({}, info) => {
+  test.skip(info.project.name !== 'desktop', 'checks files once')
+  test.setTimeout(600_000)
+  // LAUNCH_BUILD_DIR: an existing launch build to check; otherwise one is built here, with a stand-in Supabase
+  // address and key (nothing is contacted: the build only needs them to be set).
+  let root = process.env.LAUNCH_BUILD_DIR ?? ''
+  let made = ''
+  if (!root) {
+    made = mkdtempSync(join(tmpdir(), 'storytime-launch-'))
+    symlinkSync(resolve('node_modules'), join(made, 'node_modules')) // the pre-render step imports React from here
+    root = join(made, 'build')
+    execFileSync('npm', ['run', 'build'], {
+      stdio: 'pipe',
+      timeout: 540_000,
+      env: { ...process.env, VITE_SUPABASE_URL: 'https://example.invalid', VITE_SUPABASE_PUBLISHABLE_KEY: 'sb_publishable_stand_in', NOINDEX: '1', BUILD_DIR: root },
+    })
+  }
+  try {
+    const files = builtFiles(root)
+    expect(files.filter((f) => f.path.endsWith('.js')).length).toBeGreaterThan(20)
+    const lines = storyLines()
+    expect(lines.length).toBeGreaterThan(1000)
+    expect(hits(files, lines)).toEqual([])
+    // The test-mode backend's own keys (its accounts store and its test clock) are nowhere in the output.
+    for (const marker of ['storytime.dev.clockOffsetMs', 'storytime.local.content.v1', 'storytime.local.session']) {
+      expect(files.filter((f) => f.text.includes(marker)).map((f) => f.path), marker).toEqual([])
+    }
+  } finally {
+    if (made) rmSync(made, { recursive: true, force: true })
+  }
+})
+
+test('the story-text scan is not blind: it finds the stories in the test-mode build being served', async ({}, info) => {
+  test.skip(info.project.name !== 'desktop', 'checks files once')
+  // The test-mode build carries the sample and pilot stories for the local backend (docs/HANDOFF.md, Preview).
+  const root = join(process.env.BUILD_DIR || 'build', 'client')
+  expect(existsSync(root)).toBe(true)
+  const found = hits(builtFiles(root).filter((f) => f.path.endsWith('.js')), storyLines())
+  expect(found.length).toBeGreaterThan(1000)
 })

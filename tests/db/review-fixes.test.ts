@@ -20,7 +20,7 @@ async function story(slug: string, group: string) {
 }
 
 const order = async (uid: string, group = '4-5', months = 1, provider = 'test') =>
-  (await rows<{ id: string; amount_agorot: number }>(db, user(uid), `select * from create_order($1, $2, $3, 'terms-1')`, [group, months, provider]))[0]!
+  (await rows<{ id: string; amount_agorot: number }>(db, user(uid), `select * from create_order($1, $2, $3, 'terms-1', (select price_agorot from pass_prices where age_group = $1::text and months = $2::integer))`, [group, months, provider]))[0]!
 
 const pay = async (o: { id: string; amount_agorot: number }, eventId = `evt-${Math.random()}`) =>
   (await rows<{ p: string }>(db, service, `select confirm_payment('test', $1, $2, $3, $4) as p`, [eventId, o.id, `pay-${eventId}`, o.amount_agorot]))[0]!.p
@@ -51,7 +51,7 @@ describe('R1: no account without the terms and the adult box', () => {
 
   it('an order must name a published terms version', async () => {
     const uid = await signUp(db, 'r1order@example.test')
-    await expect(rows(db, user(uid), `select create_order('4-5', 1, 'test', 'v99')`)).rejects.toThrow(/terms_required/)
+    await expect(rows(db, user(uid), `select create_order('4-5', 1, 'test', 'v99', null)`)).rejects.toThrow(/terms_required/)
   })
 
   it('the terms version the site sends is published in the database', async () => {
@@ -111,18 +111,18 @@ describe('R5: the test provider and unknown providers', () => {
     await prod.query(`update pass_prices set price_agorot = 4990 where age_group = '4-5' and months = 1`)
     const uid = await signUp(prod, 'prod@example.test', { terms_version: TERMS_VERSION })
     const q = (sql: string, p: unknown[] = []) => rows(prod, user(uid), sql, p)
-    await expect(q(`select create_order('4-5', 1, 'test', $1)`, [TERMS_VERSION])).rejects.toThrow(/test_payments_off/)
-    await expect(q(`select create_order('4-5', 1, 'zzz', $1)`, [TERMS_VERSION])).rejects.toThrow(/provider_not_connected/)
-    await expect(q(`select create_order('4-5', 1, 'cardcom', $1)`, [TERMS_VERSION])).rejects.toThrow(/provider_not_connected/)
+    await expect(q(`select create_order('4-5', 1, 'test', $1, 4990)`, [TERMS_VERSION])).rejects.toThrow(/test_payments_off/)
+    await expect(q(`select create_order('4-5', 1, 'zzz', $1, 4990)`, [TERMS_VERSION])).rejects.toThrow(/provider_not_connected/)
+    await expect(q(`select create_order('4-5', 1, 'cardcom', $1, 4990)`, [TERMS_VERSION])).rejects.toThrow(/provider_not_connected/)
     // Even an order made while test payments were on cannot be confirmed through the test provider once they are off.
     await prod.query(`update private.settings set allow_test_payments = true`)
-    const [o] = await q(`select * from create_order('4-5', 1, 'test', $1)`, [TERMS_VERSION]) as { id: string; amount_agorot: number }[]
+    const [o] = await q(`select * from create_order('4-5', 1, 'test', $1, 4990)`, [TERMS_VERSION]) as { id: string; amount_agorot: number }[]
     await prod.query(`update private.settings set allow_test_payments = false`)
     await expect(rows(prod, service, `select confirm_payment('test', 'e1', $1, 'p1', $2)`, [o!.id, o!.amount_agorot])).rejects.toThrow(/test_payments_off/)
     await expect(rows(prod, service, `select record_payment_failure('test', 'e2', $1, 'payment_failed')`, [o!.id])).rejects.toThrow(/test_payments_off/)
     // A connected real provider takes the database price.
-    await prod.query(`update private.settings set payment_providers = '{cardcom}'`)
-    const [real] = await q(`select * from create_order('4-5', 1, 'cardcom', $1)`, [TERMS_VERSION]) as { amount_agorot: number; price_was_placeholder: boolean }[]
+    await prod.query(`update private.settings set payment_providers = '{cardcom}', seller_name = 'Test seller', seller_number = '000000000'`)
+    const [real] = await q(`select * from create_order('4-5', 1, 'cardcom', $1, 4990)`, [TERMS_VERSION]) as { amount_agorot: number; price_was_placeholder: boolean }[]
     expect(real).toMatchObject({ amount_agorot: 4990, price_was_placeholder: false })
   })
 })

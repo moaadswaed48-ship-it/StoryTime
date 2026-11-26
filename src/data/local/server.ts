@@ -7,7 +7,7 @@ import {
   isAgeGroup, isPassMonths, learnerKindFor,
   cleanPrefs, MAX_FILM_POSITION_S,
   type AccessSnapshot, type Account, type AccountPrefs, type AgeGroup, type Iso, type Learner, type LearnerKind, type Order, type OrderStatus,
-  type Pass, type PassMonths, type PassStatus, type Price, type Progress, type ProgressPatch, type Role, type StoryContent, type StorySummary, type Trial,
+  type OrderRefund, type Pass, type PassMonths, type PassStatus, type Price, type Progress, type ProgressPatch, type Role, type StoryContent, type StorySummary, type Trial,
 } from '../types'
 import { PRICES } from '../prices'
 import { isEmail, MIN_PASSWORD } from '../validate'
@@ -68,8 +68,8 @@ type ConsentRow = { id: string; accountId: string; kind: 'terms' | 'adult' | 'ma
 type TrialRow = Trial & { accountId: string }
 type OrderRow = Order & { accountId: string | null; termsVersion: string }
 type PaymentRow = { id: string; orderId: string; provider: string; providerPaymentId: string; amountAgorot: number; createdAt: Iso }
-type PassRow = { id: string; accountId: string; orderId: string | null; ageGroup: AgeGroup; months: PassMonths; startsAt: Iso; endsAt: Iso; status: PassStatus; cancelledAt: Iso | null }
-type RefundRow = {
+export type PassRow = { id: string; accountId: string; orderId: string | null; ageGroup: AgeGroup; months: PassMonths; startsAt: Iso; endsAt: Iso; status: PassStatus; cancelledAt: Iso | null }
+export type RefundRow = {
   id: string; orderId: string; passId: string; amountAgorot: number; feeAgorot: number | null; status: 'requested' | 'issued' | 'declined'; requestedAt: Iso
   /** Set by the owner's area (part 2) when the owner marks the money as returned, with her note. */
   issuedAt?: Iso | null; note?: string | null
@@ -118,6 +118,34 @@ export type LocalDb = {
   contactMessages?: { id: string; name: string | null; email: string; lang: string; message: string; createdAt: Iso; handledAt?: Iso | null }[]
   /** Pass prices the owner set in the owner's area (table pass_prices); a pass missing here has no price yet. */
   prices?: Price[]
+}
+
+/**
+ * The cancellation itself (private.cancel_pass() in SQL), shared by the family's own cancellation and the owner's
+ * cancellation for a request from the public form (src/features/owner/data/local.ts): an active pass, within 14
+ * days of payment; passes queued behind it move earlier by the time it had left (W4); a refund request for the price
+ * paid; the cancellation email. Throws pass_not_active or cancel_window_closed. Returns the refund's id.
+ */
+export function cancelPass(db: LocalDb, row: PassRow, now: Iso, lang: Lang): string {
+  if (row.status !== 'active') throw new DataError('pass_not_active')
+  const o = db.orders.find((x) => x.id === row.orderId)
+  const pass: Pass = { ...row, paidAt: o?.paidAt ?? null, amountAgorot: o?.amountAgorot ?? 0 }
+  if (!canCancel(pass, now)) throw new DataError('cancel_window_closed')
+  row.status = 'cancelled'
+  row.cancelledAt = now
+  const unused = new Date(row.endsAt).getTime() - Math.max(new Date(now).getTime(), new Date(row.startsAt).getTime())
+  if (unused > 0) {
+    for (const q of db.passes) {
+      if (q.id === row.id || q.accountId !== row.accountId || q.ageGroup !== row.ageGroup || q.status !== 'active' || q.startsAt < row.endsAt) continue
+      q.startsAt = new Date(new Date(q.startsAt).getTime() - unused).toISOString()
+      q.endsAt = new Date(new Date(q.endsAt).getTime() - unused).toISOString()
+    }
+  }
+  const id = uuid()
+  db.refunds.push({ id, orderId: row.orderId!, passId: row.id, amountAgorot: pass.amountAgorot, feeAgorot: null, status: 'requested', requestedAt: now })
+  const u = db.users.find((x) => x.id === row.accountId)
+  if (u) db.outbox.push({ id: uuid(), to: u.email, template: 'cancellation', lang, link: null, createdAt: now })
+  return id
 }
 
 /**
@@ -645,13 +673,15 @@ export class LocalServer {
     return PRICES.map((p) => ({ ...p, priceAgorot: set.find((x) => x.ageGroup === p.ageGroup && x.months === p.months)?.priceAgorot ?? null }))
   }
 
-  createOrder(uid: string | null, input: { ageGroup: AgeGroup; months: PassMonths; provider: string; termsVersion: string }): Order {
+  createOrder(uid: string | null, input: { ageGroup: AgeGroup; months: PassMonths; provider: string; termsVersion: string; expectedAgorot: number | null }): Order {
     const id = this.requireUser(uid)
     if (!isAgeGroup(input.ageGroup) || !isPassMonths(input.months)) throw new DataError('unknown', 'bad_plan')
     if (input.termsVersion !== TERMS_VERSION) throw new DataError('terms_required')
     // As create_order(): test mode always allows the test provider; no real provider is connected (R5).
     if (input.provider !== 'test') throw new DataError('unknown', 'provider_not_connected')
     const price = this.listPrices().find((p) => p.ageGroup === input.ageGroup && p.months === input.months)!.priceAgorot
+    // As create_order(): the price the family was shown must still be the price (review 26 Nov, finding 7).
+    if ((input.expectedAgorot ?? null) !== price) throw new DataError('price_changed')
     return this.tx((db) => {
       const now = this.now()
       const hourAgo = new Date(now).getTime() - 3_600_000
@@ -680,7 +710,15 @@ export class LocalServer {
 
   listOrders(uid: string | null): Order[] {
     const id = this.requireUser(uid)
-    return this.read().orders.filter((o) => o.accountId === id).map((o) => this.orderOut(o)).sort((a, b) => b.createdAt.localeCompare(a.createdAt))
+    const db = this.read()
+    return db.orders.filter((o) => o.accountId === id).map((o) => {
+      // The latest refund of the order, as the family may read it (refunds_read policy): amount returned, fee, note.
+      const r = db.refunds.filter((x) => x.orderId === o.id).sort((a, b) => b.requestedAt.localeCompare(a.requestedAt))[0]
+      const refund: OrderRefund | null = r
+        ? { status: r.status, amountAgorot: r.amountAgorot, feeAgorot: r.feeAgorot, requestedAt: r.requestedAt, issuedAt: r.issuedAt ?? null, note: r.note ?? null }
+        : null
+      return { ...this.orderOut(o), refund }
+    }).sort((a, b) => b.createdAt.localeCompare(a.createdAt))
   }
 
   /**
@@ -722,23 +760,7 @@ export class LocalServer {
     this.tx((db) => {
       const row = db.passes.find((p) => p.id === passId && p.accountId === id)
       if (!row) throw new DataError('not_found')
-      if (row.status !== 'active') throw new DataError('pass_not_active')
-      const pass = this.passOut(db, row)
-      if (!canCancel(pass, this.now())) throw new DataError('cancel_window_closed')
-      row.status = 'cancelled'
-      row.cancelledAt = this.now()
-      // As cancel_purchase(): passes queued behind this one move earlier by the time it had left (W4).
-      const unused = new Date(row.endsAt).getTime() - Math.max(new Date(this.now()).getTime(), new Date(row.startsAt).getTime())
-      if (unused > 0) {
-        for (const q of db.passes) {
-          if (q.id === row.id || q.accountId !== id || q.ageGroup !== row.ageGroup || q.status !== 'active' || q.startsAt < row.endsAt) continue
-          q.startsAt = new Date(new Date(q.startsAt).getTime() - unused).toISOString()
-          q.endsAt = new Date(new Date(q.endsAt).getTime() - unused).toISOString()
-        }
-      }
-      db.refunds.push({ id: uuid(), orderId: row.orderId!, passId: row.id, amountAgorot: pass.amountAgorot, feeAgorot: null, status: 'requested', requestedAt: this.now() })
-      const u = db.users.find((x) => x.id === id)!
-      db.outbox.push({ id: uuid(), to: u.email, template: 'cancellation', lang, link: null, createdAt: this.now() })
+      cancelPass(db, row, this.now(), lang)
     })
   }
 

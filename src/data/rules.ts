@@ -83,3 +83,20 @@ export const canCancel = (p: Pass, now: Iso) => p.status === 'active' && !!p.pai
 
 /** The most a cancellation fee may be: the lower of 5% of the price or 100 shekels (legal checklist item 6). */
 export const maxCancellationFee = (amountAgorot: number) => Math.min(Math.floor(amountAgorot * 0.05), 10_000)
+
+/** What a refund returns: the price paid minus the fee kept (refunds_amount_returned in SQL; 0 when declined). */
+export const refundReturned = (paidAgorot: number, feeAgorot: number | null, declined = false) => (declined ? 0 : paidAgorot - (feeAgorot ?? 0))
+
+/**
+ * Whether what someone typed as the order number on the public cancellation form names this order: any run of 8 or
+ * more hexadecimal characters (hyphens allowed, case ignored) that the order's id starts with. The family sees the
+ * first 8 characters in Settings and the whole id in the purchase email. private.order_ref_matches() in SQL.
+ */
+export function orderRefMatches(ref: string, orderId: string): boolean {
+  const id = orderId.toLowerCase().replace(/-/g, '')
+  for (const m of ref.toLowerCase().matchAll(/[0-9a-f][0-9a-f-]{7,}/g)) {
+    const run = m[0].replace(/-/g, '')
+    if (run.length >= 8 && run.length <= 32 && id.startsWith(run)) return true
+  }
+  return false
+}

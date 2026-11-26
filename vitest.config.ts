@@ -11,6 +11,7 @@ export default defineConfig({
   define: {
     __SITE_ORIGIN__: JSON.stringify('https://example.test'),
     __NOINDEX__: 'false',
+    __TEST_BACKEND__: 'true',
   },
   test: {
     include: ['tests/**/*.test.ts'],

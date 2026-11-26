@@ -1,7 +1,7 @@
 import { LANGS, type Lang } from '@/i18n/config'
 import { AGE_GROUPS, type AgeGroup } from '@/data/types'
 import { wordsOf } from '@/content/schema'
-import type { ActivityText, LangContent, MediaKind, OwnerStory, UploadPurpose } from './types'
+import type { ActivityText, LangContent, MediaKind, OwnerStory, OwnerStorySummary, UploadPurpose } from './types'
 
 /**
  * The owner's rules, as pure functions shared by the local store, the Supabase store and the screens.
@@ -199,3 +199,15 @@ export function checkUpload(purpose: UploadPurpose, file: { name: string; size: 
 
 /** A file name safe for a storage path. */
 export const safeName = (name: string) => name.normalize('NFKD').replace(/[^\w.-]+/g, '-').replace(/-+/g, '-').slice(-80) || 'file'
+
+/** The list row: titles, groups and what is still missing per language. */
+export function summarise(s: OwnerStory): OwnerStorySummary {
+  const langs = possibleLangs(s)
+  const shared = sharedGaps(s).length
+  return {
+    id: s.id, status: s.status, credit: s.credit, groups: s.groups, publishLangs: s.publishLangs, updatedAt: s.updatedAt,
+    titles: Object.fromEntries(LANGS.filter((l) => s.texts[l].title.trim()).map((l) => [l, s.texts[l].title])),
+    missing: Object.fromEntries(LANGS.map((l) => [l, langs.includes(l) ? blockingGaps(s, l).length + shared : 0])) as Record<Lang, number>,
+    signedOff: Object.fromEntries(LANGS.map((l) => [l, signoffValid(s, l)])) as Record<Lang, boolean>,
+  }
+}

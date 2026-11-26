@@ -17,7 +17,7 @@ const audit = async (table: string, id: string) =>
     `select action, actor_id, detail from audit_log where target_table = $1 and target_id = $2 order by id`, [table, id])).rows
 
 const order = async (uid: string, group = '4-5', months = 1, provider = 'test') =>
-  (await rows<{ id: string; amount_agorot: number }>(db, user(uid), `select * from create_order($1, $2, $3, 'terms-1')`, [group, months, provider]))[0]!
+  (await rows<{ id: string; amount_agorot: number }>(db, user(uid), `select * from create_order($1, $2, $3, 'terms-1', (select price_agorot from pass_prices where age_group = $1::text and months = $2::integer))`, [group, months, provider]))[0]!
 const pay = async (o: { id: string; amount_agorot: number }) => {
   const e = `evt-${Math.random()}`
   return (await rows<{ p: string }>(db, service, `select confirm_payment('test', $1, $2, $3, $4) as p`, [e, o.id, `pay-${e}`, o.amount_agorot]))[0]!.p
@@ -187,14 +187,14 @@ describe('prices', () => {
   })
 
   it('create_order charges the price the owner set, and refuses a real provider while a price is missing', async () => {
-    await db.query(`update private.settings set payment_providers = '{cardcom}'`)
+    await db.query(`update private.settings set payment_providers = '{cardcom}', seller_name = 'Test seller', seller_number = '000000000'`)
     const uid = await signUp(db, 'buyer-p2@example.test')
     await expect(order(uid, '6-8', 1, 'cardcom')).rejects.toThrow(/price_not_set/)
     await rows(db, user(owner), `select owner_set_price('6-8', 1, 3990)`)
-    const real = await rows<{ amount_agorot: number; price_was_placeholder: boolean }>(db, user(uid), `select * from create_order('6-8', 1, 'cardcom', 'terms-1')`)
+    const real = await rows<{ amount_agorot: number; price_was_placeholder: boolean }>(db, user(uid), `select * from create_order('6-8', 1, 'cardcom', 'terms-1', 3990)`)
     expect(real[0]).toMatchObject({ amount_agorot: 3990, price_was_placeholder: false })
     await rows(db, user(owner), `select owner_set_price('6-8', 1, null)`)
     await expect(order(uid, '6-8', 1, 'cardcom')).rejects.toThrow(/price_not_set/)
-    await db.query(`update private.settings set payment_providers = '{}'`)
+    await db.query(`update private.settings set payment_providers = '{}', seller_name = null, seller_number = null`)
   })
 })

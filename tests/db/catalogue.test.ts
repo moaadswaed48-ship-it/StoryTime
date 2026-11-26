@@ -20,7 +20,7 @@ const ANON_FUNCTIONS = [
 const AUTHENTICATED_FUNCTIONS = [
   'can_read_media(p_media uuid)',
   'cancel_purchase(p_pass uuid)',
-  'create_order(p_age_group text, p_months integer, p_provider text, p_terms_version text)',
+  'create_order(p_age_group text, p_months integer, p_provider text, p_terms_version text, p_expected_agorot integer)',
   'delete_my_account()',
   'export_my_data()',
   'has_access_to_activity(p_activity uuid)',
@@ -29,6 +29,7 @@ const AUTHENTICATED_FUNCTIONS = [
   'has_trial_access(p_story uuid)',
   'is_owner()',
   'learner_kind_for_me()',
+  'owner_cancel_for_request(p_request uuid, p_order uuid)',
   'owner_create_story()',
   'owner_dashboard()',
   'owner_inbox()',

@@ -4,7 +4,7 @@ import type { ContactMessageInput, DataApi, LinkKind, ProviderEvent, SignUpInput
 import { codeFromText, DataError, type ErrorCode } from '../errors'
 import {
   cleanPrefs, learnerKindFor,
-  type AccessSnapshot, type Account, type AccountPrefs, type AgeGroup, type Learner, type Order, type Pass, type PassMonths, type Price, type Role,
+  type AccessSnapshot, type Account, type AccountPrefs, type AgeGroup, type Learner, type Order, type OrderRefund, type Pass, type PassMonths, type Price, type Role,
   type Progress, type ProgressPatch, type Session, type StoryContent, type StorySummary, type Trial,
 } from '../types'
 
@@ -349,8 +349,10 @@ export class SupabaseApi implements DataApi {
     return rows.map((r) => ({ ageGroup: r.age_group as AgeGroup, months: r.months as PassMonths, priceAgorot: (r.price_agorot as number | null) ?? null }))
   }
 
-  async createOrder(i: { ageGroup: AgeGroup; months: PassMonths; provider: string; termsVersion: string }) {
-    const r = await must(this.sb.rpc('create_order', { p_age_group: i.ageGroup, p_months: i.months, p_provider: i.provider, p_terms_version: i.termsVersion }))
+  async createOrder(i: { ageGroup: AgeGroup; months: PassMonths; provider: string; termsVersion: string; expectedAgorot: number | null }) {
+    const r = await must(this.sb.rpc('create_order', {
+      p_age_group: i.ageGroup, p_months: i.months, p_provider: i.provider, p_terms_version: i.termsVersion, p_expected_agorot: i.expectedAgorot,
+    }))
     return toOrder(r as Row)
   }
 
@@ -362,7 +364,21 @@ export class SupabaseApi implements DataApi {
 
   async listOrders() {
     const rows = (await must(this.sb.from('orders').select('*').eq('account_id', await this.uid()).order('created_at', { ascending: false }))) as Row[]
-    return rows.map(toOrder)
+    const orders = rows.map(toOrder)
+    if (!orders.length) return orders
+    // The family's own refunds (refunds_read policy): amount returned, fee and the owner's note, latest first.
+    const refunds = (await must(this.sb.from('refunds').select('order_id, status, amount_agorot, fee_agorot, requested_at, issued_at, note')
+      .in('order_id', orders.map((o) => o.id)).order('requested_at', { ascending: false }))) as Row[]
+    return orders.map((o) => {
+      const r = refunds.find((x) => x.order_id === o.id)
+      return {
+        ...o,
+        refund: r ? {
+          status: r.status as OrderRefund['status'], amountAgorot: Number(r.amount_agorot ?? 0), feeAgorot: r.fee_agorot === null || r.fee_agorot === undefined ? null : Number(r.fee_agorot),
+          requestedAt: r.requested_at as string, issuedAt: (r.issued_at as string | null) ?? null, note: (r.note as string | null) ?? null,
+        } : null,
+      }
+    })
   }
 
   /** Goes to the payment-callback edge function, which accepts test events only where ALLOW_TEST_PAYMENTS=1. */

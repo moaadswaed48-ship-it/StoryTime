@@ -85,8 +85,13 @@ export interface DataApi {
 
   // Money
   listPrices(): Promise<Price[]>
-  createOrder(input: { ageGroup: AgeGroup; months: PassMonths; provider: string; termsVersion: string }): Promise<Order>
+  /**
+   * `expectedAgorot` is the price the family was shown (null: "Price not set yet"). The order is refused with
+   * price_changed when the current price differs, so nobody is charged a price they did not see.
+   */
+  createOrder(input: { ageGroup: AgeGroup; months: PassMonths; provider: string; termsVersion: string; expectedAgorot: number | null }): Promise<Order>
   getOrder(id: string): Promise<Order>
+  /** The account's orders, newest first, each with its latest refund (amount returned, fee, the owner's note). */
   listOrders(): Promise<Order[]>
   /** The test provider's server callback. A real provider calls the server directly, never the browser. */
   sendTestProviderEvent(event: ProviderEvent): Promise<void>

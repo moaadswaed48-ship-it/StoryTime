@@ -85,7 +85,7 @@ beforeAll(async () => {
   // Two customers, each with a trial, a paid pass and its order.
   for (const who of ['ana', 'ben']) {
     await rows(db, user(ids[who]!), `select start_trial('4-5')`)
-    const [o] = await rows<{ id: string }>(db, user(ids[who]!), `select * from create_order('6-8', 1, 'test', 'terms-1')`)
+    const [o] = await rows<{ id: string }>(db, user(ids[who]!), `select * from create_order('6-8', 1, 'test', 'terms-1', null)`)
     await rows(db, service, `select confirm_payment('test', $1, $2, $3, 0)`, [`evt-${who}`, o!.id, `pay-${who}`])
     ids[`${who}:order`] = o!.id
   }

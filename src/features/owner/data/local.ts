@@ -6,7 +6,7 @@ import { OwnerError, type OwnerApi } from './api'
 import type { BlobStore } from './blobs'
 import {
   blockingGaps, checkUpload, emptyLangContent, fingerprint, hasActivity, kindOfMime, possibleLangs, publishedGaps, publishProblems,
-  safeName, sharedGaps, signoffValid, targetLangs, trialOverflow,
+  safeName, sharedGaps, signoffValid, summarise, targetLangs, trialOverflow,
 } from './rules'
 import { maxCancellationFee, priceProblem, REFUND_NOTE_MAX } from './money'
 import {
@@ -410,17 +410,8 @@ export class LocalOwnerServer {
   }
 }
 
-/** The list row: titles, groups and what is still missing per language. */
-export function summarise(s: OwnerStory): OwnerStorySummary {
-  const langs = possibleLangs(s)
-  const shared = sharedGaps(s).length
-  return {
-    id: s.id, status: s.status, credit: s.credit, groups: s.groups, publishLangs: s.publishLangs, updatedAt: s.updatedAt,
-    titles: Object.fromEntries(LANGS.filter((l) => s.texts[l].title.trim()).map((l) => [l, s.texts[l].title])),
-    missing: Object.fromEntries(LANGS.map((l) => [l, langs.includes(l) ? blockingGaps(s, l).length + shared : 0])) as Record<Lang, number>,
-    signedOff: Object.fromEntries(LANGS.map((l) => [l, signoffValid(s, l)])) as Record<Lang, boolean>,
-  }
-}
+/** The list row (shared with the Supabase owner backend, so a launch build never needs this test-mode file). */
+export { summarise }
 
 /** Cleans a draft from the editor: known values only, texts for every language, no captions for removed parts. */
 export function normalise(s: OwnerStory, d: StoryDraft): Pick<OwnerStory, 'groups' | 'pages' | 'texts' | 'films' | 'activity'> {

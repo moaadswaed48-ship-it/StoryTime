@@ -3,7 +3,8 @@ import type { DataApi } from './api'
 /**
  * Picks the backend once per page load. With VITE_SUPABASE_URL and a publishable key set at build time it is
  * Supabase; otherwise the local test-mode backend (accounts kept only in this browser, nothing charged), and the
- * screens say so. Each backend is its own chunk, loaded only by the pages that need data.
+ * screens say so. Each backend is its own chunk, loaded only by the pages that need data. A launch build leaves the
+ * test-mode backend out entirely (`__TEST_BACKEND__`, vite.config.ts), so its story files are never published.
  */
 const url = import.meta.env.VITE_SUPABASE_URL as string | undefined
 const key = (import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY ?? import.meta.env.VITE_SUPABASE_ANON_KEY) as string | undefined
@@ -19,9 +20,13 @@ const loaded = new Set<(a: DataApi) => void>()
 export function getApi(): Promise<DataApi> {
   if (!api) {
     const linkBase = typeof location === 'undefined' ? '/' : `${location.origin}${import.meta.env.BASE_URL}`
+    // __TEST_BACKEND__ is false in a launch build, where the test-mode backend is not even in the output
+    // (vite.config.ts): a launch build never ships the local backend or the story files it reads.
     api = backendKind === 'supabase'
       ? import('./supabase/index.ts').then((m) => new m.SupabaseApi(url!, key!, linkBase))
-      : import('./local/index.ts').then((m) => new m.LocalApi())
+      : __TEST_BACKEND__
+        ? import('./local/index.ts').then((m) => new m.LocalApi())
+        : Promise.reject(new Error('The test-mode backend is not part of a launch build.'))
     api.then((a) => {
       ready = a
       loaded.forEach((fn) => fn(a))

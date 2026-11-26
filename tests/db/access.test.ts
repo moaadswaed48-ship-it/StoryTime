@@ -57,7 +57,7 @@ async function canRead(who: Parameters<typeof rows>[1], slug: string) {
 
 /** Buys a pass through the real path: the user creates the order, the server confirms the payment. */
 async function buyPass(uid: string, group: string, months = 1, eventId = `evt-${Math.random()}`) {
-  const order = (await rows<{ id: string; amount_agorot: number }>(db, user(uid), `select * from create_order($1, $2, 'test', 'terms-1')`, [group, months]))[0]!
+  const order = (await rows<{ id: string; amount_agorot: number }>(db, user(uid), `select * from create_order($1, $2, 'test', 'terms-1', (select price_agorot from pass_prices where age_group = $1::text and months = $2::integer))`, [group, months]))[0]!
   const pass = (await rows<{ p: string }>(db, service, `select confirm_payment('test', $1, $2, $3, $4) as p`, [eventId, order.id, `pay-${eventId}`, order.amount_agorot]))[0]!.p
   return { orderId: order.id, passId: pass, eventId, amount: order.amount_agorot }
 }
@@ -85,7 +85,7 @@ describe('signed out (anon)', () => {
   it('has no access to any story and cannot start a trial or create an order', async () => {
     expect((await rows<{ ok: boolean }>(db, anon, 'select has_access_to_story($1) as ok', [ids['trial-45']]))[0]!.ok).toBe(false)
     await expect(rows(db, anon, `select start_trial('4-5')`)).rejects.toThrow(/permission denied/)
-    await expect(rows(db, anon, `select create_order('4-5', 1, 'test', 'v')`)).rejects.toThrow(/permission denied/)
+    await expect(rows(db, anon, `select create_order('4-5', 1, 'test', 'v', null)`)).rejects.toThrow(/permission denied/)
   })
 
   it('can send the public "Cancel a purchase" form but cannot read what was sent', async () => {
@@ -206,7 +206,7 @@ describe('passes', () => {
 
   it('a wrong amount is refused and unlocks nothing', async () => {
     const uid = await signUp(db, 'amount@example.test')
-    const order = (await rows<{ id: string }>(db, user(uid), `select * from create_order('4-5', 1, 'test', 'terms-1')`))[0]!
+    const order = (await rows<{ id: string }>(db, user(uid), `select * from create_order('4-5', 1, 'test', 'terms-1', null)`))[0]!
     await expect(rows(db, service, `select confirm_payment('test', 'evt-amount', $1, 'pay', 999)`, [order.id])).rejects.toThrow(/amount_mismatch/)
     expect(await rows(db, user(uid), 'select count(*)::int as n from passes')).toEqual([{ n: 0 }])
   })
@@ -223,9 +223,9 @@ describe('passes', () => {
   it('a placeholder price can be bought only through the test provider', async () => {
     const uid = await signUp(db, 'price@example.test')
     await db.query(`update private.settings set payment_providers = '{cardcom}'`) // a connected real provider
-    await expect(rows(db, user(uid), `select create_order('4-5', 1, 'cardcom', 'terms-1')`)).rejects.toThrow(/price_not_set/)
+    await expect(rows(db, user(uid), `select create_order('4-5', 1, 'cardcom', 'terms-1', null)`)).rejects.toThrow(/price_not_set/)
     await db.query(`update private.settings set payment_providers = '{}'`)
-    const [o] = await rows<{ amount_agorot: number; price_was_placeholder: boolean }>(db, user(uid), `select * from create_order('4-5', 1, 'test', 'terms-1')`)
+    const [o] = await rows<{ amount_agorot: number; price_was_placeholder: boolean }>(db, user(uid), `select * from create_order('4-5', 1, 'test', 'terms-1', null)`)
     expect(o).toMatchObject({ amount_agorot: 0, price_was_placeholder: true })
   })
 

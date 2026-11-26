@@ -176,6 +176,21 @@ export type Order = {
   status: OrderStatus
   createdAt: Iso
   paidAt: Iso | null
+  /** The latest refund of this order (listOrders only); null when none. */
+  refund?: OrderRefund | null
+}
+
+/**
+ * A refund of the family's own order, as they may read it (refunds_read policy): `amountAgorot` is what was (or will
+ * be) returned, the price paid minus `feeAgorot`; `note` is the owner's note on how and when the money went back.
+ */
+export type OrderRefund = {
+  status: 'requested' | 'issued' | 'declined'
+  amountAgorot: number
+  feeAgorot: number | null
+  requestedAt: Iso
+  issuedAt: Iso | null
+  note: string | null
 }
 
 /** Final price with VAT, in agorot. null = not set by the owner yet (a visibly marked placeholder). */

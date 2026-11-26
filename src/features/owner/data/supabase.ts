@@ -2,8 +2,7 @@ import type { SupabaseClient } from '@supabase/supabase-js'
 import { LANGS, type Lang } from '@/i18n/config'
 import type { AgeGroup, Iso, PassMonths, Price } from '@/data/types'
 import { OwnerError, type OwnerApi, type OwnerErrorCode } from './api'
-import { summarise } from './local'
-import { checkUpload, fingerprint, kindOfMime, publishProblems, safeName } from './rules'
+import { checkUpload, fingerprint, kindOfMime, publishProblems, safeName, summarise } from './rules'
 import type { AuditRow, ContactMessage, Dashboard, Inbox, MediaRecord, OwnerStory, RefundsView, Signoff, StoryDraft, UploadMeta } from './types'
 
 /**

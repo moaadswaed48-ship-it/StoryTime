@@ -16,6 +16,7 @@ export const ERROR_CODES = [
   'profile_limit',
   'role_locked',
   'price_not_set',
+  'price_changed',
   'cancel_window_closed',
   'pass_not_active',
   'terms_required',
