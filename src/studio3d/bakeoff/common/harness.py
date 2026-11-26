@@ -160,6 +160,7 @@ def _enforce(scene, a, res):
     r.image_settings.compression = 15
     r.use_file_extension = True
     r.fps = FPS
+    r.compositor_device = 'CPU'      # the factory default ('GPU') ends Blender on a machine without a graphics card
     if r.engine == 'CYCLES':
         c = scene.cycles
         if a.device == 'GPU':
@@ -172,8 +173,15 @@ def _enforce(scene, a, res):
             print(f'HARNESS samples scaled by {a.samples_scale:.3f} to {c.samples}', flush=True)
 
 
-def main(build_shot, reset_between_shots=True):
-    """Draws the requested pictures. `build_shot(ctx)` is called once per shot, in an empty Blender file."""
+def main(build_shot, reset_between_shots=True, sequential=False):
+    """Draws the requested pictures. `build_shot(ctx)` is called once per shot, in an empty Blender file.
+
+    reset_between_shots=False keeps the Blender file between shots in one process (the finished film is drawn one shot
+    per process, so a shot must still build correctly on its own).
+    sequential=True steps through every frame from the shot's first drawn frame up to each requested picture, in order.
+    Needed only if a picture depends on earlier frames (simulation zones, cloth): without it a restarted or partial
+    drawing would differ from a full one.
+    """
     a = _args()
     w, h = (int(v) for v in a.res.lower().split('x'))
     shots = load_shots()
@@ -203,8 +211,13 @@ def main(build_shot, reset_between_shots=True):
         print(f'BUILD {sh["id"]} {time.time() - t0:.1f}', flush=True)
         scene = bpy.context.scene
         _enforce(scene, a, (w, h))
+        stepped = scene.frame_start - 1
         for n in todo:
             t1 = time.time()
+            if sequential:
+                for k in range(stepped + 1, n):
+                    scene.frame_set(k)
+                stepped = n
             scene.frame_set(n)
             tmp = os.path.join(outdir, f'.tmp-f{n:04d}.png')
             scene.render.filepath = tmp

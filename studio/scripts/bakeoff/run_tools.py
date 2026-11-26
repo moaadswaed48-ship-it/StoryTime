@@ -25,7 +25,8 @@ RUN_DIR = os.path.dirname(env.REPO)
 RUN_NAME = os.path.basename(RUN_DIR)
 MIRROR = os.path.join(env.BAKE_ROOT, '.ledgers', RUN_NAME + '.jsonl')
 LOCK = os.path.join(env.BAKE_ROOT, '.lock', 'foreground.lock')
-NOISE = re.compile(r'^(Fra:|Saved:|\s*Time:|Blender \d|Read prefs|Read blend|Writing:|\s*$)')
+NOISE = re.compile(r'^(Fra:|Saved:|\s*Time:|Blender \d|Blender quit|Read prefs|Read blend|Writing:|\s*$'
+                   r'|\d\d:\d\d[.:]\d+\s+\w+\s+\|\s+(Saved:|WARNING CUEW))')
 
 
 def die(msg, code=2):
