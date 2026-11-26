@@ -160,4 +160,23 @@ export type StoriesDict = {
     captions: string
     saved: string
   }
+  /** Teachers: classroom mode (one large screen or projector for a room of children). */
+  classroom: {
+    /** The switch's name. */
+    mode: string
+    /** One line under the switch: what it does. */
+    modeHint: string
+    leave: string
+    fullscreen: string
+    exitFullscreen: string
+    /** Accessible name of the slim classroom bar. */
+    bar: string
+    /** The first card of an activity on the big screen: what the group needs. */
+    getReady: string
+    stepOf: string
+    prevStep: string
+    nextStep: string
+    /** Heading of the notes under the big-screen activity (in a class, safety, the whole idea). */
+    teacherNotes: string
+  }
 }

@@ -6,11 +6,14 @@
 //    404.html for unknown paths (GitHub Pages uses only the one at the site root: see docs/HANDOFF.md).
 //  - .nojekyll: GitHub Pages would otherwise hide files whose names start with "_".
 //  - build/client/.vite (the build manifest) is removed: it is not part of the site.
+//  - sitemap.xml and robots.txt from the list of public pages (src/seo/sitemap.ts): preview builds (NOINDEX=1) disallow
+//    all crawling; launch builds allow the public pages and name the sitemap.
 import { copyFileSync, existsSync, mkdirSync, readFileSync, renameSync, rmSync, writeFileSync } from 'node:fs'
 import { resolve } from 'node:path'
-import { basePath } from '../site.config.ts'
+import { basePath, noIndex, siteOrigin } from '../site.config.ts'
+import { robotsTxt, sitemapXml } from '../src/seo/sitemap.ts'
 
-const client = resolve(import.meta.dirname, '../build/client')
+const client = resolve(import.meta.dirname, '..', process.env.BUILD_DIR || 'build', 'client')
 const site = resolve(client, '.' + basePath)
 rmSync(resolve(client, '.vite'), { recursive: true, force: true })
 
@@ -27,5 +30,7 @@ if (!existsSync(fallback)) throw new Error('postbuild: no __spa-fallback.html (i
 if (!/"isSpaMode":true/.test(readFileSync(fallback, 'utf8'))) throw new Error('postbuild: __spa-fallback.html is not the SPA fallback')
 copyFileSync(fallback, resolve(site, '404.html'))
 writeFileSync(resolve(site, '.nojekyll'), '')
+writeFileSync(resolve(site, 'sitemap.xml'), sitemapXml(siteOrigin, basePath))
+writeFileSync(resolve(site, 'robots.txt'), robotsTxt(siteOrigin, basePath, noIndex))
 if (existsSync(resolve(site, 'lab'))) throw new Error('postbuild: lab pages must not be in a production build')
 console.log(`postbuild: site laid out at build/client${basePath} (base ${basePath})`)

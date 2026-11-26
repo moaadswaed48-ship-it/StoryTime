@@ -1,13 +1,14 @@
 import { useId, type ReactNode } from 'react'
 import { data, useLoaderData } from 'react-router'
 import { PRICES } from '@/data/prices'
+import { usePrices } from '@/features/commerce/usePrices'
 import { PASS_MONTHS } from '@/data/types'
 import { Faq, Ranges } from '@/features/landing/Faq'
 import { ImpactChart } from '@/features/landing/ImpactChart'
 import { isLang } from '@/i18n/config'
 import { loadLanding } from '@/i18n/landing'
 import { useLang } from '@/i18n/use-dict'
-import { langData, pageMeta } from '@/seo/meta'
+import { langData, pageMeta, websiteJsonLd } from '@/seo/meta'
 import { localPath } from '@/seo/paths'
 import { OfflineBanner } from '@/ui/Banners'
 import { ButtonLink, PlaceholderTag, TextLink } from '@/ui/controls'
@@ -17,7 +18,11 @@ import type { Route } from './+types/landing'
 
 export const meta: Route.MetaFunction = ({ matches }) => {
   const d = langData(matches)
-  return d ? pageMeta({ lang: d.lang, page: '', title: d.dict.pages.landing.title, description: d.dict.pages.landing.description, siteName: d.dict.common.siteName }) : []
+  if (!d) return []
+  return [
+    ...pageMeta({ lang: d.lang, page: '', title: d.dict.pages.landing.title, description: d.dict.pages.landing.description, siteName: d.dict.common.siteName }),
+    websiteJsonLd(d.lang, d.dict.common.siteName),
+  ]
 }
 
 async function load(lang: string | undefined) {
@@ -46,7 +51,9 @@ export default function Landing() {
   const c = dict.commerce
   const signUp = localPath(lang, 'sign-up')
   const plans = localPath(lang, 'plans')
-  const pricesSet = PRICES.some((p) => p.priceAgorot !== null)
+  // Live prices once the page runs (the owner sets them in the owner's area); the pre-rendered page uses the static list.
+  const { prices } = usePrices()
+  const pricesSet = (prices ?? PRICES).some((p) => p.priceAgorot !== null)
 
   return (
     <>

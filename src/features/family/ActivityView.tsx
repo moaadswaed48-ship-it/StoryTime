@@ -8,14 +8,17 @@ import { Button } from '@/ui/controls'
 import { IconCheck } from './icons'
 import { ArtPlaceholder } from './Placeholder'
 import { useReducedMotion } from './prefs'
+import { ClassroomActivity } from '@/features/classroom/ClassroomActivity'
 
 /**
  * An activity, complete (owner's requests K and L): what it teaches, the safety note, what you need (a picture of
  * each thing), the steps as large pictures with very short captions (a step marked as moving plays a short silent
  * loop; with reduced motion it shows its still picture), the whole idea for the grown-up, the class note, and a
  * "We did it!" mark saved to the reader's progress. Used on the activity page and inside the collection.
+ * For a teacher account the class note ("In a class") comes right after the goal; in classroom mode the activity is
+ * shown one card at a time for the big screen (src/features/classroom/ClassroomActivity.tsx), and prints the same.
  */
-export function ActivityView({ activity, lang, done, onDone, learnerName, headingLevel = 1, printable = false }: {
+export function ActivityView({ activity, lang, done, onDone, learnerName, headingLevel = 1, printable = false, teacher = false, classroom = false }: {
   activity: ActivityContent
   /** The language the activity text is in (may differ from the site language). */
   lang: Lang
@@ -25,11 +28,23 @@ export function ActivityView({ activity, lang, done, onDone, learnerName, headin
   headingLevel?: 1 | 2
   /** Shows the Print button (the activity page; not inside a collection list, where the whole list would print). */
   printable?: boolean
+  /** A teacher account: the class note moves up, next to the goal. */
+  teacher?: boolean
+  /** Classroom mode (teacher accounts): one card at a time, for a big screen. */
+  classroom?: boolean
 }) {
   const { dict } = useLang()
+  if (classroom) return <ClassroomActivity activity={activity} lang={lang} done={done} onDone={onDone} learnerName={learnerName} printable={printable} />
   const t = dict.stories.activity
   const H = headingLevel === 1 ? 'h1' : 'h2'
   const S = headingLevel === 1 ? 'h2' : 'h3'
+  // The class note: empty in a story that has none (then nothing is shown).
+  const inClass = activity.inClass.trim() ? (
+    <section className="flex flex-col gap-2 rounded-control bg-surface p-5 ring-1 ring-line" data-testid="activity-in-class">
+      <S className="text-xl font-semibold">{t.inClass}</S>
+      <p className="max-w-prose leading-relaxed" lang={lang} dir={dirOf(lang)}>{activity.inClass}</p>
+    </section>
+  ) : null
   return (
     <div className="flex flex-col gap-8" data-testid="activity" {...(printable ? { 'data-print-root': '' } : {})}>
       <header className="flex flex-col gap-2">
@@ -51,6 +66,8 @@ export function ActivityView({ activity, lang, done, onDone, learnerName, headin
         <S className="text-sm font-semibold text-ink-muted">{t.goal}</S>
         <p className="text-xl font-medium" lang={lang} dir={dirOf(lang)}>{activity.goal}</p>
       </section>
+
+      {teacher && inClass}
 
       <section className="flex gap-3 rounded-control border-s-4 border-amber-700 bg-amber-50 p-4 text-amber-950" data-testid="activity-safety">
         <span aria-hidden="true" className="mt-0.5 grid size-7 shrink-0 place-items-center rounded-full bg-amber-700 text-sm font-bold text-white">!</span>
@@ -93,10 +110,7 @@ export function ActivityView({ activity, lang, done, onDone, learnerName, headin
         <S className="text-xl font-semibold">{t.forAdult}</S>
         <p className="max-w-prose leading-relaxed" lang={lang} dir={dirOf(lang)}>{activity.forAdult}</p>
       </section>
-      <section className="flex flex-col gap-2 rounded-control bg-surface p-5 ring-1 ring-line">
-        <S className="text-xl font-semibold">{t.inClass}</S>
-        <p className="max-w-prose leading-relaxed" lang={lang} dir={dirOf(lang)}>{activity.inClass}</p>
-      </section>
+      {!teacher && inClass}
 
       {onDone && (
         <div className="flex flex-col items-center gap-3 py-2" aria-live="polite" data-no-print>
@@ -121,7 +135,7 @@ export function ActivityView({ activity, lang, done, onDone, learnerName, headin
 }
 
 /** A step's picture: its silent loop when it has one and motion is welcome, else the still. */
-function StepPicture({ still, loop, label, placeholder }: { still: string | null; loop: string | null; label: string; placeholder: string }) {
+export function StepPicture({ still, loop, label, placeholder }: { still: string | null; loop: string | null; label: string; placeholder: string }) {
   const { dict } = useLang()
   const reduced = useReducedMotion()
   const video = useRef<HTMLVideoElement>(null)

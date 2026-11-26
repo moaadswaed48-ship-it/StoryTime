@@ -1,0 +1,293 @@
+import { mkdirSync, writeFileSync } from 'node:fs'
+import AxeBuilder from '@axe-core/playwright'
+import { expect, test, type Page, type TestInfo } from '@playwright/test'
+import { dirOf } from '../src/i18n/config.ts'
+import ar from '../src/i18n/ar/index.ts'
+import en from '../src/i18n/en/index.ts'
+import { PUBLIC_PAGES } from '../src/seo/paths.ts'
+
+/**
+ * Accessibility audit (launch readiness, 26 Nov 2026). axe-core 4.14.0 with the WCAG 2.0, 2.1 and 2.2 A and AA rules
+ * plus axe's best practices, on every public page type, the not-found page and the main signed-in screens, in
+ * English and Arabic, at 390 px (phone) and 1440 px (desktop). Each screen must have no violations; the raw results
+ * are kept in qa/out/a11y/. Keyboard walks: skip link, visible focus on everything Tab reaches, no positive tabindex,
+ * sign-up and the reader by keyboard alone.
+ */
+const DICTS = { en, ar } as const
+type L = keyof typeof DICTS
+const OUT = 'qa/out/a11y'
+mkdirSync(OUT, { recursive: true })
+test.describe.configure({ timeout: 300_000 })
+const TAGS = ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa', 'best-practice']
+
+type Found = { id: string; impact: string | null | undefined; help: string; targets: string[]; html: string[]; why: string[] }
+
+/**
+ * Runs axe and the touch-target check on the page as it is now; records the result and fails softly, so one run lists
+ * every screen's faults.
+ */
+async function audit(page: Page, info: TestInfo, name: string) {
+  await page.waitForLoadState('networkidle')
+  const r = await new AxeBuilder({ page }).withTags(TAGS).analyze()
+  const found: Found[] = r.violations.map((v) => ({ id: v.id, impact: v.impact, help: v.help, targets: v.nodes.slice(0, 6).map((n) => n.target.join(' ')), html: v.nodes.slice(0, 3).map((n) => n.html.slice(0, 240)), why: v.nodes.slice(0, 3).map((n) => n.failureSummary ?? '') }))
+  const small = await smallTargets(page)
+  writeFileSync(`${OUT}/${name}-${info.project.name}.json`, JSON.stringify({ url: page.url(), violations: found, smallTargets: small, incomplete: r.incomplete.map((v) => v.id) }, null, 2))
+  expect.soft(found, `${name} (${info.project.name})`).toEqual([])
+  expect.soft(small, `touch targets under 44 px: ${name} (${info.project.name})`).toEqual([])
+}
+
+/**
+ * Touch targets under 44 x 44 CSS px (the project's bar; WCAG 2.2 AA asks 24). Exempt, as in WCAG: a link inside a
+ * sentence. A tick box or radio counts together with its label (the label is part of the target).
+ */
+async function smallTargets(page: Page): Promise<string[]> {
+  return page.evaluate(() => {
+    const out: string[] = []
+    const sel = 'a[href], button, input:not([type=hidden]), select, textarea, summary, [role=button], [role=switch], [role=tab], [tabindex="0"]'
+    for (const el of Array.from(document.querySelectorAll<HTMLElement>(sel))) {
+      const r0 = el.getBoundingClientRect()
+      const st = getComputedStyle(el)
+      if (st.visibility === 'hidden' || st.display === 'none') continue
+      if (el.closest('[aria-hidden="true"], .sr-only, [inert]')) continue
+      let r = { w: r0.width, h: r0.height }
+      if (el instanceof HTMLInputElement && (el.type === 'checkbox' || el.type === 'radio')) {
+        const label = el.closest('label') ?? (el.id ? document.querySelector<HTMLElement>(`label[for="${el.id}"]`) : null)
+        if (label) {
+          const l = label.getBoundingClientRect()
+          r = { w: Math.max(l.width, r0.width), h: Math.max(l.height, r0.height) }
+        }
+      }
+      if (r.w === 0 && r.h === 0) continue // not shown (e.g. the skip link before focus)
+      if (el.tagName === 'A') {
+        const block = el.closest('p, li, dd, td, th')
+        const own = el.textContent?.trim() ?? ''
+        if (block && (block.textContent?.trim() ?? '').length > own.length + 1) continue // a link inside a sentence
+      }
+      if (r.w < 44 - 0.5 || r.h < 44 - 0.5) out.push(`${el.tagName.toLowerCase()} "${(el.getAttribute('aria-label') ?? el.textContent ?? '').trim().slice(0, 30)}" ${Math.round(r.w)}x${Math.round(r.h)}`)
+    }
+    return out
+  })
+}
+
+/** The document says which language and direction it is in (also on client-only pages). */
+async function langDir(page: Page, lang: L) {
+  await expect(page.locator('html')).toHaveAttribute('lang', lang)
+  await expect(page.locator('html')).toHaveAttribute('dir', dirOf(lang))
+}
+
+async function passGate(page: Page) {
+  const input = page.getByTestId('gate-answer')
+  await page.waitForLoadState('networkidle')
+  if (!(await input.isVisible())) return
+  await input.fill(String(Number(await input.getAttribute('data-a')) * Number(await input.getAttribute('data-b'))))
+  await input.press('Enter')
+  await expect(input).toHaveCount(0)
+}
+
+/** Sign up, confirm, onboard a 4-5 profile and start the trial (audits each step on the way). */
+async function newFamily(page: Page, info: TestInfo, lang: L, email: string) {
+  const d = DICTS[lang]
+  const t = d.account.auth
+  await page.goto(`${lang}/sign-up/`)
+  // The form with its error messages showing.
+  await page.getByRole('button', { name: t.submitSignUp, exact: true }).click()
+  await audit(page, info, `${lang}-sign-up-errors`)
+  await page.getByLabel(t.roleParent).check()
+  await page.getByLabel(t.email, { exact: true }).fill(email)
+  await page.getByLabel(t.password, { exact: true }).fill('a long test password')
+  await page.getByLabel(t.adultCheck).check()
+  await page.getByLabel(t.termsCheck).check()
+  await page.getByRole('button', { name: t.submitSignUp, exact: true }).click()
+  await expect(page.getByTestId('test-email-link')).toBeVisible()
+  await audit(page, info, `${lang}-check-email`)
+  await page.getByTestId('test-email-link').click()
+  await expect(page.getByTestId('onboarding-step-1')).toBeVisible()
+  await langDir(page, lang)
+  await audit(page, info, `${lang}-onboarding-1`)
+  await page.getByRole('button', { name: d.actions.next }).click()
+  await page.getByLabel(d.commerce.groups['4-5']).click()
+  await page.getByLabel(d.account.onboarding.childName).fill('Noor')
+  await audit(page, info, `${lang}-onboarding-2`)
+  await page.getByRole('button', { name: d.actions.next }).click()
+  await audit(page, info, `${lang}-onboarding-3`)
+  await page.getByRole('button', { name: d.account.onboarding.trialStart }).click()
+  await expect(page.getByTestId('storybook')).toHaveAttribute('data-state', 'open')
+}
+
+/** A 4-5 pass in the test-mode database, so the sample story with test recordings and a test film opens. */
+async function grantPass(page: Page, email: string) {
+  await page.evaluate((email) => {
+    const db = JSON.parse(localStorage.getItem('storytime.local.v1')!)
+    const u = db.users.find((x: { email: string }) => x.email === email)
+    const now = Date.now()
+    db.passes.push({ id: crypto.randomUUID(), accountId: u.id, orderId: null, ageGroup: '4-5', months: 1, startsAt: new Date(now - 60_000).toISOString(), endsAt: new Date(now + 30 * 86_400_000).toISOString(), status: 'active', cancelledAt: null })
+    localStorage.setItem('storytime.local.v1', JSON.stringify(db))
+  }, email)
+}
+
+for (const lang of ['en', 'ar'] as const) {
+  test(`axe (${lang}): every public page type and the not-found page`, async ({ page }, info) => {
+    for (const p of [...PUBLIC_PAGES, 'no-such-page']) {
+      const res = await page.goto(`${lang}/${p ? `${p}/` : ''}`)
+      expect(res?.status()).toBeLessThan(500)
+      await expect(page.locator('h1').first()).toBeVisible()
+      await langDir(page, lang)
+      await audit(page, info, `${lang}-${p.replace(/\//g, '-') || 'home'}`)
+    }
+    // An address under no language at all.
+    await page.goto('xx/')
+    await expect(page.getByTestId('not-found')).toBeVisible()
+    await audit(page, info, `${lang}-no-language-404`)
+  })
+
+  test(`axe (${lang}): the signed-in screens`, async ({ page }, info) => {
+    const email = `a11y-${lang}-${info.project.name}@example.test`
+    await newFamily(page, info, lang, email)
+    await langDir(page, lang)
+    await audit(page, info, `${lang}-storybook`)
+
+    await page.goto(`${lang}/app/library/`)
+    await expect(page.getByTestId('access-panel')).toBeVisible()
+    await audit(page, info, `${lang}-library`)
+    if (await page.getByTestId('view-list').isVisible()) {
+      await page.getByTestId('view-list').click()
+      await audit(page, info, `${lang}-library-list`)
+    }
+
+    await page.goto(`${lang}/app/story/b02/read?book=flat`)
+    await expect(page.getByTestId('reader')).toHaveAttribute('data-mode', 'flat')
+    await audit(page, info, `${lang}-reader-cover`)
+    await page.getByTestId('page-forward').click()
+    await expect(page.getByTestId('page-text').first()).toBeVisible()
+    await audit(page, info, `${lang}-reader-page`)
+
+    await page.goto(`${lang}/app/story/b02/watch`)
+    await expect(page.locator('h1').first()).toBeVisible()
+    await audit(page, info, `${lang}-film-soon`)
+    await page.goto(`${lang}/app/story/b02/do`)
+    await expect(page.locator('h1').first()).toBeVisible()
+    await audit(page, info, `${lang}-activity`)
+
+    // The sample story has test recordings and a test film: the real player and the Listen controls.
+    await grantPass(page, email)
+    await page.goto(`${lang}/app/story/sample-b/watch`)
+    await expect(page.locator('media-controller, video').first()).toBeAttached()
+    await audit(page, info, `${lang}-film-player`)
+    await page.goto(`${lang}/app/story/sample-b/read?book=flat`)
+    await expect(page.getByTestId('reader')).toHaveAttribute('data-mode', 'flat')
+    await page.getByTestId('page-forward').click()
+    await audit(page, info, `${lang}-reader-listen`)
+
+    await page.goto(`${lang}/app/collections/`)
+    await expect(page.locator('h1').first()).toBeVisible()
+    await audit(page, info, `${lang}-collections`)
+
+    await page.goto(`${lang}/app/settings/`)
+    await expect(page.getByTestId('gate-answer').or(page.getByTestId('profiles')).first()).toBeVisible()
+    await audit(page, info, `${lang}-parent-gate`)
+    await passGate(page)
+    await expect(page.getByTestId('profiles')).toBeVisible()
+    await audit(page, info, `${lang}-settings`)
+
+    await page.goto(`${lang}/app/plans/`)
+    await passGate(page)
+    await expect(page.getByTestId('plan-3')).toBeVisible()
+    await audit(page, info, `${lang}-app-plans`)
+    await page.getByTestId('plan-3').getByRole('link').click()
+    await passGate(page)
+    await expect(page.getByTestId('checkout-summary')).toBeVisible()
+    await audit(page, info, `${lang}-checkout`)
+  })
+}
+
+/** Everything Tab reaches, in order: visible focus ring, never a positive tabindex, never hidden. */
+async function tabWalk(page: Page, max = 80) {
+  expect(await page.locator('[tabindex]:not([tabindex="0"]):not([tabindex="-1"])').count()).toBe(0)
+  const seen: string[] = []
+  for (let i = 0; i < max; i++) {
+    await page.keyboard.press('Tab')
+    const f = await page.evaluate(() => {
+      const el = document.activeElement as HTMLElement | null
+      if (!el || el === document.body) return null
+      const hasRing = (e: Element) => {
+        const s = getComputedStyle(e)
+        return (s.outlineStyle !== 'none' && parseFloat(s.outlineWidth) >= 2) || (s.boxShadow !== 'none' && s.boxShadow !== '')
+      }
+      const r = el.getBoundingClientRect()
+      // A radio choice draws its ring on the whole label (controls.tsx Choice); that counts.
+      const label = el instanceof HTMLInputElement && (el.type === 'radio' || el.type === 'checkbox') ? el.closest('label') : null
+      const ring = hasRing(el) || (!!label && hasRing(label))
+      const name = el.getAttribute('aria-label') ?? el.textContent?.trim().slice(0, 40) ?? ''
+      return { key: `${el.tagName}${el instanceof HTMLInputElement ? `[${el.type}]` : ''}:${name}:${el.getAttribute('href') ?? el.getAttribute('name') ?? ''}`, ring, visible: r.width > 0 && r.height > 0 }
+    })
+    if (!f) break
+    if (seen.includes(f.key) && seen[0] === f.key) break // wrapped round
+    expect.soft(f.ring, `focus ring on ${f.key}`).toBe(true)
+    expect.soft(f.visible, `focused element is visible: ${f.key}`).toBe(true)
+    seen.push(f.key)
+  }
+  return seen
+}
+
+for (const lang of ['en', 'ar'] as const) {
+  test(`keyboard (${lang}): skip link first, visible focus on every stop of the public pages`, async ({ page }) => {
+    for (const p of ['', 'plans', 'sign-up', 'contact', 'legal/privacy', 'no-such-page']) {
+      await page.goto(`${lang}/${p ? `${p}/` : ''}`)
+      await page.waitForLoadState('networkidle')
+      await page.keyboard.press('Tab')
+      await expect(page.getByRole('link', { name: DICTS[lang].common.skipToContent })).toBeFocused()
+      await page.keyboard.press('Enter')
+      await expect(page).toHaveURL(/#main$/)
+      await page.goto(`${lang}/${p ? `${p}/` : ''}`)
+      await page.waitForLoadState('networkidle')
+      const stops = await tabWalk(page)
+      expect(stops.length).toBeGreaterThan(3)
+    }
+  })
+
+  test(`keyboard (${lang}): sign up and read a story without a mouse`, async ({ page }, info) => {
+    const d = DICTS[lang]
+    const t = d.account.auth
+    await page.goto(`${lang}/sign-up/`)
+    await page.waitForLoadState('networkidle')
+    // Reach the role choice by Tab only, then fill each field from the keyboard.
+    for (let i = 0; i < 60 && !(await page.getByLabel(t.roleParent).evaluate((el) => el === document.activeElement)); i++) await page.keyboard.press('Tab')
+    await page.keyboard.press('Space')
+    await expect(page.getByLabel(t.roleParent)).toBeChecked()
+    await page.getByLabel(t.email, { exact: true }).focus()
+    await page.keyboard.type(`kbd-${lang}-${info.project.name}@example.test`)
+    await page.keyboard.press('Tab')
+    await page.keyboard.type('a long test password')
+    for (const label of [t.adultCheck, t.termsCheck]) {
+      await page.getByLabel(label).focus()
+      await page.keyboard.press('Space')
+      await expect(page.getByLabel(label)).toBeChecked()
+    }
+    await page.getByRole('button', { name: t.submitSignUp, exact: true }).focus()
+    await page.keyboard.press('Enter')
+    await page.getByTestId('test-email-link').focus()
+    await page.keyboard.press('Enter')
+    await expect(page.getByTestId('onboarding-step-1')).toBeVisible()
+    await page.getByRole('button', { name: d.actions.next }).focus()
+    await page.keyboard.press('Enter')
+    await page.getByLabel(d.commerce.groups['4-5']).focus()
+    await page.keyboard.press('Space')
+    await page.getByLabel(d.account.onboarding.childName).focus()
+    await page.keyboard.type('Noor')
+    await page.getByRole('button', { name: d.actions.next }).focus()
+    await page.keyboard.press('Enter')
+    await page.getByRole('button', { name: d.account.onboarding.trialStart }).focus()
+    await page.keyboard.press('Enter')
+    await expect(page.getByTestId('storybook')).toHaveAttribute('data-state', 'open')
+
+    // The reader: forward and back from the keyboard, focus stays visible.
+    await page.goto(`${lang}/app/story/b02/read?book=flat`)
+    await expect(page.getByTestId('reader')).toHaveAttribute('data-mode', 'flat')
+    await page.getByTestId('page-forward').focus()
+    await page.keyboard.press('Enter')
+    await expect(page.getByTestId('page-text').first()).toBeVisible()
+    await page.keyboard.press('Enter')
+    const stops = await tabWalk(page, 40)
+    expect(stops.length).toBeGreaterThan(2)
+  })
+}

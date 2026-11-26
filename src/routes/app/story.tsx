@@ -1,6 +1,8 @@
 import type { ComponentType, ReactNode, SVGProps } from 'react'
 import { Link, useParams } from 'react-router'
 import { errorText } from '@/features/account/messages'
+import { ClassroomSwitch } from '@/features/classroom/Classroom'
+import { useClassroom } from '@/features/classroom/useClassroom'
 import { Cover } from '@/features/family/Cover'
 import { DoorDo, DoorListen, DoorRead, DoorWatch, IconArrow, IconCheck, IconHeart, IconLock } from '@/features/family/icons'
 import { usePrefs } from '@/features/family/prefs'
@@ -31,6 +33,7 @@ export default function Storybook() {
   const [prefs, setPrefs] = usePrefs()
   const favourites = useFavourites(active?.id ?? null)
   const p = progress.byStory[id]
+  const room = useClassroom()
 
   if (loading && !summary) return <Spinner label={dict.account.states.loading} />
   if (!summary) {
@@ -92,7 +95,9 @@ export default function Storybook() {
       )}
       {error && !locked && <Notice tone="error" action={<Button onClick={reload}>{dict.account.errors.retry}</Button>}>{errorText(dict, error)}</Notice>}
 
-      {!locked && content && !prefs.hintSeen && (
+      {room.available && !room.on && !locked && <ClassroomSwitch className="w-full sm:w-auto sm:self-start" />}
+
+      {!locked && content && !prefs.hintSeen && !room.on && (
         <div role="note" className="flex flex-col gap-3 rounded-control border border-ink/20 bg-surface p-4 sm:flex-row sm:items-center sm:justify-between" data-testid="doors-hint">
           <div>
             <p className="font-semibold">{t.hintTitle}</p>

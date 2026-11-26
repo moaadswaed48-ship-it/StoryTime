@@ -1,5 +1,5 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from 'react'
-import { getApi, type DataApi } from '@/data'
+import { getApi, mayHaveSession, whenApiLoaded, type DataApi } from '@/data'
 import type { Account, Session } from '@/data/types'
 
 type State =
@@ -35,14 +35,21 @@ export function SessionProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     let off = () => {}
     let alive = true
-    getApi().then(async (a) => {
+    const attach = async (a: DataApi) => {
       if (!alive) return
+      off()
       setApi(a)
       off = a.onSessionChange((s) => void load(a, s))
       await load(a, await a.getSession())
-    })
+    }
+    // Nothing in this browser that could be a session: signed out at once, and the backend (the biggest download of a
+    // public page) is fetched only when a page needs it, e.g. to sign in; the session follows once it is loaded.
+    if (!mayHaveSession()) setState({ status: 'signed-out' })
+    else void getApi()
+    const stop = whenApiLoaded((a) => void attach(a))
     return () => {
       alive = false
+      stop()
       off()
     }
   }, [load])

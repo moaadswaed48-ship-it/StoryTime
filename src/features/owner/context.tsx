@@ -48,6 +48,11 @@ export function ownerError(od: OwnerDict, e: unknown): string {
     case 'signoff_blocked': return od.errors.signoffBlocked
     case 'publish_blocked': return od.errors.publishBlocked
     case 'published_incomplete': return od.errors.publishedIncomplete
+    case 'fee_over_cap': return od.errors.feeOverCap
+    case 'fee_not_set': return od.errors.feeNotSet
+    case 'note_required': return od.errors.noteRequired
+    case 'refund_closed': return od.errors.refundClosed
+    case 'bad_price': return od.errors.badPrice
     case 'not_owner':
     case 'not_signed_in': return od.errors.notOwner
     case 'upload_refused': return uploadRefusal(od, (e as OwnerError).refusal ?? 'type', 'page')

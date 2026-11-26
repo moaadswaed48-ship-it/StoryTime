@@ -6,6 +6,8 @@ import { AGE_GROUPS, type AgeGroup, type StorySummary } from '@/data/types'
 import { AccessPanel } from '@/features/access/AccessPanel'
 import { useAccess } from '@/features/access/useAccess'
 import { errorText } from '@/features/account/messages'
+import { ClassroomSwitch } from '@/features/classroom/Classroom'
+import { useClassroom } from '@/features/classroom/useClassroom'
 import { Cover } from '@/features/family/Cover'
 import { IconArrow, IconList, IconShelf } from '@/features/family/icons'
 import { usePrefs, useReducedMotion } from '@/features/family/prefs'
@@ -47,6 +49,8 @@ export default function Library() {
   const isOpen = useIsOpen(access)
   const [index, setIndex] = useState(0)
   const [startError, setStartError] = useState<ErrorCode | null>(null)
+  // Teachers in classroom mode: no account details (trial, passes, dates) on the big screen.
+  const room = useClassroom()
 
   // The age group follows the reader's profile; without one, the trial's group or the first pass's.
   useEffect(() => {
@@ -101,7 +105,8 @@ export default function Library() {
 
       {accessError && <Notice tone="error" action={<Button onClick={reloadAccess}>{dict.account.errors.retry}</Button>}>{errorText(dict, accessError)}</Notice>}
       {startError && <Notice tone="error">{errorText(dict, startError)}</Notice>}
-      {access && <AccessPanel access={access} onStartTrial={startTrial} />}
+      {room.available && !room.on && <ClassroomSwitch className="w-full sm:w-auto sm:self-start" />}
+      {access && !room.on && <AccessPanel access={access} onStartTrial={startTrial} />}
 
       <section aria-labelledby="continue-h" className="flex flex-col gap-3">
         <h2 id="continue-h" className="text-xl font-semibold">{t.continueTitle}</h2>

@@ -155,4 +155,17 @@ export default {
     captions: 'إظهار النص على الأفلام',
     saved: 'تم الحفظ',
   },
+  classroom: {
+    mode: 'وضع الصف',
+    modeHint: 'كلمات كبيرة وأزرار كبيرة لمجموعة تنظر إلى شاشة كبيرة واحدة أو جهاز عرض، من دون تفاصيل الحساب على الشاشة.',
+    leave: 'الخروج من وضع الصف',
+    fullscreen: 'ملء الشاشة',
+    exitFullscreen: 'الخروج من ملء الشاشة',
+    bar: 'وضع الصف',
+    getReady: 'لنستعد',
+    stepOf: 'الخطوة {n} من {total}',
+    prevStep: 'الخطوة السابقة',
+    nextStep: 'الخطوة التالية',
+    teacherNotes: 'لطاقم الروضة',
+  },
 } satisfies StoriesDict

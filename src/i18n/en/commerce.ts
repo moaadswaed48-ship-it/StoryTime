@@ -22,6 +22,7 @@ export default {
     factQueue: 'A pass bought while another for the same group is running starts when that one ends.',
     factCancel: 'You may cancel within 14 days of buying. The refund comes within 14 days; a fee of at most 5% of the price or 100 shekels, whichever is lower, may apply.',
     factValidity: 'Prices are not set yet, so no offer is open. Once set, the price shown at the moment of purchase applies.',
+    factValiditySet: 'The price shown at the moment of purchase applies.',
     israelOnly: 'At launch, buying is for customers in Israel. The free trial works everywhere.',
     cancelLink: 'How to cancel a purchase',
     sellerTitle: 'Seller',
@@ -91,7 +92,7 @@ export default {
     homeMethods: 'Online on that page, by email or by post. Details are on the page.',
   },
   access: {
-    trialActive: 'Free trial, time left: days {days}, hours {hours}',
+    trialActive: 'Free trial: {left} left',
     trialStoriesNote: 'Your trial holds 3 stories. Other stories are locked during the trial.',
     trialEndedTitle: 'Your trial has ended',
     trialEndedLead: 'The stories are locked now. Profiles and progress are kept.',

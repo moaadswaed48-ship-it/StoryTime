@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react'
-import { OfflineBanner, TestModeBanner } from './Banners'
+import { OfflineBanner } from './Banners'
 import { SiteFooter } from './SiteFooter'
 import { SiteHeader } from './SiteHeader'
 
@@ -12,7 +12,6 @@ export function Shell({ children, narrow }: { children: ReactNode; narrow?: bool
     <>
       <OfflineBanner />
       <SiteHeader />
-      <TestModeBanner />
       <main id="main" className={`mx-auto w-full px-4 py-8 sm:py-12 ${narrow ? 'max-w-lg' : 'max-w-5xl'}`}>
         {children}
       </main>

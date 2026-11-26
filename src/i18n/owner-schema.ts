@@ -8,7 +8,7 @@ export type OwnerDict = {
   area: {
     title: string
     lead: string
-    nav: { stories: string; dashboard: string; changes: string }
+    nav: { stories: string; messages: string; refunds: string; prices: string; dashboard: string; changes: string }
     notOwnerTitle: string
     notOwnerLead: string
     backToLibrary: string
@@ -191,6 +191,77 @@ export type OwnerDict = {
     statuses: { paid: string; failed: string; cancelled: string; refunded: string; pending: string }
     countedAt: string
   }
+  /** Part 2: the contact-form inbox. Nothing is emailed from the site; the owner writes back from her own email. */
+  messages: {
+    title: string
+    lead: string
+    /** "Still to handle: {n}" (a count after a colon, so no plural forms are needed). */
+    unhandledCount: string
+    allHandled: string
+    filterLegend: string
+    filterOpen: string
+    filterAll: string
+    empty: string
+    emptyOpen: string
+    noName: string
+    writtenIn: string
+    received: string
+    handledOn: string
+    markHandled: string
+    markOpen: string
+    reply: string
+  }
+  /** Part 2: refund requests from cancelled passes, and the public cancellation form. No money moves here. */
+  refunds: {
+    title: string
+    lead: string
+    noMoneyTitle: string
+    noMoneyLead: string
+    openCount: string
+    noneOpen: string
+    empty: string
+    cancelledOn: string
+    paidOn: string
+    paid: string
+    testPurchase: string
+    noEmail: string
+    feeLabel: string
+    feeHint: string
+    feeInvalid: string
+    saveFee: string
+    feeSaved: string
+    feeNotSet: string
+    fee: string
+    toReturn: string
+    noteLabel: string
+    noteHint: string
+    markRefunded: string
+    stateOpen: string
+    stateIssued: string
+    stateDeclined: string
+    refundedOn: string
+    returned: string
+    noteTitle: string
+    publicTitle: string
+    publicLead: string
+    publicEmpty: string
+    orderRef: string
+  }
+  /** Part 2: pass prices. Never a default number: until the owner sets one, the site says "Price not set yet". */
+  prices: {
+    title: string
+    lead: string
+    notSetRule: string
+    current: string
+    inputLabel: string
+    save: string
+    clear: string
+    saved: string
+    cleared: string
+    invalid: string
+    tooLow: string
+    tooHigh: string
+  }
   changes: {
     title: string
     lead: string
@@ -209,6 +280,11 @@ export type OwnerDict = {
       activities: string
       activity_steps: string
       media: string
+      contact_messages: string
+      cancellation_requests: string
+      refunds: string
+      passes: string
+      pass_prices: string
       other: string
     }
   }
@@ -224,6 +300,11 @@ export type OwnerDict = {
     /** A save that would leave a published story incomplete. */
     publishedIncomplete: string
     notOwner: string
+    feeOverCap: string
+    feeNotSet: string
+    noteRequired: string
+    refundClosed: string
+    badPrice: string
     retry: string
   }
 }

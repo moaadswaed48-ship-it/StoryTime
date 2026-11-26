@@ -50,6 +50,9 @@ export default function OwnerLayout() {
   const root = localPath(lang, 'app/owner').replace(/\/+$/, '')
   const tabs = [
     ['app/owner', od.area.nav.stories, here === root || here.startsWith(`${root}/story`)],
+    ['app/owner/messages', od.area.nav.messages, here === `${root}/messages`],
+    ['app/owner/refunds', od.area.nav.refunds, here === `${root}/refunds`],
+    ['app/owner/prices', od.area.nav.prices, here === `${root}/prices`],
     ['app/owner/dashboard', od.area.nav.dashboard, here === `${root}/dashboard`],
     ['app/owner/changes', od.area.nav.changes, here === `${root}/changes`],
   ] as const

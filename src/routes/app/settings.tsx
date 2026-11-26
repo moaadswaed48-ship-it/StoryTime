@@ -11,6 +11,7 @@ import { ParentGate } from '@/features/account/ParentGate'
 import { justDeleted, TestEmailPanel } from '@/features/account/parts'
 import { useSession } from '@/features/account/session'
 import { usePrefs } from '@/features/family/prefs'
+import { ClassroomSwitch } from '@/features/classroom/Classroom'
 import { CancelPass } from '@/features/commerce/CancelPass'
 import { ENDONYM, LANGS, type Lang } from '@/i18n/config'
 import { fmt, formatDate, formatShekels } from '@/i18n/format'
@@ -426,6 +427,8 @@ function ReadingSection() {
     <Section title={t.title} id="reading">
       <Checkbox label={t.autoFlip} checked={prefs.autoFlip} onChange={(e) => setPrefs({ autoFlip: e.target.checked })} data-testid="pref-autoflip" />
       <Checkbox label={t.captions} checked={prefs.captions} onChange={(e) => setPrefs({ captions: e.target.checked })} data-testid="pref-captions" />
+      {/* Teacher accounts only (renders nothing for a parent). */}
+      <ClassroomSwitch className="w-full" fullscreen={false} />
     </Section>
   )
 }

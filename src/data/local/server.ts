@@ -69,7 +69,11 @@ type TrialRow = Trial & { accountId: string }
 type OrderRow = Order & { accountId: string | null; termsVersion: string }
 type PaymentRow = { id: string; orderId: string; provider: string; providerPaymentId: string; amountAgorot: number; createdAt: Iso }
 type PassRow = { id: string; accountId: string; orderId: string | null; ageGroup: AgeGroup; months: PassMonths; startsAt: Iso; endsAt: Iso; status: PassStatus; cancelledAt: Iso | null }
-type RefundRow = { id: string; orderId: string; passId: string; amountAgorot: number; feeAgorot: number | null; status: 'requested' | 'issued' | 'declined'; requestedAt: Iso }
+type RefundRow = {
+  id: string; orderId: string; passId: string; amountAgorot: number; feeAgorot: number | null; status: 'requested' | 'issued' | 'declined'; requestedAt: Iso
+  /** Set by the owner's area (part 2) when the owner marks the money as returned, with her note. */
+  issuedAt?: Iso | null; note?: string | null
+}
 type EventRow = { provider: string; eventId: string; orderId: string; kind: string; receivedAt: Iso }
 type ProgressRow = Progress & { learnerId: string; accountId: string }
 type TokenRow = { token: string; userId: string; kind: 'signup' | 'recovery' | 'email_change'; createdAt: Iso; expiresAt: Iso; usedAt: Iso | null; newEmail?: string }
@@ -98,7 +102,7 @@ export type LocalDb = {
   passes: PassRow[]
   refunds: RefundRow[]
   providerEvents: EventRow[]
-  cancellationRequests: { id: string; email: string; orderRef: string; message: string | null; createdAt: Iso }[]
+  cancellationRequests: { id: string; email: string; orderRef: string; message: string | null; createdAt: Iso; handledAt?: Iso | null }[]
   outbox: OutboxRow[]
   tokens: TokenRow[]
   deletionRequests: { id: string; requestedAt: Iso; completedAt: Iso | null }[]
@@ -111,7 +115,9 @@ export type LocalDb = {
   /** Added in part C: "my shelf", per profile (the favourites table). */
   favourites?: { learnerId: string; accountId: string; storyId: string; createdAt: Iso }[]
   /** The contact form (table contact_messages), added after the site review. */
-  contactMessages?: { id: string; name: string | null; email: string; lang: string; message: string; createdAt: Iso }[]
+  contactMessages?: { id: string; name: string | null; email: string; lang: string; message: string; createdAt: Iso; handledAt?: Iso | null }[]
+  /** Pass prices the owner set in the owner's area (table pass_prices); a pass missing here has no price yet. */
+  prices?: Price[]
 }
 
 /**
@@ -633,9 +639,10 @@ export class LocalServer {
 
   // ---- money ---------------------------------------------------------------------------------------------------
 
-  /** No prices are set yet: every price is a placeholder (null). */
+  /** As the pass_prices table: null (a visibly marked placeholder) until the owner sets a price in the owner's area. */
   listPrices(): Price[] {
-    return PRICES.map((p) => ({ ...p }))
+    const set = this.read().prices ?? []
+    return PRICES.map((p) => ({ ...p, priceAgorot: set.find((x) => x.ageGroup === p.ageGroup && x.months === p.months)?.priceAgorot ?? null }))
   }
 
   createOrder(uid: string | null, input: { ageGroup: AgeGroup; months: PassMonths; provider: string; termsVersion: string }): Order {

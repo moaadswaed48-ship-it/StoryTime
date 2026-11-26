@@ -1,10 +1,10 @@
 import type { SupabaseClient } from '@supabase/supabase-js'
 import { LANGS, type Lang } from '@/i18n/config'
-import type { Iso } from '@/data/types'
+import type { AgeGroup, Iso, PassMonths, Price } from '@/data/types'
 import { OwnerError, type OwnerApi, type OwnerErrorCode } from './api'
 import { summarise } from './local'
 import { checkUpload, fingerprint, kindOfMime, publishProblems, safeName } from './rules'
-import type { AuditRow, Dashboard, MediaRecord, OwnerStory, Signoff, StoryDraft, UploadMeta } from './types'
+import type { AuditRow, ContactMessage, Dashboard, Inbox, MediaRecord, OwnerStory, RefundsView, Signoff, StoryDraft, UploadMeta } from './types'
 
 /**
  * The owner's area on Supabase. Reads and saves go through the owner_* functions of
@@ -21,7 +21,10 @@ const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
 
 type Row = Record<string, unknown>
 type DbSignoff = { valid: boolean; at: Iso; by: string | null }
-const KNOWN: OwnerErrorCode[] = ['not_owner', 'not_found', 'text_locked', 'trial_limit', 'publish_blocked', 'published_incomplete', 'signoff_blocked']
+const KNOWN: OwnerErrorCode[] = [
+  'not_owner', 'not_found', 'text_locked', 'trial_limit', 'publish_blocked', 'published_incomplete', 'signoff_blocked',
+  'fee_over_cap', 'fee_not_set', 'note_required', 'refund_closed', 'bad_price',
+]
 
 function fail(e: unknown): never {
   if (e instanceof OwnerError) throw e
@@ -145,6 +148,45 @@ export class SupabaseOwnerApi implements OwnerApi {
 
   async dashboard() {
     return (await must(this.sb.rpc('owner_dashboard'))) as Dashboard
+  }
+
+  // ---- part 2: supabase/migrations/20261126100000_owner_inbox_refunds_prices.sql (tests/db/owner-part2.test.ts) ----
+
+  async listMessages() {
+    return (await must(this.sb.rpc('owner_inbox'))) as Inbox
+  }
+
+  async setMessageHandled(id: string, handled: boolean): Promise<ContactMessage> {
+    await must(this.sb.rpc('owner_set_message_handled', { p_message: id, p_handled: handled }))
+    const m = (await this.listMessages()).messages.find((x) => x.id === id)
+    if (!m) throw new OwnerError('not_found')
+    return m
+  }
+
+  async listRefunds() {
+    return (await must(this.sb.rpc('owner_refunds'))) as RefundsView
+  }
+
+  async setRefundFee(id: string, feeAgorot: number | null) {
+    await must(this.sb.rpc('owner_set_refund_fee', { p_refund: id, p_fee_agorot: feeAgorot }))
+  }
+
+  async markRefunded(id: string, note: string) {
+    await must(this.sb.rpc('owner_mark_refunded', { p_refund: id, p_note: note }))
+  }
+
+  async setCancellationHandled(id: string, handled: boolean) {
+    await must(this.sb.rpc('owner_set_cancellation_handled', { p_request: id, p_handled: handled }))
+  }
+
+  async listPrices(): Promise<Price[]> {
+    const rows = (await must(this.sb.from('pass_prices').select('age_group, months, price_agorot').order('age_group').order('months'))) as Row[]
+    return rows.map((r) => ({ ageGroup: r.age_group as AgeGroup, months: Number(r.months) as PassMonths, priceAgorot: (r.price_agorot as number | null) ?? null }))
+  }
+
+  async setPrice(ageGroup: AgeGroup, months: PassMonths, priceAgorot: number | null) {
+    await must(this.sb.rpc('owner_set_price', { p_age_group: ageGroup, p_months: months, p_price_agorot: priceAgorot }))
+    return this.listPrices()
   }
 }
 

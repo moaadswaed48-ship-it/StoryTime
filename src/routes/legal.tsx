@@ -68,7 +68,7 @@ export default function Legal({ loaderData: v }: Route.ComponentProps) {
           <ol className="mt-2 flex list-decimal flex-col ps-6 text-base">
             {v.sections.map((s) => (
               <li key={s.id}>
-                <a href={`#${anchor(s.id)}`} className="inline-flex min-h-11 items-center underline-offset-4 hover:underline">{s.title}</a>
+                <a href={`#${anchor(s.id)}`} className="flex min-h-11 w-full items-center underline underline-offset-4">{s.title}</a>
               </li>
             ))}
           </ol>

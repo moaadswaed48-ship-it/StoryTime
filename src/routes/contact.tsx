@@ -93,7 +93,7 @@ function ContactForm() {
         <p id={`${msgId}-hint`} className="text-sm text-ink-muted">{t.messageHint}</p>
         <textarea id={msgId} rows={6} value={message} aria-invalid={errors.message ? true : undefined} aria-describedby={[`${msgId}-hint`, msgErr].filter(Boolean).join(' ')}
           onChange={(e) => { setMessage(e.target.value); setErrors((x) => ({ ...x, message: undefined })) }}
-          className={`min-h-32 w-full rounded-control border bg-surface px-4 py-3 text-base ${errors.message ? 'border-red-700' : 'border-ink/40'}`} />
+          className={`min-h-32 w-full rounded-control border bg-surface px-4 py-3 text-base ${errors.message ? 'border-red-700' : 'border-ink/60'}`} />
         {errors.message && <FieldError id={msgErr!}>{errors.message}</FieldError>}
       </div>
       {error && <Notice tone="error">{error}</Notice>}

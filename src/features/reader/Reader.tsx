@@ -11,6 +11,7 @@ import { IDLE, listenStep, type ListenEvent, type ListenState } from '@/reader/l
 import { layoutZone, scriptOf, TEXT_SCALES } from '@/reader/zone'
 import { IconArrow, IconAutoFlip, IconClose, IconPause, IconPlay, IconTextLarger, IconTextSmaller } from '@/features/family/icons'
 import { usePrefs, useReducedMotion } from '@/features/family/prefs'
+import { FullscreenButton } from '@/features/classroom/Classroom'
 import { measureAt, paintPage, PAPER_RGB, type PaintSpec } from './paint'
 import { PageView, type PageModel } from './PageView'
 import { useVoice } from './useVoice'
@@ -28,6 +29,10 @@ import './reader.css'
  *
  * Listening follows src/reader/listen.ts: Play reads the open page(s); auto-flip (a separate switch, on by default,
  * remembered per account) turns the page when its recording ends; any turn by hand pauses the voice.
+ *
+ * Classroom mode (a teacher's big screen): much larger words (src/reader/zone.ts), large page-turn buttons at the
+ * two edges of the book on a tablet or larger screen (at the foot, as usual, on a phone held by the teacher),
+ * larger top-bar controls and a full-screen button where the browser allows it.
  */
 type Props = {
   content: StoryContent
@@ -43,11 +48,13 @@ type Props = {
   accessEndsAt: number | null
   endActions: ReactNode
   accessEnded: ReactNode
+  /** Classroom mode (teacher accounts): big words, big controls at the edges. */
+  classroom?: boolean
 }
 
 type BookPage = { kind: 'title' } | { kind: 'story'; i: number } | { kind: 'end' } | { kind: 'blank' }
 
-export function Reader({ content, group, startPage, listen, closeTo, onPage, accessEndsAt, endActions, accessEnded }: Props) {
+export function Reader({ content, group, startPage, listen, closeTo, onPage, accessEndsAt, endActions, accessEnded, classroom = false }: Props) {
   const { dict } = useLang()
   const t = dict.stories.reader
   const lang = content.lang
@@ -81,9 +88,9 @@ export function Reader({ content, group, startPage, listen, closeTo, onPage, acc
   const layouts = useMemo(() => {
     if (!stage) return []
     return content.pages.map((p) =>
-      layoutZone({ pageW: stage.pageW, pageH: stage.pageH, zone: p.zone, rtl, group, scale: prefs.textScale, script: scriptOf(lang), text: p.display, measure: measureAt }),
+      layoutZone({ pageW: stage.pageW, pageH: stage.pageH, zone: p.zone, rtl, group, scale: prefs.textScale, script: scriptOf(lang), text: p.display, measure: measureAt, classroom }),
     )
-  }, [stage, content.pages, rtl, group, prefs.textScale, lang])
+  }, [stage, content.pages, rtl, group, prefs.textScale, lang, classroom])
 
   const credit = content.credit === 'author' ? dict.stories.doors.authorCredit : dict.stories.doors.storyCredit
   const models: PageModel[] = useMemo(() => pages.map((p): PageModel => {
@@ -432,30 +439,44 @@ export function Reader({ content, group, startPage, listen, closeTo, onPage, acc
 
   return (
     <div className="fixed inset-0 z-50 flex flex-col bg-[oklch(0.93_0.005_80)] text-ink" data-testid="reader" data-mode={mode ?? 'loading'} data-position={pos} data-positions={positions}
-      data-playing={playing ? 'true' : 'false'} data-autoflip={prefs.autoFlip ? 'on' : 'off'} data-spread={spread ? 'true' : 'false'} data-page-no={pageNo ?? ''}>
+      data-playing={playing ? 'true' : 'false'} data-autoflip={prefs.autoFlip ? 'on' : 'off'} data-spread={spread ? 'true' : 'false'} data-page-no={pageNo ?? ''} data-classroom={classroom ? 'on' : 'off'}>
       {/* Top bar: close, where we are, text size. */}
-      <div className="flex min-h-14 items-center gap-2 px-2 sm:px-4">
-        <Link to={closeTo} className="inline-flex min-h-11 min-w-11 items-center justify-center gap-2 rounded-control px-2 font-medium hover:bg-black/5" data-testid="reader-close">
-          <IconClose className="size-6" />
+      <div className={`flex items-center gap-2 px-2 sm:px-4 ${classroom ? 'min-h-16 py-1' : 'min-h-14'}`}>
+        <Link to={closeTo} className={`inline-flex items-center justify-center gap-2 rounded-control px-2 font-medium hover:bg-black/5 ${classroom ? 'min-h-14 min-w-14 text-lg' : 'min-h-11 min-w-11'}`} data-testid="reader-close">
+          <IconClose className={classroom ? 'size-8' : 'size-6'} />
           <span className="max-sm:sr-only">{t.close}</span>
         </Link>
         <div className="min-w-0 flex-1 text-center">
-          <p className="truncate text-sm font-semibold" lang={lang}><bdi>{content.title}</bdi></p>
-          <p className="text-sm text-ink-muted tabular-nums" aria-live="polite" data-testid="reader-indicator">{indicator}</p>
+          <p className={`truncate font-semibold ${classroom ? 'text-base sm:text-xl' : 'text-sm'}`} lang={lang}><bdi>{content.title}</bdi></p>
+          <p className={`text-ink-muted tabular-nums ${classroom ? 'text-base sm:text-lg' : 'text-sm'}`} aria-live="polite" data-testid="reader-indicator">{indicator}</p>
         </div>
         <div role="group" aria-label={t.textSize} className="flex items-center gap-1">
           <span className="text-sm text-ink-muted max-lg:sr-only">{t.textSize}</span>
-          <button type="button" aria-label={t.smaller} disabled={prefs.textScale <= 0} onClick={() => setPrefs({ textScale: prefs.textScale - 1 })} className="grid size-11 place-items-center rounded-control hover:bg-black/5 disabled:opacity-35" data-testid="text-smaller">
-            <IconTextSmaller className="size-6" />
+          <button type="button" aria-label={t.smaller} disabled={prefs.textScale <= 0} onClick={() => setPrefs({ textScale: prefs.textScale - 1 })} className={`grid place-items-center rounded-control hover:bg-black/5 disabled:opacity-35 ${classroom ? 'size-14' : 'size-11'}`} data-testid="text-smaller">
+            <IconTextSmaller className={classroom ? 'size-8' : 'size-6'} />
           </button>
-          <button type="button" aria-label={t.larger} disabled={prefs.textScale >= TEXT_SCALES.length - 1} onClick={() => setPrefs({ textScale: prefs.textScale + 1 })} className="grid size-11 place-items-center rounded-control hover:bg-black/5 disabled:opacity-35" data-testid="text-larger">
-            <IconTextLarger className="size-6" />
+          <button type="button" aria-label={t.larger} disabled={prefs.textScale >= TEXT_SCALES.length - 1} onClick={() => setPrefs({ textScale: prefs.textScale + 1 })} className={`grid place-items-center rounded-control hover:bg-black/5 disabled:opacity-35 ${classroom ? 'size-14' : 'size-11'}`} data-testid="text-larger">
+            <IconTextLarger className={classroom ? 'size-8' : 'size-6'} />
           </button>
         </div>
+        {classroom && <FullscreenButton compact className="border-0 bg-transparent hover:bg-black/5" />}
       </div>
 
-      {/* The book. */}
-      <div ref={stageRef} className="relative min-h-0 flex-1 touch-pan-y select-none" aria-label={fmt(t.bookLabel, { title: content.title })} role="region">
+      {/* The book. In classroom mode on a tablet or larger, the page-turn buttons stand at its two edges. */}
+      <div className={`relative flex min-h-0 flex-1 ${classroom ? 'md:px-24 xl:px-32' : ''}`}>
+      {classroom && (
+        <div dir={rtl ? 'rtl' : 'ltr'} className="pointer-events-none absolute inset-0 z-20 max-md:hidden" data-testid="edge-controls">
+          <button type="button" onClick={() => turn(-1)} disabled={!canBack} aria-label={t.prevPage} data-testid="edge-back"
+            className="pointer-events-auto absolute start-2 top-1/2 grid size-20 -translate-y-1/2 place-items-center rounded-full bg-surface shadow-md ring-1 ring-black/15 disabled:opacity-30 xl:start-4 xl:size-24">
+            <IconArrow className="size-10 -scale-x-100 rtl:scale-x-100 xl:size-12" />
+          </button>
+          <button type="button" onClick={() => turn(1)} disabled={!canForward} aria-label={t.nextPage} data-testid="edge-forward"
+            className="pointer-events-auto absolute end-2 top-1/2 grid size-20 -translate-y-1/2 place-items-center rounded-full bg-ink text-paper shadow-md disabled:opacity-30 xl:end-4 xl:size-24">
+            <IconArrow className="size-10 rtl:-scale-x-100 xl:size-12" />
+          </button>
+        </div>
+      )}
+      <div ref={stageRef} className="relative min-h-0 min-w-0 flex-1 touch-pan-y select-none" aria-label={fmt(t.bookLabel, { title: content.title })} role="region">
         {!mode && <p className="absolute inset-0 grid place-items-center text-ink-muted" role="status">{t.loading}</p>}
         <div key={mode === 'flat' ? pos : 'curl'} className={`pointer-events-none absolute inset-0 ${mode === 'flat' && !reduced ? 'reader-fade' : ''}`}>
           {mode && boxes.map((b) => (
@@ -486,6 +507,7 @@ export function Reader({ content, group, startPage, listen, closeTo, onPage, acc
         )}
         {ended && <div className="absolute inset-0 z-10 grid place-items-center bg-[oklch(0.93_0.005_80/0.96)] p-6">{accessEnded}</div>}
       </div>
+      </div>
 
       {/* Bottom bar: back, Listen, auto-flip, forward. Always all visible. */}
       <div className="flex flex-col gap-1 px-2 pt-2 pb-[max(0.75rem,env(safe-area-inset-bottom))] sm:px-4">
@@ -496,7 +518,7 @@ export function Reader({ content, group, startPage, listen, closeTo, onPage, acc
         )}
         <div className="flex flex-wrap items-center justify-between gap-2 sm:flex-nowrap">
           <button type="button" onClick={() => turn(-1)} disabled={!canBack} aria-label={t.prevPage} data-testid="page-back"
-            className="order-2 grid h-14 flex-1 place-items-center rounded-full bg-surface shadow-sm ring-1 ring-black/10 disabled:opacity-35 sm:order-none sm:w-14 sm:flex-none">
+            className={`order-2 grid h-14 flex-1 place-items-center rounded-full bg-surface shadow-sm ring-1 ring-black/10 disabled:opacity-35 sm:order-none sm:w-14 sm:flex-none ${classroom ? 'md:hidden' : ''}`}>
             <IconArrow className="size-7 -scale-x-100 rtl:scale-x-100" />
           </button>
           <div className="order-first flex w-full min-w-0 items-center justify-center gap-2 sm:order-none sm:w-auto sm:flex-1 sm:gap-4">
@@ -529,7 +551,7 @@ export function Reader({ content, group, startPage, listen, closeTo, onPage, acc
             )}
           </div>
           <button type="button" onClick={() => turn(1)} disabled={!canForward} aria-label={t.nextPage} data-testid="page-forward"
-            className="order-3 grid h-14 flex-1 place-items-center rounded-full bg-surface shadow-sm ring-1 ring-black/10 disabled:opacity-35 sm:order-none sm:w-14 sm:flex-none">
+            className={`order-3 grid h-14 flex-1 place-items-center rounded-full bg-surface shadow-sm ring-1 ring-black/10 disabled:opacity-35 sm:order-none sm:w-14 sm:flex-none ${classroom ? 'md:hidden' : ''}`}>
             <IconArrow className="size-7 rtl:-scale-x-100" />
           </button>
         </div>

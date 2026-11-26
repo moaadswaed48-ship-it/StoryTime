@@ -155,4 +155,17 @@ export default {
     captions: 'Show captions on films',
     saved: 'Saved',
   },
+  classroom: {
+    mode: 'Classroom mode',
+    modeHint: 'Big words and big buttons for a group looking at one large screen or a projector. No account details on screen.',
+    leave: 'Leave classroom mode',
+    fullscreen: 'Full screen',
+    exitFullscreen: 'Leave full screen',
+    bar: 'Classroom mode',
+    getReady: 'Get ready',
+    stepOf: 'Step {n} of {total}',
+    prevStep: 'Previous step',
+    nextStep: 'Next step',
+    teacherNotes: 'For the teacher',
+  },
 } satisfies StoriesDict

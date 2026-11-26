@@ -27,6 +27,9 @@ export type CommonDict = {
   /** Shown on every page that is still a placeholder (rule: placeholders are visibly marked). */
   placeholder: string
   notFound: string
+  /** The not-found page: one calm line and the way home (the footer's Help link follows it). */
+  notFoundLead: string
+  notFoundHome: string
   loading: string
   footer: {
     label: string
@@ -313,6 +316,8 @@ export type CommerceDict = {
     factQueue: string
     factCancel: string
     factValidity: string
+    /** factValidity once the owner has set at least one price (owner's area, Prices). */
+    factValiditySet: string
     israelOnly: string
     cancelLink: string
     sellerTitle: string

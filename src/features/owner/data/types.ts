@@ -1,5 +1,5 @@
 import type { Lang } from '@/i18n/config'
-import type { AgeGroup, Iso, PageZone } from '@/data/types'
+import type { AgeGroup, Iso, PageZone, PassMonths } from '@/data/types'
 
 /**
  * The owner's view of a story: everything the owner's area reads and writes. It follows content/SCHEMA.md
@@ -118,4 +118,65 @@ export type Dashboard = {
   activePasses: Record<AgeGroup, number>
   /** Newest first; never a child's name (product checklist 20). */
   recentPurchases: { orderId: string; email: string | null; ageGroup: AgeGroup; months: number; amountAgorot: number; priceWasPlaceholder: boolean; status: string; paidAt: Iso | null; createdAt: Iso }[]
+}
+
+// ---- Part 2 (26 Nov 2026): messages, cancellations and refunds, prices ---------------------------------------------
+
+/** A message from the public contact form (table contact_messages). Read only by the owner. */
+export type ContactMessage = {
+  id: string
+  name: string | null
+  email: string
+  /** The site language the visitor wrote from. */
+  lang: Lang
+  message: string
+  createdAt: Iso
+  /** When the owner marked it as handled; null = still to do. */
+  handledAt: Iso | null
+}
+
+/** Newest first, with the number still to do (counted by the backend, not from the list, which may be cut short). */
+export type Inbox = { messages: ContactMessage[]; unhandled: number }
+
+/** requested = waiting for the owner; issued = the owner marked the money as returned. */
+export type RefundStatus = 'requested' | 'issued' | 'declined'
+
+/**
+ * A refund request, made when a family cancels a pass within 14 days (cancel_purchase). No money moves through the
+ * site: there is no payment company yet. The owner returns the money herself, sets the fee and marks it refunded.
+ */
+export type RefundRequest = {
+  id: string
+  orderId: string
+  passId: string | null
+  /** The buyer's address; null once the account is deleted (the order stays, without a name). */
+  email: string | null
+  ageGroup: AgeGroup
+  months: PassMonths
+  /** What the family paid, in agorot. */
+  paidAgorot: number
+  /** The purchase went through the test provider while no price was set (so nothing was paid). */
+  priceWasPlaceholder: boolean
+  paidAt: Iso | null
+  requestedAt: Iso
+  /** The cancellation fee the owner set; null = not decided yet. */
+  feeAgorot: number | null
+  /** The legal cap: the lower of 5% of what was paid or 100 shekels (src/data/rules.ts maxCancellationFee). */
+  maxFeeAgorot: number
+  status: RefundStatus
+  issuedAt: Iso | null
+  /** How and when the owner returned the money (required to mark it refunded). */
+  note: string | null
+}
+
+/** A request sent through the public "Cancel a purchase" form by someone who was not signed in. */
+export type PublicCancellation = { id: string; email: string; orderRef: string; message: string | null; createdAt: Iso; handledAt: Iso | null }
+
+export type RefundsView = {
+  /** Newest first. */
+  refunds: RefundRequest[]
+  /** Requests still waiting for the owner. */
+  open: number
+  /** Newest first. */
+  publicRequests: PublicCancellation[]
 }

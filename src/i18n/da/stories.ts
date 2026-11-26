@@ -155,4 +155,17 @@ export default {
     captions: 'Vis undertekster på film',
     saved: 'Gemt',
   },
+  classroom: {
+    mode: 'Storskærmstilstand',
+    modeHint: 'Store ord og store knapper til en gruppe, der ser på én stor skærm eller en projektor. Ingen kontooplysninger på skærmen.',
+    leave: 'Forlad storskærmstilstand',
+    fullscreen: 'Fuld skærm',
+    exitFullscreen: 'Forlad fuld skærm',
+    bar: 'Storskærmstilstand',
+    getReady: 'Gør klar',
+    stepOf: 'Trin {n} af {total}',
+    prevStep: 'Forrige trin',
+    nextStep: 'Næste trin',
+    teacherNotes: 'Til personalet',
+  },
 } satisfies StoriesDict

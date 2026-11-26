@@ -63,7 +63,7 @@ export function TextField({ label, hint, error, optionalLabel, className = '', .
         {...input}
         aria-invalid={error ? true : undefined}
         aria-describedby={[hintId, errId].filter(Boolean).join(' ') || undefined}
-        className={`min-h-12 w-full rounded-control border bg-surface px-4 text-base ${input.dir === 'ltr' ? 'rtl:text-right' : ''} ${error ? 'border-red-700' : 'border-ink/40'}`}
+        className={`min-h-12 w-full rounded-control border bg-surface px-4 text-base ${input.dir === 'ltr' ? 'rtl:text-right' : ''} ${error ? 'border-red-700' : 'border-ink/60'}`}
       />
       {error && <FieldError id={errId!}>{error}</FieldError>}
     </div>
@@ -89,9 +89,9 @@ export function PasswordField({ label, hint, error, showLabel, hideLabel, streng
           dir="ltr"
           aria-invalid={error ? true : undefined}
           aria-describedby={[hintId, strId, errId].filter(Boolean).join(' ') || undefined}
-          className={`min-h-12 min-w-0 flex-1 rounded-control border bg-surface px-4 text-base rtl:text-right ${error ? 'border-red-700' : 'border-ink/40'}`}
+          className={`min-h-12 min-w-0 flex-1 rounded-control border bg-surface px-4 text-base rtl:text-right ${error ? 'border-red-700' : 'border-ink/60'}`}
         />
-        <button type="button" onClick={() => setShown((v) => !v)} aria-pressed={shown} aria-controls={id} className="min-h-12 shrink-0 rounded-control border border-ink/40 bg-surface px-3 text-sm">
+        <button type="button" onClick={() => setShown((v) => !v)} aria-pressed={shown} aria-controls={id} className="min-h-12 shrink-0 rounded-control border border-ink/60 bg-surface px-3 text-sm">
           {shown ? hideLabel : showLabel}
         </button>
       </div>

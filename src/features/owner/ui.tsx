@@ -205,3 +205,33 @@ export function FileField({ purpose, label, hint, currentId, onUploaded, testId 
 }
 
 export { fmt }
+
+/** The owner's own email app, opened on an address (nothing is sent by the site). Looks like a secondary button. */
+export function MailLink({ to, children, testId }: { to: string; children: ReactNode; testId?: string }) {
+  return (
+    <a
+      href={`mailto:${encodeURIComponent(to).replace(/%40/g, '@')}`}
+      className="inline-flex min-h-12 items-center justify-center gap-2 rounded-control border border-ink/70 bg-surface px-5 text-base font-medium text-ink hover:bg-line/40"
+      data-testid={testId}
+    >
+      {children}
+    </a>
+  )
+}
+
+/** A small state label: dashed while something is still to do, plain once it is done. */
+export function StateBadge({ done, children, testId }: { done: boolean; children: ReactNode; testId?: string }) {
+  return (
+    <span
+      className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-semibold ${done ? 'bg-green-100 text-green-950' : 'border border-dashed border-amber-700 text-amber-950'}`}
+      data-testid={testId}
+    >
+      {children}
+    </span>
+  )
+}
+
+/** An email address: always left to right, kept whole, even inside an Arabic or Hebrew line. */
+export function Email({ value }: { value: string }) {
+  return <bdi dir="ltr" className="break-all">{value}</bdi>
+}

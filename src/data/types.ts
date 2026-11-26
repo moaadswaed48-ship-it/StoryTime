@@ -22,7 +22,8 @@ export type Session = { userId: string; email: string }
 
 /**
  * Reading and film settings kept with the account (profiles.prefs), so they follow it to another device. Only these
- * keys; the database refuses any other (supabase/migrations/20261125130000_family_prefs_favourites.sql).
+ * keys; the database refuses any other (supabase/migrations/20261125130000_family_prefs_favourites.sql, and
+ * 20261126110000_classroom_mode.sql for `classroom`).
  */
 export type AccountPrefs = {
   autoFlip?: boolean
@@ -31,8 +32,10 @@ export type AccountPrefs = {
   textScale?: number
   view?: 'shelf' | 'list' | null
   hintSeen?: boolean
+  /** Classroom mode (big screen, big words) for a teacher's account; the screens ignore it for other roles. */
+  classroom?: boolean
 }
-export const PREF_KEYS = ['autoFlip', 'captions', 'textScale', 'view', 'hintSeen'] as const
+export const PREF_KEYS = ['autoFlip', 'captions', 'textScale', 'view', 'hintSeen', 'classroom'] as const
 
 /** Keeps only the known keys with the right types (both backends store only this). */
 export function cleanPrefs(v: unknown): AccountPrefs {
@@ -41,6 +44,7 @@ export function cleanPrefs(v: unknown): AccountPrefs {
   if (typeof o.autoFlip === 'boolean') out.autoFlip = o.autoFlip
   if (typeof o.captions === 'boolean') out.captions = o.captions
   if (typeof o.hintSeen === 'boolean') out.hintSeen = o.hintSeen
+  if (typeof o.classroom === 'boolean') out.classroom = o.classroom
   if (typeof o.textScale === 'number' && o.textScale >= 0 && o.textScale <= 3) out.textScale = Math.round(o.textScale)
   if (o.view === 'shelf' || o.view === 'list' || o.view === null) out.view = o.view
   return out

@@ -1,7 +1,7 @@
 import { useState } from 'react'
-import { isPassCurrent, isTrialActive, isTrialEnded, timeLeft } from '@/data/rules'
+import { isPassCurrent, isTrialActive, isTrialEnded } from '@/data/rules'
 import { AGE_GROUPS, type AccessSnapshot } from '@/data/types'
-import { fmt, formatDate } from '@/i18n/format'
+import { fmt, formatDate, formatTimeLeft } from '@/i18n/format'
 import { useLang } from '@/i18n/use-dict'
 import { localPath } from '@/seo/paths'
 import { Button, ButtonLink, Notice } from '@/ui/controls'
@@ -32,7 +32,7 @@ export function AccessPanel({ access, onStartTrial }: { access: AccessSnapshot; 
   return (
     <div className="flex flex-col gap-3" data-testid="access-panel">
       {trialActive && access.trial && (
-        <Notice tone="info" title={fmt(t.trialActive, timeLeft(access.trial.endsAt, access.now))}>
+        <Notice tone="info" title={fmt(t.trialActive, { left: formatTimeLeft(access.trial.endsAt, access.now, lang) })}>
           {access.trialOpened && (
             <p className="font-medium" data-testid="trial-opened">
               {fmt(dict.stories.library.trialOpened, { n: access.trialOpened.length, total: access.trial.storyIds.length })}

@@ -1,15 +1,18 @@
 import { LANGS, type Lang } from '@/i18n/config'
 import { CLOCK_KEY, DB_KEY, type KeyValue, type LocalDb } from '@/data/local/server'
-import { AGE_GROUPS, isAgeGroup, type AgeGroup, type Iso } from '@/data/types'
+import { AGE_GROUPS, isAgeGroup, isPassMonths, PASS_MONTHS, type AgeGroup, type Iso, type PassMonths, type Price } from '@/data/types'
+import { isLang } from '@/i18n/config'
 import { OwnerError, type OwnerApi } from './api'
 import type { BlobStore } from './blobs'
 import {
   blockingGaps, checkUpload, emptyLangContent, fingerprint, hasActivity, kindOfMime, possibleLangs, publishedGaps, publishProblems,
   safeName, sharedGaps, signoffValid, targetLangs, trialOverflow,
 } from './rules'
+import { maxCancellationFee, priceProblem, REFUND_NOTE_MAX } from './money'
 import {
   DEFAULT_ZONE, ZONE_SIDES, ZONE_SIZES, ZONE_VS,
-  type AuditRow, type Dashboard, type MediaRecord, type OwnerStory, type OwnerStorySummary, type StoryDraft, type UploadMeta,
+  type AuditRow, type ContactMessage, type Dashboard, type Inbox, type MediaRecord, type OwnerStory, type OwnerStorySummary, type RefundsView,
+  type StoryDraft, type UploadMeta,
 } from './types'
 
 /**
@@ -70,6 +73,19 @@ export class LocalOwnerServer {
     if (!acc.users?.some((u) => u.id === uid)) throw new OwnerError('not_signed_in')
     if (acc.profiles?.[uid]?.role !== 'owner') throw new OwnerError('not_owner')
     return uid
+  }
+
+  /** Read, change and save the accounts store (src/data/local/server.ts), where messages, refunds and prices live. */
+  private accountsTx<T>(fn: (db: LocalDb) => T): T {
+    const db = this.accounts()
+    const out = fn(db)
+    this.kv.set(DB_KEY, JSON.stringify(db))
+    return out
+  }
+
+  /** An audit row for a change outside the stories (prices, refunds, messages), in the same log the owner reads. */
+  private auditOnly(actor: string, action: string, target: string, id: string, detail = '') {
+    this.tx((db) => this.audit(db, actor, action, target, null, detail || id))
   }
 
   private audit(db: ContentDb, actor: string, action: string, target: string, storyId: string | null, detail = '') {
@@ -271,6 +287,127 @@ export class LocalOwnerServer {
         })),
     }
   }
+
+  // ---- part 2: messages, cancellations and refunds, prices ----------------------------------------------------------
+
+  listMessages(uid: string | null): Inbox {
+    this.owner(uid)
+    const list = this.accounts().contactMessages ?? []
+    const messages: ContactMessage[] = list
+      .map((m) => ({ id: m.id, name: m.name, email: m.email, lang: isLang(m.lang) ? m.lang : 'en', message: m.message, createdAt: m.createdAt, handledAt: m.handledAt ?? null }))
+      .sort((a, b) => b.createdAt.localeCompare(a.createdAt))
+    return { messages, unhandled: messages.filter((m) => !m.handledAt).length }
+  }
+
+  setMessageHandled(uid: string | null, id: string, handled: boolean): ContactMessage {
+    const actor = this.owner(uid)
+    const { changed } = this.accountsTx((db) => {
+      const m = (db.contactMessages ?? []).find((x) => x.id === id)
+      if (!m) throw new OwnerError('not_found')
+      const changed = !!m.handledAt !== handled
+      if (changed) m.handledAt = handled ? this.now() : null
+      return { changed }
+    })
+    if (changed) this.auditOnly(actor, 'update', 'contact_messages', id, handled ? 'handled' : 'not handled')
+    return this.listMessages(uid).messages.find((m) => m.id === id)!
+  }
+
+  listRefunds(uid: string | null): RefundsView {
+    this.owner(uid)
+    const db = this.accounts()
+    const refunds = (db.refunds ?? [])
+      .map((r) => {
+        const o = (db.orders ?? []).find((x) => x.id === r.orderId)
+        const email = (db.users ?? []).find((u) => u.id === o?.accountId)?.email ?? null
+        const paid = o?.amountAgorot ?? r.amountAgorot
+        return {
+          id: r.id, orderId: r.orderId, passId: r.passId ?? null, email, ageGroup: o?.ageGroup ?? '4-5', months: o?.months ?? 1, paidAgorot: paid,
+          priceWasPlaceholder: o?.priceWasPlaceholder ?? false, paidAt: o?.paidAt ?? null, requestedAt: r.requestedAt, feeAgorot: r.feeAgorot,
+          maxFeeAgorot: maxCancellationFee(paid), status: r.status, issuedAt: r.issuedAt ?? null, note: r.note ?? null,
+        } satisfies RefundsView['refunds'][number]
+      })
+      .sort((a, b) => b.requestedAt.localeCompare(a.requestedAt))
+    const publicRequests = (db.cancellationRequests ?? [])
+      .map((c) => ({ id: c.id, email: c.email, orderRef: c.orderRef, message: c.message, createdAt: c.createdAt, handledAt: c.handledAt ?? null }))
+      .sort((a, b) => b.createdAt.localeCompare(a.createdAt))
+    return { refunds, open: refunds.filter((r) => r.status === 'requested').length, publicRequests }
+  }
+
+  setRefundFee(uid: string | null, id: string, feeAgorot: number | null) {
+    const actor = this.owner(uid)
+    if (feeAgorot !== null && (!Number.isInteger(feeAgorot) || feeAgorot < 0)) throw new OwnerError('fee_over_cap')
+    const changed = this.accountsTx((db) => {
+      const r = (db.refunds ?? []).find((x) => x.id === id)
+      if (!r) throw new OwnerError('not_found')
+      if (r.status !== 'requested') throw new OwnerError('refund_closed')
+      // As guard_refund_fee(): the lower of 5% of what was paid or 100 shekels.
+      const paid = (db.orders ?? []).find((o) => o.id === r.orderId)?.amountAgorot ?? r.amountAgorot
+      if (feeAgorot !== null && feeAgorot > maxCancellationFee(paid)) throw new OwnerError('fee_over_cap')
+      const changed = r.feeAgorot !== feeAgorot
+      r.feeAgorot = feeAgorot
+      return changed
+    })
+    if (changed) this.auditOnly(actor, 'update', 'refunds', id)
+  }
+
+  markRefunded(uid: string | null, id: string, note: string) {
+    const actor = this.owner(uid)
+    const text = note.trim()
+    if (!text || text.length > REFUND_NOTE_MAX) throw new OwnerError('note_required')
+    const passId = this.accountsTx((db) => {
+      const r = (db.refunds ?? []).find((x) => x.id === id)
+      if (!r) throw new OwnerError('not_found')
+      if (r.status !== 'requested') throw new OwnerError('refund_closed')
+      if (r.feeAgorot === null) throw new OwnerError('fee_not_set')
+      r.status = 'issued'
+      r.issuedAt = this.now()
+      r.note = text
+      const pass = (db.passes ?? []).find((p) => p.id === r.passId)
+      if (pass && pass.status === 'cancelled') pass.status = 'refunded'
+      const o = (db.orders ?? []).find((x) => x.id === r.orderId)
+      if (o) o.status = 'refunded'
+      return pass ? pass.id : null
+    })
+    this.auditOnly(actor, 'update', 'refunds', id)
+    if (passId) this.auditOnly(actor, 'update', 'passes', passId)
+  }
+
+  setCancellationHandled(uid: string | null, id: string, handled: boolean) {
+    const actor = this.owner(uid)
+    const changed = this.accountsTx((db) => {
+      const c = (db.cancellationRequests ?? []).find((x) => x.id === id)
+      if (!c) throw new OwnerError('not_found')
+      const changed = !!c.handledAt !== handled
+      if (changed) c.handledAt = handled ? this.now() : null
+      return changed
+    })
+    if (changed) this.auditOnly(actor, 'update', 'cancellation_requests', id, handled ? 'handled' : 'not handled')
+  }
+
+  listPrices(uid: string | null): Price[] {
+    this.owner(uid)
+    const set = this.accounts().prices ?? []
+    return AGE_GROUPS.flatMap((ageGroup) => PASS_MONTHS.map((months) => ({
+      ageGroup, months, priceAgorot: set.find((p) => p.ageGroup === ageGroup && p.months === months)?.priceAgorot ?? null,
+    })))
+  }
+
+  setPrice(uid: string | null, ageGroup: AgeGroup, months: PassMonths, priceAgorot: number | null): Price[] {
+    const actor = this.owner(uid)
+    if (!isAgeGroup(ageGroup) || !isPassMonths(months)) throw new OwnerError('not_found')
+    if (priceAgorot !== null && !Number.isInteger(priceAgorot)) throw new OwnerError('bad_price')
+    if (priceProblem(priceAgorot)) throw new OwnerError('bad_price')
+    const changed = this.accountsTx((db) => {
+      const list = (db.prices ??= [])
+      const i = list.findIndex((p) => p.ageGroup === ageGroup && p.months === months)
+      const before = i >= 0 ? list[i]!.priceAgorot : null
+      if (i >= 0) list.splice(i, 1)
+      if (priceAgorot !== null) list.push({ ageGroup, months, priceAgorot })
+      return before !== priceAgorot
+    })
+    if (changed) this.auditOnly(actor, 'update', 'pass_prices', `${ageGroup}/${months}`)
+    return this.listPrices(uid)
+  }
 }
 
 /** The list row: titles, groups and what is still missing per language. */
@@ -366,6 +503,14 @@ export class LocalOwnerApi implements OwnerApi {
   unpublish(id: string) { return this.run((u) => this.server.unpublish(u, id)) }
   listAudit(storyId?: string) { return this.run((u) => this.server.listAudit(u, storyId)) }
   dashboard() { return this.run((u) => this.server.dashboard(u)) }
+  listMessages() { return this.run((u) => this.server.listMessages(u)) }
+  setMessageHandled(id: string, handled: boolean) { return this.run((u) => this.server.setMessageHandled(u, id, handled)) }
+  listRefunds() { return this.run((u) => this.server.listRefunds(u)) }
+  setRefundFee(id: string, feeAgorot: number | null) { return this.run((u) => this.server.setRefundFee(u, id, feeAgorot)) }
+  markRefunded(id: string, note: string) { return this.run((u) => this.server.markRefunded(u, id, note)) }
+  setCancellationHandled(id: string, handled: boolean) { return this.run((u) => this.server.setCancellationHandled(u, id, handled)) }
+  listPrices() { return this.run((u) => this.server.listPrices(u)) }
+  setPrice(ageGroup: AgeGroup, months: PassMonths, priceAgorot: number | null) { return this.run((u) => this.server.setPrice(u, ageGroup, months, priceAgorot)) }
 
   async mediaUrl(id: string) {
     const hit = this.urls.get(id)

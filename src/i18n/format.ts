@@ -17,3 +17,14 @@ export function formatShekels(agorot: number | null, lang: Lang): string | null 
   if (agorot === null) return null
   return new Intl.NumberFormat(LOCALE[lang], { style: 'currency', currency: 'ILS' }).format(agorot / 100)
 }
+
+/**
+ * Time left, as people say it: "3 days" while more than a day is left (whole days, rounded up), then "5 hours"
+ * (rounded up). The platform writes the number and unit, so plurals are right in every language (Arabic dual
+ * "يومان", Hebrew "יומיים").
+ */
+export function formatTimeLeft(endIso: string, nowIso: string, lang: Lang): string {
+  const hours = Math.max(0, Math.ceil((new Date(endIso).getTime() - new Date(nowIso).getTime()) / 3_600_000))
+  const [n, unit] = hours > 24 ? [Math.ceil(hours / 24), 'day'] : [hours, 'hour']
+  return new Intl.NumberFormat(LOCALE[lang], { style: 'unit', unit, unitDisplay: 'long' }).format(n)
+}

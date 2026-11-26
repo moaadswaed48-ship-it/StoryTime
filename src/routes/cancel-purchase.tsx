@@ -49,10 +49,10 @@ export default function CancelPurchase() {
               <SignedInPasses />
             </ParentGate>
           </Section>
-        ) : session.status === 'signed-out' ? (
-          <SignedOutForm />
         ) : (
-          <Spinner label={dict.account.states.loading} />
+          // Also while the session is still unknown: the pre-rendered page already shows the form, so it does not
+          // jump when the visitor turns out to be signed out (the usual case here); a signed-in parent gets the passes.
+          <SignedOutForm />
         )}
         <Section title={t.otherWays}>
           <p className="flex flex-wrap items-center gap-2"><PlaceholderTag>{dict.commerce.plans.placeholderBadge}</PlaceholderTag> {t.contactPlaceholder}</p>

@@ -105,3 +105,30 @@
     transform: translateY(14px) scale(0.985);
   }
 }
+
+/* Teachers' classroom mode (a room looking at one big screen): larger controls and captions. The frame sits inside
+   the classroom frame's <main data-classroom="on"> (src/features/classroom/Classroom.tsx). */
+[data-classroom='on'] .film-frame {
+  --media-button-icon-height: 36px;
+  --media-control-height: 64px;
+  --media-range-track-height: 10px;
+  --media-range-thumb-height: 28px;
+  --media-range-thumb-width: 28px;
+  --media-range-thumb-border-radius: 14px;
+  --media-font-size: 20px;
+}
+[data-classroom='on'] .film-frame media-control-bar:not(.film-scrub) {
+  min-height: 72px;
+}
+[data-classroom='on'] .film-frame media-control-bar > * {
+  min-width: 64px;
+  min-height: 64px;
+}
+[data-classroom='on'] .film-frame video::cue {
+  font-size: 1.9em;
+}
+[data-classroom='on'] .film-frame .film-big-play {
+  --media-button-icon-height: 64px;
+  width: 128px;
+  height: 128px;
+}

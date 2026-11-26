@@ -671,3 +671,71 @@ Status: FIXED AND CHECKED, not committed. Neutral tokens only; the look is not d
 - The film: a 30-second cut of story A13 "Where Is Little Hedgehog?", seven shots. Brief: `docs/film/bakeoff/BRIEF.md`; measured costs and Blender 5.2 facts: `docs/film/bakeoff/TECH-NOTES.md`; shot table: `docs/film/bakeoff/shots.json`.
 - Shared tools: `studio/scripts/bakeoff/` (every Blender call goes through `blender.sh`; `gate.sh` is the speed check) and `src/studio3d/bakeoff/common/harness.py`. Blender 5.2.5 now lives at `/home/user/tools/` (copied from the scratch folder).
 - Results are recorded here only when the whole test is finished.
+
+## Owner's area, part 2 (26 Nov 2026)
+
+Status: BUILT AND CHECKED on the local test-mode backend and in PGlite; not committed; NOT run against a real Supabase
+project. Neutral tokens only (no design). Product checklist item 20: "read contact messages", "process a cancellation
+and refund" (without the payment company) and "edit pass prices".
+- [x] **Messages** `/:lang/app/owner/messages/`: contact-form messages newest first, "Still to handle: n", a "Still to
+      handle / All messages" switch, mark handled and back, and "Write back by email" (a `mailto:` link: the owner's own
+      email app; the site sends nothing).
+- [x] **Cancellations and refunds** `/:lang/app/owner/refunds/`: a warning box that no money moves from here (no payment
+      company); each refund request with the buyer's email (or "Account deleted"), group, length, paid date and amount;
+      a fee field with the legal cap shown (lower of 5% or 100 shekels); the amount to return; a required note ("how and
+      when the money was returned"); "Mark as refunded" (final). Below, the requests from the public "Cancel a purchase"
+      form (signed-out people), with handled and back.
+- [x] **Prices** `/:lang/app/owner/prices/`: the nine passes, each starting empty with "Price not set yet" and its
+      Placeholder tag; set (1 to 10,000 shekels, typed as "49.90", "49,90" or Arabic-Indic digits) or remove a price.
+      The public plans page, the in-app plans page and the landing teaser now read the live prices once the page runs
+      (the pre-rendered HTML still shows the static nulls); the "Before you buy" line "Prices are not set yet" becomes
+      "The price shown at the moment of purchase applies" as soon as one price is set (new key `factValiditySet`).
+
+### How it fits together
+- Data: `OwnerApi` gained `listMessages`, `setMessageHandled`, `listRefunds`, `setRefundFee`, `markRefunded`,
+  `setCancellationHandled`, `listPrices`, `setPrice` (`src/features/owner/data/api.ts`); types in `types.ts`; pure rules
+  in the new `money.ts` (`parseShekels`, price limits, note length). Local: `LocalOwnerServer` writes the accounts store
+  (`storytime.local.v1`: `contactMessages[].handledAt`, `cancellationRequests[].handledAt`, `refunds[].issuedAt/note`,
+  new `prices`) and an audit row per change in the owner's log; `LocalServer.listPrices()` and `createOrder` now use the
+  owner's prices.
+- Supabase: new migration `20261126100000_owner_inbox_refunds_prices.sql`: `owner_inbox()`, `owner_set_message_handled()`,
+  `owner_refunds()`, `owner_set_refund_fee()`, `owner_mark_refunded()`, `owner_set_cancellation_handled()`,
+  `owner_set_price()`, each owner-only, SECURITY DEFINER, granted to `authenticated` only and listed in
+  `tests/db/catalogue.test.ts`. New column `refunds.note`; new check `pass_prices_price_range` (100 to 1,000,000 agorot
+  or null). `create_order` is unchanged: it still refuses every real provider while a price is null (`price_not_set`),
+  now proven with a price set and removed by the owner.
+- Screens: `src/routes/app/owner/messages.tsx`, `refunds.tsx`, `prices.tsx`; three new tabs in `layout.tsx`; three routes in
+  `src/routes.ts`; small shared pieces (`MailLink`, `StateBadge`, `Email`) in `src/features/owner/ui.tsx`. Words in
+  `src/i18n/<lang>/owner.ts` (sections `messages`, `refunds`, `prices`, new error and change-history words).
+
+### Decisions taken (say if you disagree)
+- **One way in for every owner change.** The direct column grants of part A (owner updating `pass_prices`, `refunds`,
+  `contact_messages`, `cancellation_requests` under RLS) are revoked; the functions are the only path, so each change
+  is checked and logged. `tests/db/review-fixes.test.ts` W8 now sets the fee through `owner_set_refund_fee()`.
+- Audit: prices, refunds and passes are logged by the existing triggers; message and form-request marks write their own
+  row holding only the id and `{handled}` (never the words or the address).
+- Marking refunded needs the fee decided (0 is allowed) and a note of up to 500 characters, sets the refund `issued`,
+  the pass and the order `refunded`, and is final. The family can read the note (their own refund row and "Download my
+  data"); the screen says so. On Supabase, `issued` makes the existing email job send the refund email (not run).
+- A price is 1 to 10,000 shekels or not set; no default or example number anywhere. Removing a price is allowed.
+- The public form's requests are shown on the refunds screen (otherwise the owner could not see them at all).
+- Test mode shows only what happened in this browser: the owner's note in the area now says so for everything.
+
+### Not built, not proven
+- NOT RUN against a real Supabase project: the seven functions over PostgREST, the error mapping in
+  `src/features/owner/data/supabase.ts`. The SQL is proven in PGlite.
+- No payment company: no real refund, no credit document (`refunds.credit_document_url` is unused), no "declined".
+- The owner cannot cancel a pass on behalf of someone who used the public form; it is settled by email and marked.
+- No count of new messages on the tab or the dashboard; no reply from inside the site (the reply email template exists).
+- The pre-rendered public plans HTML still says "Price not set yet" until the script runs: when real prices exist,
+  also update `src/data/prices.ts` and rebuild (the R8 test compares it with the database's launch values).
+- Hebrew and Danish screens not looked at in a browser (typecheck proves the keys); no native reader yet. No fresh
+  reviewer has looked.
+
+### Checks (26 Nov 2026)
+- `npm run typecheck`: 0 errors. `npx vitest run`: 392 passed in 33 files (new: `tests/owner-part2.test.ts` 10,
+  `tests/db/owner-part2.test.ts` 11; changed: `tests/db/catalogue.test.ts`, `tests/db/review-fixes.test.ts`).
+- Private build (`BUILD_DIR=<scratch>/owner/build`, its folder needs a `node_modules` link) served on its own port:
+  `e2e/owner-part2.spec.ts` 6 passed (en + ar at 390 and 1440 px, plus a parent refused); `e2e/owner.spec.ts` 8 passed.
+  Screenshots in `qa/out/owner-part2/` looked at (messages, refunds open and done, prices, public plans with a price,
+  change history; Arabic and English, phone and desktop).

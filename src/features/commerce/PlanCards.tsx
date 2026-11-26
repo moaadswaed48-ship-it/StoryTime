@@ -73,14 +73,16 @@ export function PlanCards({ initialGroup = '4-5', prices = PRICES }: { initialGr
 }
 
 /** The facts the consumer law asks for before a sale (legal checklist items 1-6), plus the Israel-only line. */
-export function PlanFacts() {
+export function PlanFacts({ prices = PRICES }: { prices?: readonly Price[] }) {
   const { lang, dict } = useLang()
   const t = dict.commerce.plans
+  // "Prices are not set yet" stops being true the moment the owner sets one (CLAUDE.md rule 4).
+  const validity = prices.some((p) => p.priceAgorot !== null) ? t.factValiditySet : t.factValidity
   return (
     <section aria-labelledby="facts" className="flex flex-col gap-3 rounded-control border border-line bg-surface p-5">
       <h2 id="facts" className="text-xl font-semibold">{t.factsTitle}</h2>
       <ul className="flex list-disc flex-col gap-2 ps-6">
-        {[t.factInstant, t.factEnds, t.factTwoGroups, t.factQueue, t.factCancel, t.factValidity].map((f) => <li key={f}>{f}</li>)}
+        {[t.factInstant, t.factEnds, t.factTwoGroups, t.factQueue, t.factCancel, validity].map((f) => <li key={f}>{f}</li>)}
       </ul>
       <p className="font-medium">{t.israelOnly}</p>
       <p>

@@ -199,8 +199,10 @@ describe('W8: the cancellation fee cap', () => {
     const uid = await signUp(db, 'w8@example.test')
     const pass = await pay(await order(uid, '2-3', 12))
     await rows(db, user(uid), `select cancel_purchase($1)`, [pass])
-    await expect(rows(db, user(owner), `update refunds set fee_agorot = 1501 where pass_id = $1`, [pass])).rejects.toThrow(/fee_over_cap/)
-    await rows(db, user(owner), `update refunds set fee_agorot = 1500 where pass_id = $1`, [pass])
+    // Since the owner's area part 2 the fee is set only through owner_set_refund_fee() (direct updates were revoked).
+    const [{ id: refund }] = await rows<{ id: string }>(db, user(owner), `select id from refunds where pass_id = $1`, [pass]) as [{ id: string }]
+    await expect(rows(db, user(owner), `select owner_set_refund_fee($1, 1501)`, [refund])).rejects.toThrow(/fee_over_cap/)
+    await rows(db, user(owner), `select owner_set_refund_fee($1, 1500)`, [refund])
     await db.query(`update pass_prices set price_agorot = null where age_group = '2-3' and months = 12`)
   })
 })

@@ -10,6 +10,11 @@
  *   3. if the words still do not fit, the wash grows over more of the picture (a side column first becomes a
  *      full-width band), up to the whole page; only past that does the box scroll (`overflow`).
  * A side column narrower than about eleven characters becomes a full-width band (phones in portrait).
+ *
+ * Classroom mode (a teacher showing the book on one large screen) starts bigger and has a higher floor: it grows the
+ * wash over the picture before it shrinks the words, and only when even the whole page cannot hold them at the
+ * classroom floor (a long page on a phone) does it go down toward the normal floor, so a page never scrolls because
+ * of classroom mode.
  */
 import type { AgeGroup, PageZone } from '@/data/types'
 import { wrap } from './layout'
@@ -22,6 +27,8 @@ export type Script = 'arabic' | 'hebrew' | 'latin'
 export const MIN_FONT: Record<AgeGroup, number> = { '2-3': 24, '4-5': 22, '6-8': 19 }
 /** Natural size as a share of the page width, and its ceiling. */
 const NATURAL: Record<AgeGroup, [number, number]> = { '2-3': [0.07, 36], '4-5': [0.06, 32], '6-8': [0.05, 27] }
+/** Classroom mode: the floor, the natural size and its ceiling, as multiples of the normal ones. */
+export const CLASSROOM_BOOST = { min: 1.5, natural: 1.6, cap: 1.7 } as const
 /** The reader's text-size steps (multipliers). Step 0 is the normal size. */
 export const TEXT_SCALES = [1, 1.15, 1.3, 1.5] as const
 
@@ -44,6 +51,8 @@ export type ZoneInput = {
   script: Script
   text: string
   measure: MeasureAt
+  /** Classroom mode: bigger words for a room looking at one screen. */
+  classroom?: boolean
   /** Room kept free at the top and bottom of the page (CSS px), e.g. for a page number. */
   insetTop?: number
   insetBottom?: number
@@ -80,9 +89,11 @@ export function layoutZone(i: ZoneInput): ZoneLayout {
   const scale = TEXT_SCALES[Math.min(TEXT_SCALES.length - 1, Math.max(0, i.scale))]!
   const min = MIN_FONT[i.group]
   const [share, cap] = NATURAL[i.group]
-  const natural = Math.max(min, Math.min(cap, i.pageW * share))
+  const boost = i.classroom ? CLASSROOM_BOOST : { min: 1, natural: 1, cap: 1 }
+  const natural = Math.max(min * boost.min, Math.min(cap * boost.cap, i.pageW * share * boost.natural))
   const start = natural * scale
   const floor = min * scale
+  const roomFloor = min * boost.min * scale
   const margin = round(Math.min(40, Math.max(12, i.pageW * 0.045)))
   const top = margin + (i.insetTop ?? 0)
   const bottom = margin + (i.insetBottom ?? 0)
@@ -100,20 +111,26 @@ export function layoutZone(i: ZoneInput): ZoneLayout {
     if (longest > w - 2 * padX) padX = Math.max(round(font * 0.25), Math.floor((w - longest) / 2))
     const inner = w - 2 * padX
     const lines = wrap(i.text, inner, (s) => i.measure(s, font))
-    const h = lines.length * lineHeight + 2 * padY
+    // Classroom mode: a size at which one word is wider than the box does not fit (the words go down a size).
+    const tooWide = !!i.classroom && longest > inner + 0.5
+    const h = tooWide ? Infinity : lines.length * lineHeight + 2 * padY
     return { kind, font, lineHeight, padX, padY, w, inner, lines, h }
   }
   const columnOk = (font: number) => i.pageW * COLUMN[zone.size] - margin - 2 * round(font * 0.8) >= font * 11
   const kinds: ('band' | 'column')[] = zone.side !== 'full' ? ['column', 'band'] : ['band']
 
-  // Try the calm area first (shrinking toward the floor), then let it grow up to the whole page.
+  // Try the calm area first (shrinking toward the floor), then let it grow up to the whole page. Classroom mode
+  // first holds its own higher floor in both, and only then goes down toward the normal floor on the whole page.
+  const passes: ['zone' | 'page', number, number][] = i.classroom
+    ? [['zone', start, roomFloor], ['page', start, roomFloor], ['page', roomFloor, floor]]
+    : [['zone', start, floor], ['page', start, floor]]
   let chosen: ReturnType<typeof fit> | null = null
-  for (const limit of ['zone', 'page'] as const) {
+  for (const [limit, from, to] of passes) {
     for (const kind of kinds) {
       const maxH = limit === 'page' ? hardMax : Math.min(hardMax, i.pageH * (kind === 'band' ? BAND_MAX : COLUMN_MAX)[zone.size])
-      for (let font = start; font >= floor - 0.01; font -= 0.5) {
+      for (let font = from; font >= to - 0.01; font -= 0.5) {
         if (kind === 'column' && !columnOk(font)) break
-        const f = fit(kind, Math.max(floor, font))
+        const f = fit(kind, Math.max(to, font))
         if (f.h <= maxH) {
           chosen = f
           break

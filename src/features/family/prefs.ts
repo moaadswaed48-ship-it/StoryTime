@@ -20,8 +20,10 @@ export type Prefs = {
   view: 'shelf' | 'list' | null
   /** The four-doors hint was dismissed. */
   hintSeen: boolean
+  /** Classroom mode (teacher accounts only; src/features/classroom/useClassroom.ts). Off by default. */
+  classroom: boolean
 }
-export const DEFAULT_PREFS: Prefs = { autoFlip: true, captions: true, textScale: 0, view: null, hintSeen: false }
+export const DEFAULT_PREFS: Prefs = { autoFlip: true, captions: true, textScale: 0, view: null, hintSeen: false, classroom: false }
 
 const key = (accountId: string) => `storytime.prefs.${accountId}`
 const listeners = new Set<() => void>()

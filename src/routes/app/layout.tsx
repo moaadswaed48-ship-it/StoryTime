@@ -1,6 +1,9 @@
 import { Navigate, Outlet, useLocation } from 'react-router'
 import { justDeleted, signInPath } from '@/features/account/parts'
 import { useSession } from '@/features/account/session'
+import { isClassroomPage } from '@/features/classroom/classroom'
+import { ClassroomShell } from '@/features/classroom/Classroom'
+import { useClassroom } from '@/features/classroom/useClassroom'
 import { useLang } from '@/i18n/use-dict'
 import { localPath } from '@/seo/paths'
 import { Spinner } from '@/ui/controls'
@@ -14,6 +17,7 @@ export default function AppLayout() {
   const { lang, dict } = useLang()
   const { pathname, search } = useLocation()
   const session = useSession()
+  const classroom = useClassroom()
   const here = pathname.replace(/\/+$/, '')
   const welcome = localPath(lang, 'app/welcome').replace(/\/+$/, '')
 
@@ -30,6 +34,15 @@ export default function AppLayout() {
   }
   // The owner account does not need the family onboarding (part B2).
   if (!session.account.onboardedAt && here !== welcome && session.account.role !== 'owner') return <Navigate to={localPath(lang, 'app/welcome')} replace />
+
+  // Teachers in classroom mode: the story pages take the classroom frame (no menu, no footer, no account details).
+  if (classroom.on && isClassroomPage(pathname, lang)) {
+    return (
+      <ClassroomShell>
+        <Outlet />
+      </ClassroomShell>
+    )
+  }
 
   // One menu for the whole site: the header's (Library, Collections, Settings, Plans, and the owner's area).
   return (

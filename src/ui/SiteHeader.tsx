@@ -3,12 +3,14 @@ import { useSession } from '@/features/account/session'
 import { ENDONYM, LANGS, dirOf } from '@/i18n/config'
 import { useLang } from '@/i18n/use-dict'
 import { localPath } from '@/seo/paths'
+import { TestModeBanner } from './Banners'
 
 /**
  * Placeholder header: working name, the one menu of the site and the language switch. No visual design yet.
  * Signed out: Plans, Sign in, Create account. Signed in (once the session is known in the browser; pre-rendered
  * HTML is always the signed-out version): Library, Collections, Settings, Plans, and the owner's area for the owner.
  * This is the only menu: the app has no second bar. The page you are on is marked (aria-current), never hover-only.
+ * The test-mode notice (local backend only) closes the header.
  */
 export function SiteHeader() {
   const { lang, dict } = useLang()
@@ -57,6 +59,8 @@ export function SiteHeader() {
         </nav>
         <LanguageLinks label={t.language} className="w-full sm:w-auto" />
       </div>
+      {/* Inside the header, so it sits in a landmark like everything else on the page (axe "region"). */}
+      <TestModeBanner />
     </header>
   )
 }

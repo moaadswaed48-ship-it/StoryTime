@@ -1,6 +1,7 @@
 import { useEffect, type ReactNode } from 'react'
 import { isRouteErrorResponse, Links, Meta, Outlet, Scripts, ScrollRestoration, useLocation } from 'react-router'
 import { dirOf, FALLBACK, isLang, type Lang } from '@/i18n/config'
+import { NoLanguageNotFound } from '@/ui/NotFound'
 import type { Route } from './+types/root'
 import './app.css'
 
@@ -26,6 +27,9 @@ export function Layout({ children }: { children: ReactNode }) {
         <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
         {/* Preview builds (NOINDEX=1): on every page, the SPA fallback included, so no URL of the preview is indexed. */}
         {__NOINDEX__ && <meta name="robots" content="noindex, nofollow" />}
+        {/* No icon until the brand exists (design stage): an empty one stops the browser asking for /favicon.ico,
+            which answered 404 and showed as a console error on every first visit. Replace with the real icons. */}
+        <link rel="icon" href="data:," />
         <Meta />
         <Links />
       </head>
@@ -50,6 +54,7 @@ export function HydrateFallback() {
 export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
   const status = isRouteErrorResponse(error) ? error.status : 500
   if (import.meta.env.DEV && !isRouteErrorResponse(error)) console.error(error)
+  if (status === 404) return <NoLanguageNotFound />
   return (
     <main className="grid min-h-dvh place-items-center p-6 text-center">
       <p className="text-6xl font-semibold tabular-nums text-ink-muted">{status}</p>

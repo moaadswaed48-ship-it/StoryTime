@@ -17,6 +17,8 @@ export default {
   },
   placeholder: 'صفحة مؤقتة: التصميم والمحتوى قيد الإعداد.',
   notFound: 'الصفحة غير موجودة',
+  notFoundLead: 'هذا الرابط لا يؤدي إلى أي صفحة. ربما تغير الرابط، أو نقص منه حرف.',
+  notFoundHome: 'الانتقال إلى الصفحة الرئيسية',
   loading: 'جارٍ التحميل…',
   footer: { label: 'معلومات الموقع', cancelPurchase: 'إلغاء عملية شراء', help: 'مساعدة', contact: 'تواصل معنا', languages: 'لغة الموقع', business: 'بيانات المصلحة التجارية: تُضاف قبل بدء البيع.' },
 } satisfies CommonDict

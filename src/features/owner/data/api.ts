@@ -1,5 +1,6 @@
 import type { Lang } from '@/i18n/config'
-import type { AuditRow, Dashboard, MediaRecord, OwnerStory, OwnerStorySummary, StoryDraft, UploadMeta } from './types'
+import type { AgeGroup, PassMonths, Price } from '@/data/types'
+import type { AuditRow, ContactMessage, Dashboard, Inbox, MediaRecord, OwnerStory, OwnerStorySummary, RefundsView, StoryDraft, UploadMeta } from './types'
 import type { PublishProblem, UploadRefusal } from './rules'
 
 /**
@@ -32,6 +33,25 @@ export interface OwnerApi {
   unpublish(id: string): Promise<OwnerStory>
   listAudit(storyId?: string): Promise<AuditRow[]>
   dashboard(): Promise<Dashboard>
+
+  // Part 2: messages, cancellations and refunds, prices. Every change is written to the audit log.
+  /** Contact-form messages, newest first, with the number not handled yet. Nothing is emailed from here. */
+  listMessages(): Promise<Inbox>
+  setMessageHandled(id: string, handled: boolean): Promise<ContactMessage>
+  /** Refund requests (from cancelled passes) and requests from the public cancellation form, newest first. */
+  listRefunds(): Promise<RefundsView>
+  /** Sets the cancellation fee of an open request (null clears it). Refused above the legal cap (fee_over_cap). */
+  setRefundFee(id: string, feeAgorot: number | null): Promise<void>
+  /**
+   * Records that the owner returned the money herself (no payment company is connected, nothing moves here): the
+   * fee must be set and a note (how and when) given. The pass and the order become "refunded". Final.
+   */
+  markRefunded(id: string, note: string): Promise<void>
+  setCancellationHandled(id: string, handled: boolean): Promise<void>
+  /** The nine pass prices; null = not set yet (the public site says "Price not set yet"). */
+  listPrices(): Promise<Price[]>
+  /** Sets one pass's price in agorot, VAT included, or clears it (null). Returns the whole list as saved. */
+  setPrice(ageGroup: AgeGroup, months: PassMonths, priceAgorot: number | null): Promise<Price[]>
 }
 
 export type OwnerErrorCode =
@@ -45,6 +65,11 @@ export type OwnerErrorCode =
   | 'signoff_blocked'
   | 'upload_refused'
   | 'storage_full'
+  | 'fee_over_cap'
+  | 'fee_not_set'
+  | 'note_required'
+  | 'refund_closed'
+  | 'bad_price'
   | 'network'
   | 'unknown'
 

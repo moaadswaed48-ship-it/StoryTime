@@ -1,5 +1,5 @@
 // Serves the built site (build/client) the way a static host would, for `npm run preview` and the e2e tests.
-//   node scripts/serve.mjs [--port=4173]
+//   node scripts/serve.mjs [--port=4173]   (BUILD_DIR=... serves a build made with the same BUILD_DIR)
 // A folder URL without its slash redirects to it (as GitHub Pages and Cloudflare do); an unknown URL under the base
 // path gets the SPA fallback, which opens client-only pages such as /ar/app/library.
 import { createReadStream, existsSync, statSync } from 'node:fs'
@@ -7,7 +7,7 @@ import { createServer } from 'node:http'
 import { extname, resolve, sep } from 'node:path'
 import { basePath } from '../site.config.ts'
 
-const root = resolve(import.meta.dirname, '../build/client')
+const root = resolve(import.meta.dirname, '..', process.env.BUILD_DIR || 'build', 'client')
 const port = Number(process.argv.find((a) => a.startsWith('--port='))?.split('=')[1] ?? process.env.PORT ?? 4173)
 const TYPES = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript', '.css': 'text/css', '.json': 'application/json', '.data': 'text/x-script', '.svg': 'image/svg+xml', '.png': 'image/png', '.jpg': 'image/jpeg', '.webp': 'image/webp', '.woff2': 'font/woff2', '.txt': 'text/plain' }
 

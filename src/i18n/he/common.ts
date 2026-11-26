@@ -17,6 +17,8 @@ export default {
   },
   placeholder: 'עמוד זמני: העיצוב והתוכן עדיין בהכנה.',
   notFound: 'הדף לא נמצא',
+  notFoundLead: 'הכתובת הזו לא מובילה לדף. ייתכן שהיא השתנתה, או שחסרה בה אות.',
+  notFoundHome: 'מעבר לדף הבית',
   loading: 'בטעינה…',
   footer: { label: 'מידע על האתר', cancelPurchase: 'ביטול רכישה', help: 'עזרה', contact: 'יצירת קשר', languages: 'שפת האתר', business: 'פרטי העסק: יתווספו לפני פתיחת המכירה.' },
 } satisfies CommonDict

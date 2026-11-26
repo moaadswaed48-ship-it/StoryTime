@@ -164,6 +164,15 @@ export default function FilmPlayer({ film, title, lang, memoryKey, captions, onC
     return () => document.removeEventListener('fullscreenchange', on)
   }, [])
 
+  // Accessibility (axe, 26 Nov 2026), after Media Chrome has upgraded its elements: the captions toggle reports on/off
+  // with aria-checked, which only a switch may carry (Media Chrome makes it a button); the time display is a plain
+  // timer (no tap-to-toggle), so its name may stay "playback time" while it shows the digits.
+  useEffect(() => {
+    const frame = document.getElementById(frameId)
+    frame?.querySelector('media-captions-button')?.setAttribute('role', 'switch')
+    frame?.querySelector('media-time-display')?.setAttribute('role', 'timer')
+  }, [frameId, track])
+
   const [entering, setEntering] = useState(true)
   useEffect(() => {
     const id = window.setTimeout(() => setEntering(false), 500)
@@ -197,7 +206,7 @@ export default function FilmPlayer({ film, title, lang, memoryKey, captions, onC
         </MediaControlBar>
         <MediaControlBar {...attrs({ mediacontroller: ctrlId })}>
           <MediaPlayButton />
-          <MediaTimeDisplay showDuration dir="ltr" />
+          <MediaTimeDisplay showDuration dir="ltr" {...attrs({ notoggle: '' })} />
           <span className="flex-1" />
           {track && <MediaCaptionsButton data-testid="film-captions" />}
           <MediaMuteButton />

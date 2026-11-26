@@ -3,6 +3,7 @@ import { useSearchParams, useParams } from 'react-router'
 import { isPassCurrent, isTrialActive } from '@/data/rules'
 import { useAccess } from '@/features/access/useAccess'
 import { errorText } from '@/features/account/messages'
+import { useClassroom } from '@/features/classroom/useClassroom'
 import { useLearners, useProgress } from '@/features/family/useFamily'
 import { useStory } from '@/features/family/useStory'
 import { Reader } from '@/features/reader/Reader'
@@ -25,6 +26,7 @@ export default function Read() {
   const { active } = useLearners()
   const progress = useProgress(active?.id ?? null)
   const { access } = useAccess()
+  const classroom = useClassroom()
   const back = localPath(lang, `app/story/${id}`)
   const listen = params.get('listen') === '1'
   const page = Number(params.get('page')) || 0
@@ -57,6 +59,7 @@ export default function Read() {
       closeTo={back}
       onPage={onPage}
       accessEndsAt={accessEndsAt}
+      classroom={classroom.on}
       endActions={
         <>
           {content.film?.videoUrl && <ButtonLink to={`${back}/watch`} variant="secondary">{dict.stories.doors.watch}</ButtonLink>}

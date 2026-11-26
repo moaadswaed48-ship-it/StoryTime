@@ -44,12 +44,33 @@ export function Placeholder({ label, children }: { label: string; children: Reac
   )
 }
 
+/** A run of Latin words (names such as "StoryTime", "three.js", "storytime.prefs"), ending on a letter or digit. */
+const LATIN = /[A-Za-z][\w.@/:+-]*[A-Za-z0-9](?: [A-Za-z0-9][\w.@/:+-]*[A-Za-z0-9])*|[A-Za-z]/g
+
+/**
+ * Inside Arabic and Hebrew text, each Latin run is isolated left-to-right and marked as Latin-script English, so its
+ * dots and hyphens never jump to the wrong side and a screen reader switches voice. The words are unchanged.
+ */
+export function isolateLatin(text: string, lang: Lang): ReactNode {
+  if (lang !== 'ar' && lang !== 'he') return text
+  const out: ReactNode[] = []
+  let last = 0
+  for (const m of text.matchAll(LATIN)) {
+    if (m.index > last) out.push(text.slice(last, m.index))
+    out.push(<bdi key={m.index} dir="ltr" lang="en">{m[0]}</bdi>)
+    last = m.index + m[0].length
+  }
+  if (!out.length) return text
+  if (last < text.length) out.push(text.slice(last))
+  return out
+}
+
 export function Inline({ text, lang, placeholderLabel }: { text: string; lang: Lang; placeholderLabel: string }) {
   return (
     <>
       {parseInline(text).map((t, i) =>
         t.kind === 'text' ? (
-          <Fragment key={i}>{t.text}</Fragment>
+          <Fragment key={i}>{isolateLatin(t.text, lang)}</Fragment>
         ) : t.kind === 'placeholder' ? (
           <Placeholder key={i} label={placeholderLabel}>{t.text}</Placeholder>
         ) : (

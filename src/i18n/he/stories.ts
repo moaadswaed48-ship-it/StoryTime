@@ -155,4 +155,17 @@ export default {
     captions: 'הצגת כתוביות בסרטים',
     saved: 'נשמר',
   },
+  classroom: {
+    mode: 'מצב כיתה',
+    modeHint: 'אותיות גדולות וכפתורים גדולים לקבוצה שמסתכלת על מסך גדול אחד או על מקרן, בלי פרטי החשבון על המסך.',
+    leave: 'יציאה ממצב כיתה',
+    fullscreen: 'מסך מלא',
+    exitFullscreen: 'יציאה ממסך מלא',
+    bar: 'מצב כיתה',
+    getReady: 'מתכוננים',
+    stepOf: 'שלב {n} מתוך {total}',
+    prevStep: 'השלב הקודם',
+    nextStep: 'השלב הבא',
+    teacherNotes: 'לצוות הגן',
+  },
 } satisfies StoriesDict

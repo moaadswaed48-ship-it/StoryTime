@@ -20,7 +20,7 @@ export default function AppPlans() {
       {!access || (!prices && !pricesError) ? <Spinner label={dict.account.states.loading} /> : (
         <div className="flex flex-col gap-8">
           <PlanCards initialGroup={access.trial?.ageGroup ?? access.passes[0]?.ageGroup ?? '4-5'} prices={prices ?? undefined} />
-          <PlanFacts />
+          <PlanFacts prices={prices ?? undefined} />
         </div>
       )}
     </ParentGate>

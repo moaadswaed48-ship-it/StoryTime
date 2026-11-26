@@ -22,6 +22,7 @@ export default {
     factQueue: 'En pakke købt, mens en anden til samme gruppe kører, starter, når den slutter.',
     factCancel: 'Du kan fortryde inden for 14 dage efter købet. Pengene betales tilbage inden for 14 dage; der kan trækkes et gebyr på højst 5 % af prisen eller 100 shekel, alt efter hvad der er lavest.',
     factValidity: 'Priserne er ikke fastsat endnu, så der er intet åbent tilbud. Når de er fastsat, gælder prisen, der vises i købsøjeblikket.',
+    factValiditySet: 'Prisen, der vises i købsøjeblikket, gælder.',
     israelOnly: 'Ved lanceringen kan kun kunder i Israel købe. Den gratis prøveperiode virker overalt.',
     cancelLink: 'Sådan fortryder du et køb',
     sellerTitle: 'Sælger',
@@ -91,7 +92,7 @@ export default {
     homeMethods: 'Online på siden, på e-mail eller med post. Detaljerne står på siden.',
   },
   access: {
-    trialActive: 'Gratis prøveperiode, tid tilbage: dage {days}, timer {hours}',
+    trialActive: 'Gratis prøveperiode: {left} tilbage',
     trialStoriesNote: 'Din prøveperiode har 3 historier. Andre historier er låst i prøveperioden.',
     trialEndedTitle: 'Din prøveperiode er slut',
     trialEndedLead: 'Historierne er låst nu. Profiler og fremskridt bevares.',
