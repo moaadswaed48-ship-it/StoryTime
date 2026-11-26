@@ -145,6 +145,13 @@ for (const lang of ['en', 'ar'] as const) {
     const control = page.getByTestId('film-captions')
     await expect(control).toBeVisible()
     expect((await control.boundingBox())!.height).toBeGreaterThanOrEqual(63)
+    // Every control lies wholly inside the film frame (at 390 px the full-screen button was cut off).
+    const frame = (await page.getByTestId('film').boundingBox())!
+    for (const el of await page.getByTestId('film').locator('media-control-bar > *').all()) {
+      const b = await el.boundingBox()
+      if (!b || b.width === 0) continue
+      expect(b.x >= frame.x - 1 && b.x + b.width <= frame.x + frame.width + 1, `${await el.evaluate((e) => e.tagName)} inside the frame`).toBe(true)
+    }
     await nothingPersonal(page, email)
     await noSideScroll(page)
     await page.waitForTimeout(1200)

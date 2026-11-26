@@ -147,7 +147,7 @@ function RefundCard({ r, onChanged }: { r: RefundRequest; onChanged: () => Promi
           <div className="flex flex-col gap-3 sm:flex-row sm:items-end">
             <TextField
               label={t.feeLabel}
-              hint={fmt(t.feeHint, { max: `⁦${formatShekels(r.maxFeeAgorot, lang)}⁩` })}
+              hint={fmt(t.feeHint, { /* first-strong isolate, as <bdi>: a Hebrew or Arabic amount starts with a right-to-left mark */ max: `⁨${formatShekels(r.maxFeeAgorot, lang)}⁩` })}
               value={fee}
               onChange={(e) => { setFee(e.target.value); setSaved(false) }}
               inputMode="decimal"

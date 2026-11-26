@@ -820,3 +820,72 @@ report, numbers and open items: `docs/reviews/launch-readiness-26nov.md`.
   carries it. **Launch checklist** — keep `ALLOW_TEST_PAYMENTS` off on the payment function; set `SITE_ORIGIN`.
 - Open (design stage or owner): icons, web app manifest and share picture; domain; Search Console; Safari/VoiceOver
   (WebKit not installed here); native readers for the new words; Hebrew and Danish signed-in screens not axe-audited.
+
+## Integration of the 26 Nov site work (integrator, 26 Nov 2026)
+
+Status: the owner's area part 2, classroom mode and launch readiness now run together and pass the whole suite on one
+private build. Not committed. Neutral tokens only; no design decisions; no story or legal words changed.
+
+### What was fixed, and why
+- **Database list of callable functions (`tests/db/catalogue.test.ts`).** It already passed on the combined tree (the
+  owner helper had listed the seven new functions; the classroom migration adds no function). Each of the seven was
+  read: owner check first, SECURITY DEFINER, empty search path, revoked from signed-out visitors, granted to signed-in
+  users only, and refused for a parent in `tests/db/owner-part2.test.ts`. Added one check so this cannot slip later:
+  every `owner_*` function a signed-in user may call must raise `not_owner` itself (and, if SECURITY DEFINER, have an
+  empty search path). All 22 do.
+- **Prices on the public home and plans pages no longer download the data backend.** New
+  `src/data/public-prices.ts` with `usePublicPrices()` (`src/features/commerce/usePrices.ts`), used by
+  `routes/landing.tsx` and `routes/plans.tsx`. Test mode: reads the owner's prices from this browser's test store
+  (key `LOCAL_DB_KEY`, now exported from `src/data/index.ts`; a test proves it equals the local backend's `DB_KEY`).
+  Supabase: one plain request to `pass_prices` with only the publishable key (signed-out visitors may read that
+  table); no Supabase client is loaded. Always nine passes; anything missing or not a positive whole number stays
+  "Price not set yet"; a failed request keeps the static list. The signed-in plans and checkout pages keep `usePrices`.
+  Tests: `tests/public-prices.test.ts` (6) and `tests/db/public-prices.test.ts` (2, against the real grants in PGlite:
+  a visitor sees a price the owner sets and "not set" again when she removes it).
+  Page weight (Lighthouse, mobile, launch build, one run per page, uncompressed):
+
+  | Page | Before | After |
+  |---|---|---|
+  | Home en / ar / he / da | 1,213 / 1,229 / 1,225 / 1,215 KB | 555 / 572 / 567 / 557 KB |
+  | Plans en / ar / he / da | 1,179 / 1,190 / 1,187 / 1,180 KB | 521 / 532 / 529 / 522 KB |
+  | Sign-in (unchanged, for comparison) | 515 to 524 KB | 515 to 524 KB |
+
+  Scores after: performance 98-100, accessibility, best practices and SEO 100 on all twelve.
+- **Classroom test-mode notice.** The classroom frame has no site header, so removing its notice would have hidden
+  test mode on classroom screens. It now sits inside the classroom bar's region (`Classroom.tsx`), like the header's.
+- **Accessibility spec extended** (`e2e/a11y.spec.ts`): classroom storybook, library, book, film, activity (ready and
+  a step) and the owner's messages, refunds and prices, English and Arabic, 390 and 1440 px: 0 violations, no touch
+  target under 44 px.
+- **Two specs read the shared `build/client`** even when the suite serves a private build (`e2e/landing.spec.ts`,
+  `e2e/stage4b1.spec.ts` "no story text" checks): they now follow `BUILD_DIR`, so they check the build being served.
+- **Found by eye, all four languages:**
+  - Refunds, fee limit hint in Hebrew and Arabic read "לכל היותר ₪2.49 : …" (amount and colon scrambled): the amount
+    was forced left-to-right while the Hebrew and Arabic amounts begin with a right-to-left mark. Now a first-strong
+    isolate, as the `<bdi>` used for the other amounts on that screen (`routes/app/owner/refunds.tsx`).
+  - Classroom film on a phone (390 px), every language: four 64 px buttons and the time did not fit; the full-screen
+    button was cut off at the edge. Below 30rem the time now takes its own row under the buttons (`film.css`).
+    `e2e/classroom.spec.ts` now fails if any film control sticks out of the frame.
+
+### Other seams checked (no change needed)
+- `src/routes.ts`, the four `common.ts`, `commerce.ts`, `stories.ts`, `owner.ts`: no clashes; the compiler checks every
+  key in all four languages.
+- Sign-in and reload: public pages settle as signed out without the backend only when the browser holds no session
+  store; a direct link or a reload of the owner's area, a classroom page or the plans page loads the backend and
+  comes back signed in (seen in the screenshot run: owner screens opened by direct link, classroom frame back after a
+  reload, plans page showing the owner's price after a reload).
+
+### Checks (final code)
+- `nice -n 19 npm run typecheck`: 0 errors. `nice -n 19 npm test`: 411 passed in 36 files, 0 skipped.
+- Whole Playwright suite on a private build (`BUILD_DIR=<scratch>/integrate/build`, served on its own port):
+  `BUILD_DIR=... E2E_PORT=4472 nice -n 19 npx playwright test`: **151 passed, 15 skipped, 0 failed** (23 min; the
+  same before the two visual fixes). Every skip is a check that runs once, in the other screen size, and passed there.
+- Screenshots and axe in all four languages at 390 and 1440 px: `qa/out/integrate/` (owner messages, refunds,
+  prices, prices with one test price, public plans with that price, classroom book, film, activity, not-found, trial
+  box; `axe-<lang>-<width>.json`): 0 axe violations, no sideways scroll, in Hebrew and Danish too.
+
+### Still open
+- Nothing ran against a real Supabase project: the plain price request follows Supabase's documented `apikey`
+  header and is proven against a stand-in only.
+- The home page's plan teaser hides "Price not set yet" on all three lengths as soon as any one price is set
+  (owner's-area behaviour, unchanged). Suggestion: decide per length.
+- Safari/WebKit, screen readers and native Hebrew, Arabic and Danish readers: still not done. No fresh reviewer.

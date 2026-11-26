@@ -124,6 +124,19 @@
   min-width: 64px;
   min-height: 64px;
 }
+/* A phone held by the teacher: four 64 px buttons and the time do not fit on one row (the full-screen button was cut
+   off). The buttons keep their size on the first row; the time takes its own row under them. */
+@media (max-width: 30rem) {
+  [data-classroom='on'] .film-frame media-control-bar:not(.film-scrub) {
+    flex-wrap: wrap;
+  }
+  [data-classroom='on'] .film-frame media-control-bar:not(.film-scrub) media-time-display {
+    order: 1;
+    flex-basis: 100%;
+    justify-content: center;
+    min-height: 40px;
+  }
+}
 [data-classroom='on'] .film-frame video::cue {
   font-size: 1.9em;
 }
