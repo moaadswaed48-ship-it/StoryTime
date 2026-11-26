@@ -1,0 +1,21 @@
+{
+  "title": "Where Is Little Hedgehog? (30-second test film)",
+  "fps": 24,
+  "width": 1280,
+  "height": 720,
+  "frames": 720,
+  "shots": [
+    { "id": "S1", "name": "Evening", "first": 1, "last": 108, "render_first": 1, "render_last": 108, "sync": {} },
+    { "id": "S2", "name": "Counting", "first": 109, "last": 204, "render_first": 109, "render_last": 204, "sync": { "mama_peeks": 168 } },
+    { "id": "S3", "name": "Scurry", "first": 205, "last": 324, "render_first": 205, "render_last": 324, "sync": {} },
+    { "id": "S4", "name": "Not here", "first": 325, "last": 420, "render_first": 325, "render_last": 420, "sync": { "focus_pull_start": 372, "focus_pull_end": 396 } },
+    { "id": "S5", "name": "Night comes", "first": 421, "last": 528, "render_first": 421, "render_last": 528, "sync": { "owl_blinks": 492 } },
+    { "id": "S6", "name": "Found you", "first": 529, "last": 624, "render_first": 529, "render_last": 630, "sync": { "noses_touch": 600 } },
+    { "id": "S7", "name": "Goodnight", "first": 625, "last": 720, "render_first": 619, "render_last": 720, "sync": { "still_from": 684 } }
+  ],
+  "transitions": {
+    "fade_in_from_black": [1, 12],
+    "dissolve_S6_to_S7": [619, 630],
+    "fade_out_to_black": [709, 720]
+  }
+}
