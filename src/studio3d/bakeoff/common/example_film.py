@@ -1,10 +1,14 @@
 """A working example of the film contract: a grey box on a floor, one light, one camera. Mechanics only.
 
 It shows the shape of an entry and a few Blender 5.2 calls that work on this machine. It is not a design to follow.
-Try it (from your copy of the project):
+Try it (WS is your workspace folder, REPO is WS/repo; use absolute paths):
 
-    bash studio/scripts/bakeoff/blender.sh example -- --python src/studio3d/bakeoff/common/example_film.py -- \
-        --out ../out/example --frames 109,168 --shots S2 --quality preview
+    bash REPO/studio/scripts/bakeoff/blender.sh example -- --python REPO/src/studio3d/bakeoff/common/example_film.py -- \
+        --out WS/out/example --frames 109,168 --shots S2 --quality preview --res 640x360
+
+`Material.use_nodes = True` and `World.use_nodes = True` print a deprecation warning in 5.2; that is harmless.
+To reuse the project's older Blender code (`import lib`, `import hill`), call `harness.add_paths()` right after the
+import of harness below.
 """
 import math
 import os
@@ -28,7 +32,8 @@ def build_shot(ctx):
     mat.node_tree.nodes['Principled BSDF'].inputs['Base Color'].default_value = (0.5, 0.5, 0.5, 1)
     box.data.materials.append(mat)
 
-    # animation is keyed with frame numbers of the whole film
+    # animation is keyed with frame numbers of the whole film, over everything this shot must draw
+    # (render_first .. render_last: for S6 and S7 that includes the dissolve frames)
     for n in (ctx.render_first, ctx.render_last):
         box.rotation_euler = (0, 0, math.radians(90) * (n - ctx.first) / max(1, ctx.last - ctx.first))
         box.keyframe_insert('rotation_euler', frame=n)

@@ -8,15 +8,20 @@ No art lives here. A film entry (src/studio3d/bakeoff/entry/film.py) looks like 
 
     def build_shot(ctx):
         ...build everything this shot needs in the empty Blender file, key the animation for
-        ctx.first .. ctx.last (frame numbers of the whole film), set the camera and the render settings...
+        ctx.render_first .. ctx.render_last (frame numbers of the whole film; for S6 and S7 this includes the
+        dissolve frames 619-630), set the camera and the render settings...
 
     if __name__ == '__main__':
         harness.main(build_shot)
 
-and is run through the wrapper, never by calling Blender directly:
+and is run through the wrapper, never by calling Blender directly (REPO is your copy of the project; the wrapper
+runs Blender with REPO as its working folder, but give absolute paths anyway):
 
-    bash studio/scripts/bakeoff/blender.sh LABEL -- --python src/studio3d/bakeoff/entry/film.py -- \
+    bash REPO/studio/scripts/bakeoff/blender.sh LABEL -- --python REPO/src/studio3d/bakeoff/entry/film.py -- \
         --out DIR --frames SPEC [--shots S2,S5] [--res 1280x720] [--quality final|preview] [--force]
+
+--frames is required. --res defaults to 1280x720 and --quality to final. The organisers may also pass
+--samples-scale F (multiplies your Cycles sample count after your build) and --device GPU; you never need them.
 
 --frames  all | gate | 168 | 109-204 | 168,492,600      (numbers are film frame numbers, 1 to 720)
           "gate" is the first, middle and last picture of each shot.
@@ -68,8 +73,13 @@ class Ctx:
         self.fps = FPS
 
     def seconds(self, frame):
-        """Seconds since the shot's first frame."""
+        """Seconds since the shot's first frame (negative for S7's dissolve frames 619-624)."""
         return (frame - self.first) / FPS
+
+    @staticmethod
+    def film_seconds(frame):
+        """When a frame starts in the finished film and its sound: frame 1 is at 0.0 s, frame N at (N - 1) / 24."""
+        return (frame - 1) / FPS
 
 
 def valid_png(path):
@@ -89,7 +99,7 @@ def _args():
     argv = sys.argv[sys.argv.index('--') + 1:] if '--' in sys.argv else []
     ap = argparse.ArgumentParser(prog='film.py')
     ap.add_argument('--out', required=True)
-    ap.add_argument('--frames', default='gate')
+    ap.add_argument('--frames', required=True)
     ap.add_argument('--shots', default='')
     ap.add_argument('--res', default='1280x720')
     ap.add_argument('--quality', default='final', choices=['final', 'preview'])
@@ -170,6 +180,9 @@ def _enforce(scene, a, res):
         c.time_limit = 0
         if a.samples_scale != 1.0:
             c.samples = max(1, int(round(c.samples * a.samples_scale)))
+            for vl in scene.view_layers:
+                if getattr(vl, 'samples', 0):
+                    vl.samples = max(1, int(round(vl.samples * a.samples_scale)))
             print(f'HARNESS samples scaled by {a.samples_scale:.3f} to {c.samples}', flush=True)
 
 
@@ -213,11 +226,13 @@ def main(build_shot, reset_between_shots=True, sequential=False):
         _enforce(scene, a, (w, h))
         stepped = scene.frame_start - 1
         for n in todo:
-            t1 = time.time()
-            if sequential:
+            if sequential and n - stepped > 1:
+                ts = time.time()
                 for k in range(stepped + 1, n):
                     scene.frame_set(k)
-                stepped = n
+                print(f'STEP {sh["id"]} {n - stepped - 1} {time.time() - ts:.1f}', flush=True)
+            stepped = n
+            t1 = time.time()
             scene.frame_set(n)
             tmp = os.path.join(outdir, f'.tmp-f{n:04d}.png')
             scene.render.filepath = tmp

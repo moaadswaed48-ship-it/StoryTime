@@ -1,7 +1,9 @@
 // A working example of the sound contract: 30 seconds of stereo sound at 48 kHz, written as a 16-bit WAV.
 // It is a soft tick once a second, nothing more. Mechanics only: not a design to follow.
 //
-//   node src/studio3d/bakeoff/common/example_sound.mjs --out ../out/example-sound.wav
+//   node REPO/src/studio3d/bakeoff/common/example_sound.mjs --out WS/out/example-sound.wav   (absolute paths)
+//
+// Film frame N starts at (N - 1) / 24 seconds of this sound.
 //
 // The contract: `node sound.mjs --out FILE` writes exactly 1,440,000 sample frames (30 s x 48,000), two channels.
 // Plain Node, no packages. The project's own sound code may be imported (Node runs the .ts files directly):
