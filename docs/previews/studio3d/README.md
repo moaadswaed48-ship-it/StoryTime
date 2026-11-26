@@ -37,10 +37,10 @@ Blender 5.2.5 Cycles path tracing on the CPU, 16 samples per pixel plus OpenImag
 
 | | Measured or computed |
 |---|---|
-| One frame at 1280 x 720 | **TIMING_FRAME** (measured over all 264 frames; first frame slower while the scene loads) |
-| This 11-second shot (264 frames) | **TIMING_SHOT** |
-| One 2.5-minute film (3,600 frames) | **TIMING_FILM** of non-stop rendering |
-| About 3 hours of films (259,200 frames) | **TIMING_3H** of non-stop rendering: not practical on this machine |
+| One frame at 1280 x 720 | **47 seconds on average** (measured over all 264 frames: 40 to 65 s, the out-of-focus opening slowest; plus about 50 s once to build the scene) |
+| This 11-second shot (264 frames) | **3 hours 27 minutes** (12,400 s measured) |
+| One 2.5-minute film (3,600 frames) | about **47 hours (2 days)** of non-stop rendering |
+| About 3 hours of films (259,200 frames) | about **3,400 hours (4.6 months)** of non-stop rendering: not practical on this machine |
 
 What would change the maths (estimates, not measured; any paid option needs the owner's yes first):
 - **A graphics card** renders this kind of scene in Cycles roughly 20 to 50 times faster than these 4 CPU cores, which
@@ -49,6 +49,15 @@ What would change the maths (estimates, not measured; any paid option needs the 
   measured).
 - **Blender's real-time renderer (EEVEE)** needs a graphics card; it would render in seconds per frame with softer,
   less accurate light.
+
+## Known flaws you will see in the film
+
+- Grandpa's waving arm passes through horizontal on the way up and down, so for a moment it reads as pointing.
+- In the close-up: Sami's ear is a flat disc, the eyelid edge shows a seam, the inside of the open mouth is a smear,
+  and the shirt has no folds. At the film's distance these mostly disappear; in a close-up they would not.
+- Grandpa is stiff and thin from a distance; his face is backlit, so his smile reads mainly through the beard and the wave.
+- Feet were not checked frame by frame for sliding (the grass hides most of it).
+- No sound.
 
 ## How it was made
 
@@ -73,7 +82,10 @@ What would change the maths (estimates, not measured; any paid option needs the 
 made rounder; Sami's eyes no longer roll to the whites; the wave moved to the near arm so it does not hide his face;
 the ladybird brought into frame and into focus; a flower-joining bug that left a stray stem in the sky fixed;
 Grandpa's glasses no longer read as sunglasses; his body proportions improved); a full low-resolution motion preview
-of all 264 frames; the final frames looked at on a contact sheet (`qa/out/studio3d/contact-sheet.jpg`).
+of all 264 frames; the finished MP4 looked at on a contact sheet (`qa/out/studio3d/contact-sheet.jpg`) and in the
+comparison sheet. MP4: 2.7 MB, H.264 High, 1280 x 720, 24 fps, 11.0 s. Comparison sheet: 0.24 MB.
+Not done: a fresh outside reviewer has not looked at it yet; no lab page was added (this route renders offline in
+Blender, so there is nothing to run live in the browser).
 
 ## If the owner likes this direction: the next step
 

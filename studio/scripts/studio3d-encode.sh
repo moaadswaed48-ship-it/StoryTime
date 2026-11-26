@@ -16,7 +16,7 @@ FONT=/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf
 
 # Light finishing grade (the render is already graded in-camera with AgX): a soft bloom on the highlights,
 # a gentle vignette. Nothing is painted in.
-GRADE="split[a][b];[b]curves=all='0/0 0.62/0 1/1',gblur=sigma=18[g];[a][g]blend=all_mode=screen:all_opacity=0.28,vignette=angle=0.42"
+GRADE="format=gbrp,split[a][b];[b]curves=all='0/0 0.62/0 1/1',gblur=sigma=18[g];[a][g]blend=all_mode=screen:all_opacity=0.28,vignette=angle=0.42"
 
 ffmpeg -v error -y -framerate 24 -i "$F/f%04d.png" -vf "$GRADE,format=yuv420p" \
   -c:v libx264 -preset slow -crf 20 -profile:v high -level 4.0 -movflags +faststart -an "$OUT/a04-hill-test.mp4"
@@ -45,10 +45,10 @@ lab() { echo "drawtext=fontfile=$FONT:text='$1':x=24:y=h-56:fontsize=34:fontcolo
 ffmpeg -v error -y \
   -i "$T/ref1.png" -i "$T/ours2.png" -i "$T/ref2.png" -i "$T/ours_face.png" -i "$T/ref3.png" -i "$T/ours1.png" \
   -filter_complex "\
-[0]$(lab 'Reference: wide')[a];[1]$(lab 'Ours: wide, frame 170')[b];\
-[2]$(lab 'Reference: face')[c];[3]$(lab 'Ours: face (75 mm close-up, same moment)')[d];\
-[4]$(lab 'Reference: low angle, shallow focus')[e];[5]$(lab 'Ours: ladybird, shallow focus')[f];\
-[a][b]hstack[r1];[c][d]hstack[r2];[e][f]hstack[r3];[r1][r2][r3]vstack,scale=1800:-1" \
+[0]$(lab 'Reference - wide')[a];[1]$(lab 'Ours - wide - the wave')[b];\
+[2]$(lab 'Reference - face')[c];[3]$(lab 'Ours - 75 mm close-up of the same moment')[d];\
+[4]$(lab 'Reference - low angle and shallow focus')[e];[5]$(lab 'Ours - ladybird and shallow focus')[f];\
+[a][b]hstack[r1];[c][d]hstack[r2];[e][f]hstack[r3];[r1][r2][r3]vstack=inputs=3,scale=1800:-1" \
   -q:v 4 "$OUT/comparison-sheet.jpg"
 rm -rf "$T"
 ls -l "$OUT/comparison-sheet.jpg"

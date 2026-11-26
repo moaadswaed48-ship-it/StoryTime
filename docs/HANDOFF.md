@@ -659,3 +659,9 @@ Status: FIXED AND CHECKED, not committed. Neutral tokens only; the look is not d
   (`qa/out/review/second-pass/`). No fresh reviewer and no native reader has looked at these changes yet.
 - Still open from the review: trial box wording (item 8), short legal contents links (15), Latin names in legal
   pages (16), the 3D hero (17), axe, Lighthouse and Safari (not installed).
+
+## Code-built 3D test shot (26 Nov 2026)
+- 11-second A04 shot (Sami and Grandpa on a spring hill) built entirely in code with Blender Cycles on the CPU: `docs/previews/studio3d/a04-hill-test.mp4`, side by side with the owner's reference in `comparison-sheet.jpg`, verdict in `README.md`.
+- Helper's verdict: about 4 out of 10 against the reference's 9. Light, lens and shallow focus come close; characters, cloth, fur and acting fall well short.
+- Speed: 47 s per frame. A 2.5-minute film takes about 2 days of rendering; 3 hours of films about 4.6 months on this machine. A graphics-card machine is the precondition for a film library (owner's money decision).
+- Waiting for the owner: judge the demo; if not good, rerun on Fable 5.2 high as he said.
