@@ -665,3 +665,9 @@ Status: FIXED AND CHECKED, not committed. Neutral tokens only; the look is not d
 - Helper's verdict: about 4 out of 10 against the reference's 9. Light, lens and shallow focus come close; characters, cloth, fur and acting fall well short.
 - Speed: 47 s per frame. A 2.5-minute film takes about 2 days of rendering; 3 hours of films about 4.6 months on this machine. A graphics-card machine is the precondition for a film library (owner's money decision).
 - Waiting for the owner: judge the demo; if not good, rerun on Fable 5.2 high as he said.
+
+## Film test with animals (started 26 Nov 2026, in progress)
+- Owner's verdict on the code-built 3D shot: camera, depth effect and environment are good; the human characters are not. He asked for a new 30-second test film with animals that exercises most film-making features.
+- The film: a 30-second cut of story A13 "Where Is Little Hedgehog?", seven shots. Brief: `docs/film/bakeoff/BRIEF.md`; measured costs and Blender 5.2 facts: `docs/film/bakeoff/TECH-NOTES.md`; shot table: `docs/film/bakeoff/shots.json`.
+- Shared tools: `studio/scripts/bakeoff/` (every Blender call goes through `blender.sh`; `gate.sh` is the speed check) and `src/studio3d/bakeoff/common/harness.py`. Blender 5.2.5 now lives at `/home/user/tools/` (copied from the scratch folder).
+- Results are recorded here only when the whole test is finished.
