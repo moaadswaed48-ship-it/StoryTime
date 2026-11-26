@@ -1,7 +1,7 @@
 import { useId, type ReactNode } from 'react'
 import { data, useLoaderData } from 'react-router'
 import { PRICES } from '@/data/prices'
-import { usePrices } from '@/features/commerce/usePrices'
+import { usePublicPrices } from '@/features/commerce/usePrices'
 import { PASS_MONTHS } from '@/data/types'
 import { Faq, Ranges } from '@/features/landing/Faq'
 import { ImpactChart } from '@/features/landing/ImpactChart'
@@ -52,7 +52,7 @@ export default function Landing() {
   const signUp = localPath(lang, 'sign-up')
   const plans = localPath(lang, 'plans')
   // Live prices once the page runs (the owner sets them in the owner's area); the pre-rendered page uses the static list.
-  const { prices } = usePrices()
+  const { prices } = usePublicPrices()
   const pricesSet = (prices ?? PRICES).some((p) => p.priceAgorot !== null)
 
   return (

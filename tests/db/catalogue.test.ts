@@ -96,6 +96,21 @@ describe('catalogue of the public schema (R4)', () => {
     expect(await callable('authenticated')).toEqual(AUTHENTICATED_FUNCTIONS)
   })
 
+  it('every owner_* function a signed-in user may call refuses anyone but the owner itself (and a SECURITY DEFINER one has an empty search path)', async () => {
+    const owner = await db.query<{ sig: string; definer: boolean; config: string[] | null; src: string }>(
+      `select p.proname || '(' || pg_get_function_identity_arguments(p.oid) || ')' as sig, p.prosecdef as definer,
+              p.proconfig as config, p.prosrc as src
+       from pg_proc p join pg_namespace n on n.oid = p.pronamespace
+       where n.nspname = 'public' and p.proname like 'owner\\_%' and has_function_privilege('authenticated', p.oid, 'execute')
+       order by 1`,
+    )
+    expect(owner.rows.map((r) => r.sig)).toEqual(AUTHENTICATED_FUNCTIONS.filter((f) => f.startsWith('owner_')))
+    for (const r of owner.rows) {
+      if (r.definer) expect(r.config ?? [], `${r.sig} has an empty search path`).toContain('search_path=""')
+      expect(r.src, `${r.sig} refuses anyone but the owner`).toMatch(/if not public\.is_owner\(\) then raise exception 'not_owner'/)
+    }
+  })
+
   it('a table or function created after the migrations is closed to anon and authenticated by default', async () => {
     await db.exec(`
       create table public.forgot_rls (id int primary key, secret text);

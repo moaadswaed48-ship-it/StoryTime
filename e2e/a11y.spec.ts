@@ -1,3 +1,4 @@
+import { createHash } from 'node:crypto'
 import { mkdirSync, writeFileSync } from 'node:fs'
 import AxeBuilder from '@axe-core/playwright'
 import { expect, test, type Page, type TestInfo } from '@playwright/test'
@@ -11,7 +12,8 @@ import { PUBLIC_PAGES } from '../src/seo/paths.ts'
  * plus axe's best practices, on every public page type, the not-found page and the main signed-in screens, in
  * English and Arabic, at 390 px (phone) and 1440 px (desktop). Each screen must have no violations; the raw results
  * are kept in qa/out/a11y/. Keyboard walks: skip link, visible focus on everything Tab reaches, no positive tabindex,
- * sign-up and the reader by keyboard alone.
+ * sign-up and the reader by keyboard alone. Added at the integration of 26 Nov 2026: the classroom-mode screens
+ * (storybook, library, book, film, activity) and the owner's messages, refunds and prices screens.
  */
 const DICTS = { en, ar } as const
 type L = keyof typeof DICTS
@@ -197,6 +199,104 @@ for (const lang of ['en', 'ar'] as const) {
     await passGate(page)
     await expect(page.getByTestId('checkout-summary')).toBeVisible()
     await audit(page, info, `${lang}-checkout`)
+  })
+}
+
+/** A teacher (kindergarten staff) with a 4-5 class profile and the trial started (lands on B02's storybook page). */
+async function newTeacher(page: Page, lang: L, email: string) {
+  const d = DICTS[lang]
+  const t = d.account.auth
+  await page.goto(`${lang}/sign-up/`)
+  await page.getByLabel(t.roleTeacher).check()
+  await page.getByLabel(t.email, { exact: true }).fill(email)
+  await page.getByLabel(t.password, { exact: true }).fill('a long test password')
+  await page.getByLabel(t.adultCheck).check()
+  await page.getByLabel(t.termsCheck).check()
+  await page.getByRole('button', { name: t.submitSignUp, exact: true }).click()
+  await page.getByTestId('test-email-link').click()
+  await expect(page.getByTestId('onboarding-step-1')).toBeVisible()
+  await page.getByRole('button', { name: d.actions.next }).click()
+  await page.getByLabel(d.commerce.groups['4-5']).click()
+  await page.getByLabel(d.account.onboarding.className).fill('Sunflowers')
+  await page.getByRole('button', { name: d.actions.next }).click()
+  await page.getByRole('button', { name: d.account.onboarding.trialStart }).click()
+  await expect(page.getByTestId('storybook')).toHaveAttribute('data-state', 'open')
+}
+
+/** The owner signed in, with two contact messages, a cancelled pass waiting for its refund and a public request. */
+async function seedOwner(page: Page, lang: L) {
+  await page.goto(`${lang}/`)
+  const hash = createHash('sha256').update('e2e:a long test password').digest('hex')
+  await page.evaluate(([hash, lang]) => {
+    const ago = (h: number) => new Date(Date.now() - h * 3_600_000).toISOString()
+    localStorage.setItem('storytime.local.v1', JSON.stringify({
+      version: 1,
+      users: [
+        { id: 'owner-a11y', email: 'owner@example.test', salt: 'e2e', hash, confirmedAt: ago(100), createdAt: ago(100) },
+        { id: 'family-a11y', email: 'family@example.test', salt: 'e2e', hash, confirmedAt: ago(90), createdAt: ago(90) },
+      ],
+      profiles: {
+        'owner-a11y': { role: 'owner', language: lang, storyLanguage: null, onboardedAt: ago(100), createdAt: ago(100) },
+        'family-a11y': { role: 'parent', language: 'he', storyLanguage: null, onboardedAt: ago(90), createdAt: ago(90) },
+      },
+      learners: [], consents: [], trials: [],
+      orders: [{ id: 'order-a11y', accountId: 'family-a11y', ageGroup: '6-8', months: 3, amountAgorot: 4990, priceWasPlaceholder: false, provider: 'test', status: 'paid', createdAt: ago(50), paidAt: ago(50), termsVersion: 'x' }],
+      payments: [],
+      passes: [{ id: 'pass-a11y', accountId: 'family-a11y', orderId: 'order-a11y', ageGroup: '6-8', months: 3, startsAt: ago(50), endsAt: ago(-2000), status: 'cancelled', cancelledAt: ago(20) }],
+      refunds: [{ id: 'refund-a11y', orderId: 'order-a11y', passId: 'pass-a11y', amountAgorot: 4990, feeAgorot: null, status: 'requested', requestedAt: ago(20) }],
+      providerEvents: [],
+      cancellationRequests: [{ id: 'req-a11y', email: 'someone@example.test', orderRef: 'ORDER-2041', message: 'I bought by mistake.', createdAt: ago(10) }],
+      contactMessages: [
+        { id: 'msg-old', name: null, email: 'old@example.test', lang: 'ar', message: 'مرحبًا، هل القصص متاحة بالعربية الفصحى؟', createdAt: ago(30) },
+        { id: 'msg-new', name: 'Dana Levi', email: 'dana@example.test', lang: 'en', message: 'Hello!\nCan a teacher use one pass for a whole class?', createdAt: ago(2) },
+      ],
+      outbox: [], tokens: [], deletionRequests: [], failedSignIns: {}, progress: [],
+    }))
+    localStorage.setItem('storytime.local.session', JSON.stringify({ userId: 'owner-a11y', email: 'owner@example.test' }))
+  }, [hash, lang] as const)
+}
+
+for (const lang of ['en', 'ar'] as const) {
+  test(`axe (${lang}): classroom mode screens`, async ({ page }, info) => {
+    const email = `a11y-class-${lang}-${info.project.name}@example.test`
+    await newTeacher(page, lang, email)
+    await page.getByTestId('classroom-switch').click()
+    await expect(page.getByTestId('classroom-bar')).toBeVisible()
+    await langDir(page, lang)
+    await audit(page, info, `${lang}-classroom-storybook`)
+
+    await page.goto(`${lang}/app/library/`)
+    await expect(page.getByTestId('library')).toBeVisible()
+    await expect(page.getByTestId('classroom-bar')).toBeVisible()
+    await audit(page, info, `${lang}-classroom-library`)
+
+    await page.goto(`${lang}/app/story/b02/read?book=flat&page=1`)
+    await expect(page.getByTestId('reader')).toHaveAttribute('data-classroom', 'on')
+    await expect(page.getByTestId('page-text').first()).toBeVisible()
+    await audit(page, info, `${lang}-classroom-book`)
+
+    await grantPass(page, email)
+    await page.goto(`${lang}/app/story/sample-b/watch`)
+    await expect(page.getByTestId('film-video')).toBeVisible()
+    await expect(page.getByTestId('classroom-bar')).toBeVisible()
+    await audit(page, info, `${lang}-classroom-film`)
+
+    await page.goto(`${lang}/app/story/b02/do`)
+    await expect(page.getByTestId('class-stage')).toBeVisible()
+    await audit(page, info, `${lang}-classroom-activity-ready`)
+    await page.getByTestId('class-step-forward').filter({ visible: true }).click()
+    await expect(page.getByTestId('class-card-1')).toBeVisible()
+    await audit(page, info, `${lang}-classroom-activity-step`)
+  })
+
+  test(`axe (${lang}): the owner's messages, refunds and prices screens`, async ({ page }, info) => {
+    await seedOwner(page, lang)
+    for (const p of ['messages', 'refunds', 'prices'] as const) {
+      await page.goto(`${lang}/app/owner/${p}/`)
+      await expect(page.getByTestId(`owner-${p}`)).toBeVisible()
+      await langDir(page, lang)
+      await audit(page, info, `${lang}-owner-${p}`)
+    }
   })
 }
 

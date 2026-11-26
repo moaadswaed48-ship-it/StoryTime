@@ -98,8 +98,10 @@ export function ClassroomShell({ children }: { children: ReactNode }) {
             {t.leave}
           </button>
         </div>
+        {/* The classroom frame replaces the site header, so it carries the test-mode notice; inside the bar's region
+            so it sits in a landmark (axe "region"), as in SiteHeader. */}
+        <TestModeBanner />
       </div>
-      <TestModeBanner />
       <main id="main" className="mx-auto w-full max-w-[120rem] px-3 py-5 sm:px-6 sm:py-6" data-classroom="on">
         {children}
       </main>

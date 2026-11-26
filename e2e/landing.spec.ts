@@ -103,7 +103,7 @@ test('the story excerpt appears only on the landing pages', async ({}, info) => 
       else if (p.endsWith('.html')) files.push(p)
     }
   }
-  walk('build/client')
+  walk(join(process.env.BUILD_DIR || 'build', 'client')) // the build being served (BUILD_DIR, as scripts/serve.mjs)
   for (const [lang, d] of Object.entries(DICTS)) {
     const hits = files.filter((f) => readFileSync(f, 'utf8').includes(d.landing.inside.excerpt))
     // Its own landing page only: the words load with the landing route, not with the dictionary every page carries.

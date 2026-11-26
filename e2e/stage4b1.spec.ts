@@ -245,7 +245,7 @@ test('reduced motion: the book without the curl has the same features', async ({
 
 test('the built public pages carry no story text', async ({}, info) => {
   test.skip(info.project.name !== 'desktop', 'checks files once')
-  const root = 'build/client'
+  const root = join(process.env.BUILD_DIR || 'build', 'client') // the build being served (BUILD_DIR, as scripts/serve.mjs)
   const html: string[] = []
   const walk = (dir: string) => {
     for (const f of readdirSync(dir)) {

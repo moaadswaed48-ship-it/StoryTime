@@ -1,5 +1,5 @@
 import { PlanCards, PlanFacts } from '@/features/commerce/PlanCards'
-import { usePrices } from '@/features/commerce/usePrices'
+import { usePublicPrices } from '@/features/commerce/usePrices'
 import { useLang } from '@/i18n/use-dict'
 import { langData, pageMeta } from '@/seo/meta'
 import { localPath } from '@/seo/paths'
@@ -17,8 +17,8 @@ export default function Plans() {
   const { lang, dict } = useLang()
   const t = dict.commerce.plans
   // The pre-rendered page shows the static list (src/data/prices.ts: "Price not set yet"); once the page runs, the
-  // prices the owner set in the owner's area replace it. On a failed load the static list stays.
-  const { prices } = usePrices()
+  // prices the owner set in the owner's area replace it, read without the data backend. On a failed load the static list stays.
+  const { prices } = usePublicPrices()
   return (
     <Shell>
       <PageTitle title={dict.pages.plans.title} lead={t.lead} />

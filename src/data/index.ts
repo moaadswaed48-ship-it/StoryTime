@@ -8,6 +8,10 @@ import type { DataApi } from './api'
 const url = import.meta.env.VITE_SUPABASE_URL as string | undefined
 const key = (import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY ?? import.meta.env.VITE_SUPABASE_ANON_KEY) as string | undefined
 export const backendKind: DataApi['kind'] = url && key ? 'supabase' : 'local'
+/** The Supabase address and publishable key, both public by design; null in test mode. */
+export const supabaseSettings: { url: string; key: string } | null = backendKind === 'supabase' ? { url: url!, key: key! } : null
+/** The test-mode store in this browser: the same key as `DB_KEY` in local/server.ts (tests/public-prices.test.ts). */
+export const LOCAL_DB_KEY = 'storytime.local.v1'
 
 let api: Promise<DataApi> | null = null
 let ready: DataApi | null = null
@@ -36,14 +40,14 @@ export function whenApiLoaded(fn: (a: DataApi) => void): () => void {
 }
 
 /**
- * Whether this browser may hold a session: the test-mode store (`DB_KEY` in local/server.ts) or a Supabase sign-in
+ * Whether this browser may hold a session: the test-mode store (`LOCAL_DB_KEY`) or a Supabase sign-in
  * token (`sb-<project>-auth-token`) is in localStorage. When neither is, a public page can settle as signed out
  * without downloading the backend at all (the header is the only thing that asks). Unreadable storage: assume yes.
  */
 export function mayHaveSession(): boolean {
   try {
     if (typeof localStorage === 'undefined') return true
-    if (backendKind === 'local') return localStorage.getItem('storytime.local.v1') !== null
+    if (backendKind === 'local') return localStorage.getItem(LOCAL_DB_KEY) !== null
     for (let i = 0; i < localStorage.length; i++) if (/^sb-.+-auth-token/.test(localStorage.key(i) ?? '')) return true
     return false
   } catch {
