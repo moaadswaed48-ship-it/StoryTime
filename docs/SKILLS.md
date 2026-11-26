@@ -152,3 +152,13 @@ Not installed: the `resend` SDK. The Resend transport (`src/emails/send.ts`) cal
 - Official build from blender.org, checksum verified against the published SHA-256. Kept in the scratchpad only, never in the project.
 - Used headless (Cycles on the CPU) to run our own Python scene scripts in `src/studio3d/blender/`. No add-ons, no network use from the scripts.
 - Licence: GPL for the program; pictures and films rendered with it belong to us.
+
+## Audit tools for launch readiness (read 26 Nov 2026; dev dependencies only, never in the site)
+
+| Package | Version (pinned) | Why | What was checked |
+|---|---|---|---|
+| `axe-core` | 4.14.0 (released 5 Oct 2026; 4.14.1 is under two weeks old) | Accessibility rules in `e2e/a11y.spec.ts` | Packed and read before installing. No install scripts, no dependencies. `axe.js` has no `fetch`, XMLHttpRequest, WebSocket, beacon or `eval`; the only environment read is `NODE_ENV` (log verbosity in a bundled colour library). Hosts in the code are documentation links only. MPL-2.0. |
+| `@axe-core/playwright` | 4.14.0 (released 15 Oct 2026; 4.14.1 is two days old) | Runs axe inside Playwright pages | One dependency (`axe-core ~4.14.0`), peer `playwright-core`. Its `prepare` script (`pnpm exec playwright install && pnpm run build`) runs only for a git checkout, never from the registry, and `--ignore-scripts` was used anyway. The code (`dist/index.js`, 402 lines) requires only `assert` and `axe-core`; one documentation URL. MPL-2.0. |
+| `lighthouse` | 13.6.0 (released 27 Oct 2026) | Speed, accessibility and SEO scores, `scripts/qa/lighthouse.mjs` | Installed first in a scratch folder with `--ignore-scripts`: none of its 118 packages has a preinstall, install or postinstall script or a native build file. Network: error reporting to Sentry is opt-in, asked only in an interactive terminal (otherwise off) and switched off explicitly by our script (`enableErrorReporting: false`); `--view` would open a browser (not used); otherwise it only loads the page it is given. Environment reads: browser paths (`CHROME_PATH`, `LIGHTHOUSE_CHROMIUM_PATH`), temp folders, `CI`, `HOME`; no keys or secrets. `configstore` keeps the error-reporting answer in `~/.config` only when the question is asked. Apache-2.0. Pins `axe-core` 4.14.0 itself. |
+
+Installed with `npm install --save-dev --save-exact --ignore-scripts`. Chromium comes from `/opt/pw-browsers` (no `playwright install`).

@@ -9,7 +9,7 @@ import { absoluteUrl, alternates, prerenderPaths, PUBLIC_PAGES } from '../src/se
 
 /**
  * Launch readiness (26 Nov 2026), against the built preview: canonical and reciprocal hreflang on every pre-rendered
- * page, the sitemap and robots.txt, the not-found page in four languages, structured data only where it is true, and
+ * page with its share-preview words, the sitemap and robots.txt, the not-found page in four languages, structured data only where it is true, and
  * no secrets or test tools in the public files. Viewport does not matter here, so it runs in the phone project only.
  */
 const DICTS: Record<Lang, typeof en> = { ar, he, en, da }
@@ -39,6 +39,13 @@ test('every pre-rendered page: lang and dir, one self canonical, the five recipr
     expect(html, local).toContain('<meta name="robots" content="noindex, nofollow"/>')
     expect(html.match(/<title>([^<]+)<\/title>/)?.[1]?.length ?? 0, local).toBeGreaterThan(3)
     if (p !== '/') expect(html, local).toMatch(/<meta name="description" content="[^"]{20,}"/)
+    // Share previews: the page's own title, description and address (no picture until the brand exists).
+    if (p !== '/') {
+      expect(html, local).toContain(`<meta property="og:url" content="${absoluteUrl(siteOrigin, basePath, local)}"/>`)
+      expect(html, local).toMatch(/<meta property="og:title" content="[^"]{5,}"\/>/)
+      expect(html, local).toMatch(/<meta property="og:description" content="[^"]{20,}"\/>/)
+      expect(html, local).not.toContain('og:image')
+    }
   }
 })
 

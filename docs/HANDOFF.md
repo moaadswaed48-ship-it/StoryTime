@@ -739,3 +739,54 @@ and refund" (without the payment company) and "edit pass prices".
   `e2e/owner-part2.spec.ts` 6 passed (en + ar at 390 and 1440 px, plus a parent refused); `e2e/owner.spec.ts` 8 passed.
   Screenshots in `qa/out/owner-part2/` looked at (messages, refunds open and done, prices, public plans with a price,
   change history; Arabic and English, phone and desktop).
+
+## Teachers: classroom mode (26 Nov 2026)
+
+Status: BUILT AND CHECKED (26 Nov 2026), not committed. Neutral tokens only; the look is not decided.
+- [x] **Classroom mode switch** for teacher accounts only ("Classroom mode", one hint line, four languages): on the
+      storybook page, in the library and in Settings, Reading and films. Remembered with the account: new pref key
+      `classroom` (migration `20261126110000_classroom_mode.sql` re-creates `profiles_prefs_check` with the extra
+      boolean key; `cleanPrefs`, `PREF_KEYS`, `usePrefs` default off). Switching on from the library or storybook
+      also asks for full screen in the same tap (not from Settings); switching off leaves full screen.
+- [x] **Classroom frame** (`src/features/classroom/Classroom.tsx`, used by `routes/app/layout.tsx`) on the library,
+      every story page (storybook, book, film, activity) and the collections: no menu, no footer, no trial or pass
+      panel (the library hides `AccessPanel`), no email; only the site name (back to the library), a Full screen
+      button where the browser allows it (hidden on an iPhone, which cannot) and "Leave classroom mode". Settings,
+      plans and checkout keep the normal frame. Leaving needs no parent gate: it only brings back the menu, whose
+      settings and passes stay behind the gate. None of the classroom pages ever shows the parent gate.
+- [x] **Book** (`features/reader/Reader.tsx`, `src/reader/zone.ts`): much larger words (floor x1.5, natural size
+      x1.6, ceiling x1.7 of the normal ones; it grows the paper wash over the picture before it shrinks the words, and
+      falls back toward the normal size only when a long page on a phone would otherwise scroll; one word wider than
+      the box steps the size down). On a tablet or larger: 80-96 px page-turn buttons at the two edges of the book, in
+      the story's reading direction (forward on the left in Arabic and Hebrew); on a phone the usual large buttons at
+      the foot. Larger top-bar controls and a full-screen button. Works the same in the curl book, with reduced
+      motion and in the flat book used without WebGL.
+- [x] **Film** (`routes/app/watch.tsx`, `features/film/film.css`): as wide as fits with its controls on one screen,
+      64 px controls, captions about 1.9 times larger, large back button.
+- [x] **Activity** (`features/classroom/ClassroomActivity.tsx`): one card at a time. "Get ready" (title, what it
+      teaches, what the group needs), then one card per step with its picture as large as fits and its caption in
+      very large type; "Step 2 of 5"; large buttons at the edges (at the foot on a phone) and the arrow keys; "We did
+      it!" on the last card. Under it, "For the teacher": the class note first, the safety note, the whole idea.
+      Print shows every card one after another and the notes, no buttons.
+- [x] **The "In a class" note**: every story already carries it (`activity.inClass` in all 45 stories x 4
+      languages, checked; `content/SCHEMA.md`). It was already shown to everyone; for a teacher account it now comes
+      right after the goal, and it is empty-safe (a story without one shows nothing). Nothing written for the Story
+      Room; no story text touched.
+- Decisions: any role may store the `classroom` key (the screens use it only for teachers, so a role change never
+  breaks a row). A teacher with several classes still meets the class picker once per device (class names only;
+  needed so progress is saved to the right class). The library keeps "Reading: <class>", continue, my shelf and the
+  age choice in classroom mode. The test-mode banner stays visible in classroom mode (honest in test mode only).
+- Checks: `tsc` 0 errors; vitest 111 passed in 8 files (new `tests/classroom.test.ts` 10, incl. every page of every
+  story in its longest language on phone, tablet, laptop and projector pages; new `tests/db/classroom-pref.test.ts`
+  3 in PGlite). `e2e/classroom.spec.ts` on a private build copy: 8 passed, 2 skipped by design (the 1920 px runs
+  happen in the desktop project only): en + ar at 390 and 1440 px, 1920 px big screen (curl and flat book), reduced
+  motion, a parent sees no switch. Existing `e2e/stage4b1.spec.ts`, `stage4c.spec.ts`, `account.spec.ts`: 23
+  passed, 1 skipped. Screenshots in `qa/out/classroom/` looked at; fixed from them: step words below the fold at
+  1440 x 900, film controls below the fold, a repeated "Get ready" label, the stage 6 px too tall at 1920.
+- Not proven: real full screen on an iPad or a projector, Safari/WebKit (not installed), a real Supabase project
+  (the SQL is proven in PGlite only), a real classroom (distance reading, glare). No fresh reviewer and no native
+  Arabic, Hebrew or Danish reader has looked at the new words ("وضع الصف", "מצב כיתה", "Storskærmstilstand").
+- Not built (teacher items on the checklists): the short "privacy promise for kindergartens" page (SHOULD; legal
+  wording, needs the lawyer pack and the owner), the "receipt in the name of" field for a kindergarten (needs the
+  payment company), and the LATER items (class licence, assigning stories, class reports, moving between home and
+  class accounts).

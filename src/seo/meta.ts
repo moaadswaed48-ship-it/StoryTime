@@ -5,14 +5,28 @@ import { absoluteUrl, alternates, localPath } from './paths'
 
 const base = import.meta.env.BASE_URL
 
-/** Title, description, canonical and reciprocal hreflang for a pre-rendered public page. */
+/** Open Graph locales (language_TERRITORY), for share previews. */
+const OG_LOCALE: Record<Lang, string> = { ar: 'ar_AR', he: 'he_IL', en: 'en_GB', da: 'da_DK' }
+
+/**
+ * Title, description, canonical and reciprocal hreflang for a pre-rendered public page, plus the words of a share
+ * preview (Open Graph). No share picture yet: it comes with the brand (design stage), so the card is text only.
+ */
 export function pageMeta(o: { lang: Lang; page: string; title: string; description: string; siteName: string }): MetaDescriptor[] {
   const canonical = absoluteUrl(__SITE_ORIGIN__, base, localPath(o.lang, o.page))
+  const title = o.page ? `${o.title} · ${o.siteName}` : `${o.siteName} · ${o.title}`
   return [
-    { title: o.page ? `${o.title} · ${o.siteName}` : `${o.siteName} · ${o.title}` },
+    { title },
     { name: 'description', content: o.description },
     { tagName: 'link', rel: 'canonical', href: canonical },
     ...alternates(__SITE_ORIGIN__, base, o.page).map((a) => ({ tagName: 'link', rel: 'alternate', hrefLang: a.hrefLang, href: a.href })),
+    { property: 'og:type', content: 'website' },
+    { property: 'og:site_name', content: o.siteName },
+    { property: 'og:title', content: title },
+    { property: 'og:description', content: o.description },
+    { property: 'og:url', content: canonical },
+    { property: 'og:locale', content: OG_LOCALE[o.lang] },
+    { name: 'twitter:card', content: 'summary' },
   ]
 }
 
