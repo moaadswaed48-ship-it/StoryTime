@@ -17,7 +17,8 @@ export const meta = () => privateMeta('StoryTime')
 /**
  * "Watch": the story's film, on its own calm page, with a way back to the storybook. In classroom mode (a teacher's
  * big screen) the film takes as much of the screen as fits above its controls, with larger controls and captions
- * (film.css), and a large way back.
+ * (film.css), and a large way back. On a short screen (a phone held sideways, a short laptop window) the film
+ * never shrinks below 28rem wide (or the screen's width): the page then scrolls a little instead (review 26 Nov, 5).
  */
 export default function Watch() {
   const { lang, dict } = useLang()
@@ -34,7 +35,7 @@ export default function Watch() {
   const room = useClassroom().on
 
   return (
-    <div className={`mx-auto flex w-full flex-col ${room ? 'max-w-[calc((100dvh-22rem)*16/9)] min-w-0 gap-3' : 'max-w-4xl gap-5'}`} data-testid="watch-page">
+    <div className={`mx-auto flex w-full flex-col ${room ? 'max-w-[max(28rem,calc((100dvh-22rem)*16/9))] min-w-0 gap-3' : 'max-w-4xl gap-5'}`} data-testid="watch-page">
       <Link to={localPath(lang, `app/story/${id}`)} className={`inline-flex items-center gap-2 self-start font-medium underline-offset-4 hover:underline ${room ? 'min-h-14 rounded-control border border-ink/30 bg-surface px-4 text-lg no-underline' : 'min-h-11'}`}>
         <IconArrow className={`${room ? 'size-7' : 'size-5'} -scale-x-100 rtl:scale-x-100`} />
         {title ? <bdi>{title}</bdi> : dict.stories.doors.backToLibrary}
@@ -42,7 +43,10 @@ export default function Watch() {
       {title && !room && <h1 className="text-2xl font-semibold sm:text-3xl" lang={content?.lang}><bdi>{title}</bdi></h1>}
       {title && room && <h1 className="sr-only" lang={content?.lang}><bdi>{title}</bdi></h1>}
       {loading && <Spinner label={dict.account.states.loading} />}
-      {error === 'locked' && <Notice title={dict.stories.doors.lockedTitle} action={<ButtonLink to={localPath(lang, 'app/plans')}>{dict.commerce.access.seePasses}</ButtonLink>}><p>{dict.stories.doors.lockedLead}</p></Notice>}
+      {/* On the class screen no button leads to the passes (for grown-ups, outside classroom mode). */}
+      {error === 'locked' && (room
+        ? <Notice title={dict.stories.doors.lockedTitle}><p>{dict.stories.classroom.lockedLead}</p></Notice>
+        : <Notice title={dict.stories.doors.lockedTitle} action={<ButtonLink to={localPath(lang, 'app/plans')}>{dict.commerce.access.seePasses}</ButtonLink>}><p>{dict.stories.doors.lockedLead}</p></Notice>)}
       {error && error !== 'locked' && <Notice tone="error" action={<Button onClick={reload}>{dict.account.errors.retry}</Button>}>{errorText(dict, error)}</Notice>}
       {/* No film file yet: an honest note and no player (a player without a file would only show an error). */}
       {content && !content.film?.videoUrl && <Notice title={dict.stories.film.notReady} />}

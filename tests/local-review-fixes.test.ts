@@ -24,7 +24,7 @@ async function newUser(email = 'parent@example.test') {
 }
 
 async function buy(group: '2-3' | '4-5' | '6-8', months: 1 | 3 | 12 = 1) {
-  const order = await api.createOrder({ ageGroup: group, months, provider: 'test', termsVersion: TERMS_VERSION })
+  const order = await api.createOrder({ ageGroup: group, months, provider: 'test', termsVersion: TERMS_VERSION, expectedAgorot: null })
   await testProvider.pay(api, order, 'succeeded')
   for (let i = 0; i < 20 && (await api.getOrder(order.id)).status === 'pending'; i++) await new Promise((r) => setTimeout(r, 10))
   return api.getOrder(order.id)
@@ -42,12 +42,12 @@ describe('local backend = SQL rules (review fixes)', () => {
   it('R1: sign-up and orders need the published terms version', async () => {
     expect(await codeOf(api.signUp({ ...base, email: 'v@example.test', termsVersion: 'v99' }))).toBe('terms_required')
     await newUser()
-    expect(await codeOf(api.createOrder({ ageGroup: '4-5', months: 1, provider: 'test', termsVersion: 'v99' }))).toBe('terms_required')
+    expect(await codeOf(api.createOrder({ ageGroup: '4-5', months: 1, provider: 'test', termsVersion: 'v99', expectedAgorot: null }))).toBe('terms_required')
   })
 
   it('R2: a success after a cancelled event still makes the pass', async () => {
     await newUser()
-    const o = await api.createOrder({ ageGroup: '4-5', months: 1, provider: 'test', termsVersion: TERMS_VERSION })
+    const o = await api.createOrder({ ageGroup: '4-5', months: 1, provider: 'test', termsVersion: TERMS_VERSION, expectedAgorot: null })
     api.server.handleProviderEvent(event(o.id, 'c', 'payment_cancelled'))
     expect((await api.getOrder(o.id)).status).toBe('cancelled')
     api.server.handleProviderEvent(event(o.id, 's'))
@@ -72,7 +72,7 @@ describe('local backend = SQL rules (review fixes)', () => {
 
   it('R5: only the test provider takes orders (no real provider is connected)', async () => {
     await newUser()
-    expect(await codeOf(api.createOrder({ ageGroup: '4-5', months: 1, provider: 'zzz', termsVersion: TERMS_VERSION }))).toBe('unknown:provider_not_connected')
+    expect(await codeOf(api.createOrder({ ageGroup: '4-5', months: 1, provider: 'zzz', termsVersion: TERMS_VERSION, expectedAgorot: null }))).toBe('unknown:provider_not_connected')
   })
 
   it('R6: a fourth cancellation request for one address within the hour is refused', async () => {
@@ -84,8 +84,8 @@ describe('local backend = SQL rules (review fixes)', () => {
 
   it('W3: a repeated event id naming another order is refused', async () => {
     await newUser()
-    const a = await api.createOrder({ ageGroup: '4-5', months: 1, provider: 'test', termsVersion: TERMS_VERSION })
-    const b = await api.createOrder({ ageGroup: '6-8', months: 1, provider: 'test', termsVersion: TERMS_VERSION })
+    const a = await api.createOrder({ ageGroup: '4-5', months: 1, provider: 'test', termsVersion: TERMS_VERSION, expectedAgorot: null })
+    const b = await api.createOrder({ ageGroup: '6-8', months: 1, provider: 'test', termsVersion: TERMS_VERSION, expectedAgorot: null })
     api.server.handleProviderEvent(event(a.id, 'same'))
     expect(() => api.server.handleProviderEvent(event(b.id, 'same'))).toThrow(/event_order_mismatch/)
     expect((await api.getOrder(b.id)).status).toBe('pending')
@@ -113,13 +113,13 @@ describe('local backend = SQL rules (review fixes)', () => {
 
   it('W11: a sixth unpaid order within the hour is refused', async () => {
     await newUser()
-    for (let i = 0; i < 5; i++) await api.createOrder({ ageGroup: '4-5', months: 1, provider: 'test', termsVersion: TERMS_VERSION })
-    expect(await codeOf(api.createOrder({ ageGroup: '4-5', months: 1, provider: 'test', termsVersion: TERMS_VERSION }))).toBe('rate_limited')
+    for (let i = 0; i < 5; i++) await api.createOrder({ ageGroup: '4-5', months: 1, provider: 'test', termsVersion: TERMS_VERSION, expectedAgorot: null })
+    expect(await codeOf(api.createOrder({ ageGroup: '4-5', months: 1, provider: 'test', termsVersion: TERMS_VERSION, expectedAgorot: null }))).toBe('rate_limited')
   })
 
   it('W12: the test checkout cannot pay for another account\'s order', async () => {
     await newUser('a@example.test')
-    const theirs = await api.createOrder({ ageGroup: '4-5', months: 1, provider: 'test', termsVersion: TERMS_VERSION })
+    const theirs = await api.createOrder({ ageGroup: '4-5', months: 1, provider: 'test', termsVersion: TERMS_VERSION, expectedAgorot: null })
     await api.signOut()
     await newUser('b@example.test')
     expect(await codeOf(api.sendTestProviderEvent(event(theirs.id, 'x')))).toBe('not_found')

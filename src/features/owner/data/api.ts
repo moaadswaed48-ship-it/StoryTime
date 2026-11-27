@@ -48,6 +48,12 @@ export interface OwnerApi {
    */
   markRefunded(id: string, note: string): Promise<void>
   setCancellationHandled(id: string, handled: boolean): Promise<void>
+  /**
+   * For a request from the public form: ends the pass of a matching order and opens its refund request, with the
+   * same rules as a family's own cancellation (14 days from payment, an active pass; the fee cap applies to the
+   * refund). Refused: order_not_matching, pass_not_active, cancel_window_closed. The request becomes handled.
+   */
+  cancelForRequest(requestId: string, orderId: string): Promise<void>
   /** The nine pass prices; null = not set yet (the public site says "Price not set yet"). */
   listPrices(): Promise<Price[]>
   /** Sets one pass's price in agorot, VAT included, or clears it (null). Returns the whole list as saved. */
@@ -70,6 +76,9 @@ export type OwnerErrorCode =
   | 'note_required'
   | 'refund_closed'
   | 'bad_price'
+  | 'order_not_matching'
+  | 'pass_not_active'
+  | 'cancel_window_closed'
   | 'network'
   | 'unknown'
 

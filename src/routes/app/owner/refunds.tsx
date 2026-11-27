@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useId, useState, type ReactNode } from 'react'
 import { ownerError, useOwner } from '@/features/owner/context'
-import type { PublicCancellation, RefundRequest, RefundsView } from '@/features/owner/data'
+import type { PublicCancellation, RefundRequest, RefundsView, RequestMatch } from '@/features/owner/data'
 import { agorotToInput, parseShekels, REFUND_NOTE_MAX } from '@/features/owner/data/money'
 import { Email, MailLink, StateBadge } from '@/features/owner/ui'
 import { fmt, formatDate, formatShekels } from '@/i18n/format'
@@ -12,7 +12,9 @@ import { PageTitle } from '@/ui/Shell'
  * Cancellations and refunds (owner's area, part 2). A family's cancellation already ended its access and made a
  * refund request for the full amount; here the owner sets the fee (never above the legal cap), returns the money
  * herself (no payment company is connected, so nothing moves from this screen) and marks the request as refunded
- * with a note. Below: requests from the public "Cancel a purchase" form, to settle by email and mark as handled.
+ * with a note. Below: requests from the public "Cancel a purchase" form, each with the paid orders that match its
+ * order number and email; the owner can end such a pass here (the same rules as a family's own cancellation: 14 days,
+ * an active pass), which opens its refund request above. Otherwise she settles it by email and marks it handled.
  */
 export default function OwnerRefunds() {
   const { dict } = useLang()
@@ -136,6 +138,7 @@ function RefundCard({ r, onChanged }: { r: RefundRequest; onChanged: () => Promi
       <div className="flex min-w-0 flex-col gap-0.5">
         <p className="font-semibold">{r.email ? <Email value={r.email} /> : <span className="text-ink-muted">{t.noEmail}</span>}</p>
         <p>{dict.commerce.groups[r.ageGroup]} · {dict.commerce.months[r.months]}</p>
+        <p className="text-sm"><span className="text-ink-muted">{t.orderRef}: </span><bdi dir="ltr" className="font-mono">{r.orderId.slice(0, 8).toUpperCase()}</bdi></p>
         {r.paidAt && <p className="text-sm text-ink-muted">{fmt(t.paidOn, { date: formatDate(r.paidAt, lang) })}</p>}
         <p className="font-medium" data-testid="refund-paid">
           {r.priceWasPlaceholder ? t.testPurchase : slot(t.paid, money(r.paidAgorot))}
@@ -232,6 +235,14 @@ function PublicRequest({ c, onChanged }: { c: PublicCancellation; onChanged: () 
       <p className="font-semibold"><Email value={c.email} /></p>
       <p><span className="text-ink-muted">{t.orderRef}: </span><bdi dir="ltr" className="break-all font-medium">{c.orderRef}</bdi></p>
       {c.message && <p dir="auto" className="whitespace-pre-wrap break-words text-start">{c.message}</p>}
+      <div className="flex flex-col gap-2" data-testid="request-matches">
+        <p className="font-medium">{t.matchesTitle}</p>
+        {!c.matches.length ? <p className="text-ink-muted" data-testid="no-match">{t.noMatch}</p> : (
+          <ul className="flex flex-col gap-2">
+            {c.matches.map((m) => <MatchCard key={m.orderId} requestId={c.id} m={m} onChanged={onChanged} />)}
+          </ul>
+        )}
+      </div>
       <div className="flex flex-wrap gap-2">
         <Button variant={c.handledAt ? 'secondary' : 'primary'} busy={busy} onClick={() => void toggle()} data-testid="toggle-request">
           {c.handledAt ? m.markOpen : m.markHandled}
@@ -239,6 +250,60 @@ function PublicRequest({ c, onChanged }: { c: PublicCancellation; onChanged: () 
         <MailLink to={c.email}>{m.reply}</MailLink>
       </div>
       {err && <FieldError id={`req-${c.id}-err`}>{err}</FieldError>}
+    </li>
+  )
+}
+
+/** One paid order matching a public request, with the owner's cancellation for it (two steps: ask, then confirm). */
+function MatchCard({ requestId, m, onChanged }: { requestId: string; m: RequestMatch; onChanged: () => Promise<void> }) {
+  const { lang, dict } = useLang()
+  const { od, api } = useOwner()
+  const t = od.refunds
+  const [asking, setAsking] = useState(false)
+  const [busy, setBusy] = useState(false)
+  const [done, setDone] = useState(false)
+  const [err, setErr] = useState<string | null>(null)
+  async function cancel() {
+    setBusy(true)
+    setErr(null)
+    try {
+      await api.cancelForRequest(requestId, m.orderId)
+      setDone(true)
+      setAsking(false)
+      await onChanged()
+    } catch (e) {
+      setErr(ownerError(od, e))
+      await onChanged().catch(() => {})
+    } finally {
+      setBusy(false)
+    }
+  }
+  const state = m.passStatus === 'active' ? t.passActive : m.passStatus === 'refunded' ? t.passRefunded : t.passCancelled
+  return (
+    <li className="flex min-w-0 flex-col gap-2 rounded-control border border-line bg-surface p-3" data-testid="request-match" data-pass={m.passStatus ?? 'none'}>
+      <div className="flex flex-wrap items-center gap-2">
+        <StateBadge done={m.passStatus !== 'active'}>{state}</StateBadge>
+        <span><span className="text-ink-muted">{t.orderRef}: </span><bdi dir="ltr" className="font-mono font-medium">{m.orderId.slice(0, 8).toUpperCase()}</bdi></span>
+      </div>
+      <p>{dict.commerce.groups[m.ageGroup]} · {dict.commerce.months[m.months]}</p>
+      <p className="text-sm text-ink-muted">
+        {fmt(t.paidOn, { date: formatDate(m.paidAt, lang) })} · {m.priceWasPlaceholder ? t.testPurchase : slot(t.paid, <bdi>{formatShekels(m.paidAgorot, lang)}</bdi>)}
+      </p>
+      {done && <p role="status" className="font-medium" data-testid="cancel-done">{t.cancelDone}</p>}
+      {m.passStatus === 'active' && !m.canCancel && <p className="text-ink-muted">{t.windowClosed}</p>}
+      {m.canCancel && !asking && (
+        <div><Button variant="secondary" onClick={() => setAsking(true)} data-testid="cancel-for-request">{t.cancelOrder}</Button></div>
+      )}
+      {m.canCancel && asking && (
+        <div className="flex flex-col gap-2 rounded-control border border-ink/30 p-3" role="group" aria-label={t.cancelOrder}>
+          <p>{t.cancelConfirm}</p>
+          <div className="flex flex-wrap gap-2">
+            <Button busy={busy} onClick={() => void cancel()} data-testid="confirm-cancel-for-request">{t.cancelYes}</Button>
+            <Button variant="secondary" disabled={busy} onClick={() => setAsking(false)}>{t.cancelKeep}</Button>
+          </div>
+        </div>
+      )}
+      {err && <FieldError id={`match-${m.orderId}-err`}>{err}</FieldError>}
     </li>
   )
 }

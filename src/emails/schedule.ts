@@ -1,4 +1,5 @@
 import type { AgeGroup, Iso, PassMonths, PassStatus } from '@/data/types'
+import { refundReturned } from '@/data/rules'
 import type { Lang } from '@/i18n/config'
 import { israelHour } from './format'
 import type { Params, TemplateId } from './types'
@@ -191,7 +192,12 @@ export function reminderParams(d: DueEmail, siteUrl: string, unsubscribeUrl?: st
     }
     case 'refund_issued': {
       const r = d.refund!
-      return { orderRef: r.orderId, amountAgorot: r.priceWasPlaceholder ? null : r.amountAgorot, issuedAt: r.issuedAt ?? d.at, creditDocUrl: r.creditDocUrl }
+      // The amount actually returned, never the price paid when a fee was kept (review 26 Nov, finding 1).
+      const returned = r.feeAgorot === null ? r.amountAgorot : refundReturned(r.paidAgorot, r.feeAgorot)
+      return {
+        orderRef: r.orderId, amountAgorot: r.priceWasPlaceholder ? null : returned, paidAgorot: r.priceWasPlaceholder ? null : r.paidAgorot,
+        feeAgorot: r.feeAgorot, issuedAt: r.issuedAt ?? d.at, creditDocUrl: r.creditDocUrl,
+      }
     }
   }
 }

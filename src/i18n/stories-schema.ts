@@ -178,5 +178,11 @@ export type StoriesDict = {
     nextStep: string
     /** Heading of the notes under the big-screen activity (in a class, safety, the whole idea). */
     teacherNotes: string
+    /** The classroom library when no trial or pass opens anything: a short note for the grown-up, never a wall of locked books. */
+    nothingOpenTitle: string
+    nothingOpenLead: string
+    trialEndedLead: string
+    /** A locked story on the class screen: no button to the passes, which are for grown-ups outside classroom mode. */
+    lockedLead: string
   }
 }

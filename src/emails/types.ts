@@ -71,7 +71,17 @@ export type Params = {
     /** The latest day the refund is made: 14 days after the request. */
     refundBy: Iso
   }
-  refund_issued: { orderRef: string; amountAgorot: number | null; issuedAt: Iso; creditDocUrl: string | null }
+  refund_issued: {
+    orderRef: string
+    /** The amount actually returned: the price paid minus the fee kept. null = placeholder price. */
+    amountAgorot: number | null
+    /** Price paid; null = placeholder price. */
+    paidAgorot: number | null
+    /** The cancellation fee kept (0 = none). */
+    feeAgorot: number | null
+    issuedAt: Iso
+    creditDocUrl: string | null
+  }
   contact_reply: { subject: string; reply: string }
   new_story: { title: string; ageGroup: AgeGroup; link: string; unsubscribeUrl: string }
 }

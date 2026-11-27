@@ -113,3 +113,24 @@ describe('Supabase data layer: "my" screens show only my rows, also for the owne
     await expect(api('ana').getOrder(ids['ben:order']!)).rejects.toSatisfy((e) => e instanceof DataError && e.code === 'not_found')
   })
 })
+
+describe('Supabase data layer: refunds and prices (review 26 Nov, findings 1, 4 and 7)', () => {
+  it("a family's payments list carries their refund with the amount returned, the fee kept and the owner's note; nobody else's", async () => {
+    ids.cy = await signUp(db, 'cy@example.test')
+    await db.query(`update pass_prices set price_agorot = 10000 where age_group = '2-3' and months = 3`)
+    // The price the family saw goes with the order; a different one is refused.
+    await expect(api('cy').createOrder({ ageGroup: '2-3', months: 3, provider: 'test', termsVersion: 'terms-1', expectedAgorot: 9000 }))
+      .rejects.toSatisfy((e) => e instanceof DataError && e.code === 'price_changed')
+    const o = await api('cy').createOrder({ ageGroup: '2-3', months: 3, provider: 'test', termsVersion: 'terms-1', expectedAgorot: 10000 })
+    await db.query(`update pass_prices set price_agorot = null where age_group = '2-3' and months = 3`)
+    const pass = (await rows<{ p: string }>(db, service, `select confirm_payment('test', 'evt-cy', $1, 'pay-cy', 10000) as p`, [o.id]))[0]!.p
+    await api('cy').cancelPurchase(pass)
+    const refund = (await db.query<{ id: string }>(`select id from refunds where pass_id = $1`, [pass])).rows[0]!.id
+    expect((await api('cy').listOrders())[0]!.refund).toMatchObject({ status: 'requested', amountAgorot: 10000, feeAgorot: null, note: null })
+    await rows(db, user(ids.owner!), `select owner_set_refund_fee($1, 500)`, [refund])
+    await rows(db, user(ids.owner!), `select owner_mark_refunded($1, 'Bank transfer 27 Nov')`, [refund])
+    const [mine] = await api('cy').listOrders()
+    expect(mine).toMatchObject({ id: o.id, status: 'refunded', refund: { status: 'issued', amountAgorot: 9500, feeAgorot: 500, note: 'Bank transfer 27 Nov' } })
+    expect((await api('ben').listOrders()).map((x) => x.refund)).toEqual([null])
+  })
+})

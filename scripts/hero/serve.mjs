@@ -16,7 +16,7 @@ export async function startHarness(port = 5184) {
     logLevel: 'warn',
     plugins: [tailwindcss()],
     resolve: { alias: { '@': `${root}src`, '~content': `${root}content` } },
-    define: { __SITE_ORIGIN__: JSON.stringify('http://localhost'), __NOINDEX__: 'true' },
+    define: { __SITE_ORIGIN__: JSON.stringify('http://localhost'), __NOINDEX__: 'true', __TEST_BACKEND__: 'true' },
     server: { host: '127.0.0.1', port, strictPort: false },
     appType: 'mpa',
   })

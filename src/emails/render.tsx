@@ -104,6 +104,17 @@ export function buildEmail<T extends TemplateId>(template: T, lang: Lang, params
     ]
   }
 
+  if (template === 'refund_issued') {
+    // What was paid, the fee kept and what came back, so the email never reads as a full refund when a fee was kept.
+    const q = params as Params['refund_issued']
+    rows = [
+      { label: L.order, value: q.orderRef },
+      { label: L.total, value: money(q.paidAgorot), placeholder: q.paidAgorot === null },
+      { label: L.fee, value: emailMoney(q.feeAgorot ?? 0, lang) },
+      { label: L.refund, value: money(q.amountAgorot), placeholder: q.amountAgorot === null },
+    ]
+  }
+
   const marketing = isMarketing(template)
   const ctaHref = (template === 'refund_issued' ? (p.creditDocUrl as string | null) : (p.link as string | undefined)) ?? null
   const footer = [

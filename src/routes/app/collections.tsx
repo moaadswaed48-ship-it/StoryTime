@@ -5,6 +5,7 @@ import { codeOf, type ErrorCode } from '@/data/errors'
 import { AGE_GROUPS, type AgeGroup, type StoryContent, type StorySummary } from '@/data/types'
 import { useAccess } from '@/features/access/useAccess'
 import { errorText } from '@/features/account/messages'
+import { useClassroom } from '@/features/classroom/useClassroom'
 import { ActivityView } from '@/features/family/ActivityView'
 import { Cover } from '@/features/family/Cover'
 import { DoorDo, DoorRead, DoorWatch, IconArrow } from '@/features/family/icons'
@@ -29,6 +30,8 @@ type Kind = (typeof KINDS)[number]
 
 export default function Collections() {
   const { lang, dict } = useLang()
+  // On the class screen no button leads to the passes (for grown-ups, outside classroom mode).
+  const room = useClassroom().on
   const t = dict.stories.collections
   const params = useParams()
   const kind: Kind = (KINDS as readonly string[]).includes(params.kind ?? '') ? (params.kind as Kind) : 'stories'
@@ -130,7 +133,7 @@ export default function Collections() {
                   {open && kind === 'activities' && (
                     <Button onClick={() => toggle(s)} aria-expanded={expanded} data-testid="open-here" className="flex-1 sm:flex-none">{expanded ? t.close : t.openHere}</Button>
                   )}
-                  {!open && <ButtonLink to={localPath(lang, 'app/plans')} variant="secondary" className="flex-1 sm:flex-none">{dict.commerce.access.seePasses}</ButtonLink>}
+                  {!open && !room && <ButtonLink to={localPath(lang, 'app/plans')} variant="secondary" className="flex-1 sm:flex-none">{dict.commerce.access.seePasses}</ButtonLink>}
                   <Link to={storyPath(s)} data-testid="to-storybook" className="inline-flex min-h-12 flex-1 items-center justify-center gap-2 rounded-control px-4 font-medium underline underline-offset-4 sm:flex-none">
                     {t.toStorybook}
                     <IconArrow className="size-5 rtl:-scale-x-100" />

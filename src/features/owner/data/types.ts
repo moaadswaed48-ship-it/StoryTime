@@ -169,8 +169,30 @@ export type RefundRequest = {
   note: string | null
 }
 
+/**
+ * A paid order that a public request names: its number matches what was typed and the buyer's account has the
+ * request's email (private.request_matches() in SQL). `canCancel`: the pass is active and paid within 14 days.
+ */
+export type RequestMatch = {
+  orderId: string
+  ageGroup: AgeGroup
+  months: PassMonths
+  paidAgorot: number
+  priceWasPlaceholder: boolean
+  paidAt: Iso
+  passId: string | null
+  passStatus: 'active' | 'cancelled' | 'refunded' | null
+  canCancel: boolean
+  /** The order's latest refund request, if any (after a cancellation it is on the list above). */
+  refundId: string | null
+}
+
 /** A request sent through the public "Cancel a purchase" form by someone who was not signed in. */
-export type PublicCancellation = { id: string; email: string; orderRef: string; message: string | null; createdAt: Iso; handledAt: Iso | null }
+export type PublicCancellation = {
+  id: string; email: string; orderRef: string; message: string | null; createdAt: Iso; handledAt: Iso | null
+  /** Orders matching the order number and the email; empty when none does (settle it by email). */
+  matches: RequestMatch[]
+}
 
 export type RefundsView = {
   /** Newest first. */

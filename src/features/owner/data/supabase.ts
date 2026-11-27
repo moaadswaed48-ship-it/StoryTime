@@ -22,7 +22,8 @@ type Row = Record<string, unknown>
 type DbSignoff = { valid: boolean; at: Iso; by: string | null }
 const KNOWN: OwnerErrorCode[] = [
   'not_owner', 'not_found', 'text_locked', 'trial_limit', 'publish_blocked', 'published_incomplete', 'signoff_blocked',
-  'fee_over_cap', 'fee_not_set', 'note_required', 'refund_closed', 'bad_price',
+  'fee_over_cap', 'fee_not_set', 'note_required', 'refund_closed', 'bad_price', 'order_not_matching', 'pass_not_active',
+  'cancel_window_closed',
 ]
 
 function fail(e: unknown): never {
@@ -172,6 +173,10 @@ export class SupabaseOwnerApi implements OwnerApi {
 
   async markRefunded(id: string, note: string) {
     await must(this.sb.rpc('owner_mark_refunded', { p_refund: id, p_note: note }))
+  }
+
+  async cancelForRequest(requestId: string, orderId: string) {
+    await must(this.sb.rpc('owner_cancel_for_request', { p_request: requestId, p_order: orderId }))
   }
 
   async setCancellationHandled(id: string, handled: boolean) {

@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { Link, useNavigate } from 'react-router'
 import { getApi } from '@/data'
 import { codeOf, type ErrorCode } from '@/data/errors'
+import { isPassCurrent, isTrialActive } from '@/data/rules'
 import { AGE_GROUPS, type AgeGroup, type StorySummary } from '@/data/types'
 import { AccessPanel } from '@/features/access/AccessPanel'
 import { useAccess } from '@/features/access/useAccess'
@@ -90,6 +91,21 @@ export default function Library() {
   if (mustChoose) return <ProfilePicker learners={learners} title={t.whoIsReading} lead={t.whoIsReadingLead} onChoose={choose} />
 
   const centred = items[index]
+  // Classroom mode with no trial or pass open: a short note for the grown-up (and the trial button when the trial
+  // was never used) instead of a wall of locked books. No button to the passes on the class screen (review 26 Nov, 6).
+  const nothingOpen = room.on && !!access && access.role !== 'owner' && !isTrialActive(access.trial, access.now) && !access.passes.some((p) => isPassCurrent(p, access.now))
+  if (nothingOpen) {
+    const c = dict.stories.classroom
+    return (
+      <div className="flex flex-col gap-6" data-testid="library">
+        <h1 className="text-3xl font-semibold">{dict.pages.app.library}</h1>
+        {startError && <Notice tone="error">{errorText(dict, startError)}</Notice>}
+        <Notice title={c.nothingOpenTitle} action={!access.trial ? <Button onClick={startTrial} data-testid="classroom-start-trial">{a.startTrial}</Button> : undefined}>
+          <p data-testid="classroom-nothing-open">{access.trial || access.passes.length ? c.trialEndedLead : c.nothingOpenLead}</p>
+        </Notice>
+      </div>
+    )
+  }
   return (
     <div className="flex flex-col gap-6" data-testid="library">
       <div className="flex flex-wrap items-center justify-between gap-3">

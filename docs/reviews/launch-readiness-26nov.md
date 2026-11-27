@@ -209,9 +209,17 @@ Per page (before → after):
   backend it can grant nothing unless the payment function runs with `ALLOW_TEST_PAYMENTS=1`: **the launch
   checklist must keep that off**, and `activeProvider` is still the test provider until a payment company is
   connected (owner).
-- **Known, unchanged:** in test mode the backend chunk (with all `story.json` files and, loaded on demand, the
-  sample and pilot story words) is reachable by anyone who digs into the preview's files. It is never loaded by a
-  Supabase build. Never publish the preview with the author's story in `content/stories/`.
+- **Corrected 27 Nov 2026 (fresh review of 26 Nov, finding 2).** The line that stood here said the test-mode
+  backend chunk "is never loaded by a Supabase build". That was true but beside the point, and the safety read above
+  was wrong to pass: a Supabase (launch) build still **published** the test-mode backend and the story files it reads
+  as public script files (`local-*.js`, `server-*.js` and one file per story language), because the owner's Supabase
+  code imported a helper from the test-mode file. Measured on the 26 Nov code: 21,636 story lines found in a launch
+  build's files. The check that passed read only `.html` files. Fixed: a launch build now leaves the test-mode
+  backend and every story file out at build time (`vite.config.ts`, `__TEST_BACKEND__`), and
+  `e2e/stage4b1.spec.ts` builds a launch-mode copy and scans **every** file it writes, scripts included, for every
+  story line of 20 characters or more (and for the test-mode backend's own keys): 0 found. In **test mode** (the
+  GitHub Pages preview) the backend and the sample and pilot story words are still in the preview's files, by
+  design, so: never publish the preview with the author's story in `content/stories/`.
 
 ## 6. Looked at by eye
 Screenshots in `qa/out/launch/` (phone 390 px and desktop 1440 px): the not-found page in English and Arabic and

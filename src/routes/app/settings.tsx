@@ -4,7 +4,7 @@ import { getApi } from '@/data'
 import { codeOf, type ErrorCode } from '@/data/errors'
 import { daysLeft, passView } from '@/data/rules'
 import { MIN_PASSWORD } from '@/data/validate'
-import { AGE_GROUPS, type AgeGroup, type Learner, type Order } from '@/data/types'
+import { AGE_GROUPS, type AgeGroup, type Learner, type Order, type OrderRefund } from '@/data/types'
 import { useAccess } from '@/features/access/useAccess'
 import { errorText, strengthOf } from '@/features/account/messages'
 import { ParentGate } from '@/features/account/ParentGate'
@@ -281,14 +281,17 @@ function PassesSection() {
         {orders && !!orders.length && (
           <ul className="flex flex-col divide-y divide-line">
             {orders.map((o) => (
-              <li key={o.id} className="flex flex-wrap items-center justify-between gap-2 py-3">
-                <span>{formatDate(o.createdAt, lang)} · {dict.commerce.groups[o.ageGroup]} · {dict.commerce.months[o.months]}</span>
-                <span className="flex items-center gap-2 text-sm">
-                  <bdi>{formatShekels(o.amountAgorot, lang)}</bdi>
-                  {o.priceWasPlaceholder && <PlaceholderTag>{dict.commerce.plans.placeholderBadge}</PlaceholderTag>}
-                  <span className="text-ink-muted">{t.orderStatus[o.status]}</span>
-                  <span dir="ltr" className="font-mono text-ink-muted">{o.id.slice(0, 8).toUpperCase()}</span>
-                </span>
+              <li key={o.id} className="flex flex-col gap-2 py-3" data-testid="payment">
+                <div className="flex flex-wrap items-center justify-between gap-2">
+                  <span>{formatDate(o.createdAt, lang)} · {dict.commerce.groups[o.ageGroup]} · {dict.commerce.months[o.months]}</span>
+                  <span className="flex items-center gap-2 text-sm">
+                    <bdi>{formatShekels(o.amountAgorot, lang)}</bdi>
+                    {o.priceWasPlaceholder && <PlaceholderTag>{dict.commerce.plans.placeholderBadge}</PlaceholderTag>}
+                    <span className="text-ink-muted">{t.orderStatus[o.status]}</span>
+                    <span dir="ltr" className="font-mono text-ink-muted">{o.id.slice(0, 8).toUpperCase()}</span>
+                  </span>
+                </div>
+                {o.refund && <RefundLines refund={o.refund} />}
               </li>
             ))}
           </ul>
@@ -296,6 +299,31 @@ function PassesSection() {
         <p className="text-sm text-ink-muted">{t.receiptNote}</p>
       </Section>
     </>
+  )
+}
+
+/**
+ * The refund of an order, as the family may read it (review 26 Nov, findings 1 and 4): requested, then refunded
+ * with the amount actually returned, the cancellation fee kept and the owner's note on how the money went back.
+ */
+function RefundLines({ refund: r }: { refund: OrderRefund }) {
+  const { lang, dict } = useLang()
+  const t = dict.account.settings
+  // Amounts are isolated, so an Arabic or Hebrew sentence keeps the number whole.
+  const money = (a: number) => `\u2068${formatShekels(a, lang)}\u2069`
+  const issued = r.status === 'issued'
+  return (
+    <div className="flex flex-col gap-1 rounded-control border border-line bg-paper p-3 text-sm" data-testid="refund-lines" data-status={r.status}>
+      <p className="font-medium">{issued && r.issuedAt ? fmt(t.refundIssued, { date: formatDate(r.issuedAt, lang) }) : fmt(t.refundRequested, { date: formatDate(r.requestedAt, lang) })}</p>
+      {r.status !== 'declined' && (r.feeAgorot !== null || issued) && (
+        <p data-testid="refund-returned">{fmt(issued ? t.refundReturned : t.refundToReturn, { amount: money(r.amountAgorot) })}</p>
+      )}
+      {r.feeAgorot === null ? (!issued && <p className="text-ink-muted">{t.refundFeeLater}</p>) : (
+        <p data-testid="refund-fee">{r.feeAgorot > 0 ? fmt(t.refundFee, { amount: money(r.feeAgorot) }) : t.refundNoFee}</p>
+      )}
+      {/* The label on its own line: "StoryTime" in it would otherwise run into a note written left to right. */}
+      {r.note && <div><p className="font-medium">{t.refundNote}</p><p dir="auto" className="whitespace-pre-wrap break-words text-start">{r.note}</p></div>}
+    </div>
   )
 }
 

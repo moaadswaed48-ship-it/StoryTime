@@ -10,7 +10,7 @@ import { useAccess } from '@/features/access/useAccess'
 import { errorText } from '@/features/account/messages'
 import { ParentGate } from '@/features/account/ParentGate'
 import { usePrices } from '@/features/commerce/usePrices'
-import { formatDate, formatShekels } from '@/i18n/format'
+import { fmt, formatDate, formatShekels } from '@/i18n/format'
 import { useLang } from '@/i18n/use-dict'
 import { privateMeta } from '@/seo/meta'
 import { localPath } from '@/seo/paths'
@@ -45,6 +45,8 @@ function Summary() {
   const [termsError, setTermsError] = useState<string | null>(null)
   const [error, setError] = useState<ErrorCode | null>(null)
   const [busy, setBusy] = useState(false)
+  // The order was refused because the price changed while this summary was open (review 26 Nov, finding 7).
+  const [priceChanged, setPriceChanged] = useState(false)
 
   if (!isAgeGroup(group) || !isPassMonths(months)) {
     return <Notice tone="error" action={<ButtonLink to={localPath(lang, 'app/plans')}>{dict.commerce.access.seePasses}</ButtonLink>}>{dict.account.errors.notFound}</Notice>
@@ -65,12 +67,17 @@ function Summary() {
     setError(null)
     setBusy(true)
     try {
-      const order = await (await getApi()).createOrder({ ageGroup: group, months, provider: activeProvider.id, termsVersion: TERMS_VERSION })
+      // The price on this screen goes with the order: the server refuses it if the price is no longer the same.
+      const order = await (await getApi()).createOrder({ ageGroup: group, months, provider: activeProvider.id, termsVersion: TERMS_VERSION, expectedAgorot: price })
       const back = `${localPath(lang, 'app/checkout/done')}?order=${encodeURIComponent(order.id)}`
       navigate(activeProvider.checkoutUrl(order, { lang, returnPath: back }))
     } catch (e) {
-      setError(codeOf(e))
+      const code = codeOf(e)
       setBusy(false)
+      if (code !== 'price_changed') return setError(code)
+      // Show the new price at once (the summary above updates with it); nothing was charged.
+      setPriceChanged(true)
+      await reloadPrices()
     }
   }
 
@@ -104,8 +111,13 @@ function Summary() {
       <Checkbox label={t.termsCheck} checked={terms} onChange={(e) => { setTerms(e.target.checked); setTermsError(null) }} error={termsError}>
         <p className="ps-9 text-sm"><TextLink to={localPath(lang, 'legal/terms')} target="_blank">{dict.account.auth.readTerms}</TextLink></p>
       </Checkbox>
+      {priceChanged && (
+        <Notice tone="warning" title={t.priceChangedTitle}>
+          <p data-testid="price-changed">{fmt(t.priceChangedLead, { /* first-strong isolate: an amount stays whole inside a right-to-left sentence */ price: `\u2068${total ?? dict.commerce.plans.priceNotSet}\u2069` })}</p>
+        </Notice>
+      )}
       {error && <Notice tone="error">{errorText(dict, error)}</Notice>}
-      <Button onClick={pay} busy={busy} wide>{t.pay}</Button>
+      <Button onClick={() => { setPriceChanged(false); void pay() }} busy={busy} wide>{t.pay}</Button>
     </div>
   )
 }

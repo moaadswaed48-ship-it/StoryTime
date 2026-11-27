@@ -265,6 +265,15 @@ export type AccountDict = {
     noPayments: string
     orderStatus: { pending: string; paid: string; failed: string; cancelled: string; refunded: string }
     receiptNote: string
+    /** A refund of an order in the payment history: requested, then issued with the amount returned, the fee and the owner's note. */
+    refundRequested: string
+    refundIssued: string
+    refundToReturn: string
+    refundReturned: string
+    refundFee: string
+    refundNoFee: string
+    refundFeeLater: string
+    refundNote: string
     newsTitle: string
     newsCheck: string
     serviceNote: string
@@ -318,6 +327,10 @@ export type CommerceDict = {
     factValidity: string
     /** factValidity once the owner has set at least one price (owner's area, Prices). */
     factValiditySet: string
+    /** factValidity when some passes have a price and others not yet (decided per pass, not by one price). */
+    factValidityPartial: string
+    /** Home page plan teaser: a length priced for some age groups but not all of them yet. */
+    priceSetSome: string
     israelOnly: string
     cancelLink: string
     sellerTitle: string
@@ -336,6 +349,9 @@ export type CommerceDict = {
     endsLabel: string
     totalLabel: string
     queuedNote: string
+    /** create_order refused the order: the price changed while the summary was open (price_changed). {price}: the new total. */
+    priceChangedTitle: string
+    priceChangedLead: string
     termsCheck: string
     rightsLink: string
     pay: string

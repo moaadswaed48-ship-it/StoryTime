@@ -167,5 +167,9 @@ export default {
     prevStep: 'Forrige trin',
     nextStep: 'Næste trin',
     teacherNotes: 'Til personalet',
+    nothingOpenTitle: "Der er ingen åbne historier til gruppen endnu",
+    nothingOpenLead: "Til den voksne: den gratis prøveperiode åbner 3 historier i 3 dage, uden kort.",
+    trialEndedLead: "Til den voksne: den gratis prøveperiode eller pakken er slut. For at åbne historier igen skal du forlade storskærmstilstand og vælge en pakke.",
+    lockedLead: "Denne historie er låst. En voksen kan åbne den med en pakke uden for storskærmstilstand.",
   },
 } satisfies StoriesDict

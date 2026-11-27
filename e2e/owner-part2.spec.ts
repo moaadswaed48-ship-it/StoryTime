@@ -150,8 +150,11 @@ for (const lang of ['en', 'ar'] as const) {
     await page.goto(`${lang}/plans/`)
     await expect(page.getByTestId('plan-1')).toContainText('49.90')
     await expect(page.getByTestId('plan-3')).toContainText(d.commerce.plans.priceNotSet)
-    await expect(page.getByText(d.commerce.plans.factValiditySet)).toBeVisible()
-    await expect(page.getByText(d.commerce.plans.factValidity)).toHaveCount(0)
+    // One pass of nine has a price: the "Before you buy" line says so per pass (review 26 Nov, finding 9), neither
+    // "no price is set" nor "the price shown applies" to all.
+    await expect(page.getByText(d.commerce.plans.factValidityPartial, { exact: true })).toBeVisible()
+    await expect(page.getByText(d.commerce.plans.factValiditySet, { exact: true })).toHaveCount(0)
+    await expect(page.getByText(d.commerce.plans.factValidity, { exact: true })).toHaveCount(0)
     await noSideScroll(page)
     await shot(page, info, `plans-with-price-${lang}`)
 

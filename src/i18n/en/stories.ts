@@ -167,5 +167,9 @@ export default {
     prevStep: 'Previous step',
     nextStep: 'Next step',
     teacherNotes: 'For the teacher',
+    nothingOpenTitle: "No stories are open for the class yet",
+    nothingOpenLead: "For the grown-up: the free trial opens 3 stories for 3 days, with no card.",
+    trialEndedLead: "For the grown-up: the free trial or the pass has ended. To open stories again, leave classroom mode and choose a pass.",
+    lockedLead: "This story is locked. A grown-up can open it with a pass, outside classroom mode.",
   },
 } satisfies StoriesDict

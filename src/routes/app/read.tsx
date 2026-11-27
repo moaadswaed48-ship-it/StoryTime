@@ -45,8 +45,11 @@ export default function Read() {
 
   if (loading) return <Spinner label={dict.stories.reader.loading} />
   if (error || !content) {
+    // On the class screen no button leads to the passes (for grown-ups, outside classroom mode).
     return error === 'locked'
-      ? <Notice title={dict.stories.doors.lockedTitle} action={<ButtonLink to={localPath(lang, 'app/plans')}>{dict.commerce.access.seePasses}</ButtonLink>}><p>{dict.stories.doors.lockedLead}</p></Notice>
+      ? classroom.on
+        ? <Notice title={dict.stories.doors.lockedTitle}><p>{dict.stories.classroom.lockedLead}</p></Notice>
+        : <Notice title={dict.stories.doors.lockedTitle} action={<ButtonLink to={localPath(lang, 'app/plans')}>{dict.commerce.access.seePasses}</ButtonLink>}><p>{dict.stories.doors.lockedLead}</p></Notice>
       : <Notice tone="error" action={<><Button onClick={reload}>{dict.account.errors.retry}</Button><ButtonLink to={back} variant="secondary">{dict.stories.reader.close}</ButtonLink></>}>{errorText(dict, error ?? 'unknown')}</Notice>
   }
   const group = active && summary?.ageGroups.includes(active.ageGroup) ? active.ageGroup : summary?.ageGroups[0] ?? '4-5'
@@ -68,7 +71,7 @@ export default function Read() {
         </>
       }
       accessEnded={
-        <Notice title={dict.stories.reader.accessEndedTitle} action={<><ButtonLink to={localPath(lang, 'app/plans')}>{dict.commerce.access.seePasses}</ButtonLink><ButtonLink to={localPath(lang, 'app/library')} variant="secondary">{dict.stories.doors.backToLibrary}</ButtonLink></>}>
+        <Notice title={dict.stories.reader.accessEndedTitle} action={<>{!classroom.on && <ButtonLink to={localPath(lang, 'app/plans')}>{dict.commerce.access.seePasses}</ButtonLink>}<ButtonLink to={localPath(lang, 'app/library')} variant={classroom.on ? 'primary' : 'secondary'}>{dict.stories.doors.backToLibrary}</ButtonLink></>}>
           <p>{dict.stories.reader.accessEndedLead}</p>
         </Notice>
       }

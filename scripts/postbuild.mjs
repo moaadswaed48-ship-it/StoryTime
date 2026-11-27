@@ -6,7 +6,8 @@
 //    404.html for unknown paths (GitHub Pages uses only the one at the site root: see docs/HANDOFF.md).
 //  - .nojekyll: GitHub Pages would otherwise hide files whose names start with "_".
 //  - build/client/.vite (the build manifest) is removed: it is not part of the site.
-//  - sitemap.xml and robots.txt from the list of public pages (src/seo/sitemap.ts): preview builds (NOINDEX=1) disallow
+//  - sitemap.xml and robots.txt from the list of public pages (src/seo/sitemap.ts): preview builds (NOINDEX=1), and any
+//    build without a real SITE_ORIGIN (site.config.ts), disallow
 //    all crawling; launch builds allow the public pages and name the sitemap.
 import { copyFileSync, existsSync, mkdirSync, readFileSync, renameSync, rmSync, writeFileSync } from 'node:fs'
 import { resolve } from 'node:path'

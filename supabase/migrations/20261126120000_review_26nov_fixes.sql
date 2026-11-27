@@ -169,7 +169,7 @@ $$;
 -- payment company also stays refused until the seller's business name and number are recorded (seller_not_set):
 -- the consumer law needs them on the page before a sale. Set them with:
 --   update private.settings set seller_name = '<business name>', seller_number = '<business number>';
--- (and replace the visible placeholders in the dictionaries, docs/LAUNCH-CHECKLIST.md).
+-- (and replace the visible seller placeholders in the dictionaries: docs/HANDOFF.md, "Fixes from the 26 Nov review").
 -- ---------------------------------------------------------------------------------------------------------------
 alter table private.settings add column seller_name text, add column seller_number text;
 

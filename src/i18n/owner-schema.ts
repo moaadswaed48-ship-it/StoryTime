@@ -246,6 +246,18 @@ export type OwnerDict = {
     publicLead: string
     publicEmpty: string
     orderRef: string
+    /** The orders matching a public request (order number and email), and the owner's cancellation for it. */
+    matchesTitle: string
+    noMatch: string
+    passActive: string
+    passCancelled: string
+    passRefunded: string
+    windowClosed: string
+    cancelOrder: string
+    cancelConfirm: string
+    cancelYes: string
+    cancelKeep: string
+    cancelDone: string
   }
   /** Part 2: pass prices. Never a default number: until the owner sets one, the site says "Price not set yet". */
   prices: {
@@ -305,6 +317,9 @@ export type OwnerDict = {
     noteRequired: string
     refundClosed: string
     badPrice: string
+    orderNotMatching: string
+    passNotActive: string
+    cancelWindowClosed: string
     retry: string
   }
 }

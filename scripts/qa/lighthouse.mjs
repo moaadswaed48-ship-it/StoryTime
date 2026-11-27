@@ -1,8 +1,9 @@
 // Lighthouse on the public pages, mobile profile (Lighthouse's default: Moto G Power size, simulated slow 4G and CPU),
 // each page run several times; the median of each score is reported (the machine may be busy, so one run is noise).
 //   node scripts/qa/lighthouse.mjs --url=http://localhost:4391/ [--runs=3] [--langs=ar,en] [--pages=,plans] [--out=file.json]
-// Serve a launch-mode build first (BASE_PATH=/ and no NOINDEX, or the SEO score counts the preview's noindex):
-//   BUILD_DIR=/some/dir BASE_PATH=/ npm run build && BUILD_DIR=/some/dir BASE_PATH=/ node scripts/serve.mjs --port=4391
+// Serve a launch-mode build first (BASE_PATH=/, no NOINDEX and a real-looking SITE_ORIGIN: without one the build is
+// treated as hidden from search, site.config.ts, and the SEO score counts the noindex):
+//   BUILD_DIR=/some/dir BASE_PATH=/ SITE_ORIGIN=https://storytime.example npm run build && BUILD_DIR=/some/dir BASE_PATH=/ node scripts/serve.mjs --port=4391
 // Chromium: CHROME_PATH, else the Playwright build at /opt/pw-browsers/chromium. Error reporting to Lighthouse's
 // servers is switched off (it is opt-in anyway); nothing is sent anywhere but the local site.
 import { writeFileSync } from 'node:fs'

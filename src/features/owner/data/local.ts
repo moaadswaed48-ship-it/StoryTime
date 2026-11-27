@@ -1,5 +1,7 @@
 import { LANGS, type Lang } from '@/i18n/config'
-import { CLOCK_KEY, DB_KEY, type KeyValue, type LocalDb } from '@/data/local/server'
+import { cancelPass, CLOCK_KEY, DB_KEY, type KeyValue, type LocalDb } from '@/data/local/server'
+import { DataError } from '@/data/errors'
+import { canCancel, orderRefMatches, refundReturned } from '@/data/rules'
 import { AGE_GROUPS, isAgeGroup, isPassMonths, PASS_MONTHS, type AgeGroup, type Iso, type PassMonths, type Price } from '@/data/types'
 import { isLang } from '@/i18n/config'
 import { OwnerError, type OwnerApi } from './api'
@@ -11,7 +13,7 @@ import {
 import { maxCancellationFee, priceProblem, REFUND_NOTE_MAX } from './money'
 import {
   DEFAULT_ZONE, ZONE_SIDES, ZONE_SIZES, ZONE_VS,
-  type AuditRow, type ContactMessage, type Dashboard, type Inbox, type MediaRecord, type OwnerStory, type OwnerStorySummary, type RefundsView,
+  type AuditRow, type ContactMessage, type Dashboard, type Inbox, type MediaRecord, type OwnerStory, type OwnerStorySummary, type RefundsView, type RequestMatch,
   type StoryDraft, type UploadMeta,
 } from './types'
 
@@ -328,9 +330,57 @@ export class LocalOwnerServer {
       })
       .sort((a, b) => b.requestedAt.localeCompare(a.requestedAt))
     const publicRequests = (db.cancellationRequests ?? [])
-      .map((c) => ({ id: c.id, email: c.email, orderRef: c.orderRef, message: c.message, createdAt: c.createdAt, handledAt: c.handledAt ?? null }))
+      .map((c) => ({ id: c.id, email: c.email, orderRef: c.orderRef, message: c.message, createdAt: c.createdAt, handledAt: c.handledAt ?? null, matches: this.matches(db, c) }))
       .sort((a, b) => b.createdAt.localeCompare(a.createdAt))
     return { refunds, open: refunds.filter((r) => r.status === 'requested').length, publicRequests }
+  }
+
+  /** The paid orders a public request names: the order number matches and the buyer's email is the request's. */
+  private matches(db: LocalDb, c: { email: string; orderRef: string }): RequestMatch[] {
+    const now = this.now()
+    return (db.orders ?? [])
+      .filter((o) => o.paidAt && orderRefMatches(c.orderRef, o.id))
+      .filter((o) => (db.users ?? []).find((u) => u.id === o.accountId)?.email.toLowerCase() === c.email.trim().toLowerCase())
+      .sort((a, b) => (b.paidAt ?? '').localeCompare(a.paidAt ?? ''))
+      .map((o) => {
+        const pass = (db.passes ?? []).find((p) => p.orderId === o.id) ?? null
+        const refund = (db.refunds ?? []).filter((r) => r.orderId === o.id).sort((a, b) => b.requestedAt.localeCompare(a.requestedAt))[0]
+        return {
+          orderId: o.id, ageGroup: o.ageGroup, months: o.months, paidAgorot: o.amountAgorot, priceWasPlaceholder: o.priceWasPlaceholder, paidAt: o.paidAt!,
+          passId: pass?.id ?? null, passStatus: pass?.status ?? null,
+          canCancel: !!pass && canCancel({ ...pass, paidAt: o.paidAt, amountAgorot: o.amountAgorot }, now), refundId: refund?.id ?? null,
+        }
+      })
+  }
+
+  /**
+   * Ends the pass of an order that matches a public request and opens its refund request, through the same
+   * cancellation as the family's own (cancelPass: 14 days, an active pass, queued passes moved), and marks the
+   * request handled. As owner_cancel_for_request() in SQL. Returns the refund's id.
+   */
+  cancelForRequest(uid: string | null, requestId: string, orderId: string): string {
+    const actor = this.owner(uid)
+    const { refundId, passId } = this.accountsTx((db) => {
+      const c = (db.cancellationRequests ?? []).find((x) => x.id === requestId)
+      if (!c) throw new OwnerError('not_found')
+      const m = this.matches(db, c).find((x) => x.orderId === orderId)
+      const row = m?.passId ? db.passes.find((p) => p.id === m.passId) : undefined
+      if (!m || !row) throw new OwnerError('order_not_matching')
+      const lang = db.profiles?.[row.accountId]?.language ?? 'en'
+      let refundId: string
+      try {
+        refundId = cancelPass(db, row, this.now(), lang)
+      } catch (e) {
+        if (e instanceof DataError && (e.code === 'pass_not_active' || e.code === 'cancel_window_closed')) throw new OwnerError(e.code)
+        throw e
+      }
+      c.handledAt ??= this.now()
+      return { refundId, passId: row.id }
+    })
+    this.auditOnly(actor, 'update', 'passes', passId)
+    this.auditOnly(actor, 'insert', 'refunds', refundId)
+    this.auditOnly(actor, 'update', 'cancellation_requests', requestId, `handled; cancelled order ${orderId}`)
+    return refundId
   }
 
   setRefundFee(uid: string | null, id: string, feeAgorot: number | null) {
@@ -345,6 +395,8 @@ export class LocalOwnerServer {
       if (feeAgorot !== null && feeAgorot > maxCancellationFee(paid)) throw new OwnerError('fee_over_cap')
       const changed = r.feeAgorot !== feeAgorot
       r.feeAgorot = feeAgorot
+      // As refunds_amount_returned in SQL: the stored amount is what goes back to the family.
+      r.amountAgorot = refundReturned(paid, feeAgorot)
       return changed
     })
     if (changed) this.auditOnly(actor, 'update', 'refunds', id)
@@ -362,6 +414,8 @@ export class LocalOwnerServer {
       r.status = 'issued'
       r.issuedAt = this.now()
       r.note = text
+      // The amount actually returned: what was paid minus the fee kept (review 26 Nov, finding 1).
+      r.amountAgorot = refundReturned((db.orders ?? []).find((o) => o.id === r.orderId)?.amountAgorot ?? r.amountAgorot, r.feeAgorot)
       const pass = (db.passes ?? []).find((p) => p.id === r.passId)
       if (pass && pass.status === 'cancelled') pass.status = 'refunded'
       const o = (db.orders ?? []).find((x) => x.id === r.orderId)
@@ -500,6 +554,7 @@ export class LocalOwnerApi implements OwnerApi {
   setRefundFee(id: string, feeAgorot: number | null) { return this.run((u) => this.server.setRefundFee(u, id, feeAgorot)) }
   markRefunded(id: string, note: string) { return this.run((u) => this.server.markRefunded(u, id, note)) }
   setCancellationHandled(id: string, handled: boolean) { return this.run((u) => this.server.setCancellationHandled(u, id, handled)) }
+  async cancelForRequest(requestId: string, orderId: string) { await this.run((u) => this.server.cancelForRequest(u, requestId, orderId)) }
   listPrices() { return this.run((u) => this.server.listPrices(u)) }
   setPrice(ageGroup: AgeGroup, months: PassMonths, priceAgorot: number | null) { return this.run((u) => this.server.setPrice(u, ageGroup, months, priceAgorot)) }
 

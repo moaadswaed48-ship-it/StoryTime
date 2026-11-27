@@ -20,7 +20,7 @@ async function newConfirmedUser(email = 'parent@example.test', role: 'parent' | 
 
 /** Pays for a pass through the test provider and waits for the server callback, as the return page does. */
 async function buy(group: '2-3' | '4-5' | '6-8', months: 1 | 3 | 12 = 1) {
-  const order = await api.createOrder({ ageGroup: group, months, provider: 'test', termsVersion: TERMS_VERSION })
+  const order = await api.createOrder({ ageGroup: group, months, provider: 'test', termsVersion: TERMS_VERSION, expectedAgorot: null })
   await testProvider.pay(api, order, 'succeeded')
   for (let i = 0; i < 20 && (await api.getOrder(order.id)).status === 'pending'; i++) await new Promise((r) => setTimeout(r, 10))
   return api.getOrder(order.id)
@@ -126,10 +126,10 @@ describe('trial and passes', () => {
 
   it('a pass is created only by the server callback, opens its group (and shared stories), and expires', async () => {
     await newConfirmedUser()
-    const order = await api.createOrder({ ageGroup: '6-8', months: 1, provider: 'test', termsVersion: TERMS_VERSION })
+    const order = await api.createOrder({ ageGroup: '6-8', months: 1, provider: 'test', termsVersion: TERMS_VERSION, expectedAgorot: null })
     expect(order).toMatchObject({ status: 'pending', amountAgorot: 0, priceWasPlaceholder: true })
     expect((await api.getAccess()).passes).toEqual([]) // returning from the provider page alone unlocks nothing
-    expect(await codeOf(api.createOrder({ ageGroup: '6-8', months: 1, provider: 'cardcom', termsVersion: TERMS_VERSION }))).toBe('unknown') // provider_not_connected
+    expect(await codeOf(api.createOrder({ ageGroup: '6-8', months: 1, provider: 'cardcom', termsVersion: TERMS_VERSION, expectedAgorot: null }))).toBe('unknown') // provider_not_connected
     const paid = await buy('6-8')
     expect(paid.status).toBe('paid')
     expect((await api.getStoryContent('story-sample-68-2', 'en')).pages).toHaveLength(2)
@@ -141,12 +141,12 @@ describe('trial and passes', () => {
 
   it('a repeated callback counts once; a failed payment unlocks nothing', async () => {
     await newConfirmedUser()
-    const order = await api.createOrder({ ageGroup: '2-3', months: 3, provider: 'test', termsVersion: TERMS_VERSION })
+    const order = await api.createOrder({ ageGroup: '2-3', months: 3, provider: 'test', termsVersion: TERMS_VERSION, expectedAgorot: null })
     const event = { provider: 'test', eventId: 'same', orderId: order.id, kind: 'payment_succeeded' as const, providerPaymentId: 'p', amountAgorot: 0 }
     api.server.handleProviderEvent(event)
     api.server.handleProviderEvent(event)
     expect((await api.getAccess()).passes).toHaveLength(1)
-    const failing = await api.createOrder({ ageGroup: '4-5', months: 1, provider: 'test', termsVersion: TERMS_VERSION })
+    const failing = await api.createOrder({ ageGroup: '4-5', months: 1, provider: 'test', termsVersion: TERMS_VERSION, expectedAgorot: null })
     api.server.handleProviderEvent({ ...event, eventId: 'fail', orderId: failing.id, kind: 'payment_failed' })
     expect((await api.getOrder(failing.id)).status).toBe('failed')
     expect((await api.getAccess()).passes).toHaveLength(1)

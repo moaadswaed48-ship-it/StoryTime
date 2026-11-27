@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useSession } from '@/features/account/session'
-import { PRICES } from '@/data/prices'
+import { allPriced, PRICES } from '@/data/prices'
 import { AGE_GROUPS, PASS_MONTHS, type AgeGroup, type PassMonths, type Price } from '@/data/types'
 import { fmt, formatShekels } from '@/i18n/format'
 import { useLang } from '@/i18n/use-dict'
@@ -76,8 +76,9 @@ export function PlanCards({ initialGroup = '4-5', prices = PRICES }: { initialGr
 export function PlanFacts({ prices = PRICES }: { prices?: readonly Price[] }) {
   const { lang, dict } = useLang()
   const t = dict.commerce.plans
-  // "Prices are not set yet" stops being true the moment the owner sets one (CLAUDE.md rule 4).
-  const validity = prices.some((p) => p.priceAgorot !== null) ? t.factValiditySet : t.factValidity
+  // Decided over every pass, not by one price (review 26 Nov, finding 9): none set, some set, or all set.
+  const priced = allPriced(prices)
+  const validity = priced === 'none' ? t.factValidity : priced === 'some' ? t.factValidityPartial : t.factValiditySet
   return (
     <section aria-labelledby="facts" className="flex flex-col gap-3 rounded-control border border-line bg-surface p-5">
       <h2 id="facts" className="text-xl font-semibold">{t.factsTitle}</h2>

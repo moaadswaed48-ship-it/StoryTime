@@ -23,6 +23,7 @@ export function errorText(dict: Dict, code: ErrorCode): string {
     cancel_window_closed: e.cancelWindowClosed,
     pass_not_active: e.passNotActive,
     terms_required: e.mustAccept,
+    price_changed: dict.commerce.checkout.priceChangedTitle,
   }
   return map[code] ?? e.unknown
 }

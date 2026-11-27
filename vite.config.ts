@@ -2,7 +2,7 @@ import { fileURLToPath } from 'node:url'
 import { reactRouter } from '@react-router/dev/vite'
 import tailwindcss from '@tailwindcss/vite'
 import { defineConfig, loadEnv, type Plugin } from 'vite'
-import { basePath, noIndex, siteOrigin } from './site.config.ts'
+import { basePath, noIndex, noIndexAsked, originIsPlaceholder, siteOrigin } from './site.config.ts'
 
 const SRC = fileURLToPath(new URL('./src', import.meta.url))
 const CONTENT = fileURLToPath(new URL('./content', import.meta.url))
@@ -43,6 +43,10 @@ function testBackendOff(): Plugin {
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), 'VITE_')
   const launch = !!(env.VITE_SUPABASE_URL && (env.VITE_SUPABASE_PUBLISHABLE_KEY || env.VITE_SUPABASE_ANON_KEY))
+  // A launch build must name its real address (canonical links, sitemap, robots.txt) or say NOINDEX=1 (review 26 Nov, 8).
+  if (launch && originIsPlaceholder && !noIndexAsked && mode === 'production') {
+    throw new Error('Launch build refused: set SITE_ORIGIN to the real address (for example https://storytime.co.il), or NOINDEX=1 for a hidden preview.')
+  }
   return {
     base: basePath,
     plugins: [...(launch ? [testBackendOff()] : []), tailwindcss(), reactRouter()],

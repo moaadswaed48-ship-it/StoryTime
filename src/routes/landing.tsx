@@ -1,6 +1,6 @@
 import { useId, type ReactNode } from 'react'
 import { data, useLoaderData } from 'react-router'
-import { PRICES } from '@/data/prices'
+import { lengthPriced, PRICES } from '@/data/prices'
 import { usePublicPrices } from '@/features/commerce/usePrices'
 import { PASS_MONTHS } from '@/data/types'
 import { Faq, Ranges } from '@/features/landing/Faq'
@@ -53,7 +53,7 @@ export default function Landing() {
   const plans = localPath(lang, 'plans')
   // Live prices once the page runs (the owner sets them in the owner's area); the pre-rendered page uses the static list.
   const { prices } = usePublicPrices()
-  const pricesSet = (prices ?? PRICES).some((p) => p.priceAgorot !== null)
+  const live = prices ?? PRICES
 
   return (
     <>
@@ -175,9 +175,10 @@ export default function Landing() {
             {PASS_MONTHS.map((m) => (
               <li key={m} className="flex flex-wrap items-center justify-between gap-2 rounded-control border border-line bg-surface px-4 py-3">
                 <span className="font-semibold">{c.months[m]}</span>
-                {!pricesSet && (
-                  <span className="flex flex-wrap items-center gap-2 text-ink-muted">
-                    {c.plans.priceNotSet} <PlaceholderTag>{c.plans.placeholderBadge}</PlaceholderTag>
+                {/* Decided per length (review 26 Nov, finding 9): no group priced, some, or all (then the plans page has the prices). */}
+                {lengthPriced(live, m) !== 'all' && (
+                  <span className="flex flex-wrap items-center gap-2 text-ink-muted" data-testid={`teaser-${m}`}>
+                    {lengthPriced(live, m) === 'none' ? c.plans.priceNotSet : c.plans.priceSetSome} <PlaceholderTag>{c.plans.placeholderBadge}</PlaceholderTag>
                   </span>
                 )}
               </li>

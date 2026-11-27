@@ -33,7 +33,10 @@ export default function Do() {
         {title ? <bdi>{title}</bdi> : dict.stories.doors.backToLibrary}
       </Link>
       {loading && <Spinner label={dict.account.states.loading} />}
-      {error === 'locked' && <Notice title={dict.stories.doors.lockedTitle} action={<ButtonLink to={localPath(lang, 'app/plans')}>{dict.commerce.access.seePasses}</ButtonLink>}><p>{dict.stories.doors.lockedLead}</p></Notice>}
+      {/* On the class screen no button leads to the passes (for grown-ups, outside classroom mode). */}
+      {error === 'locked' && (room
+        ? <Notice title={dict.stories.doors.lockedTitle}><p>{dict.stories.classroom.lockedLead}</p></Notice>
+        : <Notice title={dict.stories.doors.lockedTitle} action={<ButtonLink to={localPath(lang, 'app/plans')}>{dict.commerce.access.seePasses}</ButtonLink>}><p>{dict.stories.doors.lockedLead}</p></Notice>)}
       {error && error !== 'locked' && <Notice tone="error" action={<Button onClick={reload}>{dict.account.errors.retry}</Button>}>{errorText(dict, error)}</Notice>}
       {content && !content.activity && <Notice title={dict.stories.doors.noActivity} />}
       {content?.activity && (

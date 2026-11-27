@@ -55,3 +55,28 @@ phone-width pictures in `qa/out/stage4b2/emails/` (Arabic and English).
   decided). Replace it with the real sentence then.
 - Owner's area, every language: new error `errors.publishedIncomplete` (a save that would leave a published story
   incomplete). Check the Arabic `يلزم إكمال ما ينقص` and Hebrew `יש להשלים` read naturally.
+
+## From the fresh review of 26 Nov (finding 10), and the words added by its fixes (27 Nov 2026)
+Not changed by the Builder: these are choices for native readers. All four are gender-neutral as written.
+- **Classroom notes heading** (`src/i18n/<lang>/stories.ts`, `classroom.teacherNotes`): Arabic `لطاقم الروضة`
+  ("for the kindergarten staff") and Hebrew `לצוות הגן` ("for the kindergarten team"), but English `For the teacher`
+  and Danish `Til personalet` ("for the staff"). Decide one meaning for all four (staff, or teacher), or keep the
+  difference on purpose.
+- **Name of the mode**: Danish `Storskærmstilstand` ("big-screen mode") where the others say "classroom mode"
+  (`وضع الصف`, `מצב כיתה`, `Classroom mode`). Fine if deliberate; Danish kindergartens may prefer a word with
+  "gruppe" or "klasse".
+- **New words in this fix, every language** (written by the Builder, not by native editors):
+  - Classroom library with nothing open (`classroom.nothingOpenTitle`, `nothingOpenLead`, `trialEndedLead`,
+    `lockedLead`): addressed to "the grown-up" (`للبالغين`, `למבוגרים`, `Til den voksne`). Check this reads well on a
+    class screen, or whether "for the staff" fits better.
+  - Payment history refunds (`src/i18n/<lang>/account.ts`, `settings.refund*`): Arabic `المبلغ الذي أُعيد إليكم`
+    and Hebrew `הוחזר אליכם` use the plural "you" (neutral); Danish uses `dig`, as elsewhere on the site.
+  - Checkout `priceChangedTitle` / `priceChangedLead` (`commerce.ts`): Arabic `يُرجى مراجعة الملخّص`, Hebrew `כדאי
+    לבדוק את הסיכום` (impersonal forms).
+  - Plans `factValidityPartial` and home teaser `priceSetSome`: check the quotation marks around "Price not set yet"
+    in each language (Hebrew uses „…”, Arabic «…», Danish “…”).
+  - Owner's area, public cancellation requests (`owner.ts`, `refunds.matchesTitle` … `cancelDone`, new errors
+    `orderNotMatching`, `passNotActive`, `cancelWindowClosed`, and the rewritten `publicLead`).
+- **Refund email** (`refund_issued`): now has a details table (Total paid, Cancellation fee, Refund) built from the
+  existing labels; no new email words. Seen while checking it: the Arabic footer `تصلك هذه الرسالة` addresses the
+  reader in the singular (masculine/unmarked) form; a native reader may prefer a plural or impersonal form.

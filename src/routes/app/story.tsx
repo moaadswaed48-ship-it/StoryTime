@@ -89,8 +89,9 @@ export default function Storybook() {
       </header>
 
       {locked && (
-        <Notice title={t.lockedTitle} action={<ButtonLink to={plans}>{dict.commerce.access.seePasses}</ButtonLink>}>
-          <p>{t.lockedLead}</p>
+        // On the class screen no button leads to the passes (for grown-ups, outside classroom mode).
+        <Notice title={t.lockedTitle} action={room.on ? undefined : <ButtonLink to={plans}>{dict.commerce.access.seePasses}</ButtonLink>}>
+          <p>{room.on ? dict.stories.classroom.lockedLead : t.lockedLead}</p>
         </Notice>
       )}
       {error && !locked && <Notice tone="error" action={<Button onClick={reload}>{dict.account.errors.retry}</Button>}>{errorText(dict, error)}</Notice>}

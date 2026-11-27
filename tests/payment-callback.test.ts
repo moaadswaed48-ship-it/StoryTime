@@ -40,7 +40,7 @@ const post = (body: unknown, origin: string | null = SITE, token = 'good-token')
 beforeAll(async () => {
   db = await freshDb()
   uid = await signUp(db, 'cors@example.test')
-  orderId = (await rows<{ id: string }>(db, user(uid), `select * from create_order('4-5', 1, 'test', 'terms-1')`))[0]!.id
+  orderId = (await rows<{ id: string }>(db, user(uid), `select * from create_order('4-5', 1, 'test', 'terms-1', null)`))[0]!.id
 }, 60_000)
 
 describe('payment-callback cross-origin (B1)', () => {

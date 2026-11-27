@@ -44,7 +44,7 @@ export function sampleParams(lang: Lang): { [K in TemplateId]: Params[K] } {
     email_changed: { newEmail: 'new.address@example.test' },
     account_deleted: { deletedAt: T0 },
     cancellation_received: { orderRef: 'ST-EXAMPLE-0001', ageGroup: '4-5', months: 3, cancelledAt: T0, paidAgorot: null, feeAgorot: null, refundBy: day(14) },
-    refund_issued: { orderRef: 'ST-EXAMPLE-0001', amountAgorot: null, issuedAt: day(5), creditDocUrl: `${SITE}/example-credit-document` },
+    refund_issued: { orderRef: 'ST-EXAMPLE-0001', amountAgorot: null, paidAgorot: null, feeAgorot: null, issuedAt: day(5), creditDocUrl: `${SITE}/example-credit-document` },
     contact_reply: REPLY[lang],
     new_story: { title: TITLES[lang][0]!, ageGroup: '2-3', link: `${app}library/`, unsubscribeUrl: `${SITE}/functions/v1/email-unsubscribe?a=example&l=${lang}&s=example` },
   }

@@ -89,7 +89,7 @@ describe('the loader serves content only through the access check', () => {
     await api.startTrial('4-5')
     // The samples are never trial stories (the trial is three real stories: src/data/local/trial-picks.ts).
     expect(await api.getStoryContent('sample-b', 'ar').then(() => null, (e: DataError) => e.code)).toBe('locked')
-    const order = await api.createOrder({ ageGroup: '4-5', months: 1, provider: 'test', termsVersion: TERMS_VERSION })
+    const order = await api.createOrder({ ageGroup: '4-5', months: 1, provider: 'test', termsVersion: TERMS_VERSION, expectedAgorot: null })
     await testProvider.pay(api, order, 'succeeded')
     for (let i = 0; i < 20 && (await api.getOrder(order.id)).status === 'pending'; i++) await new Promise((r) => setTimeout(r, 10))
     const c = await api.getStoryContent('sample-b', 'ar')

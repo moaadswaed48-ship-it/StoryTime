@@ -27,7 +27,7 @@ describe('deleting an account leaves no email address in the email log', () => {
   it('earlier emails and the account-deleted email keep only the salted hash of the address', async () => {
     await newConfirmedUser('Leaving@Example.test')
     await api.addLearner({ name: 'Noor', ageGroup: '4-5' })
-    const order = await api.createOrder({ ageGroup: '4-5', months: 1, provider: 'test', termsVersion: TERMS_VERSION })
+    const order = await api.createOrder({ ageGroup: '4-5', months: 1, provider: 'test', termsVersion: TERMS_VERSION, expectedAgorot: null })
     await testProvider.pay(api, order, 'succeeded')
     for (let i = 0; i < 20 && (await api.getOrder(order.id)).status === 'pending'; i++) await new Promise((r) => setTimeout(r, 10))
     expect(api.server.outbox().some((m) => m.to === 'leaving@example.test')).toBe(true)

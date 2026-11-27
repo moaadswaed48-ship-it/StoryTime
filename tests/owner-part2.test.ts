@@ -157,14 +157,14 @@ describe('prices', () => {
 
     const fam = new LocalServer(kv)
     expect(fam.listPrices().find((p) => p.ageGroup === '4-5' && p.months === 1)!.priceAgorot).toBe(4990)
-    const o = fam.createOrder(PARENT, { ageGroup: '4-5', months: 1, provider: 'test', termsVersion: TERMS_VERSION })
+    const o = fam.createOrder(PARENT, { ageGroup: '4-5', months: 1, provider: 'test', termsVersion: TERMS_VERSION, expectedAgorot: 4990 })
     expect(o).toMatchObject({ amountAgorot: 4990, priceWasPlaceholder: false })
     // No real provider in test mode, price or not.
-    expect(() => fam.createOrder(PARENT, { ageGroup: '4-5', months: 1, provider: 'cardcom', termsVersion: TERMS_VERSION })).toThrow(/provider_not_connected/)
+    expect(() => fam.createOrder(PARENT, { ageGroup: '4-5', months: 1, provider: 'cardcom', termsVersion: TERMS_VERSION, expectedAgorot: 4990 })).toThrow(/provider_not_connected/)
 
     srv.setPrice(OWNER, '4-5', 1, null)
     expect(fam.listPrices().every((p) => p.priceAgorot === null)).toBe(true)
-    expect(fam.createOrder(PARENT, { ageGroup: '4-5', months: 1, provider: 'test', termsVersion: TERMS_VERSION })).toMatchObject({ amountAgorot: 0, priceWasPlaceholder: true })
+    expect(fam.createOrder(PARENT, { ageGroup: '4-5', months: 1, provider: 'test', termsVersion: TERMS_VERSION, expectedAgorot: null })).toMatchObject({ amountAgorot: 0, priceWasPlaceholder: true })
     expect(srv.listAudit(OWNER).filter((a) => a.target === 'pass_prices').map((a) => a.detail)).toEqual(['4-5/1', '4-5/1'])
   })
 })
