@@ -1,0 +1,1 @@
+import{s as e,t}from"./jsx-runtime-CcPuEVVQ.js";import{r as n,t as r}from"./meta-DynzHG2J.js";import{n as i}from"./NotFound-Cyly9yAu.js";var a=t(),o=({matches:e})=>{let t=r(e);return n(t?`${t.dict.common.notFound} · ${t.dict.common.siteName}`:`404`)},s=e(function(){return(0,a.jsx)(i,{})});export{s as default,o as meta};

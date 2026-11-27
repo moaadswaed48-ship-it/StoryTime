@@ -1,1 +1,0 @@
-import{s as e,t}from"./jsx-runtime-zWfRKXOn.js";import{t as n}from"./use-dict-0EJsL1ic.js";import{r}from"./meta-yEXQefyx.js";var i=t(),a=()=>r(`StoryTime`),o=e(function(){let{dict:e}=n();return(0,i.jsx)(`h1`,{className:`text-3xl font-semibold`,children:e.common.notFound})});export{o as default,a as meta};

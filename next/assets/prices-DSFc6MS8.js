@@ -1,1 +1,0 @@
-import{r as e,t}from"./types-DtJ6THw3.js";var n=t.flatMap(t=>e.map(e=>({ageGroup:t,months:e,priceAgorot:null})));export{n as t};

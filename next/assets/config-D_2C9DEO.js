@@ -1,1 +1,0 @@
-var e=[`ar`,`he`,`en`,`da`],t=t=>typeof t==`string`&&e.includes(t),n=e=>e===`ar`||e===`he`,r=e=>n(e)?`rtl`:`ltr`,i={ar:`العربية`,he:`עברית`,en:`English`,da:`Dansk`};function a(e){for(let n of e??[]){let e=(n||``).slice(0,2).toLowerCase();if(e===`iw`&&(e=`he`),t(e))return e}return`ar`}export{n as a,t as i,e as n,a as o,r,i as t};
