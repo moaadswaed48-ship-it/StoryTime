@@ -45,6 +45,7 @@ export default {
     queuedNote: 'You already have a pass for this group, so this one starts when it ends.',
     priceChangedTitle: "The price has changed",
     priceChangedLead: "The price of this pass changed while this page was open. The total is now {price}. Nothing was charged: check the summary, then continue again if you agree.",
+    priceRemovedLead: "The price of this pass was removed while this page was open, so it cannot be bought right now. Nothing was charged.",
     termsCheck: 'I agree to the Terms of use',
     rightsLink: 'Your right to cancel',
     pay: 'Continue to payment',

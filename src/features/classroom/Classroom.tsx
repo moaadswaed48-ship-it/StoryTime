@@ -1,14 +1,32 @@
 import type { ReactNode, SVGProps } from 'react'
 import { Link } from 'react-router'
+import type { AccessSnapshot } from '@/data/types'
 import { useLang } from '@/i18n/use-dict'
 import { localPath } from '@/seo/paths'
 import { OfflineBanner, TestModeBanner } from '@/ui/Banners'
+import { Notice } from '@/ui/controls'
+import { classNoteKind } from './classroom'
 import { useClassroom, useFullscreen } from './useClassroom'
 
 /**
  * Teachers: classroom mode, the pieces on screen. Neutral tokens only (the look is not decided). Every control is
  * at least 56 px and never appears only on hover.
  */
+
+/**
+ * The class screen when nothing is open (no trial running, no current pass): one short note for the grown-up, never
+ * a wall of locked books and never a way to the passes. The library and a locked story's page show the same note;
+ * the library adds the trial button as `action` when the trial was never used.
+ */
+export function ClassroomGrownUpNote({ access, action }: { access: AccessSnapshot; action?: ReactNode }) {
+  const { dict } = useLang()
+  const c = dict.stories.classroom
+  return (
+    <Notice title={c.nothingOpenTitle} action={action}>
+      <p data-testid="classroom-nothing-open">{classNoteKind(access) === 'ended' ? c.trialEndedLead : c.nothingOpenLead}</p>
+    </Notice>
+  )
+}
 
 /** A screen with a group in front of it: the classroom mode switch. */
 export function IconClassroom(props: SVGProps<SVGSVGElement>) {
@@ -83,11 +101,13 @@ export function ClassroomShell({ children }: { children: ReactNode }) {
   const { lang, dict } = useLang()
   const t = dict.stories.classroom
   const { set } = useClassroom()
+  // room-shell / room-bar-row: a phone held sideways compacts them on the film page (film.css), so the whole film
+  // with its controls fits the screen's height.
   return (
-    <>
+    <div className="room-shell flex min-h-dvh flex-col">
       <OfflineBanner />
       <div role="region" aria-label={t.bar} data-testid="classroom-bar" className="border-b border-line bg-surface">
-        <div className="flex flex-wrap items-center gap-2 px-3 py-2 sm:px-6">
+        <div className="room-bar-row flex flex-wrap items-center gap-2 px-3 py-2 sm:px-6">
           <Link to={localPath(lang, 'app/library')} className="me-auto inline-flex min-h-14 items-center gap-2 rounded-control px-2 text-xl font-semibold">
             <IconClassroom className="size-7" />
             <bdi>{dict.common.siteName}</bdi>
@@ -105,6 +125,6 @@ export function ClassroomShell({ children }: { children: ReactNode }) {
       <main id="main" className="mx-auto w-full max-w-[120rem] px-3 py-5 sm:px-6 sm:py-6" data-classroom="on">
         {children}
       </main>
-    </>
+    </div>
   )
 }

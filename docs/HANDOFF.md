@@ -981,3 +981,44 @@ Per-finding table: the "Fixes" section at the end of the review file.
   tried. Native readers have not seen the new words in any language; Hebrew and Danish screens of this fix were not
   looked at (the compiler proves every key exists).
 - No fresh reviewer has looked at these fixes yet.
+
+## Recheck fixes (27 Nov 2026)
+The four small points of `docs/reviews/fixes-recheck-27nov.md` (N1 to N4), each fixed at its cause with a test that
+failed on the code before the fix and passes now. Nothing committed.
+
+- **N1, the classroom film on a phone held sideways.** On a screen wider than tall and at most 32rem (512 px) high,
+  the classroom film page now fills exactly the screen's height (`film.css`, the `watch-room` rules): the classroom
+  bar and test-mode notice get slimmer (buttons stay at least 44 px), the way back sits beside the film, the time bar
+  joins the row of 48 px buttons, and the film is as tall as the space left (container units). The frame never gets
+  narrower than its control row (25rem); a narrower picture is shown whole, centred. Full screen still fills the
+  screen. Picture width in the test build (with the test-mode notice): about 436 px at 844 x 390, 409 px frame at
+  667 x 375, about 280 px at 568 x 320 (before: the controls ended near y = 600 at 844 x 390). 1024 x 768 and
+  1920 x 1080 keep the earlier layout. The first fix's "never below 28rem" floor is gone on these screens, because it
+  was what pushed the controls off the screen; `e2e/review-26nov.spec.ts` now checks the film fits the height instead.
+- **N2, locked story doors on the class screen.** In classroom mode a locked story's four doors keep their pictures
+  and lock but are no longer links (`data-state="locked"`), and nothing on the page links to the passes. When nothing
+  is open for the class, the page shows the class library's own grown-up note (shared `ClassroomGrownUpNote`, and
+  `nothingOpenForClass()` in `classroom.ts`); when other stories are open, the short "this story is locked" note.
+  Families outside classroom mode keep the doors to the passes. `e2e/review-26nov.spec.ts` expected the old
+  per-story line on the trial-ended story page; it now expects the library note.
+- **N3, order numbers glued to a word.** `orderRefMatches()` and, in the new migration
+  `supabase/migrations/20261127100000_order_ref_glued.sql` (`create or replace private.order_ref_matches`, same
+  signature, execute still revoked), read each hexadecimal run from its start and from just after each hyphen in it.
+  "Ref-3F2A1B9C", "Ordre-3F2A1B9C", "Code-…" now match; a number glued with no hyphen ("Ref3F2A1B9C"), a later part of
+  the id, too-short or wrong numbers still do not.
+- **N4, wording.** `seller_not_set` is a known error code with its own message (`account.errors.sellerNotSet`); a
+  price removed during checkout shows `commerce.checkout.priceRemovedLead` ("…was removed…, so it cannot be bought
+  right now. Nothing was charged.") instead of "The total is now ‹Price not set yet›". Four languages; Arabic is
+  impersonal Modern Standard Arabic.
+- Tests: `tests/recheck-27nov.test.ts`, `tests/db/recheck-27nov.test.ts`, `e2e/recheck-27nov.spec.ts` (screenshots in
+  `qa/out/n14/`). Fails before: the e2e spec against a build of `git archive HEAD` (84cbe38) failed 12 of 12; the
+  database N3 tests failed with the new migration moved aside; the N3 unit test failed against the old rule.
+- Checks: `nice -n 19 npm run typecheck` 0 errors; `nice -n 19 npm test` 450 passed in 40 files, 0 skipped. Whole
+  Playwright suite on a private build (`BUILD_DIR=<scratchpad>/n14/build`, port 4491): **185 passed, 17 skipped,
+  0 failed** (24 min; every skip is a check that runs once, in the other screen size, as before).
+- Looked at by eye (`qa/out/n14/`): the classroom film at 844 x 390, 667 x 375, 568 x 320, 1024 x 768 and 1920 in
+  English and Hebrew; the locked story on the class screen; checkout with the price removed, Hebrew and English.
+- Still not proven: Safari/WebKit and a real iPhone held sideways (`dvh`, container units, `:has`); the new
+  migration only in PGlite, not on a real Supabase project; native readers have not seen the new wording; no fresh
+  reviewer has looked at these fixes. Noticed, not changed: checkout still lets the family press "Continue" with no
+  price, and `price_not_set` then shows the general error (it has no message of its own).

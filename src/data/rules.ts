@@ -91,12 +91,19 @@ export const refundReturned = (paidAgorot: number, feeAgorot: number | null, dec
  * Whether what someone typed as the order number on the public cancellation form names this order: any run of 8 or
  * more hexadecimal characters (hyphens allowed, case ignored) that the order's id starts with. The family sees the
  * first 8 characters in Settings and the whole id in the purchase email. private.order_ref_matches() in SQL.
+ * A run is read from its start and from just after each hyphen in it, so a number glued to a word by a hyphen is
+ * still found: in "Ref-3F2A1B9C" or "Ordre-3F2A1B9C" the letters "ef-" and "e-" are hexadecimal too and joined the
+ * run (recheck 27 Nov, N3). The rest of the rule is unchanged: at least 8 characters, and the id must start with them.
  */
 export function orderRefMatches(ref: string, orderId: string): boolean {
   const id = orderId.toLowerCase().replace(/-/g, '')
   for (const m of ref.toLowerCase().matchAll(/[0-9a-f][0-9a-f-]{7,}/g)) {
-    const run = m[0].replace(/-/g, '')
-    if (run.length >= 8 && run.length <= 32 && id.startsWith(run)) return true
+    const text = m[0]
+    for (let at = 0; at < text.length; at++) {
+      if (at > 0 && text[at - 1] !== '-') continue
+      const run = text.slice(at).replace(/-/g, '')
+      if (run.length >= 8 && run.length <= 32 && id.startsWith(run)) return true
+    }
   }
   return false
 }

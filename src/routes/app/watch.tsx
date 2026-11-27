@@ -17,8 +17,9 @@ export const meta = () => privateMeta('StoryTime')
 /**
  * "Watch": the story's film, on its own calm page, with a way back to the storybook. In classroom mode (a teacher's
  * big screen) the film takes as much of the screen as fits above its controls, with larger controls and captions
- * (film.css), and a large way back. On a short screen (a phone held sideways, a short laptop window) the film
- * never shrinks below 28rem wide (or the screen's width): the page then scrolls a little instead (review 26 Nov, 5).
+ * (film.css), and a large way back. On a short, wide screen (a phone held sideways) the film, its controls and the
+ * way back all fit the screen's height without scrolling: the way back sits beside the film and the film is as big
+ * as the height allows (film.css "watch-room"; review 26 Nov, 5, and recheck 27 Nov, N1).
  */
 export default function Watch() {
   const { lang, dict } = useLang()
@@ -35,7 +36,8 @@ export default function Watch() {
   const room = useClassroom().on
 
   return (
-    <div className={`mx-auto flex w-full flex-col ${room ? 'max-w-[max(28rem,calc((100dvh-22rem)*16/9))] min-w-0 gap-3' : 'max-w-4xl gap-5'}`} data-testid="watch-page">
+    <div className={`mx-auto flex w-full flex-col ${room ? 'watch-room max-w-[max(28rem,calc((100dvh-22rem)*16/9))] min-w-0 gap-3' : 'max-w-4xl gap-5'}`}
+      data-film={room && content?.film?.videoUrl ? '' : undefined} data-testid="watch-page">
       <Link to={localPath(lang, `app/story/${id}`)} className={`inline-flex items-center gap-2 self-start font-medium underline-offset-4 hover:underline ${room ? 'min-h-14 rounded-control border border-ink/30 bg-surface px-4 text-lg no-underline' : 'min-h-11'}`}>
         <IconArrow className={`${room ? 'size-7' : 'size-5'} -scale-x-100 rtl:scale-x-100`} />
         {title ? <bdi>{title}</bdi> : dict.stories.doors.backToLibrary}

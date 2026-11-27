@@ -1,7 +1,9 @@
 import type { ComponentType, ReactNode, SVGProps } from 'react'
 import { Link, useParams } from 'react-router'
+import { useAccess } from '@/features/access/useAccess'
 import { errorText } from '@/features/account/messages'
-import { ClassroomSwitch } from '@/features/classroom/Classroom'
+import { nothingOpenForClass } from '@/features/classroom/classroom'
+import { ClassroomGrownUpNote, ClassroomSwitch } from '@/features/classroom/Classroom'
 import { useClassroom } from '@/features/classroom/useClassroom'
 import { Cover } from '@/features/family/Cover'
 import { DoorDo, DoorListen, DoorRead, DoorWatch, IconArrow, IconCheck, IconHeart, IconLock } from '@/features/family/icons'
@@ -21,7 +23,9 @@ export const meta = () => privateMeta('StoryTime')
  * doors, always all visible, each a picture and one word, so a small child can choose without reading. A door
  * that cannot open yet stays in place and says why (no recording, film not ready, no activity): nothing is hidden.
  * Locked (no trial or pass for this story): cover, title and a short line; the doors lead to the passes, which sit
- * behind the parent gate.
+ * behind the parent gate. In classroom mode nothing on the class screen leads to the passes: the doors stay in place
+ * with their lock but do not open, and the note is for the grown-up, the same as the class library's when nothing
+ * is open (recheck 27 Nov, N2).
  */
 export default function Storybook() {
   const { lang, dict } = useLang()
@@ -34,6 +38,7 @@ export default function Storybook() {
   const favourites = useFavourites(active?.id ?? null)
   const p = progress.byStory[id]
   const room = useClassroom()
+  const { access } = useAccess()
 
   if (loading && !summary) return <Spinner label={dict.account.states.loading} />
   if (!summary) {
@@ -43,7 +48,8 @@ export default function Storybook() {
   }
   const locked = error === 'locked'
   const base = localPath(lang, `app/story/${id}`)
-  const plans = localPath(lang, 'app/plans')
+  // A locked door leads to the passes for a family; on the class screen it does not open at all.
+  const plans = room.on ? null : localPath(lang, 'app/plans')
   const f = summary.features
   const hasListen = content ? content.pages.some((x) => x.readAlong) : f?.listen ?? true
   const hasFilm = content ? !!content.film?.videoUrl : f?.film ?? true
@@ -88,10 +94,14 @@ export default function Storybook() {
         </div>
       </header>
 
-      {locked && (
-        // On the class screen no button leads to the passes (for grown-ups, outside classroom mode).
-        <Notice title={t.lockedTitle} action={room.on ? undefined : <ButtonLink to={plans}>{dict.commerce.access.seePasses}</ButtonLink>}>
-          <p>{room.on ? dict.stories.classroom.lockedLead : t.lockedLead}</p>
+      {/* On the class screen no button leads to the passes (for grown-ups, outside classroom mode). */}
+      {locked && room.on && access && nothingOpenForClass(access) && <ClassroomGrownUpNote access={access} />}
+      {locked && room.on && !(access && nothingOpenForClass(access)) && (
+        <Notice title={t.lockedTitle}><p>{dict.stories.classroom.lockedLead}</p></Notice>
+      )}
+      {locked && !room.on && plans && (
+        <Notice title={t.lockedTitle} action={<ButtonLink to={plans}>{dict.commerce.access.seePasses}</ButtonLink>}>
+          <p>{t.lockedLead}</p>
         </Notice>
       )}
       {error && !locked && <Notice tone="error" action={<Button onClick={reload}>{dict.account.errors.retry}</Button>}>{errorText(dict, error)}</Notice>}
@@ -127,7 +137,7 @@ function Door({ picture: Picture, word, hint, to, locked, note, testId, tint }: 
   picture: ComponentType<SVGProps<SVGSVGElement>>
   word: string
   hint: string
-  /** null: the door cannot open yet; it stays visible with its note. */
+  /** null: the door cannot open yet (it stays visible with its note), or it is locked on the class screen. */
   to: string | null
   locked: boolean
   note?: string
@@ -153,8 +163,9 @@ function Door({ picture: Picture, word, hint, to, locked, note, testId, tint }: 
           {body(note && <span className="mt-1 rounded-full border border-dashed border-ink-muted px-2.5 py-0.5 text-xs text-ink-muted">{note}</span>)}
         </Link>
       ) : (
-        <div data-testid={testId} data-state="unavailable" aria-disabled="true" className={`${cls} border-dashed border-ink/25 bg-paper text-ink/70`}>
-          {body(<span className="mt-1 text-sm font-medium text-ink">{note}</span>)}
+        // Cannot open yet (with its note), or locked on the class screen (with its lock, no link to the passes).
+        <div data-testid={testId} data-state={locked ? 'locked' : 'unavailable'} aria-disabled="true" className={`${cls} border-dashed border-ink/25 bg-paper text-ink/70`}>
+          {body(note && <span className="mt-1 text-sm font-medium text-ink">{note}</span>)}
         </div>
       )}
     </li>

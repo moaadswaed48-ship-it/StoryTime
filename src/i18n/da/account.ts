@@ -80,6 +80,8 @@ export default {
     roleLocked: 'Det kan ikke længere ændres, fordi kontoen allerede har profiler.',
     cancelWindowClosed: 'De 14 dage til at fortryde dette køb er gået.',
     passNotActive: 'Denne pakke er ikke længere aktiv.',
+    sellerNotSet: "Det er endnu ikke muligt at købe: sælgerens virksomhedsoplysninger mangler. Intet er trukket.",
+    priceNotSet: "Denne pakke kan ikke købes endnu: prisen er ikke fastsat. Intet er trukket.",
     notFound: 'Vi kunne ikke finde det.',
     locked: 'Denne historie er låst.',
     retry: 'Prøv igen',

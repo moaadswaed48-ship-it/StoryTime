@@ -181,7 +181,7 @@ export default function FilmPlayer({ film, title, lang, memoryKey, captions, onC
 
   if (!film.videoUrl) return <p className="rounded-control border border-dashed border-ink-muted p-6 text-center text-ink-muted">{t.notReady}</p>
   return (
-    <div className="flex flex-col gap-2">
+    <div className="film-wrap flex flex-col gap-2">
       <div id={frameId} className="film-frame" data-entering={entering || undefined} data-testid="film" dir={dirOf(siteLang)}>
         <MediaController id={ctrlId} lang={siteLang} noAutohide gesturesDisabled aria-label={t.label.replace('{title}', title)} {...attrs({ fullscreenelement: frameId })}>
           <video
@@ -206,6 +206,8 @@ export default function FilmPlayer({ film, title, lang, memoryKey, captions, onC
         </MediaControlBar>
         <MediaControlBar {...attrs({ mediacontroller: ctrlId })}>
           <MediaPlayButton />
+          {/* Only on a short, wide classroom screen (film.css): the time bar joins this row, so the picture gets its height. */}
+          <MediaTimeRange className="film-inline-range" />
           <MediaTimeDisplay showDuration dir="ltr" {...attrs({ notoggle: '' })} />
           <span className="flex-1" />
           {track && <MediaCaptionsButton data-testid="film-captions" />}

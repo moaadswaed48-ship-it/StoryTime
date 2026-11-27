@@ -80,6 +80,8 @@ export default {
     roleLocked: 'This can no longer be changed, because the account already has profiles.',
     cancelWindowClosed: 'The 14 days for cancelling this purchase have passed.',
     passNotActive: 'This pass is no longer active.',
+    sellerNotSet: "Buying is not open yet: the seller's business details have not been added. Nothing was charged.",
+    priceNotSet: "This pass cannot be bought yet: its price has not been set. Nothing was charged.",
     notFound: 'We could not find this.',
     locked: 'This story is locked.',
     retry: 'Try again',

@@ -24,6 +24,8 @@ export function errorText(dict: Dict, code: ErrorCode): string {
     pass_not_active: e.passNotActive,
     terms_required: e.mustAccept,
     price_changed: dict.commerce.checkout.priceChangedTitle,
+    seller_not_set: e.sellerNotSet,
+    price_not_set: e.priceNotSet,
   }
   return map[code] ?? e.unknown
 }

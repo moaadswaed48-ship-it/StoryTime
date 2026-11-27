@@ -113,7 +113,10 @@ function Summary() {
       </Checkbox>
       {priceChanged && (
         <Notice tone="warning" title={t.priceChangedTitle}>
-          <p data-testid="price-changed">{fmt(t.priceChangedLead, { /* first-strong isolate: an amount stays whole inside a right-to-left sentence */ price: `\u2068${total ?? dict.commerce.plans.priceNotSet}\u2069` })}</p>
+          {/* A removed price has no total to show: say that the pass cannot be bought now (recheck 27 Nov, N4). */}
+          <p data-testid="price-changed">{total
+            ? fmt(t.priceChangedLead, { /* first-strong isolate: an amount stays whole inside a right-to-left sentence */ price: `\u2068${total}\u2069` })
+            : t.priceRemovedLead}</p>
         </Notice>
       )}
       {error && <Notice tone="error">{errorText(dict, error)}</Notice>}

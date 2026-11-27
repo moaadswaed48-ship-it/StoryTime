@@ -185,6 +185,10 @@ export type AccountDict = {
     roleLocked: string
     cancelWindowClosed: string
     passNotActive: string
+    /** create_order refused a real payment company: the seller's business name and number are not recorded yet (seller_not_set). */
+    sellerNotSet: string
+    /** create_order refused: this pass has no price yet (price_not_set). */
+    priceNotSet: string
     notFound: string
     locked: string
     retry: string
@@ -352,6 +356,8 @@ export type CommerceDict = {
     /** create_order refused the order: the price changed while the summary was open (price_changed). {price}: the new total. */
     priceChangedTitle: string
     priceChangedLead: string
+    /** The same refusal when the price was removed (no price now): the pass cannot be bought at the moment. */
+    priceRemovedLead: string
     termsCheck: string
     rightsLink: string
     pay: string

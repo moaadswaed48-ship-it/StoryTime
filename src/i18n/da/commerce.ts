@@ -45,6 +45,7 @@ export default {
     queuedNote: 'Du har allerede en pakke til denne gruppe, så denne starter, når den slutter.',
     priceChangedTitle: "Prisen er ændret",
     priceChangedLead: "Prisen på denne pakke blev ændret, mens siden var åben. Beløbet er nu {price}. Intet er trukket: tjek oversigten, og fortsæt igen, hvis du er enig.",
+    priceRemovedLead: "Prisen på denne pakke blev fjernet, mens siden var åben, så den kan ikke købes lige nu. Intet er trukket.",
     termsCheck: 'Jeg accepterer brugsvilkårene',
     rightsLink: 'Din fortrydelsesret',
     pay: 'Fortsæt til betaling',

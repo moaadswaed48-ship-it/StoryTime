@@ -74,6 +74,10 @@
   min-width: 60px;
   height: 36px;
 }
+/* The second time bar, in the button row, shows only on a short, wide classroom screen (below). */
+.film-frame media-time-range.film-inline-range {
+  display: none;
+}
 .film-frame media-control-bar > span {
   min-width: 0;
 }
@@ -144,4 +148,121 @@
   --media-button-icon-height: 64px;
   width: 128px;
   height: 128px;
+}
+
+/* The classroom film on a short, wide screen (a phone held sideways: 844 x 390, 667 x 375, 568 x 320; recheck
+   27 Nov, N1). The whole film and its controls fit the screen's height with no scrolling: the classroom bar and the
+   test-mode notice get slimmer (buttons stay 44 px or more), the way back sits beside the film instead of above it,
+   the time bar joins the row of buttons, and the film is exactly as tall as the space left (container units of
+   .watch-room). The controls keep one row of 48 px buttons, so the frame never gets narrower than that row; a
+   narrower picture then sits centred in it.
+   Tablets (1024 x 768) and big screens are taller than 32rem and keep the layout above. */
+@media (orientation: landscape) and (max-height: 32rem) {
+  .room-shell:has(.watch-room[data-film]) {
+    height: 100dvh;
+  }
+  .room-shell:has(.watch-room[data-film]) .room-bar-row {
+    padding-block: 4px;
+  }
+  .room-shell:has(.watch-room[data-film]) .room-bar-row > * {
+    min-height: 44px;
+  }
+  .room-shell:has(.watch-room[data-film]) [data-testid='test-mode'] {
+    padding-block: 2px;
+    font-size: 0.75rem;
+  }
+  .room-shell:has(.watch-room[data-film]) > main {
+    flex: 1 1 0;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    padding-block: 8px;
+    overflow: auto;
+  }
+  .watch-room[data-film] {
+    /* The controls under the picture: one row of 48 px buttons with the time bar (52 px), and 2 px for rounding. */
+    --room-film-chrome: 54px;
+    /* The narrowest the row fits in: play, time bar, time, captions, sound, full screen. */
+    --room-film-min: 25rem;
+    flex: 1 1 0;
+    min-height: 0;
+    max-width: none;
+    container-type: size;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-rows: auto auto auto 1fr;
+    align-content: start;
+    gap: 8px 12px;
+  }
+  .watch-room[data-film] > * {
+    grid-column: 1;
+  }
+  .watch-room[data-film] > a {
+    align-self: start;
+    min-height: 48px;
+    padding-inline: 12px;
+    font-size: 1rem;
+  }
+  .watch-room[data-film] .film-wrap {
+    display: contents;
+  }
+  .watch-room[data-film] .film-wrap > * {
+    grid-column: 1;
+  }
+  .watch-room[data-film] .film-wrap > .film-frame {
+    grid-column: 2;
+    grid-row: 1 / -1;
+    align-self: start;
+    width: min(calc(100cqw - 10rem), max(var(--room-film-min), calc((100cqh - var(--room-film-chrome)) * 16 / 9)));
+    --media-button-icon-height: 28px;
+    --media-control-height: 48px;
+    --media-range-track-height: 8px;
+    --media-range-thumb-height: 22px;
+    --media-range-thumb-width: 22px;
+    --media-range-thumb-border-radius: 11px;
+    --media-font-size: 16px;
+  }
+  .watch-room[data-film] .film-frame media-controller {
+    aspect-ratio: auto;
+    height: calc(100cqh - var(--room-film-chrome));
+  }
+  /* A frame wider than the picture (the row of controls needs the width) shows the whole picture, centred. */
+  .watch-room[data-film] .film-frame video {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+  /* In full screen the picture takes the whole screen again (the rule above would keep it small). */
+  .watch-room[data-film] .film-frame:fullscreen media-controller {
+    height: auto;
+  }
+  .watch-room[data-film] .film-frame:-webkit-full-screen media-controller {
+    height: auto;
+  }
+  /* One row of controls: the time bar moves into the button row (the row above it is hidden). */
+  .watch-room[data-film] .film-frame media-control-bar.film-scrub {
+    display: none;
+  }
+  .watch-room[data-film] .film-frame media-time-range.film-inline-range {
+    display: inline-flex;
+    flex: 1;
+    min-width: 72px;
+    height: 48px;
+  }
+  .watch-room[data-film] .film-frame media-control-bar > span {
+    display: none;
+  }
+  .watch-room[data-film] .film-frame media-control-bar:not(.film-scrub) {
+    min-height: 0;
+    height: 52px;
+    padding-block: 2px;
+    flex-wrap: nowrap;
+  }
+  .watch-room[data-film] .film-frame media-control-bar > * {
+    min-width: 48px;
+    min-height: 48px;
+  }
+  .watch-room[data-film] .film-frame video::cue {
+    font-size: 1.3em;
+  }
 }

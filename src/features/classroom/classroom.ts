@@ -5,11 +5,23 @@
  * the story screens fit a room of children looking at one large screen or projector: much larger words, large
  * controls at the edges, no account details, the activity one step at a time, full screen where the browser allows.
  */
-import type { Role } from '@/data/types'
+import { isPassCurrent, isTrialActive } from '@/data/rules'
+import type { AccessSnapshot, Role } from '@/data/types'
 import type { Lang } from '@/i18n/config'
 
 /** Classroom mode applies only to a teacher account that switched it on. */
 export const classroomOn = (role: Role | null | undefined, pref: boolean | undefined): boolean => role === 'teacher' && pref === true
+
+/**
+ * Whether nothing is open for the class: no running trial and no current pass (never for the owner). The classroom
+ * library then shows a short note for the grown-up instead of locked books, and so does a locked story's page
+ * (review 26 Nov, 6; recheck 27 Nov, N2). Unknown access (still loading) is not "nothing open".
+ */
+export const nothingOpenForClass = (access: AccessSnapshot | null | undefined): boolean =>
+  !!access && access.role !== 'owner' && !isTrialActive(access.trial, access.now) && !access.passes.some((p) => isPassCurrent(p, access.now))
+
+/** Which of the class notes fits: the trial was never used, or the trial or a pass has ended. */
+export const classNoteKind = (access: AccessSnapshot): 'never' | 'ended' => (access.trial || access.passes.length ? 'ended' : 'never')
 
 /**
  * The app pages that take the classroom frame (no menu, no footer, no account details): the library, a story's own

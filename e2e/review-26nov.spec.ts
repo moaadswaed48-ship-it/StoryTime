@@ -170,7 +170,9 @@ for (const lang of ['en', 'ar'] as const) {
     await shot(page, `classroom-library-trial-ended-${lang}`)
     await page.goto(`${lang}/app/story/b02/`)
     await expect(page.getByTestId('storybook')).toHaveAttribute('data-state', 'locked')
-    await expect(page.getByText(c.lockedLead)).toBeVisible()
+    // Nothing is open, so the story page shows the class library's note for the grown-up (recheck 27 Nov, N2;
+    // e2e/recheck-27nov.spec.ts also checks that the doors do not lead to the passes).
+    await expect(page.getByTestId('classroom-nothing-open')).toHaveText(c.trialEndedLead)
     await expect(page.getByRole('link', { name: d.commerce.access.seePasses })).toHaveCount(0)
     await noSideScroll(page)
     await shot(page, `classroom-story-locked-${lang}`)
@@ -192,9 +194,12 @@ for (const lang of ['en', 'ar'] as const) {
     await expect(page.getByTestId('film-video')).toBeVisible()
     const width = (await page.getByTestId('watch-page').boundingBox())!.width
     const film = (await page.getByTestId('film').boundingBox())!
-    // Never smaller than 28rem (448 px) where the screen is wider; at 1024 x 768 the film is as wide as fits.
+    // Never a sliver (it was 67 px wide); at 1024 x 768 the film is as wide as fits. Sideways the film is as tall as
+    // the screen allows and sits beside the way back, whole, with its controls (recheck 27 Nov, N1; the 28rem floor
+    // of the first fix pushed the controls below the screen, so the film's width now follows the screen's height).
     expect(width).toBeGreaterThanOrEqual(size.width >= 1000 ? 700 : 440)
-    expect(film.width).toBeGreaterThanOrEqual(size.width >= 1000 ? 700 : 440)
+    expect(film.width).toBeGreaterThanOrEqual(size.width >= 1000 ? 700 : 400)
+    expect(film.y + film.height).toBeLessThanOrEqual(size.height)
     // The way back stays on one line (at 67 px wide it broke into one word per line).
     const back = (await page.getByTestId('watch-page').getByRole('link').first().boundingBox())!
     expect(back.height).toBeLessThan(80)
