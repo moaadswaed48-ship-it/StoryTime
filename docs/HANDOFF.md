@@ -889,3 +889,95 @@ private build. Not committed. Neutral tokens only; no design decisions; no story
 - The home page's plan teaser hides "Price not set yet" on all three lengths as soon as any one price is set
   (owner's-area behaviour, unchanged). Suggestion: decide per length.
 - Safari/WebKit, screen readers and native Hebrew, Arabic and Danish readers: still not done. No fresh reviewer.
+
+## Fixes from the 26 Nov review (Builder, 27 Nov 2026)
+
+Status: all ten findings of `docs/reviews/site-review-26nov.md` handled (1 to 9 fixed with tests, 10 listed for
+native readers). Not committed by the Builder (the main session made a work-in-progress commit `a1138cb` midway).
+Neutral tokens only; no story text, no legal meaning changed; no new packages; no real Supabase project touched.
+Per-finding table: the "Fixes" section at the end of the review file.
+
+### What changed, in plain words
+- **Refunds tell the truth about money (1, 4).** The stored refund amount is now what goes back to the family (price
+  paid minus the fee kept). The refund email shows Total paid, Cancellation fee and Refund. The family's Settings,
+  Payment history, show each refund: refunded on, amount returned, fee kept (or "no fee"), and the owner's note, so
+  the owner's hint "The family can see this note" is now true. "Download my data" carries the same amounts.
+- **A launch build publishes no story text (2, hard rule 6).** A build with Supabase configured now leaves the test
+  backend and every file of `content/stories/` out entirely (build-time switch `__TEST_BACKEND__` in
+  `vite.config.ts`; any import of them becomes an empty module). The owner's Supabase code no longer reaches into
+  the test-mode file (`summarise` moved to `src/features/owner/data/rules.ts`). Test mode and the GitHub Pages
+  preview work as before (they still carry the sample and pilot stories, by design). `docs/reviews/
+  launch-readiness-26nov.md` section 5 is corrected.
+- **The owner can act on the public "Cancel a purchase" form (3).** Each request shows the paid orders that match
+  its order number (8 or more characters of it, as in Settings, or the whole number from the purchase email; case,
+  hyphens and words around it ignored) **and** the buyer's email. "End this pass and open a refund request" (asks to
+  confirm) runs the very same cancellation as a family's own: within 14 days of payment, an active pass, queued
+  passes moved earlier, a refund request with the legal fee cap, the cancellation email, every change in the change
+  history; the request becomes handled. No match: the screen says so and suggests writing back. Refund cards now show
+  the order number too.
+- **Classroom (5, 6).** The film is never narrower than 448 px (28rem) on a short screen; the page scrolls a little
+  instead. With no trial or pass, the classroom library shows one short note "for the grown-up" and the trial button
+  (when the trial was never used) instead of a wall of locked books; after an ended trial or pass it says so. No
+  class screen shows a "See passes" button any more (storybook, book, film, activity, collections).
+- **Checkout charges only the price the family saw (7).** The price on screen is sent with the order; if the owner
+  changed it meanwhile the order is refused (`price_changed`), nothing is made, and the page shows "The price has
+  changed" with the new total.
+- **Search engines (8). Decision: default to disallow, and refuse a launch build loudly.** Without a real
+  `SITE_ORIGIN` (unset or the github.io placeholder) a build counts as `NOINDEX=1`: robots.txt disallows all and every
+  page says noindex. A launch build (Supabase configured) with the placeholder and without `NOINDEX=1` stops with
+  "Launch build refused: set SITE_ORIGIN …". The preview command is unchanged (it sets `NOINDEX=1`). For Lighthouse
+  SEO runs, set a real-looking `SITE_ORIGIN` (comment in `scripts/qa/lighthouse.mjs`).
+- **Price honesty per pass, and no real sale with placeholder seller details (9).** The home teaser decides per
+  length ("Price not set yet", "Price not set yet for every age group", or nothing once all three groups are priced);
+  "Before you buy" has a third line when only some passes are priced. `create_order` refuses any real payment company
+  (`seller_not_set`) until both `private.settings.seller_name` and `seller_number` are filled. **Launch list:** set
+  them (`update private.settings set seller_name = …, seller_number = …`) and replace the visible seller placeholders
+  in the dictionaries at the same time.
+- **Words (10).** Not changed; listed with the new words of this fix in `docs/emails/REVIEW-NOTES.md` (new last
+  section).
+
+### Where
+- Database: new migration `supabase/migrations/20261126120000_review_26nov_fixes.sql` (earlier ones untouched):
+  trigger `refunds_amount_returned`; `private.cancel_pass()` shared by `cancel_purchase()` and the new
+  `owner_cancel_for_request(p_request, p_order)`; `private.order_ref_matches()`, `private.request_matches()`;
+  `owner_refunds()` with `matches`; `create_order(…, p_expected_agorot)` (the 4-argument one is dropped);
+  `private.settings.seller_name/seller_number`. `tests/db/catalogue.test.ts` lists the new signatures.
+- Test backend: `src/data/local/server.ts` (`cancelPass()` shared, `listOrders()` with refunds, price check),
+  `src/features/owner/data/local.ts` (`matches`, `cancelForRequest`, amounts). Shared rules: `src/data/rules.ts`
+  (`refundReturned`, `orderRefMatches`), `src/data/prices.ts` (`lengthPriced`, `allPriced`).
+- Screens: `routes/app/owner/refunds.tsx`, `routes/app/settings.tsx`, `routes/app/checkout.tsx`,
+  `routes/app/library.tsx`, `watch.tsx`, `story.tsx`, `read.tsx`, `do.tsx`, `collections.tsx`, `routes/landing.tsx`,
+  `features/commerce/PlanCards.tsx`; emails `src/emails/{types,schedule,render,samples}`. Words in all four
+  dictionaries (`commerce`, `account`, `stories`, `owner`). Build: `vite.config.ts`, `site.config.ts`, `src/env.d.ts`,
+  `vitest.config.ts`.
+- Test changes that are not new tests: every database and test-backend call of `create_order`/`createOrder` now
+  passes the price the buyer saw (the current price, or null), and two tests that buy through a real provider set
+  the seller details first. `e2e/owner-part2.spec.ts` expected "The price shown at the moment of purchase applies"
+  with one of nine prices set, which was the behaviour finding 9 called untrue; it now expects the per-pass line.
+- Generated, not in git: `supabase/functions/_shared/emails.mjs` is stale; run `npm run emails:bundle` before
+  deploying the email functions.
+
+### Checks (27 Nov 2026)
+- Fails before, passes after: the new tests were run against a copy of the 26 Nov code (`git archive 435c184`):
+  `tests/review-26nov.test.ts` + `tests/db/review-26nov.test.ts` 20 of 20 failed, the new Supabase data-layer test
+  failed; `e2e/review-26nov.spec.ts` 18 of 20 failed (the 2 that passed are the 1024 x 768 film checks, a size that
+  was already fine); the launch-build scan found 21,636 story lines in a launch build of that code. All pass now.
+- `nice -n 19 npm run typecheck`: 0 errors. `nice -n 19 npm test`: 432 passed in 38 files, 0 skipped.
+- Whole Playwright suite on a private build (`BUILD_DIR=<scratchpad>/fix26/build`, port 4626):
+  `BUILD_DIR=… E2E_PORT=4626 nice -n 19 npx playwright test`: **173 passed, 17 skipped, 0 failed** (28 min). Every
+  skip is a check that runs once, in the other screen size, and passed there (15 as before, plus the two new
+  build-file checks, desktop only). The first full run had 2 failures, both the outdated `owner-part2` expectation
+  described above; after updating it the whole suite was run again from the start.
+- Looked at by eye (`qa/out/fix26/`, English and Arabic, 390 and 1440 px, the film at 844 x 390 and 1024 x 768):
+  owner's public request with its matching order, the confirm step, the refund done; the family's payment history
+  with the refund; checkout "price changed"; classroom library with nothing open and after the trial; locked story
+  on the class screen; home teaser per length. Fixed from them: in Arabic the note label "ملاحظة من StoryTime" ran
+  into a left-to-right note; the label now sits on its own line.
+
+### Still not proven
+- Nothing ran against a real Supabase project: the new SQL is proven in PGlite only; the PostgREST call shapes
+  (`p_expected_agorot`, `owner_cancel_for_request`, the refunds read for Payment history) only through the stand-in.
+- The refund email was rendered and its text checked, not sent. Safari/WebKit and a real phone held sideways not
+  tried. Native readers have not seen the new words in any language; Hebrew and Danish screens of this fix were not
+  looked at (the compiler proves every key exists).
+- No fresh reviewer has looked at these fixes yet.
